@@ -1,0 +1,27 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--for header text size-->
+    <dimen name="h1">18sp</dimen>
+    <dimen name="h2">16sp</dimen>
+    <dimen name="h3">14sp</dimen>
+
+    <!--for action bar title-->
+    <dimen name="actionbar_title">18sp</dimen>
+
+    <!--dimen for button text-->
+    <dimen name="button_text">16sp</dimen>
+
+
+    <!--dimen for login activity-->
+    <dimen name="login_page_padding">15dp</dimen>
+    <dimen name="login_profile_margin_top">28dp</dimen>
+    <dimen name="login_phone_margin_top">41dp</dimen>
+    <dimen name="login_edit_layout_height">44dp</dimen>
+    <dimen name="login_button_layout_height">44dp</dimen>
+
+    <dimen name="login_button_margin_top">40dp</dimen>
+
+</resources>
