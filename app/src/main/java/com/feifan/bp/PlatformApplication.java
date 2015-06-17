@@ -10,6 +10,8 @@ public class PlatformApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        PlatformState.setApplicationContext(this);
+        PlatformState.getInstance();
     }
 
     @Override

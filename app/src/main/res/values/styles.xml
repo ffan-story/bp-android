@@ -5,10 +5,9 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="ActionBarTitle">
+    <style name="TitleBarCenterText">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/h1</item>
-        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/font_size_18</item>
     </style>
 
 

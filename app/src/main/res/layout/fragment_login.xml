@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.feifan.bp.login.LogFragment">
+
+    <ImageView
+        android:id="@+id/login_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/login_logo_margin"
+        android:src="@mipmap/login_logo" />
+
+    <EditText
+        android:id="@+id/login_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_logo"
+        android:drawableLeft="@mipmap/login_ic_phone"
+        android:drawablePadding="@dimen/view_spacing_20"
+        android:background="@drawable/border_bottom_background"
+        android:layout_marginLeft="@dimen/view_spacing_15"
+        android:layout_marginRight="@dimen/view_spacing_15"
+        android:padding="@dimen/view_spacing_10"
+        android:hint="@string/login_phone_edit_hint"
+        android:textSize="@dimen/font_size_14" />
+
+    <TextView
+        android:id="@+id/login_forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_account"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/view_spacing_15"
+        android:layout_marginRight="@dimen/view_spacing_15"
+        android:padding="@dimen/view_spacing_10"
+        android:background="@drawable/border_bottom_background"
+        android:text="@string/login_forget_password_text"
+        android:textSize="@dimen/font_size_14"
+        android:textColor="@color/font_color_blue"/>
+
+    <EditText
+        android:id="@+id/login_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/login_forget_password"
+        android:layout_toLeftOf="@id/login_forget_password"
+        android:layout_alignParentLeft="true"
+        android:drawableLeft="@mipmap/login_ic_password"
+        android:drawablePadding="@dimen/view_spacing_20"
+        android:background="@drawable/border_bottom_background"
+        android:layout_marginTop="@dimen/view_spacing_15"
+        android:layout_marginLeft="@dimen/view_spacing_15"
+        android:padding="@dimen/view_spacing_10"
+        android:hint="@string/login_password_edit_hint"
+        android:textSize="@dimen/font_size_14" />
+
+
+    <Button
+        android:id="@+id/login_go"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_forget_password"
+        android:layout_margin="@dimen/view_spacing_15"
+        android:background="@drawable/login_go_background"
+        android:text="@string/login_login_text"
+        android:textSize="@dimen/font_size_16"
+        android:textColor="@android:color/white"/>
+
+
+</RelativeLayout>

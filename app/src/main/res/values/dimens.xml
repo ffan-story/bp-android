@@ -1,4 +1,19 @@
 <resources>
+
+    <!-- 视图使用的间距 -->
+    <dimen name="view_spacing_5">5dp</dimen>
+    <dimen name="view_spacing_10">10dp</dimen>
+    <dimen name="view_spacing_15">15dp</dimen>
+    <dimen name="view_spacing_20">20dp</dimen>
+
+    <!-- 字体 -->
+    <dimen name="font_size_18">18sp</dimen>
+    <dimen name="font_size_16">16sp</dimen>
+    <dimen name="font_size_14">14sp</dimen>
+
+    <!-- 登录界面 -->
+    <dimen name="login_logo_margin">28dp</dimen>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

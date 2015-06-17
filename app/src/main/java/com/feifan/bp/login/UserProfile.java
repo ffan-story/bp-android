@@ -3,23 +3,36 @@ package com.feifan.bp.login;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.feifan.bp.Constants;
+
 /**
  * 用户配置文件
  * <p>
  *     缓存用户登录信息，退出登录时需要清空该缓存
  * </p>
+ * <p>
+ *     不要任意创建该对象的实例，请使用PlatformState提供的UserProfile实例
+ * </p>
  * Created by xuchunlei on 15/6/17.
  */
 public class UserProfile {
+
+    private Context mContext;
 
     // 偏好文件名
     private static final String PREFERENCE_NAME = "profile";
     // 偏好项键值－用户编号
     private static final String PREFERENCE_KEY_UID = "uid";
+    // 偏好项键值－账号
+    private static final String PREFERENCE_KEY_USER = "user";
 
-    private UserProfile(){
 
+    public UserProfile(Context context){
+        mContext = context;
     }
+
+
+
 /*
 	data->uid		int
         data->agId               int
@@ -41,19 +54,60 @@ authRangeType 权限的类型， merchant 代表的事权限类型事商户类�
 authRangeId 代表的事 merchant ID， 或者门店的id 。
 
  */
-    public static void setUid(Context context, int uid) {
-        doSetInteger(context, PREFERENCE_KEY_UID, uid);
+    public void setUid(int uid) {
+        doSetInteger(PREFERENCE_KEY_UID, uid);
+    }
+
+    public int getUid() {
+        return doGetInteger(PREFERENCE_KEY_UID);
+    }
+
+    public void setUser(String user) {
+        doSetString(PREFERENCE_KEY_USER, user);
+    }
+
+    public String getUser() {
+        return doGetString(PREFERENCE_KEY_USER);
     }
 
     /**
      * 设置整型数据
-     * @param context
      * @param key
      * @param value
      */
-    private static void  doSetInteger(Context context, String key, int value) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+    private void  doSetInteger(String key, int value) {
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
         editor.putInt(key, value);
         editor.apply();
+    }
+
+    /**
+     * 获取整型数据
+     * @param key
+     * @return
+     */
+    private int doGetInteger(String key) {
+        SharedPreferences prefs = mContext.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        return prefs.getInt(key, Constants.NO_INTEGER);
+    }
+    /**
+     * 设置整型数据
+     * @param key
+     * @param value
+     */
+    private void doSetString(String key, String value) {
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    /**
+     * 获取整型数据
+     * @param key
+     * @return
+     */
+    private String doGetString(String key) {
+        SharedPreferences prefs = mContext.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(key, Constants.NO_STRING);
     }
 }
