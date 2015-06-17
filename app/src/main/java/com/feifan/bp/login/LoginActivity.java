@@ -1,11 +1,11 @@
-package com.feifan.bp.ui;
+package com.feifan.bp.login;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -14,8 +14,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.Volley;
 import com.feifan.bp.R;
-import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.net.API;
 import com.feifan.bp.net.http.HttpStack;
 import com.feifan.bp.net.http.HttpUrlConnectionStack;
@@ -30,23 +30,17 @@ import java.lang.ref.SoftReference;
 /**
  * Created by maning on 15/6/15.
  */
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
+public class LoginActivity extends FragmentActivity implements View.OnClickListener {
 
     private EditText mEditTextPhone;
     private EditText mEditTextPassword;
 
-
-    public static void startActivity(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
-        context.startActivity(intent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        setupActionBar();
         mEditTextPhone = (EditText) findViewById(R.id.et_phone);
         mEditTextPassword = (EditText) findViewById(R.id.et_password);
 
@@ -70,11 +64,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     }
 
-    private void setupActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(R.layout.actionbar_login);
-    }
+//    private void setupActionBar() {
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayShowCustomEnabled(true);
+//        actionBar.setCustomView(R.layout.actionbar_login);
+//    }
 
     @Override
     public void onClick(View v) {
@@ -102,7 +96,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         public LoginTask(Context context) {
             mAppContext = context.getApplicationContext();
             mContextRef = new SoftReference<Context>(context);
-
         }
 
         @Override
@@ -142,7 +135,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     if ("200".equals(status)) {
 
                         if (context != null) {
-                            MainTabActivity.startActivity(context);
+//                            MainTabActivity.startActivity(context);
                             if (context instanceof Activity) {
                                 ((Activity) context).finish();
                             }
