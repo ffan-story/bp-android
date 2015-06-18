@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主界面－begin -->
+    <array name="home_tab_titles">
+        <item>@string/home_business_manage_text</item>
+        <item>@string/home_merchant_center_text</item>
+    </array>
+    <array name="home_tab_icons">
+        <item>@drawable/home_business_manage_selector</item>
+        <item>@drawable/home_merchant_center_selector</item>
+    </array>
+    <array name="home_tab_ids">
+        <item type="id" name="home_business_manage_rb" />
+    </array>
+    <!-- 主界面－end -->
+</resources>

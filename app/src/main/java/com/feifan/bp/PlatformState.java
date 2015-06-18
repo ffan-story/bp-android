@@ -3,6 +3,8 @@ package com.feifan.bp;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.feifan.bp.login.UserProfile;
 
 /**
@@ -22,8 +24,12 @@ public class PlatformState {
 
     private UserProfile mProfile;
 
+    // 网络请求队列
+    private RequestQueue mQueue;
+
     private PlatformState(){
         mProfile = new UserProfile(sContext);
+        mQueue = Volley.newRequestQueue(sContext);
 
     }
 
@@ -43,5 +49,9 @@ public class PlatformState {
 
     public UserProfile getUserProfile() {
         return mProfile;
+    }
+
+    public RequestQueue getRequestQueue() {
+        return mQueue;
     }
 }

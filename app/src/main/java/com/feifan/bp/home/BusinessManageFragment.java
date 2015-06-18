@@ -1,4 +1,4 @@
-package com.feifan.bp.login;
+package com.feifan.bp.home;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -8,12 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 
 /**
- * 登录界面Fragment
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link BusinessManageFragment#newInstance} factory method to
+ * create an instance of this fragment.
  */
-public class LogFragment extends Fragment {
+public class BusinessManageFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -23,19 +29,23 @@ public class LogFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-//    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener mListener;
 
     /**
-     * 创建LogFragment实例的静态工厂
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
      *
-     * @return LogFragment实例
+     * @return A new instance of fragment BusinessManageFragment.
      */
-    public static LogFragment newInstance() {
-        LogFragment fragment = new LogFragment();
+    // TODO: Rename and change types and number of parameters
+    public static BusinessManageFragment newInstance() {
+        BusinessManageFragment fragment = new BusinessManageFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
         return fragment;
     }
 
-    public LogFragment() {
+    public BusinessManageFragment() {
         // Required empty public constructor
     }
 
@@ -52,21 +62,21 @@ public class LogFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        return inflater.inflate(R.layout.fragment_business_manage, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
+        if (mListener != null) {
 //            mListener.onFragmentInteraction(uri);
-//        }
+        }
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-//            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -76,22 +86,8 @@ public class LogFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-//        mListener = null;
+        mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
 
 }

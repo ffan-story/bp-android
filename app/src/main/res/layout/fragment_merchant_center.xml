@@ -1,0 +1,13 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.feifan.bp.home.MerchantCenterFragment">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/view_spacing_10"
+        android:layout_margin="@dimen/view_spacing_10"
+        android:text="@string/merchant_logout_text"
+        android:background="@drawable/login_go_background"/>
+
+</FrameLayout>

@@ -8,21 +8,24 @@
     <string name="login_forget_password_text">忘记密码</string>
     <!-- LoginFragment(登录界面) - end -->
 
+    <!-- home -->
+    <string name="home_business_manage_text">业务管理</string>
+    <string name="home_merchant_center_text">商户中心</string>
+
+    <!-- MerchantCenter(商户中心) - begin -->
+    <string name="merchant_logout_text">退出登录</string>
+    <!-- MerchantCenter(商户中心) - end -->
 
 
     <string name="login_actionbar_title">登陆</string>
     <string name="login_btn_text">登陆</string>
     <string name="login_info_not_enough">请输入完整信息</string>
 
-    <string name="main_tab_management">业务管理</string>
-    <string name="main_tab_home">商户中心</string>
-    <string name="actionbar_title_management">业务管理</string>
-    <string name="actionbar_title_home">商户中心</string>
+
+
 
 
     <!--error handle tips-->
     <string name="login_error_network">网络出错</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
