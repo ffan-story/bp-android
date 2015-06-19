@@ -70,6 +70,7 @@ public class LoginFragment extends Fragment {
                         profile.setUser(userModel.user);
                         profile.setAuthRangeId(userModel.authRangeId);
                         profile.setAuthRangeType(userModel.authRangeType);
+                        profile.setAgId(userModel.agId);
 
                         // 通知界面跳转
                         Bundle args = new Bundle();

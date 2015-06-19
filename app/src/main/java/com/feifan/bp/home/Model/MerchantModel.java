@@ -1,4 +1,4 @@
-package com.feifan.bp.home;
+package com.feifan.bp.home.Model;
 
 import org.json.JSONObject;
 

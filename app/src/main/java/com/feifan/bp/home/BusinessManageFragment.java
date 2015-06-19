@@ -1,15 +1,20 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.android.volley.Response;
 import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
+import com.feifan.bp.home.Model.MenuListModel;
+import com.feifan.bp.home.Model.MenuModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,14 +25,6 @@ import com.feifan.bp.R;
  * create an instance of this fragment.
  */
 public class BusinessManageFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,8 +37,6 @@ public class BusinessManageFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static BusinessManageFragment newInstance() {
         BusinessManageFragment fragment = new BusinessManageFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -52,25 +47,26 @@ public class BusinessManageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_business_manage, container, false);
+        View v = inflater.inflate(R.layout.fragment_business_manage, container, false);
+        final ListView list = (ListView)v.findViewById(R.id.manage_menu_list);
+
+        HomeCtrl.fetchManageMenus(PlatformState.getInstance().getUserProfile().getAgId(), new Response.Listener<MenuListModel>() {
+            @Override
+            public void onResponse(MenuListModel menuListModel) {
+                Log.e("xuchunlei", menuListModel.toString());
+                MenuAdapter adapter = new MenuAdapter(getActivity(), menuListModel);
+                list.setAdapter(adapter);
+            }
+        });
+
+        return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Activity activity) {

@@ -7,10 +7,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.Response.ErrorListener;
-import com.android.volley.Request.Method;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.feifan.bp.Constants;
 import com.feifan.bp.factory.FactorySet;
+import com.feifan.bp.home.Model.StoreModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;

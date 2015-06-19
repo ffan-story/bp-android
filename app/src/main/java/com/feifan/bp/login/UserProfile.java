@@ -29,6 +29,8 @@ public class UserProfile {
     private static final String PREFERENCE_KEY_AUTH_RANGE_ID = "authRangeId";
     // 偏好项键值－用户类型
     private static final String PREFERENCE_KEY_AUTH_RANGE_TYPE = "authRangeType";
+    // 偏好项键值－权限组ID
+    private static final String PREFERENCE_KEY_AGID = "agId";
 
     public UserProfile(Context context){
         mContext = context;
@@ -84,6 +86,14 @@ authRangeId 代表的事 merchant ID， 或者门店的id 。
 
     public String getAuthRangeType() {
         return doGetString(PREFERENCE_KEY_AUTH_RANGE_TYPE);
+    }
+
+    public void setAgId(int agId) {
+        doSetInteger(PREFERENCE_KEY_AGID, agId);
+    }
+
+    public int getAgId() {
+        return doGetInteger(PREFERENCE_KEY_AGID);
     }
 
     public void clear() {

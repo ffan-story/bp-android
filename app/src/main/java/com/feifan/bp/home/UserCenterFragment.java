@@ -14,7 +14,8 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 
 import com.feifan.bp.OnFragmentInteractionListener;
-import com.feifan.bp.login.UserModel;
+import com.feifan.bp.home.Model.MerchantModel;
+import com.feifan.bp.home.Model.StoreModel;
 import com.feifan.bp.login.UserProfile;
 
 import java.util.concurrent.Executors;
@@ -88,7 +89,7 @@ public class UserCenterFragment extends Fragment {
                     Log.e("xuchunlei", merchantModel.toString());
                 }
             });
-        }else if(profile.getAuthRangeType().equals(Constants.AUTH_RANGE_TYPE_STORE)) {
+        } else if(profile.getAuthRangeType().equals(Constants.AUTH_RANGE_TYPE_STORE)) {
             HomeCtrl.fetchStoreDetail(profile.getAuthRangeId(), new Listener<StoreModel>() {
                 @Override
                 public void onResponse(StoreModel storeModel) {

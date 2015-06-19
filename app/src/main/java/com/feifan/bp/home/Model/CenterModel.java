@@ -1,4 +1,4 @@
-package com.feifan.bp.home;
+package com.feifan.bp.home.Model;
 
 /**
  * Created by xuchunlei on 15/6/19.
