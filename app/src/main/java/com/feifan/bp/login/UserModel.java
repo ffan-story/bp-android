@@ -27,7 +27,6 @@ public class UserModel {
         authRangeType = json.optString("authRangeType");
         authRangeId = json.optString("authRangeId");
         loginToken = json.optString("loginToken");
-        Log.i("xuchunlei", toString());
     }
 
     @Override

@@ -25,7 +25,10 @@ public class UserProfile {
     private static final String PREFERENCE_KEY_UID = "uid";
     // 偏好项键值－账号
     private static final String PREFERENCE_KEY_USER = "user";
-
+    // 偏好项键值－商户或门店ID
+    private static final String PREFERENCE_KEY_AUTH_RANGE_ID = "authRangeId";
+    // 偏好项键值－用户类型
+    private static final String PREFERENCE_KEY_AUTH_RANGE_TYPE = "authRangeType";
 
     public UserProfile(Context context){
         mContext = context;
@@ -34,13 +37,10 @@ public class UserProfile {
 
 
 /*
-	data->uid		int
         data->agId               int
 	data->user		string
-	data->name		string
 	data->authRange	string
 	data->authRangeType	string
-	data->authRangeId	string
 	data->loginToken	string md5(uid.user.agid.auth_range_type.auth_range_id.时间戳)
 
 
@@ -68,6 +68,28 @@ authRangeId 代表的事 merchant ID， 或者门店的id 。
 
     public String getUser() {
         return doGetString(PREFERENCE_KEY_USER);
+    }
+
+    public void setAuthRangeId(String authRangeId) {
+        doSetString(PREFERENCE_KEY_AUTH_RANGE_ID, authRangeId);
+    }
+
+    public String getAuthRangeId() {
+        return doGetString(PREFERENCE_KEY_AUTH_RANGE_ID);
+    }
+
+    public void setAuthRangeType(String authRangeType) {
+        doSetString(PREFERENCE_KEY_AUTH_RANGE_TYPE, authRangeType);
+    }
+
+    public String getAuthRangeType() {
+        return doGetString(PREFERENCE_KEY_AUTH_RANGE_TYPE);
+    }
+
+    public void clear() {
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+        editor.clear();
+        editor.apply();
     }
 
     /**

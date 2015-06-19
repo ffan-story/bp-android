@@ -9,8 +9,13 @@ public class Constants {
     // 非法的字符串值
     public static final String NO_STRING = "n/a";
 
-    // ffan-sit gateway地址
-    public static final String URL_HOST_GATEWAY_FFAN_SIT = "http://api.sit.ffan.com/";
+    // 网络
+    public static final int RESPONSE_CODE_SUCCESS = 200;
+
+    // 用户类型-商户
+    public static final String AUTH_RANGE_TYPE_MERCHANT = "merchant";
+    // 用户类型－门店
+    public static final String AUTH_RANGE_TYPE_STORE = "store";
 
     public enum Environment {
         GATEWAY_SIT,      // Gateway集成环境
@@ -18,5 +23,5 @@ public class Constants {
     }
 
     /** 当前运行环境 */
-    public static Environment CURRENT_ENVIRONMENT = Environment.API_SIT;
+    public static Environment CURRENT_ENVIRONMENT = Environment.GATEWAY_SIT;
 }

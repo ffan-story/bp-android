@@ -54,4 +54,8 @@ public class PlatformState {
     public RequestQueue getRequestQueue() {
         return mQueue;
     }
+
+    public void reset() {
+
+    }
 }

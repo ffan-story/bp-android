@@ -1,15 +1,17 @@
 package com.feifan.bp;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.feifan.bp.home.BusinessManageFragment;
-import com.feifan.bp.home.MerchantCenterFragment;
+import com.feifan.bp.home.UserCenterFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.widget.TabBar;
@@ -29,7 +31,11 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
 
-        // 初始化
+        //初始化数据
+        mFragments.add(BusinessManageFragment.newInstance());
+        mFragments.add(UserCenterFragment.newInstance());
+
+        // 初始化视图
         final TextView centerTxv = (TextView)findViewById(R.id.title_bar_center);
         mBottomBar = (TabBar)findViewById(R.id.bottom_bar);
         mBottomBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -55,14 +61,18 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
             fragment = LoginFragment.newInstance();
             centerTxv.setText(R.string.login_login_text);
         }else {
-            mFragments.add(BusinessManageFragment.newInstance());
-            mFragments.add(MerchantCenterFragment.newInstance());
             fragment = mFragments.get(0);
             centerTxv.setText(R.string.home_business_manage_text);
             mBottomBar.setVisibility(View.VISIBLE);
 
         }
         switchFragment(fragment);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.e("xuchunlei", "onNewIntent is called");
     }
 
     @Override
@@ -78,6 +88,11 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
             switchFragment(BusinessManageFragment.newInstance());
             // 显示底边栏
             mBottomBar.setVisibility(View.VISIBLE);
+        } else if(from.equals(UserCenterFragment.class.getName())) {
+            finish();
+            Intent intent = new Intent(this, LaunchActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 

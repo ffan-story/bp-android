@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,10 +63,13 @@ public class LoginFragment extends Fragment {
                 UserCtrl.login(accountStr, passwordStr, new Response.Listener<UserModel>() {
                     @Override
                     public void onResponse(UserModel userModel) {
+                        Log.e("xuchunlei", userModel.toString());
                         // 保存登录信息
                         UserProfile profile = PlatformState.getInstance().getUserProfile();
                         profile.setUid(userModel.uid);
                         profile.setUser(userModel.user);
+                        profile.setAuthRangeId(userModel.authRangeId);
+                        profile.setAuthRangeType(userModel.authRangeType);
 
                         // 通知界面跳转
                         Bundle args = new Bundle();
