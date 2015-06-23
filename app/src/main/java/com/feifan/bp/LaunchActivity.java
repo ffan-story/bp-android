@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -110,7 +111,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
                 PlatformState.getInstance().getImageLoader().get(
                         FactorySet.getUrlFactory().getFFanImageHostUrl() +
                                 model.logoSrc, listener);
-                mTitleTxt.setText(model.primaryName);
+                mTitleTxt.setText(Html.fromHtml(getString(R.string.center_logo_text_format, model.primaryName, model.secondaryName)));
                 // + model.secondaryName
             }
         }

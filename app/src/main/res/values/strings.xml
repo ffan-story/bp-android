@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
     <string name="app_name">飞凡商家</string>
 
     <!-- LoginFragment(登录界面) - begin -->
@@ -13,12 +14,15 @@
     <string name="home_merchant_center_text">商户中心</string>
 
     <!-- MerchantCenter(商户中心) - begin -->
-    <string name="merchant_logout_text">退出登录</string>
+    <string name="center_logout_text">退出登录</string>
+    <!--  -->
+    <string name="center_logo_text_format" formatted="false">
+        <![CDATA[<xliff:g>%1s</xliff:g><br/><small><xliff:g>%2s</xliff:g></small>]]>
+    </string>
+
     <!-- MerchantCenter(商户中心) - end -->
 
 
-    <string name="login_actionbar_title">登陆</string>
-    <string name="login_btn_text">登陆</string>
     <string name="login_info_not_enough">请输入完整信息</string>
 
 
@@ -27,5 +31,12 @@
 
     <!--error handle tips-->
     <string name="login_error_network">网络出错</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_browser">BrowserActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

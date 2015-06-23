@@ -22,4 +22,10 @@ public interface IUrlFactory {
      * @return
      */
     String getFFanImageHostUrl();
+
+    /**
+     * 获取H5服务器主机地址
+     * @return
+     */
+    String getH5HostUrl();
 }

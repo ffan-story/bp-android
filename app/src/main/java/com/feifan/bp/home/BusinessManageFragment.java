@@ -1,20 +1,24 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Response;
+import com.feifan.bp.BrowserActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.home.Model.MenuListModel;
 import com.feifan.bp.home.Model.MenuModel;
+import com.feifan.bp.widget.PlatformHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,11 +58,19 @@ public class BusinessManageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_business_manage, container, false);
         final ListView list = (ListView)v.findViewById(R.id.manage_menu_list);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MenuModel model = (MenuModel)list.getAdapter().getItem(position);
+                Intent intent = new Intent(getActivity(), BrowserActivity.class);
+                intent.putExtra(BrowserActivity.EXTRA_KEY_URL, PlatformHelper.getManageUrl(model.url));
+                startActivity(intent);
+            }
+        });
 
         HomeCtrl.fetchManageMenus(PlatformState.getInstance().getUserProfile().getAgId(), new Response.Listener<MenuListModel>() {
             @Override
             public void onResponse(MenuListModel menuListModel) {
-                Log.e("xuchunlei", menuListModel.toString());
                 MenuAdapter adapter = new MenuAdapter(getActivity(), menuListModel);
                 list.setAdapter(adapter);
             }

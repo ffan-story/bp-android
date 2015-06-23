@@ -37,7 +37,6 @@ public class MenuAdapter extends AbstractSimpeListAdapter<MenuModel> {
             holder = (ViewHolder) v.getTag();
         }
         holder.menuTxv.setText(item.name);
-
         return v;
     }
 
