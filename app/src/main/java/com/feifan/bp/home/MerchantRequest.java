@@ -22,7 +22,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class MerchantRequest extends Request<MerchantModel> {
 
-    private static final String URL_FORMAT = FactorySet.getUrlFactory().getFFanHostUrl() + "v1/cdaservice/stores/%s/detail";
+    private static final String URL_FORMAT = FactorySet.getUrlFactory().getFFanHostUrl() + "v1/cdaservice/bp/merchants/%s";
 
     private Listener<MerchantModel> mListener;
 

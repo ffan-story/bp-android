@@ -32,6 +32,11 @@ class UrlFactory {
         public String getFFanHostUrl() {
             return "http://api.sit.ffan.com/";
         }
+
+        @Override
+        public String getFFanImageHostUrl() {
+            return "http://img1.ffan.com/orig/";
+        }
     }
 
 
@@ -61,6 +66,11 @@ class UrlFactory {
         @Override
         public String getFFanHostUrl() {
             return "http://xapi.sit.ffan.com/";
+        }
+
+        @Override
+        public String getFFanImageHostUrl() {
+            return "http://img1.ffan.com/orig/";
         }
     }
 }

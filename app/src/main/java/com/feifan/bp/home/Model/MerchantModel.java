@@ -10,7 +10,7 @@ public class MerchantModel extends CenterModel {
     public MerchantModel(JSONObject json) {
         id = json.optInt("merchantId");
         primaryName = json.optString("merchantName");
-        logoSrc = json.optJSONObject("brands").optString("brandLogo");
+//        logoSrc = json.optJSONObject("brands").optString("brandLogo");
         secondaryName = json.optString("brandNames");
     }
 }

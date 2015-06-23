@@ -7,16 +7,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.android.volley.Response.Listener;
+import com.android.volley.toolbox.ImageLoader;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 
 import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.factory.FactorySet;
+import com.feifan.bp.home.Model.CenterModel;
 import com.feifan.bp.home.Model.MerchantModel;
 import com.feifan.bp.home.Model.StoreModel;
 import com.feifan.bp.login.UserProfile;
+import com.feifan.bp.widget.CircleImageView;
 
 import java.util.concurrent.Executors;
 
@@ -82,11 +87,13 @@ public class UserCenterFragment extends Fragment {
         });
 
         UserProfile profile = PlatformState.getInstance().getUserProfile();
+        Log.e("xuchunlei", profile.getAuthRangeType());
         if(profile.getAuthRangeType().equals(Constants.AUTH_RANGE_TYPE_MERCHANT) ) {
             HomeCtrl.fetchMerchantDetail(profile.getAuthRangeId(), new Listener<MerchantModel>() {
                 @Override
                 public void onResponse(MerchantModel merchantModel) {
                     Log.e("xuchunlei", merchantModel.toString());
+                    setupLogo(merchantModel);
                 }
             });
         } else if(profile.getAuthRangeType().equals(Constants.AUTH_RANGE_TYPE_STORE)) {
@@ -94,6 +101,8 @@ public class UserCenterFragment extends Fragment {
                 @Override
                 public void onResponse(StoreModel storeModel) {
                     Log.e("xuchunlei", storeModel.toString());
+                    setupLogo(storeModel);
+
                 }
             });
         }
@@ -118,4 +127,12 @@ public class UserCenterFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    private void setupLogo(CenterModel model) {
+        Bundle args = new Bundle();
+        args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, UserCenterFragment.class.getName());
+        args.putParcelable(OnFragmentInteractionListener.INTERATION_KEY_LOGO, model);
+        mListener.onFragmentInteraction(args);
+    }
+
 }

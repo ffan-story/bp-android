@@ -17,4 +17,9 @@ public interface IUrlFactory {
      */
     String getFFanHostUrl();
 
+    /**
+     * 获取飞凡图片服务器主机地址
+     * @return
+     */
+    String getFFanImageHostUrl();
 }
