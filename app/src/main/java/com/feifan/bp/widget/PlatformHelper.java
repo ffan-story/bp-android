@@ -12,7 +12,7 @@ public class PlatformHelper {
     }
 
     /**
-     * 获取业务管理项的URL
+     * 获取业务管理项的URL全路径
      * @param path
      * @return
      */

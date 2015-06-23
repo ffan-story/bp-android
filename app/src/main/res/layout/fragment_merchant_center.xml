@@ -9,6 +9,7 @@
         android:padding="@dimen/view_spacing_10"
         android:layout_margin="@dimen/view_spacing_10"
         android:text="@string/center_logout_text"
-        android:background="@drawable/login_go_background"/>
+        android:textColor="@android:color/white"
+        android:background="@drawable/orange_button_background"/>
 
 </FrameLayout>
