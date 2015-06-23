@@ -73,6 +73,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
             fragment = mFragments.get(0);
             mTitleTxt.setText(R.string.home_business_manage_text);
             mBottomBar.setVisibility(View.VISIBLE);
+            mBottomBar.check(0);
 
         }
         switchFragment(fragment);

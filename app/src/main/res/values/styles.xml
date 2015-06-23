@@ -11,20 +11,20 @@
     </style>
 
 
-    <style name="CustomActionBarActivity" parent="@style/Theme.AppCompat.Light">
-        <item name="android:actionBarStyle">@style/CustomActionBar</item>
-        <!-- Support library compatibility -->
-        <item name="actionBarStyle">@style/CustomActionBar</item>
-    </style>
+    <!--<style name="CustomActionBarActivity" parent="@style/Theme.AppCompat.Light">-->
+        <!--<item name="android:actionBarStyle">@style/CustomActionBar</item>-->
+        <!--&lt;!&ndash; Support library compatibility &ndash;&gt;-->
+        <!--<item name="actionBarStyle">@style/CustomActionBar</item>-->
+    <!--</style>-->
 
-    <style name="CustomActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
-        <item name="android:background">@color/main</item>
-        <item name="background">@color/main</item>
-        <item name="titleTextStyle">@style/CustomActionBarTitle</item>
-    </style>
-    
-    <style name="CustomActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@android:color/white</item>
-    </style>
+    <!--<style name="CustomActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">-->
+        <!--<item name="android:background">@color/main</item>-->
+        <!--<item name="background">@color/main</item>-->
+        <!--<item name="titleTextStyle">@style/CustomActionBarTitle</item>-->
+    <!--</style>-->
+    <!-- -->
+    <!--<style name="CustomActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">-->
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    <!--</style>-->
 
 </resources>

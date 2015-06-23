@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bp="http://schemas.android.com/apk/res/com.feifan.bp"
+    xmlns:bp="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:orientation="horizontal"
-        android:background="@android:color/white"
+        android:background="@drawable/border_top_background"
         android:padding="@dimen/view_spacing_10"
         bp:titles="@array/home_tab_titles"
         bp:icons="@array/home_tab_icons"/>

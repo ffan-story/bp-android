@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.feifan.bp">
+    package="com.feifan.bp"
+    android:versionCode="1"
+    android:versionName="0.0.0.1">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -19,12 +21,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".login.LoginActivity"
-            android:theme="@style/CustomActionBarActivity">
-
         </activity>
 
     </application>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -58,7 +59,6 @@ public class TabBar extends RadioGroup {
                     LayoutParams.WRAP_CONTENT, 1.0f);
             LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             for(int i = 0;i < titles.length;i++) {
-
                RadioButton child = (RadioButton)inflater.inflate(R.layout.home_tab_item, null);
                child.setText(titles[i]);
                if(icons != null) {

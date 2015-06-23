@@ -36,6 +36,7 @@ public class MerchantRequest extends Request<MerchantModel> {
         try {
             String jsonStr = new String(networkResponse.data, HttpHeaderParser.parseCharset(networkResponse.headers));
             JSONObject json = new JSONObject(jsonStr);
+            Log.e("xuchunlei", jsonStr);
             int status = json.optInt("status");
             if(status == Constants.RESPONSE_CODE_SUCCESS) {
                 return Response.success(new MerchantModel(json.optJSONObject("data")), HttpHeaderParser.parseCacheHeaders(networkResponse));

@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:drawablePadding="@dimen/view_spacing_5"
+    android:textColor="@color/home_bottom_bar_item_text_color_selector"
     android:button="@null"
     android:background="@null">
 

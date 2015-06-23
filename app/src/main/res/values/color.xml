@@ -8,6 +8,7 @@
 
     <!-- 字体 -->
     <color name="font_color_blue">#4c85c2</color>
+    <color name="font_color_gray">#415560</color>
 
     <!--main color of application-->
     <color name="main">#4c85c2</color>
