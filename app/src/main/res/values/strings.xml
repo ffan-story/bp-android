@@ -30,13 +30,10 @@
 
 
     <!--error handle tips-->
-    <string name="login_error_network">网络出错</string>
+    <string name="error_message_text_offline">网络问题，请检查网络设置后重新尝试</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="title_activity_browser">BrowserActivity</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
 
 </resources>

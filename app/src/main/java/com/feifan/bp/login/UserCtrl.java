@@ -1,9 +1,14 @@
 package com.feifan.bp.login;
 
+import android.view.Gravity;
+
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformApplication;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 
 import org.json.JSONObject;
 
@@ -40,7 +45,18 @@ public class UserCtrl {
         Map<String, String> params = new HashMap<String, String>();
         params.put("userName", accout);
         params.put("password", password);
-        LoginRequest request = new LoginRequest(listener, null, params);
+        LoginRequest request = new LoginRequest(listener, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+                if(!Utils.isNetworkAvailable()) {     // 网络不可用
+                    Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+                }else {                               // 其他原因
+                    Utils.showShortToast(volleyError.getMessage());
+                }
+
+            }
+        }, params);
         PlatformState.getInstance().getRequestQueue().add(request);
     }
 }

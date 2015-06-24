@@ -7,8 +7,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.Response.ErrorListener;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.feifan.bp.Constants;
+import com.feifan.bp.LogUtil;
 import com.feifan.bp.factory.FactorySet;
 import com.feifan.bp.home.Model.MerchantModel;
 
@@ -21,6 +23,8 @@ import java.io.UnsupportedEncodingException;
  * Created by xuchunlei on 15/6/19.
  */
 public class MerchantRequest extends Request<MerchantModel> {
+
+    private static final String TAG = MerchantRequest.class.getSimpleName();
 
     private static final String URL_FORMAT = FactorySet.getUrlFactory().getFFanHostUrl() + "v1/cdaservice/bp/merchants/%s";
 
@@ -36,12 +40,12 @@ public class MerchantRequest extends Request<MerchantModel> {
         try {
             String jsonStr = new String(networkResponse.data, HttpHeaderParser.parseCharset(networkResponse.headers));
             JSONObject json = new JSONObject(jsonStr);
-            Log.e("xuchunlei", jsonStr);
             int status = json.optInt("status");
             if(status == Constants.RESPONSE_CODE_SUCCESS) {
                 return Response.success(new MerchantModel(json.optJSONObject("data")), HttpHeaderParser.parseCacheHeaders(networkResponse));
             }else {
-                Log.e("xuchunlei", jsonStr);
+                LogUtil.w(TAG, "error status:" + jsonStr);
+                return Response.error(new VolleyError(json.optString("message")));
             }
 
         } catch (UnsupportedEncodingException e) {

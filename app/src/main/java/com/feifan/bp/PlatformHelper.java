@@ -1,4 +1,4 @@
-package com.feifan.bp.widget;
+package com.feifan.bp;
 
 import com.feifan.bp.factory.FactorySet;
 

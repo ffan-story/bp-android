@@ -66,24 +66,12 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         });
 
         // 加载内容视图
-        Fragment fragment = null;
         if(UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
-            fragment = LoginFragment.newInstance();
             mTitleTxt.setText(R.string.login_login_text);
+            switchFragment(LoginFragment.newInstance());
         }else {
-            fragment = mFragments.get(0);
-            mTitleTxt.setText(R.string.home_business_manage_text);
-            mBottomBar.setVisibility(View.VISIBLE);
-            mBottomBar.check(0);
-
+            showHome();
         }
-        switchFragment(fragment);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.e("xuchunlei", "onNewIntent is called");
     }
 
     @Override
@@ -96,9 +84,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
     public void onFragmentInteraction(Bundle args) {
         String from = args.getString(OnFragmentInteractionListener.INTERATION_KEY_FROM);
         if(from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
-            switchFragment(BusinessManageFragment.newInstance());
-            // 显示底边栏
-            mBottomBar.setVisibility(View.VISIBLE);
+            showHome();
         } else if(from.equals(UserCenterFragment.class.getName())) {
             CenterModel model = args.getParcelable(OnFragmentInteractionListener.INTERATION_KEY_LOGO);
             if(model == null) {
@@ -125,6 +111,12 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content_container, fragment);
         transaction.commitAllowingStateLoss();
+    }
+
+    // 显示主界面
+    private void showHome() {
+        mBottomBar.setVisibility(View.VISIBLE);
+        mBottomBar.check(0);
     }
 
 }

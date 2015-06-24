@@ -26,7 +26,8 @@
         android:layout_marginRight="@dimen/view_spacing_15"
         android:padding="@dimen/view_spacing_10"
         android:hint="@string/login_phone_edit_hint"
-        android:textSize="@dimen/font_size_14" />
+        android:textSize="@dimen/font_size_14"
+        android:inputType="phone"/>
 
     <TextView
         android:id="@+id/login_forget_password"

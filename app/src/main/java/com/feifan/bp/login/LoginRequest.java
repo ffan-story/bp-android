@@ -4,9 +4,12 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.Response.Listener;
 import com.android.volley.Response.ErrorListener;
+import com.feifan.bp.Constants;
+import com.feifan.bp.LogUtil;
 import com.feifan.bp.factory.FactorySet;
 
 import org.json.JSONException;
@@ -19,6 +22,8 @@ import java.util.Map;
  * Created by xuchunlei on 15/6/18.
  */
 public class LoginRequest extends Request<UserModel> {
+
+    private static final String TAG = LoginRequest.class.getSimpleName();
 
     private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "xadmin/login";
 
@@ -39,13 +44,23 @@ public class LoginRequest extends Request<UserModel> {
 
     @Override
     protected Response<UserModel> parseNetworkResponse(NetworkResponse networkResponse) {
+        String jsonStr = null;
         try {
-            String jsonStr = new String(networkResponse.data, HttpHeaderParser.parseCharset(networkResponse.headers));
+            jsonStr = new String(networkResponse.data, HttpHeaderParser.parseCharset(networkResponse.headers));
             JSONObject json = new JSONObject(jsonStr);
-            return Response.success(new UserModel(json.optJSONObject("data")), HttpHeaderParser.parseCacheHeaders(networkResponse));
+
+            int status = json.optInt("status");
+            if(status == Constants.RESPONSE_CODE_SUCCESS) {
+                return Response.success(new UserModel(json.optJSONObject("data")), HttpHeaderParser.parseCacheHeaders(networkResponse));
+            }else {
+                LogUtil.w(TAG, "error status:" + jsonStr);
+                return Response.error(new VolleyError(json.optString("msg")));
+            }
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (JSONException e) {
+            LogUtil.w(TAG, "Response:" + jsonStr);
             e.printStackTrace();
         }
 

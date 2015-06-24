@@ -54,6 +54,10 @@ public class PlatformState {
         sContext = context.getApplicationContext();
     }
 
+    public static Context getApplicationContext() {
+        return sContext;
+    }
+
     public UserProfile getUserProfile() {
         return mProfile;
     }

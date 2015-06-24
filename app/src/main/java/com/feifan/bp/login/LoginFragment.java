@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.android.volley.Response;
+import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
@@ -20,6 +21,8 @@ import com.feifan.bp.R;
  * 登录界面Fragment
  */
 public class LoginFragment extends Fragment {
+
+    private static final String TAG = LoginFragment.class.getSimpleName();
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,7 +66,7 @@ public class LoginFragment extends Fragment {
                 UserCtrl.login(accountStr, passwordStr, new Response.Listener<UserModel>() {
                     @Override
                     public void onResponse(UserModel userModel) {
-                        Log.e("xuchunlei", userModel.toString());
+                        LogUtil.i(TAG, userModel.toString());
                         // 保存登录信息
                         UserProfile profile = PlatformState.getInstance().getUserProfile();
                         profile.setUid(userModel.uid);
