@@ -3,8 +3,10 @@
 
     <!-- 分隔线颜色 -->
     <color name="divider">#d8d8d8</color>
-    <!-- 标题栏背景色 -->
-    <color name="title_bar_background">#4c85c2</color>
+
+    <!-- 标题栏 -->
+    <color name="title_background">#4c85c2</color>
+    <color name="title_logo_border_color">#4cffffff</color>
 
     <!-- 字体 -->
     <color name="font_color_blue">#4c85c2</color>

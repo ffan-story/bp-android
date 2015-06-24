@@ -6,6 +6,9 @@ import android.net.NetworkInfo;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by xuchunlei on 15/6/24.
  */
@@ -51,6 +54,15 @@ public class Utils {
     }
 
     /**
+     * 显示短时间的toast提示
+     * @param message
+     */
+    public static void showShortToast(int message) {
+        Toast.makeText(PlatformState.getApplicationContext(),
+                message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
      * 判断网络是否可用
      *
      * @return
@@ -65,5 +77,18 @@ public class Utils {
         }
 
         return false;
+    }
+
+    /**
+     * 是否是手机号码
+     * @param phoneNumber
+     * @return
+     */
+    public static void checkPhoneNumber(String phoneNumber) throws Throwable{
+        Pattern p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$");
+        Matcher m = p.matcher(phoneNumber);
+        if(!m.matches()) {
+            throw new Throwable(PlatformState.getApplicationContext().getString(R.string.error_message_text_phone_number_illegal));
+        }
     }
 }

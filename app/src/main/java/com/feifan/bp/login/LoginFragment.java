@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 
 /**
  * 登录界面Fragment
@@ -55,32 +57,42 @@ public class LoginFragment extends Fragment {
         v.findViewById(R.id.login_go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(TextUtils.isEmpty(account.getText())) {
+                    Utils.showShortToast(R.string.error_message_text_phone_number_empty, Gravity.CENTER);
                     return;
                 }
                 if(TextUtils.isEmpty(password.getText())) {
+                    Utils.showShortToast(R.string.error_message_text_password_empty, Gravity.CENTER);
                     return;
                 }
                 String accountStr = account.getText().toString();
                 String passwordStr = password.getText().toString();
-                UserCtrl.login(accountStr, passwordStr, new Response.Listener<UserModel>() {
-                    @Override
-                    public void onResponse(UserModel userModel) {
-                        LogUtil.i(TAG, userModel.toString());
-                        // 保存登录信息
-                        UserProfile profile = PlatformState.getInstance().getUserProfile();
-                        profile.setUid(userModel.uid);
-                        profile.setUser(userModel.user);
-                        profile.setAuthRangeId(userModel.authRangeId);
-                        profile.setAuthRangeType(userModel.authRangeType);
-                        profile.setAgId(userModel.agId);
 
-                        // 通知界面跳转
-                        Bundle args = new Bundle();
-                        args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
-                        mListener.onFragmentInteraction(args);
-                    }
-                });
+                try {
+                    Utils.checkPhoneNumber(accountStr);
+                    UserCtrl.login(accountStr, passwordStr, new Response.Listener<UserModel>() {
+                        @Override
+                        public void onResponse(UserModel userModel) {
+                            LogUtil.i(TAG, userModel.toString());
+                            // 保存登录信息
+                            UserProfile profile = PlatformState.getInstance().getUserProfile();
+                            profile.setUid(userModel.uid);
+                            profile.setUser(userModel.user);
+                            profile.setAuthRangeId(userModel.authRangeId);
+                            profile.setAuthRangeType(userModel.authRangeType);
+                            profile.setAgId(userModel.agId);
+
+                            // 通知界面跳转
+                            Bundle args = new Bundle();
+                            args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
+                            mListener.onFragmentInteraction(args);
+                        }
+                    });
+                } catch (Throwable throwable) {
+                    Utils.showShortToast(R.string.error_message_text_phone_number_illegal, Gravity.CENTER);
+                }
+
             }
         });
         return v;

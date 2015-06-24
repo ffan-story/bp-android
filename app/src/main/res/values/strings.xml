@@ -29,9 +29,11 @@
 
 
 
-    <!--error handle tips-->
+    <!-- 错误信息 -->
     <string name="error_message_text_offline">网络问题，请检查网络设置后重新尝试</string>
-
+    <string name="error_message_text_phone_number_empty">手机号不能为空</string>
+    <string name="error_message_text_password_empty">密码不能为空</string>
+    <string name="error_message_text_phone_number_illegal">请输入正确的11位手机号码</string>
 
     <string name="title_activity_browser">BrowserActivity</string>
 

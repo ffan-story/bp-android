@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bp="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/view_spacing_10"
-    android:background="@color/title_bar_background">
+    android:background="@color/title_background">
 
     <com.feifan.bp.widget.CircleImageView
         android:id="@+id/title_bar_logo"
@@ -11,7 +12,9 @@
         android:layout_height="@dimen/merchant_logo_diameter"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:visibility="gone" />
+        android:visibility="gone"
+        bp:border_width="@dimen/title_logo_border_width"
+        bp:border_color="@color/title_logo_border_color"/>
     <TextView
         android:id="@+id/title_bar_center"
         android:layout_width="wrap_content"
