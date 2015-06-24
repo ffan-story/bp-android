@@ -6,4 +6,4 @@
     android:drawableLeft="@mipmap/manage_ic_menu_left"
     android:drawableRight="@mipmap/manage_ic_menu_right"
     android:drawablePadding="@dimen/view_spacing_5"
-    android:padding="@dimen/view_spacing_10"/>
+    android:padding="@dimen/view_spacing_10" />

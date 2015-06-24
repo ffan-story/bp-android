@@ -17,6 +17,9 @@
     <!-- 商户中心 -->
     <dimen name="merchant_logo_diameter">73dp</dimen>
 
+    <!-- 业务管理 -->
+    <dimen name="manage_divider_inset_left_spacing">40dp</dimen>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

@@ -86,6 +86,10 @@ public class IconTextView extends TextView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+
+
+
 //        // TODO: consider storing these as member variables to reduce
 //        // allocations per draw cycle.
 //        int paddingLeft = getPaddingLeft();
