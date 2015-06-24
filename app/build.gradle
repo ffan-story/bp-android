@@ -41,7 +41,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    //    compile 'com.android.support:appcompat-v7:22.1.1'
     compile files('/Users/xuchunlei/Projects/git/bp-android/libs/volley.jar')
     compile files('/Users/xuchunlei/Projects/git/bp-android/libs/butterknife-6.1.0.jar')
     compile 'com.android.support:appcompat-v7:22.2.0'

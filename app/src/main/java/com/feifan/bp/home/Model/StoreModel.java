@@ -11,6 +11,10 @@ public class StoreModel extends CenterModel {
         id = json.optInt("storeId");
         primaryName = json.optString("storeName");
         logoSrc = json.optString("storePicsrc");
-        secondaryName = json.optString("plazaName");
+        if(json.isNull("plazaName")) {
+            secondaryName = null;
+        } else {
+            secondaryName = json.optString("plazaName");
+        }
     }
 }

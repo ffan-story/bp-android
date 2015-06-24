@@ -98,7 +98,11 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
                         FactorySet.getUrlFactory().getFFanImageHostUrl() +
                                 model.logoSrc, listener);
                 if(PlatformState.getInstance().getUserProfile().getAuthRangeType().equals(Constants.AUTH_RANGE_TYPE_STORE)) {  // 门店
-                    mTitleTxt.setText(Html.fromHtml(getString(R.string.center_logo_text_format, model.primaryName, model.secondaryName)));
+                    if(model.secondaryName != null) {
+                        mTitleTxt.setText(Html.fromHtml(getString(R.string.center_logo_text_format, model.primaryName, model.secondaryName)));
+                    }else {
+                        mTitleTxt.setText(model.primaryName);
+                    }
                 } else { // 商户只显示大字标题
                     mTitleTxt.setText(model.primaryName);
                 }
