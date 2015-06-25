@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -34,6 +36,8 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
     private TextView mTitleTxt;
 
     private List<Fragment> mFragments = new ArrayList<Fragment>();
+
+    private Fragment mCurrentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,15 +119,29 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
      * @param fragment
      */
     private void switchFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_container, fragment);
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        Fragment tempFragment = manager.findFragmentByTag(fragment.getClass().getSimpleName());
+
+        if(mCurrentFragment != null) {          // 隐藏当前界面
+            transaction.hide(mCurrentFragment);
+        }
+
+        if(tempFragment == fragment) {    // 已经添加过则显示
+            transaction.show(fragment);
+        } else {
+            transaction.add(R.id.content_container, fragment, fragment.getClass().getSimpleName());
+        }
         transaction.commitAllowingStateLoss();
+        mCurrentFragment = fragment;
+
     }
 
     // 显示主界面
     private void showHome() {
         mBottomBar.setVisibility(View.VISIBLE);
-        mBottomBar.check(0);
+        // 不能使用mBottomBar.check(0),该方法会导致onCheckedChanged调用两次
+        ((RadioButton)mBottomBar.getChildAt(0)).setChecked(true);
     }
 
 }

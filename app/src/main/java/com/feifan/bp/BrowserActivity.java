@@ -22,6 +22,7 @@ public class BrowserActivity extends FragmentActivity {
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
 
         WebView webView = (WebView)findViewById(R.id.browser_content);
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
     }
 
