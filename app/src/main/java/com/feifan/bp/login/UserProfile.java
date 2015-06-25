@@ -31,31 +31,13 @@ public class UserProfile {
     private static final String PREFERENCE_KEY_AUTH_RANGE_TYPE = "authRangeType";
     // 偏好项键值－权限组ID
     private static final String PREFERENCE_KEY_AGID = "agId";
+    // 偏好项键值－访问token
+    private static final String PREFERENCE_KEY_LOGIN_TOKEN = "loginToken";
 
     public UserProfile(Context context){
         mContext = context;
     }
 
-
-
-/*
-        data->agId               int
-	data->user		string
-	data->authRange	string
-	data->authRangeType	string
-	data->loginToken	string md5(uid.user.agid.auth_range_type.auth_range_id.时间戳)
-
-
-	uid 用户编号 ， agId 权限组的ID
-
-authRange 权限名称 （具体的商户名称或者门店名称）
-
-15-06-17 15:36:27
-authRangeType 权限的类型， merchant 代表的事权限类型事商户类型， store 代表的事门店的类型
-
-authRangeId 代表的事 merchant ID， 或者门店的id 。
-
- */
     public void setUid(int uid) {
         doSetInteger(PREFERENCE_KEY_UID, uid);
     }
@@ -94,6 +76,14 @@ authRangeId 代表的事 merchant ID， 或者门店的id 。
 
     public int getAgId() {
         return doGetInteger(PREFERENCE_KEY_AGID);
+    }
+
+    public void setLoginToken(String token) {
+        doSetString(PREFERENCE_KEY_LOGIN_TOKEN, token);
+    }
+
+    public String getLoginToken(){
+        return doGetString(PREFERENCE_KEY_LOGIN_TOKEN);
     }
 
     public void clear() {

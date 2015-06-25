@@ -82,6 +82,7 @@ public class LoginFragment extends Fragment {
                             profile.setAuthRangeId(userModel.authRangeId);
                             profile.setAuthRangeType(userModel.authRangeType);
                             profile.setAgId(userModel.agId);
+                            profile.setLoginToken(userModel.loginToken);
 
                             // 通知界面跳转
                             Bundle args = new Bundle();

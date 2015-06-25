@@ -3,10 +3,10 @@
     <declare-styleable name="TabBar">
         <attr name="titles" format="reference"/>
         <attr name="icons" format="reference"/>
-        <!--<attr name="exampleString" format="string" />-->
-        <!--<attr name="exampleDimension" format="dimension" />-->
-        <!--<attr name="exampleColor" format="color" />-->
-        <!--<attr name="exampleDrawable" format="color|reference" />-->
+        <!-- 默认选中的索引，默认值为－1，表示没有默认项 -->
+        <attr name="defaultIndex" format="integer" />
+        <!-- 条目布局 -->
+        <attr name="itemLayout" format="reference" />
     </declare-styleable>
     <!-- 圆形ImageView -->
     <declare-styleable name="CircleImageView">

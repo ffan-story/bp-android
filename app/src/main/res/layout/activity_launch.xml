@@ -20,7 +20,9 @@
         android:background="@drawable/border_top_background"
         android:padding="@dimen/view_spacing_10"
         bp:titles="@array/home_tab_titles"
-        bp:icons="@array/home_tab_icons"/>
+        bp:icons="@array/home_tab_icons"
+        bp:defaultIndex="0"
+        bp:itemLayout="@layout/home_tab_item" />
     <FrameLayout
         android:id="@+id/content_container"
         android:layout_above="@id/bottom_bar"

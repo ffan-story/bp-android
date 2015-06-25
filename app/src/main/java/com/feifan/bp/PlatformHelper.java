@@ -1,5 +1,7 @@
 package com.feifan.bp;
 
+import android.util.Log;
+
 import com.feifan.bp.factory.FactorySet;
 
 /**
@@ -17,6 +19,8 @@ public class PlatformHelper {
      * @return
      */
     public static String getManageUrl(String path) {
-        return FactorySet.getUrlFactory().getH5HostUrl().concat(path);
+        Log.e("xuchunlei", PlatformState.getInstance().getUserProfile().getLoginToken());
+        return FactorySet.getUrlFactory().getH5HostUrl().concat(path).
+                concat("?loginToken=").concat(PlatformState.getInstance().getUserProfile().getLoginToken());
     }
 }

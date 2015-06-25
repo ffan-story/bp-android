@@ -127,7 +127,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
             transaction.hide(mCurrentFragment);
         }
 
-        if(tempFragment == fragment) {    // 已经添加过则显示
+        if(tempFragment == fragment) {    // 已经添加过则直接显示
             transaction.show(fragment);
         } else {
             transaction.add(R.id.content_container, fragment, fragment.getClass().getSimpleName());
@@ -140,8 +140,8 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
     // 显示主界面
     private void showHome() {
         mBottomBar.setVisibility(View.VISIBLE);
-        // 不能使用mBottomBar.check(0),该方法会导致onCheckedChanged调用两次
-        ((RadioButton)mBottomBar.getChildAt(0)).setChecked(true);
+        switchFragment(mFragments.get(mBottomBar.getCheckedRadioButtonId()));
+        mTitleTxt.setText(R.string.home_business_manage_text);
     }
 
 }
