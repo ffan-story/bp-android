@@ -9,8 +9,5 @@
         <item>@drawable/home_business_manage_selector</item>
         <item>@drawable/home_merchant_center_selector</item>
     </array>
-    <array name="home_tab_ids">
-        <item type="id" name="home_business_manage_rb" />
-    </array>
     <!-- 主界面－end -->
 </resources>

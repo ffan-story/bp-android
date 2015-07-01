@@ -16,7 +16,7 @@ android {
         releaseConfig {
             keyAlias 'bpkeystore'
             keyPassword 'Platform2015'
-            storeFile file('/Users/xuchunlei/Projects/keystore/bp.keystore')
+            storeFile file('keystore/bp.keystore')
             storePassword 'Platform2015'
         }
     }
@@ -26,7 +26,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.releaseConfig
-            proguardFile '/Users/xuchunlei/Projects/git/bp-android/app/proguard-rules.pro'
+            proguardFile 'app/proguard-rules.pro'
         }
     }
 
@@ -42,6 +42,5 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('/Users/xuchunlei/Projects/git/bp-android/libs/volley.jar')
-    compile files('/Users/xuchunlei/Projects/git/bp-android/libs/butterknife-6.1.0.jar')
     compile 'com.android.support:appcompat-v7:22.2.0'
 }

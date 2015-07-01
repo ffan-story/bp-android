@@ -13,7 +13,7 @@ import com.feifan.bp.login.UserProfile;
 /**
  * 状态类
  * <p>
- *     存取平台相关的状态变量，目前包括登录信息
+ *     存取平台相关的状态变量
  * </p>
  * Created by xuchunlei on 15/6/17.
  */
