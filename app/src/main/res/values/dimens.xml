@@ -1,6 +1,7 @@
 <resources>
 
     <!-- 视图使用的间距 -->
+    <dimen name="view_spacing_5_px">5px</dimen>
     <dimen name="view_spacing_5">5dp</dimen>
     <dimen name="view_spacing_10">10dp</dimen>
     <dimen name="view_spacing_15">15dp</dimen>

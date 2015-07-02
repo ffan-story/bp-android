@@ -9,7 +9,7 @@
         android:layout_alignParentTop="true"/>
 
     <View
-        android:id="@+id/divider"
+        android:id="@+id/divider_first_row"
         android:layout_width="1dp"
         android:layout_height="@dimen/index_divider_height"
         android:layout_below="@id/index_take_code"
@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/index_divider_height"
         android:layout_below="@id/index_take_code"
-        android:layout_toLeftOf="@id/divider"
+        android:layout_toLeftOf="@id/divider_first_row"
         android:layout_alignParentLeft="true"
         android:gravity="center"
         android:background="@color/bg_color_blue"
@@ -31,11 +31,46 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/index_divider_height"
         android:layout_below="@id/index_take_code"
-        android:layout_toRightOf="@id/divider"
+        android:layout_toRightOf="@id/divider_first_row"
         android:layout_alignParentRight="true"
         android:gravity="center"
         android:background="@color/bg_color_blue"
         android:text="@string/index_history_text"
+        android:clickable="true"/>
+    <View
+        android:id="@+id/divider_second_row"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@id/divider_first_row"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/index_order"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/index_divider_height"
+        android:layout_below="@id/index_scan"
+        android:layout_toLeftOf="@id/divider_second_row"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/view_spacing_5"
+        android:layout_marginLeft="@dimen/view_spacing_5"
+        android:layout_marginRight="@dimen/view_spacing_5_px"
+        android:gravity="center"
+        android:background="@android:color/white"
+        android:text="@string/index_order_text"
+        android:clickable="true"/>
+    <TextView
+        android:id="@+id/index_report"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/index_divider_height"
+        android:layout_below="@id/index_history"
+        android:layout_toRightOf="@id/divider_second_row"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/view_spacing_5"
+        android:layout_marginRight="@dimen/view_spacing_5"
+        android:layout_marginLeft="@dimen/view_spacing_5_px"
+        android:gravity="center"
+        android:background="@android:color/white"
+        android:text="@string/index_report_text"
         android:clickable="true"/>
 
 </RelativeLayout>

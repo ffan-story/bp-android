@@ -62,11 +62,11 @@ public class IndexFragment extends Fragment implements View.OnClickListener{
 
         switch (v.getId()){
             case R.id.index_scan:
-                // TODO call scan activity here
+                // TODO call scan activity with mListener here 注意使用回调进行实际的启动活动操作
                 LogUtil.w(IndexFragment.class.getSimpleName(), "scan activity not found");
                 break;
             case R.id.index_history:
-                // TODO call scan history here
+                // TODO call scan history with mListener here 注意使用回调进行实际的启动活动操作
                 LogUtil.w(IndexFragment.class.getSimpleName(), "history activity not found");
                 break;
         }

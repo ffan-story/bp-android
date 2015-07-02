@@ -17,6 +17,8 @@
     <!-- 首页 -->
     <string name="index_scan_text">扫码验证</string>
     <string name="index_history_text">验证历史</string>
+    <string name="index_order_text">订单管理</string>
+    <string name="index_report_text">统计报表</string>
 
     <!-- MerchantCenter(商户中心) - begin -->
     <string name="center_logout_text">退出登录</string>
