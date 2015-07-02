@@ -2,11 +2,13 @@
 <resources>
     <!-- 主界面－begin -->
     <array name="home_tab_titles">
-        <item>@string/home_business_manage_text</item>
-        <item>@string/home_merchant_center_text</item>
+        <item>@string/home_index_text</item>
+        <item>@string/home_message_text</item>
+        <item>@string/home_settings_text</item>
     </array>
     <array name="home_tab_icons">
         <item>@drawable/home_business_manage_selector</item>
+        <item>@drawable/home_merchant_center_selector</item>
         <item>@drawable/home_merchant_center_selector</item>
     </array>
     <!-- 主界面－end -->

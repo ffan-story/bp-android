@@ -1,0 +1,74 @@
+package com.feifan.bp.home;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.feifan.bp.LogUtil;
+import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.R;
+
+/**
+ * 首页Fragment
+ * Created by xuchunlei on 15/7/2.
+ *
+ *
+ */
+public class IndexFragment extends Fragment implements View.OnClickListener{
+
+    private OnFragmentInteractionListener mListener;
+
+    public static IndexFragment newInstance() {
+        IndexFragment fragment = new IndexFragment();
+        return fragment;
+    }
+
+    public IndexFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_index, container, false);
+        v.findViewById(R.id.index_scan).setOnClickListener(this);
+        v.findViewById(R.id.index_history).setOnClickListener(this);
+        return v;
+    }
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.index_scan:
+                // TODO call scan activity here
+                LogUtil.w(IndexFragment.class.getSimpleName(), "scan activity not found");
+                break;
+            case R.id.index_history:
+                // TODO call scan history here
+                LogUtil.w(IndexFragment.class.getSimpleName(), "history activity not found");
+                break;
+        }
+    }
+}

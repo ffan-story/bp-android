@@ -18,6 +18,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.feifan.bp.factory.FactorySet;
 import com.feifan.bp.home.BusinessManageFragment;
+import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.Model.CenterModel;
 import com.feifan.bp.home.UserCenterFragment;
 import com.feifan.bp.login.LoginFragment;
@@ -45,7 +46,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         setContentView(R.layout.activity_launch);
 
         //初始化数据
-        mFragments.add(BusinessManageFragment.newInstance());
+        mFragments.add(IndexFragment.newInstance());
         mFragments.add(UserCenterFragment.newInstance());
 
         // 初始化视图
@@ -57,13 +58,13 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switchFragment(mFragments.get(checkedId));
                 switch (checkedId) {
-                    case 0:         // 业务管理
+                    case 0:         // 首页
                         mLogoImv.setVisibility(View.GONE);
-                        mTitleTxt.setText(R.string.home_business_manage_text);
+                        mTitleTxt.setText(R.string.home_index_text);
                         break;
-                    case 1:         // 商户中心
+                    case 1:         // 消息
                         mLogoImv.setVisibility(View.VISIBLE);
-                        mTitleTxt.setText(R.string.home_merchant_center_text);
+                        mTitleTxt.setText(R.string.home_message_text);
                         break;
                 }
             }
@@ -141,7 +142,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
     private void showHome() {
         mBottomBar.setVisibility(View.VISIBLE);
         switchFragment(mFragments.get(mBottomBar.getCheckedRadioButtonId()));
-        mTitleTxt.setText(R.string.home_business_manage_text);
+        mTitleTxt.setText(R.string.home_settings_text);
     }
 
 }

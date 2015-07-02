@@ -10,8 +10,13 @@
     <!-- LoginFragment(登录界面) - end -->
 
     <!-- home -->
-    <string name="home_business_manage_text">业务管理</string>
-    <string name="home_merchant_center_text">商户中心</string>
+    <string name="home_index_text">首页</string>
+    <string name="home_message_text">消息</string>
+    <string name="home_settings_text">设置</string>
+
+    <!-- 首页 -->
+    <string name="index_scan_text">扫码验证</string>
+    <string name="index_history_text">验证历史</string>
 
     <!-- MerchantCenter(商户中心) - begin -->
     <string name="center_logout_text">退出登录</string>
