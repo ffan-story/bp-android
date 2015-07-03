@@ -18,6 +18,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
+import com.feifan.bp.password.ForgetPasswordFragment;
 
 /**
  * 登录界面Fragment
@@ -54,6 +55,15 @@ public class LoginFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_login, container, false);
         final EditText account = (EditText)v.findViewById(R.id.login_account);
         final EditText password = (EditText)v.findViewById(R.id.login_password);
+        v.findViewById(R.id.login_forget_password).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                // 通知界面跳转
+                Bundle args = new Bundle();
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, ForgetPasswordFragment.class.getName());
+                mListener.onFragmentInteraction(args);
+            }
+        });
         v.findViewById(R.id.login_go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
