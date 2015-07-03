@@ -7,21 +7,16 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.feifan.bp.factory.FactorySet;
-import com.feifan.bp.home.BusinessManageFragment;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.Model.CenterModel;
-import com.feifan.bp.home.UserCenterFragment;
+import com.feifan.bp.home.SettingsFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.widget.CircleImageView;
@@ -49,7 +44,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         //初始化数据
         mFragments.add(IndexFragment.newInstance());
         mFragments.add(MessageFragment.newInstance());
-        mFragments.add(UserCenterFragment.newInstance());
+        mFragments.add(SettingsFragment.newInstance());
 
         // 初始化视图
         mTitleTxt = (TextView)findViewById(R.id.title_bar_center);
@@ -65,8 +60,12 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
                         mTitleTxt.setText(R.string.home_index_text);
                         break;
                     case 1:         // 消息
-                        mLogoImv.setVisibility(View.VISIBLE);
+                        mLogoImv.setVisibility(View.GONE);
                         mTitleTxt.setText(R.string.home_message_text);
+                        break;
+                    case 2:         // 设置
+                        mLogoImv.setVisibility(View.VISIBLE);
+                        mTitleTxt.setText(R.string.home_settings_text);
                         break;
                 }
             }
@@ -92,7 +91,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         String from = args.getString(OnFragmentInteractionListener.INTERATION_KEY_FROM);
         if(from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
             showHome();
-        } else if(from.equals(UserCenterFragment.class.getName())) {
+        } else if(from.equals(SettingsFragment.class.getName())) {
             CenterModel model = args.getParcelable(OnFragmentInteractionListener.INTERATION_KEY_LOGO);
             if(model == null) {
                 finish();

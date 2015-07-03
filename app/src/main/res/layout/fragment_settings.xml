@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.feifan.bp.home.SettingsFragment">
+
+    <TextView
+        android:id="@+id/settings_check_upgrade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/border_bottom_background"
+        android:padding="@dimen/view_spacing_10"
+        android:text="@string/settings_check_upgrade_text"
+        android:clickable="true"/>
+    <TextView
+        android:id="@+id/settings_change_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settings_check_upgrade"
+        android:background="@drawable/border_bottom_background"
+        android:padding="@dimen/view_spacing_10"
+        android:text="@string/settings_change_password_text"
+        android:clickable="true"/>
+
+    <Button
+        android:id="@+id/merchant_exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settings_change_password"
+        android:padding="@dimen/view_spacing_10"
+        android:layout_margin="@dimen/view_spacing_10"
+        android:text="@string/settings_logout_text"
+        android:textColor="@android:color/white"
+        android:background="@drawable/orange_button_background"/>
+
+</RelativeLayout>
