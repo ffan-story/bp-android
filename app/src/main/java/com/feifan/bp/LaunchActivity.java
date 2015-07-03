@@ -19,6 +19,7 @@ import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.feifan.bp.factory.FactorySet;
 import com.feifan.bp.home.BusinessManageFragment;
 import com.feifan.bp.home.IndexFragment;
+import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.Model.CenterModel;
 import com.feifan.bp.home.UserCenterFragment;
 import com.feifan.bp.login.LoginFragment;
@@ -47,6 +48,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
         //初始化数据
         mFragments.add(IndexFragment.newInstance());
+        mFragments.add(MessageFragment.newInstance());
         mFragments.add(UserCenterFragment.newInstance());
 
         // 初始化视图
