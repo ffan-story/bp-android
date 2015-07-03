@@ -15,14 +15,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.feifan.bp.factory.FactorySet;
-import com.feifan.bp.home.BusinessManageFragment;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.Model.CenterModel;
-import com.feifan.bp.home.UserCenterFragment;
+import com.feifan.bp.home.SettingsFragment; 
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
+import com.feifan.bp.password.ForgetPasswordFragment;
+import com.feifan.bp.password.ResetPasswordFragment;
 import com.feifan.bp.widget.CircleImageView;
 import com.feifan.bp.widget.TabBar;
 
@@ -47,7 +47,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
         //初始化数据
         mFragments.add(IndexFragment.newInstance());
-        mFragments.add(UserCenterFragment.newInstance());
+        mFragments.add(SettingsFragment.newInstance());
 
         // 初始化视图
         mTitleTxt = (TextView)findViewById(R.id.title_bar_center);
@@ -72,8 +72,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
         // 加载内容视图
         if(UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
-            mTitleTxt.setText(R.string.login_login_text);
-            switchFragment(LoginFragment.newInstance());
+            showLogin();
         }else {
             showHome();
         }
@@ -90,7 +89,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         String from = args.getString(OnFragmentInteractionListener.INTERATION_KEY_FROM);
         if(from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
             showHome();
-        } else if(from.equals(UserCenterFragment.class.getName())) {
+        } else if(from.equals(SettingsFragment.class.getName())) {
             CenterModel model = args.getParcelable(OnFragmentInteractionListener.INTERATION_KEY_LOGO);
             if(model == null) {
                 finish();
@@ -112,6 +111,10 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
                     mTitleTxt.setText(model.primaryName);
                 }
             }
+        } else if(from.equals(ForgetPasswordFragment.class.getName())) {
+            showForgetPassword();
+        } else if(from.equals(ResetPasswordFragment.class.getName())) {
+            showResetPassword();
         }
     }
 
@@ -145,4 +148,37 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         mTitleTxt.setText(R.string.home_settings_text);
     }
 
+    // 显示忘记密码
+    private void showForgetPassword() {
+        mBottomBar.setVisibility(View.GONE);
+        switchFragment(ForgetPasswordFragment.newInstance());
+        mTitleTxt.setText(R.string.reset_password);
+    }
+
+    // 显示重置密码
+    private void showResetPassword() {
+        mBottomBar.setVisibility(View.GONE);
+        switchFragment(ResetPasswordFragment.newInstance());
+        mTitleTxt.setText(R.string.reset_password);
+    }
+
+    // 显示登录界面
+    private void showLogin() {
+        mTitleTxt.setText(R.string.login_login_text);
+        switchFragment(LoginFragment.newInstance());
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if(mCurrentFragment != null&& mCurrentFragment instanceof ForgetPasswordFragment) {
+            showLogin();
+        }
+        else if(mCurrentFragment != null&& mCurrentFragment instanceof ResetPasswordFragment){
+
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
 }
