@@ -38,6 +38,10 @@
     <string name="error_message_text_offline">网络问题，请检查网络设置后重新尝试</string>
     <string name="error_message_text_phone_number_empty">手机号不能为空</string>
     <string name="error_message_text_password_empty">密码不能为空</string>
+    <string name="error_message_text_old_password_empty">原始密码不能为空</string>
+    <string name="error_message_text_new_password_empty">新密码不能为空</string>
+    <string name="error_message_text_confirm_password_empty">确认密码不能为空</string>
+    <string name="error_message_text_password_different">确认密码不一致</string>
     <string name="error_message_text_phone_number_illegal">请输入正确的11位手机号码</string>
 
     <string name="title_activity_browser">BrowserActivity</string>
@@ -50,4 +54,5 @@
     <string name="input_origin_pwd">请输入原始密码</string>
     <string name="input_new_pwd">请输入新密码</string>
     <string name="input_confirm_new_pwd">请再次输入新密码</string>
+    <string name="reset_pwd_suc">密码修改成功</string>
 </resources>

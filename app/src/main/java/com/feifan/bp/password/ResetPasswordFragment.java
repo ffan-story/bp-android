@@ -5,12 +5,26 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import com.android.volley.Response;
+import com.feifan.bp.Constants;
+import com.feifan.bp.LaunchActivity;
+import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
+import com.feifan.bp.home.SettingsFragment;
+import com.feifan.bp.login.LoginFragment;
+import com.feifan.bp.login.UserCtrl;
+import com.feifan.bp.login.UserModel;
+import com.feifan.bp.login.UserProfile;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,16 +34,17 @@ import com.feifan.bp.R;
  * Use the {@link ResetPasswordFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ResetPasswordFragment extends Fragment {
-     
+public class ResetPasswordFragment extends Fragment implements View.OnClickListener{
+    private EditText mOldPwd;
+    private EditText mNewPwd;
+    private EditText mConfirmPwd;
     private OnFragmentInteractionListener mListener;
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.    
      * @return A new instance of fragment ResetPasswordFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+     */ 
     public static ResetPasswordFragment newInstance() {
         ResetPasswordFragment fragment = new ResetPasswordFragment(); 
         return fragment;
@@ -47,8 +62,13 @@ public class ResetPasswordFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      
-        return inflater.inflate(R.layout.fragment_reset_password, container, false);
+        
+        View rootView=inflater.inflate(R.layout.fragment_reset_password, container, false);
+        mOldPwd=(EditText)rootView.findViewById(R.id.et_old_password);
+        mNewPwd=(EditText)rootView.findViewById(R.id.et_new_password);
+        mConfirmPwd=(EditText)rootView.findViewById(R.id.et_confirm_password);
+        rootView.findViewById(R.id.btn_confirm).setOnClickListener(this);
+        return  rootView; 
     }
 
     
@@ -70,5 +90,39 @@ public class ResetPasswordFragment extends Fragment {
         mListener = null;
     }
 
-    
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case  R.id.btn_confirm:
+                String oldPwd = mOldPwd.getText().toString();
+                String newPwd = mNewPwd.getText().toString();
+                String confirmPwd = mConfirmPwd.getText().toString();
+                if(TextUtils.isEmpty(oldPwd)) {
+                    Utils.showShortToast(R.string.error_message_text_old_password_empty, Gravity.CENTER);
+                    return;
+                }
+                else if(TextUtils.isEmpty(newPwd)) {
+                    Utils.showShortToast(R.string.error_message_text_new_password_empty, Gravity.CENTER);
+                    return;
+                 } 
+                else if(TextUtils.isEmpty(confirmPwd)) {
+                    Utils.showShortToast(R.string.error_message_text_confirm_password_empty, Gravity.CENTER);
+                    return;
+                 } 
+                else if(!newPwd.equals(confirmPwd)){
+                     Utils.showShortToast(R.string.error_message_text_password_different, Gravity.CENTER);
+                     return;
+                } 
+                
+                PasswordCtrl.resetPassword(oldPwd, newPwd, new Response.Listener<PasswordModel>() { 
+                        @Override
+                        public void onResponse(PasswordModel model) { 
+                            getActivity().onBackPressed();
+                            Utils.showShortToast(getString(R.string.reset_pwd_suc));
+                        }
+                    });                  
+                break;  
+        }
+    }
 }
