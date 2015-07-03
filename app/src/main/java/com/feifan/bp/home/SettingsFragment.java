@@ -19,6 +19,8 @@ import com.feifan.bp.home.Model.CenterModel;
 import com.feifan.bp.home.Model.MerchantModel;
 import com.feifan.bp.home.Model.StoreModel;
 import com.feifan.bp.login.UserProfile;
+import com.feifan.bp.password.ForgetPasswordFragment;
+import com.feifan.bp.password.ResetPasswordFragment;
 
 import java.util.concurrent.Executors;
 
@@ -61,6 +63,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
+        v.findViewById(R.id.settings_change_password).setOnClickListener(this);
         v.findViewById(R.id.merchant_exit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,8 +142,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                LogUtil.w(SettingsFragment.class.getSimpleName(), "check upgrade is not implemented");
                break;
            case R.id.settings_change_password:
-               // TODO call change password here with mListener
-               LogUtil.w(SettingsFragment.class.getSimpleName(), "change password is not implemented");
+               Bundle args = new Bundle();
+               args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, ResetPasswordFragment.class.getName());
+               mListener.onFragmentInteraction(args);
                break;
        }
     }

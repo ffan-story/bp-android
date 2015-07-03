@@ -20,8 +20,10 @@
     <string name="index_order_text">订单管理</string>
     <string name="index_report_text">统计报表</string>
 
-    <!-- MerchantCenter(商户中心) - begin -->
-    <string name="center_logout_text">退出登录</string>
+    <!-- Settings（设置） - begin -->
+    <string name="settings_check_upgrade_text">检查更新</string>
+    <string name="settings_change_password_text">修改密码</string>
+    <string name="settings_logout_text">退出登录</string>
     <!--  -->
     <string name="center_logo_text_format" formatted="false">
         <![CDATA[<xliff:g>%1s</xliff:g><br/><small><xliff:g>%2s</xliff:g></small>]]>
@@ -31,10 +33,6 @@
 
 
     <string name="login_info_not_enough">请输入完整信息</string>
-
-
-
-
 
     <!-- 错误信息 -->
     <string name="error_message_text_offline">网络问题，请检查网络设置后重新尝试</string>

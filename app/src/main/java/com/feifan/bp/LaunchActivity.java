@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.feifan.bp.factory.FactorySet;
 import com.feifan.bp.home.IndexFragment;
+import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.Model.CenterModel;
 import com.feifan.bp.home.SettingsFragment; 
 import com.feifan.bp.login.LoginFragment;
@@ -47,6 +48,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
         //初始化数据
         mFragments.add(IndexFragment.newInstance());
+        mFragments.add(MessageFragment.newInstance());
         mFragments.add(SettingsFragment.newInstance());
 
         // 初始化视图
@@ -63,8 +65,12 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
                         mTitleTxt.setText(R.string.home_index_text);
                         break;
                     case 1:         // 消息
-                        mLogoImv.setVisibility(View.VISIBLE);
+                        mLogoImv.setVisibility(View.GONE);
                         mTitleTxt.setText(R.string.home_message_text);
+                        break;
+                    case 2:         // 设置
+                        mLogoImv.setVisibility(View.VISIBLE);
+                        mTitleTxt.setText(R.string.home_settings_text);
                         break;
                 }
             }
@@ -157,6 +163,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
     // 显示重置密码
     private void showResetPassword() {
+        mLogoImv.setVisibility(View.GONE);
         mBottomBar.setVisibility(View.GONE);
         switchFragment(ResetPasswordFragment.newInstance());
         mTitleTxt.setText(R.string.reset_password);
@@ -175,7 +182,8 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
             showLogin();
         }
         else if(mCurrentFragment != null&& mCurrentFragment instanceof ResetPasswordFragment){
-
+            mLogoImv.setVisibility(View.VISIBLE);
+            showHome();
         }
         else {
             super.onBackPressed();
