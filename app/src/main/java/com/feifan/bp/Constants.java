@@ -24,5 +24,5 @@ public class Constants {
     }
 
     /** 当前运行环境 */
-    public static Environment CURRENT_ENVIRONMENT = Environment.GATEWAY_SIT;
+    public static Environment CURRENT_ENVIRONMENT = Environment.API_SIT;
 }
