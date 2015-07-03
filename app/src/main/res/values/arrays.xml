@@ -7,9 +7,9 @@
         <item>@string/home_settings_text</item>
     </array>
     <array name="home_tab_icons">
-        <item>@drawable/home_business_manage_selector</item>
-        <item>@drawable/home_merchant_center_selector</item>
-        <item>@drawable/home_merchant_center_selector</item>
+        <item>@drawable/home_index_selector</item>
+        <item>@drawable/home_message_selector</item>
+        <item>@drawable/home_settings_selector</item>
     </array>
     <!-- 主界面－end -->
 </resources>

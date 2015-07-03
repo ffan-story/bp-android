@@ -1,6 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.feifan.bp.home.IndexFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.feifan.bp.home.IndexFragment">
 
     <com.feifan.bp.widget.ClickableEditText
         android:id="@+id/index_take_code"
@@ -22,9 +24,14 @@
         android:layout_below="@id/index_take_code"
         android:layout_toLeftOf="@id/divider_first_row"
         android:layout_alignParentLeft="true"
+        android:padding="@dimen/view_spacing_20"
         android:gravity="center"
         android:background="@color/bg_color_blue"
         android:text="@string/index_scan_text"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_size_14"
+        android:drawableTop="@mipmap/index_ic_scan"
+        android:drawablePadding="@dimen/view_spacing_10"
         android:clickable="true"/>
     <TextView
         android:id="@+id/index_history"
@@ -33,9 +40,14 @@
         android:layout_below="@id/index_take_code"
         android:layout_toRightOf="@id/divider_first_row"
         android:layout_alignParentRight="true"
+        android:padding="@dimen/view_spacing_20"
         android:gravity="center"
         android:background="@color/bg_color_blue"
         android:text="@string/index_history_text"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_size_14"
+        android:drawableTop="@mipmap/index_ic_history"
+        android:drawablePadding="@dimen/view_spacing_10"
         android:clickable="true"/>
     <View
         android:id="@+id/divider_second_row"
@@ -47,30 +59,36 @@
     <TextView
         android:id="@+id/index_order"
         android:layout_width="0dp"
-        android:layout_height="@dimen/index_divider_height"
+        android:layout_height="wrap_content"
         android:layout_below="@id/index_scan"
         android:layout_toLeftOf="@id/divider_second_row"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="@dimen/view_spacing_5"
         android:layout_marginLeft="@dimen/view_spacing_5"
         android:layout_marginRight="@dimen/view_spacing_5_px"
+        android:padding="@dimen/view_spacing_15"
         android:gravity="center"
         android:background="@android:color/white"
         android:text="@string/index_order_text"
+        android:drawableTop="@mipmap/index_ic_order"
+        android:drawablePadding="@dimen/view_spacing_8"
         android:clickable="true"/>
     <TextView
         android:id="@+id/index_report"
         android:layout_width="0dp"
-        android:layout_height="@dimen/index_divider_height"
+        android:layout_height="wrap_content"
         android:layout_below="@id/index_history"
         android:layout_toRightOf="@id/divider_second_row"
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/view_spacing_5"
         android:layout_marginRight="@dimen/view_spacing_5"
         android:layout_marginLeft="@dimen/view_spacing_5_px"
+        android:padding="@dimen/view_spacing_15"
         android:gravity="center"
         android:background="@android:color/white"
         android:text="@string/index_report_text"
+        android:drawableTop="@mipmap/index_ic_report"
+        android:drawablePadding="@dimen/view_spacing_8"
         android:clickable="true"/>
 
 </RelativeLayout>

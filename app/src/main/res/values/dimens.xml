@@ -3,6 +3,7 @@
     <!-- 视图使用的间距 -->
     <dimen name="view_spacing_5_px">5px</dimen>
     <dimen name="view_spacing_5">5dp</dimen>
+    <dimen name="view_spacing_8">8dp</dimen>
     <dimen name="view_spacing_10">10dp</dimen>
     <dimen name="view_spacing_15">15dp</dimen>
     <dimen name="view_spacing_20">20dp</dimen>
@@ -16,7 +17,7 @@
     <dimen name="login_logo_margin">28dp</dimen>
 
     <!-- 主页 -->
-    <dimen name="index_divider_height">86dp</dimen>
+    <dimen name="index_divider_height">96dp</dimen>
 
     <!-- 商户中心 -->
     <dimen name="merchant_logo_diameter">73dp</dimen>

@@ -7,21 +7,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.android.volley.Response.Listener;
-import com.android.volley.toolbox.ImageLoader;
 import com.feifan.bp.Constants;
+import com.feifan.bp.LogUtil;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 
 import com.feifan.bp.OnFragmentInteractionListener;
-import com.feifan.bp.factory.FactorySet;
 import com.feifan.bp.home.Model.CenterModel;
 import com.feifan.bp.home.Model.MerchantModel;
 import com.feifan.bp.home.Model.StoreModel;
 import com.feifan.bp.login.UserProfile;
-import com.feifan.bp.widget.CircleImageView;
 
 import java.util.concurrent.Executors;
 
@@ -30,10 +27,10 @@ import java.util.concurrent.Executors;
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link UserCenterFragment#newInstance} factory method to
+ * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserCenterFragment extends Fragment {
+public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
 
@@ -44,14 +41,14 @@ public class UserCenterFragment extends Fragment {
      * @return A new instance of fragment UserCenterFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UserCenterFragment newInstance() {
-        UserCenterFragment fragment = new UserCenterFragment();
+    public static SettingsFragment newInstance() {
+        SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public UserCenterFragment() {
+    public SettingsFragment() {
         // Required empty public constructor
     }
 
@@ -63,7 +60,7 @@ public class UserCenterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_merchant_center, container, false);
+        View v = inflater.inflate(R.layout.fragment_settings, container, false);
         v.findViewById(R.id.merchant_exit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +74,7 @@ public class UserCenterFragment extends Fragment {
                             @Override
                             public void run() {
                                 Bundle args = new Bundle();
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, UserCenterFragment.class.getName());
+                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
                                 mListener.onFragmentInteraction(args);
                             }
                         });
@@ -87,7 +84,6 @@ public class UserCenterFragment extends Fragment {
         });
 
         UserProfile profile = PlatformState.getInstance().getUserProfile();
-        Log.e("xuchunlei", profile.getAuthRangeType());
         if(profile.getAuthRangeType().equals(Constants.AUTH_RANGE_TYPE_MERCHANT) ) {
             HomeCtrl.fetchMerchantDetail(profile.getAuthRangeId(), new Listener<MerchantModel>() {
                 @Override
@@ -130,9 +126,22 @@ public class UserCenterFragment extends Fragment {
 
     private void setupLogo(CenterModel model) {
         Bundle args = new Bundle();
-        args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, UserCenterFragment.class.getName());
+        args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
         args.putParcelable(OnFragmentInteractionListener.INTERATION_KEY_LOGO, model);
         mListener.onFragmentInteraction(args);
     }
 
+    @Override
+    public void onClick(View v) {
+       switch (v.getId()){
+           case R.id.settings_check_upgrade:
+               // TODO call check upgrade here with mListener
+               LogUtil.w(SettingsFragment.class.getSimpleName(), "check upgrade is not implemented");
+               break;
+           case R.id.settings_change_password:
+               // TODO call change password here with mListener
+               LogUtil.w(SettingsFragment.class.getSimpleName(), "change password is not implemented");
+               break;
+       }
+    }
 }
