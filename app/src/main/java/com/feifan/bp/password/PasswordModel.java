@@ -3,18 +3,20 @@ package com.feifan.bp.password;
 import org.json.JSONObject;
 
 public class PasswordModel {
-    public String token="";
+    public String authCode="";
+    public String key="";
    
 
     public PasswordModel(JSONObject json) { 
         if(json==null){
             return;
         }
-        token = json.optString("token"); 
+        authCode = json.optString("authCode"); 
+        key = json.optString("key"); 
     }
 
     @Override
     public String toString() {
-        return "token=" + token ;
+        return "authCode=" + authCode+","+"key"+key ;
     }
 }

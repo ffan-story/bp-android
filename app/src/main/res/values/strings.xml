@@ -44,6 +44,7 @@
     <string name="error_message_text_confirm_password_empty">确认密码不能为空</string>
     <string name="error_message_text_password_different">确认密码不一致</string>
     <string name="error_message_text_phone_number_illegal">请输入正确的11位手机号码</string>
+    <string name="error_message_text_sms_code_empty">验证码不能为空</string>
 
     <string name="title_activity_browser">BrowserActivity</string>
 
@@ -56,4 +57,6 @@
     <string name="input_new_pwd">请输入新密码</string>
     <string name="input_confirm_new_pwd">请再次输入新密码</string>
     <string name="reset_pwd_suc">密码修改成功</string>
+    <string name="sms_sended">验证码已发送</string>
+    <string name="new_password_sended">新密码已发送到你的手机中，请查收</string>
 </resources>
