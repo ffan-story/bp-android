@@ -21,4 +21,26 @@
         <attr name="exampleColor" format="color" />
         <attr name="exampleDrawable" format="color|reference" />
     </declare-styleable>
+    <!-- CountDownButton倒计时按钮属性-begin -->
+
+    <declare-styleable name="CountDownButton" >
+        <!-- 时间计数，默认为60，单位秒 -->
+        <attr name="timeCount" format="integer" />
+        <!-- 计时步进，默认为1 -->
+        <attr name="countStep" format="integer" />
+        <!-- 计时显示的文本格式 -->
+        <attr name="countingText" format="string" />
+        <!-- 计时结束后显示的文本格式 -->
+        <attr name="endText" format="string" />
+        <!-- 触发倒计时的事件 -->
+        <attr name="launchEvent">
+            <!-- 可见时触发 -->
+            <flag name="attached" value="0" />
+            <!-- 点击时触发 -->
+            <flag name="show" value="1" />
+        </attr>
+
+    </declare-styleable>
+
+    <!-- CountDownButton倒计时按钮属性-end -->
 </resources>

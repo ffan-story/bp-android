@@ -28,7 +28,7 @@ public class ForgetPasswordRequest extends Request<PasswordModel> {
 
     public ForgetPasswordRequest(Listener<PasswordModel> listener, ErrorListener errorListener, String phone,String authCode,String keyCode) {
    
-        super(Method.GET,URL_FORMAT+"phone="+phone+"&authCode="+authCode+"&keyCode"+keyCode, errorListener); 
+        super(Method.GET,URL_FORMAT+"phone="+phone+"&authCode="+authCode+"&keyCode="+keyCode, errorListener); 
         mListener = listener;
     }
 

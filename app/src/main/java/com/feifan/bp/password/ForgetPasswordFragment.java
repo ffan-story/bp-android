@@ -17,6 +17,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.utils.Des3;
+import com.feifan.bp.widget.CountDownButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,10 +33,11 @@ public class ForgetPasswordFragment extends Fragment implements View.OnClickList
     private OnFragmentInteractionListener mListener;
     private EditText mPhoneNum;
     private EditText mSmsCode;
-    private TextView mTvCode;
+    private CountDownButton mCountDownButton;
     private Button mBtnConfirm;
     String mAuthCode ;
     String mKeyCode ;
+    String mRadomSmsCode="" ;
     
     /**
      * Use this factory method to create a new instance of
@@ -62,9 +64,9 @@ public class ForgetPasswordFragment extends Fragment implements View.OnClickList
          View rootView=inflater.inflate(R.layout.fragment_forget_password, container, false);
          mPhoneNum=(EditText)rootView.findViewById(R.id.et_phone_num);
          mSmsCode=(EditText)rootView.findViewById(R.id.sms_code);
-         mTvCode=(TextView)rootView.findViewById(R.id.get_sms_code);         
+         mCountDownButton=(CountDownButton)rootView.findViewById(R.id.get_sms_code);         
          mBtnConfirm=(Button)rootView.findViewById(R.id.btn_confirm);
-         mTvCode.setOnClickListener(this);
+         mCountDownButton.setOnClickListener(this); 
          mBtnConfirm.setOnClickListener(this);
         return rootView;
     }
@@ -95,10 +97,16 @@ public class ForgetPasswordFragment extends Fragment implements View.OnClickList
         String smsCode=mSmsCode.getText().toString();
         switch (view.getId()){
             
-            case R.id.btn_confirm:
-                checkMobile(phone); 
+            case R.id.btn_confirm: 
+                if(!isCheckedMobile(phone)){
+                    return;
+                }
                 if(TextUtils.isEmpty(smsCode)){
                    Utils.showShortToast(getString(R.string.error_message_text_phone_number_empty));
+                   return;
+                }
+                if(!mRadomSmsCode.equals(smsCode)){
+                   Utils.showShortToast(getString(R.string.sms_error));
                    return;
                 }
                 String newPhone="";
@@ -114,17 +122,22 @@ public class ForgetPasswordFragment extends Fragment implements View.OnClickList
                     @Override
                     public void onResponse(PasswordModel model) {
                         Utils.showShortToast(getString(R.string.new_password_sended));
+                        getActivity().onBackPressed();
                     }
                 }); 
                 break;
             case R.id.get_sms_code:
-                checkMobile(phone);
+                if(!isCheckedMobile(phone)){
+                   return;
+                }                
                 PasswordCtrl.checkPhoneNumExist(phone, new Response.Listener<PasswordModel>() {
                     @Override
                     public void onResponse(PasswordModel model) {
+                        mCountDownButton.startCountDown();
                         mAuthCode=model.authCode;
                         mKeyCode=model.key;  
-                        PasswordCtrl.sendSMSCode(phone, new Response.Listener<PasswordModel>() {
+                        getSmsCode();
+                        PasswordCtrl.sendSMSCode(phone,mRadomSmsCode, new Response.Listener<PasswordModel>() {
                             @Override
                             public void onResponse(PasswordModel model) { 
                                 Utils.showShortToast(getString(R.string.sms_sended));  
@@ -136,16 +149,25 @@ public class ForgetPasswordFragment extends Fragment implements View.OnClickList
         }
     }
     
-    public void checkMobile(String phone){
+    public boolean isCheckedMobile(String phone){
         if(TextUtils.isEmpty(phone)){
             Utils.showShortToast(getString(R.string.error_message_text_phone_number_empty));
-            return;
+            return false;
         }
         try {
             Utils.checkPhoneNumber(phone);
         } catch (Throwable throwable) {
             Utils.showShortToast(R.string.error_message_text_phone_number_illegal, Gravity.CENTER);
-            return;
+            return false;
         }
+         return true;
+    }
+    
+    public void getSmsCode(){
+        StringBuffer sBuffer=new StringBuffer();
+        for(int i=0; i<6; i++){
+           sBuffer.append((int)(Math.random()*10));
+        } 
+        mRadomSmsCode= sBuffer.toString(); 
     }
 }

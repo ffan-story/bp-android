@@ -7,7 +7,9 @@ import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
- 
+
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +69,7 @@ public class PasswordCtrl {
      * @param phoneNum     
      * @param listener
      */
-    public static void sendSMSCode(String phoneNum, Response.Listener<PasswordModel> listener) {
+    public static void sendSMSCode(String phoneNum, String smsCode,Response.Listener<PasswordModel> listener) {
         Map<String, String> params = new HashMap<String, String>(); 
         params.put("mobile", phoneNum);
         params.put("deviceType", "0");
@@ -75,11 +77,11 @@ public class PasswordCtrl {
         params.put("contentType", "0");
         params.put("destAppId", "1");
         params.put("sendTime", "");
-        params.put("validTime", String.valueOf(System.currentTimeMillis()/1000));
-        params.put("templateId", "160");
-        //
-        params.put("deviceList", "");
-        params.put("argsList", "");
+        Long time=(System.currentTimeMillis()/1000)+60; 
+        params.put("validTime", String.valueOf(time));
+        params.put("templateId", "160"); 
+        params.put("deviceList", "["+phoneNum+"]");
+        params.put("argsList", "[["+smsCode+"]]");
         SendSMSCodeRequest request = new SendSMSCodeRequest(listener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) { 
@@ -101,7 +103,7 @@ public class PasswordCtrl {
      * @param  listener
      */
     public static void forgetPassword(String phoneNum,String authCode,String keyCode, Response.Listener<PasswordModel> listener) {
-       Map<String, String> params = new HashMap<String, String>(); 
+    
       ForgetPasswordRequest request = new ForgetPasswordRequest(listener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -111,7 +113,6 @@ public class PasswordCtrl {
                 }else {                               // 其他原因
                     Utils.showShortToast(volleyError.getMessage());
                 }
-
             }
         }, phoneNum,authCode,keyCode);
         PlatformState.getInstance().getRequestQueue().add(request);  
