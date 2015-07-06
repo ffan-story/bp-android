@@ -62,7 +62,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
                 switch (checkedId) {
                     case 0:         // 首页
                         mLogoImv.setVisibility(View.GONE);
-                        mTitleTxt.setText(R.string.home_index_text);
+                        mTitleTxt.setText(R.string.app_name);
                         break;
                     case 1:         // 消息
                         mLogoImv.setVisibility(View.GONE);
@@ -151,7 +151,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
     private void showHome() {
         mBottomBar.setVisibility(View.VISIBLE);
         switchFragment(mFragments.get(mBottomBar.getCheckedRadioButtonId()));
-        mTitleTxt.setText(R.string.home_settings_text);
+        mTitleTxt.setText(R.string.app_name);
     }
 
     // 显示忘记密码

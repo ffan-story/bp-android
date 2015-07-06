@@ -4,24 +4,46 @@
     android:layout_height="match_parent"
     tools:context="com.feifan.bp.home.IndexFragment">
 
-    <com.feifan.bp.widget.ClickableEditText
-        android:id="@+id/index_take_code"
+    <RelativeLayout
+        android:id="@+id/index_search_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:padding="@dimen/view_spacing_20"
+        android:background="@color/bg_color_blue">
+        <com.feifan.bp.widget.IconClickableEditText
+            android:id="@+id/index_search_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/view_spacing_15"
+            android:drawableRight="@mipmap/index_ic_search"
+            android:background="@drawable/index_bg_search"
+            android:hint="@string/index_search_input_hint"
+            android:textColorHint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_size_12" />
+
+    </RelativeLayout>
+    <View
+        android:id="@+id/divider_search_container"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/index_search_container"
+        android:background="@color/divider" />
 
     <View
         android:id="@+id/divider_first_row"
         android:layout_width="1dp"
         android:layout_height="@dimen/index_divider_height"
-        android:layout_below="@id/index_take_code"
+        android:layout_below="@id/divider_search_container"
         android:layout_centerHorizontal="true"
         android:background="@color/divider" />
     <TextView
         android:id="@+id/index_scan"
         android:layout_width="0dp"
         android:layout_height="@dimen/index_divider_height"
-        android:layout_below="@id/index_take_code"
+        android:layout_below="@id/divider_search_container"
         android:layout_toLeftOf="@id/divider_first_row"
         android:layout_alignParentLeft="true"
         android:padding="@dimen/view_spacing_20"
@@ -37,7 +59,7 @@
         android:id="@+id/index_history"
         android:layout_width="0dp"
         android:layout_height="@dimen/index_divider_height"
-        android:layout_below="@id/index_take_code"
+        android:layout_below="@id/divider_search_container"
         android:layout_toRightOf="@id/divider_first_row"
         android:layout_alignParentRight="true"
         android:padding="@dimen/view_spacing_20"

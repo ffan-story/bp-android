@@ -3,6 +3,7 @@ package com.feifan.bp.home;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
+import com.feifan.bp.widget.IconClickableEditText;
 
 /**
  * 首页Fragment
@@ -17,7 +19,7 @@ import com.feifan.bp.R;
  *
  *
  */
-public class IndexFragment extends Fragment implements View.OnClickListener{
+public class IndexFragment extends Fragment implements View.OnClickListener, IconClickableEditText.OnIconClickListener {
 
     private OnFragmentInteractionListener mListener;
 
@@ -36,6 +38,7 @@ public class IndexFragment extends Fragment implements View.OnClickListener{
         View v = inflater.inflate(R.layout.fragment_index, container, false);
         v.findViewById(R.id.index_scan).setOnClickListener(this);
         v.findViewById(R.id.index_history).setOnClickListener(this);
+        ((IconClickableEditText)v.findViewById(R.id.index_search_input)).setOnIconClickListener(this);
         return v;
     }
 
@@ -68,6 +71,15 @@ public class IndexFragment extends Fragment implements View.OnClickListener{
             case R.id.index_history:
                 // TODO call scan history with mListener here 注意使用回调进行实际的启动活动操作
                 LogUtil.w(IndexFragment.class.getSimpleName(), "history activity not found");
+                break;
+        }
+    }
+
+    @Override
+    public void onRightClicked(View v) {
+        switch (v.getId()) {
+            case R.id.index_search_input:
+                Log.e(IndexFragment.class.getSimpleName(), "search is clicked");
                 break;
         }
     }

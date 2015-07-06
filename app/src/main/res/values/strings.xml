@@ -19,6 +19,7 @@
     <string name="index_history_text">验证历史</string>
     <string name="index_order_text">订单管理</string>
     <string name="index_report_text">统计报表</string>
+    <string name="index_search_input_hint">请输入提货码</string>
 
     <!-- Settings（设置） - begin -->
     <string name="settings_check_upgrade_text">检查更新</string>
