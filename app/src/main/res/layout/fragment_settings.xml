@@ -8,7 +8,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@drawable/border_bottom_background"
-        android:padding="@dimen/view_spacing_10"
+        android:drawableLeft="@mipmap/settings_ic_check_upgrade"
+        android:drawablePadding="@dimen/view_spacing_10"
+        android:padding="@dimen/view_spacing_15"
         android:text="@string/settings_check_upgrade_text"
         android:clickable="true"/>
     <TextView
@@ -17,19 +19,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/settings_check_upgrade"
         android:background="@drawable/border_bottom_background"
-        android:padding="@dimen/view_spacing_10"
+        android:drawableLeft="@mipmap/settings_ic_modify_password"
+        android:drawablePadding="@dimen/view_spacing_10"
+        android:padding="@dimen/view_spacing_15"
         android:text="@string/settings_change_password_text"
         android:clickable="true"/>
 
-    <Button
+    <TextView
         android:id="@+id/merchant_exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/settings_change_password"
-        android:padding="@dimen/view_spacing_10"
-        android:layout_margin="@dimen/view_spacing_10"
+        android:padding="@dimen/view_spacing_15"
+        android:layout_marginTop="@dimen/view_spacing_20"
         android:text="@string/settings_logout_text"
-        android:textColor="@android:color/white"
-        android:background="@drawable/orange_button_background"/>
+        android:gravity="center"
+        android:background="@drawable/border_top_bottom_background"/>
 
 </RelativeLayout>

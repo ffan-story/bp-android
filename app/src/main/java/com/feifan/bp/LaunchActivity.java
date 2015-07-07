@@ -34,7 +34,6 @@ import java.util.List;
 public class LaunchActivity extends FragmentActivity implements OnFragmentInteractionListener {
 
     private TabBar mBottomBar;
-    private CircleImageView mLogoImv;
     private TextView mTitleTxt;
 
     private List<Fragment> mFragments = new ArrayList<Fragment>();
@@ -53,7 +52,6 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
         // 初始化视图
         mTitleTxt = (TextView)findViewById(R.id.title_bar_center);
-        mLogoImv = (CircleImageView)findViewById(R.id.title_bar_logo);
         mBottomBar = (TabBar)findViewById(R.id.bottom_bar);
         mBottomBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -61,15 +59,12 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
                 switchFragment(mFragments.get(checkedId));
                 switch (checkedId) {
                     case 0:         // 首页
-                        mLogoImv.setVisibility(View.GONE);
                         mTitleTxt.setText(R.string.app_name);
                         break;
                     case 1:         // 消息
-                        mLogoImv.setVisibility(View.GONE);
                         mTitleTxt.setText(R.string.home_message_text);
                         break;
                     case 2:         // 设置
-                        mLogoImv.setVisibility(View.VISIBLE);
                         mTitleTxt.setText(R.string.home_settings_text);
                         break;
                 }
@@ -93,34 +88,24 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
     @Override
     public void onFragmentInteraction(Bundle args) {
         String from = args.getString(OnFragmentInteractionListener.INTERATION_KEY_FROM);
+        String to = args.getString(OnFragmentInteractionListener.INTERATION_KEY_TO);
         if(from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
             showHome();
         } else if(from.equals(SettingsFragment.class.getName())) {
-            CenterModel model = args.getParcelable(OnFragmentInteractionListener.INTERATION_KEY_LOGO);
-            if(model == null) {
+            if(to.equals(LaunchActivity.class.getName())) {
                 finish();
                 Intent intent = new Intent(this, LaunchActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-            } else {        // 加载图标
-                ImageLoader.ImageListener listener = ImageLoader.getImageListener(mLogoImv, R.drawable.home_merchant_center_default_logo, R.drawable.home_merchant_center_default_logo);
-                PlatformState.getInstance().getImageLoader().get(
-                        FactorySet.getUrlFactory().getFFanImageHostUrl() +
-                                model.logoSrc, listener);
-                if(PlatformState.getInstance().getUserProfile().getAuthRangeType().equals(Constants.AUTH_RANGE_TYPE_STORE)) {  // 门店
-                    if(model.secondaryName != null) {
-                        mTitleTxt.setText(Html.fromHtml(getString(R.string.center_logo_text_format, model.primaryName, model.secondaryName)));
-                    }else {
-                        mTitleTxt.setText(model.primaryName);
-                    }
-                } else { // 商户只显示大字标题
-                    mTitleTxt.setText(model.primaryName);
-                }
             }
         } else if(from.equals(ForgetPasswordFragment.class.getName())) {
             showForgetPassword();
         } else if(from.equals(ResetPasswordFragment.class.getName())) {
             showResetPassword();
+        } else if(from.equals(IndexFragment.class.getName())) {
+            Intent intent = new Intent(this, BrowserActivity.class);
+            intent.putExtra(BrowserActivity.EXTRA_KEY_URL, to);
+            startActivity(intent);
         }
     }
 
@@ -163,7 +148,6 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
     // 显示重置密码
     private void showResetPassword() {
-        mLogoImv.setVisibility(View.GONE);
         mBottomBar.setVisibility(View.GONE);
         switchFragment(ResetPasswordFragment.newInstance());
         mTitleTxt.setText(R.string.reset_password);
@@ -182,7 +166,6 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
             showLogin();
         }
         else if(mCurrentFragment != null&& mCurrentFragment instanceof ResetPasswordFragment){
-            mLogoImv.setVisibility(View.VISIBLE);
             showHome();
         }
         else {

@@ -14,8 +14,8 @@ public interface OnFragmentInteractionListener {
 
     /** 交互参数键名称－调用类 */
     static final String INTERATION_KEY_FROM = "from";
-    /** 交互参数键名称－图片路径 */
-    static final String INTERATION_KEY_LOGO = "logo";
+    /** 交互参数键名称－目标类 */
+    static final String INTERATION_KEY_TO = "to";
 
     /**
      * 重载该方法，可以响应界面切换事件

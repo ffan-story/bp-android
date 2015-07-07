@@ -10,7 +10,7 @@ import android.webkit.WebView;
 
 
 public class BrowserActivity extends FragmentActivity {
-
+    private static final String TAG = BrowserActivity.class.getName();
     /** 参数键名称－URL */
     public static final String EXTRA_KEY_URL = "url";
 
@@ -20,7 +20,7 @@ public class BrowserActivity extends FragmentActivity {
         setContentView(R.layout.activity_browser);
 
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
-
+        LogUtil.i(TAG, url);
         WebView webView = (WebView)findViewById(R.id.browser_content);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);

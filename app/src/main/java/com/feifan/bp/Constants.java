@@ -16,7 +16,6 @@ public class Constants {
     public static final String AUTH_RANGE_TYPE_MERCHANT = "merchant";
     // 用户类型－门店
     public static final String AUTH_RANGE_TYPE_STORE = "store";
-  
 
     public enum Environment {
         GATEWAY_SIT,      // Gateway集成环境

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.android.volley.Response.Listener;
 import com.feifan.bp.Constants;
+import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.LogUtil;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
@@ -78,6 +79,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                             public void run() {
                                 Bundle args = new Bundle();
                                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
+                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LaunchActivity.class.getName());
                                 mListener.onFragmentInteraction(args);
                             }
                         });
@@ -85,27 +87,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 });
             }
         });
-
-        UserProfile profile = PlatformState.getInstance().getUserProfile();
-        if(profile.getAuthRangeType().equals(Constants.AUTH_RANGE_TYPE_MERCHANT) ) {
-            HomeCtrl.fetchMerchantDetail(profile.getAuthRangeId(), new Listener<MerchantModel>() {
-                @Override
-                public void onResponse(MerchantModel merchantModel) {
-                    Log.e("xuchunlei", merchantModel.toString());
-                    setupLogo(merchantModel);
-                }
-            });
-        } else if(profile.getAuthRangeType().equals(Constants.AUTH_RANGE_TYPE_STORE)) {
-            HomeCtrl.fetchStoreDetail(profile.getAuthRangeId(), new Listener<StoreModel>() {
-                @Override
-                public void onResponse(StoreModel storeModel) {
-                    Log.e("xuchunlei", storeModel.toString());
-                    setupLogo(storeModel);
-
-                }
-            });
-        }
-
 
         return v;
     }
@@ -125,13 +106,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    private void setupLogo(CenterModel model) {
-        Bundle args = new Bundle();
-        args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
-        args.putParcelable(OnFragmentInteractionListener.INTERATION_KEY_LOGO, model);
-        mListener.onFragmentInteraction(args);
     }
 
     @Override

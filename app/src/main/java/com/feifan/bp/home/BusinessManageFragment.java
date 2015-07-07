@@ -62,7 +62,7 @@ public class BusinessManageFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MenuModel model = (MenuModel)list.getAdapter().getItem(position);
                 Intent intent = new Intent(getActivity(), BrowserActivity.class);
-                intent.putExtra(BrowserActivity.EXTRA_KEY_URL, PlatformHelper.getManageUrl(model.url));
+//                intent.putExtra(BrowserActivity.EXTRA_KEY_URL, PlatformHelper.getManageUrl(model.url));
                 startActivity(intent);
             }
         });

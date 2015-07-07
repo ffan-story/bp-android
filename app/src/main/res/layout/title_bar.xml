@@ -5,22 +5,11 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/view_spacing_10"
     android:background="@color/bg_color_blue">
-
-    <com.feifan.bp.widget.CircleImageView
-        android:id="@+id/title_bar_logo"
-        android:layout_width="@dimen/merchant_logo_diameter"
-        android:layout_height="@dimen/merchant_logo_diameter"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        bp:border_width="@dimen/title_logo_border_width"
-        bp:border_color="@color/title_logo_border_color"/>
     <TextView
         android:id="@+id/title_bar_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/title_bar_logo"
+        android:layout_centerInParent="true"
         android:gravity="center"
         style="@style/TitleBarCenterText" />
 </RelativeLayout>

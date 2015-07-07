@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.PlatformHelper;
 import com.feifan.bp.R;
 import com.feifan.bp.widget.IconClickableEditText;
 import com.feifan.bp.scanner.CodeScannerActivity;
@@ -22,6 +23,9 @@ import com.feifan.bp.scanner.CodeScannerActivity;
  *
  */
 public class IndexFragment extends Fragment implements View.OnClickListener, IconClickableEditText.OnIconClickListener {
+
+    // H5页面相对路径－报表统计
+    private static final String URL_PATH_REPORT = "h5app/index.html#/statistical";
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,6 +44,7 @@ public class IndexFragment extends Fragment implements View.OnClickListener, Ico
         View v = inflater.inflate(R.layout.fragment_index, container, false);
         v.findViewById(R.id.index_scan).setOnClickListener(this);
         v.findViewById(R.id.index_history).setOnClickListener(this);
+        v.findViewById(R.id.index_report).setOnClickListener(this);
         ((IconClickableEditText)v.findViewById(R.id.index_search_input)).setOnIconClickListener(this);
         return v;
     }
@@ -64,7 +69,8 @@ public class IndexFragment extends Fragment implements View.OnClickListener, Ico
 
     @Override
     public void onClick(View v) {
-
+        Bundle args = new Bundle();
+        args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
         switch (v.getId()){
             case R.id.index_scan:
                 // TODO call scan activity with mListener here 注意使用回调进行实际的启动活动操作
@@ -76,7 +82,14 @@ public class IndexFragment extends Fragment implements View.OnClickListener, Ico
                 // TODO call scan history with mListener here 注意使用回调进行实际的启动活动操作
                 LogUtil.w(IndexFragment.class.getSimpleName(), "history activity not found");
                 break;
+            case R.id.index_report:
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, PlatformHelper.getManagedH5Url(URL_PATH_REPORT));
+                break;
+            default:
+                return;
         }
+        mListener.onFragmentInteraction(args);
+
     }
 
     @Override
