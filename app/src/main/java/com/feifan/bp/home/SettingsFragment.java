@@ -26,14 +26,12 @@ import com.feifan.bp.password.ResetPasswordFragment;
 import java.util.concurrent.Executors;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * 设置界面Fragment
  */
 public class SettingsFragment extends Fragment implements View.OnClickListener {
+
+    private static final String TAG = "SettingsFragment";
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -46,8 +44,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename and change types and number of parameters
     public static SettingsFragment newInstance() {
         SettingsFragment fragment = new SettingsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -65,28 +61,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
         v.findViewById(R.id.settings_change_password).setOnClickListener(this);
-        v.findViewById(R.id.merchant_exit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Executors.newSingleThreadExecutor().execute(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        PlatformState.getInstance().getUserProfile().clear();
-                        getActivity().runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Bundle args = new Bundle();
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LaunchActivity.class.getName());
-                                mListener.onFragmentInteraction(args);
-                            }
-                        });
-                    }
-                });
-            }
-        });
+        v.findViewById(R.id.settings_check_upgrade).setOnClickListener(this);
+        v.findViewById(R.id.settings_exit).setOnClickListener(this);
 
         return v;
     }
@@ -112,13 +88,43 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
        switch (v.getId()){
            case R.id.settings_check_upgrade:
-               // TODO call check upgrade here with mListener
-               LogUtil.w(SettingsFragment.class.getSimpleName(), "check upgrade is not implemented");
+               HomeCtrl.checkUpgrade(new Listener<VersionModel>() {
+                   @Override
+                   public void onResponse(VersionModel versionModel) {
+                       if(versionModel != null) {
+                           LogUtil.i(TAG, versionModel.toString());
+                           Bundle args = new Bundle();
+                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
+                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, versionModel.versionUrl);
+                           mListener.onFragmentInteraction(args);
+                       }
+
+                   }
+               });
                break;
            case R.id.settings_change_password:
                Bundle args = new Bundle();
                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, ResetPasswordFragment.class.getName());
                mListener.onFragmentInteraction(args);
+               break;
+           case R.id.settings_exit:
+               Executors.newSingleThreadExecutor().execute(new Runnable() {
+
+                   @Override
+                   public void run() {
+                       PlatformState.getInstance().getUserProfile().clear();
+                       getActivity().runOnUiThread(new Runnable() {
+
+                           @Override
+                           public void run() {
+                               Bundle args = new Bundle();
+                               args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
+                               args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LaunchActivity.class.getName());
+                               mListener.onFragmentInteraction(args);
+                           }
+                       });
+                   }
+               });
                break;
        }
     }

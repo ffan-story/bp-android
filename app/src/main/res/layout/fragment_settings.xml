@@ -28,7 +28,7 @@
         android:clickable="true"/>
 
     <TextView
-        android:id="@+id/merchant_exit"
+        android:id="@+id/settings_exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/settings_change_password"
