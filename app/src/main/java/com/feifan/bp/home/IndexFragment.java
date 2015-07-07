@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,9 +32,13 @@ public class IndexFragment extends Fragment implements View.OnClickListener, Ico
     private static final String URL_PATH_HISTORY = "H5App/index.html#/goods/search_history";
     // H5页面相对路径－订单管理
     private static final String URL_PATH_ORDER = "H5App/index.html#/order";
-
+    // H5页面相对路径－查询提货码
+    private static final String URL_PATH_SEARCH = "H5App/index.html#/goods/search_result";
 
     private OnFragmentInteractionListener mListener;
+
+    // views
+    private IconClickableEditText mCodeEdt;
 
     public static IndexFragment newInstance() {
         IndexFragment fragment = new IndexFragment();
@@ -52,7 +57,8 @@ public class IndexFragment extends Fragment implements View.OnClickListener, Ico
         v.findViewById(R.id.index_history).setOnClickListener(this);
         v.findViewById(R.id.index_report).setOnClickListener(this);
         v.findViewById(R.id.index_order).setOnClickListener(this);
-        ((IconClickableEditText)v.findViewById(R.id.index_search_input)).setOnIconClickListener(this);
+        mCodeEdt = (IconClickableEditText)v.findViewById(R.id.index_search_input);
+        mCodeEdt.setOnIconClickListener(this);
         return v;
     }
 
@@ -102,10 +108,23 @@ public class IndexFragment extends Fragment implements View.OnClickListener, Ico
 
     @Override
     public void onRightClicked(View v) {
+
+        if(TextUtils.isEmpty(mCodeEdt.getText())) {
+            return;
+        }
+        String code = mCodeEdt.getText().toString();
+        Bundle args = new Bundle();
         switch (v.getId()) {
             case R.id.index_search_input:
-                Log.e(IndexFragment.class.getSimpleName(), "search is clicked");
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO,
+                        PlatformHelper.getManagedH5Url(URL_PATH_SEARCH)
+                        + "&merchantId=" + PlatformState.getInstance().getUserProfile().getAuthRangeId()
+                        + "&signNo=" + code);
+                break;
+            default:
                 break;
         }
+        mListener.onFragmentInteraction(args);
     }
 }
