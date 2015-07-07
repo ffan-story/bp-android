@@ -24,7 +24,7 @@ public class PlatformHelper {
                 concat(PlatformState.getInstance().getUserProfile().getLoginToken()).
                 concat("&uid=").
                 concat(String.valueOf(PlatformState.getInstance().getUserProfile().getUid())).
-                concat("&app_type=bpMobile");
+                concat("&appType=bpMobile");
     }
 
     public static String getSignH5Url(String signNo) {

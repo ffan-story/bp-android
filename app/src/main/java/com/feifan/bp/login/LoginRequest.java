@@ -35,6 +35,7 @@ public class LoginRequest extends Request<UserModel> {
         super(Method.POST, URL, errorListener);
         mParams = params;
         mListener = listener;
+        params.put("appType", "bpMobile");
     }
 
     @Override

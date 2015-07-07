@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformHelper;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.widget.IconClickableEditText;
 import com.feifan.bp.scanner.CodeScannerActivity;
@@ -25,7 +26,12 @@ import com.feifan.bp.scanner.CodeScannerActivity;
 public class IndexFragment extends Fragment implements View.OnClickListener, IconClickableEditText.OnIconClickListener {
 
     // H5页面相对路径－报表统计
-    private static final String URL_PATH_REPORT = "h5app/index.html#/statistical";
+    private static final String URL_PATH_REPORT = "H5App/index.html#/statistical";
+    // H5页面相对路径－验证历史
+    private static final String URL_PATH_HISTORY = "H5App/index.html#/goods/search_history";
+    // H5页面相对路径－订单管理
+    private static final String URL_PATH_ORDER = "H5App/index.html#/order";
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -45,6 +51,7 @@ public class IndexFragment extends Fragment implements View.OnClickListener, Ico
         v.findViewById(R.id.index_scan).setOnClickListener(this);
         v.findViewById(R.id.index_history).setOnClickListener(this);
         v.findViewById(R.id.index_report).setOnClickListener(this);
+        v.findViewById(R.id.index_order).setOnClickListener(this);
         ((IconClickableEditText)v.findViewById(R.id.index_search_input)).setOnIconClickListener(this);
         return v;
     }
@@ -71,16 +78,20 @@ public class IndexFragment extends Fragment implements View.OnClickListener, Ico
     public void onClick(View v) {
         Bundle args = new Bundle();
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.index_scan:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
                 break;
             case R.id.index_history:
-                // TODO call scan history with mListener here 注意使用回调进行实际的启动活动操作
-                LogUtil.w(IndexFragment.class.getSimpleName(), "history activity not found");
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO,
+                        PlatformHelper.getManagedH5Url(URL_PATH_HISTORY) + "&signStatus=2&merchantId="
+                        + PlatformState.getInstance().getUserProfile().getAuthRangeId());
                 break;
             case R.id.index_report:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, PlatformHelper.getManagedH5Url(URL_PATH_REPORT));
+                break;
+            case R.id.index_order:
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, PlatformHelper.getManagedH5Url(URL_PATH_ORDER));
                 break;
             default:
                 return;
