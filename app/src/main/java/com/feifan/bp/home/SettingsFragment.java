@@ -3,24 +3,17 @@ package com.feifan.bp.home;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.Response.Listener;
-import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.LogUtil;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 
 import com.feifan.bp.OnFragmentInteractionListener;
-import com.feifan.bp.home.Model.CenterModel;
-import com.feifan.bp.home.Model.MerchantModel;
-import com.feifan.bp.home.Model.StoreModel;
-import com.feifan.bp.login.UserProfile;
-import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
 
 import java.util.concurrent.Executors;
