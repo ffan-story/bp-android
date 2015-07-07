@@ -73,10 +73,7 @@ public class IndexFragment extends Fragment implements View.OnClickListener, Ico
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
         switch (v.getId()){
             case R.id.index_scan:
-                // TODO call scan activity with mListener here 注意使用回调进行实际的启动活动操作
-//                LogUtil.w(IndexFragment.class.getSimpleName(), "scan activity not found");
-                Intent intent = new Intent(getActivity(), CodeScannerActivity.class);
-                startActivity(intent);
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
                 break;
             case R.id.index_history:
                 // TODO call scan history with mListener here 注意使用回调进行实际的启动活动操作

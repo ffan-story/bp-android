@@ -24,6 +24,7 @@ import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
+import com.feifan.bp.scanner.CodeScannerActivity;
 import com.feifan.bp.widget.CircleImageView;
 import com.feifan.bp.widget.TabBar;
 
@@ -103,9 +104,13 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         } else if(from.equals(ResetPasswordFragment.class.getName())) {
             showResetPassword();
         } else if(from.equals(IndexFragment.class.getName())) {
-            Intent intent = new Intent(this, BrowserActivity.class);
-            intent.putExtra(BrowserActivity.EXTRA_KEY_URL, to);
-            startActivity(intent);
+            if (to.equals(CodeScannerActivity.class.getName())) {
+                CodeScannerActivity.startActivity(this);
+            } else {
+                Intent intent = new Intent(this, BrowserActivity.class);
+                intent.putExtra(BrowserActivity.EXTRA_KEY_URL, to);
+                startActivity(intent);
+            }
         }
     }
 

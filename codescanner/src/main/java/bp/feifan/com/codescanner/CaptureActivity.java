@@ -288,6 +288,7 @@ public class CaptureActivity extends Fragment implements Callback {
   }
 
   public void handleDecode(Result rawResult, Bitmap barcode) {
+    Log.d(TAG, "handleDecode() result" + rawResult.getText());
     inactivityTimer.onActivity();
     viewfinderView.drawResultBitmap(barcode);
     if (barcode != null) {
