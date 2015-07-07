@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">扫描</string>
+    <string name="scan_cade_title">扫 一 扫</string>
+    <string name="scan_cade_dialog_title">扫描二维码</string>
+    <string name="dialog_message">正在扫描二维码！</string>
+    <string name="gallery">图库</string>
+    <string name="back">返回</string>
+    <string name="scan_code_select_from_photo">相册</string>
+    <string name="open_light">开灯</string>
+    <string name="scan_cade_default_info">将二维码图案放在取景框内，即可自动扫描</string>
+    <string name="decode_fail">图案无法识别</string>
+</resources>

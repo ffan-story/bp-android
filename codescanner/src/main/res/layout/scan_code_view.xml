@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <SurfaceView
+        android:id="@+id/preview_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+
+    <bp.feifan.com.codescanner.view.ViewfinderView
+        android:id="@+id/viewfinder_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/tip_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/tip_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
+                android:src="@drawable/scan_code_show_icon"/>
+
+            <TextView
+                android:id="@+id/scan_code_my_code_tip_in_discount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5.0dp"
+                android:layout_marginRight="1.0dp"
+                android:background="@drawable/scan_code_info_text_bg"
+                android:gravity="left|center"
+                android:minHeight="40.0dp"
+                android:padding="5.0dp"
+                android:text="@string/scan_cade_default_info"
+                android:textSize="14dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.0dp"
+            android:layout_weight="1.0"/>
+
+        <RelativeLayout
+            android:id="@+id/bottom"
+            android:layout_width="fill_parent"
+            android:layout_height="67dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/scan_code_bottom_bg">
+
+            <Button
+                android:id="@+id/select_code_from_album"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:drawableLeft="@drawable/album"
+                android:layout_width="105dp"
+                android:layout_height="42dp"
+                android:layout_marginLeft="24dp"
+                android:background="@drawable/scan_code_button"
+                android:gravity="center"
+                android:paddingLeft="8.0dp"
+                android:paddingRight="8.0dp"
+                android:paddingTop="2.0dp"
+                android:text="@string/scan_code_select_from_photo"
+                android:textColor="@color/scan_code_btn_text"
+                android:textScaleX="1.0"/>
+
+            <Button
+                android:id="@+id/open_light"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:drawableLeft="@drawable/light"
+                android:layout_width="105dp"
+                android:layout_height="42dp"
+                android:layout_marginRight="24dp"
+                android:background="@drawable/scan_code_button"
+                android:gravity="center"
+                android:paddingLeft="8.0dp"
+                android:paddingRight="8.0dp"
+                android:paddingTop="2.0dp"
+                android:text="@string/open_light"
+                android:textColor="@color/scan_code_btn_text"
+                android:textScaleX="1.0"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</FrameLayout>

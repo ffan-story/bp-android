@@ -1,6 +1,7 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,6 +13,7 @@ import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.widget.IconClickableEditText;
+import com.feifan.bp.scanner.CodeScannerActivity;
 
 /**
  * 首页Fragment
@@ -66,7 +68,9 @@ public class IndexFragment extends Fragment implements View.OnClickListener, Ico
         switch (v.getId()){
             case R.id.index_scan:
                 // TODO call scan activity with mListener here 注意使用回调进行实际的启动活动操作
-                LogUtil.w(IndexFragment.class.getSimpleName(), "scan activity not found");
+//                LogUtil.w(IndexFragment.class.getSimpleName(), "scan activity not found");
+                Intent intent = new Intent(getActivity(), CodeScannerActivity.class);
+                startActivity(intent);
                 break;
             case R.id.index_history:
                 // TODO call scan history with mListener here 注意使用回调进行实际的启动活动操作
