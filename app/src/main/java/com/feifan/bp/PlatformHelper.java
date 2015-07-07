@@ -1,7 +1,5 @@
 package com.feifan.bp;
 
-import android.util.Log;
-
 import com.feifan.bp.factory.FactorySet;
 
 /**
@@ -26,16 +24,5 @@ public class PlatformHelper {
                 concat(String.valueOf(PlatformState.getInstance().getUserProfile().getUid())).
                 concat("&appType=bpMobile");
     }
-
-    public static String getSignH5Url(String signNo) {
-        String path = "H5App/index.html#/goods/search_result";
-        return FactorySet.getUrlFactory().getH5HostUrl().concat(path).
-                concat("?loginToken=").
-                concat(PlatformState.getInstance().getUserProfile().getLoginToken()).
-                concat("&merchantId=").
-                concat(String.valueOf(PlatformState.getInstance().getUserProfile().getAuthRangeId())).
-                concat("&signNo=").concat(signNo);
-    }
-
 
 }

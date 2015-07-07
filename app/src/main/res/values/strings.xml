@@ -62,4 +62,7 @@
     <string name="new_password_sended">新密码已发送到你的手机中，请查收</string>
     <string name="resend">重新发送</string>
     <string name="card_sms_check_resend_format"><xliff:g>%1d</xliff:g>秒后重发</string>
+
+    <!--scan code-->
+    <string name="scan_code_title">扫一扫</string>
 </resources>

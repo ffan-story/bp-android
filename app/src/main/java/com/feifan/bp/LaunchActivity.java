@@ -1,31 +1,23 @@
 package com.feifan.bp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.feifan.bp.factory.FactorySet;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
-import com.feifan.bp.home.Model.CenterModel;
-import com.feifan.bp.home.SettingsFragment; 
+import com.feifan.bp.home.SettingsFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
 import com.feifan.bp.scanner.CodeScannerActivity;
-import com.feifan.bp.widget.CircleImageView;
 import com.feifan.bp.widget.TabBar;
 
 import java.util.ArrayList;
@@ -52,8 +44,8 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         mFragments.add(SettingsFragment.newInstance());
 
         // 初始化视图
-        mTitleTxt = (TextView)findViewById(R.id.title_bar_center);
-        mBottomBar = (TabBar)findViewById(R.id.bottom_bar);
+        mTitleTxt = (TextView) findViewById(R.id.title_bar_center);
+        mBottomBar = (TabBar) findViewById(R.id.bottom_bar);
         mBottomBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -73,9 +65,9 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         });
 
         // 加载内容视图
-        if(UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
+        if (UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
             showLogin();
-        }else {
+        } else {
             showHome();
         }
     }
@@ -90,20 +82,20 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
     public void onFragmentInteraction(Bundle args) {
         String from = args.getString(OnFragmentInteractionListener.INTERATION_KEY_FROM);
         String to = args.getString(OnFragmentInteractionListener.INTERATION_KEY_TO);
-        if(from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
+        if (from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
             showHome();
-        } else if(from.equals(SettingsFragment.class.getName())) {
-            if(to.equals(LaunchActivity.class.getName())) {
+        } else if (from.equals(SettingsFragment.class.getName())) {
+            if (to.equals(LaunchActivity.class.getName())) {
                 finish();
                 Intent intent = new Intent(this, LaunchActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
-        } else if(from.equals(ForgetPasswordFragment.class.getName())) {
+        } else if (from.equals(ForgetPasswordFragment.class.getName())) {
             showForgetPassword();
-        } else if(from.equals(ResetPasswordFragment.class.getName())) {
+        } else if (from.equals(ResetPasswordFragment.class.getName())) {
             showResetPassword();
-        } else if(from.equals(IndexFragment.class.getName())) {
+        } else if (from.equals(IndexFragment.class.getName())) {
             if (to.equals(CodeScannerActivity.class.getName())) {
                 CodeScannerActivity.startActivity(this);
             } else {
@@ -116,6 +108,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
     /**
      * 切换界面
+     *
      * @param fragment
      */
     private void switchFragment(Fragment fragment) {
@@ -123,11 +116,11 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment tempFragment = manager.findFragmentByTag(fragment.getClass().getSimpleName());
 
-        if(mCurrentFragment != null) {          // 隐藏当前界面
+        if (mCurrentFragment != null) {          // 隐藏当前界面
             transaction.hide(mCurrentFragment);
         }
 
-        if(tempFragment == fragment) {    // 已经添加过则直接显示
+        if (tempFragment == fragment) {    // 已经添加过则直接显示
             transaction.show(fragment);
         } else {
             transaction.add(R.id.content_container, fragment, fragment.getClass().getSimpleName());
@@ -167,13 +160,11 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
     @Override
     public void onBackPressed() {
-        if(mCurrentFragment != null&& mCurrentFragment instanceof ForgetPasswordFragment) {
+        if (mCurrentFragment != null && mCurrentFragment instanceof ForgetPasswordFragment) {
             showLogin();
-        }
-        else if(mCurrentFragment != null&& mCurrentFragment instanceof ResetPasswordFragment){
+        } else if (mCurrentFragment != null && mCurrentFragment instanceof ResetPasswordFragment) {
             showHome();
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }

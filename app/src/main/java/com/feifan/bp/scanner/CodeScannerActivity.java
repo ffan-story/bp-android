@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import com.feifan.bp.BrowserActivity;
 import com.feifan.bp.LogUtil;
@@ -32,6 +33,7 @@ public class CodeScannerActivity extends FragmentActivity implements CaptureActi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_scanner);
+        initViews();
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -40,6 +42,10 @@ public class CodeScannerActivity extends FragmentActivity implements CaptureActi
         transaction.add(R.id.content_container, f);
         transaction.commit();
 
+    }
+
+    private void initViews() {
+        ((TextView)findViewById(R.id.title_bar_center)).setText(R.string.scan_cade_title);
     }
 
     @Override
@@ -52,7 +58,7 @@ public class CodeScannerActivity extends FragmentActivity implements CaptureActi
         }
 
         //TODO: Translate code to url and jump to h5 page.
-        String urlStr = PlatformHelper.getSignH5Url(resultText);
+        String urlStr = ScannerCtrl.getSignH5Url(resultText);
         BrowserActivity.startActivity(this, urlStr);
         finish();
 
