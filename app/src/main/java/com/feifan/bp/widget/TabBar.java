@@ -17,6 +17,8 @@ import com.feifan.bp.R;
  */
 public class TabBar extends RadioGroup {
 
+    private RadioButton mDefault;
+
     public TabBar(Context context) {
         super(context);
         init(null, 0);
@@ -69,6 +71,7 @@ public class TabBar extends RadioGroup {
                 child.setLayoutParams(param);
                 child.setId(i);
                 if(i == defaultIndex) {    //设置默认项
+                    mDefault = child;
                     child.setChecked(true);
                 }
                 addView(child, i);
@@ -76,11 +79,11 @@ public class TabBar extends RadioGroup {
         }
 
         a.recycle();
-        invalidateTextPaintAndMeasurements();
     }
 
-    private void invalidateTextPaintAndMeasurements() {
-
+    public void reset() {
+        if(mDefault != null) {
+            mDefault.setChecked(true);
+        }
     }
-
 }

@@ -33,6 +33,9 @@ public class PlatformState {
     // 图片加载器实例
     private ImageLoader mLoader;
 
+    // 上次访问的url地址
+    private String mLastUrl;
+
     private PlatformState(){
         mProfile = new UserProfile(sContext);
         mQueue = Volley.newRequestQueue(sContext);
@@ -68,6 +71,14 @@ public class PlatformState {
 
     public ImageLoader getImageLoader() {
         return mLoader;
+    }
+
+    public void setLastUrl(String url) {
+        mLastUrl = url;
+    }
+
+    public String getLastUrl() {
+        return mLastUrl;
     }
 
     private static class BitmapCache extends LruCache<String, Bitmap> implements ImageLoader.ImageCache {

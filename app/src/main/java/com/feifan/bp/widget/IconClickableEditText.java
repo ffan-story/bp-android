@@ -42,20 +42,7 @@ public class IconClickableEditText extends EditText {
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
-
-        if(mClickRect == null) {
-            final Rect borderRect = new Rect();
-            getLocalVisibleRect(borderRect);
-
-            //获取清除标记位置信息
-            final Drawable[] drawables = getCompoundDrawables();
-            if(drawables != null) {
-                // 取右侧图片的位置参数
-                Rect bounds = drawables[2].getBounds();
-                mClickRect = new Rect(borderRect.left, borderRect.top, borderRect.right, borderRect.bottom);
-                mClickRect.left = mClickRect.right - 2 * getPaddingRight() - bounds.width();
-            }
-        }
+        initClickRect();
     }
 
     @Override
@@ -65,7 +52,7 @@ public class IconClickableEditText extends EditText {
                 int x = (int)event.getX();
                 int y = (int)event.getY();
                 if(mClickRect == null) {
-                    onWindowFocusChanged(true);
+                    initClickRect();
                 }
                 if(mClickRect.contains(x, y)){
                     if(mIconClickListener != null) {
@@ -88,6 +75,22 @@ public class IconClickableEditText extends EditText {
 
         // Update TextPaint and text measurements from attributes
         invalidateTextPaintAndMeasurements();
+    }
+
+    private void initClickRect() {
+        if(mClickRect == null) {
+            final Rect borderRect = new Rect();
+            getLocalVisibleRect(borderRect);
+
+            //获取清除标记位置信息
+            final Drawable[] drawables = getCompoundDrawables();
+            if(drawables != null) {
+                // 取右侧图片的位置参数
+                Rect bounds = drawables[2].getBounds();
+                mClickRect = new Rect(borderRect.left, borderRect.top, borderRect.right, borderRect.bottom);
+                mClickRect.left = mClickRect.right - 2 * getPaddingRight() - bounds.width();
+            }
+        }
     }
 
     private void invalidateTextPaintAndMeasurements() {

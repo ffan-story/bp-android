@@ -12,6 +12,10 @@ public class Constants {
     // 网络
     public static final int RESPONSE_CODE_SUCCESS = 200;
 
+    // 浏览器
+    public static final String URL_SCHEME_PLATFORM = "platform";
+    public static final String URL_PATH_LOGIN = "login";
+
 
     public enum Environment {
         SIT_GATEWAY,      // Gateway集成环境
