@@ -11,8 +11,8 @@ public class LogUtil {
 
     static {
         switch (Constants.CURRENT_ENVIRONMENT) {
-            case GATEWAY_SIT:
-            case API_SIT:
+            case SIT_GATEWAY:
+            case SIT_API:
                 NEED_LOG = true;
                 break;
             default:

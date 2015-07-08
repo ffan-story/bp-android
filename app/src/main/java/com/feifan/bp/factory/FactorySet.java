@@ -28,9 +28,9 @@ public class FactorySet {
     public static IUrlFactory getUrlFactory() {
 
         switch (Constants.CURRENT_ENVIRONMENT) {
-            case GATEWAY_SIT:
+            case SIT_GATEWAY:
                 return UrlFactory.UrlGatewaySitFactory.getInstance();
-            case API_SIT:
+            case SIT_API:
                 return UrlFactory.UrlApiSitFactory.getInstance();
             default:
                 return UrlFactory.UrlGatewaySitFactory.getInstance();

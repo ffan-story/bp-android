@@ -64,6 +64,9 @@ public class IconClickableEditText extends EditText {
             case MotionEvent.ACTION_UP:
                 int x = (int)event.getX();
                 int y = (int)event.getY();
+                if(mClickRect == null) {
+                    onWindowFocusChanged(true);
+                }
                 if(mClickRect.contains(x, y)){
                     if(mIconClickListener != null) {
                         mIconClickListener.onRightClicked(this);

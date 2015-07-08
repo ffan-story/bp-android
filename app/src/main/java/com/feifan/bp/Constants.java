@@ -12,16 +12,12 @@ public class Constants {
     // 网络
     public static final int RESPONSE_CODE_SUCCESS = 200;
 
-    // 用户类型-商户
-    public static final String AUTH_RANGE_TYPE_MERCHANT = "merchant";
-    // 用户类型－门店
-    public static final String AUTH_RANGE_TYPE_STORE = "store";
 
     public enum Environment {
-        GATEWAY_SIT,      // Gateway集成环境
-        API_SIT,          // Api集成环境
+        SIT_GATEWAY,      // Gateway集成环境
+        SIT_API,          // Api集成环境
     }
 
     /** 当前运行环境 */
-    public static Environment CURRENT_ENVIRONMENT = Environment.GATEWAY_SIT;
+    public static Environment CURRENT_ENVIRONMENT = Environment.SIT_GATEWAY;
 }
