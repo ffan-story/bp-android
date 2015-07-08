@@ -64,7 +64,6 @@ public class BrowserActivity extends FragmentActivity {
 
     private void initWeb(WebView webView) {
         webView.setWebViewClient(new PlatformWebViewClient());
-        webView.setWebChromeClient(new PlatfromChromeWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
     }
 
@@ -85,14 +84,11 @@ public class BrowserActivity extends FragmentActivity {
 
             return super.shouldOverrideUrlLoading(view, url);
         }
-    }
-
-    private class PlatfromChromeWebViewClient extends WebChromeClient {
 
         @Override
-        public void onReceivedTitle(WebView view, String title) {
-            super.onReceivedTitle(view, title);
-            mTitleTxv.setText(title);
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            mTitleTxv.setText(view.getTitle());
         }
     }
 

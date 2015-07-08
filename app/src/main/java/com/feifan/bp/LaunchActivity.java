@@ -94,7 +94,6 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
             if(PlatformState.getInstance().getLastUrl() != null) {
                 BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl());
             }
-
             showHome();
         } else if (from.equals(SettingsFragment.class.getName())) {
             if (to.equals(LaunchActivity.class.getName())) {

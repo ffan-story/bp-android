@@ -2,6 +2,7 @@ package com.feifan.bp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 import android.util.LruCache;
 
@@ -74,10 +75,20 @@ public class PlatformState {
     }
 
     public void setLastUrl(String url) {
+        LogUtil.i(TAG, "save last request url " + url);
         mLastUrl = url;
     }
 
     public String getLastUrl() {
+        if(mLastUrl != null) {
+            Uri uri = Uri.parse(mLastUrl);
+            String token = uri.getQueryParameter("loginToken");
+            String uid = uri.getQueryParameter("uid");
+            mLastUrl = mLastUrl.replace(token, mProfile.getLoginToken())
+                    .replace(uid, String.valueOf(mProfile.getUid()));
+            LogUtil.i(TAG, "update last request url " + mLastUrl + " with new loginToken and uid");
+        }
+
         return mLastUrl;
     }
 
