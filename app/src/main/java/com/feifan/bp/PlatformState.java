@@ -81,7 +81,8 @@ public class PlatformState {
 
     public String getLastUrl() {
         if(mLastUrl != null) {
-            Uri uri = Uri.parse(mLastUrl);
+            final String standardUrl = mLastUrl.replace("#", "");
+            Uri uri = Uri.parse(standardUrl);
             String token = uri.getQueryParameter("loginToken");
             String uid = uri.getQueryParameter("uid");
             mLastUrl = mLastUrl.replace(token, mProfile.getLoginToken())
