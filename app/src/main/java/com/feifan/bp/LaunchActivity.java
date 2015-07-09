@@ -66,7 +66,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
                         break;
                     case 1:         // 消息
                         //mTitleTxt.setText(R.string.home_message_text);
-                        setTitle(getResources().getString(R.string.home_message_text), false, null);
+                        setTitle(getResources().getString(R.string.home_message_title_text), false, null);
                         break;
                     case 2:         // 设置
                         //mTitleTxt.setText(R.string.home_settings_text);
