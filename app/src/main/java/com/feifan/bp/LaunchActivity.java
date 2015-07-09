@@ -166,7 +166,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
     private void showResetPassword() {
         mBottomBar.setVisibility(View.GONE);
         switchFragment(ResetPasswordFragment.newInstance());
-        mTitleTxt.setText(R.string.reset_password);
+        mTitleTxt.setText(R.string.settings_change_password_text);
     }
 
     // 显示登录界面
