@@ -2,6 +2,7 @@ package com.feifan.bp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -33,24 +34,28 @@ public class BrowserActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
 
-        initViews();
-
         WebView webView = (WebView)findViewById(R.id.browser_content);
         initWeb(webView);
+        initViews(webView);
 
         // 载入网页
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
         LogUtil.i(TAG, url);
         webView.loadUrl(url);
+        PlatformState.getInstance().setLastUrl(url);
     }
 
-    private void initViews() {
+    private void initViews(final WebView webView) {
         View left = findViewById(R.id.title_bar_left);
         left.setVisibility(View.VISIBLE);
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if(webView.canGoBack()) {
+                    webView.goBack();
+                }else {
+                    finish();
+                }
             }
         });
 
@@ -59,26 +64,31 @@ public class BrowserActivity extends FragmentActivity {
 
     private void initWeb(WebView webView) {
         webView.setWebViewClient(new PlatformWebViewClient());
-        webView.setWebChromeClient(new PlatfromChromeWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
     }
 
     private class PlatformWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            // TODO dispose platform:// schema request here
-            Log.e(getClass().getSimpleName(), "not implemented yet");
+            LogUtil.i(TAG, "receive " + url);
+            Uri uri = Uri.parse(url);
+            String schema = uri.getScheme();
+            if(schema.equals(Constants.URL_SCHEME_PLATFORM)) {
+
+                if(url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
+                    PlatformState.getInstance().getUserProfile().clear();
+                    startActivity(LaunchActivity.buildIntent());
+                }
+
+            }
 
             return super.shouldOverrideUrlLoading(view, url);
         }
-    }
-
-    private class PlatfromChromeWebViewClient extends WebChromeClient {
 
         @Override
-        public void onReceivedTitle(WebView view, String title) {
-            super.onReceivedTitle(view, title);
-            mTitleTxv.setText(title);
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            mTitleTxv.setText(view.getTitle());
         }
     }
 

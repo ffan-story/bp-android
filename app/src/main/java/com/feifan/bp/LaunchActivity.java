@@ -1,5 +1,6 @@
 package com.feifan.bp;
 
+import android.app.LauncherActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,11 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
     private Fragment mCurrentFragment;
 
+    public static Intent buildIntent() {
+        Intent intent = new Intent(PlatformState.getApplicationContext(), LaunchActivity.class);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,11 +71,13 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         });
 
         // 加载内容视图
-        if (UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
-            showLogin();
-        } else {
-            showHome();
-        }
+        initContent();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        initContent();
     }
 
     @Override
@@ -83,13 +91,13 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         String from = args.getString(OnFragmentInteractionListener.INTERATION_KEY_FROM);
         String to = args.getString(OnFragmentInteractionListener.INTERATION_KEY_TO);
         if (from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
+            if(PlatformState.getInstance().getLastUrl() != null) {
+                BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl());
+            }
             showHome();
         } else if (from.equals(SettingsFragment.class.getName())) {
             if (to.equals(LaunchActivity.class.getName())) {
-                finish();
-                Intent intent = new Intent(this, LaunchActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                startActivity(buildIntent());
             }
         } else if (from.equals(ForgetPasswordFragment.class.getName())) {
             showForgetPassword();
@@ -130,8 +138,18 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
     }
 
+    // 初始化界面内容
+    private void initContent() {
+        if (UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
+            showLogin();
+        } else {
+            showHome();
+        }
+    }
+
     // 显示主界面
     private void showHome() {
+        mBottomBar.reset();
         mBottomBar.setVisibility(View.VISIBLE);
         switchFragment(mFragments.get(mBottomBar.getCheckedRadioButtonId()));
         mTitleTxt.setText(R.string.app_name);
@@ -153,6 +171,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
     // 显示登录界面
     private void showLogin() {
+        mBottomBar.setVisibility(View.GONE);
         mTitleTxt.setText(R.string.login_login_text);
         switchFragment(LoginFragment.newInstance());
     }
@@ -168,4 +187,5 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
             super.onBackPressed();
         }
     }
+
 }

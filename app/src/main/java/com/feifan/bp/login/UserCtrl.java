@@ -20,8 +20,8 @@ import java.util.Map;
  */
 public class UserCtrl {
 
-    public static final int USER_STATUS_NONE = 1;                      // 无状态
-    public static final int USER_STATUS_LOGOUT = USER_STATUS_NONE + 1; // 登出状态
+    public static final int USER_STATUS_NONE = 1;                         // 无状态
+    public static final int USER_STATUS_LOGOUT = USER_STATUS_NONE + 1;    // 登出状态
 
     /**
      * 获取用户状态

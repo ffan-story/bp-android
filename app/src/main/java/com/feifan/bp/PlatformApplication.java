@@ -1,6 +1,11 @@
 package com.feifan.bp;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Intent;
+
+import java.util.List;
 
 /**
  * Created by xuchunlei on 15/6/17.
@@ -18,4 +23,6 @@ public class PlatformApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
     }
+
+
 }
