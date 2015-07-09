@@ -26,7 +26,6 @@
     <string name="settings_check_upgrade_text">检查更新</string>
     <string name="settings_change_password_text">修改密码</string>
     <string name="settings_logout_text">退出登录</string>
-    <string name="settings_upgrade_do_nothing">已是最新版本</string>
 
     <!-- MerchantCenter(商户中心) - end -->
 

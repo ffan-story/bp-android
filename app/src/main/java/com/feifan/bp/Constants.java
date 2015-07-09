@@ -15,6 +15,7 @@ public class Constants {
     // 浏览器
     public static final String URL_SCHEME_PLATFORM = "platform";
     public static final String URL_PATH_LOGIN = "login";
+    public static final String URL_PATH_EXIT = "exit";
 
 
     public enum Environment {

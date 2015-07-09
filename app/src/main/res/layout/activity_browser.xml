@@ -4,17 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.feifan.bp.BrowserActivity">
 
-    <include
-        android:id="@+id/browser_title"
-        layout="@layout/title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"/>
-
     <WebView
         android:id="@+id/browser_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/browser_title"/>
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

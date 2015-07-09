@@ -94,7 +94,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, versionModel.versionUrl);
                                mListener.onFragmentInteraction(args);
                            }else {
-                               Utils.showShortToast(R.string.settings_upgrade_do_nothing);
+                               Utils.showShortToast(versionModel.msg);
                            }
                        }
                    }

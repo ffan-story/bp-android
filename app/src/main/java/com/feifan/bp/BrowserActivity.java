@@ -27,8 +27,6 @@ public class BrowserActivity extends FragmentActivity {
         context.startActivity(i);
     }
 
-    private TextView mTitleTxv;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,30 +34,12 @@ public class BrowserActivity extends FragmentActivity {
 
         WebView webView = (WebView)findViewById(R.id.browser_content);
         initWeb(webView);
-        initViews(webView);
 
         // 载入网页
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
         LogUtil.i(TAG, url);
         webView.loadUrl(url);
         PlatformState.getInstance().setLastUrl(url);
-    }
-
-    private void initViews(final WebView webView) {
-        View left = findViewById(R.id.title_bar_left);
-        left.setVisibility(View.VISIBLE);
-        left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(webView.canGoBack()) {
-                    webView.goBack();
-                }else {
-                    finish();
-                }
-            }
-        });
-
-        mTitleTxv = (TextView)findViewById(R.id.title_bar_center);
     }
 
     private void initWeb(WebView webView) {
@@ -78,17 +58,13 @@ public class BrowserActivity extends FragmentActivity {
                 if(url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
                     PlatformState.getInstance().getUserProfile().clear();
                     startActivity(LaunchActivity.buildIntent());
+                } else if(url.contains(Constants.URL_PATH_EXIT)) {
+                    finish();
                 }
 
             }
 
             return super.shouldOverrideUrlLoading(view, url);
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            mTitleTxv.setText(view.getTitle());
         }
     }
 
