@@ -23,7 +23,7 @@ public class ResetPasswordRequest extends Request<PasswordModel> {
 
     private static final String TAG = ResetPasswordRequest.class.getSimpleName();
 
-    private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "xadmin/editPassword";
+    private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "xadmin/editpassword";
 
     private Map<String, String> mParams;
 
@@ -31,12 +31,14 @@ public class ResetPasswordRequest extends Request<PasswordModel> {
 
     public ResetPasswordRequest(Listener<PasswordModel> listener, ErrorListener errorListener, Map<String, String> params) {
         super(Method.POST, URL, errorListener);
+        LogUtil.w(TAG, "URL RESETPASSWORD===" + URL);
         mParams = params;
         mListener = listener;
     }
 
     @Override
     protected Map<String, String> getParams() throws AuthFailureError {
+        LogUtil.w(TAG, "mParams===" + mParams);
         return mParams;
     }
 
@@ -46,7 +48,6 @@ public class ResetPasswordRequest extends Request<PasswordModel> {
         try {
             jsonStr = new String(networkResponse.data, HttpHeaderParser.parseCharset(networkResponse.headers));
             JSONObject json = new JSONObject(jsonStr);
-
             int status = json.optInt("status");
             if(status == Constants.RESPONSE_CODE_SUCCESS) {
                 return Response.success(new PasswordModel(json.optJSONObject("data")), HttpHeaderParser.parseCacheHeaders(networkResponse));
