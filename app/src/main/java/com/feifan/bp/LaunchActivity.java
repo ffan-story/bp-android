@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
     private TabBar mBottomBar;
     private TextView mTitleTxt;
+    private ImageView mImgTitleLeft;
 
     private List<Fragment> mFragments = new ArrayList<Fragment>();
 
@@ -51,6 +53,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
 
         // 初始化视图
         mTitleTxt = (TextView) findViewById(R.id.title_bar_center);
+        mImgTitleLeft  = (ImageView) findViewById(R.id.title_bar_left);
         mBottomBar = (TabBar) findViewById(R.id.bottom_bar);
         mBottomBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -58,13 +61,16 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
                 switchFragment(mFragments.get(checkedId));
                 switch (checkedId) {
                     case 0:         // 首页
-                        mTitleTxt.setText(R.string.app_name);
+                        //mTitleTxt.setText(R.string.app_name);
+                        setTitle(getResources().getString(R.string.app_name),false,null);
                         break;
                     case 1:         // 消息
-                        mTitleTxt.setText(R.string.home_message_title_text);
+                        //mTitleTxt.setText(R.string.home_message_text);
+                        setTitle(getResources().getString(R.string.home_message_text), false, null);
                         break;
                     case 2:         // 设置
-                        mTitleTxt.setText(R.string.home_settings_text);
+                        //mTitleTxt.setText(R.string.home_settings_text);
+                        setTitle(getResources().getString(R.string.home_settings_text), false, null);
                         break;
                 }
             }
@@ -152,7 +158,7 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         mBottomBar.reset();
         mBottomBar.setVisibility(View.VISIBLE);
         switchFragment(mFragments.get(mBottomBar.getCheckedRadioButtonId()));
-        mTitleTxt.setText(R.string.app_name);
+        setTitle(getResources().getString(R.string.app_name), false, null);
     }
 
     // 显示忘记密码
@@ -166,7 +172,12 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
     private void showResetPassword() {
         mBottomBar.setVisibility(View.GONE);
         switchFragment(ResetPasswordFragment.newInstance());
-        mTitleTxt.setText(R.string.settings_change_password_text);
+        setTitle(getResources().getString(R.string.settings_change_password_text), true, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showHome();
+            }
+        });
     }
 
     // 显示登录界面
@@ -185,6 +196,16 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
             showHome();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void setTitle(String titleName ,boolean isShowLeftBack, View.OnClickListener leftBackListener){
+        mTitleTxt.setText(titleName);
+        mImgTitleLeft.setOnClickListener(leftBackListener);
+        if(isShowLeftBack){
+            mImgTitleLeft.setVisibility(View.VISIBLE);
+        }else{
+            mImgTitleLeft.setVisibility(View.GONE);
         }
     }
 
