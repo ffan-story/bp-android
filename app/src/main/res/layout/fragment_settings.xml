@@ -12,7 +12,6 @@
         android:drawableRight="@mipmap/settings_ic_right_arrow"
         android:drawablePadding="@dimen/view_spacing_10"
         android:padding="@dimen/view_spacing_15"
-        android:text="@string/settings_check_upgrade_text"
         android:clickable="true"/>
     <TextView
         android:id="@+id/settings_change_password"

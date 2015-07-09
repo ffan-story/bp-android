@@ -93,6 +93,14 @@ public class PlatformState {
         return mLastUrl;
     }
 
+    /**
+     * 重置状态
+     */
+    public void reset() {
+        mProfile.clear();
+        mLastUrl = null;
+    }
+
     private static class BitmapCache extends LruCache<String, Bitmap> implements ImageLoader.ImageCache {
         public static int getDefaultLruCacheSize() {
             final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);

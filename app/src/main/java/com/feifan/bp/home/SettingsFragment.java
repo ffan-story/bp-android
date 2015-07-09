@@ -6,8 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.Response.Listener;
+import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.LogUtil;
@@ -56,8 +58,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
         v.findViewById(R.id.settings_change_password).setOnClickListener(this);
-        v.findViewById(R.id.settings_check_upgrade).setOnClickListener(this);
         v.findViewById(R.id.settings_exit).setOnClickListener(this);
+        TextView upgrade = (TextView)v.findViewById(R.id.settings_check_upgrade);
+        upgrade.setText(getString(R.string.settings_check_upgrade_format, BuildConfig.VERSION_NAME));
+        upgrade.setOnClickListener(this);
 
         return v;
     }
@@ -110,7 +114,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
                    @Override
                    public void run() {
-                       PlatformState.getInstance().getUserProfile().clear();
+                       PlatformState.getInstance().reset();
                        getActivity().runOnUiThread(new Runnable() {
 
                            @Override
