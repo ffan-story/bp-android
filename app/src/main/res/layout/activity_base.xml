@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_base_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.feifan.bp.base.BaseActivity">
+
+    <com.feifan.bp.widget.CustomToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/TitleBarCenterText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center" />
+    </com.feifan.bp.widget.CustomToolbar>
+
+</RelativeLayout>

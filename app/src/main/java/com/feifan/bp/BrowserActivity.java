@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,11 +16,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.feifan.bp.base.BaseActivity;
 
-public class BrowserActivity extends FragmentActivity {
+
+public class BrowserActivity extends BaseActivity {
     private static final String TAG = BrowserActivity.class.getName();
     /** 参数键名称－URL */
     public static final String EXTRA_KEY_URL = "url";
+
+    private WebView mWebView;
 
     public static void startActivity(Context context, String url) {
         Intent i = new Intent(context, BrowserActivity.class);
@@ -31,15 +36,19 @@ public class BrowserActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
-
-        WebView webView = (WebView)findViewById(R.id.browser_content);
-        initWeb(webView);
+        mWebView = (WebView)findViewById(R.id.browser_content);
+        initWeb(mWebView);
 
         // 载入网页
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
         LogUtil.i(TAG, url);
-        webView.loadUrl(url);
+        mWebView.loadUrl(url);
         PlatformState.getInstance().setLastUrl(url);
+    }
+
+    @Override
+    protected boolean isShowToolbar() {
+        return false;
     }
 
     private void initWeb(WebView webView) {
@@ -65,6 +74,11 @@ public class BrowserActivity extends FragmentActivity {
             }
 
             return super.shouldOverrideUrlLoading(view, url);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
         }
     }
 

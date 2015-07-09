@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,12 +19,13 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
+import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.password.ForgetPasswordFragment;
 
 /**
  * 登录界面Fragment
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends BaseFragment {
 
     private static final String TAG = LoginFragment.class.getSimpleName();
 
@@ -114,6 +116,15 @@ public class LoginFragment extends Fragment {
 //        if (mListener != null) {
 //            mListener.onFragmentInteraction(uri);
 //        }
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Toolbar toolbar = getToolbar();
+        if (toolbar!=null) {
+            toolbar.setTitle(R.string.login_login_text);
+        }
     }
 
     @Override

@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bp="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/top_bar"
-        android:layout_alignParentTop="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/title_bar" />
-
-    <FrameLayout
-        android:id="@+id/content_container"
-        android:layout_below="@id/top_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </RelativeLayout>

@@ -62,4 +62,5 @@
 
     <!--scan code-->
     <string name="scan_code_title">扫一扫</string>
+    <string name="lable_activity_scanner">CodeScannerActivity</string>
 </resources>

@@ -7,13 +7,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
 import com.feifan.bp.BrowserActivity;
 import com.feifan.bp.LogUtil;
 import com.feifan.bp.PlatformHelper;
 import com.feifan.bp.R;
+import com.feifan.bp.base.BaseActivity;
 
 import bp.feifan.com.codescanner.CaptureActivity;
 import bp.feifan.com.codescanner.CaptureActivityOfResult;
@@ -21,7 +25,7 @@ import bp.feifan.com.codescanner.CaptureActivityOfResult;
 /**
  * Created by maning on 15/7/6.
  */
-public class CodeScannerActivity extends FragmentActivity implements CaptureActivityOfResult {
+public class CodeScannerActivity extends BaseActivity implements CaptureActivityOfResult {
     private static final String TAG = CodeScannerActivity.class.getSimpleName();
 
     public static void startActivity(Context context) {
@@ -45,7 +49,16 @@ public class CodeScannerActivity extends FragmentActivity implements CaptureActi
     }
 
     private void initViews() {
-        ((TextView)findViewById(R.id.title_bar_center)).setText(R.string.scan_cade_title);
+    }
+
+    @Override
+    protected void setupToolbar(Toolbar toolbar) {
+        toolbar.setTitle(R.string.scan_cade_title);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -62,5 +75,10 @@ public class CodeScannerActivity extends FragmentActivity implements CaptureActi
         BrowserActivity.startActivity(this, urlStr);
         finish();
 
+    }
+
+    @Override
+    protected boolean isShowToolbar() {
+        return true;
     }
 }

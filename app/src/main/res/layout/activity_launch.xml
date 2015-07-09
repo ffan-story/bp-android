@@ -4,12 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/top_bar"
-        android:layout_alignParentTop="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/title_bar" />
     <com.feifan.bp.widget.TabBar
         android:id="@+id/bottom_bar"
         android:layout_alignParentBottom="true"
@@ -26,7 +20,6 @@
     <FrameLayout
         android:id="@+id/content_container"
         android:layout_above="@id/bottom_bar"
-        android:layout_below="@id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

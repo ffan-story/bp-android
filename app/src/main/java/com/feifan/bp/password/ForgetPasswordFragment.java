@@ -3,6 +3,7 @@ package com.feifan.bp.password;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.android.volley.Response;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
+import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.utils.Des3;
 import com.feifan.bp.widget.CountDownButton;
 
@@ -27,7 +29,7 @@ import com.feifan.bp.widget.CountDownButton;
  * Use the {@link ForgetPasswordFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ForgetPasswordFragment extends Fragment implements View.OnClickListener {
+public class ForgetPasswordFragment extends BaseFragment implements View.OnClickListener {
  
    
     private OnFragmentInteractionListener mListener;
@@ -71,7 +73,14 @@ public class ForgetPasswordFragment extends Fragment implements View.OnClickList
         return rootView;
     }
 
- 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Toolbar toolbar = getToolbar();
+        if (toolbar!=null) {
+            toolbar.setTitle(R.string.reset_password);
+        }
+    }
 
     @Override
     public void onAttach(Activity activity) {

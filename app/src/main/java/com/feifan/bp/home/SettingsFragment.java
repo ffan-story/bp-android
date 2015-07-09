@@ -3,6 +3,7 @@ package com.feifan.bp.home;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.feifan.bp.R;
 
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.Utils;
+import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
 
 import java.util.concurrent.Executors;
@@ -25,7 +27,7 @@ import java.util.concurrent.Executors;
 /**
  * 设置界面Fragment
  */
-public class SettingsFragment extends Fragment implements View.OnClickListener {
+public class SettingsFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = "SettingsFragment";
 
@@ -64,6 +66,15 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         upgrade.setOnClickListener(this);
 
         return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Toolbar toolbar = getToolbar();
+        if (toolbar!=null) {
+            toolbar.setTitle(R.string.home_settings_text);
+        }
     }
 
     @Override
@@ -106,7 +117,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                break;
            case R.id.settings_change_password:
                Bundle args = new Bundle();
-               args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, ResetPasswordFragment.class.getName());
+               args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
+               args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, ResetPasswordFragment.class.getName());
                mListener.onFragmentInteraction(args);
                break;
            case R.id.settings_exit:

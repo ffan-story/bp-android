@@ -12,10 +12,21 @@ import android.os.Bundle;
  */
 public interface OnFragmentInteractionListener {
 
+    /**
+     * All type of a event.
+     */
+    int TYPE_IDLE = 0;
+    int TYPE_NAVI_CLICK = 1;
+
     /** 交互参数键名称－调用类 */
-    static final String INTERATION_KEY_FROM = "from";
+    String INTERATION_KEY_FROM = "from";
     /** 交互参数键名称－目标类 */
-    static final String INTERATION_KEY_TO = "to";
+    String INTERATION_KEY_TO = "to";
+
+    /**
+     * The key of event type.
+     */
+    String INTERATION_KEY_TYPE = "type";
 
     /**
      * 重载该方法，可以响应界面切换事件

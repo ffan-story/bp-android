@@ -1,22 +1,21 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformHelper;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
-import com.feifan.bp.widget.IconClickableEditText;
+import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.scanner.CodeScannerActivity;
+import com.feifan.bp.widget.IconClickableEditText;
 
 /**
  * 首页Fragment
@@ -24,7 +23,7 @@ import com.feifan.bp.scanner.CodeScannerActivity;
  *
  *
  */
-public class IndexFragment extends Fragment implements View.OnClickListener, IconClickableEditText.OnIconClickListener {
+public class IndexFragment extends BaseFragment implements View.OnClickListener, IconClickableEditText.OnIconClickListener {
 
     // H5页面相对路径－报表统计
     private static final String URL_PATH_REPORT = "H5App/index.html#/statistical";
@@ -47,6 +46,15 @@ public class IndexFragment extends Fragment implements View.OnClickListener, Ico
 
     public IndexFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Toolbar toolbar = getToolbar();
+        if (toolbar!=null) {
+            toolbar.setTitle(R.string.app_name);
+        }
     }
 
     @Override

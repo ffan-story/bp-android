@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
+import com.feifan.bp.base.BaseFragment;
+
+import bp.feifan.com.codescanner.Contents;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,7 +24,8 @@ import com.feifan.bp.R;
  * Use the {@link MessageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MessageFragment extends Fragment {
+public class MessageFragment extends BaseFragment {
+    private static final String TAG = MessageFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -56,9 +62,19 @@ public class MessageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogUtil.i(TAG, "onCreate()");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Toolbar toolbar = getToolbar();
+        if (toolbar!=null) {
+            toolbar.setTitle(R.string.home_message_text);
         }
     }
 

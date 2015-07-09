@@ -1,17 +1,15 @@
 package com.feifan.bp;
 
-import android.app.LauncherActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
+import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.SettingsFragment;
@@ -26,13 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class LaunchActivity extends FragmentActivity implements OnFragmentInteractionListener {
+public class LaunchActivity extends BaseActivity implements OnFragmentInteractionListener {
 
     private TabBar mBottomBar;
-    private TextView mTitleTxt;
-    private ImageView mImgTitleLeft;
 
-    private List<Fragment> mFragments = new ArrayList<Fragment>();
+    private List<Fragment> mFragments = new ArrayList<>();
 
     private Fragment mCurrentFragment;
 
@@ -52,27 +48,11 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         mFragments.add(SettingsFragment.newInstance());
 
         // 初始化视图
-        mTitleTxt = (TextView) findViewById(R.id.title_bar_center);
-        mImgTitleLeft  = (ImageView) findViewById(R.id.title_bar_left);
         mBottomBar = (TabBar) findViewById(R.id.bottom_bar);
         mBottomBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switchFragment(mFragments.get(checkedId));
-                switch (checkedId) {
-                    case 0:         // 首页
-                        //mTitleTxt.setText(R.string.app_name);
-                        setTitle(getResources().getString(R.string.app_name),false,null);
-                        break;
-                    case 1:         // 消息
-                        //mTitleTxt.setText(R.string.home_message_text);
-                        setTitle(getResources().getString(R.string.home_message_title_text), false, null);
-                        break;
-                    case 2:         // 设置
-                        //mTitleTxt.setText(R.string.home_settings_text);
-                        setTitle(getResources().getString(R.string.home_settings_text), false, null);
-                        break;
-                }
             }
         });
 
@@ -91,24 +71,38 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         super.onDestroy();
     }
 
+    @Override
+    protected boolean isShowToolbar() {
+        return true;
+    }
+
+    @Override
+    protected void setupToolbar(Toolbar toolbar) {
+        super.setupToolbar(toolbar);
+    }
 
     @Override
     public void onFragmentInteraction(Bundle args) {
         String from = args.getString(OnFragmentInteractionListener.INTERATION_KEY_FROM);
         String to = args.getString(OnFragmentInteractionListener.INTERATION_KEY_TO);
+        int type = args.getInt(OnFragmentInteractionListener.INTERATION_KEY_TYPE, OnFragmentInteractionListener.TYPE_IDLE);
         if (from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
-            if(PlatformState.getInstance().getLastUrl() != null) {
+            if (PlatformState.getInstance().getLastUrl() != null) {
                 BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl());
             }
             showHome();
         } else if (from.equals(SettingsFragment.class.getName())) {
             if (to.equals(LaunchActivity.class.getName())) {
                 startActivity(buildIntent());
+            } else if (to.equals(ResetPasswordFragment.class.getName())) {
+                showResetPassword();
             }
         } else if (from.equals(ForgetPasswordFragment.class.getName())) {
             showForgetPassword();
         } else if (from.equals(ResetPasswordFragment.class.getName())) {
-            showResetPassword();
+            if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
+                showHome();
+            }
         } else if (from.equals(IndexFragment.class.getName())) {
             if (to.equals(CodeScannerActivity.class.getName())) {
                 CodeScannerActivity.startActivity(this);
@@ -128,17 +122,20 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
     private void switchFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        Fragment tempFragment = manager.findFragmentByTag(fragment.getClass().getSimpleName());
 
-        if (mCurrentFragment != null) {          // 隐藏当前界面
-            transaction.hide(mCurrentFragment);
-        }
+        transaction.replace(R.id.content_container, fragment);
 
-        if (tempFragment == fragment) {    // 已经添加过则直接显示
-            transaction.show(fragment);
-        } else {
-            transaction.add(R.id.content_container, fragment, fragment.getClass().getSimpleName());
-        }
+//        Fragment tempFragment = manager.findFragmentByTag(fragment.getClass().getSimpleName());
+//
+//        if (mCurrentFragment != null) {          // 隐藏当前界面
+//            transaction.hide(mCurrentFragment);
+//        }
+//
+//        if (tempFragment == fragment) {    // 已经添加过则直接显示
+//            transaction.show(fragment);
+//        } else {
+//            transaction.add(R.id.content_container, fragment, fragment.getClass().getSimpleName());
+//        }
         transaction.commitAllowingStateLoss();
         mCurrentFragment = fragment;
 
@@ -158,32 +155,23 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
         mBottomBar.reset();
         mBottomBar.setVisibility(View.VISIBLE);
         switchFragment(mFragments.get(mBottomBar.getCheckedRadioButtonId()));
-        setTitle(getResources().getString(R.string.app_name), false, null);
     }
 
     // 显示忘记密码
     private void showForgetPassword() {
         mBottomBar.setVisibility(View.GONE);
         switchFragment(ForgetPasswordFragment.newInstance());
-        mTitleTxt.setText(R.string.reset_password);
     }
 
     // 显示重置密码
     private void showResetPassword() {
         mBottomBar.setVisibility(View.GONE);
         switchFragment(ResetPasswordFragment.newInstance());
-        setTitle(getResources().getString(R.string.settings_change_password_text), true, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showHome();
-            }
-        });
     }
 
     // 显示登录界面
     private void showLogin() {
         mBottomBar.setVisibility(View.GONE);
-        mTitleTxt.setText(R.string.login_login_text);
         switchFragment(LoginFragment.newInstance());
     }
 
@@ -196,16 +184,6 @@ public class LaunchActivity extends FragmentActivity implements OnFragmentIntera
             showHome();
         } else {
             super.onBackPressed();
-        }
-    }
-
-    private void setTitle(String titleName ,boolean isShowLeftBack, View.OnClickListener leftBackListener){
-        mTitleTxt.setText(titleName);
-        mImgTitleLeft.setOnClickListener(leftBackListener);
-        if(isShowLeftBack){
-            mImgTitleLeft.setVisibility(View.VISIBLE);
-        }else{
-            mImgTitleLeft.setVisibility(View.GONE);
         }
     }
 
