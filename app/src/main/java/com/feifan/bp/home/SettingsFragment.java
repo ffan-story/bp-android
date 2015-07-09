@@ -8,12 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.Response.Listener;
+import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.LogUtil;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 
 import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.Utils;
 import com.feifan.bp.password.ResetPasswordFragment;
 
 import java.util.concurrent.Executors;
@@ -86,12 +88,15 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                    public void onResponse(VersionModel versionModel) {
                        if(versionModel != null) {
                            LogUtil.i(TAG, versionModel.toString());
-                           Bundle args = new Bundle();
-                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
-                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, versionModel.versionUrl);
-                           mListener.onFragmentInteraction(args);
+                           if(versionModel.status == Constants.RESPONSE_CODE_SUCCESS) {
+                               Bundle args = new Bundle();
+                               args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
+                               args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, versionModel.versionUrl);
+                               mListener.onFragmentInteraction(args);
+                           }else {
+                               Utils.showShortToast(R.string.settings_upgrade_do_nothing);
+                           }
                        }
-
                    }
                });
                break;

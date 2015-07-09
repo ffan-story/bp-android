@@ -39,10 +39,7 @@ public class VersionRequest extends Request<VersionModel> {
             JSONObject json = new JSONObject(jsonStr);
             LogUtil.i(TAG, jsonStr);
 
-            int status = json.optInt("status");
-            if(status == Constants.RESPONSE_CODE_SUCCESS) {
-                return Response.success(new VersionModel(json.optJSONObject("data")), HttpHeaderParser.parseCacheHeaders(networkResponse));
-            }
+            return Response.success(new VersionModel(json), HttpHeaderParser.parseCacheHeaders(networkResponse));
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
