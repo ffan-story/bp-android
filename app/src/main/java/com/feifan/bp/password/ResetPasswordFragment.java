@@ -136,7 +136,7 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                 }  else if (!newPwd.equals(confirmPwd)) {
                     Utils.showShortToast(R.string.error_message_text_password_different, Gravity.CENTER);
                     return;
-                }else if(newPwd.length()<=8){
+                }else if(newPwd.length()<8){
                     Utils.showShortToast(R.string.error_message_text_password_length, Gravity.CENTER);
                     return;
                 }
