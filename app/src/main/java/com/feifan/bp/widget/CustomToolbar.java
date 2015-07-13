@@ -12,7 +12,7 @@ import com.feifan.bp.R;
 /**
  * Created by maning on 15/7/9.
  */
-class CustomToolbar extends Toolbar {
+public class CustomToolbar extends Toolbar {
 
     private static final String TAG = CustomToolbar.class.getSimpleName();
 
