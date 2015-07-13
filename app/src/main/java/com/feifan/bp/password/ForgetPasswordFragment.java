@@ -73,12 +73,9 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Toolbar toolbar = getToolbar();
-        if (toolbar!=null) {
-            toolbar.setTitle(R.string.reset_password);
-        }
+    protected void setupToolbar(Toolbar toolbar) {
+        super.setupToolbar(toolbar);
+        toolbar.setTitle(R.string.reset_password);
     }
 
     @Override

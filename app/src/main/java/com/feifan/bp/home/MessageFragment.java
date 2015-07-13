@@ -47,12 +47,9 @@ public class MessageFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Toolbar toolbar = getToolbar();
-        if (toolbar!=null) {
-            toolbar.setTitle(R.string.home_message_title_text);
-        }
+    protected void setupToolbar(Toolbar toolbar) {
+        super.setupToolbar(toolbar);
+        toolbar.setTitle(R.string.home_message_title_text);
     }
 
     @Override

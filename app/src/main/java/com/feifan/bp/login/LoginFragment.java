@@ -55,9 +55,9 @@ public class LoginFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
-        final EditText account = (EditText)v.findViewById(R.id.login_account);
-        final EditText password = (EditText)v.findViewById(R.id.login_password);
-        v.findViewById(R.id.login_forget_password).setOnClickListener(new View.OnClickListener(){
+        final EditText account = (EditText) v.findViewById(R.id.login_account);
+        final EditText password = (EditText) v.findViewById(R.id.login_password);
+        v.findViewById(R.id.login_forget_password).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 通知界面跳转
@@ -70,11 +70,11 @@ public class LoginFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                if(TextUtils.isEmpty(account.getText())) {
+                if (TextUtils.isEmpty(account.getText())) {
                     Utils.showShortToast(R.string.error_message_text_login_empty, Gravity.CENTER);
                     return;
                 }
-                if(TextUtils.isEmpty(password.getText())) {
+                if (TextUtils.isEmpty(password.getText())) {
                     Utils.showShortToast(R.string.error_message_text_login_empty, Gravity.CENTER);
                     return;
                 }
@@ -119,12 +119,9 @@ public class LoginFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Toolbar toolbar = getToolbar();
-        if (toolbar!=null) {
-            toolbar.setTitle(R.string.login_login_text);
-        }
+    protected void setupToolbar(Toolbar toolbar) {
+        super.setupToolbar(toolbar);
+        toolbar.setTitle(R.string.login_login_text);
     }
 
     @Override

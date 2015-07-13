@@ -61,11 +61,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Override this method in subclass and custom toolbar.
+     * Override this method in subclass to custom toolbar.
      * This method is called after activity is start-up.
      * @param toolbar
      */
     protected void setupToolbar(Toolbar toolbar) {
+
     }
 
     /**
