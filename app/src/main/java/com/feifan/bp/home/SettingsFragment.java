@@ -69,12 +69,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Toolbar toolbar = getToolbar();
-        if (toolbar!=null) {
-            toolbar.setTitle(R.string.home_settings_text);
-        }
+    protected void setupToolbar(Toolbar toolbar) {
+        super.setupToolbar(toolbar);
+        toolbar.setTitle(R.string.home_settings_text);
     }
 
     @Override

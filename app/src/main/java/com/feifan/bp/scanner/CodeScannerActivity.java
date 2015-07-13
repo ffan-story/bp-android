@@ -57,11 +57,6 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public void getScanCodeResult(String resultText, long timeStamp, String barcodeFormat) {
         LogUtil.i(TAG, "getScanCodeResult() text=" + resultText + " time=" + timeStamp +
                 " format=" + barcodeFormat);

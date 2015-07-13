@@ -49,12 +49,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Toolbar toolbar = getToolbar();
-        if (toolbar!=null) {
-            toolbar.setTitle(R.string.app_name);
-        }
+    protected void setupToolbar(Toolbar toolbar) {
+        super.setupToolbar(toolbar);
+        toolbar.setTitle(R.string.app_name);
     }
 
     @Override
