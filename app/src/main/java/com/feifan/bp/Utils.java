@@ -3,9 +3,11 @@ package com.feifan.bp;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,6 +91,31 @@ public class Utils {
         Matcher m = p.matcher(phoneNumber);
         if(!m.matches()) {
             throw new Throwable(PlatformState.getApplicationContext().getString(R.string.error_message_text_phone_number_illegal));
+        }
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param file    删除的文件或目录
+     * @param filter  过滤字符串，文件名中包含该字符串的文件都将被删除
+     */
+    public static void deleteFile(File file, String filter) {
+        if (file.exists()) {
+            if (file.isFile() && file.getName().contains(filter)) {
+                file.delete();
+                LogUtil.i(Constants.TAG, "deleted" + file.getAbsolutePath());
+            } else if (file.isDirectory()) {
+                File files[] = file.listFiles();
+                for (int i = 0; i <files.length; i++) {
+                    deleteFile(files[i], filter);
+                }
+            }
+            if(file.getName().contains(filter)) {
+                file.delete();
+                LogUtil.i(Constants.TAG, "deleted" + file.getAbsolutePath());
+            }
+
         }
     }
 }

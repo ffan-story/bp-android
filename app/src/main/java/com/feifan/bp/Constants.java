@@ -4,6 +4,9 @@ package com.feifan.bp;
  * Created by xuchunlei on 15/6/17.
  */
 public class Constants {
+
+    public static final String TAG = "Platform";
+
     // 非法的整型数值
     public static final int NO_INTEGER = -1;
     // 非法的字符串值

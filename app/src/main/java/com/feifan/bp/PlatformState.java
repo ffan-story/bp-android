@@ -11,6 +11,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.feifan.bp.login.UserProfile;
 
+import java.io.File;
+
 /**
  * 状态类
  * <p>
@@ -99,6 +101,15 @@ public class PlatformState {
     public void reset() {
         mProfile.clear();
         mLastUrl = null;
+        clearCache();
+    }
+
+    private void clearCache() {
+
+        File cacheDir = sContext.getCacheDir().getAbsoluteFile();
+        Utils.deleteFile(cacheDir, "webview");
+        Utils.deleteFile(sContext.getDatabasePath("webview").getParentFile(), "webview");
+        LogUtil.i(TAG, "WebView cache cleared");
     }
 
     private static class BitmapCache extends LruCache<String, Bitmap> implements ImageLoader.ImageCache {

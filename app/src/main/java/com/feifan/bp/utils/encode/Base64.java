@@ -1,4 +1,4 @@
-package com.feifan.bp.utils;
+package com.feifan.bp.utils.encode;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;

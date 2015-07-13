@@ -71,11 +71,11 @@ public class LoginFragment extends BaseFragment {
             public void onClick(View v) {
 
                 if(TextUtils.isEmpty(account.getText())) {
-                    Utils.showShortToast(R.string.error_message_text_phone_number_empty, Gravity.CENTER);
+                    Utils.showShortToast(R.string.error_message_text_login_empty, Gravity.CENTER);
                     return;
                 }
                 if(TextUtils.isEmpty(password.getText())) {
-                    Utils.showShortToast(R.string.error_message_text_password_empty, Gravity.CENTER);
+                    Utils.showShortToast(R.string.error_message_text_login_empty, Gravity.CENTER);
                     return;
                 }
                 String accountStr = account.getText().toString();

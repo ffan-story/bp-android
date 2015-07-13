@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.List;
 
@@ -23,6 +24,5 @@ public class PlatformApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
     }
-
 
 }

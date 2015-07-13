@@ -46,6 +46,7 @@ public class LoginRequest extends Request<UserModel> {
     @Override
     protected Response<UserModel> parseNetworkResponse(NetworkResponse networkResponse) {
         String jsonStr = null;
+        String errStr = null;
         try {
             jsonStr = new String(networkResponse.data, HttpHeaderParser.parseCharset(networkResponse.headers));
             JSONObject json = new JSONObject(jsonStr);
@@ -55,7 +56,7 @@ public class LoginRequest extends Request<UserModel> {
                 return Response.success(new UserModel(json.optJSONObject("data")), HttpHeaderParser.parseCacheHeaders(networkResponse));
             }else {
                 LogUtil.w(TAG, "error status:" + jsonStr);
-                return Response.error(new VolleyError(json.optString("msg")));
+                errStr = json.optString("msg");
             }
 
         } catch (UnsupportedEncodingException e) {
@@ -65,7 +66,7 @@ public class LoginRequest extends Request<UserModel> {
             e.printStackTrace();
         }
 
-        return null;
+        return Response.error(new VolleyError(errStr));
     }
 
     @Override

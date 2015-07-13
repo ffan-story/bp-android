@@ -52,7 +52,14 @@ public class UserCtrl {
                 if(!Utils.isNetworkAvailable()) {     // 网络不可用
                     Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
                 }else {                               // 其他原因
-                    Utils.showShortToast(volleyError.getMessage());
+                    String msg = volleyError.getMessage();
+                    if(msg != null) {
+                        Utils.showShortToast(msg, Gravity.CENTER);
+                    }else{
+                        Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+                    }
+
+
                 }
 
             }

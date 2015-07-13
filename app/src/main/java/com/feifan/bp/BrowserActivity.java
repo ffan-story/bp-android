@@ -39,6 +39,7 @@ public class BrowserActivity extends BaseActivity {
         mWebView = (WebView)findViewById(R.id.browser_content);
         initWeb(mWebView);
 
+
         // 载入网页
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
         LogUtil.i(TAG, url);
@@ -54,6 +55,7 @@ public class BrowserActivity extends BaseActivity {
     private void initWeb(WebView webView) {
         webView.setWebViewClient(new PlatformWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
+
     }
 
     private class PlatformWebViewClient extends WebViewClient {
