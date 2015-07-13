@@ -81,7 +81,7 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
         super.onActivityCreated(savedInstanceState);
         Toolbar toolbar = getToolbar();
         if (toolbar != null) {
-            toolbar.setTitle(R.string.reset_password);
+            toolbar.setTitle(R.string.settings_change_password_text);
             toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,8 +133,11 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                 } else if (TextUtils.isEmpty(confirmPwd)) {
                     Utils.showShortToast(R.string.error_message_text_confirm_password_empty, Gravity.CENTER);
                     return;
-                } else if (!newPwd.equals(confirmPwd)) {
+                }  else if (!newPwd.equals(confirmPwd)) {
                     Utils.showShortToast(R.string.error_message_text_password_different, Gravity.CENTER);
+                    return;
+                }else if(newPwd.length()<=8){
+                    Utils.showShortToast(R.string.error_message_text_password_length, Gravity.CENTER);
                     return;
                 }
 

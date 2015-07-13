@@ -40,6 +40,7 @@
     <string name="error_message_text_new_password_empty">新密码不能为空</string>
     <string name="error_message_text_confirm_password_empty">确认密码不能为空</string>
     <string name="error_message_text_password_different">确认密码不一致</string>
+    <string name="error_message_text_password_length">密码长度不能低于8位</string>
     <string name="error_message_text_phone_number_illegal">请输入正确的11位手机号码</string>
     <string name="error_message_text_sms_code_empty">验证码不能为空</string>
 
