@@ -144,7 +144,7 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                 PasswordCtrl.resetPassword(oldPwd, newPwd, new Response.Listener<PasswordModel>() {
                     @Override
                     public void onResponse(PasswordModel model) {
-                        getActivity().onBackPressed();
+                       // getActivity().onBackPressed();
                         Utils.showShortToast(getString(R.string.reset_pwd_suc));
                     }
                 });
