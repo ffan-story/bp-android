@@ -109,11 +109,11 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                 if(!isCheckedMobile(phone)){
                     return;
                 }
-                if(TextUtils.isEmpty(smsCode)){
+                if(TextUtils.isEmpty(phone)){
                    Utils.showShortToast(getString(R.string.error_message_text_phone_number_empty));
                    return;
                 }
-                if(!mRadomSmsCode.equals(smsCode)){
+                if(TextUtils.isEmpty(smsCode)){
                    Utils.showShortToast(getString(R.string.sms_error));
                    return;
                 }
