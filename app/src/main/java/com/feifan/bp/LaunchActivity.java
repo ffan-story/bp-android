@@ -160,7 +160,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 
     // 显示忘记密码
     private void showForgetPassword() {
-        mBottomBar.setVisibility(View.GONE);
+        mBottomBar.setVisibility(View.VISIBLE);
         switchFragment(ForgetPasswordFragment.newInstance());
     }
 

@@ -76,6 +76,12 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
     protected void setupToolbar(Toolbar toolbar) {
         super.setupToolbar(toolbar);
         toolbar.setTitle(R.string.reset_password);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     @Override
