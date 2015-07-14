@@ -3,18 +3,9 @@ package com.feifan.bp;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 
 import com.feifan.bp.base.BaseActivity;
 
@@ -53,8 +44,10 @@ public class BrowserActivity extends BaseActivity {
     }
 
     private void initWeb(WebView webView) {
-        webView.setWebViewClient(new PlatformWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.setWebViewClient(new PlatformWebViewClient());
+        webView.requestFocus();
 
     }
 

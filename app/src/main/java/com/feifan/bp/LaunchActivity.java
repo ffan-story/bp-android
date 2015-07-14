@@ -91,7 +91,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             if (PlatformState.getInstance().getLastUrl() != null) {
                 BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl());
             }
-            showHome();
+            showHome(true);
         } else if (from.equals(SettingsFragment.class.getName())) {
             if (to.equals(LaunchActivity.class.getName())) {
                 startActivity(buildIntent());
@@ -102,7 +102,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             showForgetPassword();
         } else if (from.equals(ResetPasswordFragment.class.getName())) {
             if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
-                showHome();
+                showHome(false);
             }
         } else if (from.equals(IndexFragment.class.getName())) {
             if (to.equals(CodeScannerActivity.class.getName())) {
@@ -147,13 +147,15 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         if (UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
             showLogin();
         } else {
-            showHome();
+            showHome(true);
         }
     }
 
     // 显示主界面
-    private void showHome() {
-        mBottomBar.reset();
+    private void showHome(boolean reset) {
+        if(reset) {
+            mBottomBar.reset();
+        }
         mBottomBar.setVisibility(View.VISIBLE);
         switchFragment(mFragments.get(mBottomBar.getCheckedRadioButtonId()));
     }
@@ -182,7 +184,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         if (mCurrentFragment != null && mCurrentFragment instanceof ForgetPasswordFragment) {
             showLogin();
         } else if (mCurrentFragment != null && mCurrentFragment instanceof ResetPasswordFragment) {
-            showHome();
+            showHome(false);
         } else {
             super.onBackPressed();
         }
