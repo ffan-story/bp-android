@@ -78,7 +78,7 @@ public class LoginFragment extends BaseFragment {
                     return;
                 }
                 if (TextUtils.isEmpty(password.getText())) {
-                    Utils.showShortToast(R.string.error_message_text_login_empty, Gravity.CENTER);
+                    Utils.showShortToast(R.string.error_message_text_login_password_empty, Gravity.CENTER);
                     return;
                 }
                 String accountStr = account.getText().toString();
