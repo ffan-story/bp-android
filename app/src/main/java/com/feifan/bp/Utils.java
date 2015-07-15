@@ -1,8 +1,10 @@
 package com.feifan.bp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -117,5 +119,17 @@ public class Utils {
             }
 
         }
+    }
+
+    /**
+     * 打开浏览器
+     * @param url
+     */
+    public static Intent getSystemBrowser(String url) {
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse(url);
+        intent.setData(content_url);
+        return intent;
     }
 }

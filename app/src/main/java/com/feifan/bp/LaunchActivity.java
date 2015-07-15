@@ -1,6 +1,7 @@
 package com.feifan.bp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -98,7 +99,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             } else if (to.equals(ResetPasswordFragment.class.getName())) {
                 showResetPassword();
             }else {
-                openBrowser(to);
+                startActivity(Utils.getSystemBrowser(to));
             }
         } else if (from.equals(ForgetPasswordFragment.class.getName())) {
             showForgetPassword();
