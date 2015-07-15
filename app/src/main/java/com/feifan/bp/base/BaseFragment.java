@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 
 /**
  * Created by maning on 15/7/9.
  */
-public class BaseFragment extends Fragment {
+public class BaseFragment extends Fragment implements OnDispatchTouchEventListener {
 
     protected Toolbar getToolbar() {
         Activity a = getActivity();
@@ -36,5 +37,10 @@ public class BaseFragment extends Fragment {
         toolbar.setTitle(null);
         toolbar.setNavigationIcon(null);
         toolbar.setNavigationOnClickListener(null);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return false;
     }
 }

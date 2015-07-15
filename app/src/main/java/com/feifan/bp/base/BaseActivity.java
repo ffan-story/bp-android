@@ -1,13 +1,18 @@
 package com.feifan.bp.base;
 
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.feifan.bp.R;
+
+import java.util.List;
 
 /**
  * Created by maning on 15/7/9.
@@ -49,6 +54,21 @@ public abstract class BaseActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         setupToolbar(mToolbar);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for (Fragment f : fragments) {
+            if (f instanceof OnDispatchTouchEventListener) {
+                Rect r = new Rect();
+                f.getView().getHitRect(r);
+                if (r.contains((int)ev.getX(), (int)ev.getY())) {
+                    ((OnDispatchTouchEventListener) f).dispatchTouchEvent(ev);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     /**
