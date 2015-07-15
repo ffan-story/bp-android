@@ -65,14 +65,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        for (Fragment f : fragments) {
-            if (f instanceof OnDispatchTouchEventListener) {
-                Rect r = new Rect();
-                f.getView().getHitRect(r);
-                if (r.contains((int)ev.getX(), (int)ev.getY())) {
-                    boolean result = ((OnDispatchTouchEventListener) f).dispatchTouchEvent(ev);
-                    if (result) {
-                        return true;
+        if (fragments != null) {
+            for (Fragment f : fragments) {
+                if (f instanceof OnDispatchTouchEventListener) {
+                    Rect r = new Rect();
+                    f.getView().getHitRect(r);
+                    if (r.contains((int) ev.getX(), (int) ev.getY())) {
+                        boolean result = ((OnDispatchTouchEventListener) f).dispatchTouchEvent(ev);
+                        if (result) {
+                            return true;
+                        }
                     }
                 }
             }
