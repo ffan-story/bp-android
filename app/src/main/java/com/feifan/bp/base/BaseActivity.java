@@ -60,25 +60,33 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        //First, Hide soft input panel if it is showing.
         if (hideSoftInputIfShow(ev)) {
             return true;
         }
 
+        //Second, Let fragments have chances to handle motion events.
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         if (fragments != null) {
             for (Fragment f : fragments) {
                 if (f instanceof OnDispatchTouchEventListener) {
+                    View v = f.getView();
+                    if (v == null) {
+                        continue;
+                    }
                     Rect r = new Rect();
-                    f.getView().getHitRect(r);
+                    v.getHitRect(r);
                     if (r.contains((int) ev.getX(), (int) ev.getY())) {
-                        boolean result = ((OnDispatchTouchEventListener) f).dispatchTouchEvent(ev);
-                        if (result) {
+                        OnDispatchTouchEventListener l = ((OnDispatchTouchEventListener) f);
+                        if (l.dispatchTouchEvent(ev)) {
                             return true;
                         }
                     }
                 }
             }
         }
+
+        //And finally, dispatch the event to activity system.
         return super.dispatchTouchEvent(ev);
     }
 
@@ -100,6 +108,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * Return the toolbar of this activity,
      * you can change toolbar's views or actions after activity is start-up.
+     *
      * @return
      */
     protected Toolbar getToolbar() {
@@ -109,6 +118,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * Override this method in subclass to custom toolbar.
      * This method is called after activity is start-up.
+     *
      * @param toolbar
      */
     protected void setupToolbar(Toolbar toolbar) {
@@ -117,6 +127,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * Implement by subclass and return true if you want a toolbar is on top of your activity.
+     *
      * @return
      */
     protected abstract boolean isShowToolbar();
