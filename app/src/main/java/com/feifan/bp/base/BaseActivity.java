@@ -1,5 +1,6 @@
 package com.feifan.bp.base;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 
 import com.feifan.bp.R;
@@ -58,17 +60,39 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (hideSoftInputIfShow(ev)) {
+            return true;
+        }
+
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         for (Fragment f : fragments) {
             if (f instanceof OnDispatchTouchEventListener) {
                 Rect r = new Rect();
                 f.getView().getHitRect(r);
                 if (r.contains((int)ev.getX(), (int)ev.getY())) {
-                    ((OnDispatchTouchEventListener) f).dispatchTouchEvent(ev);
+                    boolean result = ((OnDispatchTouchEventListener) f).dispatchTouchEvent(ev);
+                    if (result) {
+                        return true;
+                    }
                 }
             }
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    private boolean hideSoftInputIfShow(MotionEvent ev) {
+        boolean result = false;
+        int action = ev.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                break;
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_UP:
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                result = imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+                break;
+        }
+        return result;
     }
 
     /**
