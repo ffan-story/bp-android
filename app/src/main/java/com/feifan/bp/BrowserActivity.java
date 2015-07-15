@@ -64,6 +64,9 @@ public class BrowserActivity extends BaseActivity {
                     startActivity(LaunchActivity.buildIntent());
                 } else if(url.contains(Constants.URL_PATH_EXIT)) {
                     finish();
+                } else if(url.contains(Constants.URL_PATH_HOME)) {
+                    // 目前关闭当前界面即显示主界面
+                    finish();
                 }
 
             }

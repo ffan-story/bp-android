@@ -34,13 +34,7 @@ class UrlFactory {
         }
 
         @Override
-        public String getFFanImageHostUrl() {
-            return "http://img1.ffan.com/orig/";
-        }
-
-        @Override
         public String getH5HostUrl() {
-//            return "http://10.1.171.157:81/";
             return "http://sop.sit.ffan.com/";
         }
     }
@@ -75,13 +69,70 @@ class UrlFactory {
         }
 
         @Override
-        public String getFFanImageHostUrl() {
-            return "http://img1.ffan.com/orig/";
+        public String getH5HostUrl() {
+            return "http://sop.sit.ffan.com/";
+        }
+    }
+
+    /**
+     * 预生产环境URL工厂
+     */
+    static class UrlProductPreFactory implements IUrlFactory {
+
+        private static IUrlFactory mInstance;
+
+        /**
+         * 获取单例实例
+         *
+         * @return
+         * @author: xuchunlei created at: 2015年4月24日 下午4:20:48
+         */
+        static IUrlFactory getInstance() {
+            if (mInstance == null) {
+                mInstance = new UrlProductPreFactory();
+            }
+            return mInstance;
+        }
+
+        @Override
+        public String getFFanHostUrl() {
+            return "http://api.pre.ffan.com/";
         }
 
         @Override
         public String getH5HostUrl() {
-            return "http://sop.sit.ffan.com/";
+            return "http://sop.pre.ffan.com/";
+        }
+    }
+
+    /**
+     * 生产环境URL工厂
+     */
+    static class UrlProductFactory implements IUrlFactory {
+
+        private static IUrlFactory mInstance;
+
+        /**
+         * 获取单例实例
+         *
+         * @return
+         * @author: xuchunlei created at: 2015年4月24日 下午4:20:48
+         */
+        static IUrlFactory getInstance() {
+            if (mInstance == null) {
+                mInstance = new UrlProductFactory();
+            }
+            return mInstance;
+        }
+
+        @Override
+        public String getFFanHostUrl() {
+            return "http://api.ffan.com/";
+        }
+
+        @Override
+        public String getH5HostUrl() {
+            return "http://sop.ffan.com/";
         }
     }
 }

@@ -32,6 +32,10 @@ public class FactorySet {
                 return UrlFactory.UrlGatewaySitFactory.getInstance();
             case SIT_API:
                 return UrlFactory.UrlApiSitFactory.getInstance();
+            case PRODUCT_PRE:
+                return UrlFactory.UrlProductPreFactory.getInstance();
+            case PRODUCT:
+                return UrlFactory.UrlProductFactory.getInstance();
             default:
                 return UrlFactory.UrlGatewaySitFactory.getInstance();
         }

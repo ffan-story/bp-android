@@ -19,11 +19,14 @@ public class Constants {
     public static final String URL_SCHEME_PLATFORM = "platform";
     public static final String URL_PATH_LOGIN = "login";
     public static final String URL_PATH_EXIT = "exit";
+    public static final String URL_PATH_HOME = "home";
 
 
     public enum Environment {
         SIT_GATEWAY,      // Gateway集成环境
         SIT_API,          // Api集成环境
+        PRODUCT_PRE,      // 预生产环境
+        PRODUCT,          // 生产环境
     }
 
     /** 当前运行环境 */

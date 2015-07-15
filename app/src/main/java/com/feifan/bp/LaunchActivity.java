@@ -123,7 +123,6 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     private void switchFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-
         transaction.replace(R.id.content_container, fragment);
 
 //        Fragment tempFragment = manager.findFragmentByTag(fragment.getClass().getSimpleName());
@@ -162,7 +161,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 
     // 显示忘记密码
     private void showForgetPassword() {
-        mBottomBar.setVisibility(View.VISIBLE);
+        mBottomBar.setVisibility(View.GONE);
         switchFragment(ForgetPasswordFragment.newInstance());
     }
 
