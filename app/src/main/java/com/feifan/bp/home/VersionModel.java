@@ -8,19 +8,15 @@ import org.json.JSONObject;
 /**
  * Created by xuchunlei on 15/7/7.
  */
-public class VersionModel extends BaseModel {
+public class VersionModel {
 
     public int versionCode;
     public String versionUrl;
 
     public VersionModel(JSONObject json) {
-        super(json);
-    }
+        versionCode = json.optInt("version_code");
+        versionUrl = json.optString("version_url");
 
-    @Override
-    protected void parseData(JSONObject data) {
-        versionCode = data.optInt("version_code");
-        versionUrl = data.optString("version_url");
     }
 
     @Override

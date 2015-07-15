@@ -98,17 +98,16 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                HomeCtrl.checkUpgrade(new Listener<VersionModel>() {
                    @Override
                    public void onResponse(VersionModel versionModel) {
-                       if(versionModel != null) {
-                           LogUtil.i(TAG, versionModel.toString());
-                           if(versionModel.status == Constants.RESPONSE_CODE_SUCCESS) {
-                               Bundle args = new Bundle();
-                               args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
-                               args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, versionModel.versionUrl);
-                               mListener.onFragmentInteraction(args);
-                           }else {
-                               Utils.showShortToast(versionModel.msg);
-                           }
+                       LogUtil.i(TAG, versionModel.toString());
+                       if(versionModel.versionCode > BuildConfig.VERSION_CODE) {
+                           Bundle args = new Bundle();
+                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
+                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, versionModel.versionUrl);
+                           mListener.onFragmentInteraction(args);
+                       }else{
+                           Utils.showShortToast(R.string.settings_check_update_none);
                        }
+
                    }
                });
                break;

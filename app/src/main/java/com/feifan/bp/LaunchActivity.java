@@ -97,6 +97,8 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 startActivity(buildIntent());
             } else if (to.equals(ResetPasswordFragment.class.getName())) {
                 showResetPassword();
+            }else {
+                openBrowser(to);
             }
         } else if (from.equals(ForgetPasswordFragment.class.getName())) {
             showForgetPassword();
@@ -108,9 +110,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             if (to.equals(CodeScannerActivity.class.getName())) {
                 CodeScannerActivity.startActivity(this);
             } else {
-                Intent intent = new Intent(this, BrowserActivity.class);
-                intent.putExtra(BrowserActivity.EXTRA_KEY_URL, to);
-                startActivity(intent);
+                openBrowser(to);
             }
         }
     }
@@ -177,6 +177,12 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         switchFragment(LoginFragment.newInstance());
     }
 
+    // 打开浏览器
+    private void openBrowser(String url) {
+        Intent intent = new Intent(this, BrowserActivity.class);
+        intent.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
+        startActivity(intent);
+    }
 
     @Override
     public void onBackPressed() {

@@ -96,7 +96,7 @@ class UrlFactory {
 
         @Override
         public String getFFanHostUrl() {
-            return "http://api.pre.ffan.com/";
+            return "http://api.ffan.com/";
         }
 
         @Override
