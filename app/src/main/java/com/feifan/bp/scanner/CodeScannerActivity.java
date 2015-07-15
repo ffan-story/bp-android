@@ -54,6 +54,13 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
     @Override
     protected void setupToolbar(Toolbar toolbar) {
         toolbar.setTitle(R.string.scan_cade_title);
+        toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
