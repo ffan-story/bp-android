@@ -58,6 +58,33 @@ public abstract class BaseActivity extends AppCompatActivity {
         setupToolbar(mToolbar);
     }
 
+    /**
+     * Return the toolbar of this activity,
+     * you can change toolbar's views or actions after activity is start-up.
+     *
+     * @return
+     */
+    protected Toolbar getToolbar() {
+        return mToolbar;
+    }
+
+    /**
+     * Override this method in subclass to custom toolbar.
+     * This method is called after activity is start-up.
+     *
+     * @param toolbar
+     */
+    protected void setupToolbar(Toolbar toolbar) {
+
+    }
+
+    /**
+     * Implement by subclass and return true if you want a toolbar is on top of your activity.
+     *
+     * @return
+     */
+    protected abstract boolean isShowToolbar();
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         //First, Hide soft input panel if it is showing.
@@ -104,32 +131,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return result;
     }
-
-    /**
-     * Return the toolbar of this activity,
-     * you can change toolbar's views or actions after activity is start-up.
-     *
-     * @return
-     */
-    protected Toolbar getToolbar() {
-        return mToolbar;
-    }
-
-    /**
-     * Override this method in subclass to custom toolbar.
-     * This method is called after activity is start-up.
-     *
-     * @param toolbar
-     */
-    protected void setupToolbar(Toolbar toolbar) {
-
-    }
-
-    /**
-     * Implement by subclass and return true if you want a toolbar is on top of your activity.
-     *
-     * @return
-     */
-    protected abstract boolean isShowToolbar();
 
 }
