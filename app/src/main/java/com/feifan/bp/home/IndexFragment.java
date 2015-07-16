@@ -13,6 +13,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformHelper;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.scanner.CodeScannerActivity;
 import com.feifan.bp.widget.IconClickableEditText;
@@ -117,7 +118,18 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         if(TextUtils.isEmpty(mCodeEdt.getText())) {
             return;
         }
+
         String code = mCodeEdt.getText().toString();
+
+
+        try {
+            Utils.checkDigitAndLetter(code);
+        } catch (Throwable throwable) {
+            Utils.showShortToast(throwable.getMessage());
+            return;
+        }
+
+
         Bundle args = new Bundle();
         switch (v.getId()) {
             case R.id.index_search_input:

@@ -96,12 +96,12 @@ class UrlFactory {
 
         @Override
         public String getFFanHostUrl() {
-            return "http://api.ffan.com/";
+            return "https://api.ffan.com/";
         }
 
         @Override
         public String getH5HostUrl() {
-            return "http://sop.pre.ffan.com/";
+            return "https://sop.pre.ffan.com/";
         }
     }
 
@@ -127,12 +127,12 @@ class UrlFactory {
 
         @Override
         public String getFFanHostUrl() {
-            return "http://api.ffan.com/";
+            return "https://api.ffan.com/";
         }
 
         @Override
         public String getH5HostUrl() {
-            return "http://sop.ffan.com/";
+            return "https://sop.ffan.com/";
         }
     }
 }

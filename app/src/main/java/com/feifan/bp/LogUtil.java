@@ -7,36 +7,24 @@ import android.util.Log;
  */
 public class LogUtil {
 
-    private static boolean NEED_LOG;
-
-    static {
-        switch (Constants.CURRENT_ENVIRONMENT) {
-            case SIT_GATEWAY:
-            case SIT_API:
-                NEED_LOG = true;
-                break;
-            default:
-                NEED_LOG = false;
-        }
-    }
     private LogUtil() {
 
     }
 
     public static void i(String tag, String message) {
-        if(NEED_LOG) {
+        if(BuildConfig.DEBUG) {
             Log.i(tag, message);
         }
     }
 
     public static void w(String tag, String message) {
-        if(NEED_LOG) {
+        if(BuildConfig.DEBUG) {
             Log.w(tag, message);
         }
     }
 
     public static void e(String tag, String message) {
-        if(NEED_LOG) {
+        if(BuildConfig.DEBUG) {
             Log.e(tag, message);
         }
     }

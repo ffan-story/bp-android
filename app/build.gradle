@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
-        versionName "0.1.1.8"
+        versionName "1.0.0"
     }
 
     signingConfigs {
@@ -27,6 +27,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.releaseConfig
             proguardFile '/proguard-rules.pro'
+        }
+    }
+
+    productFlavors{
+        sit{
+            applicationId "com.feifan.bp.test"
+            versionName
+            buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.SIT_GATEWAY"
+        }
+        productpre{
+            applicationId "com.feifan.bp.pre"
+            versionName "1.0.0-pre"
+            buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT_PRE"
+        }
+        product{
+            applicationId "com.feifan.bp"
+            versionName "1.0.0"
+            buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT"
         }
     }
 

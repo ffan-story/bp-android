@@ -96,6 +96,14 @@ public class Utils {
         }
     }
 
+    public static void checkDigitAndLetter(String value) throws Throwable {
+        Pattern p = Pattern.compile("^[A-Za-z0-9]+$");
+        Matcher m = p.matcher(value);
+        if(!m.matches()) {
+            throw new Throwable(PlatformState.getApplicationContext().getString(R.string.error_message_text_search_illegal_format));
+        }
+    }
+
     /**
      * 删除文件
      *
@@ -130,6 +138,7 @@ public class Utils {
         intent.setAction("android.intent.action.VIEW");
         Uri content_url = Uri.parse(url);
         intent.setData(content_url);
+        intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
         return intent;
     }
 }

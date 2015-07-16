@@ -40,6 +40,7 @@ public class PlatformState {
     private String mLastUrl;
 
     private PlatformState(){
+        Log.i(Constants.TAG, "App is running within " + BuildConfig.CURRENT_ENVIRONMENT);
         mProfile = new UserProfile(sContext);
         mQueue = Volley.newRequestQueue(sContext);
         mLoader = new ImageLoader(mQueue, new BitmapCache());

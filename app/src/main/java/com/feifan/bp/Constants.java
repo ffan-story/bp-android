@@ -30,5 +30,5 @@ public class Constants {
     }
 
     /** 当前运行环境 */
-    public static Environment CURRENT_ENVIRONMENT = Environment.SIT_GATEWAY;
+//    public static Environment CURRENT_ENVIRONMENT = Environment.PRODUCT_PRE;
 }

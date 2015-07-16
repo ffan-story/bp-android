@@ -3,6 +3,9 @@
  */
 package com.feifan.bp.factory;
 
+import android.util.Log;
+
+import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
 
 /**
@@ -16,7 +19,6 @@ import com.feifan.bp.Constants;
  */
 public class FactorySet {
     private FactorySet() {
-        
     }
     
     /**
@@ -27,7 +29,7 @@ public class FactorySet {
      */
     public static IUrlFactory getUrlFactory() {
 
-        switch (Constants.CURRENT_ENVIRONMENT) {
+        switch (BuildConfig.CURRENT_ENVIRONMENT) {
             case SIT_GATEWAY:
                 return UrlFactory.UrlGatewaySitFactory.getInstance();
             case SIT_API:
