@@ -101,7 +101,7 @@ class UrlFactory {
 
         @Override
         public String getH5HostUrl() {
-            return "https://sop.pre.ffan.com/";
+            return "http://sop.pre.ffan.com/";
         }
     }
 
