@@ -33,7 +33,7 @@ android {
     productFlavors{
         sit{
             applicationId "com.feifan.bp.test"
-            versionName
+            versionName "0.1.1.9"
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.SIT_GATEWAY"
         }
         productpre{
@@ -47,6 +47,7 @@ android {
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT"
         }
     }
+
 
     lintOptions {
         disable 'InvalidPackage'
