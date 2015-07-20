@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.RadioGroup;
 
@@ -90,7 +91,11 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         int type = args.getInt(OnFragmentInteractionListener.INTERATION_KEY_TYPE, OnFragmentInteractionListener.TYPE_IDLE);
         if (from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
             if (PlatformState.getInstance().getLastUrl() != null) {
-                BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl());
+                if (Utils.isNetworkAvailable()) {
+                    BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl());
+                } else {
+                    Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+                }
             }
             showHome(true);
         } else if (from.equals(SettingsFragment.class.getName())) {
@@ -180,9 +185,13 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 
     // 打开浏览器
     private void openBrowser(String url) {
-        Intent intent = new Intent(this, BrowserActivity.class);
-        intent.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
-        startActivity(intent);
+        if (Utils.isNetworkAvailable()) {
+            Intent intent = new Intent(this, BrowserActivity.class);
+            intent.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
+            startActivity(intent);
+        } else {
+            Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+        }
     }
 
     @Override

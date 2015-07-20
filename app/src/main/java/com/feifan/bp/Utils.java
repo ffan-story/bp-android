@@ -18,6 +18,8 @@ import java.util.regex.Pattern;
  */
 public class Utils {
 
+    private static final String TAG = "Utils";
+
     private Utils() {
 
     }
@@ -134,11 +136,12 @@ public class Utils {
      * @param url
      */
     public static Intent getSystemBrowser(String url) {
+        LogUtil.i(TAG, "getSystemBrowser() url=" + url);
         Intent intent = new Intent();
         intent.setAction("android.intent.action.VIEW");
         Uri content_url = Uri.parse(url);
         intent.setData(content_url);
-        intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+//        intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
         return intent;
     }
 }

@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AlertDialog;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -47,6 +49,8 @@ public class BrowserActivity extends BaseActivity {
         LogUtil.i(TAG, url);
         mWebView.loadUrl(url);
         PlatformState.getInstance().setLastUrl(url);
+        LogUtil.i(TAG, "loadUrl()");
+
     }
 
     @Override
@@ -58,15 +62,24 @@ public class BrowserActivity extends BaseActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.setWebViewClient(new PlatformWebViewClient());
+        webView.setWebChromeClient(new PlatformWebChromeClient());
         webView.requestFocus();
 
+    }
+
+    private class PlatformWebChromeClient extends WebChromeClient {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            super.onProgressChanged(view, newProgress);
+            LogUtil.i(TAG, "onProgressChanged() progress=" + newProgress);
+        }
     }
 
     private class PlatformWebViewClient extends WebViewClient {
 
         private static final int TIME_OUT_SECONDS = 15;
 
-        private ScheduledExecutorService mService;
+//        private ScheduledExecutorService mService;
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -93,43 +106,45 @@ public class BrowserActivity extends BaseActivity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
+            LogUtil.i(TAG, "onPageStarted() progress=" + view.getProgress());
             mProgressBar.setVisibility(View.VISIBLE);
-            if (mService == null || mService.isShutdown() || mService.isTerminated()) {
-                mService = Executors.newSingleThreadScheduledExecutor();
-            }
-            mService.schedule(new Runnable() {
-                @Override
-                public void run() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mWebView.getProgress() < 100) {
-                                mWebView.stopLoading();
-                                mProgressBar.setVisibility(View.GONE);
-                                AlertDialog dialog = new AlertDialog.Builder(BrowserActivity.this)
-                                        .setTitle(R.string.error_message_text_network_block)
-                                        .setPositiveButton(R.string.common_confirm, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                mService.shutdown();
-                                                finish();
-                                            }
-                                        }).create();
-                                dialog.show();
-                            }
-                        }
-                    });
-
-                }
-            }, TIME_OUT_SECONDS, TimeUnit.SECONDS);
+//            if (mService == null || mService.isShutdown() || mService.isTerminated()) {
+//                mService = Executors.newSingleThreadScheduledExecutor();
+//            }
+//            mService.schedule(new Runnable() {
+//                @Override
+//                public void run() {
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (mWebView.getProgress() < 100) {
+//                                mWebView.stopLoading();
+//                                mProgressBar.setVisibility(View.GONE);
+//                                AlertDialog dialog = new AlertDialog.Builder(BrowserActivity.this)
+//                                        .setTitle(R.string.error_message_text_network_block)
+//                                        .setPositiveButton(R.string.common_confirm, new DialogInterface.OnClickListener() {
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                mService.shutdown();
+//                                                finish();
+//                                            }
+//                                        }).create();
+//                                dialog.show();
+//                            }
+//                        }
+//                    });
+//
+//                }
+//            }, TIME_OUT_SECONDS, TimeUnit.SECONDS);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            LogUtil.i(TAG, "onPageFinished() progress=" + view.getProgress());
             mProgressBar.setVisibility(View.GONE);
-            if (mService != null && !mService.isTerminated() && !mService.isShutdown()) {
-                mService.shutdownNow();
-            }
+//            if (mService != null && !mService.isTerminated() && !mService.isShutdown()) {
+//                mService.shutdownNow();
+//            }
 
         }
     }

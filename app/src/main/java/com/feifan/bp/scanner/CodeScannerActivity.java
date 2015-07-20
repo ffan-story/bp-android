@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
@@ -69,7 +70,7 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
         LogUtil.i(TAG, "getScanCodeResult() text=" + resultText + " time=" + timeStamp +
                 " format=" + barcodeFormat);
         if (!Utils.isNetworkAvailable()) {
-            Utils.showShortToast(R.string.error_message_text_offline);
+            Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
             finish();
             return;
         }

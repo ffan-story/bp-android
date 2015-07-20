@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,7 +121,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         }
 
         if (!Utils.isNetworkAvailable()) {
-            Utils.showShortToast(R.string.error_message_text_offline);
+            Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
             return;
         }
 
