@@ -27,7 +27,7 @@ public class BrowserActivity extends BaseActivity {
     public static final String EXTRA_KEY_URL = "url";
 
     private WebView mWebView;
-    private ProgressBar mProgressBar;
+    private View mProgressBar;
 
     public static void startActivity(Context context, String url) {
         Intent i = new Intent(context, BrowserActivity.class);
@@ -40,7 +40,7 @@ public class BrowserActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
         mWebView = (WebView) findViewById(R.id.browser_content);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
+        mProgressBar = findViewById(R.id.progress_bar);
         initWeb(mWebView);
 
         // 载入网页
