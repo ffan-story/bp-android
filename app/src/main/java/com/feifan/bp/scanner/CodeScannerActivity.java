@@ -70,6 +70,7 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
                 " format=" + barcodeFormat);
         if (!Utils.isNetworkAvailable()) {
             Utils.showShortToast(R.string.error_message_text_offline);
+            finish();
             return;
         }
         if (TextUtils.isEmpty(resultText)) {
