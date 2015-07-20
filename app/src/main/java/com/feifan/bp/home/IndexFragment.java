@@ -119,6 +119,11 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             return;
         }
 
+        if (!Utils.isNetworkAvailable()) {
+            Utils.showShortToast(R.string.error_message_text_offline);
+            return;
+        }
+
         String code = mCodeEdt.getText().toString();
 
 

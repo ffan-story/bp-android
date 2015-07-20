@@ -17,6 +17,7 @@ import com.feifan.bp.BrowserActivity;
 import com.feifan.bp.LogUtil;
 import com.feifan.bp.PlatformHelper;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseActivity;
 
 import bp.feifan.com.codescanner.CaptureActivity;
@@ -67,6 +68,10 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
     public void getScanCodeResult(String resultText, long timeStamp, String barcodeFormat) {
         LogUtil.i(TAG, "getScanCodeResult() text=" + resultText + " time=" + timeStamp +
                 " format=" + barcodeFormat);
+        if (!Utils.isNetworkAvailable()) {
+            Utils.showShortToast(R.string.error_message_text_offline);
+            return;
+        }
         if (TextUtils.isEmpty(resultText)) {
             //TODO: Toast and return??
             return;
