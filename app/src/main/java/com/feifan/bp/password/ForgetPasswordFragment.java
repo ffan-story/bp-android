@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.Response;
+import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
@@ -149,12 +150,11 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                         mAuthCode=model.authCode;
                         mKeyCode=model.key;  
                         getSmsCode();
-                        PasswordCtrl.sendSMSCode(phone,mRadomSmsCode, new Response.Listener<PasswordModel>() {
+                        PasswordCtrl.sendSMSCode(phone, mRadomSmsCode, new Response.Listener<PasswordModel>() {
                             @Override
-                            public void onResponse(PasswordModel model) { 
-                                Utils.showShortToast(getString(R.string.sms_sended));  
+                            public void onResponse(PasswordModel model) {  Utils.showShortToast(getString(R.string.sms_sended));
                             }
-                        }); 
+                        });
                     }
                 });
                 break;

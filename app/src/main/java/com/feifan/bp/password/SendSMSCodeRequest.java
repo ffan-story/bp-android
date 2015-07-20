@@ -23,8 +23,8 @@ public class SendSMSCodeRequest extends Request<PasswordModel> {
 
     private static final String TAG = SendSMSCodeRequest.class.getSimpleName();
 
-    private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "msgcenter/v1/smsOutboxes";
-
+   // private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "msgcenter/v1/smsOutboxes";
+    private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "xadmin/phoneSms";
     private Map<String, String> mParams;
 
     private Listener<PasswordModel> mListener;

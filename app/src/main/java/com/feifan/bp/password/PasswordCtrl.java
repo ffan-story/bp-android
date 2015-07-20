@@ -75,27 +75,56 @@ public class PasswordCtrl {
         PlatformState.getInstance().getRequestQueue().add(request);
     }
     
+//    /**
+//     * 发送手机验证码
+//     * @param phoneNum
+//     * @param listener
+//     */
+//    public static void sendSMSCode(String phoneNum, String smsCode,Response.Listener<PasswordModel> listener) {
+//        Map<String, String> params = new HashMap<String, String>();
+//        params.put("mobile", phoneNum);
+//        params.put("deviceType", "0");
+//        params.put("content", "");
+//        params.put("contentType", "0");
+//        params.put("destAppId", "1");
+//        params.put("sendTime", "");
+//        Long time=(System.currentTimeMillis()/1000)+60;
+//        params.put("validTime", String.valueOf(time));
+//        params.put("templateId", "160");
+//        params.put("deviceList", "["+phoneNum+"]");
+//        params.put("argsList", "[["+smsCode+"]]");
+//        SendSMSCodeRequest request = new SendSMSCodeRequest(listener, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError volleyError) {
+//                if(!Utils.isNetworkAvailable()) {     // 网络不可用
+//                    Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+//                }else {                               // 其他原因
+//                    String msg = volleyError.getMessage();
+//                    if(!TextUtils.isEmpty(msg)) {
+//                        Utils.showShortToast(msg, Gravity.CENTER);
+//                    }else{
+//                        Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+//                    }
+//                }
+//            }
+//        }, params);
+//        PlatformState.getInstance().getRequestQueue().add(request);
+//    }
+
+
     /**
      * 发送手机验证码
-     * @param phoneNum     
+     * @param phoneNum
      * @param listener
      */
-    public static void sendSMSCode(String phoneNum, String smsCode,Response.Listener<PasswordModel> listener) {
-        Map<String, String> params = new HashMap<String, String>(); 
-        params.put("mobile", phoneNum);
-        params.put("deviceType", "0");
-        params.put("content", "");
-        params.put("contentType", "0");
-        params.put("destAppId", "1");
-        params.put("sendTime", "");
-        Long time=(System.currentTimeMillis()/1000)+60; 
-        params.put("validTime", String.valueOf(time));
-        params.put("templateId", "160"); 
-        params.put("deviceList", "["+phoneNum+"]");
-        params.put("argsList", "[["+smsCode+"]]");
+    public static void sendSMSCode(String phoneNum, String content,Response.Listener<PasswordModel> listener) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("phone", phoneNum);
+        params.put("content", content);
+        params.put("templateId", "160");
         SendSMSCodeRequest request = new SendSMSCodeRequest(listener, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) { 
+            public void onErrorResponse(VolleyError volleyError) {
                 if(!Utils.isNetworkAvailable()) {     // 网络不可用
                     Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
                 }else {                               // 其他原因
@@ -105,12 +134,13 @@ public class PasswordCtrl {
                     }else{
                         Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
                     }
-                } 
+                }
             }
         }, params);
-        PlatformState.getInstance().getRequestQueue().add(request); 
+        PlatformState.getInstance().getRequestQueue().add(request);
     }
-    
+
+
     /**
      * 忘记密码
      * @param  phoneNum 手机号
