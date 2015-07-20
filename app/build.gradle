@@ -33,19 +33,34 @@ android {
     productFlavors{
         sit{
             applicationId "com.feifan.bp.test"
-            versionName "0.1.1.9"
+            versionName "0.1.1.10"
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.SIT_GATEWAY"
         }
         productpre{
             applicationId "com.feifan.bp.pre"
-            versionName "1.0.0-pre"
+            versionName "1.0.0.1-pre"
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT_PRE"
         }
         product{
             applicationId "com.feifan.bp"
-            versionName "1.0.0"
+            versionName "1.0.0.1"
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT"
         }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def appName
+            if (project.hasProperty("applicationName")) {
+                appName = applicationName
+            } else {
+                appName = parent.name
+            }
+            def apkName = "${appName}-${output.baseName}-${variant.versionName}.apk"
+            output.outputFile = new File("${output.outputFile.parent}/output", apkName)
+        }
+
+
     }
 
 

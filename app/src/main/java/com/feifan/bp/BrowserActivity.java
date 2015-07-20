@@ -2,12 +2,19 @@ package com.feifan.bp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.feifan.bp.base.BaseActivity;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class BrowserActivity extends BaseActivity {
@@ -52,6 +59,11 @@ public class BrowserActivity extends BaseActivity {
     }
 
     private class PlatformWebViewClient extends WebViewClient {
+
+        private static final int TIME_OUT_SECONDS = 5;
+
+        private ScheduledExecutorService mService;
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             LogUtil.i(TAG, "receive " + url);
@@ -75,8 +87,38 @@ public class BrowserActivity extends BaseActivity {
         }
 
         @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            if(mService == null || mService.isShutdown() || mService.isTerminated()) {
+                mService = Executors.newSingleThreadScheduledExecutor();
+            }
+            mService.schedule(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mWebView.getProgress() < 100) {
+                                mService.shutdownNow();
+
+                                // TODO change ui to inform timeout here, finish now
+                                finish();
+                            }
+                        }
+                    });
+
+                }
+            }, TIME_OUT_SECONDS, TimeUnit.SECONDS);
+        }
+
+        @Override
         public void onPageFinished(WebView view, String url) {
+
             super.onPageFinished(view, url);
+            if(mService != null && !mService.isTerminated() && !mService.isShutdown()) {
+                mService.shutdownNow();
+            }
+
         }
     }
 
