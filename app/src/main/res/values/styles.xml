@@ -11,6 +11,11 @@
         <item name="android:textSize">@dimen/font_size_18</item>
     </style>
 
+    <style name="ProgressBarText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/font_size_14</item>
+    </style>
+
 
     <!--<style name="CustomActionBarActivity" parent="@style/Theme.AppCompat.Light">-->
         <!--<item name="android:actionBarStyle">@style/CustomActionBar</item>-->
