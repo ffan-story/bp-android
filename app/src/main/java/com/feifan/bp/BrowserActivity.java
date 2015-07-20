@@ -1,11 +1,13 @@
 package com.feifan.bp;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.support.v7.app.AlertDialog;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -63,7 +65,8 @@ public class BrowserActivity extends BaseActivity {
 
     private class PlatformWebViewClient extends WebViewClient {
 
-        private static final int TIME_OUT_SECONDS = 60;
+        private static final int TIME_OUT_SECONDS = 15;
+
         private ScheduledExecutorService mService;
 
         @Override
@@ -102,10 +105,16 @@ public class BrowserActivity extends BaseActivity {
                         @Override
                         public void run() {
                             if (mWebView.getProgress() < 100) {
-                                mService.shutdownNow();
                                 mProgressBar.setVisibility(View.GONE);
-                                // TODO change ui to inform timeout here, finish now
-                                finish();
+                                AlertDialog dialog = new AlertDialog.Builder(BrowserActivity.this)
+                                        .setTitle(R.string.error_message_text_network_block)
+                                        .setPositiveButton(R.string.common_confirm, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                mService.shutdown();
+                                                finish();
+                                            }
+                                        }).create();
+                                dialog.show();
                             }
                         }
                     });
