@@ -10,7 +10,6 @@ import android.view.View;
 import android.support.v7.app.AlertDialog;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 
 import com.feifan.bp.base.BaseActivity;
 
@@ -105,6 +104,7 @@ public class BrowserActivity extends BaseActivity {
                         @Override
                         public void run() {
                             if (mWebView.getProgress() < 100) {
+                                mWebView.stopLoading();
                                 mProgressBar.setVisibility(View.GONE);
                                 AlertDialog dialog = new AlertDialog.Builder(BrowserActivity.this)
                                         .setTitle(R.string.error_message_text_network_block)

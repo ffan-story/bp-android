@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 
+def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+
+// Auto-incrementing commit count based on counting commits to master (Build #543)
+def commitCount = Integer.parseInt('git rev-list master --count'.execute([], project.rootDir).text.trim())
+
+// I want to use git tags as my version names (1.2.2)
+def gitCurrentTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
+
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
@@ -32,8 +40,12 @@ android {
 
     productFlavors{
         sit{
+            println gitSha
+            println commitCount
+            println gitCurrentTag
+
             applicationId "com.feifan.bp.test"
-            versionName "0.1.1.10"
+            versionName gitCurrentTag + "-" + commitCount + "-" + gitSha
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.SIT_GATEWAY"
         }
         productpre{
