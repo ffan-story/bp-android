@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 
+import com.feifan.bp.LogUtil;
 import com.feifan.bp.R;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
  * Created by maning on 15/7/9.
  */
 public abstract class BaseActivity extends AppCompatActivity {
+    private static final String TAG = "BaseActivity";
 
     private Toolbar mToolbar;
 
@@ -122,14 +124,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         int action = ev.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                break;
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 result = imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                break;
+            case MotionEvent.ACTION_UP:
                 break;
         }
         return result;
     }
+
+
 
 }
