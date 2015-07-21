@@ -48,6 +48,7 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
     private EditText mConfirmPwd;
     private Button mConfirmBtn;
     private OnFragmentInteractionListener mListener;
+    private boolean mIsConfirmEnable = true;
 
     /**
      * Use this factory method to create a new instance of
@@ -72,7 +73,7 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        mIsConfirmEnable = true;
         View rootView = inflater.inflate(R.layout.fragment_reset_password, container, false);
         mOldPwd = (EditText) rootView.findViewById(R.id.et_old_password);
         mNewPwd = (EditText) rootView.findViewById(R.id.et_new_password);
@@ -80,7 +81,6 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
         mConfirmBtn = (Button) rootView.findViewById(R.id.btn_confirm);
 
         mNewPwd.addTextChangedListener(mTextWatcher);
-        mConfirmBtn.setEnabled(true);
         mConfirmBtn.setOnClickListener(this);
         return rootView;
     }
@@ -164,6 +164,9 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_confirm:
+                if (!mIsConfirmEnable) {
+                    break;
+                }
                 String oldPwd = mOldPwd.getText().toString();
                 String newPwd = mNewPwd.getText().toString();
                 String confirmPwd = mConfirmPwd.getText().toString();
@@ -186,17 +189,18 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                     Utils.showShortToast(R.string.error_message_text_password_length_max, Gravity.CENTER);
                     return;
                 }
-                mConfirmBtn.setEnabled(false);
+                mIsConfirmEnable = false;
                 PasswordCtrl.resetPassword(oldPwd, newPwd, new Response.Listener<PasswordModel>() {
                     @Override
                     public void onResponse(PasswordModel model) {
+                        mIsConfirmEnable = true;
                         getActivity().onBackPressed();
                         Utils.showShortToast(getString(R.string.reset_pwd_suc));
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        mConfirmBtn.setEnabled(true);
+                        mIsConfirmEnable = true;
                         if (!Utils.isNetworkAvailable()) {     // 网络不可用
                             Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
                         } else {                               // 其他原因
