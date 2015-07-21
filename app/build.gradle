@@ -55,7 +55,7 @@ android {
         }
         product{
             applicationId "com.feifan.bp"
-            versionName "1.0.0.1"
+            versionName "1.0.0"
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT"
         }
     }

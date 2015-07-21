@@ -24,17 +24,15 @@ public class HomeCtrl {
         VersionRequest request = new VersionRequest(listener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                if(!Utils.isNetworkAvailable()) {     // 网络不可用
+                if (!Utils.isNetworkAvailable()) {     // 网络不可用
                     Utils.showShortToast(R.string.error_message_text_offline);
-                }else {                               // 其他原因
+                } else {                               // 其他原因
                     String msg = volleyError.getMessage();
-                    if(msg != null) {
+                    if (msg != null) {
                         Utils.showShortToast(msg);
-                    }else{
+                    } else {
                         Utils.showShortToast(R.string.error_message_text_offline);
                     }
-
-
                 }
             }
         });

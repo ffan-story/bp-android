@@ -2,14 +2,18 @@ package com.feifan.bp.home;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.Response;
 import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
@@ -91,23 +95,28 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         mListener = null;
     }
 
+    private long mLastClickTime = 0;
+
     @Override
     public void onClick(View v) {
        switch (v.getId()){
            case R.id.settings_check_upgrade:
+               if (SystemClock.elapsedRealtime() - mLastClickTime < 3000) {
+                   return;
+               }
+               mLastClickTime = SystemClock.elapsedRealtime();
                HomeCtrl.checkUpgrade(new Listener<VersionModel>() {
                    @Override
                    public void onResponse(VersionModel versionModel) {
                        LogUtil.i(TAG, versionModel.toString());
-                       if(versionModel.versionCode > BuildConfig.VERSION_CODE) {
+                       if (versionModel.versionCode > BuildConfig.VERSION_CODE) {
                            Bundle args = new Bundle();
                            args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
                            args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, versionModel.versionUrl);
                            mListener.onFragmentInteraction(args);
-                       }else{
+                       } else {
                            Utils.showShortToast(R.string.settings_check_update_none);
                        }
-
                    }
                });
                break;
