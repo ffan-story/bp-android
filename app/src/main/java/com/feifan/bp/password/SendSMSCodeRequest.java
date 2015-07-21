@@ -31,6 +31,8 @@ public class SendSMSCodeRequest extends Request<PasswordModel> {
 
     public SendSMSCodeRequest(Listener<PasswordModel> listener, ErrorListener errorListener, Map<String, String> params) {
         super(Method.POST, URL, errorListener);
+        LogUtil.w(TAG, "11111111111 URL:" + URL);
+        LogUtil.e(TAG, "URL====" + URL);
         mParams = params;
         mListener = listener;
     }
