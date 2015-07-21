@@ -24,28 +24,12 @@ public class PasswordCtrl {
      * @param newPassword
      * @param listener
      */
-    public static void resetPassword(String oldPassword, String newPassword, Response.Listener<PasswordModel> listener) {
+    public static void resetPassword(String oldPassword, String newPassword, Response.Listener<PasswordModel> listener, Response.ErrorListener errorListener) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("oldPassword", oldPassword);
         params.put("newPassword", newPassword);
         params.put("uId",String.valueOf(PlatformState.getInstance().getUserProfile().getUid()));
-        ResetPasswordRequest request = new ResetPasswordRequest(listener, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-                if(!Utils.isNetworkAvailable()) {     // 网络不可用
-                    Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
-                }else {                               // 其他原因
-                    String msg = volleyError.getMessage();
-                    if(!TextUtils.isEmpty(msg) && msg.trim().length()>0) {
-                        Utils.showShortToast(msg, Gravity.CENTER);
-                    }else{
-                        Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
-                    }
-                }
-
-            }
-        }, params);
+        ResetPasswordRequest request = new ResetPasswordRequest(listener, errorListener, params);
         PlatformState.getInstance().getRequestQueue().add(request);
     }
     

@@ -7,15 +7,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.LogUtil;
@@ -43,6 +46,7 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
     private EditText mOldPwd;
     private EditText mNewPwd;
     private EditText mConfirmPwd;
+    private Button mConfirmBtn;
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -73,30 +77,32 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
         mOldPwd = (EditText) rootView.findViewById(R.id.et_old_password);
         mNewPwd = (EditText) rootView.findViewById(R.id.et_new_password);
         mConfirmPwd = (EditText) rootView.findViewById(R.id.et_confirm_password);
+        mConfirmBtn = (Button) rootView.findViewById(R.id.btn_confirm);
 
         mNewPwd.addTextChangedListener(mTextWatcher);
-        rootView.findViewById(R.id.btn_confirm).setOnClickListener(this);
+        mConfirmBtn.setEnabled(true);
+        mConfirmBtn.setOnClickListener(this);
         return rootView;
     }
 
-        TextWatcher mTextWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (mNewPwd.getText().length() > Constants.PASSWORD_MAX_LENGTH) {
-                    Utils.showShortToast(R.string.error_message_text_password_length_max, Gravity.CENTER);
-                }
+    TextWatcher mTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (mNewPwd.getText().length() > Constants.PASSWORD_MAX_LENGTH) {
+                Utils.showShortToast(R.string.error_message_text_password_length_max, Gravity.CENTER);
             }
+        }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            }
+        }
 
-            @Override
-            public void afterTextChanged(Editable s) {
+        @Override
+        public void afterTextChanged(Editable s) {
 
-            }
-        };
+        }
+    };
 
     @Override
     protected void setupToolbar(Toolbar toolbar) {
@@ -117,7 +123,6 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
         });
     }
 
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -134,7 +139,6 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
         super.onDetach();
         mListener = null;
     }
-
 
 
     @Override
@@ -159,16 +163,32 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                 } else if (newPwd.length() < Constants.PASSWORD_MIN_LENGTH) {
                     Utils.showShortToast(R.string.error_message_text_password_length, Gravity.CENTER);
                     return;
-                }else if (newPwd.length()> Constants.PASSWORD_MAX_LENGTH){
+                } else if (newPwd.length() > Constants.PASSWORD_MAX_LENGTH) {
                     Utils.showShortToast(R.string.error_message_text_password_length_max, Gravity.CENTER);
                     return;
                 }
-
+                mConfirmBtn.setEnabled(false);
                 PasswordCtrl.resetPassword(oldPwd, newPwd, new Response.Listener<PasswordModel>() {
                     @Override
                     public void onResponse(PasswordModel model) {
                         getActivity().onBackPressed();
                         Utils.showShortToast(getString(R.string.reset_pwd_suc));
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        mConfirmBtn.setEnabled(true);
+                        if (!Utils.isNetworkAvailable()) {     // 网络不可用
+                            Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+                        } else {                               // 其他原因
+                            String msg = volleyError.getMessage();
+                            if (!TextUtils.isEmpty(msg) && msg.trim().length() > 0) {
+                                Utils.showShortToast(msg, Gravity.CENTER);
+                            } else {
+                                Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+                            }
+                        }
+
                     }
                 });
                 break;
