@@ -37,7 +37,7 @@ public class PasswordCtrl {
                     Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
                 }else {                               // 其他原因
                     String msg = volleyError.getMessage();
-                    if(!TextUtils.isEmpty(msg)) {
+                    if(!TextUtils.isEmpty(msg) && msg.trim().length()>0) {
                         Utils.showShortToast(msg, Gravity.CENTER);
                     }else{
                         Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
@@ -64,7 +64,7 @@ public class PasswordCtrl {
                     Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
                 }else {                               // 其他原因
                     String msg = volleyError.getMessage();
-                    if(!TextUtils.isEmpty(msg)) {
+                    if(!TextUtils.isEmpty(msg) && msg.trim().length()>0) {
                         Utils.showShortToast(msg, Gravity.CENTER);
                     }else{
                         Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
@@ -129,7 +129,7 @@ public class PasswordCtrl {
                     Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
                 }else {                               // 其他原因
                     String msg = volleyError.getMessage();
-                    if(!TextUtils.isEmpty(msg)) {
+                    if(!TextUtils.isEmpty(msg) && msg.trim().length()>0) {
                         Utils.showShortToast(msg, Gravity.CENTER);
                     }else{
                         Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
@@ -139,7 +139,6 @@ public class PasswordCtrl {
         }, params);
         PlatformState.getInstance().getRequestQueue().add(request);
     }
-
 
     /**
      * 忘记密码
@@ -158,7 +157,7 @@ public class PasswordCtrl {
                     Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
                 }else {                               // 其他原因
                     String msg = volleyError.getMessage();
-                    if(!TextUtils.isEmpty(msg)) {
+                    if(!TextUtils.isEmpty(msg) && msg.trim().length()>0) {
                         Utils.showShortToast(msg, Gravity.CENTER);
                     }else{
                         Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
