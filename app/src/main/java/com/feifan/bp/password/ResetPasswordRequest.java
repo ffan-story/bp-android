@@ -23,7 +23,7 @@ public class ResetPasswordRequest extends Request<PasswordModel> {
 
     private static final String TAG = ResetPasswordRequest.class.getSimpleName();
 
-    private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "xadmin/editpassword";
+    private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "xadmin/editPassword";
 
     private Map<String, String> mParams;
 

@@ -6,7 +6,9 @@ import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,9 +73,30 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
         mOldPwd = (EditText) rootView.findViewById(R.id.et_old_password);
         mNewPwd = (EditText) rootView.findViewById(R.id.et_new_password);
         mConfirmPwd = (EditText) rootView.findViewById(R.id.et_confirm_password);
+
+        mNewPwd.addTextChangedListener(mTextWatcher);
         rootView.findViewById(R.id.btn_confirm).setOnClickListener(this);
         return rootView;
     }
+
+        TextWatcher mTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (mNewPwd.getText().length() > Constants.PASSWORD_MAX_LENGTH) {
+                    Utils.showShortToast(R.string.error_message_text_password_length_max, Gravity.CENTER);
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
 
     @Override
     protected void setupToolbar(Toolbar toolbar) {
@@ -113,6 +136,7 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
     }
 
 
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -132,10 +156,10 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                 } else if (!newPwd.equals(confirmPwd)) {
                     Utils.showShortToast(R.string.error_message_text_password_different, Gravity.CENTER);
                     return;
-                } else if (newPwd.length() < 8) {
+                } else if (newPwd.length() < Constants.PASSWORD_MIN_LENGTH) {
                     Utils.showShortToast(R.string.error_message_text_password_length, Gravity.CENTER);
                     return;
-                }else if (newPwd.length()>20){
+                }else if (newPwd.length()> Constants.PASSWORD_MAX_LENGTH){
                     Utils.showShortToast(R.string.error_message_text_password_length_max, Gravity.CENTER);
                     return;
                 }

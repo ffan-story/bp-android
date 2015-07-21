@@ -5,6 +5,10 @@ package com.feifan.bp;
  */
 public class Constants {
 
+    //密码长度范围
+    public static int PASSWORD_MIN_LENGTH = 8;
+    public static int PASSWORD_MAX_LENGTH = 20;
+
     public static final String TAG = "Platform";
 
     // 非法的整型数值
