@@ -10,7 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LogUtil;
-import com.feifan.bp.factory.FactorySet;
+import com.feifan.bp.net.NetUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +23,7 @@ public class ResetPasswordRequest extends Request<PasswordModel> {
 
     private static final String TAG = ResetPasswordRequest.class.getSimpleName();
 
-    private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "xadmin/editPassword";
+    private static final String URL = NetUtils.getUrlFactory().getFFanHostUrl() + "xadmin/editPassword";
 
     private Map<String, String> mParams;
 

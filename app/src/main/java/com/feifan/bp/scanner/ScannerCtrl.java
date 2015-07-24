@@ -2,7 +2,6 @@ package com.feifan.bp.scanner;
 
 import com.feifan.bp.PlatformHelper;
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.factory.FactorySet;
 
 /**
  * Created by maning on 15/7/7.

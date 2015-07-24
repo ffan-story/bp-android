@@ -17,12 +17,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.android.volley.Response;
+import com.feifan.bp.BrowserActivity;
 import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.password.ForgetPasswordFragment;
 
 /**
@@ -90,7 +92,7 @@ public class LoginFragment extends BaseFragment {
 
                 try {
                     Utils.checkPhoneNumber(accountStr);
-                    UserCtrl.login(accountStr, passwordStr, new Response.Listener<UserModel>() {
+                    UserCtrl.login(getActivity(), accountStr, passwordStr, new BaseRequestProcessListener<UserModel>(getActivity()) {
                         @Override
                         public void onResponse(UserModel userModel) {
                             LogUtil.i(TAG, userModel.toString());
@@ -107,8 +109,17 @@ public class LoginFragment extends BaseFragment {
                             Bundle args = new Bundle();
                             args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
                             mListener.onFragmentInteraction(args);
+
+//                            if (PlatformState.getInstance().getLastUrl() != null) {
+//                                if (Utils.isNetworkAvailable()) {
+//                                    BrowserActivity.startActivity(getActivity(), PlatformState.getInstance().getLastUrl());
+//                                } else {
+//                                    Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+//                                }
+//                            }
                         }
                     });
+
                 } catch (Throwable throwable) {
                     Utils.showShortToast(R.string.error_message_text_phone_number_illegal, Gravity.CENTER);
                 }

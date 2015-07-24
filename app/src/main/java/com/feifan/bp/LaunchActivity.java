@@ -130,21 +130,8 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.content_container, fragment);
-
-//        Fragment tempFragment = manager.findFragmentByTag(fragment.getClass().getSimpleName());
-//
-//        if (mCurrentFragment != null) {          // 隐藏当前界面
-//            transaction.hide(mCurrentFragment);
-//        }
-//
-//        if (tempFragment == fragment) {    // 已经添加过则直接显示
-//            transaction.show(fragment);
-//        } else {
-//            transaction.add(R.id.content_container, fragment, fragment.getClass().getSimpleName());
-//        }
         transaction.commitAllowingStateLoss();
         mCurrentFragment = fragment;
-
     }
 
     // 初始化界面内容

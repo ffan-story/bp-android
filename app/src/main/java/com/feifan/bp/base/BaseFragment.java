@@ -30,6 +30,7 @@ public class BaseFragment extends Fragment implements OnDispatchTouchEventListen
 
     /**
      * Call super.setupToolbar() first if you want to override this method.
+     *
      * @param toolbar
      */
     protected void setupToolbar(Toolbar toolbar) {
@@ -47,5 +48,19 @@ public class BaseFragment extends Fragment implements OnDispatchTouchEventListen
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return false;
+    }
+
+    protected void showProgressBar(boolean cancelable) {
+        Activity a = getActivity();
+        if (a instanceof BaseActivity) {
+            ((BaseActivity) a).showProgressBar(cancelable);
+        }
+    }
+
+    protected void hideProgressBar() {
+        Activity a = getActivity();
+        if (a instanceof BaseActivity) {
+            ((BaseActivity) a).hideProgressBar();
+        }
     }
 }

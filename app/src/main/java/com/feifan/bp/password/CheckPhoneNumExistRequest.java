@@ -1,6 +1,5 @@
 package com.feifan.bp.password;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -10,20 +9,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LogUtil;
-import com.feifan.bp.factory.FactorySet;
+import com.feifan.bp.net.NetUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
 
 
 public class CheckPhoneNumExistRequest extends Request<PasswordModel> {
 
     private static final String TAG = CheckPhoneNumExistRequest.class.getSimpleName();
 
-    private static final String URL_FORMAT = FactorySet.getUrlFactory().getFFanHostUrl() + "xadmin/verificationphone?phone=%s";
+    private static final String URL_FORMAT = NetUtils.getUrlFactory().getFFanHostUrl() + "xadmin/verificationphone?phone=%s";
  
 
     private Listener<PasswordModel> mListener;

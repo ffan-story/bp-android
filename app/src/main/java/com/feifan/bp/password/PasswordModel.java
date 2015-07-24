@@ -7,12 +7,12 @@ public class PasswordModel {
     public String key="";
    
 
-    public PasswordModel(JSONObject json) { 
+    public PasswordModel(JSONObject json) {
         if(json==null){
             return;
         }
-        authCode = json.optString("authCode"); 
-        key = json.optString("key"); 
+        authCode = json.optString("authCode");
+        key = json.optString("key");
     }
 
     @Override

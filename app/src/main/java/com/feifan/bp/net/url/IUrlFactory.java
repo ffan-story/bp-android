@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.feifan.bp.factory;
+package com.feifan.bp.net.url;
 
 /**
  * 商家后台Url抽象工厂

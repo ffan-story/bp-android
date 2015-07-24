@@ -2,12 +2,14 @@ package com.feifan.bp.login;
 
 import android.util.Log;
 
+import com.feifan.bp.base.BaseModel;
+
 import org.json.JSONObject;
 
 /**
  * Created by xuchunlei on 15/6/18.
  */
-public class UserModel {
+public class UserModel extends BaseModel {
 
     public int uid;
     public int agId;
@@ -19,14 +21,19 @@ public class UserModel {
     public String loginToken;
 
     public UserModel(JSONObject json) {
-        uid = json.optInt("uid");
-        agId = json.optInt("agId");
-        user = json.optString("user");
-        name = json.optString("name");
-        authRange = json.optString("authRange");
-        authRangeType = json.optString("authRangeType");
-        authRangeId = json.optString("authRangeId");
-        loginToken = json.optString("loginToken");
+        super(json);
+    }
+
+    @Override
+    protected void parseData(JSONObject data) {
+        uid = data.optInt("uid");
+        agId = data.optInt("agId");
+        user = data.optString("user");
+        name = data.optString("name");
+        authRange = data.optString("authRange");
+        authRangeType = data.optString("authRangeType");
+        authRangeId = data.optString("authRangeId");
+        loginToken = data.optString("loginToken");
     }
 
     @Override

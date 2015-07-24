@@ -1,6 +1,6 @@
 package com.feifan.bp;
 
-import com.feifan.bp.factory.FactorySet;
+import com.feifan.bp.net.NetUtils;
 
 /**
  * Created by xuchunlei on 15/6/23.
@@ -17,7 +17,7 @@ public class PlatformHelper {
      * @return
      */
     public static String getManagedH5Url(String path) {
-        return FactorySet.getUrlFactory().getH5HostUrl().concat(path).
+        return NetUtils.getUrlFactory().getH5HostUrl().concat(path).
                 concat("?loginToken=").
                 concat(PlatformState.getInstance().getUserProfile().getLoginToken()).
                 concat("&uid=").

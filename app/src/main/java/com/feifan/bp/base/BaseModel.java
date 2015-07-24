@@ -1,4 +1,6 @@
-package com.feifan.bp;
+package com.feifan.bp.base;
+
+import com.feifan.bp.Constants;
 
 import org.json.JSONObject;
 
@@ -6,8 +8,8 @@ import org.json.JSONObject;
  * Created by xuchunlei on 15/7/9.
  */
 public abstract class BaseModel {
-    public int status;
-    public String msg;
+    private int status;
+    private String msg;
 
     public BaseModel(JSONObject json) {
         status = json.optInt("status");
@@ -15,6 +17,14 @@ public abstract class BaseModel {
         if(status == Constants.RESPONSE_CODE_SUCCESS) {
             parseData(json.optJSONObject("data"));
         }
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public int getStatus() {
+        return status;
     }
 
     protected abstract void parseData(JSONObject data);

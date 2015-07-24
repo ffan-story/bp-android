@@ -12,7 +12,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/login_logo_margin"
-        android:src="@mipmap/login_logo" />
+        android:layout_marginBottom="@dimen/login_logo_margin"
+        android:src="@mipmap/logo" />
 
     <EditText
         android:id="@+id/login_account"

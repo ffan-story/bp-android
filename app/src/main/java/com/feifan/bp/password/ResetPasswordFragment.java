@@ -32,6 +32,7 @@ import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.login.UserModel;
 import com.feifan.bp.login.UserProfile;
+import com.feifan.bp.net.BaseRequestProcessListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -96,7 +97,7 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
             Editable editable = mNewPwd.getText();
             int len = editable.length();
             if (len > Constants.PASSWORD_MAX_LENGTH) {
-                if (len == Constants.PASSWORD_MAX_LENGTH+1){
+                if (len == Constants.PASSWORD_MAX_LENGTH + 1) {
                     Utils.showShortToast(R.string.error_message_text_password_length_max, Gravity.CENTER);
                 }
                 int selEndIndex = Selection.getSelectionEnd(editable);
@@ -190,30 +191,45 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                     return;
                 }
                 mIsConfirmEnable = false;
-                PasswordCtrl.resetPassword(oldPwd, newPwd, new Response.Listener<PasswordModel>() {
-                    @Override
-                    public void onResponse(PasswordModel model) {
-                        mIsConfirmEnable = true;
-                        getActivity().onBackPressed();
-                        Utils.showShortToast(getString(R.string.reset_pwd_suc));
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        mIsConfirmEnable = true;
-                        if (!Utils.isNetworkAvailable()) {     // 网络不可用
-                            Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
-                        } else {                               // 其他原因
-                            String msg = volleyError.getMessage();
-                            if (!TextUtils.isEmpty(msg) && msg.trim().length() > 0) {
-                                Utils.showShortToast(msg, Gravity.CENTER);
-                            } else {
-                                Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+                PasswordCtrl.resetPassword2(getActivity(), oldPwd, newPwd,
+                        new BaseRequestProcessListener<PasswordModel2>(getActivity()) {
+                            @Override
+                            public void onResponse(PasswordModel2 passwordModel2) {
+                                getActivity().onBackPressed();
+                                Utils.showShortToast(getString(R.string.reset_pwd_suc));
                             }
-                        }
 
-                    }
-                });
+                            @Override
+                            public void onFinish() {
+                                super.onFinish();
+                                mIsConfirmEnable = true;
+                            }
+                        });
+
+//                PasswordCtrl.resetPassword(oldPwd, newPwd, new Response.Listener<PasswordModel>() {
+//                    @Override
+//                    public void onResponse(PasswordModel model) {
+//                        mIsConfirmEnable = true;
+//                        getActivity().onBackPressed();
+//                        Utils.showShortToast(getString(R.string.reset_pwd_suc));
+//                    }
+//                }, new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError volleyError) {
+//                        mIsConfirmEnable = true;
+//                        if (!Utils.isNetworkAvailable()) {     // 网络不可用
+//                            Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+//                        } else {                               // 其他原因
+//                            String msg = volleyError.getMessage();
+//                            if (!TextUtils.isEmpty(msg) && msg.trim().length() > 0) {
+//                                Utils.showShortToast(msg, Gravity.CENTER);
+//                            } else {
+//                                Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+//                            }
+//                        }
+//
+//                    }
+//                });
                 break;
         }
     }

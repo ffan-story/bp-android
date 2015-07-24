@@ -10,7 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LogUtil;
-import com.feifan.bp.factory.FactorySet;
+import com.feifan.bp.net.NetUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +24,7 @@ public class SendSMSCodeRequest extends Request<PasswordModel> {
     private static final String TAG = SendSMSCodeRequest.class.getSimpleName();
 
    // private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "msgcenter/v1/smsOutboxes";
-    private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "xadmin/phoneSms";
+    private static final String URL = NetUtils.getUrlFactory().getFFanHostUrl() + "xadmin/phoneSms";
     private Map<String, String> mParams;
 
     private Listener<PasswordModel> mListener;

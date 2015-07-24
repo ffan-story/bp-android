@@ -1,23 +1,21 @@
 package com.feifan.bp;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.support.v7.app.AlertDialog;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.feifan.bp.base.BaseActivity;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 
 public class BrowserActivity extends BaseActivity {
@@ -28,7 +26,6 @@ public class BrowserActivity extends BaseActivity {
     public static final String EXTRA_KEY_URL = "url";
 
     private WebView mWebView;
-    private View mProgressBar;
 
     public static void startActivity(Context context, String url) {
         Intent i = new Intent(context, BrowserActivity.class);
@@ -41,7 +38,6 @@ public class BrowserActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
         mWebView = (WebView) findViewById(R.id.browser_content);
-        mProgressBar = findViewById(R.id.progress_bar);
         initWeb(mWebView);
 
         // 载入网页
@@ -55,16 +51,42 @@ public class BrowserActivity extends BaseActivity {
 
     @Override
     protected boolean isShowToolbar() {
-        return false;
+        return true;
+    }
+
+    @Override
+    protected void setupToolbar(Toolbar toolbar) {
+        super.setupToolbar(toolbar);
+        toolbar.setTitle("");
+        toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initWeb(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+
+        webView.addJavascriptInterface(new JavaScriptInterface(), "android");
+
         webView.setWebViewClient(new PlatformWebViewClient());
         webView.setWebChromeClient(new PlatformWebChromeClient());
         webView.requestFocus();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private class PlatformWebChromeClient extends WebChromeClient {
@@ -73,13 +95,18 @@ public class BrowserActivity extends BaseActivity {
             super.onProgressChanged(view, newProgress);
             LogUtil.i(TAG, "onProgressChanged() progress=" + newProgress);
         }
+
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            super.onReceivedTitle(view, title);
+            LogUtil.i(TAG, "onReceiveTitle() title=" + title);
+            if (view.getProgress() == 100) {
+                getToolbar().setTitle(title);
+            }
+        }
     }
 
     private class PlatformWebViewClient extends WebViewClient {
-
-        private static final int TIME_OUT_SECONDS = 15;
-
-//        private ScheduledExecutorService mService;
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -107,44 +134,30 @@ public class BrowserActivity extends BaseActivity {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             LogUtil.i(TAG, "onPageStarted() progress=" + view.getProgress());
-            mProgressBar.setVisibility(View.VISIBLE);
-//            if (mService == null || mService.isShutdown() || mService.isTerminated()) {
-//                mService = Executors.newSingleThreadScheduledExecutor();
-//            }
-//            mService.schedule(new Runnable() {
-//                @Override
-//                public void run() {
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (mWebView.getProgress() < 100) {
-//                                mWebView.stopLoading();
-//                                mProgressBar.setVisibility(View.GONE);
-//                                AlertDialog dialog = new AlertDialog.Builder(BrowserActivity.this)
-//                                        .setTitle(R.string.error_message_text_network_block)
-//                                        .setPositiveButton(R.string.common_confirm, new DialogInterface.OnClickListener() {
-//                                            public void onClick(DialogInterface dialog, int which) {
-//                                                mService.shutdown();
-//                                                finish();
-//                                            }
-//                                        }).create();
-//                                dialog.show();
-//                            }
-//                        }
-//                    });
-//
-//                }
-//            }, TIME_OUT_SECONDS, TimeUnit.SECONDS);
+            showProgressBar(true);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             LogUtil.i(TAG, "onPageFinished() progress=" + view.getProgress());
-            mProgressBar.setVisibility(View.GONE);
-//            if (mService != null && !mService.isTerminated() && !mService.isShutdown()) {
-//                mService.shutdownNow();
-//            }
+            hideProgressBar();
+        }
+    }
+
+    final Handler myHandler = new Handler();
+
+    class JavaScriptInterface {
+
+        @JavascriptInterface
+        public void onChangeTitle(final String title) {
+            LogUtil.i(TAG, "onChangeTitle() title=" + title);
+            myHandler.post(new Runnable() {
+                @Override
+                public void run() {
+//                    getToolbar().setTitle(title);
+                }
+            });
 
         }
     }

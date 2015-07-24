@@ -1,5 +1,6 @@
 package com.feifan.bp.base;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 
-import com.feifan.bp.LogUtil;
 import com.feifan.bp.R;
 
 import java.util.List;
@@ -24,11 +24,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
 
     private Toolbar mToolbar;
+    private Dialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -87,6 +87,24 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected abstract boolean isShowToolbar();
 
+    protected void showProgressBar(boolean cancelable) {
+        if (mProgressDialog != null) {
+            return;
+        }
+        mProgressDialog = new Dialog(this, R.style.LoadingDialog);
+        mProgressDialog.setContentView(R.layout.progress_bar_layout);
+        mProgressDialog.setCancelable(cancelable);
+        mProgressDialog.show();
+    }
+
+    protected void hideProgressBar() {
+        if (mProgressDialog == null) {
+            return;
+        }
+        mProgressDialog.dismiss();
+        mProgressDialog = null;
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         //First, Hide soft input panel if it is showing.
@@ -134,7 +152,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return result;
     }
-
 
 
 }

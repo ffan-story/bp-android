@@ -22,8 +22,6 @@ import com.feifan.bp.widget.IconClickableEditText;
 /**
  * 首页Fragment
  * Created by xuchunlei on 15/7/2.
- *
- *
  */
 public class IndexFragment extends BaseFragment implements View.OnClickListener, IconClickableEditText.OnIconClickListener {
 
@@ -64,7 +62,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         v.findViewById(R.id.index_history).setOnClickListener(this);
         v.findViewById(R.id.index_report).setOnClickListener(this);
         v.findViewById(R.id.index_order).setOnClickListener(this);
-        mCodeEdt = (IconClickableEditText)v.findViewById(R.id.index_search_input);
+        mCodeEdt = (IconClickableEditText) v.findViewById(R.id.index_search_input);
         mCodeEdt.setOnIconClickListener(this);
         return v;
     }
@@ -98,7 +96,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             case R.id.index_history:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO,
                         PlatformHelper.getManagedH5Url(URL_PATH_HISTORY) + "&signStatus=2&merchantId="
-                        + PlatformState.getInstance().getUserProfile().getAuthRangeId());
+                                + PlatformState.getInstance().getUserProfile().getAuthRangeId());
                 break;
             case R.id.index_report:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, PlatformHelper.getManagedH5Url(URL_PATH_REPORT));
@@ -116,7 +114,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onRightClicked(View v) {
 
-        if(TextUtils.isEmpty(mCodeEdt.getText())) {
+        if (TextUtils.isEmpty(mCodeEdt.getText())) {
             return;
         }
 
@@ -142,8 +140,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO,
                         PlatformHelper.getManagedH5Url(URL_PATH_SEARCH)
-                        + "&merchantId=" + PlatformState.getInstance().getUserProfile().getAuthRangeId()
-                        + "&signNo=" + code);
+                                + "&merchantId=" + PlatformState.getInstance().getUserProfile().getAuthRangeId()
+                                + "&signNo=" + code);
                 break;
             default:
                 break;
