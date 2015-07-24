@@ -23,7 +23,7 @@ public class BaseFragment extends Fragment implements OnDispatchTouchEventListen
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Toolbar toolbar = getToolbar();
-        if (toolbar != null) {
+        if (toolbar != null && isShowToolbar()) {
             setupToolbar(toolbar);
         }
     }
@@ -38,6 +38,11 @@ public class BaseFragment extends Fragment implements OnDispatchTouchEventListen
         toolbar.setNavigationIcon(null);
         toolbar.setNavigationOnClickListener(null);
     }
+
+    protected boolean isShowToolbar() {
+        return true;
+    }
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
