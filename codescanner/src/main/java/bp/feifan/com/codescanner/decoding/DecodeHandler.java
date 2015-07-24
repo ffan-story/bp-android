@@ -19,22 +19,22 @@ import com.google.zxing.common.HybridBinarizer;
 
 import java.util.Map;
 
-import bp.feifan.com.codescanner.CaptureActivity;
+import bp.feifan.com.codescanner.CodeScannerFragment;
 import bp.feifan.com.codescanner.Contents;
 
 final class DecodeHandler extends Handler {
 
   private static final String TAG = DecodeHandler.class.getSimpleName();
 
-  private final CaptureActivity activity;
+  private final CodeScannerFragment fragment;
 
   private final MultiFormatReader multiFormatReader;
   private boolean running = true;
 
-  DecodeHandler(CaptureActivity activity, Map<DecodeHintType, Object> hints) {
+  DecodeHandler(CodeScannerFragment fragment, Map<DecodeHintType, Object> hints) {
     multiFormatReader = new MultiFormatReader();
     multiFormatReader.setHints(hints);
-    this.activity = activity;
+    this.fragment = fragment;
   }
 
   @Override
@@ -69,7 +69,7 @@ final class DecodeHandler extends Handler {
    */
   public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data,
       int width, int height, boolean isPortrait) {
-    Rect rect = activity.getCameraManager().getFramingRectInPreview();
+    Rect rect = fragment.getCameraManager().getFramingRectInPreview();
     if (rect == null) {
       return null;
     }
@@ -109,12 +109,12 @@ final class DecodeHandler extends Handler {
         height, true);
     rawResult = startDecode(source);
 
-    if (rawResult == null && activity.checkAllOrientation()) {
+    if (rawResult == null && fragment.checkAllOrientation()) {
       source = buildLuminanceSource(data, width, height, false);
       rawResult = startDecode(source);
     }
 
-    Handler handler = activity.getHandler();
+    Handler handler = fragment.getHandler();
     if (rawResult != null) {
       // Don't log the barcode contents for security.
       long end = System.currentTimeMillis();

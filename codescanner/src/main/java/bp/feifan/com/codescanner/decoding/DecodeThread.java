@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.CountDownLatch;
 
-import bp.feifan.com.codescanner.CaptureActivity;
+import bp.feifan.com.codescanner.CodeScannerFragment;
 
 /**
  * This thread does all the heavy lifting of decoding the images.
@@ -24,16 +24,16 @@ final class DecodeThread extends Thread {
 
   public static final String BARCODE_BITMAP = "barcode_bitmap";
 
-  private final CaptureActivity activity;
+  private final CodeScannerFragment fragment;
   private final Map<DecodeHintType, Object> hints;
   private Handler handler;
   private final CountDownLatch handlerInitLatch;
 
-  DecodeThread(CaptureActivity activity,
+  DecodeThread(CodeScannerFragment fragment,
       Collection<BarcodeFormat> decodeFormats, String characterSet,
       ResultPointCallback resultPointCallback) {
 
-    this.activity = activity;
+    this.fragment = fragment;
     handlerInitLatch = new CountDownLatch(1);
 
     hints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
@@ -67,7 +67,7 @@ final class DecodeThread extends Thread {
   @Override
   public void run() {
     Looper.prepare();
-    handler = new DecodeHandler(activity, hints);
+    handler = new DecodeHandler(fragment, hints);
     handlerInitLatch.countDown();
     Looper.loop();
   }

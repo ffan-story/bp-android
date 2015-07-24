@@ -16,7 +16,7 @@ import com.google.zxing.Result;
 import java.util.Collection;
 
 import bp.feifan.com.codescanner.CameraManager;
-import bp.feifan.com.codescanner.CaptureActivity;
+import bp.feifan.com.codescanner.CodeScannerFragment;
 import bp.feifan.com.codescanner.Contents;
 import bp.feifan.com.codescanner.view.ViewfinderResultPointCallback;
 
@@ -31,7 +31,7 @@ public final class CaptureActivityHandler extends Handler {
   private static final String TAG = CaptureActivityHandler.class
       .getSimpleName();
 
-  private final CaptureActivity activity;
+  private final CodeScannerFragment fragment;
   private final DecodeThread decodeThread;
   private State state;
   private final CameraManager cameraManager;
@@ -40,12 +40,12 @@ public final class CaptureActivityHandler extends Handler {
     PREVIEW, SUCCESS, DONE
   }
 
-  public CaptureActivityHandler(CaptureActivity activity,
+  public CaptureActivityHandler(CodeScannerFragment fragment,
       Collection<BarcodeFormat> decodeFormats, String characterSet,
       CameraManager cameraManager) {
-    this.activity = activity;
-    decodeThread = new DecodeThread(activity, decodeFormats, characterSet,
-        new ViewfinderResultPointCallback(activity.getViewfinderView()));
+    this.fragment = fragment;
+    decodeThread = new DecodeThread(fragment, decodeFormats, characterSet,
+        new ViewfinderResultPointCallback(fragment.getViewfinderView()));
     decodeThread.start();
     state = State.SUCCESS;
 
@@ -68,7 +68,7 @@ public final class CaptureActivityHandler extends Handler {
         Bundle bundle = message.getData();
         Bitmap barcode = bundle == null ? null : (Bitmap) bundle
             .getParcelable(DecodeThread.BARCODE_BITMAP);
-        activity.handleDecode((Result) message.obj, barcode);
+        fragment.handleDecode((Result) message.obj, barcode);
         break;
       case Contents.Message.DECODE_FAILED:
         // We're decoding as fast as possible, so when one decode fails,
@@ -79,7 +79,7 @@ public final class CaptureActivityHandler extends Handler {
         break;
       case Contents.Message.RETURN_SCAN_RESULT:
         Log.d(TAG, "Got return scan result message");
-        FragmentActivity fragmentActivity = activity.getActivity();
+        FragmentActivity fragmentActivity = fragment.getActivity();
         if (null != fragmentActivity) {
           fragmentActivity.setResult(Activity.RESULT_OK,
               (Intent) message.obj);
@@ -91,7 +91,7 @@ public final class CaptureActivityHandler extends Handler {
         String url = (String) message.obj;
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        activity.startActivity(intent);
+        fragment.startActivity(intent);
         break;
     }
   }
@@ -120,7 +120,7 @@ public final class CaptureActivityHandler extends Handler {
       state = State.PREVIEW;
       cameraManager.requestPreviewFrame(decodeThread.getHandler(),
           Contents.Message.DECODE);
-      activity.drawViewfinder();
+      fragment.drawViewfinder();
     }
   }
 

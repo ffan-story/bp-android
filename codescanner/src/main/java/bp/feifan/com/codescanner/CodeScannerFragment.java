@@ -41,8 +41,8 @@ import bp.feifan.com.codescanner.decoding.ImageDecoder;
 import bp.feifan.com.codescanner.decoding.InactivityTimer;
 import bp.feifan.com.codescanner.view.ViewfinderView;
 
-public class CaptureActivity extends Fragment implements Callback {
-  private static final String TAG = CaptureActivity.class.getSimpleName();
+public class CodeScannerFragment extends Fragment implements Callback {
+  private static final String TAG = CodeScannerFragment.class.getSimpleName();
   public static final String ACTION_EXCLUDE_PICTURE =
       "com.wanda.sdk.zxing.CaptureActivity.ACTION_EXCLUDE_PICTURE";
   public static final String SCAN_CODE_TIP = "scan_code_tip";

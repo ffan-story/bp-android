@@ -4,25 +4,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.View;
-import android.widget.TextView;
 
 import com.feifan.bp.BrowserActivity;
 import com.feifan.bp.LogUtil;
-import com.feifan.bp.PlatformHelper;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseActivity;
 
-import bp.feifan.com.codescanner.CaptureActivity;
 import bp.feifan.com.codescanner.CaptureActivityOfResult;
+import bp.feifan.com.codescanner.CodeScannerFragment;
 
 /**
  * Created by maning on 15/7/6.
@@ -43,7 +39,7 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        CaptureActivity f = (CaptureActivity) Fragment.instantiate(this, CaptureActivity.class.getName());
+        CodeScannerFragment f = (CodeScannerFragment) Fragment.instantiate(this, CodeScannerFragment.class.getName());
         f.setCaptureActivityOfResult(this);
         transaction.add(R.id.content_container, f);
         transaction.commit();
