@@ -1,72 +1,53 @@
 package com.feifan.bp.password;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.feifan.bp.Constants;
-import com.feifan.bp.LogUtil;
+import com.feifan.bp.net.BaseRequest;
+import com.feifan.bp.net.BaseRequestProcessListener;
+import com.feifan.bp.net.HttpParams;
 import com.feifan.bp.net.NetUtils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-
-public class SendSMSCodeRequest extends Request<PasswordModel> {
+/**
+ * Created by maning on 15/7/29.
+ */
+public class SendSMSCodeRequest extends BaseRequest<PasswordModel> {
 
     private static final String TAG = SendSMSCodeRequest.class.getSimpleName();
-
-   // private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "msgcenter/v1/smsOutboxes";
+    // private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "msgcenter/v1/smsOutboxes";
     private static final String URL = NetUtils.getUrlFactory().getFFanHostUrl() + "xadmin/phoneSms";
-    private Map<String, String> mParams;
 
-    private Listener<PasswordModel> mListener;
-
-    public SendSMSCodeRequest(Listener<PasswordModel> listener, ErrorListener errorListener, Map<String, String> params) {
-        super(Method.POST, URL, errorListener);
-        mParams = params;
-        mListener = listener;
+    public SendSMSCodeRequest(Parameters params,
+                              BaseRequestProcessListener<PasswordModel> listener) {
+        super(Method.POST, URL, params, listener);
     }
 
     @Override
-    protected Map<String, String> getParams() throws AuthFailureError {
-        return mParams;
+    protected PasswordModel onGetModel(JSONObject json) {
+        return new PasswordModel(json);
     }
 
-    @Override
-    protected Response<PasswordModel> parseNetworkResponse(NetworkResponse networkResponse) {
-        String jsonStr = null;
-        try {
-            jsonStr = new String(networkResponse.data, HttpHeaderParser.parseCharset(networkResponse.headers));
-            JSONObject json = new JSONObject(jsonStr);
-            int status = json.optInt("status");
-            if(status == Constants.RESPONSE_CODE_SUCCESS) {
-                return Response.success(new PasswordModel(json.optJSONObject("data")), HttpHeaderParser.parseCacheHeaders(networkResponse));
-            }else {
-                LogUtil.w(TAG, "error status:" + jsonStr);
-                return Response.error(new VolleyError(json.optString("msg")));
-            }
+    public static class Params extends Parameters {
+        @HttpParams(type = HttpParams.Type.BODY)
+        private String phone;
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            LogUtil.w(TAG, "Response:" + jsonStr);
-            e.printStackTrace();
+        @HttpParams(type = HttpParams.Type.BODY)
+        private String content;
+
+        @HttpParams(type = HttpParams.Type.BODY)
+        private String templateId;
+
+        public void setContent(String content) {
+            this.content = content;
         }
 
-        return null;
-    }
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
 
-    @Override
-    protected void deliverResponse(PasswordModel passwordModel) {
-        mListener.onResponse(passwordModel);
+        public void setTemplateId(String templateId) {
+            this.templateId = templateId;
+        }
     }
-
 }

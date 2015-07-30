@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.volley.Response;
-import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
@@ -133,10 +131,10 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                     }
                 }
 
-                PasswordCtrl.forgetPassword2(getActivity(), newPhone, mAuthCode, mKeyCode,
-                        new BaseRequestProcessListener<PasswordModel2>(getActivity()) {
+                PasswordCtrl.forgetPassword(getActivity(), newPhone, mAuthCode, mKeyCode,
+                        new BaseRequestProcessListener<PasswordModel>(getActivity()) {
                     @Override
-                    public void onResponse(PasswordModel2 passwordModel2) {
+                    public void onResponse(PasswordModel passwordModel2) {
                         Utils.showShortToast(getString(R.string.new_password_sended));
                         getActivity().onBackPressed();
                     }
@@ -154,18 +152,18 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                 if (!isCheckedMobile(phone)) {
                     return;
                 }
-                PasswordCtrl.checkPhoneNumExist2(getActivity(), phone,
-                        new BaseRequestProcessListener<PasswordModel2>(getActivity()) {
+                PasswordCtrl.checkPhoneNumExist(getActivity(), phone,
+                        new BaseRequestProcessListener<PasswordModel>(getActivity()) {
                     @Override
-                    public void onResponse(PasswordModel2 passwordModel2) {
+                    public void onResponse(PasswordModel passwordModel2) {
                         mCountDownButton.startCountDown();
                         mAuthCode = passwordModel2.authCode;
                         mKeyCode = passwordModel2.key;
                         getSmsCode();
-                        PasswordCtrl.sendSMSCode2(getActivity(), phone, mRadomSmsCode,
-                                new BaseRequestProcessListener<PasswordModel2>(getActivity()) {
+                        PasswordCtrl.sendSMSCode(getActivity(), phone, mRadomSmsCode,
+                                new BaseRequestProcessListener<PasswordModel>(getActivity()) {
                             @Override
-                            public void onResponse(PasswordModel2 passwordModel2) {
+                            public void onResponse(PasswordModel passwordModel2) {
                                 Utils.showShortToast(getString(R.string.sms_sended));
                             }
                         });

@@ -4,11 +4,9 @@ import android.content.Context;
 
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpEngine;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by xuchunlei on 15/6/17.
@@ -31,17 +29,11 @@ public class UserCtrl {
         return USER_STATUS_NONE;
     }
 
-    /**
-     *
-     * @param context
-     * @param account
-     * @param password
-     * @param listener
-     */
     public static void login(Context context, String account, String password, BaseRequestProcessListener<UserModel> listener) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("userName", account);
-        params.put("password", password);
+
+        LoginRequest.Params params = BaseRequest.newParams(LoginRequest.Params.class);
+        params.setPassword(password);
+        params.setUserName(account);
         HttpEngine.Builder.newInstance(context).setRequest(new LoginRequest(params, listener)).build().start();
     }
 }

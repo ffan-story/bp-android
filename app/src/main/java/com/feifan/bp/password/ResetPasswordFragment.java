@@ -1,7 +1,6 @@
 package com.feifan.bp.password;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -17,21 +16,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
-import com.feifan.bp.LaunchActivity;
-import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
-import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.home.SettingsFragment;
-import com.feifan.bp.login.LoginFragment;
-import com.feifan.bp.login.UserCtrl;
-import com.feifan.bp.login.UserModel;
-import com.feifan.bp.login.UserProfile;
 import com.feifan.bp.net.BaseRequestProcessListener;
 
 /**
@@ -191,10 +180,10 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                     return;
                 }
                 mIsConfirmEnable = false;
-                PasswordCtrl.resetPassword2(getActivity(), oldPwd, newPwd,
-                        new BaseRequestProcessListener<PasswordModel2>(getActivity()) {
+                PasswordCtrl.resetPassword(getActivity(), oldPwd, newPwd,
+                        new BaseRequestProcessListener<PasswordModel>(getActivity()) {
                             @Override
-                            public void onResponse(PasswordModel2 passwordModel2) {
+                            public void onResponse(PasswordModel passwordModel2) {
                                 getActivity().onBackPressed();
                                 Utils.showShortToast(getString(R.string.reset_pwd_suc));
                             }
@@ -206,30 +195,6 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                             }
                         });
 
-//                PasswordCtrl.resetPassword(oldPwd, newPwd, new Response.Listener<PasswordModel>() {
-//                    @Override
-//                    public void onResponse(PasswordModel model) {
-//                        mIsConfirmEnable = true;
-//                        getActivity().onBackPressed();
-//                        Utils.showShortToast(getString(R.string.reset_pwd_suc));
-//                    }
-//                }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError volleyError) {
-//                        mIsConfirmEnable = true;
-//                        if (!Utils.isNetworkAvailable()) {     // 网络不可用
-//                            Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
-//                        } else {                               // 其他原因
-//                            String msg = volleyError.getMessage();
-//                            if (!TextUtils.isEmpty(msg) && msg.trim().length() > 0) {
-//                                Utils.showShortToast(msg, Gravity.CENTER);
-//                            } else {
-//                                Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
-//                            }
-//                        }
-//
-//                    }
-//                });
                 break;
         }
     }

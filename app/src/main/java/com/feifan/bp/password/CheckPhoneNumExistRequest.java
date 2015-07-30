@@ -1,65 +1,42 @@
 package com.feifan.bp.password;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.feifan.bp.Constants;
-import com.feifan.bp.LogUtil;
+import com.feifan.bp.net.BaseRequest;
+import com.feifan.bp.net.BaseRequestProcessListener;
+import com.feifan.bp.net.HttpParams;
 import com.feifan.bp.net.NetUtils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-
-
-public class CheckPhoneNumExistRequest extends Request<PasswordModel> {
+/**
+ * Created by maning on 15/7/29.
+ */
+public class CheckPhoneNumExistRequest extends BaseRequest<PasswordModel> {
 
     private static final String TAG = CheckPhoneNumExistRequest.class.getSimpleName();
 
-    private static final String URL_FORMAT = NetUtils.getUrlFactory().getFFanHostUrl() + "xadmin/verificationphone?phone=%s";
- 
+    private static final String URL_FORMAT = NetUtils.getUrlFactory().getFFanHostUrl() +
+            "xadmin/verificationphone?phone=%s";
 
-    private Listener<PasswordModel> mListener;
+    private static final String URL = NetUtils.getUrlFactory().getFFanHostUrl() +
+            "xadmin/verificationphone";
 
-    public CheckPhoneNumExistRequest(Listener<PasswordModel> listener, ErrorListener errorListener, String phone) {
-        super(Method.GET, String.format(URL_FORMAT, phone), errorListener);
-        mListener = listener;
+    public CheckPhoneNumExistRequest(Parameters parameters,
+                                     BaseRequestProcessListener<PasswordModel> listener) {
+        super(Method.GET, URL, parameters, listener);
     }
 
-     
+
     @Override
-    protected Response<PasswordModel> parseNetworkResponse(NetworkResponse networkResponse) {
-        String jsonStr = null;
-        try {
-            jsonStr = new String(networkResponse.data, HttpHeaderParser.parseCharset(networkResponse.headers));
-            JSONObject json = new JSONObject(jsonStr);
+    protected PasswordModel onGetModel(JSONObject json) {
+        return new PasswordModel(json);
+    }
 
-            int status = json.optInt("status");
-            if(status == Constants.RESPONSE_CODE_SUCCESS) {
-                return Response.success(new PasswordModel(json.optJSONObject("data")), HttpHeaderParser.parseCacheHeaders(networkResponse));
-            }else {
-                LogUtil.w(TAG, "error status:" + jsonStr);
-                return Response.error(new VolleyError(json.optString("msg")));
-            }
+    public static class Params extends Parameters {
+        @HttpParams(type = HttpParams.Type.URL)
+        private String phone;
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            LogUtil.w(TAG, "Response:" + jsonStr);
-            e.printStackTrace();
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
-
-        return null;
     }
-
-    @Override
-    protected void deliverResponse(PasswordModel passwordModel) {
-        mListener.onResponse(passwordModel);
-    }
-
 }

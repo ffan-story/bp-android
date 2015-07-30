@@ -1,22 +1,26 @@
 package com.feifan.bp.password;
 
+import com.feifan.bp.base.BaseModel;
+
 import org.json.JSONObject;
 
-public class PasswordModel {
-    public String authCode="";
-    public String key="";
-   
+/**
+ * Created by maning on 15/7/29.
+ */
+public class PasswordModel extends BaseModel {
+    public String authCode = "";
+    public String key = "";
 
     public PasswordModel(JSONObject json) {
-        if(json==null){
-            return;
-        }
-        authCode = json.optString("authCode");
-        key = json.optString("key");
+        super(json);
     }
 
     @Override
-    public String toString() {
-        return "authCode=" + authCode+","+"key"+key ;
+    protected void parseData(JSONObject data) {
+        if (data == null) {
+            return;
+        }
+        authCode = data.optString("authCode");
+        key = data.optString("key");
     }
 }

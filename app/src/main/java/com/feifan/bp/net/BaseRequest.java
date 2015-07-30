@@ -14,6 +14,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -33,16 +36,83 @@ public abstract class BaseRequest<T extends BaseModel> extends Request<T> {
         void onFinish();
     }
 
+    public static class Parameters {
+
+        public static <U extends Parameters> U newInstance(Class<U> clazz) {
+            try {
+                return clazz.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+    }
+
+    public static <U extends Parameters> U newParams(Class<U> clazz) {
+        return Parameters.newInstance(clazz);
+    }
+
+    public static <U extends Parameters> String getParamUrl(String baseUrl, U param) {
+        if (param == null) {
+            return baseUrl;
+        }
+
+        Class<?> clazz = param.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        StringBuilder sb = new StringBuilder();
+        try {
+            for (Field f : fields) {
+                f.setAccessible(true);
+                HttpParams a = f.getAnnotation(HttpParams.class);
+                if (a.type() == HttpParams.Type.URL) {
+                    sb.append(f.getName()).append("=").append(f.get(param)).append("&");
+                }
+            }
+            if (sb.length() > 0) {
+                sb.deleteCharAt(sb.length() - 1);
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return baseUrl + "?" + sb.toString();
+    }
+
+    public static <U extends Parameters> Map<String, String> getParamBody(U param) {
+        if (param == null) {
+            return null;
+        }
+
+        Class<?> clazz = param.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        Map<String, String> map = new HashMap<>();
+        try {
+            for (Field f : fields) {
+                LogUtil.w(TAG, "getParamBody() f=" + f.getName());
+                f.setAccessible(true);
+                HttpParams a = f.getAnnotation(HttpParams.class);
+                if (a.type() == HttpParams.Type.BODY) {
+                    map.put(f.getName(), (String)f.get(param));
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
     private OnRequestProcessListener<T> mOnRequestProcessListener;
 
     private Map<String, String> mParams;
 
-    public BaseRequest(int method, String url, Map<String, String> params,
+    public BaseRequest(int method, String url, Parameters params,
                        OnRequestProcessListener<T> listener) {
-        super(method, url, listener);
-        mParams = params;
+        super(method, BaseRequest.getParamUrl(url, params), listener);
+        mParams = BaseRequest.getParamBody(params);
         mOnRequestProcessListener = listener;
-        if (mOnRequestProcessListener!=null) {
+        if (mOnRequestProcessListener != null) {
             mOnRequestProcessListener.onStart();
         }
     }
@@ -55,13 +125,13 @@ public abstract class BaseRequest<T extends BaseModel> extends Request<T> {
 
     @Override
     protected void deliverResponse(T t) {
-        if (mOnRequestProcessListener!=null) {
+        if (mOnRequestProcessListener != null) {
             mOnRequestProcessListener.onResponse(t);
         }
     }
 
     public final void onFinish() {
-        if (mOnRequestProcessListener!=null) {
+        if (mOnRequestProcessListener != null) {
             mOnRequestProcessListener.onFinish();
         }
     }
@@ -77,9 +147,9 @@ public abstract class BaseRequest<T extends BaseModel> extends Request<T> {
             LogUtil.i(TAG, jsonStr);
             JSONObject json = new JSONObject(jsonStr);
             T model = onGetModel(json);
-            if(model.getStatus() == Constants.RESPONSE_CODE_SUCCESS) {
+            if (model.getStatus() == Constants.RESPONSE_CODE_SUCCESS) {
                 return Response.success(model, HttpHeaderParser.parseCacheHeaders(networkResponse));
-            }else {
+            } else {
                 LogUtil.w(TAG, "error status:" + jsonStr);
                 errStr = model.getMsg();
             }

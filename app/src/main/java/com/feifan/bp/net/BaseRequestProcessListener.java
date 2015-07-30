@@ -51,7 +51,6 @@ public abstract class BaseRequestProcessListener<T> implements BaseRequest.OnReq
 
     @Override
     public void onStart() {
-        LogUtil.i(TAG, "onStart()");
         if (mIsShowProgress) {
             showProgressBar();
         }
@@ -59,7 +58,6 @@ public abstract class BaseRequestProcessListener<T> implements BaseRequest.OnReq
 
     @Override
     public void onFinish() {
-        LogUtil.i(TAG, "onFinish()");
         if (mIsShowProgress) {
             hideProgressBar();
         }
