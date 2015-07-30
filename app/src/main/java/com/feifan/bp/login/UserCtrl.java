@@ -29,11 +29,13 @@ public class UserCtrl {
         return USER_STATUS_NONE;
     }
 
-    public static void login(Context context, String account, String password, BaseRequestProcessListener<UserModel> listener) {
+    public static void login(Context context, String account, String password,
+                             BaseRequestProcessListener<UserModel> listener) {
 
         LoginRequest.Params params = BaseRequest.newParams(LoginRequest.Params.class);
         params.setPassword(password);
         params.setUserName(account);
+        params.setAuthRangeType("store");
         HttpEngine.Builder.newInstance(context).setRequest(new LoginRequest(params, listener)).build().start();
     }
 }

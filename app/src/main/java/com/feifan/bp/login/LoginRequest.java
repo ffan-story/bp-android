@@ -34,12 +34,19 @@ public class LoginRequest extends BaseRequest<UserModel> {
         @HttpParams(type = HttpParams.Type.BODY)
         private String password;
 
+        @HttpParams(type = HttpParams.Type.BODY)
+        private String authRangeType;
+
         public void setPassword(String password) {
             this.password = password;
         }
 
         public void setUserName(String userName) {
             this.userName = userName;
+        }
+
+        public void setAuthRangeType(String authRangeType) {
+            this.authRangeType = authRangeType;
         }
     }
 }
