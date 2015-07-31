@@ -108,11 +108,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                mLastClickTime = SystemClock.elapsedRealtime();
                HomeCtrl.checkVersion(getActivity(), new BaseRequestProcessListener<CheckVersionModel>(getActivity()) {
                    @Override
-                   public String onGetLoadingText() {
-                       return getString(R.string.progress_bar_check_version);
-                   }
-
-                   @Override
                    public void onResponse(CheckVersionModel checkVersionModel) {
                        LogUtil.i(TAG, checkVersionModel.toString());
                        if (checkVersionModel.getVersionCode() > BuildConfig.VERSION_CODE) {

@@ -92,12 +92,8 @@ public class LoginFragment extends BaseFragment {
 
                 try {
                     Utils.checkPhoneNumber(accountStr);
-                    UserCtrl.login(getActivity(), accountStr, passwordStr, new BaseRequestProcessListener<UserModel>(getActivity()) {
-                        @Override
-                        public String onGetLoadingText() {
-                            return getString(R.string.progress_bar_login);
-                        }
-
+                    UserCtrl.login(getActivity(), accountStr, passwordStr,
+                            new BaseRequestProcessListener<UserModel>(getActivity()) {
                         @Override
                         public void onResponse(UserModel userModel) {
                             LogUtil.i(TAG, userModel.toString());

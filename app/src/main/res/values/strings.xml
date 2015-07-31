@@ -3,7 +3,7 @@
     <string name="app_name">飞凡商家</string>
 
     <!--Common strings-->
-    <string name="progress_bar_text">数据加载中...</string>
+    <string name="progress_bar_text">请稍候...</string>
     <string name="progress_bar_login">登录中...</string>
     <string name="progress_bar_check_version">检查更新...</string>
 
