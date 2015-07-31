@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.feifan.bp.LogUtil;
@@ -63,12 +65,20 @@ public abstract class BaseRequestProcessListener<T> implements BaseRequest.OnReq
         }
     }
 
+    public String onGetLoadingText() {
+        return null;
+    }
+
     private void showProgressBar() {
         if (mProgressDialog != null) {
             return;
         }
         mProgressDialog = new Dialog(mAppContext, R.style.LoadingDialog);
-        mProgressDialog.setContentView(R.layout.progress_bar_layout);
+        View progress = mProgressDialog.getWindow().getLayoutInflater().inflate(R.layout.progress_bar_layout, null);
+        if (!TextUtils.isEmpty(onGetLoadingText())) {
+            ((TextView) progress.findViewById(R.id.progress_tips)).setText(onGetLoadingText());
+        }
+        mProgressDialog.setContentView(progress);
         mProgressDialog.setCancelable(mIsProgressCancelable);
         mProgressDialog.show();
     }

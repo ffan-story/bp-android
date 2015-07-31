@@ -14,9 +14,6 @@ public class CheckPhoneNumExistRequest extends BaseRequest<PasswordModel> {
 
     private static final String TAG = CheckPhoneNumExistRequest.class.getSimpleName();
 
-    private static final String URL_FORMAT = NetUtils.getUrlFactory().getFFanHostUrl() +
-            "xadmin/verificationphone?phone=%s";
-
     private static final String URL = NetUtils.getUrlFactory().getFFanHostUrl() +
             "xadmin/verificationphone";
 

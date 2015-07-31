@@ -94,6 +94,11 @@ public class LoginFragment extends BaseFragment {
                     Utils.checkPhoneNumber(accountStr);
                     UserCtrl.login(getActivity(), accountStr, passwordStr, new BaseRequestProcessListener<UserModel>(getActivity()) {
                         @Override
+                        public String onGetLoadingText() {
+                            return getString(R.string.progress_bar_login);
+                        }
+
+                        @Override
                         public void onResponse(UserModel userModel) {
                             LogUtil.i(TAG, userModel.toString());
                             // 保存登录信息

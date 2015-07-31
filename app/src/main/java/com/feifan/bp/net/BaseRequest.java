@@ -155,7 +155,7 @@ public abstract class BaseRequest<T extends BaseModel> extends Request<T> {
         Map<String, String> map = new HashMap<>();
         try {
             for (Field f : fields) {
-                LogUtil.w(TAG, "getParamBody() f=" + f.getName());
+                LogUtil.i(TAG, "getParamBody() f=" + f.getName());
                 f.setAccessible(true);
                 HttpParams a = f.getAnnotation(HttpParams.class);
                 if (a.type() == HttpParams.Type.BODY) {

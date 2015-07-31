@@ -4,6 +4,8 @@
 
     <!--Common strings-->
     <string name="progress_bar_text">数据加载中...</string>
+    <string name="progress_bar_login">登录中...</string>
+    <string name="progress_bar_check_version">检查更新...</string>
 
     <!-- LoginFragment(登录界面) - begin -->
     <string name="login_login_text">登录</string>

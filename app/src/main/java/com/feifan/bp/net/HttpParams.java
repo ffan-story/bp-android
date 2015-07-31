@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HttpParams {
-    enum Type {URL, BODY}
+    enum Type {URL, BODY, HEADER}
     Type type() default Type.URL;
 }
