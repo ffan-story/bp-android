@@ -42,6 +42,7 @@ public abstract class BaseRequest<T extends BaseModel> extends Request<T> {
 
     public BaseRequest(int method, String url, Parameters params, OnRequestProcessListener<T> listener) {
         super(method, BaseRequest.getParamUrl(url, params), listener);
+        LogUtil.i(TAG, "url=" + BaseRequest.getParamUrl(url, params));
         mParams = BaseRequest.getParamBody(params);
         mOnRequestProcessListener = listener;
         if (mOnRequestProcessListener != null) {

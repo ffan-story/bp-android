@@ -11,7 +11,7 @@ import org.json.JSONObject;
  */
 public class CheckVersionRequest extends BaseRequest<CheckVersionModel> {
 
-    private static final String URL = NetUtils.getUrlFactory().getFFanHostUrl() + "xadmin/getversioninfo?appType=bpMobile";
+    private static final String URL = NetUtils.getUrlFactory().checkVersion();
 
     public CheckVersionRequest(
             BaseRequestProcessListener<CheckVersionModel> listener) {

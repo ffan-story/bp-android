@@ -16,6 +16,7 @@ import com.feifan.bp.LogUtil;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.net.NetUtils;
 
 import bp.feifan.com.codescanner.CaptureActivityOfResult;
 import bp.feifan.com.codescanner.CodeScannerFragment;
@@ -65,8 +66,8 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
     public void getScanCodeResult(String resultText, long timeStamp, String barcodeFormat) {
         LogUtil.i(TAG, "getScanCodeResult() text=" + resultText + " time=" + timeStamp +
                 " format=" + barcodeFormat);
-        if (!Utils.isNetworkAvailable()) {
-            Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+        if (!Utils.isNetworkAvailable(this)) {
+            Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
             finish();
             return;
         }
@@ -76,7 +77,7 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
         }
 
         //TODO: Translate code to url and jump to h5 page.
-        String urlStr = ScannerCtrl.getSignH5Url(resultText);
+        String urlStr = NetUtils.getUrlFactory().searchCodeForHtml(this, resultText);
         BrowserActivity.startActivity(this, urlStr);
         finish();
 

@@ -115,11 +115,11 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                     return;
                 }
                 if (TextUtils.isEmpty(phone)) {
-                    Utils.showShortToast(getString(R.string.error_message_text_phone_number_empty));
+                    Utils.showShortToast(getActivity(), getString(R.string.error_message_text_phone_number_empty));
                     return;
                 }
                 if (TextUtils.isEmpty(smsCode)) {
-                    Utils.showShortToast(getString(R.string.sms_error));
+                    Utils.showShortToast(getActivity(), getString(R.string.sms_error));
                     return;
                 }
                 String newPhone = "";
@@ -135,7 +135,7 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                         new BaseRequestProcessListener<PasswordModel>(getActivity()) {
                     @Override
                     public void onResponse(PasswordModel passwordModel2) {
-                        Utils.showShortToast(getString(R.string.new_password_sended));
+                        Utils.showShortToast(getActivity(), getString(R.string.new_password_sended));
                         getActivity().onBackPressed();
                     }
                 });
@@ -164,7 +164,7 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                                 new BaseRequestProcessListener<PasswordModel>(getActivity()) {
                             @Override
                             public void onResponse(PasswordModel passwordModel2) {
-                                Utils.showShortToast(getString(R.string.sms_sended));
+                                Utils.showShortToast(getActivity(), getString(R.string.sms_sended));
                             }
                         });
 //                        PasswordCtrl.sendSMSCode(phone, mRadomSmsCode, new Response.Listener<PasswordModel>() {
@@ -195,13 +195,13 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
 
     public boolean isCheckedMobile(String phone) {
         if (TextUtils.isEmpty(phone)) {
-            Utils.showShortToast(getString(R.string.error_message_text_phone_number_empty));
+            Utils.showShortToast(getActivity(), getString(R.string.error_message_text_phone_number_empty));
             return false;
         }
         try {
-            Utils.checkPhoneNumber(phone);
+            Utils.checkPhoneNumber(getActivity(), phone);
         } catch (Throwable throwable) {
-            Utils.showShortToast(R.string.error_message_text_phone_number_illegal, Gravity.CENTER);
+            Utils.showShortToast(getActivity(), R.string.error_message_text_phone_number_illegal, Gravity.CENTER);
             return false;
         }
         return true;

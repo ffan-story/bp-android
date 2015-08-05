@@ -6,6 +6,8 @@
     <string name="progress_bar_text">请稍候...</string>
     <string name="progress_bar_login">登录中...</string>
     <string name="progress_bar_check_version">检查更新...</string>
+    <string name="version_update_message">您目前的版本已过期，为了不影响使用，请升级到最新版本。</string>
+    <string name="version_update_title">版本更新</string>
 
     <!-- LoginFragment(登录界面) - begin -->
     <string name="login_login_text">登录</string>
@@ -25,6 +27,8 @@
     <string name="index_history_text">验证历史</string>
     <string name="index_order_text">订单管理</string>
     <string name="index_report_text">统计报表</string>
+    <string name="index_staff_text">员工管理</string>
+    <string name="index_refund_text">退款售后</string>
     <string name="index_search_input_hint">请输入提货码</string>
 
     <!-- Settings（设置） - begin -->
@@ -84,4 +88,5 @@
 
     <!-- common -->
     <string name="common_confirm">确定</string>
+    <string name="common_cancel">取消</string>
 </resources>

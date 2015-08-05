@@ -23,6 +23,7 @@ import com.feifan.bp.R;
 
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.Utils;
+import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.password.ResetPasswordFragment;
@@ -116,24 +117,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                            args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, checkVersionModel.getVersionUrl());
                            mListener.onFragmentInteraction(args);
                        } else {
-                           Utils.showShortToast(R.string.settings_check_update_none);
+                           Utils.showShortToast(getActivity(), R.string.settings_check_update_none);
                        }
                    }
                });
-//               HomeCtrl.checkUpgrade(new Listener<VersionModel>() {
-//                   @Override
-//                   public void onResponse(VersionModel versionModel) {
-//                       LogUtil.i(TAG, versionModel.toString());
-//                       if (versionModel.versionCode > BuildConfig.VERSION_CODE) {
-//                           Bundle args = new Bundle();
-//                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
-//                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, versionModel.versionUrl);
-//                           mListener.onFragmentInteraction(args);
-//                       } else {
-//                           Utils.showShortToast(R.string.settings_check_update_none);
-//                       }
-//                   }
-//               });
                break;
            case R.id.settings_change_password:
                Bundle args = new Bundle();
@@ -146,7 +133,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
                    @Override
                    public void run() {
-                       PlatformState.getInstance().reset();
+                       PlatformState.getInstance().reset(getActivity());
+                       AccountManager.instance(getActivity()).clear();
                        getActivity().runOnUiThread(new Runnable() {
 
                            @Override

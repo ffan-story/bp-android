@@ -1,7 +1,7 @@
 package com.feifan.bp;
 
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -34,8 +34,8 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 
     private Fragment mCurrentFragment;
 
-    public static Intent buildIntent() {
-        Intent intent = new Intent(PlatformState.getApplicationContext(), LaunchActivity.class);
+    public static Intent buildIntent(Context context) {
+        Intent intent = new Intent(context, LaunchActivity.class);
         return intent;
     }
 
@@ -90,17 +90,17 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         String to = args.getString(OnFragmentInteractionListener.INTERATION_KEY_TO);
         int type = args.getInt(OnFragmentInteractionListener.INTERATION_KEY_TYPE, OnFragmentInteractionListener.TYPE_IDLE);
         if (from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
-            if (PlatformState.getInstance().getLastUrl() != null) {
-                if (Utils.isNetworkAvailable()) {
-                    BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl());
+            if (PlatformState.getInstance().getLastUrl(this) != null) {
+                if (Utils.isNetworkAvailable(this)) {
+                    BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl(this));
                 } else {
-                    Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+                    Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
             }
             showHome(true);
         } else if (from.equals(SettingsFragment.class.getName())) {
             if (to.equals(LaunchActivity.class.getName())) {
-                startActivity(buildIntent());
+                startActivity(buildIntent(this));
             } else if (to.equals(ResetPasswordFragment.class.getName())) {
                 showResetPassword();
             }else {
@@ -136,7 +136,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 
     // 初始化界面内容
     private void initContent() {
-        if (UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
+        if (UserCtrl.getStatus(LaunchActivity.this) == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
             showLogin();
         } else {
             showHome(true);
@@ -172,12 +172,12 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 
     // 打开浏览器
     private void openBrowser(String url) {
-        if (Utils.isNetworkAvailable()) {
+        if (Utils.isNetworkAvailable(this)) {
             Intent intent = new Intent(this, BrowserActivity.class);
             intent.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
             startActivity(intent);
         } else {
-            Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+            Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
         }
     }
 

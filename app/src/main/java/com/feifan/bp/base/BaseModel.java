@@ -2,6 +2,7 @@ package com.feifan.bp.base;
 
 import com.feifan.bp.Constants;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -11,11 +12,16 @@ public abstract class BaseModel {
     private int status;
     private String msg;
 
-    public BaseModel(JSONObject json) {
+    public BaseModel(JSONObject json, boolean parseArrayData) {
         status = json.optInt("status");
         msg = json.optString("msg");
         if(status == Constants.RESPONSE_CODE_SUCCESS) {
-            parseData(json.optJSONObject("data"));
+            if (parseArrayData) {
+                parseArrayData(json.optJSONArray("data"));
+            } else {
+                parseData(json.optJSONObject("data"));
+            }
+
         }
     }
 
@@ -28,6 +34,8 @@ public abstract class BaseModel {
     }
 
     protected abstract void parseData(JSONObject data);
+
+    protected abstract void parseArrayData(JSONArray data);
 
     @Override
     public String toString() {

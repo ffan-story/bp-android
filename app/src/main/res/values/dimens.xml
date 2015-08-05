@@ -18,7 +18,7 @@
     <dimen name="login_logo_margin">28dp</dimen>
 
     <!-- 主页 -->
-    <dimen name="index_divider_height">96dp</dimen>
+    <dimen name="index_divider_height">100dp</dimen>
 
     <!-- 商户中心 -->
     <dimen name="merchant_logo_diameter">73dp</dimen>

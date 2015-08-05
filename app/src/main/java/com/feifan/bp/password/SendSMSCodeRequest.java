@@ -16,7 +16,7 @@ public class SendSMSCodeRequest extends BaseRequest<PasswordModel> {
 
     private static final String TAG = SendSMSCodeRequest.class.getSimpleName();
     // private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "msgcenter/v1/smsOutboxes";
-    private static final String URL = NetUtils.getUrlFactory().getFFanHostUrl() + "xadmin/phoneSms";
+    private static final String URL = NetUtils.getUrlFactory().sendSMS();
 
     public SendSMSCodeRequest(Parameters params,
                               BaseRequestProcessListener<PasswordModel> listener) {

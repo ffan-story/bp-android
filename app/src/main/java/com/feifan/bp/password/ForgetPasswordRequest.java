@@ -13,7 +13,7 @@ import org.json.JSONObject;
 public class ForgetPasswordRequest extends BaseRequest<PasswordModel> {
 
     private static final String TAG = ForgetPasswordRequest.class.getSimpleName();
-    private static String URL = NetUtils.getUrlFactory().getFFanHostUrl() + "xadmin/forgetpwd";
+    private static String URL = NetUtils.getUrlFactory().forgetPassword();
 
     public ForgetPasswordRequest(Parameters parameters,
                                  BaseRequestProcessListener<PasswordModel> listener) {

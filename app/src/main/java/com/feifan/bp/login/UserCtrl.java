@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpEngine;
@@ -21,9 +22,8 @@ public class UserCtrl {
      *
      * @return 状态值，见UserCtrl.USER_STATUS_XXX
      */
-    public static int getStatus() {
-        UserProfile profile = PlatformState.getInstance().getUserProfile();
-        if (profile.getUid() == Constants.NO_INTEGER) {
+    public static int getStatus(Context context) {
+        if (AccountManager.instance(context).getUid() == Constants.NO_INTEGER) {
             return USER_STATUS_LOGOUT;
         }
         return USER_STATUS_NONE;
@@ -36,6 +36,17 @@ public class UserCtrl {
         params.setPassword(password);
         params.setUserName(account);
         params.setAuthRangeType("store");
-        HttpEngine.Builder.newInstance(context).setRequest(new LoginRequest(params, listener)).build().start();
+        HttpEngine.Builder.newInstance(context).
+                setRequest(new LoginRequest(params, listener)).
+                build().start();
+    }
+
+    public static void checkPermission(Context context, String uid,
+                                       BaseRequestProcessListener<PermissionModel> listener) {
+        CheckPermissionRequest.Params params = BaseRequest.newParams(CheckPermissionRequest.Params.class);
+        params.setUid(uid);
+        HttpEngine.Builder.newInstance(context).
+                setRequest(new CheckPermissionRequest(params, listener)).
+                build().start();
     }
 }

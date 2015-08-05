@@ -39,14 +39,14 @@ public abstract class BaseRequestProcessListener<T> implements BaseRequest.OnReq
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        if (!Utils.isNetworkAvailable()) {     // 网络不可用
-            Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+        if (!Utils.isNetworkAvailable(mAppContext)) {     // 网络不可用
+            Utils.showShortToast(mAppContext, R.string.error_message_text_offline, Gravity.CENTER);
         } else {                               // 其他原因
             String msg = error.getMessage();
             if (!TextUtils.isEmpty(msg) && msg.trim().length() > 0) {
-                Utils.showShortToast(msg, Gravity.CENTER);
+                Utils.showShortToast(mAppContext, msg, Gravity.CENTER);
             } else {
-                Utils.showShortToast(R.string.error_message_text_offline, Gravity.CENTER);
+                Utils.showShortToast(mAppContext, R.string.error_message_text_offline, Gravity.CENTER);
             }
         }
     }

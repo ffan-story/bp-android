@@ -1,7 +1,7 @@
 package com.feifan.bp.net;
 
 import com.feifan.bp.BuildConfig;
-import com.feifan.bp.net.url.IUrlFactory;
+import com.feifan.bp.net.url.UrlFactory;
 import com.feifan.bp.net.url.UrlApiSitFactory;
 import com.feifan.bp.net.url.UrlGatewaySitFactory;
 import com.feifan.bp.net.url.UrlProductFactory;
@@ -18,7 +18,7 @@ public class NetUtils {
      * @author:     xuchunlei
      * created at: 2015年4月24日 下午4:24:33
      */
-    public static IUrlFactory getUrlFactory() {
+    public static UrlFactory getUrlFactory() {
 
         switch (BuildConfig.CURRENT_ENVIRONMENT) {
             case SIT_GATEWAY:

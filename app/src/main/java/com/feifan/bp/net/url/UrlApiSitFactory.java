@@ -3,7 +3,7 @@ package com.feifan.bp.net.url;
 /**
  * Created by maning on 15/7/24.
  */
-public class UrlApiSitFactory implements IUrlFactory {
+public class UrlApiSitFactory extends UrlFactory {
 
     @Override
     public String getFFanHostUrl() {

@@ -13,7 +13,7 @@ public class LoginRequest extends BaseRequest<UserModel> {
 
     private static final String TAG = "LoginRequest";
 
-    private static final String URL = NetUtils.getUrlFactory().getFFanHostUrl() + "xadmin/login";
+    private static final String URL = NetUtils.getUrlFactory().login();
 
 
     public LoginRequest(Parameters params, OnRequestProcessListener<UserModel> listener) {

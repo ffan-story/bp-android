@@ -35,7 +35,7 @@ public class UserProfile {
     private static final String PREFERENCE_KEY_LOGIN_TOKEN = "loginToken";
 
     public UserProfile(Context context){
-        mContext = context;
+        mContext = context.getApplicationContext();
     }
 
     public void setUid(int uid) {
@@ -92,42 +92,23 @@ public class UserProfile {
         editor.apply();
     }
 
-    /**
-     * 设置整型数据
-     * @param key
-     * @param value
-     */
     private void  doSetInteger(String key, int value) {
         SharedPreferences.Editor editor = mContext.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
         editor.putInt(key, value);
         editor.apply();
     }
 
-    /**
-     * 获取整型数据
-     * @param key
-     * @return
-     */
     private int doGetInteger(String key) {
         SharedPreferences prefs = mContext.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         return prefs.getInt(key, Constants.NO_INTEGER);
     }
-    /**
-     * 设置整型数据
-     * @param key
-     * @param value
-     */
+
     private void doSetString(String key, String value) {
         SharedPreferences.Editor editor = mContext.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
         editor.putString(key, value);
         editor.apply();
     }
 
-    /**
-     * 获取整型数据
-     * @param key
-     * @return
-     */
     private String doGetString(String key) {
         SharedPreferences prefs = mContext.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         return prefs.getString(key, Constants.NO_STRING);

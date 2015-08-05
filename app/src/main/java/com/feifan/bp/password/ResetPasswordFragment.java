@@ -87,7 +87,8 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
             int len = editable.length();
             if (len > Constants.PASSWORD_MAX_LENGTH) {
                 if (len == Constants.PASSWORD_MAX_LENGTH + 1) {
-                    Utils.showShortToast(R.string.error_message_text_password_length_max, Gravity.CENTER);
+                    Utils.showShortToast(getActivity(), R.string.error_message_text_password_length_max,
+                            Gravity.CENTER);
                 }
                 int selEndIndex = Selection.getSelectionEnd(editable);
                 String str = editable.toString();
@@ -161,22 +162,22 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                 String newPwd = mNewPwd.getText().toString();
                 String confirmPwd = mConfirmPwd.getText().toString();
                 if (TextUtils.isEmpty(oldPwd)) {
-                    Utils.showShortToast(R.string.error_message_text_old_password_empty, Gravity.CENTER);
+                    Utils.showShortToast(getActivity(), R.string.error_message_text_old_password_empty, Gravity.CENTER);
                     return;
                 } else if (TextUtils.isEmpty(newPwd)) {
-                    Utils.showShortToast(R.string.error_message_text_new_password_empty, Gravity.CENTER);
+                    Utils.showShortToast(getActivity(), R.string.error_message_text_new_password_empty, Gravity.CENTER);
                     return;
                 } else if (TextUtils.isEmpty(confirmPwd)) {
-                    Utils.showShortToast(R.string.error_message_text_confirm_password_empty, Gravity.CENTER);
+                    Utils.showShortToast(getActivity(), R.string.error_message_text_confirm_password_empty, Gravity.CENTER);
                     return;
                 } else if (!newPwd.equals(confirmPwd)) {
-                    Utils.showShortToast(R.string.error_message_text_password_different, Gravity.CENTER);
+                    Utils.showShortToast(getActivity(), R.string.error_message_text_password_different, Gravity.CENTER);
                     return;
                 } else if (newPwd.length() < Constants.PASSWORD_MIN_LENGTH) {
-                    Utils.showShortToast(R.string.error_message_text_password_length, Gravity.CENTER);
+                    Utils.showShortToast(getActivity(), R.string.error_message_text_password_length, Gravity.CENTER);
                     return;
                 } else if (newPwd.length() > Constants.PASSWORD_MAX_LENGTH) {
-                    Utils.showShortToast(R.string.error_message_text_password_length_max, Gravity.CENTER);
+                    Utils.showShortToast(getActivity(), R.string.error_message_text_password_length_max, Gravity.CENTER);
                     return;
                 }
                 mIsConfirmEnable = false;
@@ -185,7 +186,7 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                             @Override
                             public void onResponse(PasswordModel passwordModel2) {
                                 getActivity().onBackPressed();
-                                Utils.showShortToast(getString(R.string.reset_pwd_suc));
+                                Utils.showShortToast(getActivity(), getString(R.string.reset_pwd_suc));
                             }
 
                             @Override

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.feifan.bp.base.BaseModel;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -21,7 +22,7 @@ public class UserModel extends BaseModel {
     public String loginToken;
 
     public UserModel(JSONObject json) {
-        super(json);
+        super(json, false);
     }
 
     @Override
@@ -34,6 +35,11 @@ public class UserModel extends BaseModel {
         authRangeType = data.optString("authRangeType");
         authRangeId = data.optString("authRangeId");
         loginToken = data.optString("loginToken");
+    }
+
+    @Override
+    protected void parseArrayData(JSONArray data) {
+
     }
 
     @Override

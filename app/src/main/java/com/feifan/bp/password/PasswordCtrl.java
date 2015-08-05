@@ -3,6 +3,7 @@ package com.feifan.bp.password;
 import android.content.Context;
 
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpEngine;
@@ -15,7 +16,7 @@ public class PasswordCtrl {
         ResetPasswordRequest.Params params = BaseRequest.newParams(ResetPasswordRequest.Params.class);
         params.setNewPassword(newPassword);
         params.setOldPassword(oldPassword);
-        params.setuId(String.valueOf(PlatformState.getInstance().getUserProfile().getUid()));
+        params.setuId(String.valueOf(AccountManager.instance(context).getUid()));
         HttpEngine.Builder.newInstance(context).
                 setRequest(new ResetPasswordRequest(params, listener)).
                 build().start();

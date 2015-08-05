@@ -2,6 +2,7 @@ package com.feifan.bp.home;
 
 import com.feifan.bp.base.BaseModel;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -13,7 +14,7 @@ public class CheckVersionModel extends BaseModel {
     private String versionUrl;
 
     public CheckVersionModel(JSONObject json) {
-        super(json);
+        super(json, false);
     }
 
     public int getVersionCode() {
@@ -28,5 +29,10 @@ public class CheckVersionModel extends BaseModel {
     protected void parseData(JSONObject data) {
         versionCode = data.optInt("version_code");
         versionUrl = data.optString("version_url");
+    }
+
+    @Override
+    protected void parseArrayData(JSONArray data) {
+
     }
 }

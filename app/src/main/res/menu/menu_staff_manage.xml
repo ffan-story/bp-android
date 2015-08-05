@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".BrowserActivity">
+
+    <item
+        android:id="@+id/action_staff"
+        android:icon="@mipmap/menu_ic_staff"
+        android:orderInCategory="80"
+        android:title="员工管理"
+        app:showAsAction="ifRoom" />
+
+</menu>

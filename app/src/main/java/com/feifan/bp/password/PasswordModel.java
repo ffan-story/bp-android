@@ -2,6 +2,7 @@ package com.feifan.bp.password;
 
 import com.feifan.bp.base.BaseModel;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -12,7 +13,7 @@ public class PasswordModel extends BaseModel {
     public String key = "";
 
     public PasswordModel(JSONObject json) {
-        super(json);
+        super(json, false);
     }
 
     @Override
@@ -22,5 +23,10 @@ public class PasswordModel extends BaseModel {
         }
         authCode = data.optString("authCode");
         key = data.optString("key");
+    }
+
+    @Override
+    protected void parseArrayData(JSONArray data) {
+
     }
 }

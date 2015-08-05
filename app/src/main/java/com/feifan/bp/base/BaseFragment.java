@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
+import android.view.View;
 
 /**
  * Created by maning on 15/7/9.
@@ -35,6 +36,7 @@ public class BaseFragment extends Fragment implements OnDispatchTouchEventListen
      */
     protected void setupToolbar(Toolbar toolbar) {
         //clean toolbar here.
+        toolbar.setVisibility(View.VISIBLE);
         toolbar.setTitle(null);
         toolbar.setNavigationIcon(null);
         toolbar.setNavigationOnClickListener(null);

@@ -7,6 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -15,6 +18,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseActivity;
 
 
@@ -24,12 +28,19 @@ public class BrowserActivity extends BaseActivity {
      * 参数键名称－URL
      */
     public static final String EXTRA_KEY_URL = "url";
+    public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
 
     private WebView mWebView;
+    private boolean mIsStaffMangementPage = false;
 
     public static void startActivity(Context context, String url) {
+        startActivity(context, url, false);
+    }
+
+    public static void startActivity(Context context, String url, boolean staffManage) {
         Intent i = new Intent(context, BrowserActivity.class);
         i.putExtra(EXTRA_KEY_URL, url);
+        i.putExtra(EXTRA_KEY_STAFF_MANAGE, staffManage);
         context.startActivity(i);
     }
 
@@ -42,11 +53,21 @@ public class BrowserActivity extends BaseActivity {
 
         // 载入网页
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
+        mIsStaffMangementPage = getIntent().getBooleanExtra(EXTRA_KEY_STAFF_MANAGE, false);
         LogUtil.i(TAG, url);
         mWebView.loadUrl(url);
         PlatformState.getInstance().setLastUrl(url);
         LogUtil.i(TAG, "loadUrl()");
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (mIsStaffMangementPage) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_staff_manage, menu);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -59,6 +80,16 @@ public class BrowserActivity extends BaseActivity {
         super.setupToolbar(toolbar);
         toolbar.setTitle("");
         toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_staff:
+                        break;
+                }
+                return false;
+            }
+        });
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,8 +147,8 @@ public class BrowserActivity extends BaseActivity {
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
 
                 if (url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
-                    PlatformState.getInstance().getUserProfile().clear();
-                    startActivity(LaunchActivity.buildIntent());
+                    AccountManager.instance(BrowserActivity.this).clear();
+                    startActivity(LaunchActivity.buildIntent(BrowserActivity.this));
                 } else if (url.contains(Constants.URL_PATH_EXIT)) {
                     finish();
                 } else if (url.contains(Constants.URL_PATH_HOME)) {

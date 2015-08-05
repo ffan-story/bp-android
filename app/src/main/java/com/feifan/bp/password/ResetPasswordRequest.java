@@ -17,7 +17,7 @@ public class ResetPasswordRequest extends BaseRequest<PasswordModel> {
 
     private static final String TAG = ResetPasswordRequest.class.getSimpleName();
 
-    private static final String URL = NetUtils.getUrlFactory().getFFanHostUrl() + "xadmin/editPassword";
+    private static final String URL = NetUtils.getUrlFactory().resetPassword();
 
     public ResetPasswordRequest(Parameters params, BaseRequestProcessListener<PasswordModel> listener) {
         super(Method.POST, URL, params, listener);

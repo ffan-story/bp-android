@@ -9,6 +9,7 @@ import android.util.LruCache;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.login.UserProfile;
 
 import java.io.File;
@@ -25,26 +26,14 @@ public class PlatformState {
     private static final String TAG = "PlatformState";
 
     private static PlatformState INSTANCE;
-    // 供全局使用的Context
-    private static Context sContext;
 
-    private UserProfile mProfile;
-
-    // 网络请求队列
-    private RequestQueue mQueue;
-
-    // 图片加载器实例
-    private ImageLoader mLoader;
+//    private static Context sContext;
 
     // 上次访问的url地址
     private String mLastUrl;
 
     private PlatformState(){
         Log.i(Constants.TAG, "App is running within " + BuildConfig.CURRENT_ENVIRONMENT);
-        mProfile = new UserProfile(sContext);
-        mQueue = Volley.newRequestQueue(sContext);
-        mLoader = new ImageLoader(mQueue, new BitmapCache());
-
     }
 
     public static PlatformState getInstance() {
@@ -55,26 +44,7 @@ public class PlatformState {
     }
 
     public static void setApplicationContext(Context context) {
-        if (sContext != null) {
-            Log.w(TAG, "setApplicationContext called twice! old=" + sContext + " new=" + context);
-        }
-        sContext = context.getApplicationContext();
-    }
 
-    public static Context getApplicationContext() {
-        return sContext;
-    }
-
-    public UserProfile getUserProfile() {
-        return mProfile;
-    }
-
-    public RequestQueue getRequestQueue() {
-        return mQueue;
-    }
-
-    public ImageLoader getImageLoader() {
-        return mLoader;
     }
 
     public void setLastUrl(String url) {
@@ -82,14 +52,14 @@ public class PlatformState {
         mLastUrl = url;
     }
 
-    public String getLastUrl() {
+    public String getLastUrl(Context context) {
         if(mLastUrl != null) {
             final String standardUrl = mLastUrl.replace("#", "");
             Uri uri = Uri.parse(standardUrl);
             String token = uri.getQueryParameter("loginToken");
             String uid = uri.getQueryParameter("uid");
-            mLastUrl = mLastUrl.replace(token, mProfile.getLoginToken())
-                    .replace(uid, String.valueOf(mProfile.getUid()));
+            mLastUrl = mLastUrl.replace(token, AccountManager.instance(context).getLoginToken())
+                    .replace(uid, String.valueOf(AccountManager.instance(context).getUid()));
             LogUtil.i(TAG, "update last request url " + mLastUrl + " with new loginToken and uid");
         }
 
@@ -99,17 +69,16 @@ public class PlatformState {
     /**
      * 重置状态
      */
-    public void reset() {
-        mProfile.clear();
+    public void reset(Context context) {
         mLastUrl = null;
-        clearCache();
+        clearCache(context);
     }
 
-    private void clearCache() {
+    private void clearCache(Context context) {
 
-        File cacheDir = sContext.getCacheDir().getAbsoluteFile();
+        File cacheDir = context.getCacheDir().getAbsoluteFile();
         Utils.deleteFile(cacheDir, "webview");
-        Utils.deleteFile(sContext.getDatabasePath("webview").getParentFile(), "webview");
+        Utils.deleteFile(context.getDatabasePath("webview").getParentFile(), "webview");
         LogUtil.i(TAG, "WebView cache cleared");
     }
 
