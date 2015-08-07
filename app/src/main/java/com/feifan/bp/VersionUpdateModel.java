@@ -10,6 +10,10 @@ import org.json.JSONObject;
  */
 public class VersionUpdateModel extends BaseModel {
 
+    public static final int UPDATE_NO_UPDATE = -1;
+    public static final int UPDATE_NO_FORCE = 0;
+    public static final int UPDATE_FORCE = 1;
+
     private int versionCode;
     private String versionDesc;
     private String versionUrl;

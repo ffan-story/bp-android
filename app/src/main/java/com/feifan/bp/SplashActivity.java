@@ -52,16 +52,13 @@ public class SplashActivity extends BaseActivity {
                     @Override
                     public void onResponse(VersionUpdateModel model) {
 
-                        boolean isUpdate = false;
-                        final int verisonCode = model.getVersionCode();
-                        if (verisonCode > Utils.getVersionCode(SplashActivity.this)) {
-                            isUpdate = true;
-                        }
-
                         final int mustUpdate = model.getMustUpdate();
                         final String url = model.getVersionUrl();
 
-                        if (isUpdate) {
+                        if (mustUpdate == VersionUpdateModel.UPDATE_NO_UPDATE) {
+                            startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+                            finish();
+                        } else {
                             AlertDialog.Builder b = new AlertDialog.Builder(SplashActivity.this);
                             b.setTitle(getString(R.string.version_update_title));
                             b.setMessage(getString(R.string.version_update_message));
@@ -76,7 +73,7 @@ public class SplashActivity extends BaseActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-                                    if (mustUpdate == 0) {
+                                    if (mustUpdate == VersionUpdateModel.UPDATE_NO_FORCE) {
                                         startActivity(LaunchActivity.buildIntent(SplashActivity.this));
                                     }
                                     finish();
@@ -84,10 +81,6 @@ public class SplashActivity extends BaseActivity {
                             });
                             b.setCancelable(false);
                             b.create().show();
-
-                        } else {
-                            startActivity(LaunchActivity.buildIntent(SplashActivity.this));
-                            finish();
                         }
 
 
