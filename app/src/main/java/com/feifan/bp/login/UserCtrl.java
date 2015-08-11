@@ -45,6 +45,7 @@ public class UserCtrl {
                                        BaseRequestProcessListener<PermissionModel> listener) {
         CheckPermissionRequest.Params params = BaseRequest.newParams(CheckPermissionRequest.Params.class);
         params.setUid(uid);
+        params.setNodeid("1141");
         HttpEngine.Builder.newInstance(context).
                 setRequest(new CheckPermissionRequest(params, listener)).
                 build().start();

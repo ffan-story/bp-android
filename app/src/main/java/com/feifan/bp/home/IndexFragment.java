@@ -1,6 +1,7 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -16,15 +17,20 @@ import android.widget.TextView;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
+import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.home.command.Command;
 import com.feifan.bp.home.command.OrderManagementCmd;
 import com.feifan.bp.home.command.RefundCmd;
 import com.feifan.bp.home.command.StaffManagementCmd;
 import com.feifan.bp.home.command.StatisticReportCmd;
+import com.feifan.bp.net.AuthList;
 import com.feifan.bp.net.NetUtils;
 import com.feifan.bp.scanner.CodeScannerActivity;
 import com.feifan.bp.widget.IconClickableEditText;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,14 +79,36 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         mCodeEdt.setOnIconClickListener(this);
 
         List<FunctionModel> dataList = new ArrayList<>();
-        dataList.add(new FunctionModel(new OrderManagementCmd(getActivity()),
-                getString(R.string.index_order_text), R.mipmap.index_ic_order));
-        dataList.add(new FunctionModel(new StatisticReportCmd(getActivity()),
-                getString(R.string.index_report_text), R.mipmap.index_ic_report));
-        dataList.add(new FunctionModel(new StaffManagementCmd(getActivity()),
-                getString(R.string.index_staff_text), R.mipmap.index_ic_staff));
-        dataList.add(new FunctionModel(new RefundCmd(getActivity()),
-                getString(R.string.index_refund_text), R.mipmap.index_ic_refund));
+//        dataList.add(new FunctionModel(new OrderManagementCmd(getActivity()),
+//                getString(R.string.index_order_text), R.mipmap.index_ic_order));
+//        dataList.add(new FunctionModel(new StatisticReportCmd(getActivity()),
+//                getString(R.string.index_report_text), R.mipmap.index_ic_report));
+//        dataList.add(new FunctionModel(new StaffManagementCmd(getActivity()),
+//                getString(R.string.index_staff_text), R.mipmap.index_ic_staff));
+//        dataList.add(new FunctionModel(new RefundCmd(getActivity()),
+//                getString(R.string.index_refund_text), R.mipmap.index_ic_refund));
+
+        List<String> list = AccountManager.instance(getActivity()).getPermissionList();
+        for (String id : list) {
+            if (AuthList.AUTH_LIST.containsKey(id)) {
+                try {
+                    AuthList.Auth a = AuthList.AUTH_LIST.get(id);
+                    String url = AccountManager.instance(getActivity()).getPermissionUrl(id);
+                    Constructor constructor = RefundCmd.class.getConstructor(Context.class, String.class);
+                    Command c = (Command) constructor.newInstance(getActivity(), url);
+                    dataList.add(new FunctionModel(c, getString(a.titleResId), a.iconResId));
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (java.lang.InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_function_container);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(

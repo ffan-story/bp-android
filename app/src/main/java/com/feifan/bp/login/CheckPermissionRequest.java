@@ -28,8 +28,15 @@ public class CheckPermissionRequest extends BaseRequest<PermissionModel> {
         @HttpParams(type = HttpParams.Type.URL)
         private String uid;
 
+        @HttpParams(type = HttpParams.Type.URL)
+        private String nodeid;
+
         public void setUid(String uid) {
             this.uid = uid;
+        }
+
+        public void setNodeid(String nodeid) {
+            this.nodeid = nodeid;
         }
     }
 

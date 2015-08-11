@@ -14,14 +14,16 @@ import com.feifan.bp.net.NetUtils;
  */
 public class RefundCmd implements Command {
     private Context mContext;
+    private String relativeUrl;
 
-    public RefundCmd(Context context) {
+    public RefundCmd(Context context, String url) {
         mContext = context;
+        relativeUrl = url;
     }
 
     @Override
     public boolean handle() {
-        String url = NetUtils.getUrlFactory().refundForHtml();
+        String url = NetUtils.getUrlFactory().urlForHtml(mContext, relativeUrl);
         if (Utils.isNetworkAvailable(mContext)) {
             Intent intent = new Intent(mContext, BrowserActivity.class);
             intent.putExtra(BrowserActivity.EXTRA_KEY_URL, url);

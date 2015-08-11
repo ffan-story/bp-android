@@ -110,6 +110,7 @@ public class LoginFragment extends BaseFragment {
                                     manager.setAgId(userModel.agId);
                                     manager.setLoginToken(userModel.loginToken);
                                     manager.setPermissionList(permissionModel.getPermissionList());
+                                    manager.setPermissionUrlMap(permissionModel.getUrlMap());
                                     // 通知界面跳转
                                     Bundle args = new Bundle();
                                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());

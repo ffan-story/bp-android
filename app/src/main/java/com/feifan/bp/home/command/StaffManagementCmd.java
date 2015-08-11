@@ -14,14 +14,16 @@ import com.feifan.bp.net.NetUtils;
  */
 public class StaffManagementCmd implements Command {
     private Context mContext;
+    private String relativeUrl;
 
-    public StaffManagementCmd(Context context) {
+    public StaffManagementCmd(Context context, String url) {
         mContext = context;
+        relativeUrl = url;
     }
 
     @Override
     public boolean handle() {
-        String url = NetUtils.getUrlFactory().staffManagementForHtml();
+        String url = NetUtils.getUrlFactory().urlForHtml(mContext, relativeUrl);
         if (Utils.isNetworkAvailable(mContext)) {
             BrowserActivity.startActivity(mContext, url, true);
         } else {

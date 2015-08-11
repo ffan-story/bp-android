@@ -14,14 +14,16 @@ import com.feifan.bp.net.NetUtils;
  */
 public class OrderManagementCmd implements Command {
     private Context mContext;
+    private String relativeUrl;
 
-    public OrderManagementCmd(Context context) {
+    public OrderManagementCmd(Context context, String url) {
         mContext = context;
+        this.relativeUrl = url;
     }
 
     @Override
     public boolean handle() {
-        String url = NetUtils.getUrlFactory().orderManagementForHtml(mContext);
+        String url = NetUtils.getUrlFactory().urlForHtml(mContext, relativeUrl);
         if (Utils.isNetworkAvailable(mContext)) {
             Intent intent = new Intent(mContext, BrowserActivity.class);
             intent.putExtra(BrowserActivity.EXTRA_KEY_URL, url);

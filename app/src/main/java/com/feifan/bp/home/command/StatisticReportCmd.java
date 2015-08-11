@@ -14,14 +14,16 @@ import com.feifan.bp.net.NetUtils;
  */
 public class StatisticReportCmd implements Command {
     private Context mContext;
+    private String relativeUrl;
 
-    public StatisticReportCmd(Context context) {
+    public StatisticReportCmd(Context context, String url) {
         mContext = context;
+        relativeUrl = url;
     }
 
     @Override
     public boolean handle() {
-        String url = NetUtils.getUrlFactory().statisticReportForHtml(mContext);
+        String url = NetUtils.getUrlFactory().urlForHtml(mContext, relativeUrl);
         if (Utils.isNetworkAvailable(mContext)) {
             Intent intent = new Intent(mContext, BrowserActivity.class);
             intent.putExtra(BrowserActivity.EXTRA_KEY_URL, url);

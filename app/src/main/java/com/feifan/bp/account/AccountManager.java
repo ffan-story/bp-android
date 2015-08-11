@@ -5,10 +5,13 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.feifan.bp.Constants;
+import com.feifan.bp.net.AuthList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by maning on 15/8/6.
@@ -54,9 +57,27 @@ public class AccountManager {
         for (String p : permissionList) {
             sb.append(p).append(",");
         }
-        sb.deleteCharAt(sb.length()-1);
+        sb.deleteCharAt(sb.length() - 1);
 
         putString(PREFERENCE_KEY_PERMISSIONS, sb.toString());
+    }
+
+    public void setPermissionUrlMap(Map<String, String> map) {
+        if (map == null || map.size() < 1) {
+            return;
+        }
+        Iterator<String> it = map.keySet().iterator();
+        while (it.hasNext()) {
+            String key = it.next();
+            if (AuthList.AUTH_LIST.containsKey(key)) {
+                putString(key, map.get(key));
+            }
+        }
+
+    }
+
+    public String getPermissionUrl(String key) {
+        return getString(key);
     }
 
     public List<String> getPermissionList() {
@@ -121,7 +142,6 @@ public class AccountManager {
         editor.clear();
         editor.apply();
     }
-
 
 
     private void putInt(String key, int value) {

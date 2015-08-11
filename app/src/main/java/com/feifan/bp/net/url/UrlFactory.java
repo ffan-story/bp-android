@@ -74,6 +74,17 @@ public abstract class UrlFactory {
         return url;
     }
 
+    public String urlForHtml(Context context, String reUrl) {
+        AccountManager accountManager = AccountManager.instance(context);
+        String url = getH5HostUrl().concat(reUrl).
+                concat("?loginToken=").
+                concat(accountManager.getLoginToken()).
+                concat("&uid=").
+                concat(String.valueOf(accountManager.getUid())).
+                concat("&appType=bpMobile");
+        return url;
+    }
+
     public String staffManagementForHtml() {
         //TODO: need url.
         return "";
