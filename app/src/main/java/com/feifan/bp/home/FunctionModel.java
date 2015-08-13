@@ -9,10 +9,12 @@ public class FunctionModel {
     private Command command;
     private String text;
     private int resId;
+    private String id;
 
-    public FunctionModel(Command cmd, String text, int resId) {
+    public FunctionModel(Command cmd, String text, String id, int resId) {
         this.command = cmd;
         this.text = text;
+        this.id = id;
         this.resId = resId;
     }
 
@@ -26,5 +28,9 @@ public class FunctionModel {
 
     public String getText() {
         return text;
+    }
+
+    public String getId() {
+        return id;
     }
 }

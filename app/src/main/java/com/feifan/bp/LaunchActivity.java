@@ -116,7 +116,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             if (to.equals(CodeScannerActivity.class.getName())) {
                 CodeScannerActivity.startActivity(this);
             } else {
-                openBrowser(to);
+//                openBrowser(to);
             }
         }
     }

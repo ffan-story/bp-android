@@ -14,8 +14,12 @@ public abstract class BaseModel {
 
     public BaseModel(JSONObject json, boolean parseArrayData) {
         status = json.optInt("status");
+        if (status == 0) {
+            status = Constants.RESPONSE_CODE_SUCCESS;
+        }
         msg = json.optString("msg");
         if(status == Constants.RESPONSE_CODE_SUCCESS) {
+            parseAll(json);
             if (parseArrayData) {
                 parseArrayData(json.optJSONArray("data"));
             } else {
@@ -40,5 +44,9 @@ public abstract class BaseModel {
     @Override
     public String toString() {
         return "status=" + status + ",msg=" + msg;
+    }
+
+    protected void parseAll(JSONObject data) {
+
     }
 }

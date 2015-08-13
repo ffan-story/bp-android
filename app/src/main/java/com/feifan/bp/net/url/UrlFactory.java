@@ -128,4 +128,8 @@ public abstract class UrlFactory {
         return getFFanHostUrl() + "xadmin/appVersion/bpMobile/getLatest";
     }
 
+    public String refundCount() {
+        return getFFanHostUrl() + "trade/webrefunds";
+    }
+
 }

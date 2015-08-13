@@ -2,6 +2,7 @@ package com.feifan.bp.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.feifan.bp.BrowserActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
@@ -25,6 +27,9 @@ import com.feifan.bp.home.command.RefundCmd;
 import com.feifan.bp.home.command.StaffManagementCmd;
 import com.feifan.bp.home.command.StatisticReportCmd;
 import com.feifan.bp.net.AuthList;
+import com.feifan.bp.net.BaseRequest;
+import com.feifan.bp.net.BaseRequestProcessListener;
+import com.feifan.bp.net.HttpEngine;
 import com.feifan.bp.net.NetUtils;
 import com.feifan.bp.scanner.CodeScannerActivity;
 import com.feifan.bp.widget.IconClickableEditText;
@@ -40,6 +45,8 @@ import java.util.List;
  */
 public class IndexFragment extends BaseFragment implements View.OnClickListener,
         IconClickableEditText.OnIconClickListener {
+
+    private static final String CHECK_HISTORY_ID = "1166";
 
     private OnFragmentInteractionListener mListener;
 
@@ -96,7 +103,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     String url = AccountManager.instance(getActivity()).getPermissionUrl(id);
                     Constructor constructor = RefundCmd.class.getConstructor(Context.class, String.class);
                     Command c = (Command) constructor.newInstance(getActivity(), url);
-                    dataList.add(new FunctionModel(c, getString(a.titleResId), a.iconResId));
+                    dataList.add(new FunctionModel(c, getString(a.titleResId), id,  a.iconResId));
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                 } catch (java.lang.InstantiationException e) {
@@ -146,6 +153,13 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             case R.id.index_history:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO,
                         NetUtils.getUrlFactory().checkHistoryForHtml(getActivity()));
+
+                if (Utils.isNetworkAvailable(getActivity())) {
+                    String url = AccountManager.instance(getActivity()).getPermissionUrl(CHECK_HISTORY_ID);
+                    BrowserActivity.startActivity(getActivity(), url);
+                } else {
+                    Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
+                }
                 break;
             default:
                 return;
@@ -213,7 +227,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         }
 
         @Override
-        public void onBindViewHolder(IndexViewHolder indexViewHolder, int i) {
+        public void onBindViewHolder(final IndexViewHolder indexViewHolder, int i) {
             final FunctionModel f = mFunctionList.get(i);
 
             Drawable t = getResources().getDrawable(f.getResId());
@@ -225,18 +239,39 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 @Override
                 public void onClick(View v) {
                     f.getCommand().handle();
+
                 }
             });
+            indexViewHolder.redDotView.setVisibility(View.GONE);
+            if (AuthList.REFUND_ID.equals(f.getId())) {
+                RefundCountRequest.Params params = BaseRequest.newParams(RefundCountRequest.Params.class);
+                params.setStoreId(AccountManager.instance(getActivity()).getAuthRangeId());
+                params.setRefundStatus("MER_REVIEW");
+                HttpEngine.Builder builder = HttpEngine.Builder.newInstance(getActivity());
+                builder.setRequest(new RefundCountRequest(params,
+                        new BaseRequestProcessListener<RefundCountModel>(getActivity(), false) {
+                    @Override
+                    public void onResponse(RefundCountModel refundCountModel) {
+
+                        if (refundCountModel.getCount() > 0) {
+                            indexViewHolder.redDotView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                })).build().start();
+
+            }
         }
 
         class IndexViewHolder extends RecyclerView.ViewHolder {
             private TextView textView;
             private View layout;
+            private View redDotView;
 
             public IndexViewHolder(View itemView) {
                 super(itemView);
                 layout = itemView.findViewById(R.id.tv_function_item);
                 textView = (TextView) itemView.findViewById(R.id.text);
+                redDotView = itemView.findViewById(R.id.iv_red_dot);
             }
         }
     }
