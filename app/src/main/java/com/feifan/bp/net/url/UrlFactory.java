@@ -25,6 +25,8 @@ public abstract class UrlFactory {
     // H5页面相对路径－查询提货码
     private static final String URL_PATH_SEARCH = "H5App/index.html#/goods/search_result";
 
+    private static final String URL_PATH_STAFF_ADD = "/H5App/index.html#/staff/add";
+
     protected abstract String getFFanHostUrl();
 
     protected abstract String getH5HostUrl();
@@ -77,6 +79,17 @@ public abstract class UrlFactory {
     public String urlForHtml(Context context, String reUrl) {
         AccountManager accountManager = AccountManager.instance(context);
         String url = getH5HostUrl().concat(reUrl).
+                concat("?loginToken=").
+                concat(accountManager.getLoginToken()).
+                concat("&uid=").
+                concat(String.valueOf(accountManager.getUid())).
+                concat("&appType=bpMobile");
+        return url;
+    }
+
+    public String staffAddForHtml(Context context) {
+        AccountManager accountManager = AccountManager.instance(context);
+        String url = getH5HostUrl().concat(URL_PATH_STAFF_ADD).
                 concat("?loginToken=").
                 concat(accountManager.getLoginToken()).
                 concat("&uid=").

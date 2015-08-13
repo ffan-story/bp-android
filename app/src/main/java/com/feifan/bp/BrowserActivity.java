@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.net.NetUtils;
 
 
 public class BrowserActivity extends BaseActivity {
@@ -55,6 +56,7 @@ public class BrowserActivity extends BaseActivity {
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
         mIsStaffMangementPage = getIntent().getBooleanExtra(EXTRA_KEY_STAFF_MANAGE, false);
         LogUtil.i(TAG, url);
+        LogUtil.i(TAG, "staff=" + mIsStaffMangementPage);
         mWebView.loadUrl(url);
         PlatformState.getInstance().setLastUrl(url);
         LogUtil.i(TAG, "loadUrl()");
@@ -69,6 +71,22 @@ public class BrowserActivity extends BaseActivity {
         }
         return super.onCreateOptionsMenu(menu);
     }
+
+    public void onClick(MenuItem item){
+        LogUtil.i(TAG, "onClick()");
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_staff:
+                LogUtil.i(TAG, "onOptionsItemSelected()  load staff url");
+                String url = NetUtils.getUrlFactory().staffAddForHtml(this);
+                mWebView.loadUrl(url);
+                break;
+            default:
+
+        }
+    }
+
+
 
     @Override
     protected boolean isShowToolbar() {

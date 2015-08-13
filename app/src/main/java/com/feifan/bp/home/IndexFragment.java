@@ -101,7 +101,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 try {
                     AuthList.Auth a = AuthList.AUTH_LIST.get(id);
                     String url = AccountManager.instance(getActivity()).getPermissionUrl(id);
-                    Constructor constructor = RefundCmd.class.getConstructor(Context.class, String.class);
+                    Constructor constructor = a.clazz.getConstructor(Context.class, String.class);
                     Command c = (Command) constructor.newInstance(getActivity(), url);
                     dataList.add(new FunctionModel(c, getString(a.titleResId), id,  a.iconResId));
                 } catch (NoSuchMethodException e) {
@@ -190,19 +190,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             return;
         }
 
+        String urlStr = NetUtils.getUrlFactory().searchCodeForHtml(getActivity(), code);
+        BrowserActivity.startActivity(getActivity(), urlStr);
 
-        Bundle args = new Bundle();
-        switch (v.getId()) {
-            case R.id.index_search_input:
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM,
-                        IndexFragment.class.getName());
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO,
-                        NetUtils.getUrlFactory().searchCodeForHtml(getActivity(), code));
-                break;
-            default:
-                break;
-        }
-        mListener.onFragmentInteraction(args);
     }
 
     class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexViewHolder> {
