@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.feifan.bp.Constants;
+import com.feifan.bp.LogUtil;
 import com.feifan.bp.net.AuthList;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import java.util.Map;
  * Created by maning on 15/8/6.
  */
 public class AccountManager {
+
+    private static final String TAG = "AccountManager";
 
     private static AccountManager sAccountManager;
 
@@ -69,7 +72,8 @@ public class AccountManager {
         Iterator<String> it = map.keySet().iterator();
         while (it.hasNext()) {
             String key = it.next();
-            if (AuthList.AUTH_LIST.containsKey(key)) {
+            LogUtil.i(TAG, "id=" + key);
+            if (AuthList.AUTH_LIST.containsKey(key) || AuthList.HISTORY_ID.equals(key)) {
                 putString(key, map.get(key));
             }
         }

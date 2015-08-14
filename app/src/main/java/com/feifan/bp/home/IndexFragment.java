@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.feifan.bp.BrowserActivity;
+import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
@@ -103,7 +104,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     String url = AccountManager.instance(getActivity()).getPermissionUrl(id);
                     Constructor constructor = a.clazz.getConstructor(Context.class, String.class);
                     Command c = (Command) constructor.newInstance(getActivity(), url);
-                    dataList.add(new FunctionModel(c, getString(a.titleResId), id,  a.iconResId));
+                    dataList.add(new FunctionModel(c, getString(a.titleResId), id, a.iconResId));
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                 } catch (java.lang.InstantiationException e) {
@@ -151,11 +152,10 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
                 break;
             case R.id.index_history:
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO,
-                        NetUtils.getUrlFactory().checkHistoryForHtml(getActivity()));
-
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, "");
                 if (Utils.isNetworkAvailable(getActivity())) {
-                    String url = AccountManager.instance(getActivity()).getPermissionUrl(CHECK_HISTORY_ID);
+                    String relativeUrl = AccountManager.instance(getActivity()).getPermissionUrl(AuthList.HISTORY_ID);
+                    String url = NetUtils.getUrlFactory().checkHistoryForHtml(getActivity(), relativeUrl);
                     BrowserActivity.startActivity(getActivity(), url);
                 } else {
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
@@ -240,14 +240,13 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 HttpEngine.Builder builder = HttpEngine.Builder.newInstance(getActivity());
                 builder.setRequest(new RefundCountRequest(params,
                         new BaseRequestProcessListener<RefundCountModel>(getActivity(), false) {
-                    @Override
-                    public void onResponse(RefundCountModel refundCountModel) {
-
-                        if (refundCountModel.getCount() > 0) {
-                            indexViewHolder.redDotView.setVisibility(View.VISIBLE);
-                        }
-                    }
-                })).build().start();
+                            @Override
+                            public void onResponse(RefundCountModel refundCountModel) {
+                                if (refundCountModel.getCount() > 1) {
+                                    indexViewHolder.redDotView.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        })).build().start();
 
             }
         }

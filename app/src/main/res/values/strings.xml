@@ -6,7 +6,10 @@
     <string name="progress_bar_text">请稍候...</string>
     <string name="progress_bar_login">登录中...</string>
     <string name="progress_bar_check_version">检查更新...</string>
-    <string name="version_update_message">您目前的版本已过期，为了不影响使用，请升级到最新版本。</string>
+    <string name="version_update_force">您目前的版本已过期，为了不影响使用，请升级到最新版本。</string>
+    <string name="version_update_normal">目前有新版本，是否升级？</string>
+    <string name="btn_version_update_later">稍候</string>
+    <string name="btn_version_update_new">更新</string>
     <string name="version_update_title">版本更新</string>
 
     <!-- LoginFragment(登录界面) - begin -->

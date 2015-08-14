@@ -9,14 +9,13 @@ import org.json.JSONObject;
  * Created by maning on 15/8/13.
  */
 public class RefundCountModel extends BaseModel {
-    private int count = -1;
+    private String count;
     public RefundCountModel(JSONObject json, boolean parseArrayData) {
         super(json, parseArrayData);
     }
 
     @Override
     protected void parseData(JSONObject data) {
-
     }
 
     @Override
@@ -29,10 +28,10 @@ public class RefundCountModel extends BaseModel {
         if (data == null) {
             return;
         }
-        count = data.optInt("totalSize");
+        this.count = data.optString("totalSize");
     }
 
     public int getCount() {
-        return count;
+        return Integer.parseInt(count);
     }
 }

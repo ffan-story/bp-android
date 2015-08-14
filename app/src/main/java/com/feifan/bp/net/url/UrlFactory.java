@@ -4,6 +4,7 @@
 package com.feifan.bp.net.url;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.account.AccountManager;
@@ -42,9 +43,9 @@ public abstract class UrlFactory {
         return url;
     }
 
-    public String checkHistoryForHtml(Context context) {
+    public String checkHistoryForHtml(Context context, String relativeUrl) {
         AccountManager accountManager = AccountManager.instance(context);
-        String url = getH5HostUrl().concat(URL_PATH_HISTORY).
+        String url = getH5HostUrl().concat(formatRelativeUrl(relativeUrl)).
                 concat("?loginToken=").
                 concat(accountManager.getLoginToken()).
                 concat("&uid=").
@@ -78,7 +79,7 @@ public abstract class UrlFactory {
 
     public String urlForHtml(Context context, String reUrl) {
         AccountManager accountManager = AccountManager.instance(context);
-        String url = getH5HostUrl().concat(reUrl).
+        String url = getH5HostUrl().concat(formatRelativeUrl(reUrl)).
                 concat("?loginToken=").
                 concat(accountManager.getLoginToken()).
                 concat("&uid=").
@@ -143,6 +144,17 @@ public abstract class UrlFactory {
 
     public String refundCount() {
         return getFFanHostUrl() + "trade/webrefunds";
+    }
+
+    private String formatRelativeUrl(String relativeUrl) {
+        if (TextUtils.isEmpty(relativeUrl)) {
+            return relativeUrl;
+        }
+
+        if (relativeUrl.charAt(0) == '/' && relativeUrl.length() > 0) {
+            relativeUrl = relativeUrl.substring(1, relativeUrl.length() - 1);
+        }
+        return relativeUrl;
     }
 
 }

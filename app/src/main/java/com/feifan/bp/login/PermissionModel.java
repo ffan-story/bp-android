@@ -16,6 +16,8 @@ import java.util.Map;
  */
 public class PermissionModel extends BaseModel {
 
+    private static final String TAG = "PermissionModel";
+
     private List<String> permissionList;
     private Map<String, String> urlMap;
 
@@ -40,6 +42,7 @@ public class PermissionModel extends BaseModel {
                 JSONObject m = menu.optJSONObject(j);
                 String id = m.optString("id");
                 String url = m.optString("url");
+                LogUtil.i(TAG, "id=" + id + " url=" + url);
                 permissionList.add(id);
                 urlMap.put(id, url);
             }

@@ -16,8 +16,10 @@ public abstract class BaseModel {
         status = json.optInt("status");
         if (status == 0) {
             status = Constants.RESPONSE_CODE_SUCCESS;
+            msg = json.optString("message");
+        } else {
+            msg = json.optString("msg");
         }
-        msg = json.optString("msg");
         if(status == Constants.RESPONSE_CODE_SUCCESS) {
             parseAll(json);
             if (parseArrayData) {

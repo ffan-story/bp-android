@@ -18,6 +18,7 @@ import java.util.Map;
 public class AuthList {
     public static Map<String, Auth> AUTH_LIST;
     public static String REFUND_ID;
+    public static String HISTORY_ID;
     static {
         AUTH_LIST = new HashMap<>();
         switch (BuildConfig.CURRENT_ENVIRONMENT) {
@@ -31,6 +32,7 @@ public class AuthList {
                 AUTH_LIST.put("1161", new Auth("1161",
                         R.string.index_staff_text, R.mipmap.index_ic_staff, StaffManagementCmd.class));
                 REFUND_ID = "1162";
+                HISTORY_ID = "1166";
                 break;
             case SIT_API:
 
@@ -51,6 +53,7 @@ public class AuthList {
                 AUTH_LIST.put("1161", new Auth("1161",
                         R.string.index_staff_text, R.mipmap.index_ic_staff, StaffManagementCmd.class));
                 REFUND_ID = "1162";
+                HISTORY_ID = "1166";
                 break;
         }
     }

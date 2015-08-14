@@ -119,7 +119,7 @@ public class BrowserActivity extends BaseActivity {
     private void initWeb(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 
         webView.addJavascriptInterface(new JavaScriptInterface(), "android");
 
