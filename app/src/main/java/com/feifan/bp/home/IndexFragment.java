@@ -2,7 +2,6 @@ package com.feifan.bp.home;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -16,18 +15,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.feifan.bp.BrowserActivity;
-import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.home.command.Command;
-import com.feifan.bp.home.command.OrderManagementCmd;
-import com.feifan.bp.home.command.RefundCmd;
-import com.feifan.bp.home.command.StaffManagementCmd;
-import com.feifan.bp.home.command.StatisticReportCmd;
-import com.feifan.bp.net.AuthList;
+import com.feifan.bp.net.Authority;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpEngine;
@@ -87,20 +81,11 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         mCodeEdt.setOnIconClickListener(this);
 
         List<FunctionModel> dataList = new ArrayList<>();
-//        dataList.add(new FunctionModel(new OrderManagementCmd(getActivity()),
-//                getString(R.string.index_order_text), R.mipmap.index_ic_order));
-//        dataList.add(new FunctionModel(new StatisticReportCmd(getActivity()),
-//                getString(R.string.index_report_text), R.mipmap.index_ic_report));
-//        dataList.add(new FunctionModel(new StaffManagementCmd(getActivity()),
-//                getString(R.string.index_staff_text), R.mipmap.index_ic_staff));
-//        dataList.add(new FunctionModel(new RefundCmd(getActivity()),
-//                getString(R.string.index_refund_text), R.mipmap.index_ic_refund));
-
         List<String> list = AccountManager.instance(getActivity()).getPermissionList();
-        for (String id : list) {
-            if (AuthList.AUTH_LIST.containsKey(id)) {
+        for (String id : Authority.AUTH_LIST) {
+            if (list.contains(id)) {
                 try {
-                    AuthList.Auth a = AuthList.AUTH_LIST.get(id);
+                    Authority.Auth a = Authority.AUTH_MAP.get(id);
                     String url = AccountManager.instance(getActivity()).getPermissionUrl(id);
                     Constructor constructor = a.clazz.getConstructor(Context.class, String.class);
                     Command c = (Command) constructor.newInstance(getActivity(), url);
@@ -154,7 +139,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             case R.id.index_history:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, "");
                 if (Utils.isNetworkAvailable(getActivity())) {
-                    String relativeUrl = AccountManager.instance(getActivity()).getPermissionUrl(AuthList.HISTORY_ID);
+                    String relativeUrl = AccountManager.instance(getActivity()).getPermissionUrl(Authority.HISTORY_ID);
                     String url = NetUtils.getUrlFactory().checkHistoryForHtml(getActivity(), relativeUrl);
                     BrowserActivity.startActivity(getActivity(), url);
                 } else {
@@ -233,7 +218,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 }
             });
             indexViewHolder.redDotView.setVisibility(View.GONE);
-            if (AuthList.REFUND_ID.equals(f.getId())) {
+            if (Authority.REFUND_ID.equals(f.getId())) {
                 RefundCountRequest.Params params = BaseRequest.newParams(RefundCountRequest.Params.class);
                 params.setStoreId(AccountManager.instance(getActivity()).getAuthRangeId());
                 params.setRefundStatus("MER_REVIEW");

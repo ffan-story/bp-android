@@ -72,7 +72,7 @@ public class BrowserActivity extends BaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void onClick(MenuItem item){
+    public void onClick(MenuItem item) {
         LogUtil.i(TAG, "onClick()");
         int id = item.getItemId();
         switch (id) {
@@ -85,7 +85,6 @@ public class BrowserActivity extends BaseActivity {
 
         }
     }
-
 
 
     @Override

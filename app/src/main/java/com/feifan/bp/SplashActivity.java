@@ -1,7 +1,9 @@
 package com.feifan.bp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,6 +44,9 @@ public class SplashActivity extends BaseActivity {
         return false;
     }
 
+    private static final String PREFERENCE_NAME = "wanda_bp";
+    private static final String PREF_VERSION_CODE = "pref_version_code";
+
     private void checkVersion() {
 
         VersionUpdateRequest.Params parameters = BaseRequest.newParams(VersionUpdateRequest.Params.class);
@@ -54,7 +59,16 @@ public class SplashActivity extends BaseActivity {
 
                         final int mustUpdate = model.getMustUpdate();
                         final String url = model.getVersionUrl();
+                        final int versionCode = model.getVersionCode();
 
+                        int sVersionCode = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
+                                getInt(PREF_VERSION_CODE, -1);
+
+                        if (versionCode <= sVersionCode) {
+                            startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+                            finish();
+                            return;
+                        }
                         if (mustUpdate == VersionUpdateModel.UPDATE_NO_UPDATE) {
                             startActivity(LaunchActivity.buildIntent(SplashActivity.this));
                             finish();
@@ -74,6 +88,9 @@ public class SplashActivity extends BaseActivity {
                                 b.setNegativeButton(getString(R.string.btn_version_update_later), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+                                        editor.putInt(PREF_VERSION_CODE, versionCode);
+                                        editor.apply();
                                         dialog.dismiss();
                                         startActivity(LaunchActivity.buildIntent(SplashActivity.this));
                                         finish();

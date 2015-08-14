@@ -15,22 +15,28 @@ import java.util.Map;
 /**
  * Created by maning on 15/8/10.
  */
-public class AuthList {
-    public static Map<String, Auth> AUTH_LIST;
+public class Authority {
+    public static Map<String, Auth> AUTH_MAP;
+    public static List<String> AUTH_LIST;
     public static String REFUND_ID;
     public static String HISTORY_ID;
     static {
-        AUTH_LIST = new HashMap<>();
+        AUTH_MAP = new HashMap<>();
+        AUTH_LIST = new ArrayList<>();
         switch (BuildConfig.CURRENT_ENVIRONMENT) {
             case SIT_GATEWAY:
-                AUTH_LIST.put("1162", new Auth("1162",
-                        R.string.index_refund_text, R.mipmap.index_ic_refund, RefundCmd.class));
-                AUTH_LIST.put("1142", new Auth("1142",
+                AUTH_LIST.add("1142");
+                AUTH_LIST.add("1160");
+                AUTH_LIST.add("1161");
+                AUTH_LIST.add("1162");
+                AUTH_MAP.put("1142", new Auth("1142",
                         R.string.index_order_text, R.mipmap.index_ic_order, OrderManagementCmd.class));
-                AUTH_LIST.put("1160", new Auth("1160",
+                AUTH_MAP.put("1160", new Auth("1160",
                         R.string.index_report_text, R.mipmap.index_ic_report, StatisticReportCmd.class));
-                AUTH_LIST.put("1161", new Auth("1161",
+                AUTH_MAP.put("1161", new Auth("1161",
                         R.string.index_staff_text, R.mipmap.index_ic_staff, StaffManagementCmd.class));
+                AUTH_MAP.put("1162", new Auth("1162",
+                        R.string.index_refund_text, R.mipmap.index_ic_refund, RefundCmd.class));
                 REFUND_ID = "1162";
                 HISTORY_ID = "1166";
                 break;
@@ -44,14 +50,18 @@ public class AuthList {
 
                 break;
             default:
-                AUTH_LIST.put("1162", new Auth("1162",
-                        R.string.index_refund_text, R.mipmap.index_ic_refund, RefundCmd.class));
-                AUTH_LIST.put("1142", new Auth("1142",
+                AUTH_LIST.add("1142");
+                AUTH_LIST.add("1160");
+                AUTH_LIST.add("1161");
+                AUTH_LIST.add("1162");
+                AUTH_MAP.put("1142", new Auth("1142",
                         R.string.index_order_text, R.mipmap.index_ic_order, OrderManagementCmd.class));
-                AUTH_LIST.put("1160", new Auth("1160",
+                AUTH_MAP.put("1160", new Auth("1160",
                         R.string.index_report_text, R.mipmap.index_ic_report, StatisticReportCmd.class));
-                AUTH_LIST.put("1161", new Auth("1161",
+                AUTH_MAP.put("1161", new Auth("1161",
                         R.string.index_staff_text, R.mipmap.index_ic_staff, StaffManagementCmd.class));
+                AUTH_MAP.put("1162", new Auth("1162",
+                        R.string.index_refund_text, R.mipmap.index_ic_refund, RefundCmd.class));
                 REFUND_ID = "1162";
                 HISTORY_ID = "1166";
                 break;

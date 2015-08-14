@@ -6,9 +6,8 @@ import android.text.TextUtils;
 
 import com.feifan.bp.Constants;
 import com.feifan.bp.LogUtil;
-import com.feifan.bp.net.AuthList;
+import com.feifan.bp.net.Authority;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -73,7 +72,7 @@ public class AccountManager {
         while (it.hasNext()) {
             String key = it.next();
             LogUtil.i(TAG, "id=" + key);
-            if (AuthList.AUTH_LIST.containsKey(key) || AuthList.HISTORY_ID.equals(key)) {
+            if (Authority.AUTH_LIST.contains(key) || Authority.HISTORY_ID.equals(key)) {
                 putString(key, map.get(key));
             }
         }
