@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.feifan.bp.BrowserActivity;
+import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
@@ -227,7 +228,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                         new BaseRequestProcessListener<RefundCountModel>(getActivity(), false) {
                             @Override
                             public void onResponse(RefundCountModel refundCountModel) {
-                                if (refundCountModel.getCount() > 1) {
+                                if (refundCountModel.getCount() > 0) {
                                     indexViewHolder.redDotView.setVisibility(View.VISIBLE);
                                 }
                             }
