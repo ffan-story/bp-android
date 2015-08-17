@@ -42,7 +42,6 @@
         <activity
             android:name=".BrowserActivity"
             android:label="@string/title_activity_browser"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.feifan.bp.scanner.CodeScannerActivity"

@@ -33,6 +33,7 @@ public class BrowserActivity extends BaseActivity {
 
     private WebView mWebView;
     private boolean mIsStaffMangementPage = false;
+    private int mWebViewProgress = 0;
 
     public static void startActivity(Context context, String url) {
         startActivity(context, url, false);
@@ -77,9 +78,13 @@ public class BrowserActivity extends BaseActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_staff:
+                if (mWebViewProgress < 100) {
+                    break;
+                }
                 LogUtil.i(TAG, "onOptionsItemSelected()  load staff url");
                 String url = NetUtils.getUrlFactory().staffAddForHtml(this);
-                mWebView.loadUrl(url);
+//                mWebView.loadUrl(url);
+                BrowserActivity.startActivity(this, url);
                 break;
             default:
 
@@ -141,6 +146,7 @@ public class BrowserActivity extends BaseActivity {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
+            mWebViewProgress = newProgress;
             LogUtil.i(TAG, "onProgressChanged() progress=" + newProgress);
         }
 
