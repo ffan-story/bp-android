@@ -9,7 +9,7 @@
         android:icon="@mipmap/menu_ic_staff"
         android:orderInCategory="80"
         android:onClick="onClick"
-        android:title="员工管理"
+        android:title="@string/index_staff_add"
         app:showAsAction="ifRoom" />
 
 </menu>
