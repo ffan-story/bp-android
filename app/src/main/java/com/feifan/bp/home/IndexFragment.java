@@ -42,11 +42,14 @@ import java.util.List;
 public class IndexFragment extends BaseFragment implements View.OnClickListener,
         IconClickableEditText.OnIconClickListener {
 
+    private static final String TAG = "IndexFragment";
+
     private static final String CHECK_HISTORY_ID = "1166";
 
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
 
     // views
     private IconClickableEditText mCodeEdt;
@@ -70,6 +73,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     public void onResume() {
         super.onResume();
         getToolbar().setVisibility(View.GONE);
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -107,7 +113,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_function_container);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL));
-        mRecyclerView.setAdapter(new IndexAdapter(dataList));
+        mAdapter = new IndexAdapter(dataList);
+        mRecyclerView.setAdapter(mAdapter);
         return v;
     }
 
