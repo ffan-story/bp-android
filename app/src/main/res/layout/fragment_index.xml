@@ -21,30 +21,62 @@
             android:minHeight="?attr/actionBarSize"
             android:text="@string/app_name" />
 
-        <com.feifan.bp.widget.IconClickableEditText
+        <RelativeLayout
             android:id="@+id/index_search_input"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/index_bg_search"
+            android:paddingLeft="@dimen/view_spacing_15">
+
+            <ImageButton
+                android:id="@+id/btn_code_search"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/index_ic_search" />
+
+            <EditText
+                android:id="@+id/et_code_edit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/btn_code_search"
+                android:hint="@string/index_search_input_hint"
+                android:textColor="@android:color/white"
+                android:background="@null"
+                android:textColorHint="@android:color/white"
+                android:textSize="@dimen/font_size_12" />
+        </RelativeLayout>
+
+        <!--<com.feifan.bp.widget.IconClickableEditText
+            android:id="@+id/index_search_input"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@id/title"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/index_bg_search"
             android:drawableRight="@mipmap/index_ic_search"
             android:hint="@string/index_search_input_hint"
             android:paddingLeft="@dimen/view_spacing_15"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
-            android:textSize="@dimen/font_size_12" />
+            android:textSize="@dimen/font_size_12" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:layout_below="@id/index_search_input"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
 
             <TextView
                 android:id="@+id/index_scan"

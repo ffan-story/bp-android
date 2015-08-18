@@ -12,6 +12,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.feifan.bp.BrowserActivity;
@@ -39,8 +41,7 @@ import java.util.List;
  * 首页Fragment
  * Created by xuchunlei on 15/7/2.
  */
-public class IndexFragment extends BaseFragment implements View.OnClickListener,
-        IconClickableEditText.OnIconClickListener {
+public class IndexFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = "IndexFragment";
 
@@ -52,7 +53,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     private RecyclerView.Adapter mAdapter;
 
     // views
-    private IconClickableEditText mCodeEdt;
+//    private IconClickableEditText mCodeEdt;
+    private EditText mCodeEditText;
+    private ImageButton mCodeSearchBtn;
 
     public static IndexFragment newInstance() {
         IndexFragment fragment = new IndexFragment();
@@ -84,8 +87,36 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         View v = inflater.inflate(R.layout.fragment_index, container, false);
         v.findViewById(R.id.index_scan).setOnClickListener(this);
         v.findViewById(R.id.index_history).setOnClickListener(this);
-        mCodeEdt = (IconClickableEditText) v.findViewById(R.id.index_search_input);
-        mCodeEdt.setOnIconClickListener(this);
+//        mCodeEdt = (IconClickableEditText) v.findViewById(R.id.index_search_input);
+//        mCodeEdt.setOnIconClickListener(this);
+        mCodeEditText = (EditText)v.findViewById(R.id.et_code_edit);
+        mCodeSearchBtn = (ImageButton)v.findViewById(R.id.btn_code_search);
+        mCodeSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(mCodeEditText.getText())) {
+                    return;
+                }
+
+                if (!Utils.isNetworkAvailable(getActivity())) {
+                    Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
+                    return;
+                }
+
+                String code = mCodeEditText.getText().toString();
+
+
+                try {
+                    Utils.checkDigitAndLetter(getActivity(), code);
+                } catch (Throwable throwable) {
+                    Utils.showShortToast(getActivity(), throwable.getMessage());
+                    return;
+                }
+
+                String urlStr = NetUtils.getUrlFactory().searchCodeForHtml(getActivity(), code);
+                BrowserActivity.startActivity(getActivity(), urlStr);
+            }
+        });
 
         List<FunctionModel> dataList = new ArrayList<>();
         List<String> list = AccountManager.instance(getActivity()).getPermissionList();
@@ -158,33 +189,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 return;
         }
         mListener.onFragmentInteraction(args);
-
-    }
-
-    @Override
-    public void onRightClicked(View v) {
-
-        if (TextUtils.isEmpty(mCodeEdt.getText())) {
-            return;
-        }
-
-        if (!Utils.isNetworkAvailable(getActivity())) {
-            Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
-            return;
-        }
-
-        String code = mCodeEdt.getText().toString();
-
-
-        try {
-            Utils.checkDigitAndLetter(getActivity(), code);
-        } catch (Throwable throwable) {
-            Utils.showShortToast(getActivity(), throwable.getMessage());
-            return;
-        }
-
-        String urlStr = NetUtils.getUrlFactory().searchCodeForHtml(getActivity(), code);
-        BrowserActivity.startActivity(getActivity(), urlStr);
 
     }
 
