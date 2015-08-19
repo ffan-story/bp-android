@@ -32,7 +32,7 @@ public class BrowserActivity extends BaseActivity {
     public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
 
     private WebView mWebView;
-    private boolean mIsStaffMangementPage = false;
+    private boolean mIsStaffManagementPage = false;
     private int mWebViewProgress = 0;
 
     public static void startActivity(Context context, String url) {
@@ -55,18 +55,20 @@ public class BrowserActivity extends BaseActivity {
 
         // 载入网页
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
-        mIsStaffMangementPage = getIntent().getBooleanExtra(EXTRA_KEY_STAFF_MANAGE, false);
+        mIsStaffManagementPage = getIntent().getBooleanExtra(EXTRA_KEY_STAFF_MANAGE, false);
         LogUtil.i(TAG, url);
-        LogUtil.i(TAG, "staff=" + mIsStaffMangementPage);
+        LogUtil.i(TAG, "staff=" + mIsStaffManagementPage);
         mWebView.loadUrl(url);
         PlatformState.getInstance().setLastUrl(url);
         LogUtil.i(TAG, "loadUrl()");
 
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (mIsStaffMangementPage) {
+        if (mIsStaffManagementPage && mShowToolbarItem) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_staff_manage, menu);
         }
@@ -83,8 +85,8 @@ public class BrowserActivity extends BaseActivity {
                 }
                 LogUtil.i(TAG, "onOptionsItemSelected()  load staff url");
                 String url = NetUtils.getUrlFactory().staffAddForHtml(this);
-//                mWebView.loadUrl(url);
-                BrowserActivity.startActivity(this, url);
+                mWebView.loadUrl(url);
+//                BrowserActivity.startActivity(this, url);
                 break;
             default:
 
@@ -142,6 +144,8 @@ public class BrowserActivity extends BaseActivity {
         }
     }
 
+    private boolean mShowToolbarItem = false;
+
     private class PlatformWebChromeClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
@@ -156,6 +160,12 @@ public class BrowserActivity extends BaseActivity {
             LogUtil.i(TAG, "onReceiveTitle() title=" + title);
             if (view.getProgress() == 100) {
                 getToolbar().setTitle(title);
+                if (getString(R.string.index_staff_list).equals(title)) {
+                    mShowToolbarItem = true;
+                } else {
+                    mShowToolbarItem = false;
+                }
+                supportInvalidateOptionsMenu();
             }
         }
     }
