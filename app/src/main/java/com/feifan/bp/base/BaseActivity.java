@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 
+import com.feifan.bp.LogUtil;
 import com.feifan.bp.R;
 
 import java.util.List;
@@ -24,7 +25,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
 
     private Toolbar mToolbar;
-    private Dialog mProgressDialog;
+    private static final int DIALOG_ID_PROGRESS_BAR = 1;
+    private static final String KEY_PROGRESS_BAR_CANCELABLE = "cancelable";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,21 +90,49 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract boolean isShowToolbar();
 
     protected void showProgressBar(boolean cancelable) {
-        if (mProgressDialog != null) {
+        if (this.isFinishing()) {
             return;
         }
-        mProgressDialog = new Dialog(this, R.style.LoadingDialog);
-        mProgressDialog.setContentView(R.layout.progress_bar_layout);
-        mProgressDialog.setCancelable(cancelable);
-        mProgressDialog.show();
+        Bundle b = new Bundle();
+        b.putBoolean(KEY_PROGRESS_BAR_CANCELABLE, cancelable);
+        showDialog(DIALOG_ID_PROGRESS_BAR, b);
+
     }
 
     protected void hideProgressBar() {
-        if (mProgressDialog == null) {
+        if (this.isFinishing()) {
             return;
         }
-        mProgressDialog.dismiss();
-        mProgressDialog = null;
+        dismissDialog(DIALOG_ID_PROGRESS_BAR);
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id, Bundle args) {
+        boolean cancelable = args.getBoolean(KEY_PROGRESS_BAR_CANCELABLE);
+        LogUtil.i(TAG, "onCreateDialog() id=" + id + " cancelable=" + cancelable);
+        switch (id) {
+            case DIALOG_ID_PROGRESS_BAR:
+                Dialog dialog = new Dialog(this, R.style.LoadingDialog);
+                dialog.setContentView(R.layout.progress_bar_layout);
+                dialog.setCancelable(cancelable);
+                return dialog;
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
+        boolean cancelable = args.getBoolean(KEY_PROGRESS_BAR_CANCELABLE);
+        dialog.setCancelable(cancelable);
+        LogUtil.i(TAG, "onPrepareDialog() id=" + id + " cancelable=" + cancelable);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (isFinishing()) {
+            removeDialog(DIALOG_ID_PROGRESS_BAR);
+        }
     }
 
     @Override
