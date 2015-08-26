@@ -8,6 +8,7 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.android.volley.VolleyError;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.home.CheckVersionModel;
 import com.feifan.bp.home.CheckVersionRequest;
@@ -19,6 +20,8 @@ import com.feifan.bp.net.HttpEngine;
  * Created by maning on 15/7/29.
  */
 public class SplashActivity extends BaseActivity {
+
+    private static final String TAG = "SplashActivity";
 
     private static final int SHOW_TIME = 600;
 
@@ -111,7 +114,14 @@ public class SplashActivity extends BaseActivity {
                             b.create().show();
                         }
 
+                    }
 
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        super.onErrorResponse(error);
+                        LogUtil.i(TAG, "onErrorResponse() error=" + error != null ? error.getMessage() : "null");
+                        startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+                        finish();
                     }
                 })).build().start();
     }
