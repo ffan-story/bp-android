@@ -45,8 +45,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
     private static final String TAG = "IndexFragment";
 
-    private static final String CHECK_HISTORY_ID = "1166";
-
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView mRecyclerView;

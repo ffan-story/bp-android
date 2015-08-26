@@ -48,8 +48,6 @@ public class Authority {
                 break;
             case PRODUCT:
 
-                break;
-            default:
                 AUTH_LIST.add("1142");
                 AUTH_LIST.add("1160");
                 AUTH_LIST.add("1161");
@@ -64,6 +62,23 @@ public class Authority {
                         R.string.index_refund_text, R.mipmap.index_ic_refund, RefundCmd.class));
                 REFUND_ID = "1162";
                 HISTORY_ID = "1166";
+
+                break;
+            default:
+                AUTH_LIST.add("997");
+                AUTH_LIST.add("1002");
+                AUTH_LIST.add("1003");
+                AUTH_LIST.add("1004");
+                AUTH_MAP.put("997", new Auth("997",
+                        R.string.index_order_text, R.mipmap.index_ic_order, OrderManagementCmd.class));
+                AUTH_MAP.put("1002", new Auth("1002",
+                        R.string.index_report_text, R.mipmap.index_ic_report, StatisticReportCmd.class));
+                AUTH_MAP.put("1003", new Auth("1003",
+                        R.string.index_staff_text, R.mipmap.index_ic_staff, StaffManagementCmd.class));
+                AUTH_MAP.put("1004", new Auth("1004",
+                        R.string.index_refund_text, R.mipmap.index_ic_refund, RefundCmd.class));
+                REFUND_ID = "1004";
+                HISTORY_ID = "1005";
                 break;
         }
     }
