@@ -1,6 +1,10 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -23,9 +27,13 @@ import com.feifan.bp.R;
 
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.Utils;
+import com.feifan.bp.VersionUpdateModel;
+import com.feifan.bp.VersionUpdateRequest;
 import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
+import com.feifan.bp.net.HttpEngine;
 import com.feifan.bp.password.ResetPasswordFragment;
 
 import java.util.concurrent.Executors;
@@ -107,20 +115,21 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                    return;
                }
                mLastClickTime = SystemClock.elapsedRealtime();
-               HomeCtrl.checkVersion(getActivity(), new BaseRequestProcessListener<CheckVersionModel>(getActivity()) {
-                   @Override
-                   public void onResponse(CheckVersionModel checkVersionModel) {
-                       LogUtil.i(TAG, checkVersionModel.toString());
-                       if (checkVersionModel.getVersionCode() > BuildConfig.VERSION_CODE) {
-                           Bundle args = new Bundle();
-                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
-                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, checkVersionModel.getVersionUrl());
-                           mListener.onFragmentInteraction(args);
-                       } else {
-                           Utils.showShortToast(getActivity(), R.string.settings_check_update_none);
-                       }
-                   }
-               });
+               checkVersion();
+//               HomeCtrl.checkVersion(getActivity(), new BaseRequestProcessListener<CheckVersionModel>(getActivity()) {
+//                   @Override
+//                   public void onResponse(CheckVersionModel checkVersionModel) {
+//                       LogUtil.i(TAG, checkVersionModel.toString());
+//                       if (checkVersionModel.getVersionCode() > BuildConfig.VERSION_CODE) {
+//                           Bundle args = new Bundle();
+//                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
+//                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, checkVersionModel.getVersionUrl());
+//                           mListener.onFragmentInteraction(args);
+//                       } else {
+//                           Utils.showShortToast(getActivity(), R.string.settings_check_update_none);
+//                       }
+//                   }
+//               });
                break;
            case R.id.settings_change_password:
                Bundle args = new Bundle();
@@ -149,5 +158,73 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                });
                break;
        }
+    }
+
+    private static final String PREFERENCE_NAME = "wanda_bp";
+    private static final String PREF_VERSION_CODE = "pref_version_code";
+    private void checkVersion() {
+
+        VersionUpdateRequest.Params parameters = BaseRequest.newParams(VersionUpdateRequest.Params.class);
+        parameters.setCurrVersionCode(Utils.getVersionCode(getActivity()) + "");
+        HttpEngine.Builder builder = HttpEngine.Builder.newInstance(getActivity());
+        builder.setRequest(new VersionUpdateRequest(parameters,
+                new BaseRequestProcessListener<VersionUpdateModel>(getActivity(), false, false) {
+                    @Override
+                    public void onResponse(VersionUpdateModel model) {
+                        if (getActivity() == null || getActivity().isFinishing()) {
+                            return;
+                        }
+
+                        final int mustUpdate = model.getMustUpdate();
+                        final String url = model.getVersionUrl();
+                        final int versionCode = model.getVersionCode();
+
+                        if (mustUpdate == VersionUpdateModel.UPDATE_NO_UPDATE) {
+                            Utils.showShortToast(getActivity(), R.string.settings_check_update_none);
+                        } else {
+                            AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+                            b.setTitle(getString(R.string.version_update_title));
+
+                            b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(Utils.getSystemBrowser(url));
+                                }
+                            });
+                            if (mustUpdate == VersionUpdateModel.UPDATE_NO_FORCE) {
+                                b.setMessage(getString(R.string.version_update_normal));
+                                b.setNegativeButton(getString(R.string.btn_version_update_later), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SharedPreferences.Editor editor = getActivity().getSharedPreferences(PREFERENCE_NAME,
+                                                Context.MODE_PRIVATE).edit();
+                                        editor.putInt(PREF_VERSION_CODE, versionCode);
+                                        editor.apply();
+                                        dialog.dismiss();
+                                    }
+                                });
+                            } else {
+                                b.setMessage(getString(R.string.version_update_force));
+                                b.setNegativeButton(getString(R.string.common_cancel), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+
+                            b.setCancelable(false);
+                            b.create().show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        super.onErrorResponse(error);
+                        LogUtil.i(TAG, "onErrorResponse() error=" + error != null ? error.getMessage() : "null");
+                        Utils.showShortToast(getActivity(), R.string.settings_check_update_none);
+                    }
+                })).build().start();
     }
 }
