@@ -1,5 +1,7 @@
 package com.feifan.bp.base;
 
+import android.text.TextUtils;
+
 import com.feifan.bp.Constants;
 
 import org.json.JSONArray;
@@ -19,6 +21,9 @@ public abstract class BaseModel {
             msg = json.optString("message");
         } else {
             msg = json.optString("msg");
+            if (TextUtils.isEmpty(msg)) {
+                msg = json.optString("message");
+            }
         }
         if(status == Constants.RESPONSE_CODE_SUCCESS) {
             parseAll(json);

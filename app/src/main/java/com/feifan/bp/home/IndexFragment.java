@@ -228,22 +228,22 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 }
             });
             indexViewHolder.redDotView.setVisibility(View.GONE);
-            if (Authority.REFUND_ID.equals(f.getId())) {
-                RefundCountRequest.Params params = BaseRequest.newParams(RefundCountRequest.Params.class);
-                params.setStoreId(AccountManager.instance(getActivity()).getAuthRangeId());
-                params.setRefundStatus("MER_REVIEW");
-                HttpEngine.Builder builder = HttpEngine.Builder.newInstance(getActivity());
-                builder.setRequest(new RefundCountRequest(params,
-                        new BaseRequestProcessListener<RefundCountModel>(getActivity(), false) {
-                            @Override
-                            public void onResponse(RefundCountModel refundCountModel) {
-                                if (refundCountModel.getCount() > 0) {
-                                    indexViewHolder.redDotView.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        })).build().start();
-
-            }
+//            if (Authority.REFUND_ID.equals(f.getId())) {
+//                RefundCountRequest.Params params = BaseRequest.newParams(RefundCountRequest.Params.class);
+//                params.setStoreId(AccountManager.instance(getActivity()).getAuthRangeId());
+//                params.setRefundStatus("MER_REVIEW");
+//                HttpEngine.Builder builder = HttpEngine.Builder.newInstance(getActivity());
+//                builder.setRequest(new RefundCountRequest(params,
+//                        new BaseRequestProcessListener<RefundCountModel>(getActivity(), false) {
+//                            @Override
+//                            public void onResponse(RefundCountModel refundCountModel) {
+//                                if (refundCountModel.getCount() > 0) {
+//                                    indexViewHolder.redDotView.setVisibility(View.VISIBLE);
+//                                }
+//                            }
+//                        })).build().start();
+//
+//            }
         }
 
         class IndexViewHolder extends RecyclerView.ViewHolder {
