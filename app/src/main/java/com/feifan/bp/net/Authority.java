@@ -20,6 +20,7 @@ public class Authority {
     public static List<String> AUTH_LIST;
     public static String REFUND_ID;
     public static String HISTORY_ID;
+    public static String NODE_ID;
     static {
         AUTH_MAP = new HashMap<>();
         AUTH_LIST = new ArrayList<>();
@@ -39,6 +40,7 @@ public class Authority {
                         R.string.index_refund_text, R.mipmap.index_ic_refund, RefundCmd.class));
                 REFUND_ID = "1162";
                 HISTORY_ID = "1166";
+                NODE_ID = "1141";
                 break;
             case SIT_API:
 
@@ -48,23 +50,6 @@ public class Authority {
                 break;
             case PRODUCT:
 
-                AUTH_LIST.add("1142");
-                AUTH_LIST.add("1160");
-                AUTH_LIST.add("1161");
-                AUTH_LIST.add("1162");
-                AUTH_MAP.put("1142", new Auth("1142",
-                        R.string.index_order_text, R.mipmap.index_ic_order, OrderManagementCmd.class));
-                AUTH_MAP.put("1160", new Auth("1160",
-                        R.string.index_report_text, R.mipmap.index_ic_report, StatisticReportCmd.class));
-                AUTH_MAP.put("1161", new Auth("1161",
-                        R.string.index_staff_text, R.mipmap.index_ic_staff, StaffManagementCmd.class));
-                AUTH_MAP.put("1162", new Auth("1162",
-                        R.string.index_refund_text, R.mipmap.index_ic_refund, RefundCmd.class));
-                REFUND_ID = "1162";
-                HISTORY_ID = "1166";
-
-                break;
-            default:
                 AUTH_LIST.add("997");
                 AUTH_LIST.add("1002");
                 AUTH_LIST.add("1003");
@@ -79,6 +64,25 @@ public class Authority {
                         R.string.index_refund_text, R.mipmap.index_ic_refund, RefundCmd.class));
                 REFUND_ID = "1004";
                 HISTORY_ID = "1005";
+                NODE_ID = "996";
+
+                break;
+            default:
+                AUTH_LIST.add("1142");
+                AUTH_LIST.add("1160");
+                AUTH_LIST.add("1161");
+                AUTH_LIST.add("1162");
+                AUTH_MAP.put("1142", new Auth("1142",
+                        R.string.index_order_text, R.mipmap.index_ic_order, OrderManagementCmd.class));
+                AUTH_MAP.put("1160", new Auth("1160",
+                        R.string.index_report_text, R.mipmap.index_ic_report, StatisticReportCmd.class));
+                AUTH_MAP.put("1161", new Auth("1161",
+                        R.string.index_staff_text, R.mipmap.index_ic_staff, StaffManagementCmd.class));
+                AUTH_MAP.put("1162", new Auth("1162",
+                        R.string.index_refund_text, R.mipmap.index_ic_refund, RefundCmd.class));
+                REFUND_ID = "1162";
+                HISTORY_ID = "1166";
+                NODE_ID = "1141";
                 break;
         }
     }

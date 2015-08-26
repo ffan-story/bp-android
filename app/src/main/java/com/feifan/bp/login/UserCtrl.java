@@ -5,6 +5,7 @@ import android.content.Context;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.account.AccountManager;
+import com.feifan.bp.net.Authority;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpEngine;
@@ -45,7 +46,7 @@ public class UserCtrl {
                                        BaseRequestProcessListener<PermissionModel> listener) {
         CheckPermissionRequest.Params params = BaseRequest.newParams(CheckPermissionRequest.Params.class);
         params.setUid(uid);
-        params.setNodeid("1141");
+        params.setNodeid(Authority.NODE_ID);
         HttpEngine.Builder.newInstance(context).
                 setRequest(new CheckPermissionRequest(params, listener)).
                 build().start();
