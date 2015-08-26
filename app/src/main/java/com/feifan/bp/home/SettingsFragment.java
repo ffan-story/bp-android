@@ -162,6 +162,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     private static final String PREFERENCE_NAME = "wanda_bp";
     private static final String PREF_VERSION_CODE = "pref_version_code";
+    private static final String PREF_VERSION_BEFORE_UPDATE = "pref_version_before_update";
+
     private void checkVersion() {
 
         VersionUpdateRequest.Params parameters = BaseRequest.newParams(VersionUpdateRequest.Params.class);
@@ -188,6 +190,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                             b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    SharedPreferences.Editor editor = getActivity().
+                                            getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+                                    editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
+                                    editor.apply();
                                     startActivity(Utils.getSystemBrowser(url));
                                 }
                             });

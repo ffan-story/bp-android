@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.android.volley.VolleyError;
+import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.home.CheckVersionModel;
 import com.feifan.bp.home.CheckVersionRequest;
@@ -31,6 +32,12 @@ public class SplashActivity extends BaseActivity {
         getWindow().setFormat(PixelFormat.RGBA_8888);
         setContentView(R.layout.activity_splash);
 
+        int versionBeforeUpdate = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
+                getInt(PREF_VERSION_BEFORE_UPDATE, -1);
+        if (versionBeforeUpdate != -1 && versionBeforeUpdate < BuildConfig.VERSION_CODE) {
+            AccountManager.instance(this).clear();
+        }
+
         checkVersion();
 
 //        new Handler() {}.postDelayed(new Runnable() {
@@ -49,6 +56,7 @@ public class SplashActivity extends BaseActivity {
 
     private static final String PREFERENCE_NAME = "wanda_bp";
     private static final String PREF_VERSION_CODE = "pref_version_code";
+    private static final String PREF_VERSION_BEFORE_UPDATE = "pref_version_before_update";
 
     private void checkVersion() {
 
@@ -82,6 +90,9 @@ public class SplashActivity extends BaseActivity {
                             b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+                                    editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
+                                    editor.apply();
                                     startActivity(Utils.getSystemBrowser(url));
                                     finish();
                                 }
@@ -119,7 +130,7 @@ public class SplashActivity extends BaseActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         super.onErrorResponse(error);
-                        LogUtil.i(TAG, "onErrorResponse() error=" + error != null ? error.getMessage() : "null");
+                        LogUtil.i(TAG, "onErrorResponse() error=" + (error != null ? error.getMessage() : "null"));
                         startActivity(LaunchActivity.buildIntent(SplashActivity.this));
                         finish();
                     }

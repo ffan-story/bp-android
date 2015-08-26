@@ -44,6 +44,7 @@ public abstract class BaseRequestProcessListener<T> implements BaseRequest.OnReq
         } else {                               // 其他原因
             String msg = error.getMessage();
             if (!TextUtils.isEmpty(msg) && msg.trim().length() > 0) {
+                LogUtil.i(TAG, "error msg=" + msg);
                 Utils.showShortToast(mAppContext, msg, Gravity.CENTER);
             } else {
                 Utils.showShortToast(mAppContext, R.string.error_message_text_offline, Gravity.CENTER);
