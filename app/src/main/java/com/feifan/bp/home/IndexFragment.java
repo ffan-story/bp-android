@@ -30,6 +30,7 @@ import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpEngine;
 import com.feifan.bp.net.NetUtils;
 import com.feifan.bp.scanner.CodeScannerActivity;
+import com.feifan.bp.widget.DividerGridItemDecoration;
 import com.feifan.bp.widget.IconClickableEditText;
 
 import java.lang.reflect.Constructor;
@@ -142,6 +143,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_function_container);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         mAdapter = new IndexAdapter(dataList);
         mRecyclerView.setAdapter(mAdapter);
         return v;

@@ -64,8 +64,6 @@ public class BrowserActivity extends BaseActivity {
 
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (mIsStaffManagementPage && mShowToolbarItem) {
@@ -92,7 +90,6 @@ public class BrowserActivity extends BaseActivity {
 
         }
     }
-
 
     @Override
     protected boolean isShowToolbar() {

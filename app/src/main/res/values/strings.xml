@@ -32,7 +32,7 @@
     <string name="index_report_text">统计报表</string>
     <string name="index_staff_text">员工管理</string>
     <string name="index_refund_text">退款售后</string>
-    <string name="index_search_input_hint">请输入提货码</string>
+    <string name="index_search_input_hint">请输入提货码或券码</string>
     <string name="index_staff_add">添加员工</string>
     <string name="index_staff_list">员工列表</string>
 
