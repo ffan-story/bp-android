@@ -111,7 +111,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     Utils.showShortToast(getActivity(), throwable.getMessage());
                     return;
                 }
-
+                mCodeEditText.setText("");
                 String urlStr = NetUtils.getUrlFactory().searchCodeForHtml(getActivity(), code);
                 BrowserActivity.startActivity(getActivity(), urlStr);
             }
