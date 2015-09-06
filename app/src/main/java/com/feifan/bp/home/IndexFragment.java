@@ -104,7 +104,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
                 String code = mCodeEditText.getText().toString();
 
-
                 try {
                     Utils.checkDigitAndLetter(getActivity(), code);
                 } catch (Throwable throwable) {

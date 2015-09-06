@@ -105,7 +105,7 @@ public class Utils {
      * @return
      */
     public static void checkPhoneNumber(Context context, String phoneNumber) throws Throwable {
-        Pattern p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$");
+        Pattern p = Pattern.compile("^[1][0-9][0-9]{9}$");
         Matcher m = p.matcher(phoneNumber);
         if (!m.matches()) {
             throw new Throwable(context.getString(R.string.error_message_text_phone_number_illegal));
