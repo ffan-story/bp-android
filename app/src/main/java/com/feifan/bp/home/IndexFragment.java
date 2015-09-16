@@ -2,6 +2,7 @@ package com.feifan.bp.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.crop.CropActivity;
 import com.feifan.bp.home.command.Command;
 import com.feifan.bp.net.Authority;
 import com.feifan.bp.net.BaseRequest;
@@ -141,10 +143,24 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_function_container);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(
-                2, StaggeredGridLayoutManager.VERTICAL));
-        mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
+                3, StaggeredGridLayoutManager.VERTICAL));
+//        mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         mAdapter = new IndexAdapter(dataList);
         mRecyclerView.setAdapter(mAdapter);
+
+
+        //test
+        /*Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/jpeg");
+        if(android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.KITKAT){
+            startActivityForResult(intent, 1);
+        }else{
+            startActivityForResult(intent, 2);
+        }*/
+//        Intent intent = new Intent(this.getActivity(), CropActivity.class);
+//        startActivity(intent);
+
         return v;
     }
 

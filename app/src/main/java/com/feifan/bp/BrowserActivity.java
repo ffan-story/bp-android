@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,7 +21,18 @@ import android.widget.Toast;
 
 import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.crop.Crop;
 import com.feifan.bp.net.NetUtils;
+import com.feifan.bp.net.UploadHttpClient;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.InputStream;
 
 
 public class BrowserActivity extends BaseActivity {
@@ -203,6 +215,83 @@ public class BrowserActivity extends BaseActivity {
             super.onPageFinished(view, url);
             LogUtil.i(TAG, "onPageFinished() progress=" + view.getProgress());
             hideProgressBar();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
+        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
+            beginCrop(result.getData());
+        } else if (requestCode == Crop.REQUEST_CROP && resultCode == RESULT_OK) {
+            handleCrop(resultCode, result);
+        }
+    }
+
+    private void beginCrop(Uri source) {
+        Uri outputUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        new Crop(this, source).output(outputUri).asSquare().start(this);
+    }
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            uploadPicture(Crop.getOutput(result));
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void uploadPicture(Uri uri) {
+        try {
+            InputStream in = getContentResolver().openInputStream(uri);
+            RequestParams params = new RequestParams();
+            params.put("image", in);
+
+            String url = NetUtils.getUrlFactory().uploadPicture();
+
+            showProgressBar(false);
+            UploadHttpClient.post(url, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers,
+                                      byte[] responseBody) {
+                    hideProgressBar();
+                    String result = new String(responseBody);
+                    LogUtil.i(TAG, "upload response=" + result);
+                    try {
+                        if (statusCode == 200) {
+                            JSONObject jobj = new JSONObject(result);
+                            JSONObject data = jobj.optJSONObject("data");
+                            String name = data.optString("name");
+                            jsPictureMd5(name);
+                        } else {
+                            Utils.showShortToast(BrowserActivity.this,
+                                    R.string.error_message_upload_picture_fail, Gravity.CENTER);
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers,
+                                      byte[] responseBody, Throwable error) {
+                    hideProgressBar();
+                    Utils.showShortToast(BrowserActivity.this,
+                            R.string.error_message_upload_picture_fail, Gravity.CENTER);
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utils.showShortToast(BrowserActivity.this,
+                    R.string.error_message_upload_picture_fail, Gravity.CENTER);
+        }
+    }
+
+    private void jsPictureMd5(String md5) {
+        if (mWebView != null) {
+            mWebView.loadUrl("javascript:imageCallback('" + md5 + "')");
         }
     }
 

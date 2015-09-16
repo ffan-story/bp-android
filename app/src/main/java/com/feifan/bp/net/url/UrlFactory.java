@@ -157,4 +157,8 @@ public abstract class UrlFactory {
         return relativeUrl;
     }
 
+    public String uploadPicture() {
+        return getFFanHostUrl() + "uploadpicture";
+    }
+
 }

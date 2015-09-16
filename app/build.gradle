@@ -1,3 +1,11 @@
+buildscript {
+    //支持java 依赖库管理（maven/ivy）,用于项目的依赖。
+    repositories {
+        mavenCentral()
+    }
+
+}
+
 apply plugin: 'com.android.application'
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
@@ -88,6 +96,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('/libs/volley.jar')
+    compile 'com.loopj.android:android-async-http:1.4.8'
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.android.support:recyclerview-v7:21.+'
     compile project(':codescanner')

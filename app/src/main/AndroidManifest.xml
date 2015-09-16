@@ -38,16 +38,26 @@
         <activity
             android:name=".LaunchActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".BrowserActivity"
             android:label="@string/title_activity_browser"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name="com.feifan.bp.scanner.CodeScannerActivity"
             android:label="@string/lable_activity_scanner"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.feifan.bp.crop.CropActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.feifan.bp.crop.CropImageActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
