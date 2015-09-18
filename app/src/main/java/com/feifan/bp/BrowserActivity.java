@@ -67,6 +67,7 @@ public class BrowserActivity extends BaseActivity {
 
         // 载入网页
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
+        url = "http://10.1.171.127:1111/H5App/index.html#/commodity/publish_page";
         mIsStaffManagementPage = getIntent().getBooleanExtra(EXTRA_KEY_STAFF_MANAGE, false);
         LogUtil.i(TAG, url);
         LogUtil.i(TAG, "staff=" + mIsStaffManagementPage);
@@ -196,6 +197,8 @@ public class BrowserActivity extends BaseActivity {
                 } else if (url.contains(Constants.URL_PATH_HOME)) {
                     // 目前关闭当前界面即显示主界面
                     finish();
+                } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
+                    Crop.pickImage(BrowserActivity.this);
                 }
 
             }

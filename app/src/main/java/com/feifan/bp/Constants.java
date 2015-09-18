@@ -24,6 +24,7 @@ public class Constants {
     public static final String URL_PATH_LOGIN = "login";
     public static final String URL_PATH_EXIT = "exit";
     public static final String URL_PATH_HOME = "home";
+    public static final String URL_LOCAL_IMAGE = "getLocalImage";
 
 
     public enum Environment {
