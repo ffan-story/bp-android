@@ -203,7 +203,7 @@ public class BrowserActivity extends BaseActivity {
 
             }
 
-            return super.shouldOverrideUrlLoading(view, url);
+            return true;
         }
 
         @Override
@@ -250,6 +250,7 @@ public class BrowserActivity extends BaseActivity {
             params.put("image", in);
 
             String url = NetUtils.getUrlFactory().uploadPicture();
+//            url = "http://xapi.intra.ffan.com/uploadpicture";
 
             showProgressBar(false);
             UploadHttpClient.post(url, params, new AsyncHttpResponseHandler() {

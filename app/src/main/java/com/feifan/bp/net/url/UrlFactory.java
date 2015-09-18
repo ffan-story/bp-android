@@ -30,6 +30,8 @@ public abstract class UrlFactory {
 
     protected abstract String getFFanHostUrl();
 
+    protected abstract String getPictureUploadUrl();
+
     protected abstract String getH5HostUrl();
 
     public String statisticReportForHtml(Context context) {
@@ -158,7 +160,7 @@ public abstract class UrlFactory {
     }
 
     public String uploadPicture() {
-        return getFFanHostUrl() + "uploadpicture";
+        return getPictureUploadUrl() + "uploadpicture";
     }
 
 }

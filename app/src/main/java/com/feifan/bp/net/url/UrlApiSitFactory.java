@@ -6,6 +6,11 @@ package com.feifan.bp.net.url;
 public class UrlApiSitFactory extends UrlFactory {
 
     @Override
+    protected String getPictureUploadUrl() {
+        return "http://xapi.intra.ffan.com/";
+    }
+
+    @Override
     public String getFFanHostUrl() {
         return "http://xapi.sit.ffan.com/";
     }
