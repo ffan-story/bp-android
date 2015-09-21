@@ -129,6 +129,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 try {
                     Authority.Auth a = Authority.AUTH_MAP.get(id);
                     String url = AccountManager.instance(getActivity()).getPermissionUrl(id);
+                    LogUtil.i(TAG, "auth url=" + url);
                     Constructor constructor = a.clazz.getConstructor(Context.class, String.class);
                     Command c = (Command) constructor.newInstance(getActivity(), url);
                     dataList.add(new FunctionModel(c, getString(a.titleResId), id, a.iconResId));

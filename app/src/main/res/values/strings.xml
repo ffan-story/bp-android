@@ -54,6 +54,7 @@
     <string name="login_info_not_enough">请输入完整信息</string>
 
     <!-- 错误信息 -->
+    <string name="error_message_text_network_data_fail">数据请求有错误</string>
     <string name="error_message_text_offline">网络问题，请检查网络设置后重新尝试</string>
     <string name="error_message_text_phone_number_empty">手机号不能为空</string>
     <string name="error_message_text_login_empty">手机号和密码不能为空</string>

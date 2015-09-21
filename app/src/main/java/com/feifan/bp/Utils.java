@@ -159,4 +159,14 @@ public class Utils {
 //        intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
         return intent;
     }
+
+    public static boolean isChineseChar(String str){
+        boolean result = false;
+        Pattern p=Pattern.compile("[\u4e00-\u9fa5]");
+        Matcher m=p.matcher(str);
+        if(m.find()){
+            result =  true;
+        }
+        return result;
+    }
 }

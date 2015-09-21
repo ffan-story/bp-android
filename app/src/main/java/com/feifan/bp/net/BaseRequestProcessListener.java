@@ -45,6 +45,9 @@ public abstract class BaseRequestProcessListener<T> implements BaseRequest.OnReq
             String msg = error.getMessage();
             if (!TextUtils.isEmpty(msg) && msg.trim().length() > 0) {
                 LogUtil.i(TAG, "error msg=" + msg);
+                if (!Utils.isChineseChar(msg)) {
+                    msg = mAppContext.getString(R.string.error_message_text_network_data_fail);
+                }
                 Utils.showShortToast(mAppContext, msg, Gravity.CENTER);
             } else {
                 Utils.showShortToast(mAppContext, R.string.error_message_text_offline, Gravity.CENTER);

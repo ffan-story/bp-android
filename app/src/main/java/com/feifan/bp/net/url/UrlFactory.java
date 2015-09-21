@@ -154,7 +154,7 @@ public abstract class UrlFactory {
         }
 
         if (relativeUrl.charAt(0) == '/' && relativeUrl.length() > 0) {
-            relativeUrl = relativeUrl.substring(1, relativeUrl.length() - 1);
+            relativeUrl = relativeUrl.substring(1, relativeUrl.length());
         }
         return relativeUrl;
     }
