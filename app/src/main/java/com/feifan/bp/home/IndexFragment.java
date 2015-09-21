@@ -85,6 +85,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        LogUtil.i(TAG, "onCreateView()");
         View v = inflater.inflate(R.layout.fragment_index, container, false);
         v.findViewById(R.id.index_scan).setOnClickListener(this);
         v.findViewById(R.id.index_history).setOnClickListener(this);
@@ -120,8 +121,11 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
         List<FunctionModel> dataList = new ArrayList<>();
         List<String> list = AccountManager.instance(getActivity()).getPermissionList();
+        LogUtil.i(TAG, "auth list=" + list);
         for (String id : Authority.AUTH_LIST) {
+            LogUtil.i(TAG, "id=" + id);
             if (list.contains(id)) {
+                LogUtil.i(TAG, "auth id=" + id);
                 try {
                     Authority.Auth a = Authority.AUTH_MAP.get(id);
                     String url = AccountManager.instance(getActivity()).getPermissionUrl(id);

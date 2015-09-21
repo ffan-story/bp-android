@@ -32,8 +32,8 @@ public class Authority {
                 AUTH_LIST.add("1160");
                 AUTH_LIST.add("1161");
                 AUTH_LIST.add("1162");
-                AUTH_LIST.add("1126");
-                AUTH_LIST.add("1127");
+                AUTH_LIST.add("1226");
+                AUTH_LIST.add("1227");
                 AUTH_MAP.put("1142", new Auth("1142",
                         R.string.index_order_text, R.mipmap.index_ic_order, OrderManagementCmd.class));
                 AUTH_MAP.put("1160", new Auth("1160",
@@ -42,9 +42,9 @@ public class Authority {
                         R.string.index_staff_text, R.mipmap.index_ic_staff, StaffManagementCmd.class));
                 AUTH_MAP.put("1162", new Auth("1162",
                         R.string.index_refund_text, R.mipmap.index_ic_refund, RefundCmd.class));
-                AUTH_MAP.put("1126", new Auth("1126",
+                AUTH_MAP.put("1226", new Auth("1226",
                         R.string.index_commodity_text, R.mipmap.index_ic_commodity, CommodityCmd.class));
-                AUTH_MAP.put("1127", new Auth("1127",
+                AUTH_MAP.put("1227", new Auth("1227",
                         R.string.index_marketing_text, R.mipmap.index_ic_marketing, MarketingCmd.class));
                 REFUND_ID = "1162";
                 HISTORY_ID = "1166";
@@ -86,8 +86,8 @@ public class Authority {
                 AUTH_LIST.add("1160");
                 AUTH_LIST.add("1161");
                 AUTH_LIST.add("1162");
-                AUTH_LIST.add("1126");
-                AUTH_LIST.add("1127");
+                AUTH_LIST.add("1226");
+                AUTH_LIST.add("1227");
                 AUTH_MAP.put("1142", new Auth("1142",
                         R.string.index_order_text, R.mipmap.index_ic_order, OrderManagementCmd.class));
                 AUTH_MAP.put("1160", new Auth("1160",
@@ -96,9 +96,9 @@ public class Authority {
                         R.string.index_staff_text, R.mipmap.index_ic_staff, StaffManagementCmd.class));
                 AUTH_MAP.put("1162", new Auth("1162",
                         R.string.index_refund_text, R.mipmap.index_ic_refund, RefundCmd.class));
-                AUTH_MAP.put("1126", new Auth("1126",
+                AUTH_MAP.put("1226", new Auth("1226",
                         R.string.index_commodity_text, R.mipmap.index_ic_commodity, CommodityCmd.class));
-                AUTH_MAP.put("1127", new Auth("1127",
+                AUTH_MAP.put("1227", new Auth("1227",
                         R.string.index_marketing_text, R.mipmap.index_ic_marketing, MarketingCmd.class));
                 REFUND_ID = "1162";
                 HISTORY_ID = "1166";
