@@ -153,19 +153,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         mAdapter = new IndexAdapter(dataList);
         mRecyclerView.setAdapter(mAdapter);
 
-
-        //test
-        /*Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/jpeg");
-        if(android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.KITKAT){
-            startActivityForResult(intent, 1);
-        }else{
-            startActivityForResult(intent, 2);
-        }*/
-//        Intent intent = new Intent(this.getActivity(), CropActivity.class);
-//        startActivity(intent);
-
         return v;
     }
 

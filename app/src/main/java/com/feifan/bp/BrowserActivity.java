@@ -88,30 +88,36 @@ public class BrowserActivity extends BaseActivity {
             inflater.inflate(R.menu.menu_staff_manage, menu);
         } else if (mToolbarStatus == TOOLBAR_STATUS_COUPON) {
             inflater.inflate(R.menu.menu_coupon_add, menu);
+        } else if (mToolbarStatus == TOOLBAR_STATUS_COMMODITY) {
+            inflater.inflate(R.menu.menu_commodity_manage, menu);
+        } else {
+            menu.clear();
         }
         return super.onCreateOptionsMenu(menu);
     }
 
     public void onClick(MenuItem item) {
         LogUtil.i(TAG, "onClick()");
+        if (mWebViewProgress < 100) {
+            return;
+        }
         String url = "";
         int id = item.getItemId();
         switch (id) {
             case R.id.action_staff:
-                if (mWebViewProgress < 100) {
-                    break;
-                }
                 url = NetUtils.getUrlFactory().staffAddForHtml(this);
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() staff url=" + url);
                 break;
             case R.id.action_coupon:
-                if (mWebViewProgress < 100) {
-                    break;
-                }
                 url = NetUtils.getUrlFactory().couponAddForHtml(this);
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() coupon url=" + url);
+                break;
+            case R.id.action_commodity:
+                url = NetUtils.getUrlFactory().commodityManageForHtml(this);
+                mWebView.loadUrl(url);
+                LogUtil.i(TAG, "menu onClick() commodity url=" + url);
                 break;
             default:
 
@@ -171,6 +177,7 @@ public class BrowserActivity extends BaseActivity {
     private static final int TOOLBAR_STATUS_IDLE = 0;
     private static final int TOOLBAR_STATUS_STAFF = 1;
     private static final int TOOLBAR_STATUS_COUPON = 2;
+    private static final int TOOLBAR_STATUS_COMMODITY = 3;
     private int mToolbarStatus = TOOLBAR_STATUS_IDLE;
 
     private boolean mShowToolbarItem = false;
@@ -195,6 +202,10 @@ public class BrowserActivity extends BaseActivity {
                 } else if (getString(R.string.index_coupon_list).equals(title)) {
                     mToolbarStatus = TOOLBAR_STATUS_COUPON;
                     mShowToolbarItem = false;
+                } else if (getString(R.string.index_commodity_text).equals(title)) {
+                    mToolbarStatus = TOOLBAR_STATUS_COMMODITY;
+                } else {
+                    mToolbarStatus = TOOLBAR_STATUS_IDLE;
                 }
                 supportInvalidateOptionsMenu();
             }

@@ -30,6 +30,8 @@ public abstract class UrlFactory {
 
     private static final String URL_PATH_COUPON_ADD = "H5App/default.html#/coupon/create";
 
+    private static final String URL_PATH_COMMODITY_MANAGE = "H5App/index.html#/commodity/select_cat_menu";
+
     protected abstract String getFFanHostUrl();
 
     protected abstract String getPictureUploadUrl();
@@ -106,6 +108,17 @@ public abstract class UrlFactory {
     public String couponAddForHtml(Context context) {
         AccountManager accountManager = AccountManager.instance(context);
         String url = getH5HostUrl().concat(URL_PATH_COUPON_ADD).
+                concat("?loginToken=").
+                concat(accountManager.getLoginToken()).
+                concat("&uid=").
+                concat(String.valueOf(accountManager.getUid())).
+                concat("&appType=bpMobile");
+        return url;
+    }
+
+    public String commodityManageForHtml(Context context) {
+        AccountManager accountManager = AccountManager.instance(context);
+        String url = getH5HostUrl().concat(URL_PATH_COMMODITY_MANAGE).
                 concat("?loginToken=").
                 concat(accountManager.getLoginToken()).
                 concat("&uid=").
