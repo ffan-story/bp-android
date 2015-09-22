@@ -28,6 +28,8 @@ public abstract class UrlFactory {
 
     private static final String URL_PATH_STAFF_ADD = "/H5App/index.html#/staff/add";
 
+    private static final String URL_PATH_COUPON_ADD = "/H5App/default.html#/coupon/create";
+
     protected abstract String getFFanHostUrl();
 
     protected abstract String getPictureUploadUrl();
@@ -93,6 +95,17 @@ public abstract class UrlFactory {
     public String staffAddForHtml(Context context) {
         AccountManager accountManager = AccountManager.instance(context);
         String url = getH5HostUrl().concat(URL_PATH_STAFF_ADD).
+                concat("?loginToken=").
+                concat(accountManager.getLoginToken()).
+                concat("&uid=").
+                concat(String.valueOf(accountManager.getUid())).
+                concat("&appType=bpMobile");
+        return url;
+    }
+
+    public String couponAddForHtml(Context context) {
+        AccountManager accountManager = AccountManager.instance(context);
+        String url = getH5HostUrl().concat(URL_PATH_COUPON_ADD).
                 concat("?loginToken=").
                 concat(accountManager.getLoginToken()).
                 concat("&uid=").

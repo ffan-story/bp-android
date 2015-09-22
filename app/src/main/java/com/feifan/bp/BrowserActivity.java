@@ -78,9 +78,16 @@ public class BrowserActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (mIsStaffManagementPage && mShowToolbarItem) {
-            MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getMenuInflater();
+//        if (mIsStaffManagementPage && mShowToolbarItem) {
+//
+//            inflater.inflate(R.menu.menu_staff_manage, menu);
+//        }
+
+        if (mToolbarStatus == TOOLBAR_STATUS_STAFF) {
             inflater.inflate(R.menu.menu_staff_manage, menu);
+        } else if (mToolbarStatus == TOOLBAR_STATUS_COUPON) {
+            inflater.inflate(R.menu.menu_coupon_add, menu);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -96,7 +103,14 @@ public class BrowserActivity extends BaseActivity {
                 LogUtil.i(TAG, "onOptionsItemSelected()  load staff url");
                 String url = NetUtils.getUrlFactory().staffAddForHtml(this);
                 mWebView.loadUrl(url);
-//                BrowserActivity.startActivity(this, url);
+                break;
+            case R.id.action_coupon:
+                if (mWebViewProgress < 100) {
+                    break;
+                }
+                LogUtil.i(TAG, "onOptionsItemSelected()  load staff url");
+                String url1 = NetUtils.getUrlFactory().couponAddForHtml(this);
+                mWebView.loadUrl(url1);
                 break;
             default:
 
@@ -153,6 +167,11 @@ public class BrowserActivity extends BaseActivity {
         }
     }
 
+    private static final int TOOLBAR_STATUS_IDLE = 0;
+    private static final int TOOLBAR_STATUS_STAFF = 1;
+    private static final int TOOLBAR_STATUS_COUPON = 2;
+    private int mToolbarStatus = TOOLBAR_STATUS_IDLE;
+
     private boolean mShowToolbarItem = false;
 
     private class PlatformWebChromeClient extends WebChromeClient {
@@ -170,8 +189,10 @@ public class BrowserActivity extends BaseActivity {
             if (view.getProgress() == 100) {
                 getToolbar().setTitle(title);
                 if (getString(R.string.index_staff_list).equals(title)) {
+                    mToolbarStatus = TOOLBAR_STATUS_STAFF;
                     mShowToolbarItem = true;
-                } else {
+                } else if (getString(R.string.index_coupon_list).equals(title)) {
+                    mToolbarStatus = TOOLBAR_STATUS_COUPON;
                     mShowToolbarItem = false;
                 }
                 supportInvalidateOptionsMenu();
