@@ -26,9 +26,9 @@ public abstract class UrlFactory {
     // H5页面相对路径－查询提货码
     private static final String URL_PATH_SEARCH = "H5App/index.html#/goods/search_result";
 
-    private static final String URL_PATH_STAFF_ADD = "/H5App/index.html#/staff/add";
+    private static final String URL_PATH_STAFF_ADD = "H5App/index.html#/staff/add";
 
-    private static final String URL_PATH_COUPON_ADD = "/H5App/default.html#/coupon/create";
+    private static final String URL_PATH_COUPON_ADD = "H5App/default.html#/coupon/create";
 
     protected abstract String getFFanHostUrl();
 

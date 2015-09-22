@@ -94,23 +94,24 @@ public class BrowserActivity extends BaseActivity {
 
     public void onClick(MenuItem item) {
         LogUtil.i(TAG, "onClick()");
+        String url = "";
         int id = item.getItemId();
         switch (id) {
             case R.id.action_staff:
                 if (mWebViewProgress < 100) {
                     break;
                 }
-                LogUtil.i(TAG, "onOptionsItemSelected()  load staff url");
-                String url = NetUtils.getUrlFactory().staffAddForHtml(this);
+                url = NetUtils.getUrlFactory().staffAddForHtml(this);
                 mWebView.loadUrl(url);
+                LogUtil.i(TAG, "menu onClick() staff url=" + url);
                 break;
             case R.id.action_coupon:
                 if (mWebViewProgress < 100) {
                     break;
                 }
-                LogUtil.i(TAG, "onOptionsItemSelected()  load staff url");
-                String url1 = NetUtils.getUrlFactory().couponAddForHtml(this);
-                mWebView.loadUrl(url1);
+                url = NetUtils.getUrlFactory().couponAddForHtml(this);
+                mWebView.loadUrl(url);
+                LogUtil.i(TAG, "menu onClick() coupon url=" + url);
                 break;
             default:
 
@@ -270,8 +271,6 @@ public class BrowserActivity extends BaseActivity {
             params.put("image", in);
 
             String url = NetUtils.getUrlFactory().uploadPicture();
-//            url = "http://xapi.intra.ffan.com/uploadpicture";
-
             showProgressBar(false);
             UploadHttpClient.post(url, params, new AsyncHttpResponseHandler() {
                 @Override
