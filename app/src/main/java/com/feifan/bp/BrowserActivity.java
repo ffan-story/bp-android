@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +35,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class BrowserActivity extends BaseActivity {
@@ -42,6 +46,22 @@ public class BrowserActivity extends BaseActivity {
      */
     public static final String EXTRA_KEY_URL = "url";
     public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
+
+
+    private static final int TOOLBAR_STATUS_IDLE = 0;
+    private static final int TOOLBAR_STATUS_STAFF = 1;
+    private static final int TOOLBAR_STATUS_COUPON = 2;
+    private static final int TOOLBAR_STATUS_COMMODITY = 3;
+    private int mToolbarStatus = TOOLBAR_STATUS_IDLE;
+
+    //type=0不限制大小
+    private static final int IMG_PICK_TYPE_0 = 0;
+    //type=1是640*640
+    private static final int IMG_PICK_TYPE_1 = 1;
+    //type=2是亲子类目规格为16:9，尺寸：最小640px*360px，最大1280px*720px
+    private static final int IMG_PICK_TYPE_2 = 2;
+
+    private int mImgPickType = IMG_PICK_TYPE_0;
 
     private WebView mWebView;
     private boolean mIsStaffManagementPage = false;
@@ -79,11 +99,6 @@ public class BrowserActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-//        if (mIsStaffManagementPage && mShowToolbarItem) {
-//
-//            inflater.inflate(R.menu.menu_staff_manage, menu);
-//        }
-
         if (mToolbarStatus == TOOLBAR_STATUS_STAFF) {
             inflater.inflate(R.menu.menu_staff_manage, menu);
         } else if (mToolbarStatus == TOOLBAR_STATUS_COUPON) {
@@ -174,14 +189,6 @@ public class BrowserActivity extends BaseActivity {
         }
     }
 
-    private static final int TOOLBAR_STATUS_IDLE = 0;
-    private static final int TOOLBAR_STATUS_STAFF = 1;
-    private static final int TOOLBAR_STATUS_COUPON = 2;
-    private static final int TOOLBAR_STATUS_COMMODITY = 3;
-    private int mToolbarStatus = TOOLBAR_STATUS_IDLE;
-
-    private boolean mShowToolbarItem = false;
-
     private class PlatformWebChromeClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
@@ -198,10 +205,8 @@ public class BrowserActivity extends BaseActivity {
                 getToolbar().setTitle(title);
                 if (getString(R.string.index_staff_list).equals(title)) {
                     mToolbarStatus = TOOLBAR_STATUS_STAFF;
-                    mShowToolbarItem = true;
                 } else if (getString(R.string.index_coupon_list).equals(title)) {
                     mToolbarStatus = TOOLBAR_STATUS_COUPON;
-                    mShowToolbarItem = false;
                 } else if (getString(R.string.index_commodity_text).equals(title)) {
                     mToolbarStatus = TOOLBAR_STATUS_COMMODITY;
                 } else {
@@ -230,6 +235,32 @@ public class BrowserActivity extends BaseActivity {
                     // 目前关闭当前界面即显示主界面
                     finish();
                 } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
+                    mImgPickType = IMG_PICK_TYPE_0;
+                    int pos = url.indexOf("?");
+                    if (pos > -1) {
+                        String paramsStr = url.substring(pos + 1, url.length());
+                        LogUtil.i(TAG, "paramsStr=" + paramsStr);
+                        Map<String, String> paramMap = new HashMap<>();
+                        if (!TextUtils.isEmpty(paramsStr)) {
+                            String[] paramArray = paramsStr.split("&");
+                            if (paramArray != null) {
+
+                                for (String item : paramArray) {
+                                    String[] keyValues = item.split("=");
+                                    if (keyValues == null || keyValues.length < 2) {
+                                        continue;
+                                    }
+                                    paramMap.put(keyValues[0], keyValues[1]);
+                                }
+                            }
+                        }
+                        String type = paramMap.get("type");
+                        LogUtil.i(TAG, "Image pick type=" + type);
+                        if (!TextUtils.isEmpty(type)) {
+                            mImgPickType = Integer.parseInt(type);
+                        }
+
+                    }
                     Crop.pickImage(BrowserActivity.this);
                 }
 
@@ -264,7 +295,16 @@ public class BrowserActivity extends BaseActivity {
 
     private void beginCrop(Uri source) {
         Uri outputUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
-        new Crop(this, source).output(outputUri).asSquare().start(this);
+        if (IMG_PICK_TYPE_1 == mImgPickType) {
+            new Crop(this, source).output(outputUri).asSquare().start(this);
+        } else if (IMG_PICK_TYPE_2 == mImgPickType) {
+            new Crop(this, source).output(outputUri).withAspect(16, 9).start(this);
+        } else if (IMG_PICK_TYPE_0 == mImgPickType) {
+            new Crop(this, source).output(outputUri).asSquare().start(this);
+        } else {
+            new Crop(this, source).output(outputUri).asSquare().start(this);
+        }
+
     }
 
     private void handleCrop(int resultCode, Intent result) {
