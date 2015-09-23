@@ -114,10 +114,7 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                 if (!isCheckedMobile(phone)) {
                     return;
                 }
-                if (TextUtils.isEmpty(phone)) {
-                    Utils.showShortToast(getActivity(), getString(R.string.error_message_text_phone_number_empty));
-                    return;
-                }
+
                 if (TextUtils.isEmpty(smsCode)) {
                     Utils.showShortToast(getActivity(), getString(R.string.sms_error));
                     return;
@@ -129,6 +126,11 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                }
+
+                if (TextUtils.isEmpty(newPhone)) {
+                    Utils.showShortToast(getActivity(), getString(R.string.error_message_text_phone_number_empty));
+                    return;
                 }
 
                 PasswordCtrl.forgetPassword(getActivity(), newPhone, mAuthCode, mKeyCode,
@@ -162,11 +164,11 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                         getSmsCode();
                         PasswordCtrl.sendSMSCode(getActivity(), phone, mRadomSmsCode,
                                 new BaseRequestProcessListener<PasswordModel>(getActivity()) {
-                            @Override
-                            public void onResponse(PasswordModel passwordModel2) {
-                                Utils.showShortToast(getActivity(), getString(R.string.sms_sended));
-                            }
-                        });
+                                    @Override
+                                    public void onResponse(PasswordModel passwordModel2) {
+                                        Utils.showShortToast(getActivity(), getString(R.string.sms_sended));
+                                    }
+                                });
 //                        PasswordCtrl.sendSMSCode(phone, mRadomSmsCode, new Response.Listener<PasswordModel>() {
 //                            @Override
 //                            public void onResponse(PasswordModel model) {

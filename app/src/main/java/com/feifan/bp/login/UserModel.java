@@ -44,7 +44,7 @@ public class UserModel extends BaseModel {
 
     @Override
     public String toString() {
-        return "uid=" + uid + ",agId" + agId + ",user=" + user + ",name=" + name + ",authRange=" + authRange
-                + ",authRangeType=" + authRangeType + ",authRangeId=" + authRangeId + ",loginToken=" + loginToken;
+        return "uid=" + uid + " ,agId=" + agId + " ,user=" + user + " ,name=" + name + ",authRange=" + authRange
+                + ",authRangeType=" + authRangeType + " ,authRangeId=" + authRangeId + ",loginToken=" + loginToken;
     }
 }
