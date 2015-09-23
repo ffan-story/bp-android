@@ -9,8 +9,8 @@ import org.json.JSONObject;
  * Created by maning on 15/7/29.
  */
 public class PasswordModel extends BaseModel {
-    public String authCode;
-    public String key;
+    private String authCode;
+    private String key;
 
     public PasswordModel(JSONObject json) {
         super(json, false);
@@ -21,12 +21,27 @@ public class PasswordModel extends BaseModel {
         if (data == null) {
             return;
         }
-        authCode = data.optString("authCode");
-        key = data.optString("key");
+        setAuthCode(data.optString("authCode"));
+        setKey(data.optString("key"));
     }
+
 
     @Override
     protected void parseArrayData(JSONArray data) {
 
+    }
+
+    private void setAuthCode(String authCode){
+        this.authCode = authCode;
+    }
+    public String getAuthCode(){
+        return  authCode;
+    }
+
+    private void setKey(String key){
+        this.key = key;
+    }
+    public String getKey(){
+        return  key;
     }
 }

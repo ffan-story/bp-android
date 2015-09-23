@@ -133,6 +133,7 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                     return;
                 }
 
+
                 PasswordCtrl.forgetPassword(getActivity(), newPhone, mAuthCode, mKeyCode,
                         new BaseRequestProcessListener<PasswordModel>(getActivity()) {
                     @Override
@@ -159,8 +160,8 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                     @Override
                     public void onResponse(PasswordModel passwordModel2) {
                         mCountDownButton.startCountDown();
-                        mAuthCode = passwordModel2.authCode;
-                        mKeyCode = passwordModel2.key;
+                        mAuthCode = passwordModel2.getAuthCode();
+                        mKeyCode = passwordModel2.getKey();
                         getSmsCode();
                         PasswordCtrl.sendSMSCode(getActivity(), phone, mRadomSmsCode,
                                 new BaseRequestProcessListener<PasswordModel>(getActivity()) {
