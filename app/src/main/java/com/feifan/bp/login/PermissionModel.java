@@ -47,7 +47,6 @@ public class PermissionModel extends BaseModel {
                 urlMap.put(id, url);
             }
 
-
         }
         LogUtil.i("PermissionModel", "list=" + permissionList);
     }

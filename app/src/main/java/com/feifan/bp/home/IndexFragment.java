@@ -192,6 +192,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
                 }
                 break;
+//                BrowserActivity.startActivity(getActivity(), "http://10.1.171.127:1111/H5App/index.html#/commodity/publish_page");
+//                return;
             default:
                 return;
         }

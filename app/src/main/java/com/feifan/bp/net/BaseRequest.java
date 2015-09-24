@@ -1,5 +1,7 @@
 package com.feifan.bp.net;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -9,6 +11,9 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LogUtil;
 import com.feifan.bp.base.BaseModel;
+import com.feifan.bp.password.CheckPhoneNumExistRequest;
+import com.feifan.bp.password.ForgetPasswordRequest;
+import com.feifan.bp.password.PasswordModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,7 +84,9 @@ public abstract class BaseRequest<T extends BaseModel> extends Request<T> {
             jsonStr = new String(networkResponse.data, HttpHeaderParser.parseCharset(networkResponse.headers));
             LogUtil.i(TAG, jsonStr);
             JSONObject json = new JSONObject(jsonStr);
+
             T model = onGetModel(json);
+
             if (model.getStatus() == Constants.RESPONSE_CODE_SUCCESS) {
                 return Response.success(model, HttpHeaderParser.parseCacheHeaders(networkResponse));
             } else {
