@@ -206,19 +206,30 @@ public class BrowserActivity extends BaseActivity {
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
             LogUtil.i(TAG, "onReceiveTitle() title=" + title);
-            if (view.getProgress() == 100) {
-                getToolbar().setTitle(title);
-                if (getString(R.string.index_staff_list).equals(title)) {
-                    mToolbarStatus = TOOLBAR_STATUS_STAFF;
-                } else if (getString(R.string.index_coupon_list).equals(title)) {
-                    mToolbarStatus = TOOLBAR_STATUS_COUPON;
-                } else if (getString(R.string.index_commodity_text).equals(title)) {
-                    mToolbarStatus = TOOLBAR_STATUS_COMMODITY;
-                } else {
-                    mToolbarStatus = TOOLBAR_STATUS_IDLE;
-                }
-                supportInvalidateOptionsMenu();
+//            if (view.getProgress() == 100) {
+//                getToolbar().setTitle(title);
+//                if (getString(R.string.index_staff_list).equals(title)) {
+//                    mToolbarStatus = TOOLBAR_STATUS_STAFF;
+//                } else if (getString(R.string.index_coupon_http://sop.sit.ffan.com/H5App/index.html#/commodity/select_cat_menu?loginToken=8df8016cd3ed49f8fbe0ee8056937f11&uid=12156&appType=bpMobilelist).equals(title)) {
+//                    mToolbarStatus = TOOLBAR_STATUS_COUPON;
+//                } else if (getString(R.string.index_commodity_text).equals(title)) {
+//                    mToolbarStatus = TOOLBAR_STATUS_COMMODITY;
+//                } else {
+//                    mToolbarStatus = TOOLBAR_STATUS_IDLE;
+//                }
+//                supportInvalidateOptionsMenu();
+//            }
+            getToolbar().setTitle(title);
+            if (getString(R.string.index_staff_list).equals(title)) {
+                mToolbarStatus = TOOLBAR_STATUS_STAFF;
+            } else if (getString(R.string.index_coupon_list).equals(title)) {
+                mToolbarStatus = TOOLBAR_STATUS_COUPON;
+            } else if (getString(R.string.index_commodity_text).equals(title)) {
+                mToolbarStatus = TOOLBAR_STATUS_COMMODITY;
+            } else {
+                mToolbarStatus = TOOLBAR_STATUS_IDLE;
             }
+            supportInvalidateOptionsMenu();
         }
     }
 

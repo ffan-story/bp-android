@@ -24,10 +24,10 @@ public class HomeCtrl {
      *
      * @param listener
      */
-    public static void checkVersion(Context context,
-                                    BaseRequestProcessListener<CheckVersionModel> listener) {
-        HttpEngine.Builder builder = HttpEngine.Builder.newInstance(context);
-        builder.setRequest(new CheckVersionRequest(listener)).build().start();
-    }
+//    public static void checkVersion(Context context,
+//                                    BaseRequestProcessListener<CheckVersionModel> listener) {
+//        HttpEngine.Builder builder = HttpEngine.Builder.newInstance(context);
+//        builder.setRequest(new CheckVersionRequest(listener)).build().start();
+//    }
 
 }

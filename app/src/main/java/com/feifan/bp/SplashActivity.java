@@ -6,13 +6,10 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
-import android.os.Handler;
 
 import com.android.volley.VolleyError;
 import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseActivity;
-import com.feifan.bp.home.CheckVersionModel;
-import com.feifan.bp.home.CheckVersionRequest;
 import com.feifan.bp.login.PermissionModel;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.net.BaseRequest;
