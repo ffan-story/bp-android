@@ -35,16 +35,16 @@ public class API {
         }
     }
 
-    public interface Html5API {
-
-    }
-
-    public interface HttpAPI {
-        String LOGIN_URL = FFAN_HOST + "xadmin/login";
-        String CHECK_VERSION_URL = FFAN_HOST + "xadmin/getversioninfo?appType=bpMobile";
-        String CHECK_PHONE_NUM_URL = FFAN_HOST + "xadmin/verificationphone";
-        String FORGET_PASSWORD_URL = FFAN_HOST + "xadmin/forgetpwd";
-        String RESET_PASSWORD_URL = FFAN_HOST + "xadmin/editPassword";
-        String SEND_SMS_URL = FFAN_HOST + "xadmin/phoneSms";
-    }
+//    public interface Html5API {
+//
+//    }
+//
+//    public interface HttpAPI {
+//        String LOGIN_URL = FFAN_HOST + "xadmin/login";
+//        String CHECK_VERSION_URL = FFAN_HOST + "xadmin/getversioninfo?appType=bpMobile";
+//        String CHECK_PHONE_NUM_URL = FFAN_HOST + "xadmin/verificationphone";
+//        String FORGET_PASSWORD_URL = FFAN_HOST + "xadmin/forgetpwd";
+//        String RESET_PASSWORD_URL = FFAN_HOST + "xadmin/editPassword";
+//        String SEND_SMS_URL = FFAN_HOST + "xadmin/phoneSms";
+//    }
 }
