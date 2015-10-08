@@ -26,7 +26,6 @@ import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.crop.Crop;
 import com.feifan.bp.net.NetUtils;
 import com.feifan.bp.net.UploadHttpClient;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
