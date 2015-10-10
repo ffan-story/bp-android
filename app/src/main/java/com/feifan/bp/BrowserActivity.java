@@ -173,12 +173,15 @@ public class BrowserActivity extends BaseActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.getSettings().setDomStorageEnabled(true);
 
         webView.addJavascriptInterface(new JavaScriptInterface(), "android");
 
         webView.setWebViewClient(new PlatformWebViewClient());
         webView.setWebChromeClient(new PlatformWebChromeClient());
         webView.requestFocus();
+
+
 
     }
 
