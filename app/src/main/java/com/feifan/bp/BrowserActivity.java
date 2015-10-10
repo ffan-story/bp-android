@@ -1,24 +1,32 @@
 package com.feifan.bp;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Gallery;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.feifan.bp.account.AccountManager;
@@ -26,6 +34,7 @@ import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.crop.Crop;
 import com.feifan.bp.net.NetUtils;
 import com.feifan.bp.net.UploadHttpClient;
+import com.feifan.bp.widget.DialogPhoneLayout;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -36,7 +45,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-public class BrowserActivity extends BaseActivity {
+
+public class BrowserActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = BrowserActivity.class.getName();
     /**
      * 参数键名称－URL
@@ -92,6 +102,16 @@ public class BrowserActivity extends BaseActivity {
         LogUtil.i(TAG, "loadUrl()");
 
     }
+
+
+    @Override
+    protected void onDestroy() {
+        if (null != phoneDialog) {
+            phoneDialog.dismiss();
+        }
+        super.onDestroy();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -206,19 +226,6 @@ public class BrowserActivity extends BaseActivity {
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
             LogUtil.i(TAG, "onReceiveTitle() title=" + title);
-//            if (view.getProgress() == 100) {
-//                getToolbar().setTitle(title);
-//                if (getString(R.string.index_staff_list).equals(title)) {
-//                    mToolbarStatus = TOOLBAR_STATUS_STAFF;
-//                } else if (getString(R.string.index_coupon_http://sop.sit.ffan.com/H5App/index.html#/commodity/select_cat_menu?loginToken=8df8016cd3ed49f8fbe0ee8056937f11&uid=12156&appType=bpMobilelist).equals(title)) {
-//                    mToolbarStatus = TOOLBAR_STATUS_COUPON;
-//                } else if (getString(R.string.index_commodity_text).equals(title)) {
-//                    mToolbarStatus = TOOLBAR_STATUS_COMMODITY;
-//                } else {
-//                    mToolbarStatus = TOOLBAR_STATUS_IDLE;
-//                }
-//                supportInvalidateOptionsMenu();
-//            }
             getToolbar().setTitle(title);
             if (getString(R.string.index_staff_list).equals(title)) {
                 mToolbarStatus = TOOLBAR_STATUS_STAFF;
@@ -234,7 +241,6 @@ public class BrowserActivity extends BaseActivity {
     }
 
     private class PlatformWebViewClient extends WebViewClient {
-
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             LogUtil.i(TAG, "receive " + url);
@@ -277,7 +283,9 @@ public class BrowserActivity extends BaseActivity {
                         }
 
                     }
-                    Crop.pickImage(BrowserActivity.this);
+                    initLeaveWordsDialog();
+
+//                    Crop.pickImage(BrowserActivity.this);
                 }
 
             }
@@ -302,10 +310,19 @@ public class BrowserActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {
+        super.onActivityResult(requestCode, resultCode, result);
         if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
             beginCrop(result.getData());
         } else if (requestCode == Crop.REQUEST_CROP && resultCode == RESULT_OK) {
             handleCrop(resultCode, result);
+        } else if(requestCode == Crop.REQUEST_CARMAER && resultCode == RESULT_OK && result !=null){
+            if(result.getData() != null){
+                beginCrop(result.getData());
+            }else{
+                Bitmap bitmap = result.getParcelableExtra("data");
+                Uri uri= Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
+                beginCrop(uri);
+            }
         }
     }
 
@@ -320,7 +337,6 @@ public class BrowserActivity extends BaseActivity {
         } else {
             new Crop(this, source).output(outputUri).asSquare().start(this);
         }
-
     }
 
     private void handleCrop(int resultCode, Intent result) {
@@ -341,8 +357,7 @@ public class BrowserActivity extends BaseActivity {
             showProgressBar(false);
             UploadHttpClient.post(url, params, new AsyncHttpResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers,
-                                      byte[] responseBody) {
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     hideProgressBar();
                     String result = new String(responseBody);
                     LogUtil.i(TAG, "upload response=" + result);
@@ -379,6 +394,7 @@ public class BrowserActivity extends BaseActivity {
         }
     }
 
+
     private void jsPictureMd5(String md5) {
         if (mWebView != null) {
             mWebView.loadUrl("javascript:imageCallback('" + md5 + "')");
@@ -402,4 +418,62 @@ public class BrowserActivity extends BaseActivity {
         }
     }
 
+
+    public Dialog phoneDialog;
+    public DialogPhoneLayout dialogPhoneLayout;
+
+    public Dialog getLeaveWordsDialog() {
+        return phoneDialog;
+    }
+
+    public void setLeaveWordsDialog(Dialog dialog) {
+        this.phoneDialog = dialog;
+    }
+
+    public void initLeaveWordsDialog() {
+        phoneDialog = new Dialog(this,R.style.FullScreenPhoneDialog);
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        Window window = phoneDialog.getWindow();
+        android.view.WindowManager.LayoutParams params = window.getAttributes();
+        params.width = dm.widthPixels;
+        params.height = dm.heightPixels;
+        params.dimAmount = 0.7f;
+        window.setAttributes(params);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+        dialogPhoneLayout = new DialogPhoneLayout(this);
+        phoneDialog.setContentView(dialogPhoneLayout, new Gallery.LayoutParams(dm.widthPixels, LinearLayout.LayoutParams.MATCH_PARENT));
+        dialogPhoneLayout.setBtnCancelClicklListener(this);
+        dialogPhoneLayout.setLayoutPhoneClicklListener(this);
+        dialogPhoneLayout.setLayoutCameraClicklListener(this);
+        phoneDialog.show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.dialog_phone:
+                if (null != phoneDialog) {
+                    phoneDialog.dismiss();
+                }
+                Crop.pickImage(BrowserActivity.this);
+                break;
+
+            case R.id.dialog_camera:
+                if (null != phoneDialog) {
+                    phoneDialog.dismiss();
+                }
+                Crop.cameraImage(BrowserActivity.this);
+                break;
+
+            case R.id.dialog_cancel:
+                if (null != phoneDialog) {
+                    phoneDialog.dismiss();
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
 }

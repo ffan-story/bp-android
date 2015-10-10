@@ -8,10 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
 import com.feifan.bp.R;
+
+import java.io.File;
 
 /**
  * Builder for crop Intents and utils for handling result
@@ -20,6 +23,7 @@ public class Crop {
 
     public static final int REQUEST_CROP = 6709;
     public static final int REQUEST_PICK = 9162;
+    public static final int REQUEST_CARMAER= 9163;
     public static final int RESULT_ERROR = 404;
 
     static interface Extra {
@@ -141,9 +145,15 @@ public class Crop {
             activity.startActivityForResult(intent, REQUEST_PICK);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(activity, R.string.crop_pick_error, Toast.LENGTH_SHORT).show();
-
-
         }
     }
 
+    public static void cameraImage(Activity activity ) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            activity.startActivityForResult(intent, REQUEST_CARMAER);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(activity, R.string.crop_pick_error, Toast.LENGTH_SHORT).show();
+        }
+    }
 }

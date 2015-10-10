@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/dialog_phone"
+            android:layout_width="fill_parent"
+            android:gravity="center"
+            android:layout_height="42dp"
+            android:textSize="@dimen/font_size_14"
+            android:text="@string/dialog_phone"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#3c3c3c" />
+        <TextView
+            android:id="@+id/dialog_camera"
+            android:layout_width="fill_parent"
+            android:layout_height="42dp"
+            android:gravity="center"
+            android:textSize="@dimen/font_size_14"
+            android:text="@string/dialog_camera"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#3c3c3c" />
+        <TextView
+            android:id="@+id/dialog_cancel"
+            android:layout_width="fill_parent"
+            android:layout_height="42dp"
+            android:gravity="center"
+            android:textSize="@dimen/font_size_14"
+            android:text="@string/common_cancel"/>
+    </LinearLayout>
+</RelativeLayout>

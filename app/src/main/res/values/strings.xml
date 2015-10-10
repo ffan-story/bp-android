@@ -100,6 +100,8 @@
     <!-- common -->
     <string name="common_confirm">确定</string>
     <string name="common_cancel">取消</string>
+    <string name="dialog_phone">打开相册</string>
+    <string name="dialog_camera">打开相机</string>
 
     <!-- crop -->
     <string name="crop_saving"></string>
