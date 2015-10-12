@@ -1,26 +1,18 @@
 package com.feifan.bp.login;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.android.volley.Response;
-import com.feifan.bp.BrowserActivity;
-import com.feifan.bp.LogUtil;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
-import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.account.AccountManager;

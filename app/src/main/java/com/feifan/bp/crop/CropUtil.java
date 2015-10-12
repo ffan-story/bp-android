@@ -26,7 +26,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 
 
-import com.feifan.bp.LogUtil;
+import com.feifan.bp.util.LogUtil;
 
 import java.io.Closeable;
 import java.io.File;

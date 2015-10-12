@@ -9,17 +9,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.feifan.bp.Constants;
-import com.feifan.bp.LogUtil;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.base.BaseModel;
-import com.feifan.bp.password.CheckPhoneNumExistRequest;
-import com.feifan.bp.password.ForgetPasswordRequest;
-import com.feifan.bp.password.PasswordModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;

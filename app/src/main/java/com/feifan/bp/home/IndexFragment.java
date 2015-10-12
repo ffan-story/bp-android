@@ -2,7 +2,6 @@ package com.feifan.bp.home;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -18,22 +17,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.feifan.bp.BrowserActivity;
-import com.feifan.bp.LogUtil;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.crop.CropActivity;
 import com.feifan.bp.home.command.Command;
 import com.feifan.bp.net.Authority;
-import com.feifan.bp.net.BaseRequest;
-import com.feifan.bp.net.BaseRequestProcessListener;
-import com.feifan.bp.net.HttpEngine;
 import com.feifan.bp.net.NetUtils;
 import com.feifan.bp.scanner.CodeScannerActivity;
-import com.feifan.bp.widget.DividerGridItemDecoration;
-import com.feifan.bp.widget.IconClickableEditText;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

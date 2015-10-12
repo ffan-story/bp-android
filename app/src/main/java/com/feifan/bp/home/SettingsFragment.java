@@ -7,21 +7,16 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.Response;
-import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.feifan.bp.BuildConfig;
-import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
-import com.feifan.bp.LogUtil;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 

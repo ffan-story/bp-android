@@ -12,7 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.feifan.bp.BrowserActivity;
-import com.feifan.bp.LogUtil;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseActivity;

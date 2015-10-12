@@ -17,7 +17,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.net.BaseRequestProcessListener;
-import com.feifan.bp.utils.encode.Des3;
+import com.feifan.bp.util.Des3;
 import com.feifan.bp.widget.CountDownButton;
 
 /**

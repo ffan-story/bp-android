@@ -1,6 +1,8 @@
-package com.feifan.bp;
+package com.feifan.bp.util;
 
 import android.util.Log;
+
+import com.feifan.bp.BuildConfig;
 
 /**
  * Created by xuchunlei on 15/6/24.

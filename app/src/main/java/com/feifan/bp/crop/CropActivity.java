@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.feifan.bp.LogUtil;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.net.NetUtils;

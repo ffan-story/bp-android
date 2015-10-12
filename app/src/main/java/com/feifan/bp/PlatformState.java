@@ -6,11 +6,9 @@ import android.net.Uri;
 import android.util.Log;
 import android.util.LruCache;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
 import com.feifan.bp.account.AccountManager;
-import com.feifan.bp.login.UserProfile;
+import com.feifan.bp.util.LogUtil;
 
 import java.io.File;
 

@@ -35,10 +35,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
-import com.feifan.bp.LogUtil;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.R;
-
-import org.apache.http.message.BasicTokenIterator;
 
 import java.io.IOException;
 import java.io.InputStream;

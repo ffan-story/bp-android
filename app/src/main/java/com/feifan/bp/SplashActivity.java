@@ -15,6 +15,7 @@ import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpEngine;
+import com.feifan.bp.util.LogUtil;
 
 /**
  * Created by maning on 15/7/29.

@@ -1,4 +1,4 @@
-package com.feifan.bp.utils.encode;
+package com.feifan.bp.util;
 import java.security.Key;
 
 import javax.crypto.Cipher;

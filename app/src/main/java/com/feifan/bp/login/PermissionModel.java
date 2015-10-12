@@ -1,6 +1,6 @@
 package com.feifan.bp.login;
 
-import com.feifan.bp.LogUtil;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.base.BaseModel;
 
 import org.json.JSONArray;

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.feifan.bp.LogUtil;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 

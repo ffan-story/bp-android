@@ -7,9 +7,9 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.util.Log;
-import android.view.Gravity;
 import android.widget.Toast;
+
+import com.feifan.bp.util.LogUtil;
 
 import java.io.File;
 import java.util.regex.Matcher;

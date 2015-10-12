@@ -7,13 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +33,8 @@ import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.crop.Crop;
 import com.feifan.bp.net.NetUtils;
 import com.feifan.bp.net.UploadHttpClient;
+import com.feifan.bp.util.ImageUtil;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.DialogPhoneLayout;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -42,10 +42,7 @@ import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -362,19 +359,9 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
 
     private void uploadPicture(Uri uri) {
         try {
-            InputStream in = getContentResolver().openInputStream(uri);
-            Bitmap uploadImg = BitmapFactory.decodeStream(in);
-            if(uploadImg.getWidth() > 1280 || uploadImg.getHeight() > 720) {
-                uploadImg = Bitmap.createScaledBitmap(uploadImg, 1280, 720, true);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                uploadImg.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                in = new ByteArrayInputStream(baos.toByteArray());
-                Log.e("xuchunlei", "upload image'size is " + uploadImg.getByteCount());
-            }
-
+            Bitmap uploadImg = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
             RequestParams params = new RequestParams();
-            params.put("image", in);
-
+            params.put("image", ImageUtil.makeStream(uploadImg, Constants.IMAGE_MAX_WIDTH, Constants.IMAGE_MAX_HEIGHT));
 
             String url = NetUtils.getUrlFactory().uploadPicture();
             showProgressBar(false);

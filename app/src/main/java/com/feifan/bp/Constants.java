@@ -4,12 +4,15 @@ package com.feifan.bp;
  * Created by xuchunlei on 15/6/17.
  */
 public class Constants {
+    public static final String TAG = "Platform";
 
     //密码长度范围
     public static int PASSWORD_MIN_LENGTH = 8;
     public static int PASSWORD_MAX_LENGTH = 20;
 
-    public static final String TAG = "Platform";
+    // 图片
+    public static int IMAGE_MAX_WIDTH = 1280;
+    public static int IMAGE_MAX_HEIGHT = 720;
 
     // 非法的整型数值
     public static final int NO_INTEGER = -1;

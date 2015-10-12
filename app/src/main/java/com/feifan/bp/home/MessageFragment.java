@@ -1,21 +1,16 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-import com.feifan.bp.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseFragment;
-
-import bp.feifan.com.codescanner.Contents;
 
 /**
  * A simple {@link Fragment} subclass.
