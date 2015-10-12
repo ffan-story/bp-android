@@ -59,6 +59,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     private static final int TOOLBAR_STATUS_STAFF = 1;
     private static final int TOOLBAR_STATUS_COUPON = 2;
     private static final int TOOLBAR_STATUS_COMMODITY = 3;
+    private static final int TOOLBAR_STATUS_COMMODITY_DESC = 4;
     private int mToolbarStatus = TOOLBAR_STATUS_IDLE;
 
     //type=0不限制大小
@@ -118,6 +119,8 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             inflater.inflate(R.menu.menu_coupon_add, menu);
         } else if (mToolbarStatus == TOOLBAR_STATUS_COMMODITY) {
             inflater.inflate(R.menu.menu_commodity_manage, menu);
+        } else if(mToolbarStatus == TOOLBAR_STATUS_COMMODITY_DESC){
+            inflater.inflate(R.menu.menu_commodity_manage_desc, menu);
         } else {
             menu.clear();
         }
@@ -146,6 +149,9 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                 url = NetUtils.getUrlFactory().commodityManageForHtml(this);
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() commodity url=" + url);
+                break;
+            case R.id.action_commodity_desc:
+                initLeaveWordsDialog();
                 break;
             default:
 
@@ -225,13 +231,53 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                 mToolbarStatus = TOOLBAR_STATUS_COUPON;
             } else if (getString(R.string.index_commodity_text).equals(title)) {
                 mToolbarStatus = TOOLBAR_STATUS_COMMODITY;
-            } else {
+            } else if (getString(R.string.index_commodity_desc).equals(title)){
+                mToolbarStatus = TOOLBAR_STATUS_COMMODITY_DESC;
+            } else{
                 mToolbarStatus = TOOLBAR_STATUS_IDLE;
             }
+
             supportInvalidateOptionsMenu();
         }
     }
 
+    private void addPick(String url){
+        mImgPickType = IMG_PICK_TYPE_0;
+        String source = "both";
+        int pos = url.indexOf("?");
+        if (pos > -1) {
+            String paramsStr = url.substring(pos + 1, url.length());
+            LogUtil.i(TAG, "paramsStr=" + paramsStr);
+            Map<String, String> paramMap = new HashMap<>();
+            if (!TextUtils.isEmpty(paramsStr)) {
+                String[] paramArray = paramsStr.split("&");
+                if (paramArray != null) {
+
+                    for (String item : paramArray) {
+                        String[] keyValues = item.split("=");
+                        if (keyValues == null || keyValues.length < 2) {
+                            continue;
+                        }
+                        paramMap.put(keyValues[0], keyValues[1]);
+                    }
+                }
+            }
+            String type = paramMap.get("type");
+            LogUtil.i(TAG, "Image pick type=" + type);
+            if (!TextUtils.isEmpty(type)) {
+                mImgPickType = Integer.parseInt(type);
+            }
+            if(paramMap.get("source") != null){
+                source = paramMap.get("source");
+            }
+        }
+
+        if("both".equals(source)) {
+            initLeaveWordsDialog();
+        }else if("photoLibrary".equals(source)){
+            Crop.pickImage(BrowserActivity.this);
+        }
+    }
     private class PlatformWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -239,7 +285,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
-
                 if (url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
                     AccountManager.instance(BrowserActivity.this).clear();
                     startActivity(LaunchActivity.buildIntent(BrowserActivity.this));
@@ -249,42 +294,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                     // 目前关闭当前界面即显示主界面
                     finish();
                 } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
-                    mImgPickType = IMG_PICK_TYPE_0;
-                    String source = "both";
-                    int pos = url.indexOf("?");
-                    if (pos > -1) {
-                        String paramsStr = url.substring(pos + 1, url.length());
-                        LogUtil.i(TAG, "paramsStr=" + paramsStr);
-                        Map<String, String> paramMap = new HashMap<>();
-                        if (!TextUtils.isEmpty(paramsStr)) {
-                            String[] paramArray = paramsStr.split("&");
-                            if (paramArray != null) {
-
-                                for (String item : paramArray) {
-                                    String[] keyValues = item.split("=");
-                                    if (keyValues == null || keyValues.length < 2) {
-                                        continue;
-                                    }
-                                    paramMap.put(keyValues[0], keyValues[1]);
-                                }
-                            }
-                        }
-                        String type = paramMap.get("type");
-                        LogUtil.i(TAG, "Image pick type=" + type);
-                        if (!TextUtils.isEmpty(type)) {
-                            mImgPickType = Integer.parseInt(type);
-                        }
-                        if(paramMap.get("source") != null){
-                            source = paramMap.get("source");
-                        }
-                    }
-
-                    if("both".equals(source)) {
-                        initLeaveWordsDialog();
-                    }else if("photoLibrary".equals(source)){
-                        Crop.pickImage(BrowserActivity.this);
-                    }
-//                    Crop.pickImage(BrowserActivity.this);
+                    addPick(url);
                 }
 
             }
@@ -315,7 +325,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         } else if (requestCode == Crop.REQUEST_CROP && resultCode == RESULT_OK) {
             handleCrop(resultCode, result);
         } else if(requestCode == Crop.REQUEST_CARMAER && resultCode == RESULT_OK){
-            LogUtil.i(TAG, "2222222222222"+imgPath);
             beginCrop(Uri.fromFile(new File(imgPath)));
         }
     }
@@ -459,7 +468,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                 if(!isHasSdCard()){
                     Utils.showShortToast(BrowserActivity.this, R.string.sd_card_exist, Gravity.CENTER);
                 }else{
-                    LogUtil.i(TAG, "imgpath==="+imgPath);
                     Crop.cameraImage(BrowserActivity.this,imgPath);
                 }
                 break;
