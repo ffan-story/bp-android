@@ -71,7 +71,7 @@
     <string name="error_message_text_search_illegal_format">数据格式不正确</string>
     <string name="error_message_text_network_block">网络加载缓慢，请稍后再试</string>
     <string name="error_message_upload_picture_fail">未能上传图片</string>
-
+    <string name="sd_card_exist">sd卡不存在</string>
     <string name="title_activity_browser">BrowserActivity</string>
 
     <!-- password -->
@@ -100,8 +100,8 @@
     <!-- common -->
     <string name="common_confirm">确定</string>
     <string name="common_cancel">取消</string>
-    <string name="dialog_phone">打开相册</string>
-    <string name="dialog_camera">打开相机</string>
+    <string name="dialog_phone">从相册选择</string>
+    <string name="dialog_camera">拍照</string>
 
     <!-- crop -->
     <string name="crop_saving"></string>

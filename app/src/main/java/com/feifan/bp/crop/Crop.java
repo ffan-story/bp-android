@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -151,6 +152,22 @@ public class Crop {
 
     public static void cameraImage(Activity activity ) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            activity.startActivityForResult(intent, REQUEST_CARMAER);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(activity, R.string.crop_pick_error, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void cameraImage(Activity activity ,String imgPath) {
+        File vFile = new File(imgPath);
+        if(!vFile.exists()){
+            File vDirPath = vFile.getParentFile();
+            vDirPath.mkdirs();
+        }
+        Uri uri = Uri.fromFile(vFile);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         try {
             activity.startActivityForResult(intent, REQUEST_CARMAER);
         } catch (ActivityNotFoundException e) {

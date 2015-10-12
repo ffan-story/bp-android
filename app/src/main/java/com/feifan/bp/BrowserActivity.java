@@ -7,8 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -43,6 +43,7 @@ import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.io.File;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +54,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
      */
     public static final String EXTRA_KEY_URL = "url";
     public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
-
 
     private static final int TOOLBAR_STATUS_IDLE = 0;
     private static final int TOOLBAR_STATUS_STAFF = 1;
@@ -91,7 +91,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_browser);
         mWebView = (WebView) findViewById(R.id.browser_content);
         initWeb(mWebView);
-
         // 载入网页
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
         mIsStaffManagementPage = getIntent().getBooleanExtra(EXTRA_KEY_STAFF_MANAGE, false);
@@ -100,9 +99,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         mWebView.loadUrl(url);
         PlatformState.getInstance().setLastUrl(url);
         LogUtil.i(TAG, "loadUrl()");
-
     }
-
 
     @Override
     protected void onDestroy() {
@@ -111,7 +108,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         }
         super.onDestroy();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -194,15 +190,11 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.getSettings().setDomStorageEnabled(true);
-
         webView.addJavascriptInterface(new JavaScriptInterface(), "android");
 
         webView.setWebViewClient(new PlatformWebViewClient());
         webView.setWebChromeClient(new PlatformWebChromeClient());
         webView.requestFocus();
-
-
-
     }
 
     @Override
@@ -285,7 +277,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                         if(paramMap.get("source") != null){
                             source = paramMap.get("source");
                         }
-
                     }
 
                     if("both".equals(source)) {
@@ -293,8 +284,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                     }else if("photoLibrary".equals(source)){
                         Crop.pickImage(BrowserActivity.this);
                     }
-
-
 //                    Crop.pickImage(BrowserActivity.this);
                 }
 
@@ -325,14 +314,9 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             beginCrop(result.getData());
         } else if (requestCode == Crop.REQUEST_CROP && resultCode == RESULT_OK) {
             handleCrop(resultCode, result);
-        } else if(requestCode == Crop.REQUEST_CARMAER && resultCode == RESULT_OK && result !=null){
-            if(result.getData() != null){
-                beginCrop(result.getData());
-            }else{
-                Bitmap bitmap = result.getParcelableExtra("data");
-                Uri uri= Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
-                beginCrop(uri);
-            }
+        } else if(requestCode == Crop.REQUEST_CARMAER && resultCode == RESULT_OK){
+            LogUtil.i(TAG, "2222222222222"+imgPath);
+            beginCrop(Uri.fromFile(new File(imgPath)));
         }
     }
 
@@ -362,7 +346,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             Bitmap uploadImg = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
             RequestParams params = new RequestParams();
             params.put("image", ImageUtil.makeStream(uploadImg, Constants.IMAGE_MAX_WIDTH, Constants.IMAGE_MAX_HEIGHT));
-
             String url = NetUtils.getUrlFactory().uploadPicture();
             showProgressBar(false);
             UploadHttpClient.post(url, params, new AsyncHttpResponseHandler() {
@@ -380,7 +363,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                         } else {
                             Utils.showShortToast(BrowserActivity.this,
                                     R.string.error_message_upload_picture_fail, Gravity.CENTER);
-
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -393,17 +375,14 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                     hideProgressBar();
                     Utils.showShortToast(BrowserActivity.this,
                             R.string.error_message_upload_picture_fail, Gravity.CENTER);
-
                 }
             });
-
         } catch (Exception e) {
             e.printStackTrace();
             Utils.showShortToast(BrowserActivity.this,
                     R.string.error_message_upload_picture_fail, Gravity.CENTER);
         }
     }
-
 
     private void jsPictureMd5(String md5) {
         if (mWebView != null) {
@@ -412,9 +391,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     }
 
     final Handler myHandler = new Handler();
-
     class JavaScriptInterface {
-
         @JavascriptInterface
         public void onChangeTitle(final String title) {
             LogUtil.i(TAG, "onChangeTitle() title=" + title);
@@ -428,18 +405,14 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-
     public Dialog phoneDialog;
     public DialogPhoneLayout dialogPhoneLayout;
-
     public Dialog getLeaveWordsDialog() {
         return phoneDialog;
     }
-
     public void setLeaveWordsDialog(Dialog dialog) {
         this.phoneDialog = dialog;
     }
-
     public void initLeaveWordsDialog() {
         phoneDialog = new Dialog(this,R.style.FullScreenPhoneDialog);
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -459,6 +432,16 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         phoneDialog.show();
     }
 
+    String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/feifandp/img.jpg";
+    /**
+     * 获取sdcar路径
+     * @return
+     */
+    private boolean isHasSdCard(){
+        boolean sdCardExist = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+        return sdCardExist;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -473,7 +456,12 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                 if (null != phoneDialog) {
                     phoneDialog.dismiss();
                 }
-                Crop.cameraImage(BrowserActivity.this);
+                if(!isHasSdCard()){
+                    Utils.showShortToast(BrowserActivity.this, R.string.sd_card_exist, Gravity.CENTER);
+                }else{
+                    LogUtil.i(TAG, "imgpath==="+imgPath);
+                    Crop.cameraImage(BrowserActivity.this,imgPath);
+                }
                 break;
 
             case R.id.dialog_cancel:
