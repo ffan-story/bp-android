@@ -38,6 +38,8 @@ import android.view.Window;
 import com.feifan.bp.LogUtil;
 import com.feifan.bp.R;
 
+import org.apache.http.message.BasicTokenIterator;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -313,7 +315,8 @@ public class CropImageActivity extends MonitoredActivity {
                 imageView.highlightViews.clear();
             }
         }
-        Log.e(TAG, "Cropped image'size is " + croppedImage.getRowBytes() * croppedImage.getHeight());
+
+        Log.e(TAG, "Cropped image'size is " + croppedImage.getByteCount());
         Log.e(TAG, "Cropped image----> " + croppedImage.getWidth() + "x" + croppedImage.getHeight() );
         saveImage(croppedImage);
     }
@@ -359,6 +362,7 @@ public class CropImageActivity extends MonitoredActivity {
             }
 
             try {
+
                 croppedImage = decoder.decodeRegion(rect, new BitmapFactory.Options());
 
             } catch (IllegalArgumentException e) {

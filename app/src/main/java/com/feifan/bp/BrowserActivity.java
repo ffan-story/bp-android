@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -41,6 +42,8 @@ import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -282,7 +285,10 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                         if (!TextUtils.isEmpty(type)) {
                             mImgPickType = Integer.parseInt(type);
                         }
-                        source = paramMap.get("source");
+                        if(paramMap.get("source") != null){
+                            source = paramMap.get("source");
+                        }
+
                     }
 
                     if("both".equals(source)) {
@@ -357,8 +363,18 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     private void uploadPicture(Uri uri) {
         try {
             InputStream in = getContentResolver().openInputStream(uri);
+            Bitmap uploadImg = BitmapFactory.decodeStream(in);
+            if(uploadImg.getWidth() > 1280 || uploadImg.getHeight() > 720) {
+                uploadImg = Bitmap.createScaledBitmap(uploadImg, 1280, 720, true);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                uploadImg.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                in = new ByteArrayInputStream(baos.toByteArray());
+                Log.e("xuchunlei", "upload image'size is " + uploadImg.getByteCount());
+            }
+
             RequestParams params = new RequestParams();
             params.put("image", in);
+
 
             String url = NetUtils.getUrlFactory().uploadPicture();
             showProgressBar(false);

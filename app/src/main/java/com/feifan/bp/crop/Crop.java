@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.feifan.bp.R;
 
 import java.io.File;
+import java.net.URI;
 
 /**
  * Builder for crop Intents and utils for handling result
