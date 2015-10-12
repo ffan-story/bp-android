@@ -258,6 +258,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                     finish();
                 } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
                     mImgPickType = IMG_PICK_TYPE_0;
+                    String source = "both";
                     int pos = url.indexOf("?");
                     if (pos > -1) {
                         String paramsStr = url.substring(pos + 1, url.length());
@@ -281,9 +282,15 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                         if (!TextUtils.isEmpty(type)) {
                             mImgPickType = Integer.parseInt(type);
                         }
-
+                        source = paramMap.get("source");
                     }
-                    initLeaveWordsDialog();
+
+                    if("both".equals(source)) {
+                        initLeaveWordsDialog();
+                    }else if("photoLibrary".equals(source)){
+                        Crop.pickImage(BrowserActivity.this);
+                    }
+
 
 //                    Crop.pickImage(BrowserActivity.this);
                 }
@@ -331,7 +338,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         if (IMG_PICK_TYPE_1 == mImgPickType) {
             new Crop(this, source).output(outputUri).asSquare().start(this);
         } else if (IMG_PICK_TYPE_2 == mImgPickType) {
-            new Crop(this, source).output(outputUri).withAspect(16, 9).start(this);
+            new Crop(this, source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(this);
         } else if (IMG_PICK_TYPE_0 == mImgPickType) {
             new Crop(this, source).output(outputUri).asSquare().start(this);
         } else {

@@ -31,6 +31,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
@@ -138,6 +139,7 @@ public class CropImageActivity extends MonitoredActivity {
                 BitmapFactory.Options option = new BitmapFactory.Options();
                 option.inSampleSize = sampleSize;
                 rotateBitmap = new RotateBitmap(BitmapFactory.decodeStream(is, null, option), exifRotation);
+                Log.e("xuchunlei", "original'size = " + rotateBitmap.getBitmap().getByteCount());
             } catch (IOException e) {
                 LogUtil.e("ERROR", "Error reading image: " + e.getMessage());
                 setResultException(e);
@@ -311,6 +313,8 @@ public class CropImageActivity extends MonitoredActivity {
                 imageView.highlightViews.clear();
             }
         }
+        Log.e(TAG, "Cropped image'size is " + croppedImage.getRowBytes() * croppedImage.getHeight());
+        Log.e(TAG, "Cropped image----> " + croppedImage.getWidth() + "x" + croppedImage.getHeight() );
         saveImage(croppedImage);
     }
 
