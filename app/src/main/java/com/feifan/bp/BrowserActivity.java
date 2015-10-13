@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -238,12 +239,11 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             } else{
                 mToolbarStatus = TOOLBAR_STATUS_IDLE;
             }
-
             supportInvalidateOptionsMenu();
         }
     }
 
-    private void addPick(String url){
+    private void addImage(String url){
         mImgPickType = IMG_PICK_TYPE_0;
         String source = "both";
         int pos = url.indexOf("?");
@@ -283,7 +283,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     private class PlatformWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            LogUtil.i(TAG, "receive " + url);
+            LogUtil.i(TAG, "receive==" + url);
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
@@ -296,11 +296,9 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                     // 目前关闭当前界面即显示主界面
                     finish();
                 } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
-                    addPick(url);
+                    addImage(url);
                 }
-
             }
-
             return true;
         }
 
@@ -329,6 +327,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         } else if(requestCode == Crop.REQUEST_CARMAER && resultCode == RESULT_OK){
             beginCrop(Uri.fromFile(new File(imgPath)));
         }
+
     }
 
     private void beginCrop(Uri source) {
@@ -339,7 +338,21 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             new Crop(this, source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(this);
         } else if (IMG_PICK_TYPE_0 == mImgPickType) {
             new Crop(this, source).output(outputUri).asSquare().start(this);
-        } else {
+        } else if (IMG_PICK_TYPE_3 == mImgPickType) {
+            try{
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outputUri);
+                LogUtil.i(TAG, "bitmap.getHeight()=" + bitmap.getHeight());
+                LogUtil.i(TAG, " bitmap.getWidth()=" +  bitmap.getWidth());
+                if(bitmap.getHeight() == 1280 && bitmap.getWidth() == 720){
+                    uploadPicture(outputUri);
+                   // new Crop(this, source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(this);
+                }else{
+                    Utils.showShortToast(BrowserActivity.this, R.string.error_message_picture_size, Gravity.CENTER);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
             new Crop(this, source).output(outputUri).asSquare().start(this);
         }
     }
