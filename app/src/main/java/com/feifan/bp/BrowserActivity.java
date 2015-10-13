@@ -68,6 +68,8 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     private static final int IMG_PICK_TYPE_1 = 1;
     //type=2是亲子类目规格为16:9，尺寸：最小640px*360px，最大1280px*720px
     private static final int IMG_PICK_TYPE_2 = 2;
+    //type=3是优惠券类目规格为16:9，尺寸固定为1280 x 720
+    private static final int IMG_PICK_TYPE_3 = 3;
 
     private int mImgPickType = IMG_PICK_TYPE_0;
 
