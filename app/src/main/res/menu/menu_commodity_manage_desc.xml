@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/action_commodity_desc"
-        android:icon="@mipmap/menu_ic_staff"
+        android:icon="@mipmap/menu_ic_pict"
         android:orderInCategory="80"
         android:onClick="onClick"
         android:title="@string/index_commodity_desc"
