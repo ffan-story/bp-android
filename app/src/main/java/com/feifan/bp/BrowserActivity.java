@@ -99,10 +99,8 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
         mIsStaffManagementPage = getIntent().getBooleanExtra(EXTRA_KEY_STAFF_MANAGE, false);
         LogUtil.i(TAG, url);
-        LogUtil.i(TAG, "staff=" + mIsStaffManagementPage);
         mWebView.loadUrl(url);
         PlatformState.getInstance().setLastUrl(url);
-        LogUtil.i(TAG, "loadUrl()");
     }
 
     @Override
@@ -131,7 +129,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     }
 
     public void onClick(MenuItem item) {
-        LogUtil.i(TAG, "onClick()");
         if (mWebViewProgress < 100) {
             return;
         }
@@ -219,7 +216,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
             mWebViewProgress = newProgress;
-            LogUtil.i(TAG, "onProgressChanged() progress=" + newProgress);
         }
 
         @Override
@@ -248,7 +244,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         int pos = url.indexOf("?");
         if (pos > -1) {
             String paramsStr = url.substring(pos + 1, url.length());
-            LogUtil.i(TAG, "paramsStr=" + paramsStr);
             Map<String, String> paramMap = new HashMap<>();
             if (!TextUtils.isEmpty(paramsStr)) {
                 String[] paramArray = paramsStr.split("&");
@@ -282,7 +277,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     private class PlatformWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            LogUtil.i(TAG, "receive==" + url);
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
@@ -304,14 +298,12 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            LogUtil.i(TAG, "onPageStarted() progress=" + view.getProgress());
             showProgressBar(true);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            LogUtil.i(TAG, "onPageFinished() progress=" + view.getProgress());
             hideProgressBar();
         }
     }
@@ -330,7 +322,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void beginCrop(Uri source) {
-        LogUtil.i(TAG, "bitmap.outWidth()=" + source);
         Uri outputUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
         if (IMG_PICK_TYPE_1 == mImgPickType) {
             new Crop(this, source).output(outputUri).asSquare().start(this);
