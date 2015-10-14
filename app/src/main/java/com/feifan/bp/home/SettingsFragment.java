@@ -24,7 +24,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.Utils;
 import com.feifan.bp.VersionUpdateModel;
 import com.feifan.bp.VersionUpdateRequest;
-import com.feifan.bp.account.AccountManager;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
@@ -138,7 +138,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                    @Override
                    public void run() {
                        PlatformState.getInstance().reset(getActivity());
-                       AccountManager.instance(getActivity()).clear();
+                       UserProfile.instance(getActivity()).clear();
                        getActivity().runOnUiThread(new Runnable() {
 
                            @Override

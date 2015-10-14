@@ -3,8 +3,7 @@ package com.feifan.bp.login;
 import android.content.Context;
 
 import com.feifan.bp.Constants;
-import com.feifan.bp.PlatformState;
-import com.feifan.bp.account.AccountManager;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.net.Authority;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
@@ -24,7 +23,7 @@ public class UserCtrl {
      * @return 状态值，见UserCtrl.USER_STATUS_XXX
      */
     public static int getStatus(Context context) {
-        if (AccountManager.instance(context).getUid() == Constants.NO_INTEGER) {
+        if (UserProfile.instance(context).getUid() == Constants.NO_INTEGER) {
             return USER_STATUS_LOGOUT;
         }
         return USER_STATUS_NONE;

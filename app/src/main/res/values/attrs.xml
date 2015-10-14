@@ -8,12 +8,6 @@
         <!-- 条目布局 -->
         <attr name="itemLayout" format="reference" />
     </declare-styleable>
-    <!-- 圆形ImageView -->
-    <declare-styleable name="CircleImageView">
-        <attr name="border_width" format="dimension" />
-        <attr name="border_color" format="color" />
-        <attr name="border_overlay" format="boolean" />
-    </declare-styleable>
     <!-- 带图标的TextView -->
     <declare-styleable name="IconTextView">
         <attr name="exampleString" format="string" />

@@ -3,7 +3,7 @@ package com.feifan.bp.password;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpParams;
-import com.feifan.bp.net.NetUtils;
+import com.feifan.bp.net.UrlFactory;
 
 import org.json.JSONObject;
 
@@ -13,7 +13,7 @@ import org.json.JSONObject;
 public class ForgetPasswordRequest extends BaseRequest<PasswordModel> {
 
     private static final String TAG = ForgetPasswordRequest.class.getSimpleName();
-    private static String URL = NetUtils.getUrlFactory().forgetPassword();
+    private static String URL = UrlFactory.forgetPassword();
 
     public ForgetPasswordRequest(Parameters parameters,
                                  BaseRequestProcessListener<PasswordModel> listener) {

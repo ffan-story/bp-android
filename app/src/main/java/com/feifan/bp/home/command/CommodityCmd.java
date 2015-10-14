@@ -7,7 +7,7 @@ import android.view.Gravity;
 import com.feifan.bp.BrowserActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
-import com.feifan.bp.net.NetUtils;
+import com.feifan.bp.net.UrlFactory;
 
 /**
  * Created by maning on 15/9/16.
@@ -23,7 +23,7 @@ public class CommodityCmd implements Command {
 
     @Override
     public boolean handle() {
-        String url = NetUtils.getUrlFactory().urlForHtml(mContext, relativeUrl);
+        String url = UrlFactory.urlForHtml(mContext, relativeUrl);
         if (Utils.isNetworkAvailable(mContext)) {
             Intent intent = new Intent(mContext, BrowserActivity.class);
             intent.putExtra(BrowserActivity.EXTRA_KEY_URL, url);

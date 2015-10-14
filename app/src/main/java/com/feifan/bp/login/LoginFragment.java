@@ -15,7 +15,7 @@ import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
-import com.feifan.bp.account.AccountManager;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.password.ForgetPasswordFragment;
@@ -94,7 +94,7 @@ public class LoginFragment extends BaseFragment {
                                     new BaseRequestProcessListener<PermissionModel>(getActivity(), false) {
                                 @Override
                                 public void onResponse(PermissionModel permissionModel) {
-                                    AccountManager manager = AccountManager.instance(getActivity());
+                                    UserProfile manager = UserProfile.instance(getActivity());
                                     manager.setUid(userModel.uid);
                                     manager.setUser(userModel.user);
                                     manager.setAuthRangeId(userModel.authRangeId);

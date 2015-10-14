@@ -8,7 +8,6 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 
 import com.android.volley.VolleyError;
-import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.login.PermissionModel;
 import com.feifan.bp.login.UserCtrl;
@@ -35,7 +34,7 @@ public class SplashActivity extends BaseActivity {
         int versionBeforeUpdate = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
                 getInt(PREF_VERSION_BEFORE_UPDATE, -1);
         if (versionBeforeUpdate != -1 && versionBeforeUpdate < BuildConfig.VERSION_CODE) {
-            AccountManager.instance(this).clear();
+            UserProfile.instance(this).clear();
         }
 
         checkVersion();
@@ -72,7 +71,7 @@ public class SplashActivity extends BaseActivity {
                         final String url = model.getVersionUrl();
                         final int versionCode = model.getVersionCode();
 
-                        AccountManager manager = AccountManager.instance(SplashActivity.this);
+                        UserProfile manager = UserProfile.instance(SplashActivity.this);
                         int uid = manager.getUid();
 
                         if (uid == Constants.NO_INTEGER) {
@@ -134,7 +133,7 @@ public class SplashActivity extends BaseActivity {
                                     new BaseRequestProcessListener<PermissionModel>(SplashActivity.this, false, false) {
                                         @Override
                                         public void onResponse(PermissionModel permissionModel) {
-                                            AccountManager manager = AccountManager.instance(SplashActivity.this);
+                                            UserProfile manager = UserProfile.instance(SplashActivity.this);
                                             manager.setPermissionList(permissionModel.getPermissionList());
                                             manager.setPermissionUrlMap(permissionModel.getUrlMap());
 

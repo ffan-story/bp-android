@@ -1,14 +1,11 @@
 package com.feifan.bp.password;
 
-import com.feifan.bp.PlatformState;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpParams;
-import com.feifan.bp.net.NetUtils;
+import com.feifan.bp.net.UrlFactory;
 
 import org.json.JSONObject;
-
-import java.util.Map;
 
 /**
  * Created by maning on 15/7/29.
@@ -17,7 +14,7 @@ public class ResetPasswordRequest extends BaseRequest<PasswordModel> {
 
     private static final String TAG = ResetPasswordRequest.class.getSimpleName();
 
-    private static final String URL = NetUtils.getUrlFactory().resetPassword();
+    private static final String URL = UrlFactory.resetPassword();
 
     public ResetPasswordRequest(Parameters params, BaseRequestProcessListener<PasswordModel> listener) {
         super(Method.POST, URL, params, listener);

@@ -31,8 +31,7 @@ public class Constants {
 
 
     public enum Environment {
-        SIT_GATEWAY,      // Gateway集成环境
-        SIT_API,          // Api集成环境
+        SIT,              // Api集成环境
         PRODUCT_PRE,      // 预生产环境
         PRODUCT,          // 生产环境
     }

@@ -1,13 +1,12 @@
 package com.feifan.bp.home.command;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.Gravity;
 
 import com.feifan.bp.BrowserActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
-import com.feifan.bp.net.NetUtils;
+import com.feifan.bp.net.UrlFactory;
 
 /**
  * Created by maning on 15/8/4.
@@ -23,7 +22,7 @@ public class StaffManagementCmd implements Command {
 
     @Override
     public boolean handle() {
-        String url = NetUtils.getUrlFactory().urlForHtml(mContext, relativeUrl);
+        String url = UrlFactory.urlForHtml(mContext, relativeUrl);
         if (Utils.isNetworkAvailable(mContext)) {
             BrowserActivity.startActivity(mContext, url, true);
         } else {

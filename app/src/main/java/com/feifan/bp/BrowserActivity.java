@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -20,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -29,11 +27,10 @@ import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.crop.Crop;
-import com.feifan.bp.net.NetUtils;
 import com.feifan.bp.net.UploadHttpClient;
+import com.feifan.bp.net.UrlFactory;
 import com.feifan.bp.util.IOUtils;
 import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
@@ -142,17 +139,17 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         int id = item.getItemId();
         switch (id) {
             case R.id.action_staff:
-                url = NetUtils.getUrlFactory().staffAddForHtml(this);
+                url = UrlFactory.staffAddForHtml(this);
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() staff url=" + url);
                 break;
             case R.id.action_coupon:
-                url = NetUtils.getUrlFactory().couponAddForHtml(this);
+                url = UrlFactory.couponAddForHtml(this);
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() coupon url=" + url);
                 break;
             case R.id.action_commodity:
-                url = NetUtils.getUrlFactory().commodityManageForHtml(this);
+                url = UrlFactory.commodityManageForHtml(this);
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() commodity url=" + url);
                 break;
@@ -202,7 +199,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.getSettings().setDomStorageEnabled(true);
-        webView.addJavascriptInterface(new JavaScriptInterface(), "android");
 
         webView.setWebViewClient(new PlatformWebViewClient());
         webView.setWebChromeClient(new PlatformWebChromeClient());
@@ -291,7 +287,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             String schema = uri.getScheme();
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
                 if (url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
-                    AccountManager.instance(BrowserActivity.this).clear();
+                    UserProfile.instance(BrowserActivity.this).clear();
                     startActivity(LaunchActivity.buildIntent(BrowserActivity.this));
                 } else if (url.contains(Constants.URL_PATH_EXIT)) {
                     finish();
@@ -381,7 +377,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
 
         try {
             params.put("image", in);
-            String url = NetUtils.getUrlFactory().uploadPicture();
+            String url = UrlFactory.uploadPicture();
             showProgressBar(false);
             UploadHttpClient.post(url, params, new AsyncHttpResponseHandler() {
                 @Override
@@ -425,21 +421,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     private void jsPictureMd5(String md5) {
         if (mWebView != null) {
             mWebView.loadUrl("javascript:imageCallback('" + md5 + "')");
-        }
-    }
-
-    final Handler myHandler = new Handler();
-    class JavaScriptInterface {
-        @JavascriptInterface
-        public void onChangeTitle(final String title) {
-            LogUtil.i(TAG, "onChangeTitle() title=" + title);
-            myHandler.post(new Runnable() {
-                @Override
-                public void run() {
-//                    getToolbar().setTitle(title);
-                }
-            });
-
         }
     }
 

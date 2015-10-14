@@ -7,7 +7,6 @@ import android.util.Log;
 import android.util.LruCache;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.feifan.bp.account.AccountManager;
 import com.feifan.bp.util.LogUtil;
 
 import java.io.File;
@@ -56,8 +55,8 @@ public class PlatformState {
             Uri uri = Uri.parse(standardUrl);
             String token = uri.getQueryParameter("loginToken");
             String uid = uri.getQueryParameter("uid");
-            mLastUrl = mLastUrl.replace(token, AccountManager.instance(context).getLoginToken())
-                    .replace(uid, String.valueOf(AccountManager.instance(context).getUid()));
+            mLastUrl = mLastUrl.replace(token, UserProfile.instance(context).getLoginToken())
+                    .replace(uid, String.valueOf(UserProfile.instance(context).getUid()));
             LogUtil.i(TAG, "update last request url " + mLastUrl + " with new loginToken and uid");
         }
 

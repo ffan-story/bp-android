@@ -2,7 +2,7 @@ package com.feifan.bp.login;
 
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.HttpParams;
-import com.feifan.bp.net.NetUtils;
+import com.feifan.bp.net.UrlFactory;
 
 import org.json.JSONObject;
 
@@ -11,7 +11,7 @@ import org.json.JSONObject;
  */
 public class CheckPermissionRequest extends BaseRequest<PermissionModel> {
 
-    private static final String URL = NetUtils.getUrlFactory().checkPermission();
+    private static final String URL = UrlFactory.checkPermission();
 
     public CheckPermissionRequest(Parameters params,
                                   OnRequestProcessListener<PermissionModel> listener) {

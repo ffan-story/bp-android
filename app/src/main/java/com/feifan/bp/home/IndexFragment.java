@@ -17,15 +17,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.feifan.bp.BrowserActivity;
+import com.feifan.bp.net.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
-import com.feifan.bp.account.AccountManager;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.home.command.Command;
 import com.feifan.bp.net.Authority;
-import com.feifan.bp.net.NetUtils;
 import com.feifan.bp.scanner.CodeScannerActivity;
 
 import java.lang.reflect.Constructor;
@@ -107,13 +107,13 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     return;
                 }
                 mCodeEditText.setText("");
-                String urlStr = NetUtils.getUrlFactory().searchCodeForHtml(getActivity(), code);
+                String urlStr = UrlFactory.searchCodeForHtml(getActivity(), code);
                 BrowserActivity.startActivity(getActivity(), urlStr);
             }
         });
 
         List<FunctionModel> dataList = new ArrayList<>();
-        List<String> list = AccountManager.instance(getActivity()).getPermissionList();
+        List<String> list = UserProfile.instance(getActivity()).getPermissionList();
         LogUtil.i(TAG, "auth list=" + list);
         for (String id : Authority.AUTH_LIST) {
             LogUtil.i(TAG, "id=" + id);
@@ -121,7 +121,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 LogUtil.i(TAG, "auth id=" + id);
                 try {
                     Authority.Auth a = Authority.AUTH_MAP.get(id);
-                    String url = AccountManager.instance(getActivity()).getPermissionUrl(id);
+                    String url = UserProfile.instance(getActivity()).getPermissionUrl(id);
                     LogUtil.i(TAG, "auth url=" + url);
                     Constructor constructor = a.clazz.getConstructor(Context.class, String.class);
                     Command c = (Command) constructor.newInstance(getActivity(), url);
@@ -178,8 +178,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
             case R.id.index_history:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, "");
                 if (Utils.isNetworkAvailable(getActivity())) {
-                    String relativeUrl = AccountManager.instance(getActivity()).getPermissionUrl(Authority.HISTORY_ID);
-                    String url = NetUtils.getUrlFactory().checkHistoryForHtml(getActivity(), relativeUrl);
+                    String relativeUrl = UserProfile.instance(getActivity()).getPermissionUrl(Authority.HISTORY_ID);
+                    String url = UrlFactory.checkHistoryForHtml(getActivity(), relativeUrl);
                     BrowserActivity.startActivity(getActivity(), url);
                 } else {
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);

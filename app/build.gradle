@@ -54,7 +54,7 @@ android {
 
             applicationId "com.feifan.bp.test"
             versionName "1.2.0" + "-" + gitSha
-            buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.SIT_GATEWAY"
+            buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.SIT"
         }
         productpre{
             applicationId "com.feifan.bp.pre"

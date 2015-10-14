@@ -1,10 +1,9 @@
-package com.feifan.bp.account;
+package com.feifan.bp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import com.feifan.bp.Constants;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.net.Authority;
 
@@ -16,17 +15,17 @@ import java.util.Map;
 /**
  * Created by maning on 15/8/6.
  */
-public class AccountManager {
+public class UserProfile {
 
-    private static final String TAG = "AccountManager";
+    private static final String TAG = UserProfile.class.getSimpleName();
 
-    private static AccountManager sAccountManager;
+    private static UserProfile sUserProfile;
 
-    public static AccountManager instance(Context context) {
-        if (sAccountManager == null) {
-            sAccountManager = new AccountManager(context);
+    public static UserProfile instance(Context context) {
+        if (sUserProfile == null) {
+            sUserProfile = new UserProfile(context);
         }
-        return sAccountManager;
+        return sUserProfile;
     }
 
     private Context mContext;
@@ -47,7 +46,7 @@ public class AccountManager {
 
     private static final String PREFERENCE_KEY_PERMISSIONS = "permission";
 
-    private AccountManager(Context context) {
+    private UserProfile(Context context) {
         mContext = context.getApplicationContext();
     }
 

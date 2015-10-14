@@ -27,7 +27,7 @@ public class Authority {
         AUTH_MAP = new HashMap<>();
         AUTH_LIST = new ArrayList<>();
         switch (BuildConfig.CURRENT_ENVIRONMENT) {
-            case SIT_GATEWAY:
+            case SIT:
                 AUTH_LIST.add("1142");
                 AUTH_LIST.add("1160");
                 AUTH_LIST.add("1161");
@@ -49,9 +49,6 @@ public class Authority {
                 REFUND_ID = "1162";
                 HISTORY_ID = "1166";
                 NODE_ID = "1141";
-                break;
-            case SIT_API:
-
                 break;
             case PRODUCT_PRE:
 

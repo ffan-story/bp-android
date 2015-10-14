@@ -1,14 +1,11 @@
 package com.feifan.bp.password;
 
-import com.android.volley.AuthFailureError;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpParams;
-import com.feifan.bp.net.NetUtils;
+import com.feifan.bp.net.UrlFactory;
 
 import org.json.JSONObject;
-
-import java.util.Map;
 
 /**
  * Created by maning on 15/7/29.
@@ -17,7 +14,7 @@ public class SendSMSCodeRequest extends BaseRequest<PasswordModel> {
 
     private static final String TAG = SendSMSCodeRequest.class.getSimpleName();
     // private static final String URL = FactorySet.getUrlFactory().getFFanHostUrl() + "msgcenter/v1/smsOutboxes";
-    private static final String URL = NetUtils.getUrlFactory().sendSMS();
+    private static final String URL = UrlFactory.sendSMS();
 
     public SendSMSCodeRequest(Parameters params,
                               BaseRequestProcessListener<PasswordModel> listener) {

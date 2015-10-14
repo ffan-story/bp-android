@@ -2,7 +2,7 @@ package com.feifan.bp.login;
 
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.HttpParams;
-import com.feifan.bp.net.NetUtils;
+import com.feifan.bp.net.UrlFactory;
 
 import org.json.JSONObject;
 
@@ -13,7 +13,7 @@ public class LoginRequest extends BaseRequest<UserModel> {
 
     private static final String TAG = "LoginRequest";
 
-    private static final String URL = NetUtils.getUrlFactory().login();
+    private static final String URL = UrlFactory.login();
 
 
     public LoginRequest(Parameters params, OnRequestProcessListener<UserModel> listener) {

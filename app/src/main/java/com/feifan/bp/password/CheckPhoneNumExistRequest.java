@@ -3,7 +3,7 @@ package com.feifan.bp.password;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpParams;
-import com.feifan.bp.net.NetUtils;
+import com.feifan.bp.net.UrlFactory;
 
 import org.json.JSONObject;
 
@@ -14,7 +14,7 @@ public class CheckPhoneNumExistRequest extends BaseRequest<PasswordModel> {
 
     private static final String TAG = CheckPhoneNumExistRequest.class.getSimpleName();
 
-    private static final String URL = NetUtils.getUrlFactory().checkPhoneNumExist();
+    private static final String URL = UrlFactory.checkPhoneNumExist();
 
     public CheckPhoneNumExistRequest(Parameters parameters,
                                      BaseRequestProcessListener<PasswordModel> listener) {

@@ -8,10 +8,10 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.feifan.bp.net.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseActivity;
-import com.feifan.bp.net.NetUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -89,7 +89,7 @@ public class CropActivity extends BaseActivity {
             RequestParams params = new RequestParams();
             params.put("image", in);
 
-            String url = NetUtils.getUrlFactory().uploadPicture();
+            String url = UrlFactory.uploadPicture();
 
             AsyncHttpClient client = new AsyncHttpClient();
             showProgressBar(false);

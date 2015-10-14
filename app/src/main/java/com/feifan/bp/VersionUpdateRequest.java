@@ -3,7 +3,7 @@ package com.feifan.bp;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpParams;
-import com.feifan.bp.net.NetUtils;
+import com.feifan.bp.net.UrlFactory;
 
 import org.json.JSONObject;
 
@@ -12,7 +12,7 @@ import org.json.JSONObject;
  */
 public class VersionUpdateRequest extends BaseRequest<VersionUpdateModel> {
 
-    private static final String URL = NetUtils.getUrlFactory().checkVersionUpdate();
+    private static final String URL = UrlFactory.checkVersionUpdate();
 
     public VersionUpdateRequest(Parameters parameters, BaseRequestProcessListener<VersionUpdateModel> listener) {
         super(Method.POST, URL, parameters, listener);
