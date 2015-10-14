@@ -334,6 +334,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void beginCrop(Uri source) {
+        LogUtil.i(TAG, "bitmap.outWidth()=" + source);
         Uri outputUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
         if (IMG_PICK_TYPE_1 == mImgPickType) {
             new Crop(this, source).output(outputUri).asSquare().start(this);
@@ -343,11 +344,9 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             new Crop(this, source).output(outputUri).asSquare().start(this);
         } else if (IMG_PICK_TYPE_3 == mImgPickType) {
             try{
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outputUri);
-                LogUtil.i(TAG, "bitmap.getHeight()=" + bitmap.getHeight());
-                LogUtil.i(TAG, " bitmap.getWidth()=" +  bitmap.getWidth());
-                if(bitmap.getHeight() == 1280 && bitmap.getWidth() == 720){
-                    uploadPicture(outputUri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), source);
+                if(bitmap.getHeight() == 720 && bitmap.getWidth() == 1280){
+                    uploadPicture(source);
                    // new Crop(this, source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(this);
                 }else{
                     Utils.showShortToast(BrowserActivity.this, R.string.error_message_picture_size, Gravity.CENTER);
