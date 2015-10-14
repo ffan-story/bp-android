@@ -81,7 +81,6 @@ public class CropImageActivity extends MonitoredActivity {
         initViews();
 
         setupFromIntent();
-        LogUtil.i(TAG, "rotateBitmap=" + rotateBitmap);
         if (rotateBitmap == null) {
             finish();
             return;
@@ -139,8 +138,6 @@ public class CropImageActivity extends MonitoredActivity {
                 BitmapFactory.Options option = new BitmapFactory.Options();
                 option.inSampleSize = sampleSize;
                 rotateBitmap = new RotateBitmap(BitmapFactory.decodeStream(is, null, option), exifRotation);
-
-                Log.e("xuchunlei", "original'size = " + BitmapFactory.decodeStream(getContentResolver().openInputStream(sourceUri)).getByteCount());
             } catch (IOException e) {
                 LogUtil.e("ERROR", "Error reading image: " + e.getMessage());
                 setResultException(e);
@@ -315,8 +312,6 @@ public class CropImageActivity extends MonitoredActivity {
             }
         }
 
-        Log.e(TAG, "Cropped image'size is " + croppedImage.getByteCount());
-        Log.e(TAG, "Cropped image----> " + croppedImage.getWidth() + "x" + croppedImage.getHeight() );
         saveImage(croppedImage);
     }
 
@@ -418,7 +413,6 @@ public class CropImageActivity extends MonitoredActivity {
     }
 
     private void saveOutput(Bitmap croppedImage) {
-        LogUtil.i(TAG, "saveOutput() saveUri=" + saveUri);
         if (saveUri != null) {
             OutputStream outputStream = null;
             try {
@@ -440,7 +434,7 @@ public class CropImageActivity extends MonitoredActivity {
                         CropUtil.getFromMediaUri(getContentResolver(), saveUri)
                 );
             }
-            LogUtil.i(TAG, "saveOutput() resultUri=" + saveUri);
+            LogUtil.i(TAG, "Save cropped image to " + saveUri);
             setResultUri(saveUri);
         }
 
