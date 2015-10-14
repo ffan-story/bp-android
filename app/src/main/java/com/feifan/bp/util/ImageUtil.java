@@ -30,7 +30,7 @@ public class ImageUtil {
         }
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.PNG, 100, byteStream);
-        LogUtil.i(TAG, "Make " + img.getWidth() + "x" + img.getHeight() + " " + img.getByteCount() + " image to stream");
+        LogUtil.i(TAG, "Make " + img.getWidth() + "x" + img.getHeight() + " " + byteStream.size() / 1024 + "k image to stream");
         InputStream in = new ByteArrayInputStream(byteStream.toByteArray());
         return in;
     }

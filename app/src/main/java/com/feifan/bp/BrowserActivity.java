@@ -34,6 +34,7 @@ import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.crop.Crop;
 import com.feifan.bp.net.NetUtils;
 import com.feifan.bp.net.UploadHttpClient;
+import com.feifan.bp.util.IOUtils;
 import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.DialogPhoneLayout;
@@ -45,6 +46,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -366,10 +369,19 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void uploadPicture(Uri uri) {
+
+        // 获取符合条件的图片输入流
+        Bitmap uploadImg = null;
         try {
-            Bitmap uploadImg = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-            RequestParams params = new RequestParams();
-            params.put("image", ImageUtil.makeStream(uploadImg, Constants.IMAGE_MAX_WIDTH, Constants.IMAGE_MAX_HEIGHT));
+            uploadImg = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        RequestParams params = new RequestParams();
+        final InputStream in = ImageUtil.makeStream(uploadImg, Constants.IMAGE_MAX_WIDTH, Constants.IMAGE_MAX_HEIGHT);
+
+        try {
+            params.put("image", in);
             String url = NetUtils.getUrlFactory().uploadPicture();
             showProgressBar(false);
             UploadHttpClient.post(url, params, new AsyncHttpResponseHandler() {
@@ -391,6 +403,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    IOUtils.closeQuietly(in);
                 }
 
                 @Override
@@ -399,12 +412,14 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                     hideProgressBar();
                     Utils.showShortToast(BrowserActivity.this,
                             R.string.error_message_upload_picture_fail, Gravity.CENTER);
+                    IOUtils.closeQuietly(in);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
             Utils.showShortToast(BrowserActivity.this,
                     R.string.error_message_upload_picture_fail, Gravity.CENTER);
+            IOUtils.closeQuietly(in);
         }
     }
 
