@@ -45,6 +45,7 @@ import org.json.JSONObject;
 import java.io.File;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -358,7 +359,16 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
 
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
-            uploadPicture(Crop.getOutput(result));
+
+          int  i =ImageUtil.readPictureDegree(Crop.getOutput(result).getPath());
+            try {
+            Bitmap myRoundBitmap  = ImageUtil.rotaingImageView(i, MediaStore.Images.Media.getBitmap(this.getContentResolver(), Crop.getOutput(result)));
+            uploadPicture(Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), myRoundBitmap, null,null)));
+             } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //new File(Crop.getOutput(result).getPath());
+           // uploadPicture(Crop.getOutput(result));
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -374,8 +384,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             e.printStackTrace();
         }
         RequestParams params = new RequestParams();
-        final InputStream in = ImageUtil.makeStream(uploadImg,
-                Constants.IMAGE_MAX_WIDTH, Constants.IMAGE_MAX_HEIGHT, Constants.IMAGE_MAX_BYTES);
+        final InputStream in = ImageUtil.makeStream(uploadImg,Constants.IMAGE_MAX_WIDTH, Constants.IMAGE_MAX_HEIGHT, Constants.IMAGE_MAX_BYTES);
 
         if(!uploadImg.isRecycled()) {
             uploadImg.recycle();
