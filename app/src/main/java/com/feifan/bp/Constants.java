@@ -13,6 +13,7 @@ public class Constants {
     // 图片
     public static int IMAGE_MAX_WIDTH = 1280;
     public static int IMAGE_MAX_HEIGHT = 720;
+    public static int IMAGE_MAX_BYTES = 1536;
 
     // 非法的整型数值
     public static final int NO_INTEGER = -1;

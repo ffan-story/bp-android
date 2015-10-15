@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -181,8 +182,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                finish();
-                if (mWebView.canGoBack()) {
+                if (canGoBack()) {
                     mWebView.goBack();
                 } else {
                     finish();
@@ -204,11 +204,21 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onBackPressed() {
-        if (mWebView.canGoBack()) {
+        if (canGoBack()) {
             mWebView.goBack();
         } else {
             super.onBackPressed();
         }
+    }
+
+    // 当前页面是否可以回退
+    private boolean canGoBack() {
+        // 特殊页面
+        String title = getToolbar().getTitle().toString();
+        if(title.equals(getString(R.string.browser_coupon_list))){
+            return false;
+        }
+        return mWebView.canGoBack();
     }
 
     private class PlatformWebChromeClient extends WebChromeClient {
@@ -223,13 +233,13 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             super.onReceivedTitle(view, title);
             LogUtil.i(TAG, "onReceiveTitle() title=" + title);
             getToolbar().setTitle(title);
-            if (getString(R.string.index_staff_list).equals(title)) {
+            if (getString(R.string.browser_staff_list).equals(title)) {
                 mToolbarStatus = TOOLBAR_STATUS_STAFF;
-            } else if (getString(R.string.index_coupon_list).equals(title)) {
+            } else if (getString(R.string.browser_coupon_list).equals(title)) {
                 mToolbarStatus = TOOLBAR_STATUS_COUPON;
             } else if (getString(R.string.index_commodity_text).equals(title)) {
                 mToolbarStatus = TOOLBAR_STATUS_COMMODITY;
-            } else if (getString(R.string.index_commodity_desc).equals(title)){
+            } else if (getString(R.string.browser_commodity_desc).equals(title)){
                 mToolbarStatus = TOOLBAR_STATUS_COMMODITY_DESC;
             } else{
                 mToolbarStatus = TOOLBAR_STATUS_IDLE;
@@ -364,7 +374,12 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             e.printStackTrace();
         }
         RequestParams params = new RequestParams();
-        final InputStream in = ImageUtil.makeStream(uploadImg, Constants.IMAGE_MAX_WIDTH, Constants.IMAGE_MAX_HEIGHT);
+        final InputStream in = ImageUtil.makeStream(uploadImg,
+                Constants.IMAGE_MAX_WIDTH, Constants.IMAGE_MAX_HEIGHT, Constants.IMAGE_MAX_BYTES);
+
+        if(!uploadImg.isRecycled()) {
+            uploadImg.recycle();
+        }
 
         try {
             params.put("image", in);
@@ -381,6 +396,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                             JSONObject jobj = new JSONObject(result);
                             JSONObject data = jobj.optJSONObject("data");
                             String name = data.optString("name");
+                            LogUtil.i(TAG, "Upload image successfully, file'md5 is " + name);
                             jsPictureMd5(name);
                         } else {
                             Utils.showShortToast(BrowserActivity.this,

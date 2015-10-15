@@ -33,12 +33,15 @@
     <string name="index_staff_text">员工管理</string>
     <string name="index_refund_text">退款售后</string>
     <string name="index_search_input_hint">请输入提货码或券码</string>
-    <string name="index_staff_add">添加员工</string>
-    <string name="index_staff_list">员工列表</string>
     <string name="index_commodity_text">商品管理</string>
     <string name="index_marketing_text">营销管理</string>
-    <string name="index_commodity_desc">宝贝描述</string>
-    <string name="index_coupon_list">优惠券列表</string>
+
+    <!-- 浏览器 -->
+    <string name="browser_staff_add">添加员工</string>
+    <string name="browser_staff_list">员工列表</string>
+
+    <string name="browser_commodity_desc">宝贝描述</string>
+    <string name="browser_coupon_list">优惠券列表</string>
 
     <!-- Settings（设置） - begin -->
     <string name="settings_check_upgrade_format">检查更新&#040;当前版本&#058;<xliff:g>%1s</xliff:g>&#041;</string>

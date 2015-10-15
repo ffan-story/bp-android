@@ -47,7 +47,7 @@ public class HostSupplier {
 
         @Override
         public String getFFanPicHost() {
-            return "http://xapi.intra.ffan.com/";
+            return "http://api.sit.ffan.com/ffan/v1/";
         }
     }
 
