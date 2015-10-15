@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Environment;
 import android.widget.Toast;
 
 import com.feifan.bp.util.LogUtil;
@@ -168,5 +169,14 @@ public class Utils {
             result =  true;
         }
         return result;
+    }
+
+    /**
+     * 获取sdcar路径
+     * @return
+     */
+    public static boolean isHasSdCard(){
+        boolean sdCardExist = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+        return sdCardExist;
     }
 }

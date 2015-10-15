@@ -24,8 +24,8 @@ android {
         applicationId "com.feifan.bp"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 3
-        versionName "1.2.0"
+        versionCode 4
+        versionName "1.3.0"
     }
 
     signingConfigs {
@@ -53,17 +53,17 @@ android {
             println gitCurrentTag
 
             applicationId "com.feifan.bp.test"
-            versionName "1.2.0" + "-" + gitSha
+            versionName "1.3.0" + "-" + gitSha
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.SIT"
         }
         productpre{
             applicationId "com.feifan.bp.pre"
-            versionName "1.2.0-pre"
+            versionName "1.3.0-pre"
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT_PRE"
         }
         product{
             applicationId "com.feifan.bp"
-            versionName "1.2.0"
+            versionName "1.3.0"
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT"
         }
     }
@@ -79,8 +79,6 @@ android {
             def apkName = "${appName}-${output.baseName}-${variant.versionName}.apk"
             output.outputFile = new File("${output.outputFile.parent}/output", apkName)
         }
-
-
     }
 
 

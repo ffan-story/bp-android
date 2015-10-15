@@ -202,6 +202,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
             mFunctionList.addAll(list);
         }
 
+
+
         @Override
         public int getItemCount() {
             return mFunctionList.size();

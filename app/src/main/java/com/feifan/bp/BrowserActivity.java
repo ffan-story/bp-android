@@ -405,7 +405,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                             JSONObject data = jobj.optJSONObject("data");
                             String name = data.optString("name");
                             LogUtil.i(TAG, "Upload image successfully, file'md5 is " + name);
-                            jsPictureMd5(name);
+                            mWebView.loadUrl("javascript:imageCallback('" + name + "')");
                         } else {
                             Utils.showShortToast(BrowserActivity.this,
                                     R.string.error_message_upload_picture_fail, Gravity.CENTER);
@@ -430,12 +430,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             Utils.showShortToast(BrowserActivity.this,
                     R.string.error_message_upload_picture_fail, Gravity.CENTER);
             IOUtil.closeQuietly(in);
-        }
-    }
-
-    private void jsPictureMd5(String md5) {
-        if (mWebView != null) {
-            mWebView.loadUrl("javascript:imageCallback('" + md5 + "')");
         }
     }
 
@@ -467,14 +461,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     }
 
     String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/feifandp/img.jpg";
-    /**
-     * 获取sdcar路径
-     * @return
-     */
-    private boolean isHasSdCard(){
-        boolean sdCardExist = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-        return sdCardExist;
-    }
+
 
     @Override
     public void onClick(View v) {
@@ -490,7 +477,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                 if (null != phoneDialog) {
                     phoneDialog.dismiss();
                 }
-                if(!isHasSdCard()){
+                if(!Utils.isHasSdCard()){
                     Utils.showShortToast(BrowserActivity.this, R.string.sd_card_exist, Gravity.CENTER);
                 }else{
                     Crop.cameraImage(BrowserActivity.this,imgPath);
