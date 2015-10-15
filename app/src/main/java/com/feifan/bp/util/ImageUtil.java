@@ -87,6 +87,14 @@ public class ImageUtil {
         matrix.postRotate(angle);
         // 创建新的图片
         Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        if(resizedBitmap == null) {
+            resizedBitmap = bitmap;
+        }
+
+        if(bitmap != resizedBitmap){
+            bitmap.recycle();
+        }
+
         return resizedBitmap;
     }
 }

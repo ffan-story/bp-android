@@ -1,4 +1,4 @@
-package com.feifan.bp.environment;
+package com.feifan.bp.envir;
 
 /**
  * Created by xuchunlei on 15/10/14.

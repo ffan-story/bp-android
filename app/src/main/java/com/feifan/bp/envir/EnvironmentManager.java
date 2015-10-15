@@ -1,10 +1,10 @@
-package com.feifan.bp.environment;
+package com.feifan.bp.envir;
 
 import com.feifan.bp.BuildConfig;
-import com.feifan.bp.environment.HostSupplier.SitHostFactory;
-import com.feifan.bp.environment.HostSupplier.ProductPreFactory;
-import com.feifan.bp.environment.HostSupplier.ProductFactory;
-import com.feifan.bp.environment.HostSupplier.IHostFactory;
+import com.feifan.bp.envir.HostSupplier.SitHostFactory;
+import com.feifan.bp.envir.HostSupplier.ProductPreFactory;
+import com.feifan.bp.envir.HostSupplier.ProductFactory;
+import com.feifan.bp.envir.HostSupplier.IHostFactory;
 
 /**
  * Created by xuchunlei on 15/10/14.

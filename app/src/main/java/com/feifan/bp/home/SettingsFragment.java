@@ -22,8 +22,6 @@ import com.feifan.bp.R;
 
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.Utils;
-import com.feifan.bp.VersionUpdateModel;
-import com.feifan.bp.VersionUpdateRequest;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.net.BaseRequest;

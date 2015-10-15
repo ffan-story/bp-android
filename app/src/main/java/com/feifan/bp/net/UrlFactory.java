@@ -7,8 +7,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.feifan.bp.UserProfile;
-import com.feifan.bp.environment.EnvironmentManager;
-import com.feifan.bp.environment.HostSupplier;
+import com.feifan.bp.envir.EnvironmentManager;
 
 /**
  * 商家后台Url抽象工厂

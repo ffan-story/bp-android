@@ -6,8 +6,8 @@ import java.io.IOException;
 /**
  * Created by xuchunlei on 15/10/14.
  */
-public class IOUtils {
-    private IOUtils(){
+public class IOUtil {
+    private IOUtil(){
 
     }
 

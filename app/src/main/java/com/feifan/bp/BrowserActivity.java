@@ -12,7 +12,6 @@ import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,7 +31,7 @@ import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.crop.Crop;
 import com.feifan.bp.net.UploadHttpClient;
 import com.feifan.bp.net.UrlFactory;
-import com.feifan.bp.util.IOUtils;
+import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.DialogPhoneLayout;
@@ -414,7 +413,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    IOUtils.closeQuietly(in);
+                    IOUtil.closeQuietly(in);
                 }
 
                 @Override
@@ -423,14 +422,14 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                     hideProgressBar();
                     Utils.showShortToast(BrowserActivity.this,
                             R.string.error_message_upload_picture_fail, Gravity.CENTER);
-                    IOUtils.closeQuietly(in);
+                    IOUtil.closeQuietly(in);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
             Utils.showShortToast(BrowserActivity.this,
                     R.string.error_message_upload_picture_fail, Gravity.CENTER);
-            IOUtils.closeQuietly(in);
+            IOUtil.closeQuietly(in);
         }
     }
 

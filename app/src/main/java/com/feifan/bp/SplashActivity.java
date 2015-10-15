@@ -9,6 +9,8 @@ import android.os.Bundle;
 
 import com.android.volley.VolleyError;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.home.VersionUpdateModel;
+import com.feifan.bp.home.VersionUpdateRequest;
 import com.feifan.bp.login.PermissionModel;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.net.BaseRequest;

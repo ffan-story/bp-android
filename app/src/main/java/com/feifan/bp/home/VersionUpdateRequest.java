@@ -1,4 +1,4 @@
-package com.feifan.bp;
+package com.feifan.bp.home;
 
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
