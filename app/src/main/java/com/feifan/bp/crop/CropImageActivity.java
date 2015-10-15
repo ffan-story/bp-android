@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.opengl.GLES10;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -130,6 +131,9 @@ public class CropImageActivity extends MonitoredActivity {
         LogUtil.i(TAG, "sourceUri=" + sourceUri);
         if (sourceUri != null) {
             exifRotation = CropUtil.getExifRotation(CropUtil.getFromMediaUri(getContentResolver(), sourceUri));
+            if(exifRotation != 0) {
+                Log.w(TAG, "Image(" + sourceUri.toString() + ") rotate " + exifRotation + " degree!");
+            }
 
             InputStream is = null;
             try {
@@ -138,6 +142,7 @@ public class CropImageActivity extends MonitoredActivity {
                 BitmapFactory.Options option = new BitmapFactory.Options();
                 option.inSampleSize = sampleSize;
                 rotateBitmap = new RotateBitmap(BitmapFactory.decodeStream(is, null, option), exifRotation);
+                Log.e(TAG, "rotate bitmap:width-->" + rotateBitmap.getBitmap().getWidth() + ",height-->" + rotateBitmap.getBitmap().getHeight());
             } catch (IOException e) {
                 LogUtil.e("ERROR", "Error reading image: " + e.getMessage());
                 setResultException(e);
