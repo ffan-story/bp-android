@@ -31,9 +31,9 @@ public class Authority {
                 AUTH_LIST.add("1142");
                 AUTH_LIST.add("1160");
                 AUTH_LIST.add("1161");
+                AUTH_LIST.add("1162");
                 AUTH_LIST.add("1226");
                 AUTH_LIST.add("1227");
-                AUTH_LIST.add("1162");
                 AUTH_MAP.put("1142", new Auth("1142",
                         R.string.index_order_text, R.mipmap.index_ic_order, OrderManagementCmd.class));
                 AUTH_MAP.put("1160", new Auth("1160",
@@ -58,9 +58,9 @@ public class Authority {
                 AUTH_LIST.add("997");
                 AUTH_LIST.add("1002");
                 AUTH_LIST.add("1003");
+                AUTH_LIST.add("1004");
                 AUTH_LIST.add("1081");
                 AUTH_LIST.add("1082");
-                AUTH_LIST.add("1004");
                 AUTH_MAP.put("997", new Auth("997",
                         R.string.index_order_text, R.mipmap.index_ic_order, OrderManagementCmd.class));
                 AUTH_MAP.put("1002", new Auth("1002",

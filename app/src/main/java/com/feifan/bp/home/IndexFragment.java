@@ -197,6 +197,10 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
     class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexViewHolder> {
 
         private List<FunctionModel> mFunctionList = new ArrayList<>();
+        private final int mIconSize;
+        {
+            mIconSize = getResources().getDrawable(R.mipmap.index_ic_order).getMinimumWidth();
+        }
 
         public IndexAdapter(List<FunctionModel> list) {
             mFunctionList.addAll(list);
@@ -222,7 +226,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
             final FunctionModel f = mFunctionList.get(i);
 
             Drawable t = getResources().getDrawable(f.getResId());
-            t.setBounds(0, 0, t.getMinimumWidth(), t.getMinimumHeight());
+            t.setBounds(0, 0, mIconSize, mIconSize);
 
             indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
             indexViewHolder.textView.setText(f.getText());
