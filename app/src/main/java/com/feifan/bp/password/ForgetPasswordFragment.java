@@ -17,7 +17,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.net.BaseRequestProcessListener;
-import com.feifan.bp.util.Des3;
+import com.feifan.bp.util.SecureUtil;
 import com.feifan.bp.widget.CountDownButton;
 
 /**
@@ -122,7 +122,7 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                 String newPhone = "";
                 if (!TextUtils.isEmpty(mKeyCode)) {
                     try {
-                        newPhone = Des3.encode(phone, mKeyCode);
+                        newPhone = SecureUtil.encode(phone, mKeyCode);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

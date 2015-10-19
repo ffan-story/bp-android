@@ -1,4 +1,4 @@
-package com.feifan.bp.crop;
+package com.feifan.croplib;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -6,17 +6,12 @@ import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
-import com.feifan.bp.R;
-
 import java.io.File;
-import java.net.URI;
 
 /**
  * Builder for crop Intents and utils for handling result

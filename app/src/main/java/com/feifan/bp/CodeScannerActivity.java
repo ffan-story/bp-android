@@ -1,4 +1,4 @@
-package com.feifan.bp.scanner;
+package com.feifan.bp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,11 +11,8 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 
-import com.feifan.bp.BrowserActivity;
 import com.feifan.bp.net.UrlFactory;
 import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.R;
-import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseActivity;
 
 import bp.feifan.com.codescanner.CaptureActivityOfResult;

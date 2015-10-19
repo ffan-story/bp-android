@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.feifan.bp.crop;
+package com.feifan.croplib;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -30,8 +30,6 @@ import android.graphics.Region;
 import android.os.Build;
 import android.util.TypedValue;
 import android.view.View;
-
-import com.feifan.bp.R;
 
 /*
  * Modified from version in AOSP.

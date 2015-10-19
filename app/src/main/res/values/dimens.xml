@@ -29,6 +29,6 @@
     <!-- 标题栏 -->
     <dimen name="title_logo_border_width">3dp</dimen>
 
-    <dimen name="crop_bar_height">48dp</dimen>
+
 
 </resources>

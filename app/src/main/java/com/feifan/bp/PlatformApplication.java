@@ -6,6 +6,8 @@ import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
 
+import com.feifan.bp.network.HttpService;
+
 import java.util.List;
 
 /**
@@ -18,6 +20,8 @@ public class PlatformApplication extends Application {
         super.onCreate();
         PlatformState.setApplicationContext(this);
         PlatformState.getInstance();
+
+        HttpService.getInstance().initialize(this);
     }
 
     @Override

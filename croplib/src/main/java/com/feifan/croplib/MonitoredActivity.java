@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.feifan.bp.crop;
+package com.feifan.croplib;
 
 import android.app.Activity;
 import android.os.Bundle;

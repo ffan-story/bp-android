@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.feifan.bp.crop;
+package com.feifan.croplib;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -24,9 +24,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-
-
-import com.feifan.bp.util.LogUtil;
+import android.util.Log;
 
 import java.io.Closeable;
 import java.io.File;
@@ -65,7 +63,7 @@ class CropUtil {
                     return ExifInterface.ORIENTATION_UNDEFINED;
             }
         } catch (IOException e) {
-            LogUtil.e("ERROR","Error getting Exif data");
+            Log.e("ERROR", "Error getting Exif data");
             return 0;
         }
     }
@@ -79,7 +77,7 @@ class CropUtil {
             exifDest.saveAttributes();
             return true;
         } catch (IOException e) {
-            LogUtil.e("ERROR", "Error copying Exif data");
+            Log.e("ERROR", "Error copying Exif data");
             return false;
         }
     }

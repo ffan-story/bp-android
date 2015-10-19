@@ -28,7 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.feifan.bp.base.BaseActivity;
-import com.feifan.bp.crop.Crop;
+import com.feifan.croplib.Crop;
 import com.feifan.bp.net.UploadHttpClient;
 import com.feifan.bp.net.UrlFactory;
 import com.feifan.bp.util.IOUtil;

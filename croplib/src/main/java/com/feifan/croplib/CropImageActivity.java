@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.feifan.bp.crop;
+package com.feifan.croplib;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -29,15 +29,11 @@ import android.net.Uri;
 import android.opengl.GLES10;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-
-import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -128,7 +124,7 @@ public class CropImageActivity extends MonitoredActivity {
         }
 
         sourceUri = intent.getData();
-        LogUtil.i(TAG, "sourceUri=" + sourceUri);
+        Log.i(TAG, "sourceUri=" + sourceUri);
         if (sourceUri != null) {
             exifRotation = CropUtil.getExifRotation(CropUtil.getFromMediaUri(getContentResolver(), sourceUri));
             if(exifRotation != 0) {
@@ -144,10 +140,10 @@ public class CropImageActivity extends MonitoredActivity {
                 rotateBitmap = new RotateBitmap(BitmapFactory.decodeStream(is, null, option), exifRotation);
                 Log.e(TAG, "rotate bitmap:width-->" + rotateBitmap.getBitmap().getWidth() + ",height-->" + rotateBitmap.getBitmap().getHeight());
             } catch (IOException e) {
-                LogUtil.e("ERROR", "Error reading image: " + e.getMessage());
+                Log.e("ERROR", "Error reading image: " + e.getMessage());
                 setResultException(e);
             } catch (OutOfMemoryError e) {
-                LogUtil.e("ERROR", "OOM reading image: " + e.getMessage());
+                Log.e("ERROR", "OOM reading image: " + e.getMessage());
                 setResultException(e);
             } finally {
                 CropUtil.closeSilently(is);
@@ -371,10 +367,10 @@ public class CropImageActivity extends MonitoredActivity {
             }
 
         } catch (IOException e) {
-            LogUtil.e("ERROR", "Error cropping image: " + e.getMessage());
+            Log.e("ERROR", "Error cropping image: " + e.getMessage());
             finish();
         } catch (OutOfMemoryError e) {
-            LogUtil.e("ERROR", "OOM cropping image: " + e.getMessage());
+            Log.e("ERROR", "OOM cropping image: " + e.getMessage());
             setResultException(e);
         } finally {
             CropUtil.closeSilently(is);
@@ -399,7 +395,7 @@ public class CropImageActivity extends MonitoredActivity {
             m.preConcat(rotateBitmap.getRotateMatrix());
             canvas.drawBitmap(rotateBitmap.getBitmap(), m, null);
         } catch (OutOfMemoryError e) {
-            LogUtil.e("ERROR", "OOM cropping image: " + e.getMessage());
+            Log.e("ERROR", "OOM cropping image: " + e.getMessage());
             setResultException(e);
             System.gc();
         }
@@ -427,7 +423,7 @@ public class CropImageActivity extends MonitoredActivity {
                 }
             } catch (IOException e) {
                 setResultException(e);
-                LogUtil.e("ERROR", "Cannot open file: " + saveUri);
+                Log.e("ERROR", "Cannot open file: " + saveUri);
             } finally {
                 CropUtil.closeSilently(outputStream);
             }
@@ -439,7 +435,7 @@ public class CropImageActivity extends MonitoredActivity {
                         CropUtil.getFromMediaUri(getContentResolver(), saveUri)
                 );
             }
-            LogUtil.i(TAG, "Save cropped image to " + saveUri);
+            Log.i(TAG, "Save cropped image to " + saveUri);
             setResultUri(saveUri);
         }
 

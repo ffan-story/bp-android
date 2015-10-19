@@ -2,12 +2,20 @@ package com.feifan.bp.login;
 
 import android.content.Context;
 
+import com.android.volley.Request.Method;
+import com.android.volley.Response.Listener;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.feifan.bp.Constants;
 import com.feifan.bp.UserProfile;
-import com.feifan.bp.net.Authority;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpEngine;
+import com.feifan.bp.net.UrlFactory;
+import com.feifan.bp.network.HttpService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by xuchunlei on 15/6/17.
@@ -39,7 +47,23 @@ public class UserCtrl {
         HttpEngine.Builder.newInstance(context).
                 setRequest(new LoginRequest(params, listener)).
                 build().start();
+
+
+
     }
+
+//    public static void login(String userName, String password, Listener<JSONObject> listener){
+//        JSONObject params = new JSONObject();
+//        try {
+//            params.put("userName", userName);
+//            params.put("password", password);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        HttpService.getInstance().requestAsync(new JsonObjectRequest(
+//                Method.POST, UrlFactory.getLoginUrl(), params, listener, null));
+//    }
 
     public static void checkPermission(Context context, String uid,
                                        BaseRequestProcessListener<PermissionModel> listener) {

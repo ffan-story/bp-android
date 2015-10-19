@@ -25,8 +25,8 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.home.command.Command;
-import com.feifan.bp.net.Authority;
-import com.feifan.bp.scanner.CodeScannerActivity;
+import com.feifan.bp.login.Authority;
+import com.feifan.bp.CodeScannerActivity;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -199,7 +199,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         private List<FunctionModel> mFunctionList = new ArrayList<>();
         private final int mIconSize;
         {
-            mIconSize = getResources().getDrawable(R.mipmap.index_ic_order).getMinimumWidth();
+            mIconSize = getResources().getDrawable(R.mipmap.index_ic_order).getMinimumHeight();
         }
 
         public IndexAdapter(List<FunctionModel> list) {

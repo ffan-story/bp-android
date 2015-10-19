@@ -1,4 +1,4 @@
-package com.feifan.bp.crop;
+package com.feifan.croplib;
 
 import android.content.Context;
 import android.graphics.Canvas;

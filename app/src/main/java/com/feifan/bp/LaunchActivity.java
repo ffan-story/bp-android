@@ -19,7 +19,6 @@ import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
-import com.feifan.bp.scanner.CodeScannerActivity;
 import com.feifan.bp.widget.TabBar;
 
 import java.util.ArrayList;

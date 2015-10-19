@@ -133,7 +133,7 @@ public abstract class UrlFactory {
     }
 
     //----for http request---//
-    public static String login() {
+    public static String getLoginUrl() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/login";
     }
 

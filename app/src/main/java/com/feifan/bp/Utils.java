@@ -157,7 +157,6 @@ public class Utils {
         intent.setAction("android.intent.action.VIEW");
         Uri content_url = Uri.parse(url);
         intent.setData(content_url);
-//        intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
         return intent;
     }
 

@@ -11,9 +11,8 @@ import org.json.JSONObject;
  */
 public class LoginRequest extends BaseRequest<UserModel> {
 
-    private static final String TAG = "LoginRequest";
 
-    private static final String URL = UrlFactory.login();
+    private static final String URL = UrlFactory.getLoginUrl();
 
 
     public LoginRequest(Parameters params, OnRequestProcessListener<UserModel> listener) {

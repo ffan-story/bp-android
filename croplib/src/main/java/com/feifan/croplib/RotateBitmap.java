@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.feifan.bp.crop;
+package com.feifan.croplib;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;

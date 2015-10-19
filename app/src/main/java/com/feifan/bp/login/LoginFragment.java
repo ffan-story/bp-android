@@ -5,12 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.android.volley.Response;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
@@ -19,6 +21,8 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.password.ForgetPasswordFragment;
+
+import org.json.JSONObject;
 
 /**
  * 登录界面Fragment
@@ -109,13 +113,6 @@ public class LoginFragment extends BaseFragment {
                                     mListener.onFragmentInteraction(args);
                                 }
                             });
-
-                            // 通知界面跳转
-//                            Bundle args = new Bundle();
-//                            args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
-//                            mListener.onFragmentInteraction(args);
-
-//
                         }
                     });
 

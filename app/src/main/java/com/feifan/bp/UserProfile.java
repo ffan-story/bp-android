@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.net.Authority;
+import com.feifan.bp.login.Authority;
 
 import java.util.Arrays;
 import java.util.Iterator;

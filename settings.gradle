@@ -1,1 +1,1 @@
-include ':app', ':codescanner'
+include ':app', ':codescanner', ':croplib'

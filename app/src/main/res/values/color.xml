@@ -25,10 +25,7 @@
 
     <color name="text_normal">#415560</color>
 
-    <color name="crop_button_bar">#f3f3f3</color>
-    <color name="crop_button_text">#666666</color>
-    <color name="crop_selector_pressed">#1a000000</color>
-    <color name="crop_selector_focused">#77000000</color>
+
 
     <color name="transparent">#00000000</color>
 </resources>
