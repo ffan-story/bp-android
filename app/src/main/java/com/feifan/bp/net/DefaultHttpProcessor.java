@@ -3,7 +3,7 @@ package com.feifan.bp.net;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.http.AndroidHttpClient;
+//import android.net.http.AndroidHttpClient;
 import android.os.Build;
 
 import com.android.volley.Request;
@@ -68,7 +68,7 @@ public class DefaultHttpProcessor implements HttpProcessor, RequestQueue.Request
             if(Build.VERSION.SDK_INT >= 9) {
                 stack = new HttpsUrlStack();
             } else {
-                stack = new HttpClientStack(AndroidHttpClient.newInstance(userAgent));
+//                stack = new HttpClientStack(AndroidHttpClient.newInstance(userAgent));
             }
         }
 

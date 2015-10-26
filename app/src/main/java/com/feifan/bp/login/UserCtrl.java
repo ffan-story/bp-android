@@ -12,7 +12,6 @@ import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpEngine;
 import com.feifan.bp.net.UrlFactory;
-import com.feifan.bp.network.HttpService;
 
 import org.json.JSONException;
 import org.json.JSONObject;

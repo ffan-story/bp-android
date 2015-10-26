@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.feifan.bp.BrowserActivity;
+import com.feifan.bp.login.Authority;
 import com.feifan.bp.net.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
@@ -25,7 +26,6 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.home.command.Command;
-import com.feifan.bp.login.Authority;
 import com.feifan.bp.CodeScannerActivity;
 
 import java.lang.reflect.Constructor;

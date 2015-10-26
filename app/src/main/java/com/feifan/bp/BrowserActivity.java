@@ -38,7 +38,7 @@ import com.feifan.bp.widget.DialogPhoneLayout;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.http.Header;
+//import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -393,38 +393,38 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             params.put("image", in);
             String url = UrlFactory.uploadPicture();
             showProgressBar(false);
-            UploadHttpClient.post(url, params, new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    hideProgressBar();
-                    String result = new String(responseBody);
-                    LogUtil.i(TAG, "upload response=" + result);
-                    try {
-                        if (statusCode == 200) {
-                            JSONObject jobj = new JSONObject(result);
-                            JSONObject data = jobj.optJSONObject("data");
-                            String name = data.optString("name");
-                            LogUtil.i(TAG, "Upload image successfully, file'md5 is " + name);
-                            mWebView.loadUrl("javascript:imageCallback('" + name + "')");
-                        } else {
-                            Utils.showShortToast(BrowserActivity.this,
-                                    R.string.error_message_upload_picture_fail, Gravity.CENTER);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    IOUtil.closeQuietly(in);
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers,
-                                      byte[] responseBody, Throwable error) {
-                    hideProgressBar();
-                    Utils.showShortToast(BrowserActivity.this,
-                            R.string.error_message_upload_picture_fail, Gravity.CENTER);
-                    IOUtil.closeQuietly(in);
-                }
-            });
+//            UploadHttpClient.post(url, params, new AsyncHttpResponseHandler() {
+//                @Override
+//                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+//                    hideProgressBar();
+//                    String result = new String(responseBody);
+//                    LogUtil.i(TAG, "upload response=" + result);
+//                    try {
+//                        if (statusCode == 200) {
+//                            JSONObject jobj = new JSONObject(result);
+//                            JSONObject data = jobj.optJSONObject("data");
+//                            String name = data.optString("name");
+//                            LogUtil.i(TAG, "Upload image successfully, file'md5 is " + name);
+//                            mWebView.loadUrl("javascript:imageCallback('" + name + "')");
+//                        } else {
+//                            Utils.showShortToast(BrowserActivity.this,
+//                                    R.string.error_message_upload_picture_fail, Gravity.CENTER);
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                    IOUtil.closeQuietly(in);
+//                }
+//
+//                @Override
+//                public void onFailure(int statusCode, Header[] headers,
+//                                      byte[] responseBody, Throwable error) {
+//                    hideProgressBar();
+//                    Utils.showShortToast(BrowserActivity.this,
+//                            R.string.error_message_upload_picture_fail, Gravity.CENTER);
+//                    IOUtil.closeQuietly(in);
+//                }
+//            });
         } catch (Exception e) {
             e.printStackTrace();
             Utils.showShortToast(BrowserActivity.this,
