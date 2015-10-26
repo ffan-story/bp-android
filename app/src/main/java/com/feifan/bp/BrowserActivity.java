@@ -28,6 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.widget.FloatingActionButton;
+import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.croplib.Crop;
 import com.feifan.bp.net.UploadHttpClient;
 import com.feifan.bp.net.UrlFactory;
@@ -76,6 +78,8 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     private int mImgPickType = IMG_PICK_TYPE_0;
 
     private WebView mWebView;
+    private ObservableScrollView mScrollView;
+    private FloatingActionButton fab;
     private boolean mIsStaffManagementPage = false;
     private int mWebViewProgress = 0;
 
@@ -95,6 +99,9 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
         mWebView = (WebView) findViewById(R.id.browser_content);
+        mScrollView = (ObservableScrollView) findViewById(R.id.scrollView);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.attachToScrollView(mScrollView);
         initWeb(mWebView);
         // 载入网页
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
