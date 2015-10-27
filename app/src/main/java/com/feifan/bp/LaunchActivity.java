@@ -70,7 +70,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        PlatformState.getInstance().reset();
     }
 
     @Override

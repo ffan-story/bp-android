@@ -2,19 +2,16 @@ package com.feifan.bp.login;
 
 import android.content.Context;
 
-import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.feifan.bp.Constants;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpEngine;
 import com.feifan.bp.net.UrlFactory;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.feifan.bp.network.PostRequest;
 
 /**
  * Created by xuchunlei on 15/6/17.
@@ -47,7 +44,16 @@ public class UserCtrl {
                 setRequest(new LoginRequest(params, listener)).
                 build().start();
 
+    }
 
+    public static void login(String account, String password, Listener<UserModel> listener) {
+        PostRequest<UserModel> request = new PostRequest<>(UrlFactory.getLoginUrl(), null);
+        Volley.newRequestQueue(PlatformState.getApplicationContext()).add(
+                request.param("userName", account).
+                        param("password", password).
+                        param("authRangeType", "store").
+                        targetClass(UserModel.class)
+        .listener(listener));
 
     }
 

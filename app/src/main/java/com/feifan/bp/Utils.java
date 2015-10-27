@@ -138,11 +138,22 @@ public class Utils {
                     deleteFile(files[i], filter);
                 }
             }
-            if (file.getName().contains(filter)) {
-                file.delete();
-                LogUtil.i(Constants.TAG, "deleted" + file.getAbsolutePath());
-            }
+//            if (file.getName().contains(filter)) {
+//                file.delete();
+//                LogUtil.i(Constants.TAG, "deleted" + file.getAbsolutePath());
+//            }
 
+        }
+    }
+
+    /**
+     * 创建目录
+     * @param dir
+     */
+    public static void createDir(String dir){
+        File file = new File(dir);
+        if(!file.exists()){
+            file.mkdir();
         }
     }
 

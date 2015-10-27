@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -201,8 +204,20 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     private void initWeb(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.getSettings().setDomStorageEnabled(true);
+
+        // 缓存相关
+        if(PlatformState.getInstance().isCacheClearable()) {
+            webView.clearCache(true);
+            webView.clearHistory();
+            webView.clearFormData();
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.removeAllCookie();
+            Log.i(TAG, "webview'cache has been cleared!");
+        }
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setAppCachePath(getCacheDir().getAbsolutePath());
 
         webView.setWebViewClient(new PlatformWebViewClient());
         webView.setWebChromeClient(new PlatformWebChromeClient());

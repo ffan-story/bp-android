@@ -67,6 +67,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
         v.findViewById(R.id.settings_change_password).setOnClickListener(this);
+        v.findViewById(R.id.settings_clear_cache).setOnClickListener(this);
         v.findViewById(R.id.settings_exit).setOnClickListener(this);
         TextView upgrade = (TextView)v.findViewById(R.id.settings_check_upgrade);
         upgrade.setText(getString(R.string.settings_check_upgrade_format, BuildConfig.VERSION_NAME));
@@ -130,12 +131,18 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, ResetPasswordFragment.class.getName());
                mListener.onFragmentInteraction(args);
                break;
+           case R.id.settings_advice_feedback:
+               break;
+           case R.id.settings_clear_cache:
+               PlatformState.getInstance().clearCache();
+               Utils.showShortToast(getActivity(), R.string.settings_clear_cache_finished_text);
+               break;
            case R.id.settings_exit:
                Executors.newSingleThreadExecutor().execute(new Runnable() {
 
                    @Override
                    public void run() {
-                       PlatformState.getInstance().reset(getActivity());
+                       PlatformState.getInstance().reset();
                        UserProfile.instance(getActivity()).clear();
                        getActivity().runOnUiThread(new Runnable() {
 

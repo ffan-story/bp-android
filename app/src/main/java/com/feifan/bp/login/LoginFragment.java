@@ -116,6 +116,12 @@ public class LoginFragment extends BaseFragment {
                         }
                     });
 
+//                    UserCtrl.login(accountStr, passwordStr, new Response.Listener<UserModel>() {
+//                        @Override
+//                        public void onResponse(UserModel response) {
+//                            Log.e("xuchunlei", response.toString());
+//                        }
+//                    });
                 } catch (Throwable throwable) {
                     Utils.showShortToast(getActivity(), R.string.error_message_text_phone_number_illegal, Gravity.CENTER);
                 }
