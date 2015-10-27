@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.Gravity;
 
-import com.feifan.bp.BrowserActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
+import com.feifan.bp.browser.BrowserActivityNew;
 import com.feifan.bp.net.UrlFactory;
 
 /**
@@ -25,8 +25,12 @@ public class RefundCmd implements Command {
     public boolean handle() {
         String url = UrlFactory.urlForHtml(mContext, relativeUrl);
         if (Utils.isNetworkAvailable(mContext)) {
-            Intent intent = new Intent(mContext, BrowserActivity.class);
-            intent.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
+//            Intent intent = new Intent(mContext, BrowserActivity.class);
+//            intent.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
+//            mContext.startActivity(intent);
+
+            Intent intent = new Intent(mContext, BrowserActivityNew.class);
+            intent.putExtra(BrowserActivityNew.EXTRA_KEY_URL, url);
             mContext.startActivity(intent);
         } else {
             Utils.showShortToast(mContext, R.string.error_message_text_offline, Gravity.CENTER);

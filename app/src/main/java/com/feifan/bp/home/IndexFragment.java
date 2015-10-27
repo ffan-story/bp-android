@@ -2,6 +2,7 @@ package com.feifan.bp.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +17,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.feifan.bp.BrowserActivity;
+import com.feifan.bp.browser.BrowserActivityNew;
+import com.feifan.bp.browser.TabLayoutActivity;
 import com.feifan.bp.login.Authority;
 import com.feifan.bp.net.UrlFactory;
 import com.feifan.bp.util.LogUtil;
@@ -108,7 +110,10 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 }
                 mCodeEditText.setText("");
                 String urlStr = UrlFactory.searchCodeForHtml(getActivity(), code);
-                BrowserActivity.startActivity(getActivity(), urlStr);
+//                BrowserActivity.startActivity(getActivity(), urlStr);
+                Intent intent = new Intent(getActivity(), BrowserActivityNew.class);
+                intent.putExtra(BrowserActivityNew.EXTRA_KEY_URL, urlStr);
+                getActivity().startActivity(intent);
             }
         });
 
@@ -167,6 +172,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         mListener = null;
     }
 
+    private String arryUrl[] ;
+
+
     @Override
     public void onClick(View v) {
         Bundle args = new Bundle();
@@ -180,7 +188,13 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 if (Utils.isNetworkAvailable(getActivity())) {
                     String relativeUrl = UserProfile.instance(getActivity()).getPermissionUrl(Authority.HISTORY_ID);
                     String url = UrlFactory.checkHistoryForHtml(getActivity(), relativeUrl);
-                    BrowserActivity.startActivity(getActivity(), url);
+                   // BrowserActivity.startActivity(getActivity(), url);
+                    arryUrl = new String[]{url,url};
+                    Intent intent = new Intent(getActivity(), TabLayoutActivity.class);
+                    intent.putExtra(TabLayoutActivity.EXTRA_KEY_URLS,arryUrl);
+                    intent.putExtra(TabLayoutActivity.EXTRA_KEY_TITLES, getActivity().getResources().getStringArray(R.array.tab_title_veri_history));
+                    getActivity().startActivity(intent);
+
                 } else {
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
                 }

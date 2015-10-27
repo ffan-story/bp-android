@@ -112,4 +112,8 @@
     <string name="dialog_camera">拍照</string>
 
 
+    <!--tab titles-->
+    <string name="tab_veri_history_pickupgoods">提货码历史</string>
+    <string name="tab_veri_history_coupone">券码历史</string>
+
 </resources>

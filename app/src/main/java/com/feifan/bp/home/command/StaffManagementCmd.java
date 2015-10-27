@@ -3,9 +3,9 @@ package com.feifan.bp.home.command;
 import android.content.Context;
 import android.view.Gravity;
 
-import com.feifan.bp.BrowserActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
+import com.feifan.bp.browser.BrowserActivityNew;
 import com.feifan.bp.net.UrlFactory;
 
 /**
@@ -24,7 +24,8 @@ public class StaffManagementCmd implements Command {
     public boolean handle() {
         String url = UrlFactory.urlForHtml(mContext, relativeUrl);
         if (Utils.isNetworkAvailable(mContext)) {
-            BrowserActivity.startActivity(mContext, url, true);
+//            BrowserActivity.startActivity(mContext, url, true);
+            BrowserActivityNew.startActivity(mContext, url, true);
         } else {
             Utils.showShortToast(mContext, R.string.error_message_text_offline, Gravity.CENTER);
         }

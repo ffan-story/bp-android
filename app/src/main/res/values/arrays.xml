@@ -12,4 +12,10 @@
         <item>@drawable/home_settings_selector</item>
     </array>
     <!-- 主界面－end -->
+
+    <array name="tab_title_veri_history">
+        <item>@string/tab_veri_history_pickupgoods</item>
+        <item>@string/tab_veri_history_coupone</item>
+    </array>
+
 </resources>

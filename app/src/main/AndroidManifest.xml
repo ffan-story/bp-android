@@ -41,11 +41,19 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
+
+
         <activity
-            android:name=".BrowserActivity"
+            android:name=".browser.TabLayoutActivity"
             android:label="@string/title_activity_browser"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".browser.BrowserActivityNew"
+            android:label="@string/title_activity_browser"
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity
             android:name=".CodeScannerActivity"
             android:label="@string/lable_activity_scanner"
