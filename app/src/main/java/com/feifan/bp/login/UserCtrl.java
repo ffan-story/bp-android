@@ -3,7 +3,6 @@ package com.feifan.bp.login;
 import android.content.Context;
 
 import com.android.volley.Response.Listener;
-import com.android.volley.toolbox.Volley;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.UserProfile;
@@ -11,6 +10,8 @@ import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.net.HttpEngine;
 import com.feifan.bp.net.UrlFactory;
+import com.feifan.bp.network.GetRequest;
+import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.PostRequest;
 
 /**
@@ -47,13 +48,24 @@ public class UserCtrl {
     }
 
     public static void login(String account, String password, Listener<UserModel> listener) {
-        PostRequest<UserModel> request = new PostRequest<>(UrlFactory.getLoginUrl(), null);
-        Volley.newRequestQueue(PlatformState.getApplicationContext()).add(
-                request.param("userName", account).
-                        param("password", password).
-                        param("authRangeType", "store").
-                        targetClass(UserModel.class)
-        .listener(listener));
+        JsonRequest<UserModel> request = new PostRequest<UserModel>(UrlFactory.getLoginUrl(), null)
+                .param("userName", account)
+                .param("password", password)
+                .param("authRangeType", "store")
+                .targetClass(UserModel.class)
+                .listener(listener);
+        PlatformState.getInstance().getRequestQueue().add(request);
+
+        JsonRequest<UserModel> getRequest = new GetRequest.Builder<UserModel>(UrlFactory.getLoginUrl())
+                .param("userName", account)
+                .param("password", password)
+                .param("authRangeType", "store")
+                .build()
+                .targetClass(UserModel.class)
+                .listener(listener);
+
+//        GetRequest<UserModel> request = new GetRequest.Builder<UserModel>(UrlFactory.getLoginUrl())
+//                .build();
 
     }
 

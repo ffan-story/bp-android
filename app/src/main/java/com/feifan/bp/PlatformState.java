@@ -7,7 +7,10 @@ import android.net.Uri;
 import android.util.Log;
 import android.util.LruCache;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.Volley;
 import com.feifan.bp.util.LogUtil;
 
 import java.io.File;
@@ -31,11 +34,14 @@ public class PlatformState {
 
     private static Context sContext;
 
+    // 网络请求队列
+    private RequestQueue mQueue;
 
     // 上次访问的url地址
     private String mLastUrl;
 
     private PlatformState(){
+        mQueue = Volley.newRequestQueue(sContext);
         Log.i(Constants.TAG, "App is running within " + BuildConfig.CURRENT_ENVIRONMENT);
     }
 
@@ -117,6 +123,10 @@ public class PlatformState {
         editor.apply();
 
         LogUtil.i(TAG, "Enable clearing webview'cache.");
+    }
+
+    public RequestQueue getRequestQueue() {
+        return mQueue;
     }
 
 }

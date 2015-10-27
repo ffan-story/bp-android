@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * POST请求
  * Created by xuchunlei on 15/10/26.
  */
 public class PostRequest<T> extends JsonRequest<T> {
