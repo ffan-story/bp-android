@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +90,33 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 //        mCodeEdt = (IconClickableEditText) v.findViewById(R.id.index_search_input);
 //        mCodeEdt.setOnIconClickListener(this);
         mCodeEditText = (EditText)v.findViewById(R.id.et_code_edit);
+        mCodeEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count == 1) {
+                    if ((s.length() + 1) % 5 == 0) {
+                        mCodeEditText.setText(s + " ");
+                        mCodeEditText.setSelection(s.length() + 1);
+                    }
+                }  else if (count == 0) {
+                    if (s.length() > 0 && s.length() % 5 == 0) {
+                        mCodeEditText.setText(s.subSequence(0, s.length() - 1));
+                        mCodeEditText.setSelection(s.length() - 1);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         mCodeSearchBtn = (ImageButton)v.findViewById(R.id.btn_code_search);
         mCodeSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override

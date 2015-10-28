@@ -29,7 +29,7 @@
         android:id="@+id/settings_clear_cache"
         style="@style/SettingButton"
         android:layout_below="@id/settings_advice_feedback"
-        android:drawableLeft="@mipmap/settings_ic_modify_password"
+        android:drawableLeft="@mipmap/settings_ic_clear_cache"
         android:drawableRight="@mipmap/settings_ic_right_arrow"
         android:text="@string/settings_clear_cache_text" />
 
