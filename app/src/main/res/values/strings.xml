@@ -78,6 +78,7 @@
     <string name="error_message_text_network_block">网络加载缓慢，请稍后再试</string>
     <string name="error_message_upload_picture_fail">未能上传图片</string>
     <string name="error_message_picture_size">海报图片尺寸必须是1280*720，请重新上传图片</string>
+    <string name="error_message_feed_back_length">意见反馈信息长度不能超过300个字</string>
 
     <string name="sd_card_exist">sd卡不存在</string>
     <string name="title_activity_browser">BrowserActivity</string>
@@ -115,5 +116,23 @@
     <!--tab titles-->
     <string name="tab_veri_history_pickupgoods">提货码历史</string>
     <string name="tab_veri_history_coupone">券码历史</string>
+
+    <string name="crop_done">确定</string>
+    <string name="crop_cancel" tools:ignore="ButtonCase">取消</string>
+
+    <!-- login info -->
+    <string name="login_info">登录信息</string>
+    <string name="login_info_name">姓名:</string>
+    <string name="login_info_mobile_number">手机号:</string>
+    <string name="login_info_identity">登陆身份:</string>
+    <string name="login_info_belongs_store">所属门店:</string>
+    <string name="login_info_belongs_square">所属广场:</string>
+    <string name="login_info_belongs_merchant">所属商户:</string>
+
+    <!-- feedback -->
+    <string name="feed_back">意见反馈</string>
+    <string name="feed_back_info">请写下您对飞凡的意见和建议,我们会尽快处理</string>
+    <string name="feed_back_submit">提交</string>
+    <string name="feed_back_prompt">300字以内</string>
 
 </resources>

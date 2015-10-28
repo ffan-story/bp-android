@@ -1,0 +1,197 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context="com.feifan.bp.logininfo.LoginInfoFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/login_info_bar_height"
+        android:layout_marginLeft="@dimen/view_spacing_15"
+        android:layout_marginRight="@dimen/view_spacing_15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/login_info_name"
+            android:textColor="@color/feed_back_color"
+            android:textSize="@dimen/font_size_18" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="奥巴马"
+            android:textColor="@color/login_info_color"
+            android:textSize="@dimen/font_size_19" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/view_spacing_15"
+        android:layout_marginRight="@dimen/view_spacing_15"
+        android:background="@color/divider" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/login_info_bar_height"
+        android:layout_marginLeft="@dimen/view_spacing_15"
+        android:layout_marginRight="@dimen/view_spacing_15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/login_info_mobile_number"
+            android:textColor="@color/feed_back_color"
+            android:textSize="@dimen/font_size_18" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="18515200121"
+            android:textColor="@color/login_info_color"
+            android:textSize="@dimen/font_size_19" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/view_spacing_15"
+        android:layout_marginRight="@dimen/view_spacing_15"
+        android:background="@color/divider" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/login_info_bar_height"
+        android:layout_marginLeft="@dimen/view_spacing_15"
+        android:layout_marginRight="@dimen/view_spacing_15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/login_info_identity"
+            android:textColor="@color/feed_back_color"
+            android:textSize="@dimen/font_size_18" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="店长"
+            android:textColor="@color/login_info_color"
+            android:textSize="@dimen/font_size_19" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/view_spacing_15"
+        android:layout_marginRight="@dimen/view_spacing_15"
+        android:background="@color/divider" />
+
+    <LinearLayout
+        android:id="@+id/ll_shop_owner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/view_spacing_15"
+        android:layout_marginRight="@dimen/view_spacing_15"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_info_bar_height">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/login_info_belongs_store"
+                android:textColor="@color/feed_back_color"
+                android:textSize="@dimen/font_size_18" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="石景山万达广场KFC店"
+                android:textColor="@color/login_info_color"
+                android:textSize="@dimen/font_size_19" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_info_bar_height">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/login_info_belongs_square"
+                android:textColor="@color/feed_back_color"
+                android:textSize="@dimen/font_size_18" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="石景山万达广场"
+                android:textColor="@color/login_info_color"
+                android:textSize="@dimen/font_size_19" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_merchant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/view_spacing_15"
+        android:layout_marginRight="@dimen/view_spacing_15"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_info_bar_height">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/login_info_belongs_merchant"
+                android:textColor="@color/feed_back_color"
+                android:textSize="@dimen/font_size_18" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="石景山万达广场KFC"
+                android:textColor="@color/login_info_color"
+                android:textSize="@dimen/font_size_19" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+</LinearLayout>

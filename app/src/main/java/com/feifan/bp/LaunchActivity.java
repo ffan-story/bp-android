@@ -13,11 +13,14 @@ import android.widget.RadioGroup;
 
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivityNew;
+
+import com.feifan.bp.home.FeedBackFragment;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.SettingsFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
+import com.feifan.bp.logininfo.LoginInfoFragment;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
 import com.feifan.bp.widget.TabBar;
@@ -104,6 +107,10 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 startActivity(buildIntent(this));
             } else if (to.equals(ResetPasswordFragment.class.getName())) {
                 showResetPassword();
+                //add by tianjun 2015.10.27
+            }else if(to.equals(FeedBackFragment.class.getName())){
+                showFeedBack();
+                //end
             }else {
                 startActivity(Utils.getSystemBrowser(to));
             }
@@ -116,10 +123,24 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         } else if (from.equals(IndexFragment.class.getName())) {
             if (to.equals(CodeScannerActivity.class.getName())) {
                 CodeScannerActivity.startActivity(this);
+                //add by tianjun 2015.10.27
+            } else if(to.equals(LoginInfoFragment.class.getName())){
+               showLoginInfo();
+                //end.
             } else {
 //                openBrowser(to);
             }
+            //add by tianjun 2015.10.27
+        } else if(from.equals(LoginInfoFragment.class.getName())) {
+            if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
+                showHome(false);
+            }
+        } else if(from.equals(FeedBackFragment.class.getName())){
+            if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
+                showHome(false);
+            }
         }
+        //end.
     }
 
     /**
@@ -171,6 +192,17 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         switchFragment(LoginFragment.newInstance());
     }
 
+    //显示意见反馈页面
+    private void showFeedBack(){
+        mBottomBar.setVisibility(View.GONE);
+        switchFragment(FeedBackFragment.newInstance());
+    }
+
+    private void showLoginInfo(){
+        mBottomBar.setVisibility(View.GONE);
+        switchFragment(LoginInfoFragment.newInstance());
+    }
+
     // 打开浏览器
     private void openBrowser(String url) {
         if (Utils.isNetworkAvailable(this)) {
@@ -188,6 +220,12 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             showLogin();
         } else if (mCurrentFragment != null && mCurrentFragment instanceof ResetPasswordFragment) {
             showHome(false);
+            //add by tianjun 2015.10.27
+        }else if(mCurrentFragment != null && mCurrentFragment instanceof LoginInfoFragment){
+            showHome(false);
+        }else if(mCurrentFragment != null && mCurrentFragment instanceof FeedBackFragment){
+            showHome(false);
+            //end.
         } else {
             super.onBackPressed();
         }

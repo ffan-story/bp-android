@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.feifan.bp.browser.BrowserActivityNew;
 import com.feifan.bp.browser.TabLayoutActivity;
 import com.feifan.bp.login.Authority;
+import com.feifan.bp.logininfo.LoginInfoFragment;
 import com.feifan.bp.net.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
@@ -87,6 +88,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         View v = inflater.inflate(R.layout.fragment_index, container, false);
         v.findViewById(R.id.index_scan).setOnClickListener(this);
         v.findViewById(R.id.index_history).setOnClickListener(this);
+        v.findViewById(R.id.iv_login_info).setOnClickListener(this);
 //        mCodeEdt = (IconClickableEditText) v.findViewById(R.id.index_search_input);
 //        mCodeEdt.setOnIconClickListener(this);
         mCodeEditText = (EditText)v.findViewById(R.id.et_code_edit);
@@ -231,6 +233,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 break;
 //                BrowserActivity.startActivity(getActivity(), "http://10.1.171.127:1111/H5App/index.html#/commodity/publish_page");
 //                return;
+            case R.id.iv_login_info:
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LoginInfoFragment.class.getName());
+                break;
             default:
                 return;
         }

@@ -72,6 +72,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         TextView upgrade = (TextView)v.findViewById(R.id.settings_check_upgrade);
         upgrade.setText(getString(R.string.settings_check_upgrade_format, BuildConfig.VERSION_NAME));
         upgrade.setOnClickListener(this);
+        v.findViewById(R.id.settings_advice_feedback).setOnClickListener(this);
 
         return v;
     }
@@ -80,6 +81,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     protected void setupToolbar(Toolbar toolbar) {
         super.setupToolbar(toolbar);
         toolbar.setTitle(R.string.home_settings_text);
+        toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
     }
 
     @Override
@@ -132,7 +134,13 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                mListener.onFragmentInteraction(args);
                break;
            case R.id.settings_advice_feedback:
+               //add by tianjun 2015.10.27
+               Bundle bundle = new Bundle();
+               bundle.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
+               bundle.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, FeedBackFragment.class.getName());
+               mListener.onFragmentInteraction(bundle);
                break;
+               //end.
            case R.id.settings_clear_cache:
                PlatformState.getInstance().clearCache();
                Utils.showShortToast(getActivity(), R.string.settings_clear_cache_finished_text);
