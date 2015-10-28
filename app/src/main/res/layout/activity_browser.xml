@@ -29,4 +29,11 @@
         fab:fab_colorPressed="@color/accent_pressed"
         fab:fab_colorRipple="@color/ripple"/>
 
+    <View
+        android:id="@+id/shadowView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#AF000000"
+        android:visibility="invisible"/>
+
 </FrameLayout>

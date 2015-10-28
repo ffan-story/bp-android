@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
@@ -28,11 +29,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Gallery;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.ObservableScrollView;
+import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.croplib.Crop;
 import com.feifan.bp.net.UploadHttpClient;
 import com.feifan.bp.net.UrlFactory;
@@ -83,6 +86,9 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     private WebView mWebView;
     private ObservableScrollView mScrollView;
     private FloatingActionButton fab;
+    private SelectPopWindow mPopWindow;
+    private View mShadowView;
+
     private boolean mIsStaffManagementPage = false;
     private int mWebViewProgress = 0;
 
@@ -103,8 +109,15 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_browser);
         mWebView = (WebView) findViewById(R.id.browser_content);
         mScrollView = (ObservableScrollView) findViewById(R.id.scrollView);
+        mShadowView = findViewById(R.id.shadowView);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToScrollView(mScrollView);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectMenu();
+            }
+        });
         initWeb(mWebView);
         // 载入网页
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
@@ -167,6 +180,25 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             default:
 
         }
+    }
+
+    /**
+     * 门店选择
+     */
+    private void selectMenu(){
+        mPopWindow = new SelectPopWindow(BrowserActivity.this,null);
+        mShadowView.setVisibility(View.VISIBLE);
+        mShadowView.startAnimation(AnimationUtils.loadAnimation(BrowserActivity.this, R.anim.pop_bg_show));
+        mPopWindow.showAtLocation(BrowserActivity.this.findViewById(R.id.fab),
+                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        mPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mShadowView.startAnimation(AnimationUtils.loadAnimation(BrowserActivity.this, R.anim.pop_bg_hide));
+                mShadowView.setVisibility(View.INVISIBLE);
+                mPopWindow.dismiss();
+            }
+        });
     }
 
     @Override
@@ -511,7 +543,6 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
                     phoneDialog.dismiss();
                 }
                 break;
-
             default:
                 break;
         }

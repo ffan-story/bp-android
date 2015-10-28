@@ -38,6 +38,12 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <!--弹出菜单动画-->
+    <style name="PopWindowAnim">
+        <item name="android:windowEnterAnimation">@anim/pop_show</item>
+        <item name="android:windowExitAnimation">@anim/pop_hide</item>
+    </style>
+
     <style name="SettingButton">
         <item name="android:background">@drawable/border_bottom_background</item>
         <item name="android:drawablePadding">@dimen/view_spacing_10</item>
