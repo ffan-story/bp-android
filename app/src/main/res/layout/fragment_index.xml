@@ -24,9 +24,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:minHeight="60dp"
+                android:minHeight="?attr/actionBarSize"
                 android:text="@string/app_name" />
-            <!-- ?attr/actionBarSize-->
+            <!-- -->
 
             <ImageView
                 android:id="@+id/login_info_icon"
@@ -52,7 +52,7 @@
             android:paddingLeft="@dimen/view_spacing_15">
 
             <ImageButton
-                android:id="@+id/btn_code_search"
+                android:id="@+id/index_search_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -65,13 +65,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/btn_code_search"
+                android:layout_toLeftOf="@id/index_search_btn"
                 android:background="@null"
                 android:hint="@string/index_search_input_hint"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
                 android:inputType="number"
-                android:textSize="@dimen/font_size_12" />
+                android:textSize="@dimen/font_size_18"
+                android:maxLength="16"/>
         </RelativeLayout>
 
         <!--<com.feifan.bp.widget.IconClickableEditText

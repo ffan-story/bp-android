@@ -3,6 +3,7 @@ package com.feifan.bp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Browser;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -128,7 +129,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                showLoginInfo();
                 //end.
             } else {
-//                openBrowser(to);
+                openBrowser(args.getString(BrowserActivity.EXTRA_KEY_URL));
             }
             //add by tianjun 2015.10.27
         } else if(from.equals(LoginInfoFragment.class.getName())) {

@@ -60,7 +60,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
     // views
 //    private IconClickableEditText mCodeEdt;
     private EditText mCodeEditText;
-    private ImageButton mCodeSearchBtn;
 
     public static IndexFragment newInstance() {
         IndexFragment fragment = new IndexFragment();
@@ -89,7 +88,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        LogUtil.i(TAG, "onCreateView()");
         View v = inflater.inflate(R.layout.fragment_index, container, false);
         v.findViewById(R.id.index_scan).setOnClickListener(this);
         v.findViewById(R.id.index_history).setOnClickListener(this);
@@ -106,12 +104,13 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count == 1) {
+                if (count == 1) { // 输入字符
                     if ((s.length() + 1) % 5 == 0) {
                         mCodeEditText.setText(s + " ");
                         mCodeEditText.setSelection(s.length() + 1);
                     }
-                }  else if (count == 0) {
+                }  else if (count == 0) { // 删除字符
+                    // 自动删除空格
                     if (s.length() > 0 && s.length() % 5 == 0) {
                         mCodeEditText.setText(s.subSequence(0, s.length() - 1));
                         mCodeEditText.setSelection(s.length() - 1);
@@ -125,35 +124,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
             }
         });
 
-        mCodeSearchBtn = (ImageButton)v.findViewById(R.id.btn_code_search);
-        mCodeSearchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(mCodeEditText.getText())) {
-                    return;
-                }
-
-                if (!Utils.isNetworkAvailable(getActivity())) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
-                    return;
-                }
-
-                String code = mCodeEditText.getText().toString();
-
-                try {
-                    Utils.checkDigitAndLetter(getActivity(), code);
-                } catch (Throwable throwable) {
-                    Utils.showShortToast(getActivity(), throwable.getMessage());
-                    return;
-                }
-                mCodeEditText.setText("");
-                String urlStr = UrlFactory.searchCodeForHtml(getActivity(), code);
-//                BrowserActivity.startActivity(getActivity(), urlStr);
-                Intent intent = new Intent(getActivity(), BrowserActivityNew.class);
-                intent.putExtra(BrowserActivityNew.EXTRA_KEY_URL, urlStr);
-                getActivity().startActivity(intent);
-            }
-        });
+        v.findViewById(R.id.index_search_btn).setOnClickListener(this);
 
         List<FunctionModel> dataList = new ArrayList<>();
         List<String> list = UserProfile.instance(getActivity()).getPermissionList();
@@ -261,10 +232,31 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
                 }
                 break;
-//                BrowserActivity.startActivity(getActivity(), "http://10.1.171.127:1111/H5App/index.html#/commodity/publish_page");
-//                return;
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LoginInfoFragment.class.getName());
+                break;
+            case R.id.index_search_btn:
+                if (TextUtils.isEmpty(mCodeEditText.getText())) {
+                    return;
+                }
+
+                if (!Utils.isNetworkAvailable(getActivity())) {
+                    Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
+                    return;
+                }
+
+                String code = mCodeEditText.getText().toString().replaceAll(" ","");
+                LogUtil.i(TAG, "Input code is " + code);
+                try {
+                    Utils.checkDigitAndLetter(getActivity(), code);
+                } catch (Throwable throwable) {
+                    Utils.showShortToast(getActivity(), throwable.getMessage());
+                    return;
+                }
+                mCodeEditText.setText("");
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivityNew.class.getName());
+                String urlStr = UrlFactory.searchCodeForHtml(getActivity(), code);
+                args.putString(BrowserActivityNew.EXTRA_KEY_URL, urlStr);
                 break;
             default:
                 return;

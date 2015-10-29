@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -143,8 +144,16 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                break;
                //end.
            case R.id.settings_clear_cache:
+               showProgressBar(false);
                PlatformState.getInstance().clearCache();
-               Utils.showShortToast(getActivity(), R.string.settings_clear_cache_finished_text);
+               new Handler().postDelayed(new Runnable() {
+                   @Override
+                   public void run() {
+                       hideProgressBar();
+                       Utils.showShortToast(getActivity(), R.string.settings_clear_cache_finished_text);
+                   }
+               }, 1000);
+
                break;
            case R.id.settings_exit:
                Executors.newSingleThreadExecutor().execute(new Runnable() {
