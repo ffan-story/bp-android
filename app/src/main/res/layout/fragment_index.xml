@@ -15,47 +15,20 @@
             style="@style/TitleBarCenterText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-<<<<<<< Updated upstream
-            android:background="@drawable/home_index_main_background">
-
-            <TextView
-                android:id="@+id/title"
-                style="@style/TitleBarCenterText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:minHeight="?attr/actionBarSize"
-                android:text="@string/app_name" />
-            <!-- -->
-
-            <ImageView
-                android:id="@+id/login_info_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/view_spacing_20"
-                android:background="@mipmap/login_info" />
-        </RelativeLayout>
-=======
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:minHeight="?attr/actionBarSize"
             android:text="@string/app_name" />
-
         <ImageView
             android:id="@+id/login_info_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@mipmap/login_info"
+            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/view_spacing_20"
-            android:background="@mipmap/login_info"
-            android:minHeight="?attr/actionBarSize" />
->>>>>>> Stashed changes
+            android:minHeight="?attr/actionBarSize"
+            android:layout_marginRight="@dimen/view_spacing_20" />
 
         <RelativeLayout
             android:id="@+id/index_search_input"
@@ -88,13 +61,8 @@
                 android:inputType="number"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
-<<<<<<< Updated upstream
-                android:inputType="number"
                 android:textSize="@dimen/font_size_18"
                 android:maxLength="16"/>
-=======
-                android:textSize="@dimen/font_size_12" />
->>>>>>> Stashed changes
         </RelativeLayout>
 
         <!--<com.feifan.bp.widget.IconClickableEditText
