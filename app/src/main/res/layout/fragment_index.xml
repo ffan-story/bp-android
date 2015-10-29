@@ -10,10 +10,12 @@
         android:layout_height="wrap_content"
         android:background="@drawable/home_index_main_background">
 
-        <RelativeLayout
-            android:id="@+id/rl_title"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/title"
+            style="@style/TitleBarCenterText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+<<<<<<< Updated upstream
             android:background="@drawable/home_index_main_background">
 
             <TextView
@@ -37,14 +39,29 @@
                 android:layout_marginRight="@dimen/view_spacing_20"
                 android:background="@mipmap/login_info" />
         </RelativeLayout>
+=======
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:minHeight="?attr/actionBarSize"
+            android:text="@string/app_name" />
+
+        <ImageView
+            android:id="@+id/login_info_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/view_spacing_20"
+            android:background="@mipmap/login_info"
+            android:minHeight="?attr/actionBarSize" />
+>>>>>>> Stashed changes
 
         <RelativeLayout
             android:id="@+id/index_search_input"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
-            android:layout_below="@id/rl_title"
-
+            android:layout_below="@id/title"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
@@ -68,11 +85,16 @@
                 android:layout_toLeftOf="@id/index_search_btn"
                 android:background="@null"
                 android:hint="@string/index_search_input_hint"
+                android:inputType="number"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
+<<<<<<< Updated upstream
                 android:inputType="number"
                 android:textSize="@dimen/font_size_18"
                 android:maxLength="16"/>
+=======
+                android:textSize="@dimen/font_size_12" />
+>>>>>>> Stashed changes
         </RelativeLayout>
 
         <!--<com.feifan.bp.widget.IconClickableEditText
