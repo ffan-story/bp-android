@@ -14,7 +14,7 @@ import android.widget.RadioGroup;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivityNew;
 
-import com.feifan.bp.home.FeedBackFragment;
+import com.feifan.bp.FeedBack.FeedBackFragment;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.SettingsFragment;

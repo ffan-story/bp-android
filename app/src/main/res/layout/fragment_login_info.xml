@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/login_info_bar_height"
+        android:layout_height="@dimen/view_height_50"
         android:layout_marginLeft="@dimen/view_spacing_15"
         android:layout_marginRight="@dimen/view_spacing_15">
 
@@ -39,7 +39,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/login_info_bar_height"
+        android:layout_height="@dimen/view_height_50"
         android:layout_marginLeft="@dimen/view_spacing_15"
         android:layout_marginRight="@dimen/view_spacing_15">
 
@@ -70,7 +70,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/login_info_bar_height"
+        android:layout_height="@dimen/view_height_50"
         android:layout_marginLeft="@dimen/view_spacing_15"
         android:layout_marginRight="@dimen/view_spacing_15">
 
@@ -109,7 +109,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/login_info_bar_height">
+            android:layout_height="@dimen/view_height_50">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -136,7 +136,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/login_info_bar_height">
+            android:layout_height="@dimen/view_height_50">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -168,7 +168,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/login_info_bar_height">
+            android:layout_height="@dimen/view_height_50">
 
             <TextView
                 android:layout_width="wrap_content"

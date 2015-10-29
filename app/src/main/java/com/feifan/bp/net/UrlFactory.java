@@ -172,6 +172,11 @@ public abstract class UrlFactory {
     public static String getShopListUrl(){
         return EnvironmentManager.getHostFactory().getFFanApiHost();}
 
+    //add by tianjun 2015.10.29
+    public static  String submitFeedBack(){
+        return  EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/feedback";
+    }
+
     private static String formatRelativeUrl(String relativeUrl) {
         if (TextUtils.isEmpty(relativeUrl)) {
             return relativeUrl;

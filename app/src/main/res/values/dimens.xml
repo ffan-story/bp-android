@@ -42,10 +42,7 @@
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_elevation_lollipop">8dp</dimen>
 
-    <!-- 意见反馈 -->
-    <dimen name="feedback_distance_top_height">50dp</dimen>
-    <dimen name="feedback_edittext_height">180dp</dimen>
+    <dimen name="view_height_50">50dp</dimen>
+    <dimen name="view_height_180">180dp</dimen>
 
-    <!-- 登录信息 -->
-    <dimen name="login_info_bar_height">50dp</dimen>
 </resources>

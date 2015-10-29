@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.feifan.bp.BuildConfig;
+import com.feifan.bp.FeedBack.FeedBackFragment;
 import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.PlatformState;

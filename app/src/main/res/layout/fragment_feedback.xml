@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.feifan.bp.home.FeedBackFragment">
+    tools:context="com.feifan.bp.FeedBack.FeedBackFragment">
 
     <EditText
-        android:id="@+id/et_feedback"
+        android:id="@+id/feedback_content"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/feedback_edittext_height"
+        android:layout_height="@dimen/view_height_180"
         android:background="@drawable/border_top_bottom_background"
         android:layout_marginTop="@dimen/view_spacing_15"
         android:paddingRight="@dimen/view_spacing_10"
@@ -21,10 +21,10 @@
         />
 
     <TextView
-        android:id="@+id/tv_prompt"
+        android:id="@+id/feedback_prompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_feedback"
+        android:layout_below="@id/feedback_content"
         android:layout_marginTop="@dimen/view_spacing_8"
         android:layout_marginRight="@dimen/view_spacing_20"
         android:layout_alignParentRight="true"
@@ -33,13 +33,13 @@
         android:textColor="@color/feed_back_color"/>
 
     <Button
-        android:id="@+id/btn_submit"
+        android:id="@+id/feedback_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_prompt"
+        android:layout_below="@id/feedback_prompt"
         android:layout_marginRight="@dimen/view_spacing_15"
         android:layout_marginLeft="@dimen/view_spacing_15"
-        android:layout_marginTop="@dimen/feedback_distance_top_height"
+        android:layout_marginTop="@dimen/view_height_50"
         android:background="@drawable/blue_button_background"
         android:text="@string/feed_back_submit"
         android:textSize="@dimen/font_size_20"
