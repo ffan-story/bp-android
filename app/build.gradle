@@ -101,6 +101,6 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.8'
     compile project(':codescanner')
     compile project(':croplib')
-
+    compile project(':refresh')
 }
 

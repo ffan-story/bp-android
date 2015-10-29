@@ -7,6 +7,28 @@
         <item name="android:listDivider">@drawable/list_divider</item>
     </style>
 
+    <style name="commmonTxt">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="txt_color33_size16" parent="commmonTxt">
+        <item name="android:textColor">@color/login_info_color</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+    </style>
+
+    <style name="txt_color66_size16" parent="commmonTxt">
+        <item name="android:textColor">@color/font_color_66</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+    </style>
+
+    <style name="txt_color99_size14" parent="commmonTxt">
+        <item name="android:textColor">@color/font_color_66</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+    </style>
+
     <style name="SplashStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@mipmap/launch_page</item>
         <item name="android:windowNoTitle">true</item>

@@ -22,12 +22,9 @@
     <color name="main">#4c85c2</color>
     <color name="main_bg">#f2f2f2</color>
 
-
     <color name="text_normal">#415560</color>
-
-
-
     <color name="transparent">#00000000</color>
+
     <color name="white">#ffffff</color>
 
     <color name="accent">#1bb0ed</color>
@@ -35,5 +32,7 @@
     <color name="accent_pressed">#00a8ed</color>
     <color name="feed_back_color">#999999</color>
     <color name="login_info_color">#333333</color>
+    <color name="font_color_66">#666666</color>
+    <color name="red">#FF0000</color>
 
 </resources>
