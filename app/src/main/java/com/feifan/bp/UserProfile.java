@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import com.feifan.bp.home.StoreModel;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.login.Authority;
 
@@ -46,8 +47,35 @@ public class UserProfile {
 
     private static final String PREFERENCE_KEY_PERMISSIONS = "permission";
 
+    //偏好项键值－商户门店列表
+    private static final String PREFERENCE_KEY_STORE_ID = "storeId";
+    private static final String PREFERENCE_KEY_STORE_NAME = "storeName";
+    private static final String PREFERENCE_KEY_STORE_NUM = "storeNum";
+
     private UserProfile(Context context) {
         mContext = context.getApplicationContext();
+    }
+
+    public void setStoreList(List<StoreModel.StoreDetailModel> storeList) {
+        if (storeList == null || storeList.size() < 1) {
+            return;
+        }
+        for (int i = 0; i < storeList.size(); i++) {
+            putString(PREFERENCE_KEY_STORE_ID + i, storeList.get(i).getStoreId());
+            putString(PREFERENCE_KEY_STORE_NAME + i, storeList.get(i).getStoreName());
+        }
+        putInt(PREFERENCE_KEY_STORE_NUM, storeList.size());
+    }
+    public int getStoreNum(){
+        return getInt(PREFERENCE_KEY_STORE_NUM);
+    }
+
+    public String getStoreId(int position){
+        return getString(PREFERENCE_KEY_STORE_ID+position);
+    }
+
+    public String getStoreName(int position){
+        return getString(PREFERENCE_KEY_STORE_NAME+position);
     }
 
     public void setPermissionList(List<String> permissionList) {

@@ -110,14 +110,14 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         mWebView = (WebView) findViewById(R.id.browser_content);
         mScrollView = (ObservableScrollView) findViewById(R.id.scrollView);
         mShadowView = findViewById(R.id.shadowView);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.attachToScrollView(mScrollView);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectMenu();
-            }
-        });
+//        fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.attachToScrollView(mScrollView);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                selectMenu();
+//            }
+//        });
         initWeb(mWebView);
         // 载入网页
         String url = getIntent().getStringExtra(EXTRA_KEY_URL);
@@ -185,21 +185,21 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
     /**
      * 门店选择
      */
-    private void selectMenu(){
-        mPopWindow = new SelectPopWindow(BrowserActivity.this,null);
-        mShadowView.setVisibility(View.VISIBLE);
-        mShadowView.startAnimation(AnimationUtils.loadAnimation(BrowserActivity.this, R.anim.pop_bg_show));
-        mPopWindow.showAtLocation(BrowserActivity.this.findViewById(R.id.fab),
-                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-        mPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                mShadowView.startAnimation(AnimationUtils.loadAnimation(BrowserActivity.this, R.anim.pop_bg_hide));
-                mShadowView.setVisibility(View.INVISIBLE);
-                mPopWindow.dismiss();
-            }
-        });
-    }
+//    private void selectMenu(){
+//        mPopWindow = new SelectPopWindow(BrowserActivity.this,null);
+//        mShadowView.setVisibility(View.VISIBLE);
+//        mShadowView.startAnimation(AnimationUtils.loadAnimation(BrowserActivity.this, R.anim.pop_bg_show));
+//        mPopWindow.showAtLocation(BrowserActivity.this.findViewById(R.id.fab),
+//                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+//        mPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                mShadowView.startAnimation(AnimationUtils.loadAnimation(BrowserActivity.this, R.anim.pop_bg_hide));
+//                mShadowView.setVisibility(View.INVISIBLE);
+//                mPopWindow.dismiss();
+//            }
+//        });
+//    }
 
     @Override
     protected boolean isShowToolbar() {

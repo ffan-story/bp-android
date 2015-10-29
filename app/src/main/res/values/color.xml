@@ -28,10 +28,12 @@
 
 
     <color name="transparent">#00000000</color>
+    <color name="white">#ffffff</color>
 
-    <color name="accent">#E91E63</color>
-    <color name="ripple">#f06292</color>
-    <color name="accent_pressed">#c2185b</color>
+    <color name="accent">#1bb0ed</color>
+    <color name="ripple">#4dc6f8</color>
+    <color name="accent_pressed">#00a8ed</color>
     <color name="feed_back_color">#999999</color>
     <color name="login_info_color">#333333</color>
+
 </resources>

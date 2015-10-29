@@ -40,7 +40,7 @@ public class UserCtrl {
         LoginRequest.Params params = BaseRequest.newParams(LoginRequest.Params.class);
         params.setPassword(password);
         params.setUserName(account);
-        params.setAuthRangeType("store");
+        params.setAuthRangeType("store,merchant");
         HttpEngine.Builder.newInstance(context).
                 setRequest(new LoginRequest(params, listener)).
                 build().start();
@@ -51,7 +51,7 @@ public class UserCtrl {
         JsonRequest<UserModel> request = new PostRequest<UserModel>(UrlFactory.getLoginUrl(), null)
                 .param("userName", account)
                 .param("password", password)
-                .param("authRangeType", "store")
+                .param("authRangeType", "store,merchant")
                 .targetClass(UserModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
@@ -59,7 +59,7 @@ public class UserCtrl {
         JsonRequest<UserModel> getRequest = new GetRequest.Builder<UserModel>(UrlFactory.getLoginUrl())
                 .param("userName", account)
                 .param("password", password)
-                .param("authRangeType", "store")
+                .param("authRangeType", "store,merchant")
                 .build()
                 .targetClass(UserModel.class)
                 .listener(listener);

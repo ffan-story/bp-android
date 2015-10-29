@@ -169,6 +169,9 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "trade/webrefunds";
     }
 
+    public static String getShopListUrl(){
+        return EnvironmentManager.getHostFactory().getFFanApiHost();}
+
     private static String formatRelativeUrl(String relativeUrl) {
         if (TextUtils.isEmpty(relativeUrl)) {
             return relativeUrl;

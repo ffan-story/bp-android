@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -28,10 +29,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Gallery;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.ObservableScrollView;
+import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.croplib.Crop;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
@@ -55,7 +58,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class BrowserFragment extends BaseFragment implements View.OnClickListener ,MenuItem.OnMenuItemClickListener{
+public class BrowserFragment extends BaseFragment implements View.OnClickListener, MenuItem.OnMenuItemClickListener {
     private static final String TAG = "BrowserFragment";
     /**
      * 参数键名称－URL
@@ -84,12 +87,16 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private WebView mWebView;
     private ObservableScrollView mScrollView;
     private FloatingActionButton fab;
+    private SelectPopWindow mPopWindow;
+    private View mShadowView;
+    private int lastSelectPos = 0;
+
     private boolean mIsStaffManagementPage = false;
     private int mWebViewProgress = 0;
 
-    public static BrowserFragment newInstance(String url ,boolean mIsStaffManagementPage) {
+    public static BrowserFragment newInstance(String url, boolean mIsStaffManagementPage) {
         Bundle args = new Bundle();
-        args.putString(EXTRA_KEY_URL,url);
+        args.putString(EXTRA_KEY_URL, url);
         args.putBoolean(EXTRA_KEY_STAFF_MANAGE, mIsStaffManagementPage);
         BrowserFragment browserFragment = new BrowserFragment();
         browserFragment.setArguments(args);
@@ -116,7 +123,17 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.actvivity_browser_new, container, false);
-        mWebView = (WebView)v.findViewById(R.id.browser_content);
+        mWebView = (WebView) v.findViewById(R.id.browser_content);
+        mScrollView = (ObservableScrollView) v.findViewById(R.id.scrollView);
+        mShadowView = v.findViewById(R.id.shadowView);
+        fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        fab.attachToScrollView(mScrollView);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectMenu();
+            }
+        });
         initWeb(mWebView);
         String mUrl = getArguments().getString(EXTRA_KEY_URL);
         mIsStaffManagementPage = getArguments().getBoolean(EXTRA_KEY_STAFF_MANAGE);
@@ -136,13 +153,33 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         } else if (mToolbarStatus == TOOLBAR_STATUS_COMMODITY) {
             inflater.inflate(R.menu.menu_commodity_manage, menu);
             (menu.findItem(R.id.action_commodity)).setOnMenuItemClickListener(this);
-        } else if(mToolbarStatus == TOOLBAR_STATUS_COMMODITY_DESC){
+        } else if (mToolbarStatus == TOOLBAR_STATUS_COMMODITY_DESC) {
             inflater.inflate(R.menu.menu_commodity_manage_desc, menu);
             (menu.findItem(R.id.action_commodity_desc)).setOnMenuItemClickListener(this);
         } else {
             menu.clear();
         }
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    /**
+     * 门店选择
+     */
+    private void selectMenu() {
+        mPopWindow = new SelectPopWindow(getActivity(), lastSelectPos);
+        mShadowView.setVisibility(View.VISIBLE);
+        mShadowView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.pop_bg_show));
+        mPopWindow.showAtLocation(getActivity().findViewById(R.id.fab),
+                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        mPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mShadowView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.pop_bg_hide));
+                mShadowView.setVisibility(View.INVISIBLE);
+                lastSelectPos = mPopWindow.getSelectPos();
+                mPopWindow.dismiss();
+            }
+        });
     }
 
     @Override
@@ -178,7 +215,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         webView.getSettings().setDomStorageEnabled(true);
 
         // 缓存相关
-        if(PlatformState.getInstance().isCacheClearable()) {
+        if (PlatformState.getInstance().isCacheClearable()) {
             webView.clearCache(true);
             webView.clearHistory();
             webView.clearFormData();
@@ -199,7 +236,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private boolean canGoBack() {
         // 特殊页面
         String title = getToolbar().getTitle().toString();
-        if(title.equals(getString(R.string.browser_coupon_list))){
+        if (title.equals(getString(R.string.browser_coupon_list))) {
             return false;
         }
         return mWebView.canGoBack();
@@ -250,16 +287,16 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
             LogUtil.i(TAG, "onReceiveTitle() title=" + title);
-            if (getToolbar() != null){
+            if (getToolbar() != null) {
                 getToolbar().setTitle(title);
             }
             if (getString(R.string.browser_staff_list).equals(title)) {
-                mToolbarStatus =TOOLBAR_STATUS_STAFF;
+                mToolbarStatus = TOOLBAR_STATUS_STAFF;
             } else if (getString(R.string.browser_coupon_list).equals(title)) {
                 mToolbarStatus = TOOLBAR_STATUS_COUPON;
             } else if (getString(R.string.index_commodity_text).equals(title)) {
-                mToolbarStatus =TOOLBAR_STATUS_COMMODITY;
-            } else if (getString(R.string.browser_commodity_desc).equals(title)){
+                mToolbarStatus = TOOLBAR_STATUS_COMMODITY;
+            } else if (getString(R.string.browser_commodity_desc).equals(title)) {
                 mToolbarStatus = TOOLBAR_STATUS_COMMODITY_DESC;
             } else {
                 mToolbarStatus = TOOLBAR_STATUS_IDLE;
@@ -303,7 +340,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     }
 
 
-    private void addImage(String url){
+    private void addImage(String url) {
         mImgPickType = IMG_PICK_TYPE_0;
         String source = "both";
         int pos = url.indexOf("?");
@@ -328,14 +365,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             if (!TextUtils.isEmpty(type)) {
                 mImgPickType = Integer.parseInt(type);
             }
-            if(paramMap.get("source") != null){
+            if (paramMap.get("source") != null) {
                 source = paramMap.get("source");
             }
         }
 
-        if("both".equals(source)) {
+        if ("both".equals(source)) {
             initLeaveWordsDialog();
-        }else if("photoLibrary".equals(source)){
+        } else if ("photoLibrary".equals(source)) {
             Crop.pickImage(getActivity());
         }
     }
@@ -348,7 +385,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             beginCrop(result.getData());
         } else if (requestCode == Crop.REQUEST_CROP && resultCode == getActivity().RESULT_OK) {
             handleCrop(resultCode, result);
-        } else if(requestCode == Crop.REQUEST_CARMAER && resultCode == getActivity().RESULT_OK){
+        } else if (requestCode == Crop.REQUEST_CARMAER && resultCode == getActivity().RESULT_OK) {
             beginCrop(Uri.fromFile(new File(imgPath)));
         }
     }
@@ -362,18 +399,18 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         } else if (IMG_PICK_TYPE_0 == mImgPickType) {
             new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
         } else if (IMG_PICK_TYPE_3 == mImgPickType) {
-            try{
+            try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), source);
-                if(bitmap.getHeight() == 720 && bitmap.getWidth() == 1280){
+                if (bitmap.getHeight() == 720 && bitmap.getWidth() == 1280) {
                     uploadPicture(source);
                     // new Crop(this, source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(this);
-                }else{
+                } else {
                     Utils.showShortToast(getActivity(), R.string.error_message_picture_size, Gravity.CENTER);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
         }
     }
@@ -381,10 +418,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == getActivity().RESULT_OK) {
 
-            int  i = ImageUtil.readPictureDegree(Crop.getOutput(result).getPath());
+            int i = ImageUtil.readPictureDegree(Crop.getOutput(result).getPath());
             try {
-                Bitmap myRoundBitmap  = ImageUtil.rotaingImageView(i, MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Crop.getOutput(result)));
-                uploadPicture(Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), myRoundBitmap, null,null)));
+                Bitmap myRoundBitmap = ImageUtil.rotaingImageView(i, MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Crop.getOutput(result)));
+                uploadPicture(Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), myRoundBitmap, null, null)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -405,9 +442,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             e.printStackTrace();
         }
         RequestParams params = new RequestParams();
-        final InputStream in = ImageUtil.makeStream(uploadImg,Constants.IMAGE_MAX_WIDTH, Constants.IMAGE_MAX_HEIGHT, Constants.IMAGE_MAX_BYTES);
+        final InputStream in = ImageUtil.makeStream(uploadImg, Constants.IMAGE_MAX_WIDTH, Constants.IMAGE_MAX_HEIGHT, Constants.IMAGE_MAX_BYTES);
 
-        if(!uploadImg.isRecycled()) {
+        if (!uploadImg.isRecycled()) {
             uploadImg.recycle();
         }
 
@@ -425,8 +462,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     public Dialog phoneDialog;
     public DialogPhoneLayout dialogPhoneLayout;
+
     public void initLeaveWordsDialog() {
-        phoneDialog = new Dialog(getActivity(),R.style.FullScreenPhoneDialog);
+        phoneDialog = new Dialog(getActivity(), R.style.FullScreenPhoneDialog);
         DisplayMetrics dm = getResources().getDisplayMetrics();
         Window window = phoneDialog.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
@@ -444,7 +482,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         phoneDialog.show();
     }
 
-    String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/feifandp/img.jpg";
+    String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/feifandp/img.jpg";
 
 
     @Override
@@ -461,10 +499,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 if (null != phoneDialog) {
                     phoneDialog.dismiss();
                 }
-                if(!Utils.isHasSdCard()){
+                if (!Utils.isHasSdCard()) {
                     Utils.showShortToast(getActivity(), R.string.sd_card_exist, Gravity.CENTER);
-                }else{
-                    Crop.cameraImage(getActivity(),imgPath);
+                } else {
+                    Crop.cameraImage(getActivity(), imgPath);
                 }
                 break;
 

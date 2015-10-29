@@ -20,11 +20,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.browser.BrowserActivityNew;
 import com.feifan.bp.browser.TabLayoutActivity;
 import com.feifan.bp.login.Authority;
 import com.feifan.bp.logininfo.LoginInfoFragment;
+import com.feifan.bp.login.UserModel;
 import com.feifan.bp.net.UrlFactory;
+import com.feifan.bp.network.GetRequest;
+import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
@@ -91,6 +96,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         v.findViewById(R.id.iv_login_info).setOnClickListener(this);
 //        mCodeEdt = (IconClickableEditText) v.findViewById(R.id.index_search_input);
 //        mCodeEdt.setOnIconClickListener(this);
+        getShopData();
         mCodeEditText = (EditText)v.findViewById(R.id.et_code_edit);
         mCodeEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -186,6 +192,30 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         return v;
     }
 
+    /**
+     * 获取门店数据
+     */
+    private void getShopData(){
+
+//        String merchantId = UserProfile.instance(getActivity()).getAuthRangeId();
+//        由于种种特殊原因,目前商户ID用测试数据
+        String merchantId = "2052506";
+        String url = UrlFactory.getShopListUrl();
+        LogUtil.i(TAG, "Url = " + url);
+        LogUtil.i(TAG, "merchantId = " + merchantId);
+
+        JsonRequest<StoreModel> request = new GetRequest.Builder<StoreModel>(url+"/v1/cdaservice/stores/"+merchantId)
+                .build()
+                .targetClass(StoreModel.class)
+                .listener(new Response.Listener<StoreModel>() {
+                    @Override
+                    public void onResponse(StoreModel storeModel) {
+                        UserProfile userProfile = UserProfile.instance(getActivity());
+                        userProfile.setStoreList(storeModel.getStoreList());
+                    }
+                });
+        PlatformState.getInstance().getRequestQueue().add(request);
+    }
 
     @Override
     public void onAttach(Activity activity) {

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFFFFF">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#FFFFFF"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/title"
@@ -18,18 +19,25 @@
             android:textSize="@dimen/font_size_18"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/menu_cancel"
+            android:layout_width="@dimen/abc_alert_dialog_button_bar_height"
+            android:layout_height="@dimen/abc_alert_dialog_button_bar_height"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/view_spacing_15"
-            android:background="@drawable/crop_ic_cancel"/>
+            android:scaleType="center"
+            android:src="@mipmap/icon_select_cancel"/>
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"/>
+        android:layout_height="1dp"
+        android:background="@drawable/list_divider"/>
 
-</RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_shoplist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
