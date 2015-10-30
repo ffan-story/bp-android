@@ -28,6 +28,12 @@ public class HostSupplier {
          * @return
          */
         String getFFanPicHost();
+
+        /**
+         * 获取V1版的API主机域名
+         * @return
+         */
+        String getFFanApiV1Host();
     }
 
     /**
@@ -48,6 +54,11 @@ public class HostSupplier {
         @Override
         public String getFFanPicHost() {
             return "http://api.sit.ffan.com/ffan/v1/";
+        }
+
+        @Override
+        public String getFFanApiV1Host() {
+            return "http://api.sit.ffan.com/v1/";
         }
     }
 
@@ -70,6 +81,11 @@ public class HostSupplier {
         public String getFFanPicHost() {
             return "https://api.pre.ffan.com/ffan/v1/";
         }
+
+        @Override
+        public String getFFanApiV1Host() {
+            return "https://api.ffan.com/";
+        }
     }
 
     /**
@@ -90,6 +106,11 @@ public class HostSupplier {
         @Override
         public String getFFanPicHost() {
             return "https://api.ffan.com/ffan/v1/";
+        }
+
+        @Override
+        public String getFFanApiV1Host() {
+            return "https://api.ffan.com/";
         }
     }
 }

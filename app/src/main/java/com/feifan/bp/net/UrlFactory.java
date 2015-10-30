@@ -170,7 +170,7 @@ public abstract class UrlFactory {
     }
 
     public static String getShopListUrl(){
-        return EnvironmentManager.getHostFactory().getFFanApiHost();}
+        return EnvironmentManager.getHostFactory().getFFanApiV1Host() + "cdaservice/stores/";}
 
     //add by tianjun 2015.10.29
     public static  String submitFeedBack(){

@@ -61,6 +61,7 @@
                 android:inputType="number"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
+                android:textStyle="bold"
                 android:textSize="@dimen/font_size_18"
                 android:maxLength="16"/>
         </RelativeLayout>
