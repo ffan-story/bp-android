@@ -6,6 +6,8 @@ package com.feifan.bp.net;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.feifan.bp.BuildConfig;
+import com.feifan.bp.Constants;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.envir.EnvironmentManager;
 
@@ -169,12 +171,13 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "trade/webrefunds";
     }
 
-    public static String getShopListUrl(){
-        return EnvironmentManager.getHostFactory().getFFanApiV1Host() + "cdaservice/stores/";}
+    public static String getShopListUrl() {
+        return EnvironmentManager.getHostFactory().getFFanApiV1Host() + "cdaservice/stores/";
+    }
 
     //add by tianjun 2015.10.29
-    public static  String submitFeedBack(){
-        return  EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/feedback";
+    public static String submitFeedBack() {
+        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/feedback";
     }
 
     private static String formatRelativeUrl(String relativeUrl) {

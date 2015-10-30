@@ -32,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.feifan.bp.PlatformApplication;
 import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.bp.widget.SelectPopWindow;
@@ -54,7 +55,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -65,6 +68,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
      */
     public static final String EXTRA_KEY_URL = "url";
     public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
+    public static final String EXTRA_KEY_SELECT_POS = "pos";
 
     private static final int TOOLBAR_STATUS_IDLE = 0;
     private static final int TOOLBAR_STATUS_STAFF = 1;
@@ -90,9 +94,15 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private SelectPopWindow mPopWindow;
     private View mShadowView;
     private int lastSelectPos = 0;
+    private static TabLayoutActivity activity;
 
     private boolean mIsStaffManagementPage = false;
     private int mWebViewProgress = 0;
+    private List<String> storeItems;
+    private boolean mShowFab = false;
+    private String mUrl;
+    private String sUrl;
+    private String mStoreId;
 
     public static BrowserFragment newInstance(String url, boolean mIsStaffManagementPage) {
         Bundle args = new Bundle();
@@ -131,14 +141,29 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lastSelectPos = ((PlatformApplication)getActivity().getApplicationContext()).getSelectPos();
                 selectMenu();
             }
         });
+        mShowFab = UserProfile.instance(getActivity()).getAuthRangeType().equals("merchant");
+        storeItems = new ArrayList<>();
+        storeItems.add(getString(R.string.index_history_text));
+        storeItems.add(getString(R.string.index_order_text));
+        storeItems.add(getString(R.string.index_report_text));
+        storeItems.add(getString(R.string.browser_staff_list));
+
         initWeb(mWebView);
-        String mUrl = getArguments().getString(EXTRA_KEY_URL);
+        mUrl = getArguments().getString(EXTRA_KEY_URL);
         mIsStaffManagementPage = getArguments().getBoolean(EXTRA_KEY_STAFF_MANAGE);
-        mWebView.loadUrl(mUrl);
-        PlatformState.getInstance().setLastUrl(mUrl);
+
+        if (mShowFab) {
+            mStoreId = UserProfile.instance(getActivity()).getStoreId(lastSelectPos);
+            sUrl = mUrl + "&storeId=" + mStoreId;
+        } else {
+            sUrl = mUrl;
+        }
+        mWebView.loadUrl(sUrl);
+        PlatformState.getInstance().setLastUrl(sUrl);
         return v;
     }
 
@@ -166,6 +191,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
      * 门店选择
      */
     private void selectMenu() {
+        LogUtil.i(TAG,"lastSelectPos"+lastSelectPos);
+        LogUtil.i(TAG,"PlatformApplication"+((PlatformApplication)getActivity().getApplicationContext()).getSelectPos());
+
         mPopWindow = new SelectPopWindow(getActivity(), lastSelectPos);
         mShadowView.setVisibility(View.VISIBLE);
         mShadowView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.pop_bg_show));
@@ -176,7 +204,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             public void onDismiss() {
                 mShadowView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.pop_bg_hide));
                 mShadowView.setVisibility(View.INVISIBLE);
-                lastSelectPos = mPopWindow.getSelectPos();
+                if (lastSelectPos != mPopWindow.getSelectPos()) {
+                    lastSelectPos = mPopWindow.getSelectPos();
+                    mStoreId = UserProfile.instance(getActivity()).getStoreId(lastSelectPos);
+                    sUrl = mUrl + "&storeId=" + mStoreId;
+                    mWebView.loadUrl(sUrl);
+                    PlatformState.getInstance().setLastUrl(sUrl);
+                    ((PlatformApplication)getActivity().getApplicationContext()).setSelectPos(lastSelectPos);
+                }
                 mPopWindow.dismiss();
             }
         });
@@ -302,6 +337,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 mToolbarStatus = TOOLBAR_STATUS_IDLE;
             }
             getActivity().supportInvalidateOptionsMenu();
+            if (mShowFab) {
+                if (storeItems.contains(title)) {
+                    fab.setVisibility(View.VISIBLE);
+                } else {
+                    fab.setVisibility(View.GONE);
+                }
+            }
         }
     }
 

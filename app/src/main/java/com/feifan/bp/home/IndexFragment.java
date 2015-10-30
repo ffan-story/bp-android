@@ -91,8 +91,10 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         v.findViewById(R.id.login_info_icon).setOnClickListener(this);
 //        mCodeEdt = (IconClickableEditText) v.findViewById(R.id.index_search_input);
 //        mCodeEdt.setOnIconClickListener(this);
-        getShopData();
-        mCodeEditText = (EditText)v.findViewById(R.id.et_code_edit);
+        if (UserProfile.instance(getActivity()).getAuthRangeType().equals("merchant")) {
+            getShopData();
+        }
+        mCodeEditText = (EditText) v.findViewById(R.id.et_code_edit);
         mCodeEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -106,7 +108,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                         mCodeEditText.setText(s + " ");
                         mCodeEditText.setSelection(s.length() + 1);
                     }
-                }  else if (count == 0) { // 删除字符
+                } else if (count == 0) { // 删除字符
                     // 自动删除空格
                     if (s.length() > 0 && s.length() % 5 == 0) {
                         mCodeEditText.setText(s.subSequence(0, s.length() - 1));
@@ -163,16 +165,16 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
     /**
      * 获取门店数据
      */
-    private void getShopData(){
+    private void getShopData() {
 
-//        String merchantId = UserProfile.instance(getActivity()).getAuthRangeId();
 //        由于种种特殊原因,目前商户ID用测试数据
-        String merchantId = "2052506";
+//        String merchantId = "2052506";
+        String merchantId = UserProfile.instance(getActivity()).getAuthRangeId();
         String url = UrlFactory.getShopListUrl();
         LogUtil.i(TAG, "Url = " + url);
         LogUtil.i(TAG, "merchantId = " + merchantId);
 
-        JsonRequest<StoreModel> request = new GetRequest.Builder<StoreModel>(url+"/v1/cdaservice/stores/"+merchantId)
+        JsonRequest<StoreModel> request = new GetRequest.Builder<StoreModel>(url + merchantId)
                 .build()
                 .targetClass(StoreModel.class)
                 .listener(new Response.Listener<StoreModel>() {
@@ -202,7 +204,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         mListener = null;
     }
 
-    private String arryUrl[] ;
+    private String arryUrl[];
 
 
     @Override
@@ -218,10 +220,10 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 if (Utils.isNetworkAvailable(getActivity())) {
                     String relativeUrl = UserProfile.instance(getActivity()).getPermissionUrl(Authority.HISTORY_ID);
                     String url = UrlFactory.checkHistoryForHtml(getActivity(), relativeUrl);
-                   // BrowserActivity.startActivity(getActivity(), url);
-                    arryUrl = new String[]{url,url};
+                    // BrowserActivity.startActivity(getActivity(), url);
+                    arryUrl = new String[]{url, url};
                     Intent intent = new Intent(getActivity(), TabLayoutActivity.class);
-                    intent.putExtra(TabLayoutActivity.EXTRA_KEY_URLS,arryUrl);
+                    intent.putExtra(TabLayoutActivity.EXTRA_KEY_URLS, arryUrl);
                     intent.putExtra(TabLayoutActivity.EXTRA_KEY_TITLES, getActivity().getResources().getStringArray(R.array.tab_title_veri_history));
                     getActivity().startActivity(intent);
 
@@ -242,7 +244,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     return;
                 }
 
-                String code = mCodeEditText.getText().toString().replaceAll(" ","");
+                String code = mCodeEditText.getText().toString().replaceAll(" ", "");
                 LogUtil.i(TAG, "Input code is " + code);
                 try {
                     Utils.checkDigitAndLetter(getActivity(), code);
@@ -266,6 +268,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
         private List<FunctionModel> mFunctionList = new ArrayList<>();
         private final int mIconSize;
+
         {
             mIconSize = getResources().getDrawable(R.mipmap.index_ic_order).getMinimumHeight();
         }
@@ -273,7 +276,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         public IndexAdapter(List<FunctionModel> list) {
             mFunctionList.addAll(list);
         }
-
 
 
         @Override

@@ -25,6 +25,7 @@
         android:layout_gravity="bottom|left"
         android:layout_margin="16dp"
         android:src="@mipmap/icon_select_shop"
+        android:visibility="gone"
         fab:fab_colorNormal="@color/accent"
         fab:fab_colorPressed="@color/accent_pressed"
         fab:fab_colorRipple="@color/ripple"/>
