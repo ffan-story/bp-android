@@ -37,7 +37,7 @@ public class Constants {
         PRODUCT,          // 生产环境
     }
 
-    // 意见反馈长度
+    // 字符串长度
     public static int FEED_BACK_MAX_lENGTH = 300;
 
     /** 当前运行环境 */

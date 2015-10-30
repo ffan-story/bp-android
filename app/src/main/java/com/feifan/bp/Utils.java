@@ -83,6 +83,18 @@ public class Utils {
     }
 
     /**
+     * 显示长时间的toast提示
+     *
+     * @param message
+     * @param gravity 停靠位置
+     */
+    public static void showLongToast(Context context, int message, int gravity) {
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+        toast.setGravity(gravity, 0, 0);
+        toast.show();
+    }
+
+    /**
      * 判断网络是否可用
      *
      * @return

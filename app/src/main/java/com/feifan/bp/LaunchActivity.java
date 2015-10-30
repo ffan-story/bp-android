@@ -3,7 +3,6 @@ package com.feifan.bp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Browser;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,10 +11,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.feifan.bp.FeedBack.FeedBackFragment;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivityNew;
-
-import com.feifan.bp.FeedBack.FeedBackFragment;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.SettingsFragment;

@@ -79,6 +79,7 @@
     <string name="error_message_upload_picture_fail">未能上传图片</string>
     <string name="error_message_picture_size">海报图片尺寸必须是1280*720，请重新上传图片</string>
     <string name="error_message_feed_back_length">意见反馈信息长度不能超过300个字</string>
+    <string name="error_message_feed_back_length_empty">为空不能成功提交</string>
 
     <string name="sd_card_exist">sd卡不存在</string>
     <string name="title_activity_browser">BrowserActivity</string>
@@ -131,8 +132,9 @@
 
     <!-- feedback -->
     <string name="feed_back">意见反馈</string>
-    <string name="feed_back_info">请写下您对飞凡的意见和建议,我们会尽快处理</string>
+    <string name="feed_back_info">您对飞凡的意见和建议，我们会尽快处理(300字以内)</string>
     <string name="feed_back_submit">提交</string>
     <string name="feed_back_prompt">300字以内</string>
+    <string name="feed_back_success_prompt">感谢您的反馈，我们将努力做好产品</string>
 
 </resources>
