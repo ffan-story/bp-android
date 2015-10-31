@@ -52,7 +52,7 @@ public class FeedBackFragment extends BaseFragment implements View.OnClickListen
           return;
         }
         // mIsConfirmEnable = false;
-        UserProfile manager = UserProfile.instance(getActivity());
+        UserProfile manager = UserProfile.getInstance();
         int uid = manager.getUid();
         String description = mEtFeedBack.getText().toString();
         FeedBackCtrl.submitFeedBack(String.valueOf(uid), description,

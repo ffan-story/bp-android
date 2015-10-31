@@ -28,6 +28,7 @@ public class PlatformApplication extends Application {
         super.onCreate();
         PlatformState.setApplicationContext(this);
         PlatformState.getInstance();
+        UserProfile.getInstance().initialize(this);
     }
 
     @Override

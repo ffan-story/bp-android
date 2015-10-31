@@ -20,16 +20,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Gallery;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.feifan.bp.base.BaseActivity;
@@ -37,17 +34,14 @@ import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.croplib.Crop;
-import com.feifan.bp.net.UploadHttpClient;
-import com.feifan.bp.net.UrlFactory;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.DialogPhoneLayout;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 //import org.apache.http.Header;
-import org.json.JSONObject;
 
 import java.io.File;
 
@@ -160,17 +154,17 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
         int id = item.getItemId();
         switch (id) {
             case R.id.action_staff:
-                url = UrlFactory.staffAddForHtml(this);
+                url = UrlFactory.staffAddForHtml();
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() staff url=" + url);
                 break;
             case R.id.action_coupon:
-                url = UrlFactory.couponAddForHtml(this);
+                url = UrlFactory.couponAddForHtml();
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() coupon url=" + url);
                 break;
             case R.id.action_commodity:
-                url = UrlFactory.commodityManageForHtml(this);
+                url = UrlFactory.commodityManageForHtml();
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() commodity url=" + url);
                 break;
@@ -345,7 +339,7 @@ public class BrowserActivity extends BaseActivity implements View.OnClickListene
             String schema = uri.getScheme();
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
                 if (url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
-                    UserProfile.instance(BrowserActivity.this).clear();
+                    UserProfile.getInstance().clear();
                     startActivity(LaunchActivity.buildIntent(BrowserActivity.this));
                 } else if (url.contains(Constants.URL_PATH_EXIT)) {
                     finish();

@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.feifan.bp.net;
+package com.feifan.bp.network;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -35,8 +35,8 @@ public abstract class UrlFactory {
     private static final String URL_PATH_COMMODITY_MANAGE = "H5App/index.html#/commodity/select_cat_menu";
 
 
-    public static String statisticReportForHtml(Context context) {
-        UserProfile userProfile = UserProfile.instance(context);
+    public static String statisticReportForHtml() {
+        UserProfile userProfile = UserProfile.getInstance();
         String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(URL_PATH_REPORT).
                 concat("?loginToken=").
                 concat(userProfile.getLoginToken()).
@@ -46,8 +46,8 @@ public abstract class UrlFactory {
         return url;
     }
 
-    public static String checkHistoryForHtml(Context context, String relativeUrl) {
-        UserProfile userProfile = UserProfile.instance(context);
+    public static String checkHistoryForHtml(String relativeUrl) {
+        UserProfile userProfile = UserProfile.getInstance();
         String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(relativeUrl)).
                 concat("?loginToken=").
                 concat(userProfile.getLoginToken()).
@@ -58,8 +58,8 @@ public abstract class UrlFactory {
         return url;
     }
 
-    public static String orderManagementForHtml(Context context) {
-        UserProfile userProfile = UserProfile.instance(context);
+    public static String orderManagementForHtml() {
+        UserProfile userProfile = UserProfile.getInstance();
         String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(URL_PATH_ORDER).
                 concat("?loginToken=").
                 concat(userProfile.getLoginToken()).
@@ -69,8 +69,8 @@ public abstract class UrlFactory {
         return url;
     }
 
-    public static String searchCodeForHtml(Context context, String code) {
-        UserProfile userProfile = UserProfile.instance(context);
+    public static String searchCodeForHtml(String code) {
+        UserProfile userProfile = UserProfile.getInstance();
         String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(URL_PATH_SEARCH).
                 concat("?loginToken=").concat(userProfile.getLoginToken()).
                 concat("&uid=").concat(String.valueOf(userProfile.getUid())).
@@ -80,8 +80,8 @@ public abstract class UrlFactory {
         return url;
     }
 
-    public static String urlForHtml(Context context, String reUrl) {
-        UserProfile userProfile = UserProfile.instance(context);
+    public static String urlForHtml(String reUrl) {
+        UserProfile userProfile = UserProfile.getInstance();
         String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
                 concat("?loginToken=").
                 concat(userProfile.getLoginToken()).
@@ -91,8 +91,8 @@ public abstract class UrlFactory {
         return url;
     }
 
-    public static String staffAddForHtml(Context context) {
-        UserProfile userProfile = UserProfile.instance(context);
+    public static String staffAddForHtml() {
+        UserProfile userProfile = UserProfile.getInstance();
         String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(URL_PATH_STAFF_ADD).
                 concat("?loginToken=").
                 concat(userProfile.getLoginToken()).
@@ -102,8 +102,8 @@ public abstract class UrlFactory {
         return url;
     }
 
-    public static String couponAddForHtml(Context context) {
-        UserProfile userProfile = UserProfile.instance(context);
+    public static String couponAddForHtml() {
+        UserProfile userProfile = UserProfile.getInstance();
         String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(URL_PATH_COUPON_ADD).
                 concat("?loginToken=").
                 concat(userProfile.getLoginToken()).
@@ -113,8 +113,8 @@ public abstract class UrlFactory {
         return url;
     }
 
-    public static String commodityManageForHtml(Context context) {
-        UserProfile userProfile = UserProfile.instance(context);
+    public static String commodityManageForHtml() {
+        UserProfile userProfile = UserProfile.getInstance();
         String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(URL_PATH_COMMODITY_MANAGE).
                 concat("?loginToken=").
                 concat(userProfile.getLoginToken()).
@@ -139,7 +139,7 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/login";
     }
 
-    public static String checkPermission() {
+    public static String getAuthorizeUrl() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/userAuth";
     }
 

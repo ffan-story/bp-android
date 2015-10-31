@@ -157,7 +157,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 
     // 初始化界面内容
     private void initContent() {
-        if (UserCtrl.getStatus(LaunchActivity.this) == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
+        if (UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
             showLogin();
         } else {
             showHome(true);

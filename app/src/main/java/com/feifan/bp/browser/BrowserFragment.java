@@ -44,7 +44,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.net.UrlFactory;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
@@ -145,7 +145,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 selectMenu();
             }
         });
-        mShowFab = UserProfile.instance(getActivity()).getAuthRangeType().equals("merchant");
+        mShowFab = UserProfile.getInstance().getAuthRangeType().equals("merchant");
         storeItems = new ArrayList<>();
         storeItems.add(getString(R.string.index_history_text));
         storeItems.add(getString(R.string.index_order_text));
@@ -157,7 +157,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         mIsStaffManagementPage = getArguments().getBoolean(EXTRA_KEY_STAFF_MANAGE);
 
         if (mShowFab) {
-            mStoreId = UserProfile.instance(getActivity()).getStoreId(lastSelectPos);
+            mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
             sUrl = mUrl + "&storeId=" + mStoreId;
         } else {
             sUrl = mUrl;
@@ -206,7 +206,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 mShadowView.setVisibility(View.INVISIBLE);
                 if (lastSelectPos != mPopWindow.getSelectPos()) {
                     lastSelectPos = mPopWindow.getSelectPos();
-                    mStoreId = UserProfile.instance(getActivity()).getStoreId(lastSelectPos);
+                    mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
                     sUrl = mUrl + "&storeId=" + mStoreId;
                     mWebView.loadUrl(sUrl);
                     PlatformState.getInstance().setLastUrl(sUrl);
@@ -285,19 +285,19 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         String url = "";
         switch (item.getItemId()) {
             case R.id.action_staff:
-                url = UrlFactory.staffAddForHtml(getActivity());
+                url = UrlFactory.staffAddForHtml();
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() staff url=" + url);
                 return true;
 
             case R.id.action_coupon:
-                url = UrlFactory.couponAddForHtml(getActivity());
+                url = UrlFactory.couponAddForHtml();
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() coupon url=" + url);
                 return true;
 
             case R.id.action_commodity:
-                url = UrlFactory.commodityManageForHtml(getActivity());
+                url = UrlFactory.commodityManageForHtml();
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() commodity url=" + url);
                 return true;
@@ -354,7 +354,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             String schema = uri.getScheme();
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
                 if (url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
-                    UserProfile.instance(getActivity()).clear();
+                    UserProfile.getInstance().clear();
                     startActivity(LaunchActivity.buildIntent(getActivity()));
                 } else if (url.contains(Constants.URL_PATH_EXIT)) {
                     getActivity().finish();
@@ -364,6 +364,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
                     addImage(url);
                 }
+            } else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
+
+
             }
             return true;
         }

@@ -75,8 +75,8 @@ public class PlatformState {
             Uri uri = Uri.parse(standardUrl);
             String token = uri.getQueryParameter("loginToken");
             String uid = uri.getQueryParameter("uid");
-            mLastUrl = mLastUrl.replace(token, UserProfile.instance(context).getLoginToken())
-                    .replace(uid, String.valueOf(UserProfile.instance(context).getUid()));
+            mLastUrl = mLastUrl.replace(token, UserProfile.getInstance().getLoginToken())
+                    .replace(uid, String.valueOf(UserProfile.getInstance().getUid()));
             LogUtil.i(TAG, "update last request url " + mLastUrl + " with new loginToken and uid");
         }
 

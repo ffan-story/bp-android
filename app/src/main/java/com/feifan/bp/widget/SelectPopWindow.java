@@ -47,7 +47,7 @@ public class SelectPopWindow extends PopupWindow {
         mShopList.setLayoutManager(new LinearLayoutManager(context));
         mShopList.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL_LIST));
 
-        UserProfile userProfile = UserProfile.instance(context);
+        UserProfile userProfile = UserProfile.getInstance();
         int storeNum = userProfile.getStoreNum();
         String[] dataset = new String[storeNum];
         for(int i =0;i<storeNum;i++){

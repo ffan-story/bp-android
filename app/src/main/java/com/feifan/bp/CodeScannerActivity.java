@@ -12,7 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.feifan.bp.browser.BrowserActivityNew;
-import com.feifan.bp.net.UrlFactory;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.base.BaseActivity;
 
@@ -75,7 +75,7 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
         }
 
         //TODO: Translate code to url and jump to h5 page.
-        String urlStr = UrlFactory.searchCodeForHtml(this, resultText);
+        String urlStr = UrlFactory.searchCodeForHtml(resultText);
         BrowserActivityNew.startActivity(this, urlStr);
         finish();
 

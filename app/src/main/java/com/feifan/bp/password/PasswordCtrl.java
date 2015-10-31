@@ -15,7 +15,7 @@ public class PasswordCtrl {
         ResetPasswordRequest.Params params = BaseRequest.newParams(ResetPasswordRequest.Params.class);
         params.setNewPassword(newPassword);
         params.setOldPassword(oldPassword);
-        params.setuId(String.valueOf(UserProfile.instance(context).getUid()));
+        params.setuId(String.valueOf(UserProfile.getInstance()));
         HttpEngine.Builder.newInstance(context).
                 setRequest(new ResetPasswordRequest(params, listener)).
                 build().start();
