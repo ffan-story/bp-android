@@ -364,6 +364,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
                     addImage(url);
                 }
+            } else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
+
+
             }
             return true;
         }
