@@ -3,15 +3,16 @@ package com.feifan.bp;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.JsonReader;
 
 import com.feifan.bp.home.StoreModel;
-import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.login.Authority;
+import com.feifan.bp.login.AuthListModel.AuthItem;
+import com.feifan.bp.util.IOUtil;
 
-import java.util.Arrays;
-import java.util.Iterator;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by maning on 15/8/6.
@@ -20,16 +21,11 @@ public class UserProfile {
 
     private static final String TAG = UserProfile.class.getSimpleName();
 
-    private static UserProfile sUserProfile;
+    private static final UserProfile INSTANCE = new UserProfile();
 
-    public static UserProfile instance(Context context) {
-        if (sUserProfile == null) {
-            sUserProfile = new UserProfile(context);
-        }
-        return sUserProfile;
+    public static UserProfile getInstance(){
+        return INSTANCE;
     }
-
-    private Context mContext;
     // 偏好文件名
     private static final String PREFERENCE_NAME = "profile";
     // 偏好项键值－用户编号
@@ -45,16 +41,34 @@ public class UserProfile {
     // 偏好项键值－访问token
     private static final String PREFERENCE_KEY_LOGIN_TOKEN = "loginToken";
 
-    private static final String PREFERENCE_KEY_PERMISSIONS = "permission";
+    private static final String PREFERENCE_KEY_USER_AUTH = "permission";
 
     //偏好项键值－商户门店列表
     private static final String PREFERENCE_KEY_STORE_ID = "storeId";
     private static final String PREFERENCE_KEY_STORE_NAME = "storeName";
     private static final String PREFERENCE_KEY_STORE_NUM = "storeNum";
 
-    private UserProfile(Context context) {
+    // 偏好项键值－验证历史
+    private static final String PREFERENCE_KEY_HISTORY_URL = "history";
+
+    private Context mContext;
+
+    private UserProfile() {
+
+    }
+
+    /**
+     * 初始化
+     * <pre>
+     *     使用ApplicationContext
+     * </pre>
+     *
+     * @param context
+     */
+    public void initialize(Context context) {
         mContext = context.getApplicationContext();
     }
+
 
     public void setStoreList(List<StoreModel.StoreDetailModel> storeList) {
         if (storeList == null || storeList.size() < 1) {
@@ -71,52 +85,38 @@ public class UserProfile {
     }
 
     public String getStoreId(int position){
-        return getString(PREFERENCE_KEY_STORE_ID+position);
+        return getString(PREFERENCE_KEY_STORE_ID + position);
     }
 
     public String getStoreName(int position){
-        return getString(PREFERENCE_KEY_STORE_NAME+position);
+        return getString(PREFERENCE_KEY_STORE_NAME + position);
     }
 
-    public void setPermissionList(List<String> permissionList) {
-        if (permissionList == null || permissionList.size() < 1) {
-            return;
-        }
-        StringBuilder sb = new StringBuilder();
-        for (String p : permissionList) {
-            sb.append(p).append(",");
-        }
-        sb.deleteCharAt(sb.length() - 1);
-
-        putString(PREFERENCE_KEY_PERMISSIONS, sb.toString());
+    public void setAuthList(String authList) {
+        putString(PREFERENCE_KEY_USER_AUTH, authList);
     }
 
-    public void setPermissionUrlMap(Map<String, String> map) {
-        if (map == null || map.size() < 1) {
-            return;
-        }
-        Iterator<String> it = map.keySet().iterator();
-        while (it.hasNext()) {
-            String key = it.next();
-            LogUtil.i(TAG, "id=" + key);
-            if (Authority.AUTH_LIST.contains(key) || Authority.HISTORY_ID.equals(key)) {
-                putString(key, map.get(key));
-            }
-        }
 
-    }
-
-    public String getPermissionUrl(String key) {
-        return getString(key);
-    }
-
-    public List<String> getPermissionList() {
-        String p = getString(PREFERENCE_KEY_PERMISSIONS);
+    public List<AuthItem> getAuthList() {
+        String p = getString(PREFERENCE_KEY_USER_AUTH);
         if (TextUtils.isEmpty(p)) {
             return null;
         }
-        String[] permissions = p.split(",");
-        return Arrays.asList(permissions);
+        List<AuthItem> result = new ArrayList<AuthItem>();
+        JsonReader reader = new JsonReader(new StringReader(p));
+        try {
+            reader.beginArray();
+            while (reader.hasNext()) {
+                result.add(AuthItem.readFrom(reader));
+            }
+            reader.endArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtil.closeQuietly(reader);
+        }
+
+        return result;
     }
 
     public void setUid(int uid) {
@@ -165,6 +165,14 @@ public class UserProfile {
 
     public String getLoginToken() {
         return getString(PREFERENCE_KEY_LOGIN_TOKEN);
+    }
+
+    public void setHistoryUrl(String url) {
+        putString(PREFERENCE_KEY_HISTORY_URL, url);
+    }
+
+    public String getHistoryUrl() {
+        return getString(PREFERENCE_KEY_HISTORY_URL);
     }
 
     public void clear() {

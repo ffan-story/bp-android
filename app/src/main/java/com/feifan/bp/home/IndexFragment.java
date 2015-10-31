@@ -1,7 +1,6 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -28,16 +27,13 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivityNew;
 import com.feifan.bp.browser.TabLayoutActivity;
-import com.feifan.bp.home.command.Command;
-import com.feifan.bp.login.Authority;
+import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.logininfo.LoginInfoFragment;
-import com.feifan.bp.net.UrlFactory;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.util.LogUtil;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,13 +81,14 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.fragment_index, container, false);
         v.findViewById(R.id.index_scan).setOnClickListener(this);
         v.findViewById(R.id.index_history).setOnClickListener(this);
         v.findViewById(R.id.login_info_icon).setOnClickListener(this);
 //        mCodeEdt = (IconClickableEditText) v.findViewById(R.id.index_search_input);
 //        mCodeEdt.setOnIconClickListener(this);
-        if (UserProfile.instance(getActivity()).getAuthRangeType().equals("merchant")) {
+        if (UserProfile.getInstance().getAuthRangeType().equals("merchant")) {
             getShopData();
         }
         mCodeEditText = (EditText) v.findViewById(R.id.et_code_edit);
@@ -125,38 +122,14 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
         v.findViewById(R.id.index_search_btn).setOnClickListener(this);
 
-        List<FunctionModel> dataList = new ArrayList<>();
-        List<String> list = UserProfile.instance(getActivity()).getPermissionList();
+        List<AuthItem> list = UserProfile.getInstance().getAuthList();
         LogUtil.i(TAG, "auth list=" + list);
-        for (String id : Authority.AUTH_LIST) {
-            LogUtil.i(TAG, "id=" + id);
-            if (list.contains(id)) {
-                LogUtil.i(TAG, "auth id=" + id);
-                try {
-                    Authority.Auth a = Authority.AUTH_MAP.get(id);
-                    String url = UserProfile.instance(getActivity()).getPermissionUrl(id);
-                    LogUtil.i(TAG, "auth url=" + url);
-                    Constructor constructor = a.clazz.getConstructor(Context.class, String.class);
-                    Command c = (Command) constructor.newInstance(getActivity(), url);
-                    dataList.add(new FunctionModel(c, getString(a.titleResId), id, a.iconResId));
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (java.lang.InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_function_container);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(
                 3, StaggeredGridLayoutManager.VERTICAL));
 //        mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
-        mAdapter = new IndexAdapter(dataList);
+        mAdapter = new IndexAdapter(list);
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
@@ -169,7 +142,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
 //        由于种种特殊原因,目前商户ID用测试数据
 //        String merchantId = "2052506";
-        String merchantId = UserProfile.instance(getActivity()).getAuthRangeId();
+        String merchantId = UserProfile.getInstance().getAuthRangeId();
         String url = UrlFactory.getShopListUrl();
         LogUtil.i(TAG, "Url = " + url);
         LogUtil.i(TAG, "merchantId = " + merchantId);
@@ -180,7 +153,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 .listener(new Response.Listener<StoreModel>() {
                     @Override
                     public void onResponse(StoreModel storeModel) {
-                        UserProfile userProfile = UserProfile.instance(getActivity());
+                        UserProfile userProfile = UserProfile.getInstance();
                         userProfile.setStoreList(storeModel.getStoreList());
                     }
                 });
@@ -218,8 +191,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
             case R.id.index_history:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, "");
                 if (Utils.isNetworkAvailable(getActivity())) {
-                    String relativeUrl = UserProfile.instance(getActivity()).getPermissionUrl(Authority.HISTORY_ID);
-                    String url = UrlFactory.checkHistoryForHtml(getActivity(), relativeUrl);
+                    String relativeUrl = UserProfile.getInstance().getHistoryUrl();
+                    String url = UrlFactory.checkHistoryForHtml(relativeUrl);
                     // BrowserActivity.startActivity(getActivity(), url);
                     arryUrl = new String[]{url, url};
                     Intent intent = new Intent(getActivity(), TabLayoutActivity.class);
@@ -254,7 +227,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 }
                 mCodeEditText.setText("");
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivityNew.class.getName());
-                String urlStr = UrlFactory.searchCodeForHtml(getActivity(), code);
+                String urlStr = UrlFactory.searchCodeForHtml(code);
                 args.putString(BrowserActivityNew.EXTRA_KEY_URL, urlStr);
                 break;
             default:
@@ -266,21 +239,21 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
     class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexViewHolder> {
 
-        private List<FunctionModel> mFunctionList = new ArrayList<>();
+        private List<AuthItem> mList = new ArrayList<>();
         private final int mIconSize;
 
         {
             mIconSize = getResources().getDrawable(R.mipmap.index_ic_order).getMinimumHeight();
         }
 
-        public IndexAdapter(List<FunctionModel> list) {
-            mFunctionList.addAll(list);
+        public IndexAdapter(List<AuthItem> list) {
+            mList.addAll(list);
         }
 
 
         @Override
         public int getItemCount() {
-            return mFunctionList.size();
+            return mList.size();
         }
 
         @Override
@@ -293,18 +266,26 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
         @Override
         public void onBindViewHolder(final IndexViewHolder indexViewHolder, int i) {
-            final FunctionModel f = mFunctionList.get(i);
+            final AuthItem item = mList.get(i);
 
-            Drawable t = getResources().getDrawable(f.getResId());
+            Drawable t = getResources().getDrawable(item.icon);
             t.setBounds(0, 0, mIconSize, mIconSize);
 
             indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
-            indexViewHolder.textView.setText(f.getText());
+            indexViewHolder.textView.setText(item.name);
             indexViewHolder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    f.getCommand().handle();
-
+                    String url = UrlFactory.urlForHtml(item.url);
+                    if(isAdded()) {
+                        if (Utils.isNetworkAvailable(getContext())) {
+                            Intent intent = new Intent(getContext(), BrowserActivityNew.class);
+                            intent.putExtra(BrowserActivityNew.EXTRA_KEY_URL, url);
+                            startActivity(intent);
+                        } else {
+                            Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
+                        }
+                    }
                 }
             });
             indexViewHolder.redDotView.setVisibility(View.GONE);

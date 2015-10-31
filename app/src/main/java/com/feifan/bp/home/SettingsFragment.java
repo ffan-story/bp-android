@@ -161,7 +161,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                    @Override
                    public void run() {
                        PlatformState.getInstance().reset();
-                       UserProfile.instance(getActivity()).clear();
+                       UserProfile.getInstance().clear();
                        getActivity().runOnUiThread(new Runnable() {
 
                            @Override

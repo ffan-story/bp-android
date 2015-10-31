@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.feifan.bp.util.LogUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,12 +36,14 @@ import java.lang.reflect.InvocationTargetException;
  * Json请求
  *
  * <pre>
- *     可以发送JSON信息体作为参数，并得到T类型的对象
+ *     可以发送JSON信息体或key-value值作为参数，并得到T类型的对象
  * </pre>
  *
  * @param <T> JSON type of response expected
  */
 public class JsonRequest<T> extends Request<T> {
+
+    protected static final String TAG = "Request";
 
     /**
      * 编码
@@ -54,6 +57,7 @@ public class JsonRequest<T> extends Request<T> {
     public JsonRequest(int method, String url,
                        ErrorListener errorListener) {
         super(method, url, errorListener);
+        LogUtil.i(TAG, "url=" + url + " by " + method + " method.");
     }
 
     public JsonRequest<T> listener(Listener listener) {
@@ -78,6 +82,7 @@ public class JsonRequest<T> extends Request<T> {
         try {
             String jsonString =
                     new String(response.data, HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
+            LogUtil.i(TAG, "Receive:" + jsonString);
             if (mClazz != null) {
                 Constructor<T> constructor = mClazz.getConstructor(JSONObject.class);
                 return Response.success(constructor.newInstance(new JSONObject(jsonString)),

@@ -7,11 +7,12 @@ import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 
+import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.home.VersionUpdateModel;
 import com.feifan.bp.home.VersionUpdateRequest;
-import com.feifan.bp.login.PermissionModel;
+import com.feifan.bp.login.AuthListModel;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.net.BaseRequest;
 import com.feifan.bp.net.BaseRequestProcessListener;
@@ -36,7 +37,7 @@ public class SplashActivity extends BaseActivity {
         int versionBeforeUpdate = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
                 getInt(PREF_VERSION_BEFORE_UPDATE, -1);
         if (versionBeforeUpdate != -1 && versionBeforeUpdate < BuildConfig.VERSION_CODE) {
-            UserProfile.instance(this).clear();
+            UserProfile.getInstance().clear();
         }
 
         checkVersion();
@@ -73,7 +74,7 @@ public class SplashActivity extends BaseActivity {
                         final String url = model.getVersionUrl();
                         final int versionCode = model.getVersionCode();
 
-                        UserProfile manager = UserProfile.instance(SplashActivity.this);
+                        UserProfile manager = UserProfile.getInstance();
                         int uid = manager.getUid();
 
                         if (uid == Constants.NO_INTEGER) {
@@ -130,14 +131,12 @@ public class SplashActivity extends BaseActivity {
                                 b.create().show();
                             }
                         } else {
-
-                            UserCtrl.checkPermission(SplashActivity.this, manager.getUid() + "",
-                                    new BaseRequestProcessListener<PermissionModel>(SplashActivity.this, false, false) {
+                            UserCtrl.checkPermissions(manager.getUid(),
+                                    new Listener<AuthListModel>() {
                                         @Override
-                                        public void onResponse(PermissionModel permissionModel) {
-                                            UserProfile manager = UserProfile.instance(SplashActivity.this);
-                                            manager.setPermissionList(permissionModel.getPermissionList());
-                                            manager.setPermissionUrlMap(permissionModel.getUrlMap());
+                                        public void onResponse(AuthListModel authListModel) {
+                                            UserProfile manager = UserProfile.getInstance();
+                                            manager.setAuthList(authListModel.toJsonString());
 
                                             int sVersionCode = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
                                                     getInt(PREF_VERSION_CODE, -1);

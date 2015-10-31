@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.android.volley.Response;
+import com.android.volley.Response.Listener;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
@@ -89,37 +89,73 @@ public class LoginFragment extends BaseFragment {
 
                 try {
                     Utils.checkPhoneNumber(getActivity(), accountStr);
-                    UserCtrl.login(getActivity(), accountStr, passwordStr,
-                            new BaseRequestProcessListener<UserModel>(getActivity()) {
+                    UserCtrl.login(accountStr, passwordStr, new Listener<UserModel>() {
                         @Override
-                        public void onResponse(final UserModel userModel) {
-                            LogUtil.i(TAG, userModel.toString());
-                            UserCtrl.checkPermission(getActivity(), userModel.uid+"",
-                                    new BaseRequestProcessListener<PermissionModel>(getActivity(), false) {
+                        public void onResponse(UserModel userModel) {
+                            final UserProfile profile = UserProfile.getInstance();
+                            profile.setUid(userModel.uid);
+                            profile.setUser(userModel.user);
+                            profile.setAuthRangeId(userModel.authRangeId);
+                            profile.setAuthRangeType(userModel.authRangeType);
+                            profile.setAgId(userModel.agId);
+                            profile.setLoginToken(userModel.loginToken);
+
+                            UserCtrl.checkPermissions(userModel.uid, new Listener<AuthListModel>() {
                                 @Override
-                                public void onResponse(PermissionModel permissionModel) {
-                                    UserProfile manager = UserProfile.instance(getActivity());
-                                    manager.setUid(userModel.uid);
-                                    manager.setUser(userModel.user);
-                                    manager.setAuthRangeId(userModel.authRangeId);
-                                    manager.setAuthRangeType(userModel.authRangeType);
-                                    manager.setAgId(userModel.agId);
-                                    manager.setLoginToken(userModel.loginToken);
-                                    manager.setPermissionList(permissionModel.getPermissionList());
-                                    manager.setPermissionUrlMap(permissionModel.getUrlMap());
+                                public void onResponse(AuthListModel authListModel) {
+                                    profile.setAuthList(authListModel.toJsonString());
+                                    profile.setHistoryUrl(authListModel.historyUrl);
                                     // 通知界面跳转
                                     Bundle args = new Bundle();
                                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
                                     mListener.onFragmentInteraction(args);
                                 }
                             });
+//                            UserCtrl.checkPermission(getActivity(), userModel.uid+"",
+//                                    new BaseRequestProcessListener<PermissionModel>(getActivity(), false) {
+//                                        @Override
+//                                        public void onResponse(PermissionModel permissionModel) {
+//                                            UserProfile manager = UserProfile.getInstance();
+//                                            manager.setUid(userModel.uid);
+//                                            manager.setUser(userModel.user);
+//                                            manager.setAuthRangeId(userModel.authRangeId);
+//                                            manager.setAuthRangeType(userModel.authRangeType);
+//                                            manager.setAgId(userModel.agId);
+//                                            manager.setLoginToken(userModel.loginToken);
+//                                            manager.setPermissionList(permissionModel.getPermissionList());
+//                                            manager.setPermissionUrlMap(permissionModel.getUrlMap());
+//                                            // 通知界面跳转
+//                                            Bundle args = new Bundle();
+//                                            args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
+//                                            mListener.onFragmentInteraction(args);
+//                                        }
+//                                    });
                         }
                     });
-
-//                    UserCtrl.login(accountStr, passwordStr, new Response.Listener<UserModel>() {
+//                    UserCtrl.login(getActivity(), accountStr, passwordStr,
+//                            new BaseRequestProcessListener<UserModel>(getActivity()) {
 //                        @Override
-//                        public void onResponse(UserModel response) {
-//                            Log.e("xuchunlei", response.toString());
+//                        public void onResponse(final UserModel userModel) {
+//                            LogUtil.i(TAG, userModel.toString());
+//                            UserCtrl.checkPermission(getActivity(), userModel.uid+"",
+//                                    new BaseRequestProcessListener<PermissionModel>(getActivity(), false) {
+//                                @Override
+//                                public void onResponse(PermissionModel permissionModel) {
+//                                    UserProfile manager = UserProfile.getInstance();
+//                                    manager.setUid(userModel.uid);
+//                                    manager.setUser(userModel.user);
+//                                    manager.setAuthRangeId(userModel.authRangeId);
+//                                    manager.setAuthRangeType(userModel.authRangeType);
+//                                    manager.setAgId(userModel.agId);
+//                                    manager.setLoginToken(userModel.loginToken);
+//                                    manager.setPermissionList(permissionModel.getPermissionList());
+//                                    manager.setPermissionUrlMap(permissionModel.getUrlMap());
+//                                    // 通知界面跳转
+//                                    Bundle args = new Bundle();
+//                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
+//                                    mListener.onFragmentInteraction(args);
+//                                }
+//                            });
 //                        }
 //                    });
                 } catch (Throwable throwable) {
