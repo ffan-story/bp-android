@@ -176,8 +176,18 @@ public abstract class UrlFactory {
     }
 
     //add by tianjun 2015.10.29
+<<<<<<< Updated upstream:app/src/main/java/com/feifan/bp/network/UrlFactory.java
     public static String submitFeedBack() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/feedback";
+=======
+    public static String submitFeedBack(){
+        return  EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/feedback";
+>>>>>>> Stashed changes:app/src/main/java/com/feifan/bp/net/UrlFactory.java
+    }
+
+    public static String getLoginInfo(){
+        //return "http://api.sit.ffan.com/mapp/v1/mapp/user";
+        return EnvironmentManager.getHostFactory().getFFanApiHost() +"mapp/v1/mapp/user";
     }
 
     private static String formatRelativeUrl(String relativeUrl) {

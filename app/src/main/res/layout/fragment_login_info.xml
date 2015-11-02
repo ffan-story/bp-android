@@ -21,11 +21,11 @@
             android:textSize="@dimen/font_size_18" />
 
         <TextView
+            android:id="@+id/login_info_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="奥巴马"
             android:textColor="@color/login_info_color"
             android:textSize="@dimen/font_size_19" />
     </RelativeLayout>
@@ -52,11 +52,11 @@
             android:textSize="@dimen/font_size_18" />
 
         <TextView
+            android:id="@+id/login_info_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="18515200121"
             android:textColor="@color/login_info_color"
             android:textSize="@dimen/font_size_19" />
     </RelativeLayout>
@@ -83,11 +83,11 @@
             android:textSize="@dimen/font_size_18" />
 
         <TextView
+            android:id="@+id/login_info_identity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="店长"
             android:textColor="@color/login_info_color"
             android:textSize="@dimen/font_size_19" />
     </RelativeLayout>
@@ -100,7 +100,7 @@
         android:background="@color/divider" />
 
     <LinearLayout
-        android:id="@+id/ll_shop_owner"
+        android:id="@+id/login_info_store"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/view_spacing_15"
@@ -120,11 +120,11 @@
                 android:textSize="@dimen/font_size_18" />
 
             <TextView
+                android:id="@+id/login_info_belongs_store"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="石景山万达广场KFC店"
                 android:textColor="@color/login_info_color"
                 android:textSize="@dimen/font_size_19" />
         </RelativeLayout>
@@ -147,18 +147,18 @@
                 android:textSize="@dimen/font_size_18" />
 
             <TextView
+                android:id="@+id/login_info_belongs_square"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="石景山万达广场"
                 android:textColor="@color/login_info_color"
                 android:textSize="@dimen/font_size_19" />
         </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/rl_merchant"
+        android:id="@+id/login_info_merchant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/view_spacing_15"
@@ -179,11 +179,11 @@
                 android:textSize="@dimen/font_size_18" />
 
             <TextView
+                android:id="@+id/login_info_belongs_merchant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="石景山万达广场KFC"
                 android:textColor="@color/login_info_color"
                 android:textSize="@dimen/font_size_19" />
         </RelativeLayout>

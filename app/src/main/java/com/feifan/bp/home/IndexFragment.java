@@ -200,6 +200,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LoginInfoFragment.class.getName());
+
+
                 break;
 
             case R.id.index_search_btn:
