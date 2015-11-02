@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.feifan.bp.R;
 
-public class ShopListAdapter extends Adapter<ShopListAdapter.ViewHolder>  {
+public class ShopListAdapter extends Adapter<ShopListAdapter.ViewHolder> {
 
     private Context  mContext;
     private String[] mDataset;
@@ -86,7 +86,7 @@ public class ShopListAdapter extends Adapter<ShopListAdapter.ViewHolder>  {
     }
 
     public interface MyItemClickListener {
-        public void onItemClick(View view,int postion);
+        public void onItemClick(View view, int postion);
     }
 
 }

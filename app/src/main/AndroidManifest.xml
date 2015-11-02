@@ -44,7 +44,7 @@
         </activity>
 
         <activity
-            android:name=".browser.TabLayoutActivity"
+            android:name=".browser.BrowserTabActivity"
             android:label=" "
             android:screenOrientation="portrait">
         </activity>

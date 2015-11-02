@@ -11,7 +11,7 @@ import com.feifan.bp.R;
 /**
  * Created by huangzx on 2015/8/27.
  */
-public class TabItem {
+public class BrowserTabItem {
 
     public View getTabView(){
             View view = LayoutInflater.from(context).inflate(R.layout.tab_item, null);
@@ -20,7 +20,7 @@ public class TabItem {
         return view;
     }
 
-    public TabItem(Context context){
+    public BrowserTabItem(Context context){
         this.context = context;
     }
 

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseActivity;
@@ -19,10 +18,10 @@ public class BrowserActivityNew extends BaseActivity implements OnFragmentIntera
     public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
     private boolean mIsStaffManagementPage = false;
 
-    public static void startActivity(Context context, String url) {
-        startActivity(context, url, false);
-    }
-
+//    public static void startActivity(Context context, String url) {
+//        startActivity(context, url, false);
+//    }
+//
     public static void startActivity(Context context, String url, boolean staffManage) {
         Intent i = new Intent(context, BrowserActivityNew.class);
         i.putExtra(EXTRA_KEY_URL, url);

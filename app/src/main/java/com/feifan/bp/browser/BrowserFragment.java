@@ -32,13 +32,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.feifan.bp.PlatformApplication;
-import com.feifan.bp.widget.FloatingActionButton;
-import com.feifan.bp.widget.ObservableScrollView;
-import com.feifan.bp.widget.SelectPopWindow;
-import com.feifan.croplib.Crop;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
+import com.feifan.bp.PlatformApplication;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
@@ -49,6 +45,10 @@ import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.DialogPhoneLayout;
+import com.feifan.bp.widget.FloatingActionButton;
+import com.feifan.bp.widget.ObservableScrollView;
+import com.feifan.bp.widget.SelectPopWindow;
+import com.feifan.croplib.Crop;
 import com.loopj.android.http.RequestParams;
 
 import java.io.File;
@@ -71,11 +71,27 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     public static final String EXTRA_KEY_SELECT_POS = "pos";
 
     private static final int TOOLBAR_STATUS_IDLE = 0;
+    /**
+     * 员工管理
+     */
     private static final int TOOLBAR_STATUS_STAFF = 1;
+
+    /**
+     * 优惠券列表
+     */
     private static final int TOOLBAR_STATUS_COUPON = 2;
+
+    /**
+     * 商品管理
+     */
     private static final int TOOLBAR_STATUS_COMMODITY = 3;
     private static final int TOOLBAR_STATUS_COMMODITY_DESC = 4;
     private int mToolbarStatus = TOOLBAR_STATUS_IDLE;
+
+    /**
+     * tab 状态
+     */
+    private boolean  isShowTabBar = true;
 
     //type=0不限制大小
     private static final int IMG_PICK_TYPE_0 = 0;
@@ -94,7 +110,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private SelectPopWindow mPopWindow;
     private View mShadowView;
     private int lastSelectPos = 0;
-    private static TabLayoutActivity activity;
 
     private boolean mIsStaffManagementPage = false;
     private int mWebViewProgress = 0;
@@ -103,6 +118,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private String mUrl;
     private String sUrl;
     private String mStoreId;
+
+    BrowserTabActivity parentActivity;
 
     public static BrowserFragment newInstance(String url, boolean mIsStaffManagementPage) {
         Bundle args = new Bundle();
@@ -156,6 +173,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         mUrl = getArguments().getString(EXTRA_KEY_URL);
         mIsStaffManagementPage = getArguments().getBoolean(EXTRA_KEY_STAFF_MANAGE);
 
+
         if (mShowFab) {
             mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
             sUrl = mUrl + "&storeId=" + mStoreId;
@@ -164,6 +182,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
         mWebView.loadUrl(sUrl);
         PlatformState.getInstance().setLastUrl(sUrl);
+
+        mWebView.loadUrl(mUrl);
+
+        Log.i(TAG, "mUrl===" + mUrl);
+
+        PlatformState.getInstance().setLastUrl(mUrl);
+
         return v;
     }
 
@@ -191,8 +216,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
      * 门店选择
      */
     private void selectMenu() {
-        LogUtil.i(TAG,"lastSelectPos"+lastSelectPos);
-        LogUtil.i(TAG,"PlatformApplication"+((PlatformApplication)getActivity().getApplicationContext()).getSelectPos());
+        LogUtil.i(TAG, "lastSelectPos" + lastSelectPos);
+        LogUtil.i(TAG, "PlatformApplication" + ((PlatformApplication) getActivity().getApplicationContext()).getSelectPos());
 
         mPopWindow = new SelectPopWindow(getActivity(), lastSelectPos);
         mShadowView.setVisibility(View.VISIBLE);
@@ -321,7 +346,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            LogUtil.i(TAG, "onReceiveTitle() title=" + title);
             if (getToolbar() != null) {
                 getToolbar().setTitle(title);
             }
@@ -336,6 +360,20 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             } else {
                 mToolbarStatus = TOOLBAR_STATUS_IDLE;
             }
+
+//            if (title.equals(getString(R.string.index_refund_detail))
+//                    ||title.equals(getString(R.string.index_staff_text))
+//                    ||title.equals(getString(R.string.index_order_text))
+//                    ||title.equals(getString(R.string.index_history_text))
+//                    ||title.equals(getString(R.string.index_refund_text))){
+//                isShowTabBar = true;
+//            }else{
+//                isShowTabBar =false;
+//            }
+//            LogUtil.i(TAG, "title=" + title);
+//            LogUtil.i(TAG, "isShowTabBar=" + isShowTabBar);
+//            parentActivity = (BrowserTabActivity) getActivity();
+//            parentActivity.setTabVisibility(isShowTabBar);
             getActivity().supportInvalidateOptionsMenu();
             if (mShowFab) {
                 if (storeItems.contains(title)) {
@@ -350,17 +388,23 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private class PlatformWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            Log.d(TAG,"shouldOverrideUrlLoading url======"+url);
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
+            LogUtil.i(TAG, "shouldOverrideUrlLoading schema=======" + schema);
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
                 if (url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
                     UserProfile.getInstance().clear();
                     startActivity(LaunchActivity.buildIntent(getActivity()));
                 } else if (url.contains(Constants.URL_PATH_EXIT)) {
-                    getActivity().finish();
+                    if(getActivity()!=null){
+                        getActivity().finish();
+                    }
                 } else if (url.contains(Constants.URL_PATH_HOME)) {
                     // 目前关闭当前界面即显示主界面
-                    getActivity().finish();
+                    if(getActivity()!=null){
+                        getActivity().finish();
+                    }
                 } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
                     addImage(url);
                 }
@@ -379,9 +423,12 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
             hideProgressBar();
+            LogUtil.i(TAG, "onPageFinished url=======" + url);
+            super.onPageFinished(view, url);
+
         }
+
     }
 
 
