@@ -74,7 +74,6 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
             return;
         }
 
-        //TODO: Translate code to url and jump to h5 page.
         String urlStr = UrlFactory.searchCodeForHtml(resultText);
         BrowserActivityNew.startActivity(this, urlStr);
         finish();

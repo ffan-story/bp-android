@@ -22,10 +22,10 @@ public class BrowserActivityNew extends BaseActivity implements OnFragmentIntera
 //        startActivity(context, url, false);
 //    }
 //
-    public static void startActivity(Context context, String url, boolean staffManage) {
+    public static void startActivity(Context context, String url) {
         Intent i = new Intent(context, BrowserActivityNew.class);
         i.putExtra(EXTRA_KEY_URL, url);
-        i.putExtra(EXTRA_KEY_STAFF_MANAGE, staffManage);
+//        i.putExtra(EXTRA_KEY_STAFF_MANAGE, staffManage);
         context.startActivity(i);
     }
 
