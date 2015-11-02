@@ -2,9 +2,9 @@ package com.feifan.bp.logininfo;
 
 import com.android.volley.Response;
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.net.UrlFactory;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
+import com.feifan.bp.network.UrlFactory;
 
 /**
  * Created by tianjun on 2015-10-30.

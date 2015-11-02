@@ -48,16 +48,16 @@ public class LoginInfoFragment extends BaseFragment implements View.OnClickListe
 
     private void getLoginInfo(final View rootView) {
         showProgressBar(true);
-        UserProfile manager = UserProfile.instance(getActivity());
+        UserProfile manager = UserProfile.getInstance();
         int uid = manager.getUid();
         LoginInfoCtrl.getLoginInfo(String.valueOf(uid), new Response.Listener<LoginInfoModel>() {
             @Override
             public void onResponse(LoginInfoModel loginInfoModel) {
-                if (loginInfoModel.getStatus() == Constants.RESPONSE_CODE_SUCCESS) {
+                if (loginInfoModel.status == Constants.RESPONSE_CODE_SUCCESS) {
                     setLoginInfo(rootView, loginInfoModel);
                     hideProgressBar();
                 } else {
-                    Utils.showShortToast(getActivity(), loginInfoModel.getMsg(),
+                    Utils.showShortToast(getActivity(), loginInfoModel.msg,
                             Gravity.CENTER);
                 }
             }

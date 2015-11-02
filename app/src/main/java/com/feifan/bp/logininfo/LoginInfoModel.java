@@ -2,7 +2,7 @@ package com.feifan.bp.logininfo;
 
 import android.text.TextUtils;
 
-import com.feifan.bp.base.BaseModel;
+import com.feifan.bp.network.BaseModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,12 +69,15 @@ public class LoginInfoModel extends BaseModel {
     private String identity;
 
     public LoginInfoModel(JSONObject json) {
-        super(json, false);
+        super(json);
     }
 
-
     @Override
-    protected void parseData(JSONObject data) {
+    protected void parseData(String json) throws JSONException {
+        super.parseData(json);
+
+        JSONObject data = new JSONObject(json);
+
         uid = data.optString("uid");
         name = data.optString("name");
         phone = data.optString("phone");
@@ -107,12 +110,6 @@ public class LoginInfoModel extends BaseModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-    }
-
-    @Override
-    protected void parseArrayData(JSONArray data) {
-
     }
 
     public String getUid() {
