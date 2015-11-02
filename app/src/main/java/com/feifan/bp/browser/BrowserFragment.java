@@ -171,7 +171,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
         if (mShowFab) {
             mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
-            sUrl = mUrl + "&storeId=" + 9050631;
+            sUrl = mUrl + "&storeId=" + mStoreId;
         } else {
             sUrl = mUrl;
         }

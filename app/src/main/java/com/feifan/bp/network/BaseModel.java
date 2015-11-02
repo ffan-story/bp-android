@@ -48,7 +48,10 @@ public class BaseModel {
         // 解析数据信息
         if(status == Constants.RESPONSE_CODE_SUCCESS) {
             try {
-                parseData(json.opt("data").toString());
+                Object data = json.opt("data");
+                if(data != null) {
+                    parseData(data.toString());
+                }
             } catch (JSONException e) {
                 LogUtil.w(TAG, e.getMessage());
             }

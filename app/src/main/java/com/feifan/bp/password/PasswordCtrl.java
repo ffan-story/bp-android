@@ -34,7 +34,7 @@ public class PasswordCtrl {
     }
 
     public static void sendSMSCode(String phoneNum, String content,Listener<BaseModel> listener) {
-        JsonRequest<BaseModel> request = new PostRequest<BaseModel>(UrlFactory.getSendSMSUrl(), new DefaultErrorListener())
+        JsonRequest<BaseModel> request = new PostRequest<>(UrlFactory.getSendSMSUrl(), new DefaultErrorListener())
                 .param("phone", phoneNum)
                 .param("content", content)
                 .param("templateId", "160")
