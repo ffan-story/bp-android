@@ -42,7 +42,8 @@ public abstract class UrlFactory {
                 concat(userProfile.getLoginToken()).
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile");
+                concat("&appType=bpMobile").
+                concat("&showTabs=0");
         return url;
     }
 
@@ -54,7 +55,8 @@ public abstract class UrlFactory {
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
                 concat("&appType=bpMobile").concat("&signStatus=2&merchantId=").
-                concat(userProfile.getAuthRangeId());
+                concat(userProfile.getAuthRangeId()).
+                concat("&showTabs=0");
         return url;
     }
 
@@ -65,7 +67,8 @@ public abstract class UrlFactory {
                 concat(userProfile.getLoginToken()).
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile");
+                concat("&appType=bpMobile").
+                concat("&showTabs=0");
         return url;
     }
 
@@ -76,7 +79,8 @@ public abstract class UrlFactory {
                 concat("&uid=").concat(String.valueOf(userProfile.getUid())).
                 concat("&appType=bpMobile").
                 concat("&merchantId=").concat(userProfile.getAuthRangeId()).
-                concat("&signNo=").concat(code);
+                concat("&signNo=").
+                concat("&showTabs=0").concat(code);
         return url;
     }
 
@@ -87,7 +91,8 @@ public abstract class UrlFactory {
                 concat(userProfile.getLoginToken()).
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile");
+                concat("&appType=bpMobile").
+                concat("&showTabs=0");
         return url;
     }
 
@@ -98,7 +103,8 @@ public abstract class UrlFactory {
                 concat(userProfile.getLoginToken()).
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile");
+                concat("&appType=bpMobile").
+                concat("&showTabs=0");
         return url;
     }
 
@@ -109,7 +115,8 @@ public abstract class UrlFactory {
                 concat(userProfile.getLoginToken()).
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile");
+                concat("&appType=bpMobile").
+                concat("&showTabs=0");
         return url;
     }
 
@@ -120,7 +127,17 @@ public abstract class UrlFactory {
                 concat(userProfile.getLoginToken()).
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile");
+                concat("&appType=bpMobile").
+                concat("&showTabs=0");
+        return url;
+    }
+
+
+    public static String getActionH5Url(String actionUri) {
+        String url = EnvironmentManager.getHostFactory().getFFanH5Host().
+                concat(actionUri).
+                concat("&showTabs=0").
+                concat("&status=");
         return url;
     }
 
@@ -183,6 +200,10 @@ public abstract class UrlFactory {
     public static String getLoginInfo(){
         //return "http://api.sit.ffan.com/mapp/v1/mapp/user";
         return EnvironmentManager.getHostFactory().getFFanApiHost() +"mapp/v1/mapp/user";
+    }
+
+    public static String getMeaageList() {
+        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/message";
     }
 
     private static String formatRelativeUrl(String relativeUrl) {

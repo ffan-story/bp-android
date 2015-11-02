@@ -15,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
 import com.android.volley.toolbox.ImageLoader;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
@@ -38,9 +40,10 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     private PtrClassicFrameLayout mPtrFrame;
 
 
+    private int pageIndex = 1;
 
     LoadingMoreListView mListView;
-    private List<String> mList =new ArrayList<>();
+    private List<MessageModel.MessageData> mList =new ArrayList<MessageModel.MessageData>();
     private Adapter mAdapter;
 
 
@@ -58,6 +61,12 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        HomeCtrl.messageList( UserProfile.getInstance().getUid()+"", pageIndex+"", new Response.Listener<MessageModel>() {
+            @Override
+            public void onResponse(MessageModel messageModel) {
+                mList = messageModel.getMessageDataList();
+            }
+        });
     }
 
     @Override
@@ -86,9 +95,6 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         });
 
         mAdapter = new Adapter(getActivity());
-        for (int i=0;i<7;i++){
-            mList.add("i="+i);
-        }
         mListView.setAdapter(mAdapter);
         mListView.setOnLoadingMoreListener(this);
         mPtrFrame = (PtrClassicFrameLayout) contentView.findViewById(R.id.rotate_header_list_view_frame);
@@ -178,39 +184,29 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
                 holder = ViewHolder.findAndCacheViews(convertView);
             } else {
                 holder = (ViewHolder) convertView.getTag();
-            }
-
-            if (false) {
+            }MessageModel.MessageData data = mList.get(position);
+            if (null != data.getmStrMessageStatus() && data.getmStrMessageStatus().equals("0")) {
                 holder.mImgRedPoint.setVisibility(View.VISIBLE);
                 holder.mTvMessageTitle.setTextColor(context.getResources().getColor(R.color.font_color_66));
             } else {
-                holder.mImgRedPoint.setVisibility(View.VISIBLE);//Gone
+                holder.mImgRedPoint.setVisibility(View.INVISIBLE);
                 holder.mTvMessageTitle.setTextColor(context.getResources().getColor(R.color.feed_back_color));
             }
-
-            holder.mTvMessageTitle.setText("关于万达召开中秋活动相关通知，关于万达召开中秋活动相关通知");
-            holder.mTvMessageTime.setText( "2015-3-3 20：00");
-
+            holder.mTvMessageTitle.setText(data.getmStrMessageTitle());
+            holder.mTvMessageTime.setText( data.getmStrMessageTime());
             return convertView;
         }
     }
 
     private static class ViewHolder {
-
         private ImageView mImgRedPoint;
-
         private TextView mTvMessageTitle;
         private TextView mTvMessageTime;
-
-
         public static ViewHolder findAndCacheViews(View view) {
             ViewHolder holder = new ViewHolder();
             holder.mImgRedPoint = (ImageView) view.findViewById(R.id.img_message_redpoint);
-
             holder.mTvMessageTitle = (TextView) view.findViewById(R.id.tv_message_title);
             holder.mTvMessageTime = (TextView) view.findViewById(R.id.tv_message_time);
-
-
             view.setTag(holder);
             return holder;
         }

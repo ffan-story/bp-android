@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivityNew;
 import com.feifan.bp.browser.BrowserTabActivity;
+import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.logininfo.LoginInfoFragment;
 import com.feifan.bp.network.UrlFactory;
@@ -179,17 +181,17 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.index_history){//验证历史
-            if (Utils.isNetworkAvailable(getActivity())) {
-                String relativeUrl = UserProfile.getInstance().getHistoryUrl();
-                String url = UrlFactory.checkHistoryForHtml(relativeUrl);
-                BrowserTabActivity.startActivity(getActivity(), url, getActivity().getResources().getStringArray(R.array.data_type),
-                        getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
-            }else{
-                Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
-            }
-            return;
-        }
+//        if(v.getId() == R.id.index_history){//验证历史
+//            if (Utils.isNetworkAvailable(getActivity())) {
+//                String relativeUrl = UserProfile.getInstance().getHistoryUrl();
+//                String url = UrlFactory.checkHistoryForHtml(relativeUrl)+"&status=";
+//                BrowserTabActivity.startActivity(getActivity(), url, getActivity().getResources().getStringArray(R.array.data_type),
+//                        getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
+//            }else{
+//                Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
+//            }
+//            return;
+//        }
 
         Bundle args = new Bundle();
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
@@ -202,6 +204,22 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LoginInfoFragment.class.getName());
 
 
+                break;
+
+            case R.id.index_history:
+                if (Utils.isNetworkAvailable(getActivity())) {
+                    String relativeUrl = UserProfile.getInstance().getHistoryUrl();
+                    String url = UrlFactory.checkHistoryForHtml(relativeUrl)+"&status=";
+//                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
+//                    args.putString(BrowserTabActivity.EXTRA_KEY_URL, url);
+//                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_STATUS, getActivity().getResources().getStringArray(R.array.data_type));
+//                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES,  getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
+
+                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivityNew.class.getName());
+                    args.putString(BrowserActivityNew.EXTRA_KEY_URL, url);
+                }else{
+                    Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
+                }
                 break;
 
             case R.id.index_search_btn:
@@ -277,13 +295,17 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     String url = UrlFactory.urlForHtml(item.url);
                     if(isAdded()) {
                         if (Utils.isNetworkAvailable(getContext())) {
-                            Intent intent = new Intent(getContext(), BrowserActivityNew.class);
-                            intent.putExtra(BrowserActivityNew.EXTRA_KEY_URL, url);
-                            startActivity(intent);
-                        } else {
-                            Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
+                            if (EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id) != -1 && EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id) != -1){
+                                BrowserTabActivity.startActivity(getContext(),url+"&status=",
+                                        getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
+                                        getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)));
+                        }else{
+                            BrowserActivityNew.startActivity(getContext(),url);
                         }
+                    } else {
+                        Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
                     }
+                }
                 }
             });
             indexViewHolder.redDotView.setVisibility(View.GONE);

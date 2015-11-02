@@ -25,9 +25,6 @@
         <item>"1"</item>
     </array>
 
-
-
-
     <!--退款售后 列表-->
     <array name="tab_title_refund">
         <item>所有状态</item>

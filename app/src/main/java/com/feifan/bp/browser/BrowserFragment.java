@@ -40,6 +40,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.ImageUtil;
@@ -111,15 +112,12 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private View mShadowView;
     private int lastSelectPos = 0;
 
-    private boolean mIsStaffManagementPage = false;
     private int mWebViewProgress = 0;
     private List<String> storeItems;
     private boolean mShowFab = false;
     private String mUrl;
     private String sUrl;
     private String mStoreId;
-
-    BrowserTabActivity parentActivity;
 
     public static BrowserFragment newInstance(String url) {
         Bundle args = new Bundle();
@@ -170,8 +168,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
         initWeb(mWebView);
         mUrl = getArguments().getString(EXTRA_KEY_URL);
-        mIsStaffManagementPage = getArguments().getBoolean(EXTRA_KEY_STAFF_MANAGE);
-
 
         if (mShowFab) {
             mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
@@ -181,7 +177,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
         mWebView.loadUrl(sUrl);
         PlatformState.getInstance().setLastUrl(sUrl);
-        Log.i(TAG, "sUrl===" + sUrl);
+        mWebView.loadUrl(mUrl);
+        Log.i(TAG, "mUrl===" + mUrl);
+        PlatformState.getInstance().setLastUrl(mUrl);
         return v;
     }
 
@@ -281,7 +279,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setAppCachePath(getActivity().getCacheDir().getAbsolutePath());
-
         webView.setWebViewClient(new PlatformWebViewClient());
         webView.setWebChromeClient(new PlatformWebChromeClient());
         webView.requestFocus();
@@ -341,6 +338,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
+            if(!isAdded()){
+                return;
+            }
             if (getToolbar() != null) {
                 getToolbar().setTitle(title);
             }
@@ -355,20 +355,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             } else {
                 mToolbarStatus = TOOLBAR_STATUS_IDLE;
             }
-
-//            if (title.equals(getString(R.string.index_refund_detail))
-//                    ||title.equals(getString(R.string.index_staff_text))
-//                    ||title.equals(getString(R.string.index_order_text))
-//                    ||title.equals(getString(R.string.index_history_text))
-//                    ||title.equals(getString(R.string.index_refund_text))){
-//                isShowTabBar = true;
-//            }else{
-//                isShowTabBar =false;
-//            }
-//            LogUtil.i(TAG, "title=" + title);
-//            LogUtil.i(TAG, "isShowTabBar=" + isShowTabBar);
-//            parentActivity = (BrowserTabActivity) getActivity();
-//            parentActivity.setTabVisibility(isShowTabBar);
             getActivity().supportInvalidateOptionsMenu();
             if (mShowFab) {
                 if (storeItems.contains(title)) {
@@ -383,10 +369,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private class PlatformWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.d(TAG,"shouldOverrideUrlLoading url======"+url);
+            Log.d(TAG, "shouldOverrideUrlLoading url======" + url);
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
-            LogUtil.i(TAG, "shouldOverrideUrlLoading schema=======" + schema);
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
                 if (url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
                     UserProfile.getInstance().clear();
@@ -403,8 +388,15 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
                     addImage(url);
                 }
-            } else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
-
+            } else if(schema.equals(Constants.URL_SCHEME_ACTION)){
+                Uri httpUri = Uri.parse(url.replaceAll(schema, "http"));
+                String actionUri =  UrlFactory.getActionH5Url(httpUri.getAuthority()+httpUri.getEncodedPath()+"#"+httpUri.getEncodedFragment());
+                LogUtil.i(TAG, "actionUri=======" +  actionUri);
+                if(actionUri.contains("/refund/detail")){//退款单详情
+                    BrowserTabActivity.startActivity(getActivity(),actionUri,getActivity().getResources().getStringArray(R.array.data_type),
+                            getActivity().getResources().getStringArray(R.array.tab_title_refund_detail_titles));
+                }
+            }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
 
             }
             return true;
@@ -425,7 +417,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
 
     }
-
 
     private void addImage(String url) {
         mImgPickType = IMG_PICK_TYPE_0;
@@ -463,7 +454,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             Crop.pickImage(getActivity());
         }
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent result) {

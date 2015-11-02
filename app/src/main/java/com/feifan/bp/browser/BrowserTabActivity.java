@@ -76,7 +76,6 @@ public class BrowserTabActivity extends BaseActivity implements View.OnClickList
         return true;
     }
 
-
     @Override
     public void onClick(View v) {
 
