@@ -181,13 +181,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
         mWebView.loadUrl(sUrl);
         PlatformState.getInstance().setLastUrl(sUrl);
-
-        mWebView.loadUrl(mUrl);
-
-        Log.i(TAG, "mUrl===" + mUrl);
-
-        PlatformState.getInstance().setLastUrl(mUrl);
-
+        Log.i(TAG, "sUrl===" + sUrl);
         return v;
     }
 
@@ -235,6 +229,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     mWebView.loadUrl(sUrl);
                     PlatformState.getInstance().setLastUrl(sUrl);
                     ((PlatformApplication)getActivity().getApplicationContext()).setSelectPos(lastSelectPos);
+                    Log.i(TAG, "sUrl===" + sUrl);
                 }
                 mPopWindow.dismiss();
             }
