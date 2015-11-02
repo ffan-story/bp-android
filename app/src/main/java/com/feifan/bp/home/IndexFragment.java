@@ -220,22 +220,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 }
                 break;
 
-            case R.id.index_history:
-                if (Utils.isNetworkAvailable(getActivity())) {
-                    String relativeUrl = UserProfile.getInstance().getHistoryUrl();
-                    String url = UrlFactory.checkHistoryForHtml(relativeUrl)+"&status=";
-//                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
-//                    args.putString(BrowserTabActivity.EXTRA_KEY_URL, url);
-//                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_STATUS, getActivity().getResources().getStringArray(R.array.data_type));
-//                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES,  getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
-
-                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivityNew.class.getName());
-                    args.putString(BrowserActivityNew.EXTRA_KEY_URL, url);
-                }else{
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
-                }
-                break;
-
             case R.id.index_search_btn:
                 if (TextUtils.isEmpty(mCodeEditText.getText())) {
                     return;

@@ -205,10 +205,7 @@ public abstract class UrlFactory {
     public static String getMeaageList() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/message";
     }
-<<<<<<< dbc9f3ff702b883299057a466e4b13547788c3c8
 
-=======
->>>>>>> merge
     private static String formatRelativeUrl(String relativeUrl) {
         if (TextUtils.isEmpty(relativeUrl)) {
             return relativeUrl;

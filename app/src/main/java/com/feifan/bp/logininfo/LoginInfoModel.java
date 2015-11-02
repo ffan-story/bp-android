@@ -76,10 +76,6 @@ public class LoginInfoModel extends BaseModel {
         super.parseData(json);
 
         JSONObject data = new JSONObject(json);
-<<<<<<< dbc9f3ff702b883299057a466e4b13547788c3c8
-
-=======
->>>>>>> merge
         uid = data.optString("uid");
         name = data.optString("name");
         phone = data.optString("phone");
@@ -112,10 +108,6 @@ public class LoginInfoModel extends BaseModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-<<<<<<< dbc9f3ff702b883299057a466e4b13547788c3c8
-=======
-
->>>>>>> merge
     }
 
     public String getUid() {
