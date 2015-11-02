@@ -26,6 +26,7 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivityNew;
+import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.logininfo.LoginInfoFragment;
 import com.feifan.bp.network.UrlFactory;
@@ -181,31 +182,29 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        if(v.getId() == R.id.index_history){//验证历史
+            if (Utils.isNetworkAvailable(getActivity())) {
+            String relativeUrl = UserProfile.getInstance().getHistoryUrl();
+            String url = UrlFactory.checkHistoryForHtml(relativeUrl);
+                BrowserTabActivity.startActivity(getActivity(), url, getActivity().getResources().getStringArray(R.array.tab_title_veri_history),
+                        getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title),false);
+            }else{
+                Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
+            }
+            return;
+        }
+
         Bundle args = new Bundle();
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
         switch (v.getId()) {
             case R.id.index_scan:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
                 break;
-//            case R.id.index_history:
-//                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, "");
-//                if (Utils.isNetworkAvailable(getActivity())) {
-//                    String relativeUrl = UserProfile.getInstance().getHistoryUrl();
-//                    String url = UrlFactory.checkHistoryForHtml(relativeUrl);
-//                    // BrowserActivity.startActivity(getActivity(), url);
-//                    arryUrl = new String[]{url, url};
-//                    Intent intent = new Intent(getActivity(), TabLayoutActivity.class);
-//                    intent.putExtra(TabLayoutActivity.EXTRA_KEY_URLS, arryUrl);
-//                    intent.putExtra(TabLayoutActivity.EXTRA_KEY_TITLES, getActivity().getResources().getStringArray(R.array.tab_title_veri_history));
-//                    getActivity().startActivity(intent);
-//
-//                } else {
-//                    Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
-//                }
-//                break;
+
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LoginInfoFragment.class.getName());
                 break;
+
             case R.id.index_search_btn:
                 if (TextUtils.isEmpty(mCodeEditText.getText())) {
                     return;
@@ -229,6 +228,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 String urlStr = UrlFactory.searchCodeForHtml(code);
                 args.putString(BrowserActivityNew.EXTRA_KEY_URL, urlStr);
                 break;
+
             default:
                 return;
         }
