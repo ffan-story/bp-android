@@ -1,7 +1,7 @@
 package com.feifan.bp.home;
 
 
-import com.feifan.bp.base.BaseModel;
+import com.feifan.bp.network.BaseModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,16 +19,14 @@ public class StoreModel extends BaseModel {
     private ArrayList<StoreDetailModel> storeList;
 
     public StoreModel(JSONObject json) {
-        super(json, true);
+        super(json);
     }
 
     @Override
-    protected void parseData(JSONObject data) {
+    protected void parseData(String json) throws JSONException {
+        super.parseData(json);
 
-    }
-
-    @Override
-    protected void parseArrayData(JSONArray data) {
+        JSONArray data = new JSONArray(json);
         storeList = new ArrayList<StoreDetailModel>();
         for (int i = 0; i < data.length(); i++) {
             storeDetailModel = new StoreDetailModel();

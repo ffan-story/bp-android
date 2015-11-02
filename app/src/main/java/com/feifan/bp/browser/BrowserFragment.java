@@ -175,7 +175,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
         if (mShowFab) {
             mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
-            sUrl = mUrl + "&storeId=" + mStoreId;
+            sUrl = mUrl + "&storeId=" + 9050631;
         } else {
             sUrl = mUrl;
         }
@@ -277,6 +277,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             cookieManager.removeAllCookie();
             Log.i(TAG, "webview'cache has been cleared!");
         }
+
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setAppCachePath(getActivity().getCacheDir().getAbsolutePath());

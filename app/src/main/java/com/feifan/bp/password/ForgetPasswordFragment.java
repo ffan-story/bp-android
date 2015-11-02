@@ -17,7 +17,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.net.BaseRequestProcessListener;
+import com.feifan.bp.network.BaseModel;
 import com.feifan.bp.util.SecureUtil;
 import com.feifan.bp.widget.CountDownButton;
 
@@ -141,23 +141,6 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                         getActivity().onBackPressed();
                     }
                 });
-
-//                PasswordCtrl.forgetPassword(getActivity(), newPhone, mAuthCode, mKeyCode,
-//                        new BaseRequestProcessListener<PasswordModel>(getActivity()) {
-//                    @Override
-//                    public void onResponse(PasswordModel passwordModel2) {
-//                        Utils.showShortToast(getActivity(), getString(R.string.new_password_sended));
-//                        getActivity().onBackPressed();
-//                    }
-//                });
-
-//                PasswordCtrl.forgetPassword(newPhone, mAuthCode, mKeyCode, new Response.Listener<PasswordModel>() {
-//                    @Override
-//                    public void onResponse(PasswordModel model) {
-//                        Utils.showShortToast(getString(R.string.new_password_sended));
-//                        getActivity().onBackPressed();
-//                    }
-//                });
                 break;
             case R.id.get_sms_code:
                 if (!isCheckedMobile(phone)) {
@@ -171,13 +154,12 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                         mAuthCode = passwordModel.getAuthCode();
                         mKeyCode = passwordModel.getKey();
                         getSmsCode();
-                        PasswordCtrl.sendSMSCode(getActivity(), phone, mRadomSmsCode,
-                                new BaseRequestProcessListener<PasswordModel>(getActivity()) {
-                                    @Override
-                                    public void onResponse(PasswordModel passwordModel2) {
-                                        Utils.showShortToast(getActivity(), getString(R.string.sms_sended));
-                                    }
-                                });
+                        PasswordCtrl.sendSMSCode(phone, mRadomSmsCode, new Listener<BaseModel>() {
+                            @Override
+                            public void onResponse(BaseModel baseModel) {
+                                Utils.showShortToast(getActivity(), getString(R.string.sms_sended));
+                            }
+                        });
                     }
                 });
                 break;

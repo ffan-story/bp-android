@@ -16,12 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.Response;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.net.BaseRequestProcessListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -181,20 +181,27 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                     return;
                 }
                 mIsConfirmEnable = false;
-                PasswordCtrl.resetPassword(getActivity(), oldPwd, newPwd,
-                        new BaseRequestProcessListener<PasswordModel>(getActivity()) {
-                            @Override
-                            public void onResponse(PasswordModel passwordModel2) {
-                                getActivity().onBackPressed();
-                                Utils.showShortToast(getActivity(), getString(R.string.reset_pwd_suc));
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                super.onFinish();
-                                mIsConfirmEnable = true;
-                            }
-                        });
+                PasswordCtrl.resetPassword(oldPwd, newPwd, new Response.Listener<PasswordModel>() {
+                    @Override
+                    public void onResponse(PasswordModel passwordModel) {
+                        getActivity().onBackPressed();
+                        Utils.showShortToast(getActivity(), getString(R.string.reset_pwd_suc));
+                    }
+                });
+//                PasswordCtrl.resetPassword(getActivity(), oldPwd, newPwd,
+//                        new BaseRequestProcessListener<PasswordModel>(getActivity()) {
+//                            @Override
+//                            public void onResponse(PasswordModel passwordModel2) {
+//                                getActivity().onBackPressed();
+//                                Utils.showShortToast(getActivity(), getString(R.string.reset_pwd_suc));
+//                            }
+//
+//                            @Override
+//                            public void onFinish() {
+//                                super.onFinish();
+//                                mIsConfirmEnable = true;
+//                            }
+//                        });
 
                 break;
         }

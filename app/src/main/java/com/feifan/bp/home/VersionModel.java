@@ -1,14 +1,14 @@
 package com.feifan.bp.home;
 
-import com.feifan.bp.base.BaseModel;
+import com.feifan.bp.network.BaseModel;
 
-import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * Created by maning on 15/8/7.
  */
-public class VersionUpdateModel extends BaseModel {
+public class VersionModel extends BaseModel {
 
     public static final int UPDATE_NO_UPDATE = -1;
     public static final int UPDATE_NO_FORCE = 0;
@@ -19,16 +19,14 @@ public class VersionUpdateModel extends BaseModel {
     private String versionUrl;
     private int mustUpdate;
 
-    public VersionUpdateModel(JSONObject json) {
-        super(json, false);
-    }
-    @Override
-    protected void parseArrayData(JSONArray data) {
-
+    public VersionModel(JSONObject json) {
+        super(json);
     }
 
     @Override
-    protected void parseData(JSONObject data) {
+    protected void parseData(String json) throws JSONException {
+        super.parseData(json);
+        JSONObject data = new JSONObject(json);
         versionCode = data.optInt("versionCode");
         versionDesc = data.optString("versionDesc");
         versionUrl = data.optString("versionUrl");

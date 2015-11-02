@@ -16,13 +16,17 @@
 
 package com.feifan.bp.network;
 
+import android.util.Log;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.feifan.bp.Constants;
 import com.feifan.bp.util.LogUtil;
 
 import org.json.JSONException;
@@ -41,7 +45,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @param <T> JSON type of response expected
  */
-public class JsonRequest<T> extends Request<T> {
+public class JsonRequest<T extends BaseModel> extends Request<T> {
 
     protected static final String TAG = "Request";
 
@@ -85,22 +89,17 @@ public class JsonRequest<T> extends Request<T> {
             LogUtil.i(TAG, "Receive:" + jsonString);
             if (mClazz != null) {
                 Constructor<T> constructor = mClazz.getConstructor(JSONObject.class);
-                return Response.success(constructor.newInstance(new JSONObject(jsonString)),
-                        HttpHeaderParser.parseCacheHeaders(response));
+                T t = constructor.newInstance(new JSONObject(jsonString));
+                if(t.status == Constants.RESPONSE_CODE_SUCCESS) {
+                    return Response.success(t, HttpHeaderParser.parseCacheHeaders(response));
+                }else {
+                    return Response.error(new VolleyError(t.msg));
+                }
             }
-        } catch (UnsupportedEncodingException e) {
+            return Response.error(new VolleyError("unknown error!"));
+        } catch (Exception e) {
+            Log.e("xuchunlei", "---------------->big error!");
             return Response.error(new ParseError(e));
-        } catch (NoSuchMethodException e) {
-            Response.error(new ParseError(e));
-        } catch (InvocationTargetException e) {
-            Response.error(new ParseError(e));
-        } catch (InstantiationException e) {
-            Response.error(new ParseError(e));
-        } catch (IllegalAccessException e) {
-            Response.error(new ParseError(e));
-        } catch (JSONException e) {
-            Response.error(new ParseError(e));
         }
-        return null;
     }
 }

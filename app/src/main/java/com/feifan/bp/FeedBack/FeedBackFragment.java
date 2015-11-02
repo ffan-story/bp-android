@@ -17,6 +17,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.network.BaseModel;
 
 /**
  * Created by tianjun on 2015-10-27.
@@ -56,9 +57,9 @@ public class FeedBackFragment extends BaseFragment implements View.OnClickListen
         int uid = manager.getUid();
         String description = mEtFeedBack.getText().toString();
         FeedBackCtrl.submitFeedBack(String.valueOf(uid), description,
-            new Response.Listener<FeedBackModel>() {
-              public void onResponse(FeedBackModel feedBackModel) {
-                if (feedBackModel.getStatus() == Constants.RESPONSE_CODE_SUCCESS) {
+            new Response.Listener<BaseModel>() {
+              public void onResponse(BaseModel feedBackModel) {
+                if (feedBackModel.status == Constants.RESPONSE_CODE_SUCCESS) {
                   Utils.showLongToast(getActivity(), R.string.feed_back_success_prompt,
                           Gravity.CENTER);
                   if (mListener != null) {
@@ -70,7 +71,7 @@ public class FeedBackFragment extends BaseFragment implements View.OnClickListen
                     mListener.onFragmentInteraction(b);
                   }
                 } else {
-                  Utils.showShortToast(getActivity(), feedBackModel.getMsg(),
+                  Utils.showShortToast(getActivity(), feedBackModel.msg,
                           Gravity.CENTER);
                 }
               }

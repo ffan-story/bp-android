@@ -143,7 +143,7 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/userAuth";
     }
 
-    public static String checkVersion() {
+    public static String getCheckVersionUrl() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/getversioninfo?appType=bpMobile";
     }
 
@@ -155,11 +155,11 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/forgetpwd";
     }
 
-    public static String resetPassword() {
+    public static String getResetPasswordUrl() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/editPassword";
     }
 
-    public static String sendSMS() {
+    public static String getSendSMSUrl() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/phoneSms";
     }
 
@@ -176,13 +176,8 @@ public abstract class UrlFactory {
     }
 
     //add by tianjun 2015.10.29
-<<<<<<< Updated upstream:app/src/main/java/com/feifan/bp/network/UrlFactory.java
     public static String submitFeedBack() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/feedback";
-=======
-    public static String submitFeedBack(){
-        return  EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/feedback";
->>>>>>> Stashed changes:app/src/main/java/com/feifan/bp/net/UrlFactory.java
     }
 
     public static String getLoginInfo(){

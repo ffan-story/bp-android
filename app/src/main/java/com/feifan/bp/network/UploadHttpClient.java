@@ -1,4 +1,4 @@
-package com.feifan.bp.net;
+package com.feifan.bp.network;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;

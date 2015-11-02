@@ -10,13 +10,13 @@ import java.util.Map;
  *
  * Created by xuchunlei on 15/10/27.
  */
-public class GetRequest<T> extends JsonRequest<T> {
+public class GetRequest<T extends BaseModel> extends JsonRequest<T> {
 
     public GetRequest(String url, ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
     }
 
-    public static class Builder<T> {
+    public static class Builder<T extends BaseModel> {
 
         private String mUrl;
         private Map<String, String> mParams;

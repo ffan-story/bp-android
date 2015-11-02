@@ -7,16 +7,14 @@ import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 
+import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.feifan.bp.base.BaseActivity;
-import com.feifan.bp.home.VersionUpdateModel;
-import com.feifan.bp.home.VersionUpdateRequest;
+import com.feifan.bp.home.HomeCtrl;
+import com.feifan.bp.home.VersionModel;
 import com.feifan.bp.login.AuthListModel;
 import com.feifan.bp.login.UserCtrl;
-import com.feifan.bp.net.BaseRequest;
-import com.feifan.bp.net.BaseRequestProcessListener;
-import com.feifan.bp.net.HttpEngine;
 import com.feifan.bp.util.LogUtil;
 
 /**
@@ -62,148 +60,140 @@ public class SplashActivity extends BaseActivity {
 
     private void checkVersion() {
 
-        VersionUpdateRequest.Params parameters = BaseRequest.newParams(VersionUpdateRequest.Params.class);
-        parameters.setCurrVersionCode(Utils.getVersionCode(this) + "");
-        HttpEngine.Builder builder = HttpEngine.Builder.newInstance(this);
-        builder.setRequest(new VersionUpdateRequest(parameters,
-                new BaseRequestProcessListener<VersionUpdateModel>(this, false, false) {
-                    @Override
-                    public void onResponse(VersionUpdateModel model) {
+        HomeCtrl.checkVersion(new Listener<VersionModel>() {
+            @Override
+            public void onResponse(VersionModel versionModel) {
+                final int mustUpdate = versionModel.getMustUpdate();
+                final String url = versionModel.getVersionUrl();
+                final int versionCode = versionModel.getVersionCode();
 
-                        final int mustUpdate = model.getMustUpdate();
-                        final String url = model.getVersionUrl();
-                        final int versionCode = model.getVersionCode();
+                UserProfile manager = UserProfile.getInstance();
+                int uid = manager.getUid();
 
-                        UserProfile manager = UserProfile.getInstance();
-                        int uid = manager.getUid();
+                if (uid == Constants.NO_INTEGER) {
+                    int sVersionCode = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
+                            getInt(PREF_VERSION_CODE, -1);
 
-                        if (uid == Constants.NO_INTEGER) {
-                            int sVersionCode = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
-                                    getInt(PREF_VERSION_CODE, -1);
-
-                            if (versionCode <= sVersionCode) {
-                                startActivity(LaunchActivity.buildIntent(SplashActivity.this));
-                                finish();
-                                return;
-                            }
-                            if (mustUpdate == VersionUpdateModel.UPDATE_NO_UPDATE) {
-                                startActivity(LaunchActivity.buildIntent(SplashActivity.this));
-                                finish();
-                            } else {
-                                AlertDialog.Builder b = new AlertDialog.Builder(SplashActivity.this);
-                                b.setTitle(getString(R.string.version_update_title));
-
-                                b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-                                        editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
-                                        editor.apply();
-                                        startActivity(Utils.getSystemBrowser(url));
-                                        finish();
-                                    }
-                                });
-                                if (mustUpdate == VersionUpdateModel.UPDATE_NO_FORCE) {
-                                    b.setMessage(getString(R.string.version_update_normal));
-                                    b.setNegativeButton(getString(R.string.btn_version_update_later), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-                                            editor.putInt(PREF_VERSION_CODE, versionCode);
-                                            editor.apply();
-                                            dialog.dismiss();
-                                            startActivity(LaunchActivity.buildIntent(SplashActivity.this));
-                                            finish();
-                                        }
-                                    });
-                                } else {
-                                    b.setMessage(getString(R.string.version_update_force));
-                                    b.setNegativeButton(getString(R.string.common_cancel), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            finish();
-                                        }
-                                    });
-                                }
-
-                                b.setCancelable(false);
-                                b.create().show();
-                            }
-                        } else {
-                            UserCtrl.checkPermissions(manager.getUid(),
-                                    new Listener<AuthListModel>() {
-                                        @Override
-                                        public void onResponse(AuthListModel authListModel) {
-                                            UserProfile manager = UserProfile.getInstance();
-                                            manager.setAuthList(authListModel.toJsonString());
-
-                                            int sVersionCode = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
-                                                    getInt(PREF_VERSION_CODE, -1);
-
-                                            if (versionCode <= sVersionCode) {
-                                                startActivity(LaunchActivity.buildIntent(SplashActivity.this));
-                                                finish();
-                                                return;
-                                            }
-                                            if (mustUpdate == VersionUpdateModel.UPDATE_NO_UPDATE) {
-                                                startActivity(LaunchActivity.buildIntent(SplashActivity.this));
-                                                finish();
-                                            } else {
-                                                AlertDialog.Builder b = new AlertDialog.Builder(SplashActivity.this);
-                                                b.setTitle(getString(R.string.version_update_title));
-
-                                                b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-                                                        editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
-                                                        editor.apply();
-                                                        startActivity(Utils.getSystemBrowser(url));
-                                                        finish();
-                                                    }
-                                                });
-                                                if (mustUpdate == VersionUpdateModel.UPDATE_NO_FORCE) {
-                                                    b.setMessage(getString(R.string.version_update_normal));
-                                                    b.setNegativeButton(getString(R.string.btn_version_update_later), new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-                                                            editor.putInt(PREF_VERSION_CODE, versionCode);
-                                                            editor.apply();
-                                                            dialog.dismiss();
-                                                            startActivity(LaunchActivity.buildIntent(SplashActivity.this));
-                                                            finish();
-                                                        }
-                                                    });
-                                                } else {
-                                                    b.setMessage(getString(R.string.version_update_force));
-                                                    b.setNegativeButton(getString(R.string.common_cancel), new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            dialog.dismiss();
-                                                            finish();
-                                                        }
-                                                    });
-                                                }
-
-                                                b.setCancelable(false);
-                                                b.create().show();
-                                            }
-                                        }
-                                    });
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        super.onErrorResponse(error);
-                        LogUtil.i(TAG, "onErrorResponse() error=" + (error != null ? error.getMessage() : "null"));
+                    if (versionCode <= sVersionCode) {
                         startActivity(LaunchActivity.buildIntent(SplashActivity.this));
                         finish();
+                        return;
                     }
-                })).build().start();
+                    if (mustUpdate == VersionModel.UPDATE_NO_UPDATE) {
+                        startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+                        finish();
+                    } else {
+                        AlertDialog.Builder b = new AlertDialog.Builder(SplashActivity.this);
+                        b.setTitle(getString(R.string.version_update_title));
+
+                        b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+                                editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
+                                editor.apply();
+                                startActivity(Utils.getSystemBrowser(url));
+                                finish();
+                            }
+                        });
+                        if (mustUpdate == VersionModel.UPDATE_NO_FORCE) {
+                            b.setMessage(getString(R.string.version_update_normal));
+                            b.setNegativeButton(getString(R.string.btn_version_update_later), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+                                    editor.putInt(PREF_VERSION_CODE, versionCode);
+                                    editor.apply();
+                                    dialog.dismiss();
+                                    startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+                                    finish();
+                                }
+                            });
+                        } else {
+                            b.setMessage(getString(R.string.version_update_force));
+                            b.setNegativeButton(getString(R.string.common_cancel), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            });
+                        }
+
+                        b.setCancelable(false);
+                        b.create().show();
+                    }
+                } else {
+                    UserCtrl.checkPermissions(manager.getUid(),
+                            new Listener<AuthListModel>() {
+                                @Override
+                                public void onResponse(AuthListModel authListModel) {
+                                    UserProfile manager = UserProfile.getInstance();
+                                    manager.setAuthList(authListModel.toJsonString());
+
+                                    int sVersionCode = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
+                                            getInt(PREF_VERSION_CODE, -1);
+
+                                    if (versionCode <= sVersionCode) {
+                                        startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+                                        finish();
+                                        return;
+                                    }
+                                    if (mustUpdate == VersionModel.UPDATE_NO_UPDATE) {
+                                        startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+                                        finish();
+                                    } else {
+                                        AlertDialog.Builder b = new AlertDialog.Builder(SplashActivity.this);
+                                        b.setTitle(getString(R.string.version_update_title));
+
+                                        b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+                                                editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
+                                                editor.apply();
+                                                startActivity(Utils.getSystemBrowser(url));
+                                                finish();
+                                            }
+                                        });
+                                        if (mustUpdate == VersionModel.UPDATE_NO_FORCE) {
+                                            b.setMessage(getString(R.string.version_update_normal));
+                                            b.setNegativeButton(getString(R.string.btn_version_update_later), new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+                                                    editor.putInt(PREF_VERSION_CODE, versionCode);
+                                                    editor.apply();
+                                                    dialog.dismiss();
+                                                    startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+                                                    finish();
+                                                }
+                                            });
+                                        } else {
+                                            b.setMessage(getString(R.string.version_update_force));
+                                            b.setNegativeButton(getString(R.string.common_cancel), new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                    finish();
+                                                }
+                                            });
+                                        }
+
+                                        b.setCancelable(false);
+                                        b.create().show();
+                                    }
+                                }
+                            });
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                LogUtil.i(TAG, "onErrorResponse() error=" + (volleyError != null ? volleyError.getMessage() : "null"));
+                startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+                finish();
+            }
+        });
     }
 }

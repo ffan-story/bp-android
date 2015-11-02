@@ -66,4 +66,9 @@ public class BaseModel {
     protected void parseData(String json) throws JSONException {
         // TODO Do not do anything here
     }
+
+    @Override
+    public String toString() {
+        return "status=" + status + ",msg=" + msg;
+    }
 }

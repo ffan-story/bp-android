@@ -1,16 +1,12 @@
 package com.feifan.bp.home;
 
-import android.content.Context;
 
-import com.android.volley.Response;
+import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.R;
-import com.feifan.bp.Utils;
-import com.feifan.bp.net.BaseRequestProcessListener;
-import com.feifan.bp.net.DefaultHttpProcessor;
-import com.feifan.bp.net.HttpEngine;
+import com.feifan.bp.network.JsonRequest;
+import com.feifan.bp.network.PostRequest;
+import com.feifan.bp.network.UrlFactory;
 
 /**
  * 主界面控制类
@@ -20,14 +16,14 @@ import com.feifan.bp.net.HttpEngine;
 public class HomeCtrl {
 
     /**
-     * 获取商户详情信息
+     * 检查更新
      *
      * @param listener
      */
-//    public static void checkVersion(Context context,
-//                                    BaseRequestProcessListener<CheckVersionModel> listener) {
-//        HttpEngine.Builder builder = HttpEngine.Builder.newInstance(context);
-//        builder.setRequest(new CheckVersionRequest(listener)).build().start();
-//    }
+    public static void checkVersion(Listener<VersionModel> listener, ErrorListener errorListener) {
+        JsonRequest<VersionModel> request = new PostRequest<VersionModel>(UrlFactory.getCheckVersionUrl(), errorListener)
+                .listener(listener);
+        PlatformState.getInstance().getRequestQueue().add(request);
+    }
 
 }

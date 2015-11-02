@@ -13,16 +13,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.android.volley.Response.Listener;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.net.BaseRequestProcessListener;
 import com.feifan.bp.password.ForgetPasswordFragment;
-
-import org.json.JSONObject;
 
 /**
  * 登录界面Fragment
