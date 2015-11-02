@@ -108,7 +108,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (this.isFinishing()) {
             return;
         }
-        dismissDialog(DIALOG_ID_PROGRESS_BAR);
+        removeDialog(DIALOG_ID_PROGRESS_BAR);
     }
 
     @Override

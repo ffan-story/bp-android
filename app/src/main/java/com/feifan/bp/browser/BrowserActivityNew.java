@@ -18,14 +18,10 @@ public class BrowserActivityNew extends BaseActivity implements OnFragmentIntera
     public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
     private boolean mIsStaffManagementPage = false;
 
-//    public static void startActivity(Context context, String url) {
-//        startActivity(context, url, false);
-//    }
 //
     public static void startActivity(Context context, String url) {
         Intent i = new Intent(context, BrowserActivityNew.class);
         i.putExtra(EXTRA_KEY_URL, url);
-//        i.putExtra(EXTRA_KEY_STAFF_MANAGE, staffManage);
         context.startActivity(i);
     }
 
@@ -44,7 +40,7 @@ public class BrowserActivityNew extends BaseActivity implements OnFragmentIntera
         //初始化数据
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.browser_fragment, BrowserFragment.newInstance(url, mIsStaffManagementPage));
+        transaction.replace(R.id.browser_fragment, BrowserFragment.newInstance(url));
         transaction.commitAllowingStateLoss();
     }
 

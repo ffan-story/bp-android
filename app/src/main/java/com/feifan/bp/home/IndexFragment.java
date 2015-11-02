@@ -177,17 +177,14 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         mListener = null;
     }
 
-    private String arryUrl[];
-
-
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.index_history){//验证历史
             if (Utils.isNetworkAvailable(getActivity())) {
-            String relativeUrl = UserProfile.getInstance().getHistoryUrl();
-            String url = UrlFactory.checkHistoryForHtml(relativeUrl);
-                BrowserTabActivity.startActivity(getActivity(), url, getActivity().getResources().getStringArray(R.array.tab_title_veri_history),
-                        getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title),false);
+                String relativeUrl = UserProfile.getInstance().getHistoryUrl();
+                String url = UrlFactory.checkHistoryForHtml(relativeUrl);
+                BrowserTabActivity.startActivity(getActivity(), url, getActivity().getResources().getStringArray(R.array.data_type),
+                        getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
             }else{
                 Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
             }

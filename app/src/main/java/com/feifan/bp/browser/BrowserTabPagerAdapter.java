@@ -10,14 +10,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
     private String tabTitles[] ;
 
-    private boolean mIsStaffManagementPage = false;
     private String url;
     private String urlStatus[];
 
-    public BrowserTabPagerAdapter(FragmentManager fm,String[] tabTitles, String url,String[] urlStatus,boolean mIsStaffManagementPage) {
+    public BrowserTabPagerAdapter(FragmentManager fm,String[] tabTitles, String url,String[] urlStatus) {
         super(fm);
         this.urlStatus= urlStatus;
-        this.mIsStaffManagementPage = mIsStaffManagementPage;
         this.tabTitles = tabTitles;
         this.url = url;
     }
@@ -25,7 +23,7 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (urlStatus!=null && urlStatus.length>0){
-            return BrowserFragment.newInstance(url + urlStatus[position], mIsStaffManagementPage);
+            return BrowserFragment.newInstance(url + urlStatus[position]);
         }else{
             return null;
         }

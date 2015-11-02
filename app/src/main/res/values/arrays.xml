@@ -13,11 +13,6 @@
     </array>
     <!-- 主界面－end -->
 
-    <array name="tab_title_veri_history">
-        <item>@string/tab_veri_history_pickupgoods</item>
-        <item>@string/tab_veri_history_coupone</item>
-    </array>
-
     <!--验证历史-->
     <array name="tab_title_veri_history_title">
         <item>@string/tab_veri_history_pickupgoods</item>

@@ -27,13 +27,11 @@ public class BrowserTabActivity extends BaseActivity implements View.OnClickList
     public static final String EXTRA_KEY_URL = "url";
     public static final String EXTRA_KEY_TITLES = "titles";
     public static final String EXTRA_KEY_STATUS = "status";
-    public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
-    private boolean mIsStaffManagementPage = false;
+//    public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
 
 
     public static void startActivity(Context context, String url) {
-
-        startActivity(context, url,null, null, false);
+        startActivity(context, url,null, null);
     }
 
     /**
@@ -42,14 +40,12 @@ public class BrowserTabActivity extends BaseActivity implements View.OnClickList
      * @param url
      * @param Status
      * @param titles
-     * @param staffManage
      */
-    public static void startActivity(Context context,String url,String[] Status, String[] titles, boolean staffManage) {
+    public static void startActivity(Context context,String url,String[] Status, String[] titles) {
         Intent i = new Intent(context, BrowserTabActivity.class);
         i.putExtra(EXTRA_KEY_URL, url);
         i.putExtra(EXTRA_KEY_STATUS, Status);
         i.putExtra(EXTRA_KEY_TITLES, titles);
-        i.putExtra(EXTRA_KEY_STAFF_MANAGE, staffManage);
         context.startActivity(i);
     }
 
@@ -62,23 +58,17 @@ public class BrowserTabActivity extends BaseActivity implements View.OnClickList
         url = getIntent().getStringExtra(EXTRA_KEY_URL);
         arryStatus = getIntent().getStringArrayExtra(EXTRA_KEY_STATUS);
         tabTitles = getIntent().getStringArrayExtra(EXTRA_KEY_TITLES);
-
-        mIsStaffManagementPage = getIntent().getBooleanExtra(EXTRA_KEY_STAFF_MANAGE, false);
-        pagerAdapter = new BrowserTabPagerAdapter(getSupportFragmentManager(),tabTitles,url,arryStatus,mIsStaffManagementPage);
+        pagerAdapter = new BrowserTabPagerAdapter(getSupportFragmentManager(),tabTitles,url,arryStatus);
         viewPager.setAdapter(pagerAdapter);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        if (tabTitles == null ){
-            setTabVisibility(false);
-        }else{
-            tabLayout.setupWithViewPager(viewPager);
-            arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
-            setTabVisibility(true);
-            if(tabTitles.length>4){
-                tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-            } else{
-                tabLayout.setTabMode(TabLayout.MODE_FIXED);
-            }
+        tabLayout.setupWithViewPager(viewPager);
+        arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
+        if(tabTitles.length>4){
+            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        } else{
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
         }
+
     }
 
     @Override
@@ -93,17 +83,4 @@ public class BrowserTabActivity extends BaseActivity implements View.OnClickList
     }
 
 
-    /**
-     * 设置tab显示隐藏
-     * true：隐藏
-     * false：
-     * @param isVisible
-     */
-    public void setTabVisibility(boolean isVisible){
-        if(isVisible){
-            tabLayout.setVisibility(View.VISIBLE);
-        }else{
-            tabLayout.setVisibility(View.GONE);
-        }
-    }
 }

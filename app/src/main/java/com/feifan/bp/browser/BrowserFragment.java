@@ -121,10 +121,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     BrowserTabActivity parentActivity;
 
-    public static BrowserFragment newInstance(String url, boolean mIsStaffManagementPage) {
+    public static BrowserFragment newInstance(String url) {
         Bundle args = new Bundle();
         args.putString(EXTRA_KEY_URL, url);
-        args.putBoolean(EXTRA_KEY_STAFF_MANAGE, mIsStaffManagementPage);
         BrowserFragment browserFragment = new BrowserFragment();
         browserFragment.setArguments(args);
         return browserFragment;
