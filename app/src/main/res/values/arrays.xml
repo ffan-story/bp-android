@@ -17,4 +17,72 @@
         <item>@string/tab_veri_history_pickupgoods</item>
         <item>@string/tab_veri_history_coupone</item>
     </array>
+
+    <!--验证历史-->
+    <array name="tab_title_veri_history_title">
+        <item>@string/tab_veri_history_pickupgoods</item>
+        <item>@string/tab_veri_history_coupone</item>
+    </array>
+
+
+    <array name="data_type">
+        <item>"0"</item>
+        <item>"1"</item>
+    </array>
+
+
+
+
+    <!--退款售后 列表-->
+    <array name="tab_title_refund">
+        <item>所有状态</item>
+        <item>退款中</item>
+        <item>退款成功</item>
+        <item>退款失败</item>
+        <item>商户审核</item>
+        <item>运营审核</item>
+    </array>
+    <array name="tab_title_refund_status">
+        <item>,</item>
+        <item>PROCESSING</item>
+        <item>SUCCESS</item>
+        <item>FAIL</item>
+        <item>MER_REVIEW</item>
+        <item>OPER_REVIEW</item>
+    </array>
+
+
+    <!--退款单详情-->
+    <array name="tab_title_refund_detail_titles">
+        <item>退款单明细</item>
+        <item>订单明细</item>
+    </array>
+
+    <!--员工列表-->
+    <array name="tab_title_staff_management">
+        <item>正常状态</item>
+        <item>冻结状态</item>
+    </array>
+
+
+    <!--订单管理-->
+    <array name="tab_title_order">
+        <item>全部状态</item>
+        <item>待付款</item>
+        <item>POS交易关闭</item>
+        <item>交易关闭</item>
+        <item>付款成功</item>
+        <item>交易成功</item>
+        <item>交易完成</item>
+    </array>
+
+    <array name="tab_title_order_status">
+        <item>,</item>
+        <item>INITIAL</item>
+        <item>CLOSE</item>
+        <item>TRADE_CANCEL</item>
+        <item>PAY_SUCCESS</item>
+        <item>TRADE_SUCCESS</item>
+        <item>TRADE_FINISHED</item>
+    </array>
 </resources>

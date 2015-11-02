@@ -41,6 +41,15 @@ public class AuthSupplier {
          * @return
          */
         String getHistoryId();
+
+        /**
+         * 获取权限项tab标题资源
+         * <pre>
+         *     存在返回资源ID，不存在返回－1
+         * </pre>
+         * @return
+         */
+        int getAuthTabRes(int authId);
     }
 
     /**
@@ -73,6 +82,20 @@ public class AuthSupplier {
         public String getHistoryId() {
             return "1166";
         }
+
+        @Override
+        public int getAuthTabRes(int authId) {
+            switch (authId) {
+                case 1142:                     // 订单管理
+                    return R.array.tab_title_order;
+                case 1161:                     // 员工管理
+                    return R.array.tab_title_staff_management;
+                case 1162:                     // 退款售后
+                    return R.array.tab_title_refund;
+                default:
+                    return -1;
+            }
+        }
     }
 
     static class ProductAuthFactory implements IAuthFactory {
@@ -101,6 +124,20 @@ public class AuthSupplier {
         @Override
         public String getHistoryId() {
             return "1005";
+        }
+
+        @Override
+        public int getAuthTabRes(int authId) {
+            switch (authId) {
+                case 997:                     // 订单管理
+                    return R.array.tab_title_order;
+                case 1003:                     // 员工管理
+                    return R.array.tab_title_staff_management;
+                case 1004:                     // 退款售后
+                    return R.array.tab_title_refund;
+                default:
+                    return -1;
+            }
         }
     }
 
