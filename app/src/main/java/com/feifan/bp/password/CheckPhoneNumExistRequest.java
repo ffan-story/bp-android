@@ -14,7 +14,7 @@ public class CheckPhoneNumExistRequest extends BaseRequest<PasswordModel> {
 
     private static final String TAG = CheckPhoneNumExistRequest.class.getSimpleName();
 
-    private static final String URL = UrlFactory.checkPhoneNumExist();
+    private static final String URL = UrlFactory.getCheckPhoneNumExistUrl();
 
     public CheckPhoneNumExistRequest(Parameters parameters,
                                      BaseRequestProcessListener<PasswordModel> listener) {

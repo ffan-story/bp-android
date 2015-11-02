@@ -31,21 +31,6 @@ public class UserCtrl {
         return USER_STATUS_NONE;
     }
 
-//    public static void login(Context context, String account, String password,
-//                             BaseRequestProcessListener<UserModel> listener) {
-//
-//        LoginRequest.Params params = BaseRequest.newParams(LoginRequest.Params.class);
-//        params.setPassword(password);
-//        params.setUserName(account);
-//        params.setAuthRangeType("store,merchant");
-//        HttpEngine.Builder.newInstance(context).
-//                setRequest(new LoginRequest(params, listener)).
-//                build().start();
-//
-//    }
-
-
-
     /**
      * 登录请求
      * @param account     账号名
@@ -78,29 +63,5 @@ public class UserCtrl {
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }
-
-//    public static void login(String userName, String password, Listener<JSONObject> listener){
-//        JSONObject params = new JSONObject();
-//        try {
-//            params.put("userName", userName);
-//            params.put("password", password);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        HttpService.getInstance().requestAsync(new JsonObjectRequest(
-//                Method.POST, UrlFactory.getLoginUrl(), params, listener, null));
-
-//    JsonRequest<UserModel> getRequest = new GetRequest.Builder<UserModel>(UrlFactory.getLoginUrl())
-//        .param("userName", account)
-//        .param("password", password)
-//        .param("authRangeType", "store,merchant")
-//        .build()
-//        .targetClass(UserModel.class)
-//        .listener(listener);
-
-//        GetRequest<UserModel> request = new GetRequest.Builder<UserModel>(UrlFactory.getLoginUrl())
-//                .build();
-//    }
 
 }

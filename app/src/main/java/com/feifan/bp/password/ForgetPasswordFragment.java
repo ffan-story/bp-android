@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.Response.Listener;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
@@ -133,15 +134,22 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                     return;
                 }
 
-
-                PasswordCtrl.forgetPassword(getActivity(), newPhone, mAuthCode, mKeyCode,
-                        new BaseRequestProcessListener<PasswordModel>(getActivity()) {
+                PasswordCtrl.forgetPassword(newPhone, mAuthCode, mKeyCode, new Listener() {
                     @Override
-                    public void onResponse(PasswordModel passwordModel2) {
+                    public void onResponse(Object o) {
                         Utils.showShortToast(getActivity(), getString(R.string.new_password_sended));
                         getActivity().onBackPressed();
                     }
                 });
+
+//                PasswordCtrl.forgetPassword(getActivity(), newPhone, mAuthCode, mKeyCode,
+//                        new BaseRequestProcessListener<PasswordModel>(getActivity()) {
+//                    @Override
+//                    public void onResponse(PasswordModel passwordModel2) {
+//                        Utils.showShortToast(getActivity(), getString(R.string.new_password_sended));
+//                        getActivity().onBackPressed();
+//                    }
+//                });
 
 //                PasswordCtrl.forgetPassword(newPhone, mAuthCode, mKeyCode, new Response.Listener<PasswordModel>() {
 //                    @Override
@@ -155,13 +163,13 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                 if (!isCheckedMobile(phone)) {
                     return;
                 }
-                PasswordCtrl.checkPhoneNumExist(getActivity(), phone,
-                        new BaseRequestProcessListener<PasswordModel>(getActivity()) {
+
+                PasswordCtrl.checkPhoneNumExist(phone, new Listener<PasswordModel>() {
                     @Override
-                    public void onResponse(PasswordModel passwordModel2) {
+                    public void onResponse(PasswordModel passwordModel) {
                         mCountDownButton.startCountDown();
-                        mAuthCode = passwordModel2.getAuthCode();
-                        mKeyCode = passwordModel2.getKey();
+                        mAuthCode = passwordModel.getAuthCode();
+                        mKeyCode = passwordModel.getKey();
                         getSmsCode();
                         PasswordCtrl.sendSMSCode(getActivity(), phone, mRadomSmsCode,
                                 new BaseRequestProcessListener<PasswordModel>(getActivity()) {
@@ -170,28 +178,8 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                                         Utils.showShortToast(getActivity(), getString(R.string.sms_sended));
                                     }
                                 });
-//                        PasswordCtrl.sendSMSCode(phone, mRadomSmsCode, new Response.Listener<PasswordModel>() {
-//                            @Override
-//                            public void onResponse(PasswordModel model) {
-//                                Utils.showShortToast(getString(R.string.sms_sended));
-//                            }
-//                        });
                     }
                 });
-//                PasswordCtrl.checkPhoneNumExist(phone, new Response.Listener<PasswordModel>() {
-//                    @Override
-//                    public void onResponse(PasswordModel model) {
-//                        mCountDownButton.startCountDown();
-//                        mAuthCode=model.authCode;
-//                        mKeyCode=model.key;
-//                        getSmsCode();
-//                        PasswordCtrl.sendSMSCode(phone, mRadomSmsCode, new Response.Listener<PasswordModel>() {
-//                            @Override
-//                            public void onResponse(PasswordModel model) {  Utils.showShortToast(getString(R.string.sms_sended));
-//                            }
-//                        });
-//                    }
-//                });
                 break;
         }
     }

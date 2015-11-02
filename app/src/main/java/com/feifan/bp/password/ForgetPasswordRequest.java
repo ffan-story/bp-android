@@ -13,7 +13,7 @@ import org.json.JSONObject;
 public class ForgetPasswordRequest extends BaseRequest<PasswordModel> {
 
     private static final String TAG = ForgetPasswordRequest.class.getSimpleName();
-    private static String URL = UrlFactory.forgetPassword();
+    private static String URL = UrlFactory.getForgetPasswordUrl();
 
     public ForgetPasswordRequest(Parameters parameters,
                                  BaseRequestProcessListener<PasswordModel> listener) {

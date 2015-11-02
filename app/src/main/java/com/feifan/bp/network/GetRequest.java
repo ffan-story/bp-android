@@ -25,6 +25,7 @@ public class GetRequest<T> extends JsonRequest<T> {
         public Builder(String url){
             this.mUrl = url;
             mParams = new HashMap<String, String>();
+            mErrorListener = new DefaultErrorListener();
         }
 
         public Builder<T> errorListener(ErrorListener listener) {

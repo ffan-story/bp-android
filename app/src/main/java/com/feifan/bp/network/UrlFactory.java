@@ -147,11 +147,11 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/getversioninfo?appType=bpMobile";
     }
 
-    public static String checkPhoneNumExist() {
+    public static String getCheckPhoneNumExistUrl() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/verificationphone";
     }
 
-    public static String forgetPassword() {
+    public static String getForgetPasswordUrl() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/forgetpwd";
     }
 

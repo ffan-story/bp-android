@@ -49,7 +49,14 @@ public class AuthSupplier {
          * </pre>
          * @return
          */
-        int getAuthTabRes(int authId);
+        int getAuthTabTitleRes(int authId);
+
+        /**
+         * 获取权限项tab状态资源
+         * @param authId
+         * @return
+         */
+        int getAuthTabStatusRes(int authId);
     }
 
     /**
@@ -84,7 +91,7 @@ public class AuthSupplier {
         }
 
         @Override
-        public int getAuthTabRes(int authId) {
+        public int getAuthTabTitleRes(int authId) {
             switch (authId) {
                 case 1142:                     // 订单管理
                     return R.array.tab_title_order;
@@ -95,6 +102,21 @@ public class AuthSupplier {
                 default:
                     return -1;
             }
+        }
+
+        @Override
+        public int getAuthTabStatusRes(int authId) {
+            switch (authId){
+                case 1142: // 订单管理
+                    return R.array.tab_title_order_status;
+                case 1161: // 员工管理
+                    return R.array.data_type;
+                case 1162: // 退款售后
+                    return R.array.tab_title_refund_status;
+                default:
+                    return -1;
+            }
+
         }
     }
 
@@ -127,7 +149,7 @@ public class AuthSupplier {
         }
 
         @Override
-        public int getAuthTabRes(int authId) {
+        public int getAuthTabTitleRes(int authId) {
             switch (authId) {
                 case 997:                     // 订单管理
                     return R.array.tab_title_order;
@@ -135,6 +157,20 @@ public class AuthSupplier {
                     return R.array.tab_title_staff_management;
                 case 1004:                     // 退款售后
                     return R.array.tab_title_refund;
+                default:
+                    return -1;
+            }
+        }
+
+        @Override
+        public int getAuthTabStatusRes(int authId) {
+            switch (authId){
+                case 997: // 订单管理
+                    return R.array.tab_title_order_status;
+                case 1003: // 员工管理
+                    return R.array.data_type;
+                case 1004: // 退款售后
+                    return R.array.tab_title_refund_status;
                 default:
                     return -1;
             }
