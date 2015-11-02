@@ -29,14 +29,24 @@ public class HomeCtrl {
         PlatformState.getInstance().getRequestQueue().add(request);
     }
 
+<<<<<<< dbc9f3ff702b883299057a466e4b13547788c3c8
 
     /**
      * 获取消息列表
+=======
+    /**
+     * 获取消息列表
+     *
+>>>>>>> merge
      * @param userId
      * @param pageIndex
      * @param listener
      */
+<<<<<<< dbc9f3ff702b883299057a466e4b13547788c3c8
     public static void messageList(String userId,  String pageIndex, Listener listener) {
+=======
+    public static void messageList(String userId, String pageIndex, Listener listener) {
+>>>>>>> merge
         JsonRequest<MessageModel> request = new GetRequest.Builder<MessageModel>(UrlFactory.getMeaageList())
                 .param("userId", userId)
                 .param("userType", "1")//固定传1

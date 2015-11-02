@@ -218,6 +218,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         mPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
+                mWebView.loadUrl("about:blank");
                 mShadowView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.pop_bg_hide));
                 mShadowView.setVisibility(View.INVISIBLE);
                 if (lastSelectPos != mPopWindow.getSelectPos()) {
