@@ -11,7 +11,7 @@ import android.view.View;
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseActivity;
 
-public class BrowserTabActivity extends BaseActivity implements View.OnClickListener {
+public class BrowserTabActivity extends BaseActivity {
     private BrowserTabPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
@@ -75,11 +75,5 @@ public class BrowserTabActivity extends BaseActivity implements View.OnClickList
     protected boolean isShowToolbar() {
         return true;
     }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
 
 }

@@ -199,11 +199,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         } else {
             sUrl = mUrl;
         }
-        mWebView.loadUrl(sUrl);
-        PlatformState.getInstance().setLastUrl(sUrl);
         mWebView.loadUrl(mUrl);
-        Log.i(TAG, "mUrl===" + mUrl);
-        PlatformState.getInstance().setLastUrl(mUrl);
+        PlatformState.getInstance().setLastUrl(sUrl);
+
         return v;
     }
 
