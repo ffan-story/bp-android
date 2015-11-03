@@ -60,6 +60,7 @@ public class BrowserTabActivity extends BaseActivity {
         tabTitles = getIntent().getStringArrayExtra(EXTRA_KEY_TITLES);
         pagerAdapter = new BrowserTabPagerAdapter(getSupportFragmentManager(),tabTitles,url,arryStatus);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(0);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
         arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];

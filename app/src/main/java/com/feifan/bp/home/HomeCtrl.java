@@ -5,6 +5,8 @@ package com.feifan.bp.home;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.login.UserModel;
+import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.PostRequest;
 import com.feifan.bp.network.UrlFactory;
@@ -34,14 +36,30 @@ public class HomeCtrl {
      * @param pageIndex
      * @param listener
      */
-    public static void messageList(String userId,  String pageIndex, Listener listener) {
+    public static void messageList(String userId,  int pageIndex, Listener listener) {
         JsonRequest<MessageModel> request = new GetRequest.Builder<MessageModel>(UrlFactory.getMessgeList())
                 .param("userId", userId)
                 .param("userType", "1")//固定传1
-                .param("pageIndex", pageIndex)
-                .param("limit", Constants.LIST_MAX_LENGTH)
+                .param("pageIndex", Integer.toString(pageIndex))
+                .param("limit", Integer.toString(Constants.LIST_MAX_LENGTH))
                 .build()
                 .targetClass(MessageModel.class)
+                .listener(listener);
+        PlatformState.getInstance().getRequestQueue().add(request);
+    }
+
+    /**
+     * 设置消息状态
+     * @param userid
+     * @param maillnboxid
+     * @param listener
+     */
+    public static void setMessageStatusRead(String userid,  String maillnboxid, Listener listener) {
+        JsonRequest<MessageStatusModel> request = new PostRequest<MessageStatusModel>(UrlFactory.getMessgeListStatus(), new DefaultErrorListener())
+                .param("userId", userid)
+                .param("mailInboxId", maillnboxid)
+                .param("mailStatus", Constants.READ)
+                .targetClass(MessageStatusModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }

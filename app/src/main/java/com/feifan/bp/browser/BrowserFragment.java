@@ -179,7 +179,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lastSelectPos = ((PlatformApplication)getActivity().getApplicationContext()).getSelectPos();
+                lastSelectPos = ((PlatformApplication) getActivity().getApplicationContext()).getSelectPos();
                 selectMenu();
             }
         });
@@ -199,9 +199,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         } else {
             sUrl = mUrl;
         }
-        mWebView.loadUrl(mUrl);
+        mWebView.loadUrl(sUrl);
         PlatformState.getInstance().setLastUrl(sUrl);
-
         return v;
     }
 
@@ -413,11 +412,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }
             } else if(schema.equals(Constants.URL_SCHEME_ACTION)){
                 Uri httpUri = Uri.parse(url.replaceAll(schema, "http"));
-                String actionUri =  UrlFactory.getActionH5Url(httpUri.getAuthority()+httpUri.getEncodedPath()+"#"+httpUri.getEncodedFragment());
+                String actionUri = UrlFactory.urlForHtml(httpUri.getAuthority()+httpUri.getEncodedPath()+"#"+httpUri.getEncodedFragment());
                 LogUtil.i(TAG, "actionUri=======" +  actionUri);
                 if(actionUri.contains("/refund/detail")){//退款单详情
-                    BrowserTabActivity.startActivity(getActivity(),actionUri,getActivity().getResources().getStringArray(R.array.data_type),
+                    BrowserTabActivity.startActivity(getActivity(),actionUri+"&status=",getActivity().getResources().getStringArray(R.array.data_type),
                             getActivity().getResources().getStringArray(R.array.tab_title_refund_detail_titles));
+                }else  if(actionUri.contains("/order/detail") ||actionUri.contains("/staff/edit") ){
+                    BrowserActivity.startActivity(getActivity(),actionUri);
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
                 if(!isShowDlg) {

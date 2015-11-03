@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class MessageModel extends BaseModel {
 
     private MessageData mStrMessageData;
+    private int totalCount;
 
     private ArrayList<MessageData> messageDataList;
 
@@ -25,16 +26,18 @@ public class MessageModel extends BaseModel {
     @Override
     protected void parseData(String json) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
-        JSONArray dataArray = jsonObject.optJSONArray("data");
+        totalCount = jsonObject.optInt("totalCount");
+        JSONArray dataArray = jsonObject.getJSONArray("data");
         messageDataList = new ArrayList<MessageData>();
         for (int i = 0; i < dataArray.length(); i++) {
             mStrMessageData = new MessageData();
             try {
-                mStrMessageData.setmStrMessageId(dataArray.getJSONObject(i).optString("userId"));
-                mStrMessageData.setmStrMessageTitle(dataArray.getJSONObject(i).optString("content"));
-                mStrMessageData.setmStrMessageTime(dataArray.getJSONObject(i).optString("createTime"));
+                mStrMessageData.setmStrMessageTitle(dataArray.getJSONObject(i).optString("title"));
+                mStrMessageData.setmStrMessageTime(dataArray.getJSONObject(i).optString("createTime_text"));
                 mStrMessageData.setmStrMessageStatus(dataArray.getJSONObject(i).optString("mailStatus"));
-                mStrMessageData.setmStrMessageStatus(dataArray.getJSONObject(i).optString("detailH5Url"));
+                mStrMessageData.setmStrDetailUrl(dataArray.getJSONObject(i).optString("detailH5Url"));
+                mStrMessageData.setUserid(dataArray.getJSONObject(i).optString("userId"));
+                mStrMessageData.setMaillnboxid(dataArray.getJSONObject(i).optString("mailInboxId"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -46,13 +49,22 @@ public class MessageModel extends BaseModel {
         return messageDataList;
     }
 
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
     public class MessageData {
         private String mStrMessageId;
         private String mStrMessageTitle;
         private String mStrMessageTime;
         private String mStrMessageStatus;
         private String mStrDetailUrl;
-
+        private String userid;
+        private String maillnboxid;
         public String getmStrMessageStatus() {
             return mStrMessageStatus;
         }
@@ -91,6 +103,22 @@ public class MessageModel extends BaseModel {
 
         public void setmStrDetailUrl(String mStrDetailUrl) {
             this.mStrDetailUrl = mStrDetailUrl;
+        }
+
+        public String getUserid() {
+            return userid;
+        }
+
+        public void setUserid(String userid) {
+            this.userid = userid;
+        }
+
+        public String getMaillnboxid() {
+            return maillnboxid;
+        }
+
+        public void setMaillnboxid(String maillnboxid) {
+            this.maillnboxid = maillnboxid;
         }
     }
 }

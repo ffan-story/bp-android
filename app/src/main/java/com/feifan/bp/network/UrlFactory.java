@@ -136,8 +136,7 @@ public abstract class UrlFactory {
     public static String getActionH5Url(String actionUri) {
         String url = EnvironmentManager.getHostFactory().getFFanH5Host().
                 concat(actionUri).
-                concat("&showTabs=0").
-                concat("&status=");
+                concat("&showTabs=0");
         return url;
     }
 
@@ -204,6 +203,10 @@ public abstract class UrlFactory {
 
     public static String getMessgeList() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/message";
+    }
+
+    public static String getMessgeListStatus() {
+        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/messagestatus";
     }
 
     private static String formatRelativeUrl(String relativeUrl) {

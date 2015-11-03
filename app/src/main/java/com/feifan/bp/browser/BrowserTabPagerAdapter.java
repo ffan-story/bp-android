@@ -3,6 +3,9 @@ package com.feifan.bp.browser;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.text.TextUtils;
+
+import com.feifan.bp.util.LogUtil;
 
 /**
  *
@@ -22,7 +25,9 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (urlStatus!=null && urlStatus.length>0){
+        LogUtil.i("BrowserTabPagerAdapter","position===="+position);
+        if (urlStatus!=null && urlStatus.length>0 && !TextUtils.isEmpty(urlStatus[position])){
+            LogUtil.i("BrowserTabPagerAdapter","position===="+url + urlStatus[position]);
             return BrowserFragment.newInstance(url + urlStatus[position]);
         }else{
             return null;

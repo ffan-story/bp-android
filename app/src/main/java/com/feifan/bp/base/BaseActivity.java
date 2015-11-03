@@ -146,7 +146,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (hideSoftInputIfShow(ev)) {
             return true;
         }
-
         //Second, Let fragments have chances to handle motion events.
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         if (fragments != null) {

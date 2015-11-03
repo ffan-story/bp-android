@@ -6,7 +6,7 @@ package com.feifan.bp;
 public class Constants {
     public static final String TAG = "Platform";
 
-    public static String LIST_MAX_LENGTH = "10";
+    public static int LIST_MAX_LENGTH = 10;
     //密码长度范围
     public static int PASSWORD_MIN_LENGTH = 8;
     public static int PASSWORD_MAX_LENGTH = 20;
@@ -15,6 +15,13 @@ public class Constants {
     public static int IMAGE_MAX_WIDTH = 1280;
     public static int IMAGE_MAX_HEIGHT = 720;
     public static int IMAGE_MAX_BYTES = 1536;
+
+    /**
+     * 消息列表（已读未读）状态
+     */
+    public static String UNREAD="0";
+    public static String READ="1";
+    public static String IGNORE="2";
 
     // 非法的整型数值
     public static final int NO_INTEGER = -1;
