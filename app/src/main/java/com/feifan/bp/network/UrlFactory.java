@@ -79,8 +79,8 @@ public abstract class UrlFactory {
                 concat("&uid=").concat(String.valueOf(userProfile.getUid())).
                 concat("&appType=bpMobile").
                 concat("&merchantId=").concat(userProfile.getAuthRangeId()).
-                concat("&signNo=").
-                concat("&showTabs=0").concat(code);
+                concat("&signNo=").concat(code).
+                concat("&showTabs=0");
         return url;
     }
 

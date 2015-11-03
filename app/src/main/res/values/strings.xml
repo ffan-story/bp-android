@@ -113,6 +113,8 @@
     <string name="dialog_phone">从相册选择</string>
     <string name="dialog_camera">拍照</string>
     <string name="shop_select">门店选择</string>
+    <string name="common_retry_text">重试</string>
+    <string name="common_close_text">关闭</string>
 
     <!--tab titles-->
     <string name="tab_veri_history_pickupgoods">提货码历史</string>

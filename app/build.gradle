@@ -102,5 +102,6 @@ dependencies {
     compile project(':codescanner')
     compile project(':croplib')
     compile project(':refresh')
+    compile project(':materialwidget')
 }
 

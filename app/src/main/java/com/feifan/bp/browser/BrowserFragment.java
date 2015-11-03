@@ -23,6 +23,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
+import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -50,12 +51,14 @@ import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.croplib.Crop;
+import com.feifan.materialwidget.MaterialDialog;
 import com.loopj.android.http.RequestParams;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -119,6 +122,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private String sUrl;
     private String mStoreId;
 
+    // dialog
+    private MaterialDialog mDialog;
+    private transient boolean isShowDlg;
+
     public static BrowserFragment newInstance(String url) {
         Bundle args = new Bundle();
         args.putString(EXTRA_KEY_URL, url);
@@ -140,8 +147,25 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
+
+        mDialog = new MaterialDialog(getActivity())
+                .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getActivity(), "retry", Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                        isShowDlg = false;
+                    }
+                })
+                .setNegativeButton(R.string.common_close_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        isShowDlg = false;
+                        getActivity().finish();
+                    }
+                });
     }
 
     @Override
@@ -398,10 +422,16 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                             getActivity().getResources().getStringArray(R.array.tab_title_refund_detail_titles));
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
+                if(!isShowDlg) {
+                    mDialog.setMessage(uri.getAuthority()).show();
+                    isShowDlg = true;
+                }
 
             }
             return true;
         }
+
+
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
