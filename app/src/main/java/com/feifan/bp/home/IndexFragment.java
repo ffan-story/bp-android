@@ -206,13 +206,10 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 if (Utils.isNetworkAvailable(getActivity())) {
                     String relativeUrl = UserProfile.getInstance().getHistoryUrl();
                     String url = UrlFactory.checkHistoryForHtml(relativeUrl)+"&status=";
-//                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
-//                    args.putString(BrowserTabActivity.EXTRA_KEY_URL, url);
-//                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_STATUS, getActivity().getResources().getStringArray(R.array.data_type));
-//                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES,  getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
-
-                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivity.class.getName());
-                    args.putString(BrowserActivity.EXTRA_KEY_URL, url);
+                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
+                    args.putString(BrowserTabActivity.EXTRA_KEY_URL, url);
+                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_STATUS, getActivity().getResources().getStringArray(R.array.data_type));
+                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES,  getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
                 }else{
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
                 }
@@ -296,7 +293,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                                         getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
                                         getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)));
                         }else{
-                            BrowserActivity.startActivity(getContext(), url);
+                            BrowserActivity.startActivity(getContext(),url);
                         }
                     } else {
                         Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);

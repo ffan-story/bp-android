@@ -10,7 +10,6 @@ import com.feifan.bp.network.PostRequest;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.Constants;
 import com.feifan.bp.network.GetRequest;
-
 /**
  * 主界面控制类
  * <p/>
@@ -31,13 +30,12 @@ public class HomeCtrl {
 
     /**
      * 获取消息列表
-     *
      * @param userId
      * @param pageIndex
      * @param listener
      */
     public static void messageList(String userId,  String pageIndex, Listener listener) {
-        JsonRequest<MessageModel> request = new GetRequest.Builder<MessageModel>(UrlFactory.getMeaageList())
+        JsonRequest<MessageModel> request = new GetRequest.Builder<MessageModel>(UrlFactory.getMessgeList())
                 .param("userId", userId)
                 .param("userType", "1")//固定传1
                 .param("pageIndex", pageIndex)

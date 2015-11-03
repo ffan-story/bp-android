@@ -202,7 +202,7 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiHost() +"mapp/v1/mapp/user";
     }
 
-    public static String getMeaageList() {
+    public static String getMessgeList() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/message";
     }
 
