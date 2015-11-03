@@ -10,7 +10,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseActivity;
 
-public class BrowserActivityNew extends BaseActivity implements OnFragmentInteractionListener {
+public class BrowserActivity extends BaseActivity implements OnFragmentInteractionListener {
     /**
      * 参数键名称－URL
      */
@@ -20,13 +20,13 @@ public class BrowserActivityNew extends BaseActivity implements OnFragmentIntera
 
 //
     public static void startActivity(Context context, String url) {
-        Intent i = new Intent(context, BrowserActivityNew.class);
+        Intent i = new Intent(context, BrowserActivity.class);
         i.putExtra(EXTRA_KEY_URL, url);
         context.startActivity(i);
     }
 
     public static Intent buildIntent(Context context) {
-        Intent intent = new Intent(context, BrowserActivityNew.class);
+        Intent intent = new Intent(context, BrowserActivity.class);
         return intent;
     }
 

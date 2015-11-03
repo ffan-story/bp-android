@@ -11,7 +11,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 
-import com.feifan.bp.browser.BrowserActivityNew;
+import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.base.BaseActivity;
@@ -75,7 +75,7 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
         }
 
         String urlStr = UrlFactory.searchCodeForHtml(resultText);
-        BrowserActivityNew.startActivity(this, urlStr);
+        BrowserActivity.startActivity(this, urlStr);
         finish();
 
     }

@@ -49,7 +49,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".browser.BrowserActivityNew"
+            android:name=".browser.BrowserActivity"
             android:label=" "
             android:screenOrientation="portrait">
         </activity>

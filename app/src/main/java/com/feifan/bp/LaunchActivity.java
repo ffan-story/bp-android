@@ -13,7 +13,7 @@ import android.widget.RadioGroup;
 
 import com.feifan.bp.FeedBack.FeedBackFragment;
 import com.feifan.bp.base.BaseActivity;
-import com.feifan.bp.browser.BrowserActivityNew;
+import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.SettingsFragment;
@@ -94,7 +94,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         if (from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
             if (PlatformState.getInstance().getLastUrl(this) != null) {
                 if (Utils.isNetworkAvailable(this)) {
-                    BrowserActivityNew.startActivity(this, PlatformState.getInstance().getLastUrl(this));
+                    BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl(this));
 
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
@@ -205,8 +205,8 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     // 打开浏览器
     private void openBrowser(String url) {
         if (Utils.isNetworkAvailable(this)) {
-            Intent intent = new Intent(this, BrowserActivityNew.class);
-            intent.putExtra(BrowserActivityNew.EXTRA_KEY_URL, url);
+            Intent intent = new Intent(this, BrowserActivity.class);
+            intent.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
             startActivity(intent);
         } else {
             Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);

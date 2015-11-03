@@ -1,7 +1,6 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +24,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.browser.BrowserActivityNew;
+import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.login.AuthListModel.AuthItem;
@@ -213,8 +211,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 //                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_STATUS, getActivity().getResources().getStringArray(R.array.data_type));
 //                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES,  getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
 
-                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivityNew.class.getName());
-                    args.putString(BrowserActivityNew.EXTRA_KEY_URL, url);
+                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivity.class.getName());
+                    args.putString(BrowserActivity.EXTRA_KEY_URL, url);
                 }else{
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
                 }
@@ -239,9 +237,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     return;
                 }
                 mCodeEditText.setText("");
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivityNew.class.getName());
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivity.class.getName());
                 String urlStr = UrlFactory.searchCodeForHtml(code);
-                args.putString(BrowserActivityNew.EXTRA_KEY_URL, urlStr);
+                args.putString(BrowserActivity.EXTRA_KEY_URL, urlStr);
                 break;
 
             default:
@@ -298,7 +296,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                                         getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
                                         getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)));
                         }else{
-                            BrowserActivityNew.startActivity(getContext(),url);
+                            BrowserActivity.startActivity(getContext(), url);
                         }
                     } else {
                         Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
