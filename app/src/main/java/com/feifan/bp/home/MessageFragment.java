@@ -9,10 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.feifan.bp.Constants;
 import com.feifan.bp.R;
@@ -20,24 +18,21 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import bp.feifan.com.refresh.PtrClassicFrameLayout;
 import bp.feifan.com.refresh.PtrDefaultHandler;
 import bp.feifan.com.refresh.PtrFrameLayout;
 import bp.feifan.com.refresh.PtrHandler;
 
 /**
+ * congjing
  * 消息列表
  */
 public class MessageFragment extends BaseFragment implements OnLoadingMoreListener, PtrHandler {
     private static final String TAG = MessageFragment.class.getSimpleName();
-
     private PtrClassicFrameLayout mPtrFrame, mPtrFrameEmpty;
     private int pageIndex = 1;
     private int totalCount = 0;
@@ -60,12 +55,16 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        HomeCtrl.messageList( UserProfile.getInstance().getUid()+"", pageIndex, new Response.Listener<MessageModel>() {
-            @Override
-            public void onResponse(MessageModel messageModel) {
-                mList = messageModel.getMessageDataList();
-            }
-        });
+        showProgressBar(true);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mList !=null  && mList.size()>0){
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     /**
@@ -75,10 +74,20 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         HomeCtrl.messageList(UserProfile.getInstance().getUid() + "", pageIndex, new Response.Listener<MessageModel>() {
             @Override
             public void onResponse(MessageModel messageModel) {
+                hideProgressBar();
                 totalCount = messageModel.getTotalCount();
                 if (mList == null || mList.size() <= 0) {
                     mList = new ArrayList<MessageModel.MessageData>();
                     mList = messageModel.getMessageDataList();
+                    if(mList != null && mList.size()>0){
+                        mPtrFrame.setVisibility(View.VISIBLE);
+                        mPtrFrameEmpty.setVisibility(View.GONE);
+                        mPtrFrame.refreshComplete();
+                    }else{
+                        mPtrFrame.setVisibility(View.GONE);
+                        mPtrFrameEmpty.setVisibility(View.VISIBLE);
+                        mPtrFrameEmpty.refreshComplete();
+                    }
                 } else {
                     for (int i = 0; i < messageModel.getMessageDataList().size(); i++) {
                         mList.add(messageModel.getMessageDataList().get(i));
@@ -90,10 +99,11 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         });
     }
 
-    private void setMessageListStatus(String userid, String maillnboxid) {
+    private void setMessageListStatus(String userid, String maillnboxid,final int position) {
         HomeCtrl.setMessageStatusRead(userid, maillnboxid, new Response.Listener<MessageStatusModel>() {
             @Override
             public void onResponse(MessageStatusModel messageModel) {
+                mList.get(position).setmStrMessageStatus(Constants.READ);
             }
         });
     }
@@ -108,34 +118,27 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View contentView = inflater.inflate(R.layout.refresh_listview, null);
-
         mPtrFrame = (PtrClassicFrameLayout) contentView.findViewById(R.id.rotate_header_list_view_frame);
         mListView = (LoadingMoreListView) mPtrFrame.findViewById(R.id.rotate_header_list_view);
-
         mPtrFrameEmpty = (PtrClassicFrameLayout) contentView.findViewById(R.id.ptr_empty);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mList != null && mList.size() > 0) {
                     if (mList.get(position).getmStrMessageStatus() != null && mList.get(position).getmStrMessageStatus().equals(Constants.UNREAD)) {
-                        setMessageListStatus(mList.get(position).getUserid(), mList.get(position).getMaillnboxid());
-                        mList.get(position).setmStrMessageStatus(Constants.READ);
-                        mAdapter.notifyDataSetChanged();
+                        setMessageListStatus(mList.get(position).getUserid(), mList.get(position).getMaillnboxid(),position);
                     }
                     String strUri = UrlFactory.urlForHtml(mList.get(position).getmStrDetailUrl());
                     BrowserActivity.startActivity(getActivity(), strUri);
                 }
             }
         });
-
         mAdapter = new Adapter(getActivity());
         mListView.setAdapter(mAdapter);
         mListView.setOnLoadingMoreListener(this);
-
         mPtrFrame.setLastUpdateTimeRelateObject(this);
         mPtrFrameEmpty.setPtrHandler(this);
         mPtrFrame.setPtrHandler(this);
-
         mPtrFrame.setResistance(1.7f);
         mPtrFrame.setRatioOfHeaderHeightToRefresh(1.2f);
         mPtrFrame.setDurationToClose(200);
@@ -161,18 +164,11 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
      */
     protected void updateData() {
         pageIndex = 1;
-        fetchData(pageIndex);
-        if(mList != null && mList.size()>0){
-            mPtrFrame.setVisibility(View.VISIBLE);
-            mPtrFrameEmpty.setVisibility(View.GONE);
+        if(mList !=null){
             mList.clear();
             mAdapter.notifyDataSetChanged();
-            mPtrFrame.refreshComplete();
-        }else{
-            mPtrFrame.setVisibility(View.GONE);
-            mPtrFrameEmpty.setVisibility(View.VISIBLE);
-            mPtrFrameEmpty.refreshComplete();
         }
+        fetchData(pageIndex);
     }
 
     /**
@@ -251,7 +247,6 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         private ImageView mImgRedPoint;
         private TextView mTvMessageTitle;
         private TextView mTvMessageTime;
-
         public static ViewHolder findAndCacheViews(View view) {
             ViewHolder holder = new ViewHolder();
             holder.mImgRedPoint = (ImageView) view.findViewById(R.id.img_message_redpoint);

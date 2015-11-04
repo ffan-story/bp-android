@@ -1,6 +1,8 @@
 package com.feifan.bp.home;
 
+import com.feifan.bp.Utils;
 import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.util.LogUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,8 +22,9 @@ public class MessageStatusModel extends BaseModel {
     protected void parseData(String json) throws JSONException {
         super.parseData(json);
         JSONObject data = new JSONObject(json);
-        setMessage(data.optString("message"));
-        setStatus(data.optString("status"));
+        LogUtil.i("congjing","json==="+json);
+//        setMessage(data.optString("message"));
+//        setStatus(data.optString("status"));
     }
 
 

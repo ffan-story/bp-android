@@ -93,7 +93,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     private void initViews() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        if(tabTitles.length>4){
+        if(null != tabTitles && tabTitles.length>4){
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         } else{
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
