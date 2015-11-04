@@ -76,6 +76,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_browser_tab);
         initViews();
+        initDialog();
         initData();
     }
 
@@ -204,7 +205,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
        if(resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE_STAFF_EDIT){
-//           initData();
+           initData();
        }
     }
 }
