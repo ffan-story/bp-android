@@ -1,39 +1,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:fab="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.feifan.bp.BrowserActivity">
+             android:layout_height="match_parent">
 
-    <com.feifan.bp.widget.ObservableScrollView
-        android:id="@+id/scrollView"
+    <WebView
+        android:id="@+id/browser_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <WebView
-            android:id="@+id/browser_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.feifan.bp.widget.ObservableScrollView>
-
-
-    <com.feifan.bp.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|left"
-        android:layout_margin="16dp"
-        android:src="@drawable/crop_ic_done"
-        fab:fab_colorNormal="@color/accent"
-        fab:fab_colorPressed="@color/accent_pressed"
-        fab:fab_colorRipple="@color/ripple"/>
-
-    <View
-        android:id="@+id/shadowView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#AF000000"
-        android:visibility="invisible"/>
+        android:layout_height="600dp"/>
 
 </FrameLayout>
