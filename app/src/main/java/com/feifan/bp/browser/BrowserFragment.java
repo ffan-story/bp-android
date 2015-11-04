@@ -37,7 +37,6 @@ import android.widget.Toast;
 
 import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
-import com.feifan.bp.PlatformApplication;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
@@ -48,11 +47,7 @@ import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.DialogPhoneLayout;
-import com.feifan.bp.widget.FloatingActionButton;
-import com.feifan.bp.widget.ObservableScrollView;
-import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.croplib.Crop;
-import com.feifan.materialwidget.MaterialDialog;
 import com.loopj.android.http.RequestParams;
 
 import java.io.File;
@@ -60,7 +55,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -108,20 +102,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private int mImgPickType = IMG_PICK_TYPE_0;
 
     private WebView mWebView;
-    private ObservableScrollView mScrollView;
-    private FloatingActionButton fab;
-    private SelectPopWindow mPopWindow;
-    private View mShadowView;
-    private int lastSelectPos = 0;
 
     private int mWebViewProgress = 0;
-    private List<String> storeItems;
-    private boolean mShowFab = false;
 
     private String mUrl;
-    private String sUrl;
-    private String mStoreId;
-
 
     public OnBrowserListener mListener;
 
@@ -151,43 +135,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-
+        mUrl = getArguments().getString(EXTRA_KEY_URL);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_browser, container, false);
         mWebView = (WebView) v.findViewById(R.id.browser_content);
-//        mScrollView = (ObservableScrollView) v.findViewById(R.id.scrollView);
-//        mShadowView = v.findViewById(R.id.shadowView);
-//        fab = (FloatingActionButton) v.findViewById(R.id.fab);
-//        fab.attachToScrollView(mScrollView);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                lastSelectPos = ((PlatformApplication) getActivity().getApplicationContext()).getSelectPos();
-//                selectMenu();
-//            }
-//        });
-//        mShowFab = UserProfile.getInstance().getAuthRangeType().equals("merchant");
-//        storeItems = new ArrayList<>();
-//        storeItems.add(getString(R.string.index_history_text));
-//        storeItems.add(getString(R.string.index_order_text));
-//        storeItems.add(getString(R.string.index_report_text));
-//        storeItems.add(getString(R.string.browser_staff_list));
-//
         initWeb(mWebView);
-        mUrl = getArguments().getString(EXTRA_KEY_URL);
-//
-//        if (mShowFab) {
-//            mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
-//            sUrl = mUrl + "&storeId=" + mStoreId;
-//        } else {
-//            sUrl = mUrl;
-//        }
-//        mWebView.loadUrl(sUrl);
-//        PlatformState.getInstance().setLastUrl(sUrl);
         mWebView.loadUrl(mUrl);
         PlatformState.getInstance().setLastUrl(mUrl);
         return v;
@@ -221,38 +176,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             menu.clear();
         }
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    /**
-     * 门店选择
-     */
-    private void selectMenu() {
-        LogUtil.i(TAG, "lastSelectPos" + lastSelectPos);
-        LogUtil.i(TAG, "PlatformApplication" + ((PlatformApplication) getActivity().getApplicationContext()).getSelectPos());
-
-        mPopWindow = new SelectPopWindow(getActivity(), lastSelectPos);
-        mShadowView.setVisibility(View.VISIBLE);
-        mShadowView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.pop_bg_show));
-        mPopWindow.showAtLocation(getActivity().findViewById(R.id.fab),
-                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-        mPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                mWebView.loadUrl("about:blank");
-                mShadowView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.pop_bg_hide));
-                mShadowView.setVisibility(View.INVISIBLE);
-                if (lastSelectPos != mPopWindow.getSelectPos()) {
-                    lastSelectPos = mPopWindow.getSelectPos();
-                    mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
-                    sUrl = mUrl + "&storeId=" + mStoreId;
-                    mWebView.loadUrl(sUrl);
-                    PlatformState.getInstance().setLastUrl(sUrl);
-                    ((PlatformApplication) getActivity().getApplicationContext()).setSelectPos(lastSelectPos);
-                    Log.i(TAG, "sUrl===" + sUrl);
-                }
-                mPopWindow.dismiss();
-            }
-        });
     }
 
     @Override
@@ -383,13 +306,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 mToolbarStatus = TOOLBAR_STATUS_IDLE;
             }
             getActivity().supportInvalidateOptionsMenu();
-//            if (mShowFab) {
-//                if (storeItems.contains(title)) {
-//                    fab.setVisibility(View.VISIBLE);
-//                } else {
-//                    fab.setVisibility(View.GONE);
-//                }
-//            }
         }
     }
 
@@ -442,6 +358,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             showProgressBar(true);
+            LogUtil.i(TAG, "onPageStarted url=======" + url);
         }
 
         @Override

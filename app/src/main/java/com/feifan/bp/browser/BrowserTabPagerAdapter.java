@@ -3,8 +3,8 @@ package com.feifan.bp.browser;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.feifan.bp.util.LogUtil;
@@ -13,10 +13,11 @@ import com.feifan.bp.util.LogUtil;
  *
  */
 public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
-    private String tabTitles[] ;
 
+    private String tabTitles[] ;
     private String url;
     private String urlStatus[];
+    private int position;
 
     public BrowserTabPagerAdapter(FragmentManager fm,String[] tabTitles, String url,String[] urlStatus) {
         super(fm);
@@ -27,13 +28,21 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        LogUtil.i("BrowserTabPagerAdapter","position===="+position);
+        LogUtil.i("BrowserTabPagerAdapter", "position====" + position);
+        this.position = position;
         if (urlStatus!=null && urlStatus.length>0 && !TextUtils.isEmpty(urlStatus[position])){
             LogUtil.i("BrowserTabPagerAdapter","position===="+url + urlStatus[position]);
             return BrowserFragment.newInstance(url + urlStatus[position]);
         }else{
             return null;
         }
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        BrowserFragment browserFragment = (BrowserFragment)super.instantiateItem(container, position);
+        browserFragment.setmUrl(url+urlStatus[position]);
+        return browserFragment;
     }
 
     @Override
