@@ -141,10 +141,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         this.mUrl = mUrl;
     }
 
-    public void setmUrl(String mUrl) {
-        this.mUrl = mUrl;
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -403,6 +399,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             Log.d(TAG, "shouldOverrideUrlLoading url======" + url);
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
+            Log.d(TAG, "schema ======" + schema);
             if(TextUtils.isEmpty(schema)){
                return true;
             }

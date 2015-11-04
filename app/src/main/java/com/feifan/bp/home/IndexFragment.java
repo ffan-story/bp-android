@@ -192,7 +192,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 break;
 
             case R.id.index_history:
-                if (!Utils.isNetworkAvailable(getActivity())) {
+                if (Utils.isNetworkAvailable(getActivity())) {
                     LogUtil.i(TAG,"historyUrl===="+UserProfile.getInstance().getHistoryUrl());
                     String url = UrlFactory.checkHistoryForHtml(UserProfile.getInstance().getHistoryUrl())+"&status=";
                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
@@ -201,6 +201,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES,  getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
                 }else{
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
+                    return;
                 }
                 break;
 
