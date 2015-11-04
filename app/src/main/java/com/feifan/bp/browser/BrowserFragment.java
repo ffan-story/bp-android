@@ -399,6 +399,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             Log.d(TAG, "shouldOverrideUrlLoading url======" + url);
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
+            if(TextUtils.isEmpty(schema)){
+               return true;
+            }
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
                 if (url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
                     UserProfile.getInstance().clear();
@@ -416,19 +419,18 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     addImage(url);
                 }
             } else if (schema.equals(Constants.URL_SCHEME_ACTION)) {
-                Uri httpUri = Uri.parse(url.replaceAll(schema, "http"));
-                String actionUri = UrlFactory.urlForHtml(httpUri.getAuthority()+httpUri.getEncodedPath()+"#"+httpUri.getEncodedFragment());
-                LogUtil.i(TAG, "actionUri=======" +  actionUri);
-                if(actionUri.contains("/refund/detail")){//退款单详情
-                    BrowserTabActivity.startActivity(getActivity(),actionUri+"&status=",getActivity().getResources().getStringArray(R.array.data_type),
+                Uri actionUri = Uri.parse(url);
+                String actionStrUri = UrlFactory.urlForHtml(actionUri.getAuthority()+actionUri.getEncodedPath()+"#"+actionUri.getEncodedFragment());
+                LogUtil.i(TAG, "actionStrUri=1======" +  actionStrUri);
+                if(actionStrUri.contains("/refund/detail")){//退款单详情
+                    BrowserTabActivity.startActivity(getActivity(),actionStrUri+"&status=",getActivity().getResources().getStringArray(R.array.data_type),
                             getActivity().getResources().getStringArray(R.array.tab_title_refund_detail_titles));
-                }else if(actionUri.contains("/order/detail/") || actionUri.contains("/staff/edit/") ){
-                    LogUtil.i(TAG, "actionUri=======" +  actionUri);
-                    BrowserActivity.startActivity(getActivity(),actionUri);
+                }else if(actionStrUri.contains("/order/detail/") || actionStrUri.contains("/staff/edit/")){
+                    LogUtil.i(TAG, "actionStrUri=2======" +  actionStrUri);
+                    BrowserActivity.startActivity(getActivity(),actionStrUri);
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
                 mListener.OnErrorReceived(uri.getAuthority());
-
             }
             return true;
         }

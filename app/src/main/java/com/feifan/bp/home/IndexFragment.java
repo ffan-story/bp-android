@@ -192,7 +192,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 break;
 
             case R.id.index_history:
-                if (Utils.isNetworkAvailable(getActivity())) {
+                if (!Utils.isNetworkAvailable(getActivity())) {
                     LogUtil.i(TAG,"historyUrl===="+UserProfile.getInstance().getHistoryUrl());
                     String url = UrlFactory.checkHistoryForHtml(UserProfile.getInstance().getHistoryUrl())+"&status=";
                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
