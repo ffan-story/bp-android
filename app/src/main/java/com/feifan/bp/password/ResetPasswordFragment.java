@@ -156,8 +156,8 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
         switch (view.getId()) {
             case R.id.btn_confirm:
                 if (!mIsConfirmEnable) {
-                    break;
-                }
+                break;
+            }
                 String oldPwd = mOldPwd.getText().toString();
                 String newPwd = mNewPwd.getText().toString();
                 String confirmPwd = mConfirmPwd.getText().toString();

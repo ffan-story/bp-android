@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.feifan.bp.util.LogUtil;
@@ -36,6 +37,34 @@ public class Utils {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    private static Toast mToast;
+    private static Handler mhandler = new Handler();
+    private static Runnable r = new Runnable() {
+        public void run() {
+            mToast.cancel();
+        }
+    };
+
+    public static void showToast(Context context, String text, int duration) {
+        mhandler.removeCallbacks(r);
+        if (null != mToast) {
+            mToast.setText(text);
+        } else {
+            mToast = Toast.makeText(context, text, Toast.LENGTH_LONG);
+        }
+        mhandler.postDelayed(r, 5000);
+        mToast.show();
+    }
+
+    /**
+     * 显示不重复的toast提示
+     *
+     * @param message
+     */
+    public static void showToast(Context context, int message, int duration) {
+        showToast(context, context.getString(message), duration);
     }
 
     /**
