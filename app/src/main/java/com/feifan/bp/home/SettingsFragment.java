@@ -82,7 +82,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     protected void setupToolbar(Toolbar toolbar) {
         super.setupToolbar(toolbar);
         toolbar.setTitle(R.string.home_settings_text);
-        toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
+//        toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
     }
 
     @Override

@@ -141,6 +141,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         this.mUrl = mUrl;
     }
 
+    public void setmUrl(String mUrl) {
+        this.mUrl = mUrl;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
