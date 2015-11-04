@@ -58,6 +58,7 @@ public class BrowserTabActivity extends BaseActivity {
         url = getIntent().getStringExtra(EXTRA_KEY_URL);
         arryStatus = getIntent().getStringArrayExtra(EXTRA_KEY_STATUS);
         tabTitles = getIntent().getStringArrayExtra(EXTRA_KEY_TITLES);
+
         pagerAdapter = new BrowserTabPagerAdapter(getSupportFragmentManager(),tabTitles,url,arryStatus);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(0);

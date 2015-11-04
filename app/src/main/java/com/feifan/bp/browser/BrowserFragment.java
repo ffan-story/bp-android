@@ -1,6 +1,7 @@
 package com.feifan.bp.browser;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +43,6 @@ import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.ImageUtil;
@@ -58,8 +59,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +94,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     /**
      * tab 状态
      */
-    private boolean  isShowTabBar = true;
+    private boolean isShowTabBar = true;
 
     //type=0不限制大小
     private static final int IMG_PICK_TYPE_0 = 0;
@@ -121,10 +120,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private String mUrl;
     private String sUrl;
     private String mStoreId;
-
     // dialog
     private MaterialDialog mDialog;
     private transient boolean isShowDlg;
+    public OnTitleReceiveListener mOnTitleReceiveListener;
 
     public static BrowserFragment newInstance(String url) {
         Bundle args = new Bundle();
@@ -170,38 +169,50 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.actvivity_browser_new, container, false);
+        View v = inflater.inflate(R.layout.activity_browser, container, false);
         mWebView = (WebView) v.findViewById(R.id.browser_content);
-        mScrollView = (ObservableScrollView) v.findViewById(R.id.scrollView);
-        mShadowView = v.findViewById(R.id.shadowView);
-        fab = (FloatingActionButton) v.findViewById(R.id.fab);
-        fab.attachToScrollView(mScrollView);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lastSelectPos = ((PlatformApplication) getActivity().getApplicationContext()).getSelectPos();
-                selectMenu();
-            }
-        });
-        mShowFab = UserProfile.getInstance().getAuthRangeType().equals("merchant");
-        storeItems = new ArrayList<>();
-        storeItems.add(getString(R.string.index_history_text));
-        storeItems.add(getString(R.string.index_order_text));
-        storeItems.add(getString(R.string.index_report_text));
-        storeItems.add(getString(R.string.browser_staff_list));
-
+//        mScrollView = (ObservableScrollView) v.findViewById(R.id.scrollView);
+//        mShadowView = v.findViewById(R.id.shadowView);
+//        fab = (FloatingActionButton) v.findViewById(R.id.fab);
+//        fab.attachToScrollView(mScrollView);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                lastSelectPos = ((PlatformApplication) getActivity().getApplicationContext()).getSelectPos();
+//                selectMenu();
+//            }
+//        });
+//        mShowFab = UserProfile.getInstance().getAuthRangeType().equals("merchant");
+//        storeItems = new ArrayList<>();
+//        storeItems.add(getString(R.string.index_history_text));
+//        storeItems.add(getString(R.string.index_order_text));
+//        storeItems.add(getString(R.string.index_report_text));
+//        storeItems.add(getString(R.string.browser_staff_list));
+//
         initWeb(mWebView);
         mUrl = getArguments().getString(EXTRA_KEY_URL);
-
-        if (mShowFab) {
-            mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
-            sUrl = mUrl + "&storeId=" + mStoreId;
-        } else {
-            sUrl = mUrl;
-        }
-        mWebView.loadUrl(sUrl);
-        PlatformState.getInstance().setLastUrl(sUrl);
+//
+//        if (mShowFab) {
+//            mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
+//            sUrl = mUrl + "&storeId=" + mStoreId;
+//        } else {
+//            sUrl = mUrl;
+//        }
+//        mWebView.loadUrl(sUrl);
+//        PlatformState.getInstance().setLastUrl(sUrl);
+        mWebView.loadUrl(mUrl);
+        PlatformState.getInstance().setLastUrl(mUrl);
         return v;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mOnTitleReceiveListener = (OnTitleReceiveListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + "must implement OnTitleReceiveListener");
+        }
     }
 
     @Override
@@ -248,7 +259,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     sUrl = mUrl + "&storeId=" + mStoreId;
                     mWebView.loadUrl(sUrl);
                     PlatformState.getInstance().setLastUrl(sUrl);
-                    ((PlatformApplication)getActivity().getApplicationContext()).setSelectPos(lastSelectPos);
+                    ((PlatformApplication) getActivity().getApplicationContext()).setSelectPos(lastSelectPos);
                     Log.i(TAG, "sUrl===" + sUrl);
                 }
                 mPopWindow.dismiss();
@@ -350,6 +361,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
+    public interface OnTitleReceiveListener {
+        public void OnTitleReceiveListener(String title);
+    }
+
     private class PlatformWebChromeClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
@@ -360,7 +375,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            if(!isAdded()){
+            mOnTitleReceiveListener.OnTitleReceiveListener(title);
+            if (!isAdded()) {
                 return;
             }
             if (getToolbar() != null) {
@@ -378,13 +394,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 mToolbarStatus = TOOLBAR_STATUS_IDLE;
             }
             getActivity().supportInvalidateOptionsMenu();
-            if (mShowFab) {
-                if (storeItems.contains(title)) {
-                    fab.setVisibility(View.VISIBLE);
-                } else {
-                    fab.setVisibility(View.GONE);
-                }
-            }
+//            if (mShowFab) {
+//                if (storeItems.contains(title)) {
+//                    fab.setVisibility(View.VISIBLE);
+//                } else {
+//                    fab.setVisibility(View.GONE);
+//                }
+//            }
         }
     }
 
@@ -399,18 +415,18 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     UserProfile.getInstance().clear();
                     startActivity(LaunchActivity.buildIntent(getActivity()));
                 } else if (url.contains(Constants.URL_PATH_EXIT)) {
-                    if(getActivity()!=null){
+                    if (getActivity() != null) {
                         getActivity().finish();
                     }
                 } else if (url.contains(Constants.URL_PATH_HOME)) {
                     // 目前关闭当前界面即显示主界面
-                    if(getActivity()!=null){
+                    if (getActivity() != null) {
                         getActivity().finish();
                     }
                 } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
                     addImage(url);
                 }
-            } else if(schema.equals(Constants.URL_SCHEME_ACTION)){
+            } else if (schema.equals(Constants.URL_SCHEME_ACTION)) {
                 Uri httpUri = Uri.parse(url.replaceAll(schema, "http"));
                 String actionUri = UrlFactory.urlForHtml(httpUri.getAuthority()+httpUri.getEncodedPath()+"#"+httpUri.getEncodedFragment());
                 LogUtil.i(TAG, "actionUri=======" +  actionUri);
@@ -445,7 +461,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             super.onPageFinished(view, url);
 
         }
-
     }
 
     private void addImage(String url) {
@@ -623,6 +638,4 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 break;
         }
     }
-
-
 }
