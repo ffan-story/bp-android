@@ -1,5 +1,6 @@
 package com.feifan.bp.browser;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -126,12 +127,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -144,6 +139,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
         mWebView.loadUrl(mUrl);
+        LogUtil.i(TAG,"mUrl=="+mUrl);
         PlatformState.getInstance().setLastUrl(mUrl);
         return v;
     }
@@ -163,6 +159,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         if (mToolbarStatus == TOOLBAR_STATUS_STAFF) {
             inflater.inflate(R.menu.menu_staff_manage, menu);
             (menu.findItem(R.id.action_staff)).setOnMenuItemClickListener(this);
+
         } else if (mToolbarStatus == TOOLBAR_STATUS_COUPON) {
             inflater.inflate(R.menu.menu_coupon_add, menu);
             (menu.findItem(R.id.action_coupon)).setOnMenuItemClickListener(this);
@@ -199,6 +196,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 if (canGoBack()) {
                     mWebView.goBack();
                 } else {
+                    getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
                 }
             }
@@ -247,7 +245,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         switch (item.getItemId()) {
             case R.id.action_staff:
                 url = UrlFactory.staffAddForHtml();
-                mWebView.loadUrl(url);
+//                mWebView.loadUrl(url);
+                BrowserActivity.startActivity(getActivity(),url);
                 LogUtil.i(TAG, "menu onClick() staff url=" + url);
                 return true;
 
@@ -342,8 +341,11 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 if(actionStrUri.contains("/refund/detail")){//退款单详情
                     BrowserTabActivity.startActivity(getActivity(),actionStrUri+"&status=",getActivity().getResources().getStringArray(R.array.data_type),
                             getActivity().getResources().getStringArray(R.array.tab_title_refund_detail_titles));
-                }else if(actionStrUri.contains("/order/detail/") || actionStrUri.contains("/staff/edit/")){
-                    LogUtil.i(TAG, "actionStrUri=2======" +  actionStrUri);
+                }else if( actionStrUri.contains("/staff/edit/")){//员工管理
+                    Intent i = new Intent(getActivity(), BrowserActivity.class);
+                    i.putExtra(BrowserActivity.EXTRA_KEY_URL, actionStrUri);
+                    getActivity().startActivityForResult(i,Constants.REQUEST_CODE_STAFF_EDIT);
+                }else{//验证历史  订单管理</order/detail/>
                     BrowserActivity.startActivity(getActivity(),actionStrUri);
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
@@ -352,19 +354,15 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             return true;
         }
 
-
-
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             showProgressBar(true);
-            LogUtil.i(TAG, "onPageStarted url=======" + url);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             hideProgressBar();
-            LogUtil.i(TAG, "onPageFinished url=======" + url);
             super.onPageFinished(view, url);
         }
     }

@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import com.feifan.bp.FeedBack.FeedBackFragment;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.SettingsFragment;
@@ -22,6 +23,7 @@ import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.logininfo.LoginInfoFragment;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.TabBar;
 
 import java.util.ArrayList;
@@ -126,7 +128,9 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             } else if(to.equals(LoginInfoFragment.class.getName())){
                showLoginInfo();
                 //end.
-            } else {
+            } else if(to.equals(BrowserTabActivity.class.getName())){
+                openTabBrowser(args);
+            }else{
                 openBrowser(args.getString(BrowserActivity.EXTRA_KEY_URL));
             }
             //add by tianjun 2015.10.27
@@ -201,6 +205,21 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         mBottomBar.setVisibility(View.GONE);
         switchFragment(LoginInfoFragment.newInstance());
     }
+
+    // 打开TAB浏览器
+    private void openTabBrowser(Bundle args) {
+        if (Utils.isNetworkAvailable(this)) {
+            Intent intent = new Intent(this, BrowserTabActivity.class);
+            intent.putExtra(BrowserTabActivity.EXTRA_KEY_URL, args.getString(BrowserTabActivity.EXTRA_KEY_URL));
+            intent.putExtra(BrowserTabActivity.EXTRA_KEY_STATUS, args.getStringArray(BrowserTabActivity.EXTRA_KEY_STATUS));
+            intent.putExtra(BrowserTabActivity.EXTRA_KEY_TITLES, args.getStringArray(BrowserTabActivity.EXTRA_KEY_TITLES));
+            startActivity(intent);
+        } else {
+            Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
+        }
+    }
+
+
 
     // 打开浏览器
     private void openBrowser(String url) {

@@ -21,7 +21,11 @@
                 android:id="@+id/sliding_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabMode="scrollable"/>
+                app:tabMode="scrollable"
+                app:tabIndicatorColor="@color/accent_pressed"
+                app:tabSelectedTextColor="@color/accent_pressed"
+                app:tabTextColor="@color/text_normal"
+                />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
@@ -41,7 +45,8 @@
         android:visibility="gone"
         fab:fab_colorNormal="@color/accent"
         fab:fab_colorPressed="@color/accent_pressed"
-        fab:fab_colorRipple="@color/ripple"/>
+        fab:fab_colorRipple="@color/ripple"
+        />
 
     <View
         android:id="@+id/shadowView"

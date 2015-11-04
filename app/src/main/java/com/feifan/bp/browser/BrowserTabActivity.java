@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.PopupWindow;
 
+import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
@@ -75,17 +76,28 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_browser_tab);
         initViews();
+        initData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    /**
+     * 加载数据
+     */
+    private void initData(){
         mShowFab = UserProfile.getInstance().getAuthRangeType().equals("merchant");
         mUrl = getIntent().getStringExtra(EXTRA_KEY_URL);
         arryStatus = getIntent().getStringArrayExtra(EXTRA_KEY_STATUS);
         tabTitles = getIntent().getStringArrayExtra(EXTRA_KEY_TITLES);
         arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
-        if(tabTitles.length>4){
+        if(null!=tabTitles && tabTitles.length>4){
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         } else{
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
         }
-
         if(mShowFab){
             mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
             sUrl = addStoreId(mUrl,mStoreId);
@@ -119,7 +131,6 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     }
 
     private void selectMenu() {
-
         mPopWindow = new SelectPopWindow(BrowserTabActivity.this, lastSelectPos);
         mShadowView.setVisibility(View.VISIBLE);
         mShadowView.startAnimation(AnimationUtils.loadAnimation(BrowserTabActivity.this, R.anim.pop_bg_show));
@@ -167,5 +178,13 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         if(isShowDlg) {
             mDialog.show();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+       if(resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE_STAFF_EDIT){
+//           initData();
+       }
     }
 }

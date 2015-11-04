@@ -28,10 +28,8 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        LogUtil.i("BrowserTabPagerAdapter", "position====" + position);
         this.position = position;
         if (urlStatus!=null && urlStatus.length>0 && !TextUtils.isEmpty(urlStatus[position])){
-            LogUtil.i("BrowserTabPagerAdapter","position===="+url + urlStatus[position]);
             return BrowserFragment.newInstance(url + urlStatus[position]);
         }else{
             return null;
