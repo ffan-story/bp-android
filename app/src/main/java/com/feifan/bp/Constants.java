@@ -52,4 +52,10 @@ public class Constants {
 
     /** 当前运行环境 */
 //    public static Environment CURRENT_ENVIRONMENT = Environment.PRODUCT_PRE;
+    /**
+     * 员工管理
+     *
+     */
+    public static int REQUEST_CODE_STAFF_EDIT = 1000;
+
 }

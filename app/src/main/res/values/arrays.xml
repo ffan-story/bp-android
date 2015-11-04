@@ -35,7 +35,7 @@
         <item>运营审核</item>
     </array>
     <array name="tab_title_refund_status">
-        <item>,</item>
+        <item>ALL</item>
         <item>PROCESSING</item>
         <item>SUCCESS</item>
         <item>FAIL</item>
@@ -69,7 +69,7 @@
     </array>
 
     <array name="tab_title_order_status">
-        <item>,</item>
+        <item>ALL</item>
         <item>INITIAL</item>
         <item>CLOSE</item>
         <item>TRADE_CANCEL</item>

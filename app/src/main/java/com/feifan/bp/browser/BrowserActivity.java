@@ -5,17 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.feifan.bp.OnFragmentInteractionListener;
-import com.feifan.bp.PlatformApplication;
-import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
@@ -23,8 +19,6 @@ import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.materialwidget.MaterialDialog;
-
-import java.util.List;
 
 public class BrowserActivity extends BaseActivity implements OnFragmentInteractionListener,BrowserFragment.OnBrowserListener {
     /**
@@ -115,7 +109,6 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
      * 载入网页
      */
     private void loadWeb(String url) {
-
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.browser_fragment, BrowserFragment.newInstance(url));
