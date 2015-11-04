@@ -180,18 +180,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-//        if(v.getId() == R.id.index_history){//验证历史
-//            if (Utils.isNetworkAvailable(getActivity())) {
-//                String relativeUrl = UserProfile.getInstance().getHistoryUrl();
-//                String url = UrlFactory.checkHistoryForHtml(relativeUrl)+"&status=";
-//                BrowserTabActivity.startActivity(getActivity(), url, getActivity().getResources().getStringArray(R.array.data_type),
-//                        getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
-//            }else{
-//                Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
-//            }
-//            return;
-//        }
-
         Bundle args = new Bundle();
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
         switch (v.getId()) {
@@ -205,8 +193,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
             case R.id.index_history:
                 if (Utils.isNetworkAvailable(getActivity())) {
-                    String relativeUrl = UserProfile.getInstance().getHistoryUrl();
-                    String url = UrlFactory.checkHistoryForHtml(relativeUrl)+"&status=";
+                    LogUtil.i(TAG,"historyUrl===="+UserProfile.getInstance().getHistoryUrl());
+                    String url = UrlFactory.checkHistoryForHtml(UserProfile.getInstance().getHistoryUrl())+"&status=";
                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
                     args.putString(BrowserTabActivity.EXTRA_KEY_URL, url);
                     args.putStringArray(BrowserTabActivity.EXTRA_KEY_STATUS, getActivity().getResources().getStringArray(R.array.data_type));

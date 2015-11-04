@@ -433,7 +433,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 if(actionUri.contains("/refund/detail")){//退款单详情
                     BrowserTabActivity.startActivity(getActivity(),actionUri+"&status=",getActivity().getResources().getStringArray(R.array.data_type),
                             getActivity().getResources().getStringArray(R.array.tab_title_refund_detail_titles));
-                }else  if(actionUri.contains("/order/detail") ||actionUri.contains("/staff/edit") ){
+                }else if(actionUri.contains("/order/detail/") || actionUri.contains("/staff/edit/") ){
+                    LogUtil.i(TAG, "actionUri=======" +  actionUri);
                     BrowserActivity.startActivity(getActivity(),actionUri);
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
