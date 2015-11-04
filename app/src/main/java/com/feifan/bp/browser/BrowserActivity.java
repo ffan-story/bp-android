@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformApplication;
@@ -21,10 +22,11 @@ import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.bp.widget.SelectPopWindow;
+import com.feifan.materialwidget.MaterialDialog;
 
 import java.util.List;
 
-public class BrowserActivity extends BaseActivity implements OnFragmentInteractionListener,BrowserFragment.OnTitleReceiveListener {
+public class BrowserActivity extends BaseActivity implements OnFragmentInteractionListener,BrowserFragment.OnBrowserListener {
     /**
      * 参数键名称－URL
      */
@@ -43,6 +45,10 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
     private String mUrl;
     private String mStoreId;
 
+    // dialog
+    private MaterialDialog mDialog;
+    private transient boolean isShowDlg;
+
     public static void startActivity(Context context, String url) {
         Intent i = new Intent(context, BrowserActivity.class);
         i.putExtra(EXTRA_KEY_URL, url);
@@ -59,6 +65,7 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser_fragment);
         initViews();
+        initDialog();
         mShowFab = UserProfile.getInstance().getAuthRangeType().equals("merchant");
         mUrl = getIntent().getStringExtra(EXTRA_KEY_URL);
         mIsStaffManagementPage = getIntent().getBooleanExtra(EXTRA_KEY_STAFF_MANAGE, false);
@@ -72,10 +79,10 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
     }
 
     private void initViews() {
-        mScrollView = (ObservableScrollView) findViewById(R.id.scrollView);
+//        mScrollView = (ObservableScrollView) findViewById(R.id.scrollView);
         mShadowView = findViewById(R.id.shadowView);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.attachToScrollView(mScrollView);
+//        fab.attachToScrollView(mScrollView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +91,25 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
         });
     }
 
+    private void initDialog() {
+        mDialog = new MaterialDialog(this)
+                .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(BrowserActivity.this, "retry", Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                        isShowDlg = false;
+                    }
+                })
+                .setNegativeButton(R.string.common_close_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        isShowDlg = false;
+                        finish();
+                    }
+                });
+    }
 
     /**
      * 载入网页
@@ -140,11 +166,18 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
     }
 
     @Override
-    public void OnTitleReceiveListener(String title) {
+    public void OnTitleReceived(String title) {
         if(title.equals(getString(R.string.index_report_text))){
             fab.setVisibility(View.VISIBLE);
         }else{
             fab.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void OnErrorReceived(String msg) {
+        if(isShowDlg) {
+            mDialog.setMessage(msg).show();
         }
     }
 }

@@ -120,10 +120,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private String mUrl;
     private String sUrl;
     private String mStoreId;
-    // dialog
-    private MaterialDialog mDialog;
-    private transient boolean isShowDlg;
-    public OnTitleReceiveListener mOnTitleReceiveListener;
+
+
+    public OnBrowserListener mListener;
 
     public static BrowserFragment newInstance(String url) {
         Bundle args = new Bundle();
@@ -148,23 +147,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        mDialog = new MaterialDialog(getActivity())
-                .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(getActivity(), "retry", Toast.LENGTH_SHORT).show();
-                        mDialog.dismiss();
-                        isShowDlg = false;
-                    }
-                })
-                .setNegativeButton(R.string.common_close_text, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                        isShowDlg = false;
-                        getActivity().finish();
-                    }
-                });
+
     }
 
     @Override
@@ -209,7 +192,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mOnTitleReceiveListener = (OnTitleReceiveListener) context;
+            mListener = (OnBrowserListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implement OnTitleReceiveListener");
         }
@@ -361,8 +344,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    public interface OnTitleReceiveListener {
-        public void OnTitleReceiveListener(String title);
+    public interface OnBrowserListener {
+        void OnTitleReceived(String title);
+        void OnErrorReceived(String msg);
     }
 
     private class PlatformWebChromeClient extends WebChromeClient {
@@ -375,7 +359,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            mOnTitleReceiveListener.OnTitleReceiveListener(title);
+            mListener.OnTitleReceived(title);
             if (!isAdded()) {
                 return;
             }
@@ -437,10 +421,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     BrowserActivity.startActivity(getActivity(),actionUri);
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
-                if(!isShowDlg) {
-                    mDialog.setMessage(uri.getAuthority()).show();
-                    isShowDlg = true;
-                }
+                mListener.OnErrorReceived(uri.getAuthority());
 
             }
             return true;

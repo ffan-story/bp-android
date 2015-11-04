@@ -17,8 +17,9 @@ import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.bp.widget.SelectPopWindow;
+import com.feifan.materialwidget.MaterialDialog;
 
-public class BrowserTabActivity extends BaseActivity implements BrowserFragment.OnTitleReceiveListener{
+public class BrowserTabActivity extends BaseActivity implements BrowserFragment.OnBrowserListener{
     private BrowserTabPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
@@ -46,6 +47,9 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     public static final String EXTRA_KEY_STATUS = "status";
 //    public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
 
+    // dialog
+    private MaterialDialog mDialog;
+    private transient boolean isShowDlg;
 
     public static void startActivity(Context context, String url) {
         startActivity(context, url, null, null);
@@ -148,13 +152,20 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     }
 
     @Override
-    public void OnTitleReceiveListener(String title) {
+    public void OnTitleReceived(String title) {
         if(title.equals(getString(R.string.index_history_text))||
                 title.equals(getString(R.string.index_order_text))||
                 title.equals(getString(R.string.browser_staff_list))){
             fab.setVisibility(View.VISIBLE);
         }else{
             fab.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void OnErrorReceived(String msg) {
+        if(isShowDlg) {
+            mDialog.show();
         }
     }
 }
