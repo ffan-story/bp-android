@@ -167,7 +167,7 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
 
     @Override
     public void OnTitleReceived(String title) {
-        if(title.equals(getString(R.string.index_report_text))){
+        if(title.equals(getString(R.string.index_report_text))&&mShowFab){
             fab.setVisibility(View.VISIBLE);
         }else{
             fab.setVisibility(View.GONE);

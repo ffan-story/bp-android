@@ -366,7 +366,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             hideProgressBar();
             LogUtil.i(TAG, "onPageFinished url=======" + url);
             super.onPageFinished(view, url);
-
         }
     }
 
