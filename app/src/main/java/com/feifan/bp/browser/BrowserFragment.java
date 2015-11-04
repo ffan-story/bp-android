@@ -117,6 +117,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private int mWebViewProgress = 0;
     private List<String> storeItems;
     private boolean mShowFab = false;
+
     private String mUrl;
     private String sUrl;
     private String mStoreId;
@@ -134,6 +135,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     public BrowserFragment() {
         // Required empty public constructor
+    }
+
+    public void setmUrl(String mUrl) {
+        this.mUrl = mUrl;
     }
 
     @Override
