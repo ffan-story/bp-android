@@ -1,23 +1,52 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:fab="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.feifan.bp.browser.BrowserTabActivity">
 
+    <!--<com.feifan.bp.widget.ObservableScrollView-->
+        <!--android:id="@+id/scrollView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-    <!--app:tabMode="scrollable"  这个属性我在代码中设置了-->
-    <!-- tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);-->
-    <android.support.design.widget.TabLayout
-        android:id="@+id/sliding_tabs"
-        android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--app:tabMode="scrollable"  这个属性我在代码中设置了-->
+            <!-- tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);-->
+            <android.support.design.widget.TabLayout
+                android:id="@+id/sliding_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabMode="scrollable"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"/>
+        </LinearLayout>
+    <!--</com.feifan.bp.widget.ObservableScrollView>-->
+
+    <com.feifan.bp.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tabMode="scrollable"/>
+        android:layout_gravity="bottom|left"
+        android:layout_margin="16dp"
+        android:src="@mipmap/icon_select_shop"
+        android:visibility="gone"
+        fab:fab_colorNormal="@color/accent"
+        fab:fab_colorPressed="@color/accent_pressed"
+        fab:fab_colorRipple="@color/ripple"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:background="@android:color/white" />
-
-</LinearLayout>
+    <View
+        android:id="@+id/shadowView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#AF000000"
+        android:visibility="invisible"/>
+</FrameLayout>
