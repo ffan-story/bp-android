@@ -50,7 +50,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
 
     // dialog
     private MaterialDialog mDialog;
-    private transient boolean isShowDlg;
+    private transient boolean isShowDlg = true;
 
     public static void startActivity(Context context, String url) {
         startActivity(context, url, null, null);
@@ -122,6 +122,25 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         });
     }
 
+    private void initDialog() {
+        mDialog = new MaterialDialog(this)
+                .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        isShowDlg = true;
+                    }
+                })
+                .setNegativeButton(R.string.common_close_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        isShowDlg = true;
+                        finish();
+                    }
+                });
+    }
+
     private void loadWeb(String url){
         pagerAdapter = new BrowserTabPagerAdapter(getSupportFragmentManager(),tabTitles,url,arryStatus);
         viewPager.setAdapter(pagerAdapter);
@@ -177,6 +196,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     public void OnErrorReceived(String msg) {
         if(isShowDlg) {
             mDialog.show();
+            isShowDlg = false;
         }
     }
 
