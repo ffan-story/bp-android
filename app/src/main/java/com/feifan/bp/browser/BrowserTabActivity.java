@@ -153,9 +153,9 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
 
     @Override
     public void OnTitleReceived(String title) {
-        if(title.equals(getString(R.string.index_history_text))||
+        if((title.equals(getString(R.string.index_history_text))||
                 title.equals(getString(R.string.index_order_text))||
-                title.equals(getString(R.string.browser_staff_list))){
+                title.equals(getString(R.string.browser_staff_list)))&&mShowFab){
             fab.setVisibility(View.VISIBLE);
         }else{
             fab.setVisibility(View.GONE);
