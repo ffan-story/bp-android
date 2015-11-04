@@ -38,6 +38,7 @@ public class MessageModel extends BaseModel {
                 mStrMessageData.setmStrDetailUrl(dataArray.getJSONObject(i).optString("detailH5Url"));
                 mStrMessageData.setUserid(dataArray.getJSONObject(i).optString("userId"));
                 mStrMessageData.setMaillnboxid(dataArray.getJSONObject(i).optString("mailInboxId"));
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -65,6 +66,7 @@ public class MessageModel extends BaseModel {
         private String mStrDetailUrl;
         private String userid;
         private String maillnboxid;
+
         public String getmStrMessageStatus() {
             return mStrMessageStatus;
         }
@@ -120,5 +122,6 @@ public class MessageModel extends BaseModel {
         public void setMaillnboxid(String maillnboxid) {
             this.maillnboxid = maillnboxid;
         }
+
     }
 }

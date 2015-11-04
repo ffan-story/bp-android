@@ -12,6 +12,7 @@ import com.feifan.bp.network.PostRequest;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.Constants;
 import com.feifan.bp.network.GetRequest;
+
 /**
  * 主界面控制类
  * <p/>

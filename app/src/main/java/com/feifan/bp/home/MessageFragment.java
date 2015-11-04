@@ -43,6 +43,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     private int totalCount = 0;
     LoadingMoreListView mListView;
     private List<MessageModel.MessageData> mList = new ArrayList<MessageModel.MessageData>();
+
     private Adapter mAdapter;
 
     public static MessageFragment newInstance() {
@@ -59,6 +60,12 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        HomeCtrl.messageList( UserProfile.getInstance().getUid()+"", pageIndex, new Response.Listener<MessageModel>() {
+            @Override
+            public void onResponse(MessageModel messageModel) {
+                mList = messageModel.getMessageDataList();
+            }
+        });
     }
 
     /**

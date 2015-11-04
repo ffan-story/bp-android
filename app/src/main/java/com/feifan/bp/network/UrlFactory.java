@@ -81,6 +81,7 @@ public abstract class UrlFactory {
                 concat("&merchantId=").concat(userProfile.getAuthRangeId()).
                 concat("&signNo=").concat(code).
                 concat("&showTabs=0");
+
         return url;
     }
 
@@ -137,6 +138,7 @@ public abstract class UrlFactory {
         String url = EnvironmentManager.getHostFactory().getFFanH5Host().
                 concat(actionUri).
                 concat("&showTabs=0");
+
         return url;
     }
 
