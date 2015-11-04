@@ -58,6 +58,7 @@ public class UserCtrl {
                 .Builder<AuthListModel>(UrlFactory.getAuthorizeUrl())
                 .param("uid", String.valueOf(uId))
                 .param("nodeid", EnvironmentManager.getAuthFactory().getNodeId())
+                .param("appType", "bpMobile")
                 .build()
                 .targetClass(AuthListModel.class)
                 .listener(listener);

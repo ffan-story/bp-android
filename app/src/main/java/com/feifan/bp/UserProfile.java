@@ -147,6 +147,10 @@ public class UserProfile {
         putString(PREFERENCE_KEY_AUTH_RANGE_TYPE, authRangeType);
     }
 
+    public boolean isStoreUser() {
+        return getAuthRangeType().equals("store");
+    }
+
     public String getAuthRangeType() {
         return getString(PREFERENCE_KEY_AUTH_RANGE_TYPE);
     }

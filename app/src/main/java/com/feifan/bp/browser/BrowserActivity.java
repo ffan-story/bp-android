@@ -47,7 +47,7 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
 
     // dialog
     private MaterialDialog mDialog;
-    private transient boolean isShowDlg;
+    private transient boolean isShowDlg = true;
 
     public static void startActivity(Context context, String url) {
         Intent i = new Intent(context, BrowserActivity.class);
@@ -96,16 +96,15 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
                 .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(BrowserActivity.this, "retry", Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
-                        isShowDlg = false;
+                        isShowDlg = true;
                     }
                 })
                 .setNegativeButton(R.string.common_close_text, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mDialog.dismiss();
-                        isShowDlg = false;
+                        isShowDlg = true;
                         finish();
                     }
                 });
@@ -178,6 +177,7 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
     public void OnErrorReceived(String msg) {
         if(isShowDlg) {
             mDialog.setMessage(msg).show();
+            isShowDlg = false;
         }
     }
 }

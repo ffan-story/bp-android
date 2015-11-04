@@ -49,18 +49,19 @@ public class AuthListModel extends BaseModel {
 
             IAuthFactory factory = EnvironmentManager.getAuthFactory();
 
-            if(factory.getAuthFilter().containsKey(id)){
+            if(factory.getHistoryId().equals(String.valueOf(id))){
+                historyUrl = String.valueOf(item.optString("url"));
+                continue;
+            }
+
+//            if(factory.getAuthFilter().containsKey(id)){
                 AuthItem aItem = new AuthItem();
                 aItem.id = id;
                 aItem.name = item.optString("name");
                 aItem.url = item.optString("url");
                 aItem.icon = EnvironmentManager.getAuthFactory().getAuthFilter().get(id);
                 list.add(aItem);
-            }
-
-            if(factory.getHistoryId().equals(String.valueOf(id))){
-                historyUrl = String.valueOf(item.optString("url"));
-            }
+//            }
         }
         Collections.sort(list);
     }

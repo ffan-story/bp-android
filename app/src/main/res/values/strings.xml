@@ -80,6 +80,7 @@
     <string name="error_message_picture_size">海报图片尺寸必须是1280*720，请重新上传图片</string>
     <string name="error_message_feed_back_length">意见反馈信息长度不能超过300个字</string>
     <string name="error_message_feed_back_length_empty">意见反馈信息不能为空</string>
+    <string name="error_message_permission_limited">无此操作权限</string>
 
     <string name="sd_card_exist">sd卡不存在</string>
     <string name="title_activity_browser">BrowserActivity</string>

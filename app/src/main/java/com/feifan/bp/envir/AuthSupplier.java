@@ -57,6 +57,7 @@ public class AuthSupplier {
          * @return
          */
         int getAuthTabStatusRes(int authId);
+
     }
 
     /**
@@ -118,6 +119,7 @@ public class AuthSupplier {
             }
 
         }
+
     }
 
     static class ProductAuthFactory implements IAuthFactory {
@@ -175,6 +177,7 @@ public class AuthSupplier {
                     return -1;
             }
         }
+
     }
 
 }

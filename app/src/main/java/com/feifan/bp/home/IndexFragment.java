@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.feifan.bp.CodeScannerActivity;
@@ -184,6 +185,10 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
         switch (v.getId()) {
             case R.id.index_scan:
+                if(!UserProfile.getInstance().isStoreUser()) {
+                    Toast.makeText(getActivity(), R.string.error_message_permission_limited,Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
                 break;
 
@@ -206,6 +211,11 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 break;
 
             case R.id.index_search_btn:
+                if(!UserProfile.getInstance().isStoreUser()) {
+                    Toast.makeText(getActivity(), R.string.error_message_permission_limited,Toast.LENGTH_SHORT).show();
+                    mCodeEditText.setText("");
+                    return;
+                }
                 if (TextUtils.isEmpty(mCodeEditText.getText())) {
                     return;
                 }
