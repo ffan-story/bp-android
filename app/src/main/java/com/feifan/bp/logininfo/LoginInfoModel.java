@@ -93,9 +93,9 @@ public class LoginInfoModel extends BaseModel {
             if (!TextUtils.isEmpty(rangNameJSONObject.optString("storeViewName"))) {
                 storeViewName = rangNameJSONObject.optString("storeViewName");
             }
-            //if (!TextUtils.isEmpty(rangNameJSONObject.optString("plazaName"))) {
+            if (!TextUtils.isEmpty(rangNameJSONObject.optString("plazaName"))) {
                 plazaName = rangNameJSONObject.optString("plazaName");
-            //}
+            }
             if (!TextUtils.isEmpty(rangNameJSONObject.optString("provinceId"))) {
                 provinceId = rangNameJSONObject.optString("provinceId");
             }

@@ -3,7 +3,6 @@ package com.feifan.bp.logininfo;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,10 +70,9 @@ public class LoginInfoFragment extends BaseFragment implements View.OnClickListe
         if (loginInfoModel.getAuthRangeType().equals("store")) {// store：门店，merchant：商户）
             mLoginInfoStore.setVisibility(View.VISIBLE);
             mLoginInfoMerchant.setVisibility(View.GONE);
-            ((TextView) rootView.findViewById(R.id.login_info_identity)).setText(getString(R.string.login_info_store));
             ((TextView) rootView.findViewById(R.id.login_info_belongs_store)).setText(loginInfoModel
                     .getStoreViewName());
-            Log.i("","loginInfoModel.plazaName = "+loginInfoModel.getPlazaName());
+            ((TextView) rootView.findViewById(R.id.login_info_identity)).setText(loginInfoModel.getIdentity());
             if (loginInfoModel.getPlazaName().equals("null")) {
                 ((TextView) rootView.findViewById(R.id.login_info_belongs_square)).setText(getString(R.string.login_info_empty));
             } else {
@@ -84,7 +82,6 @@ public class LoginInfoFragment extends BaseFragment implements View.OnClickListe
         } else if (loginInfoModel.getAuthRangeType().equals("merchant")) {
             mLoginInfoMerchant.setVisibility(View.VISIBLE);
             mLoginInfoStore.setVisibility(View.GONE);
-            ((TextView) rootView.findViewById(R.id.login_info_identity)).setText(getString(R.string.login_info_merchant));
             ((TextView) rootView.findViewById(R.id.login_info_belongs_merchant)).setText(loginInfoModel
                     .getMerchantName());
         }
