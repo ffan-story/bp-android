@@ -3,7 +3,7 @@ package com.feifan.bp.logininfo;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,11 +74,12 @@ public class LoginInfoFragment extends BaseFragment implements View.OnClickListe
             ((TextView) rootView.findViewById(R.id.login_info_identity)).setText(getString(R.string.login_info_store));
             ((TextView) rootView.findViewById(R.id.login_info_belongs_store)).setText(loginInfoModel
                     .getStoreViewName());
-            if (!TextUtils.isEmpty(loginInfoModel.getPlazaName())) {
+            Log.i("","loginInfoModel.plazaName = "+loginInfoModel.getPlazaName());
+            if (loginInfoModel.getPlazaName().equals("null")) {
+                ((TextView) rootView.findViewById(R.id.login_info_belongs_square)).setText(getString(R.string.login_info_empty));
+            } else {
                 ((TextView) rootView.findViewById(R.id.login_info_belongs_square)).setText(loginInfoModel
                         .getPlazaName());
-            } else {
-                ((TextView) rootView.findViewById(R.id.login_info_belongs_square)).setText(getString(R.string.login_info_empty));
             }
         } else if (loginInfoModel.getAuthRangeType().equals("merchant")) {
             mLoginInfoMerchant.setVisibility(View.VISIBLE);

@@ -53,7 +53,7 @@ public class LoginInfoModel extends BaseModel {
     /**
      * "南昌红谷滩万达广场" －－所属广场名称
      */
-    private String plazaName;
+    public String plazaName;
     /**
      * 省份ID
      */
@@ -93,9 +93,9 @@ public class LoginInfoModel extends BaseModel {
             if (!TextUtils.isEmpty(rangNameJSONObject.optString("storeViewName"))) {
                 storeViewName = rangNameJSONObject.optString("storeViewName");
             }
-            if (!TextUtils.isEmpty(rangNameJSONObject.optString("plazaName"))) {
+            //if (!TextUtils.isEmpty(rangNameJSONObject.optString("plazaName"))) {
                 plazaName = rangNameJSONObject.optString("plazaName");
-            }
+            //}
             if (!TextUtils.isEmpty(rangNameJSONObject.optString("provinceId"))) {
                 provinceId = rangNameJSONObject.optString("provinceId");
             }
