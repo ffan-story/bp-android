@@ -75,11 +75,16 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_browser_tab);
         initViews();
-
+        mShowFab = UserProfile.getInstance().getAuthRangeType().equals("merchant");
         mUrl = getIntent().getStringExtra(EXTRA_KEY_URL);
         arryStatus = getIntent().getStringArrayExtra(EXTRA_KEY_STATUS);
         tabTitles = getIntent().getStringArrayExtra(EXTRA_KEY_TITLES);
         arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
+        if(tabTitles.length>4){
+            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        } else{
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        }
 
         if(mShowFab){
             mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
@@ -93,16 +98,10 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     private void initViews() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        if(null != tabTitles && tabTitles.length>4){
-            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        } else{
-            tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        }
-
-        mScrollView = (ObservableScrollView) findViewById(R.id.scrollView);
+//        mScrollView = (ObservableScrollView) findViewById(R.id.scrollView);
         mShadowView = findViewById(R.id.shadowView);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.attachToScrollView(mScrollView);
+//        fab.attachToScrollView(mScrollView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +115,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(0);
         tabLayout.setupWithViewPager(viewPager);
+        pagerAdapter.notifyDataSetChanged();
     }
 
     private void selectMenu() {
@@ -143,7 +143,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
 
     private String addStoreId(String url,String storeId){
         String[] urls = url.split("\\?");
-        return urls[0]+"?storeId"+storeId+"&"+urls[1];
+        return urls[0]+"?storeId="+storeId+"&"+urls[1];
     }
 
     @Override
