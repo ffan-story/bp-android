@@ -245,8 +245,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         switch (item.getItemId()) {
             case R.id.action_staff:
                 url = UrlFactory.staffAddForHtml();
-//                mWebView.loadUrl(url);
-                BrowserActivity.startActivity(getActivity(),url);
+                Intent i = new Intent(getActivity(), BrowserActivity.class);
+                i.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
+                getActivity().startActivityForResult(i,Constants.REQUEST_CODE_STAFF_EDIT);
                 LogUtil.i(TAG, "menu onClick() staff url=" + url);
                 return true;
 
@@ -345,8 +346,11 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     Intent i = new Intent(getActivity(), BrowserActivity.class);
                     i.putExtra(BrowserActivity.EXTRA_KEY_URL, actionStrUri);
                     getActivity().startActivityForResult(i,Constants.REQUEST_CODE_STAFF_EDIT);
+                }else if(actionStrUri.contains("/staff")){//添加员工
+                    getActivity().setResult(Activity.RESULT_OK);
+                    getActivity().finish();
                 }else{//验证历史  订单管理</order/detail/>
-                    BrowserActivity.startActivity(getActivity(),actionStrUri);
+                    BrowserActivity.startActivity(getActivity(), actionStrUri);
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
                 mListener.OnErrorReceived(uri.getAuthority());
