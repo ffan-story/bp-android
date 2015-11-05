@@ -41,27 +41,26 @@ public class LoginInfoFragment extends BaseFragment implements View.OnClickListe
         View rootView = inflater.inflate(R.layout.fragment_login_info, container, false);
         mLoginInfoStore = (LinearLayout) rootView.findViewById(R.id.login_info_store);
         mLoginInfoMerchant = (LinearLayout) rootView.findViewById(R.id.login_info_merchant);
-
         getLoginInfo(rootView);
         return rootView;
     }
 
     private void getLoginInfo(final View rootView) {
         showProgressBar(true);
-        UserProfile manager = UserProfile.getInstance();
-        int uid = manager.getUid();
-        LoginInfoCtrl.getLoginInfo(String.valueOf(uid), new Response.Listener<LoginInfoModel>() {
-            @Override
-            public void onResponse(LoginInfoModel loginInfoModel) {
-                if (loginInfoModel.status == Constants.RESPONSE_CODE_SUCCESS) {
-                    setLoginInfo(rootView, loginInfoModel);
-                } else {
-                    Utils.showShortToast(getActivity(), loginInfoModel.msg,
-                            Gravity.CENTER);
+            UserProfile manager = UserProfile.getInstance();
+            int uid = manager.getUid();
+            LoginInfoCtrl.getLoginInfo(String.valueOf(uid), new Response.Listener<LoginInfoModel>() {
+                @Override
+                public void onResponse(LoginInfoModel loginInfoModel) {
+                    hideProgressBar();
+                    if (loginInfoModel.status == Constants.RESPONSE_CODE_SUCCESS) {
+                        setLoginInfo(rootView, loginInfoModel);
+                    } else {
+                        Utils.showShortToast(getActivity(), loginInfoModel.msg,
+                                Gravity.CENTER);
+                    }
                 }
-                hideProgressBar();
-            }
-        });
+            });
     }
 
     private void setLoginInfo(View rootView, LoginInfoModel loginInfoModel) {

@@ -101,7 +101,6 @@ public class FeedBackFragment extends BaseFragment implements View.OnClickListen
                     return;
                 }
                 if(!Utils.isNetworkAvailable(getActivity())){
-                //if (!isNetworkAvailable(getActivity())) {
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline,
                             Gravity.CENTER);
                     return;
@@ -135,48 +134,6 @@ public class FeedBackFragment extends BaseFragment implements View.OnClickListen
                 break;
         }
     }
-
-//    public static boolean isNetworkAvailable(Context context) {
-//        ConnectivityManager cm = (ConnectivityManager) context
-//                .getSystemService(Context.CONNECTIVITY_SERVICE);
-//        if (cm == null) {
-//        } else {
-//            //如果仅仅是用来判断网络连接
-//            //则可以使用 cm.getActiveNetworkInfo().isAvailable();
-//            NetworkInfo[] info = cm.getAllNetworkInfo();
-//            if (info != null) {
-//                for (int i = 0; i < info.length; i++) {
-//                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-//                        return true;
-//                    }
-//                }
-//            }
-//        }
-//        return false;
-//    }
-
-//    private static Toast mToast;
-//    private static Handler mhandler = new Handler();
-//    private static Runnable r = new Runnable() {
-//        public void run() {
-//            mToast.cancel();
-//        }
-//    };
-//
-//    public static void showToast(Context context, String text, int duration) {
-//        mhandler.removeCallbacks(r);
-//        if (null != mToast) {
-//            mToast.setText(text);
-//        } else {
-//            mToast = Toast.makeText(context, text, Toast.LENGTH_LONG);
-//        }
-//        mhandler.postDelayed(r, 5000);
-//        mToast.show();
-//    }
-//
-//    public static void showToast(Context context, int strId, int duration) {
-//        showToast(context, context.getString(strId), duration);
-//    }
 
     public static FeedBackFragment newInstance() {
         FeedBackFragment fragment = new FeedBackFragment();

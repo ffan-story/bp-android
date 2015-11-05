@@ -23,7 +23,6 @@ import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.logininfo.LoginInfoFragment;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.TabBar;
 
 import java.util.ArrayList;
@@ -126,7 +125,11 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 CodeScannerActivity.startActivity(this);
                 //add by tianjun 2015.10.27
             } else if(to.equals(LoginInfoFragment.class.getName())){
-               showLoginInfo();
+                if (Utils.isNetworkAvailable(this)) {//Utils.isCurrentNetworkAvailable(this)
+                    showLoginInfo();
+                }else{
+                    Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
+                }
                 //end.
             } else if(to.equals(BrowserTabActivity.class.getName())){
                 openTabBrowser(args);
