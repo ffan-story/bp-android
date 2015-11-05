@@ -2,6 +2,7 @@ package com.feifan.bp.browser;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.PopupWindow;
 
 import com.feifan.bp.Constants;
@@ -123,13 +125,6 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
 
     private void initDialog() {
         mDialog = new MaterialDialog(this)
-                .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                        isShowDlg = true;
-                    }
-                })
                 .setNegativeButton(R.string.common_close_text, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -192,9 +187,19 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     }
 
     @Override
-    public void OnErrorReceived(String msg) {
+    public void OnErrorReceived(String msg, final WebView web, final String url) {
         if(isShowDlg) {
-            mDialog.show();
+            mDialog.setMessage(msg)
+                    .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                            isShowDlg = true;
+                            web.loadUrl(url);
+                        }
+                    })
+                    .show();
+
             isShowDlg = false;
         }
     }

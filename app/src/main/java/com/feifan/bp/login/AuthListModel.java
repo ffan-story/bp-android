@@ -93,7 +93,7 @@ public class AuthListModel extends BaseModel {
 
             writer.beginArray();
             for(AuthItem item : list) {
-                Log.e(TAG, item.toString());
+                LogUtil.i(TAG, item.toString());
                 item.writeTo(writer);
             }
             writer.endArray();

@@ -15,7 +15,6 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,16 +23,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
-import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Gallery;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.feifan.bp.Constants;
@@ -110,9 +106,27 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     public OnBrowserListener mListener;
 
+
     public Dialog phoneDialog;
     public DialogPhoneLayout dialogPhoneLayout;
     private String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/feifandp/img.jpg";
+
+    /**
+     * 监听浏览器接口
+     */
+    public interface OnBrowserListener {
+        /**
+         * 获取到标题
+         * @param title
+         */
+        void OnTitleReceived(String title);
+
+        /**
+         * 获取到错误
+         * @param msg
+         */
+        void OnErrorReceived(String msg, WebView web, String url);
+    }
 
     public static BrowserFragment newInstance(String url) {
         Bundle args = new Bundle();
@@ -139,7 +153,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_browser, container, false);
+        View v = inflater.inflate(R.layout.fragment_browser, container, false);
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
         mWebView.loadUrl(mUrl);
@@ -275,11 +289,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    public interface OnBrowserListener {
-        void OnTitleReceived(String title);
-        void OnErrorReceived(String msg);
-    }
-
     private class PlatformWebChromeClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
@@ -358,7 +367,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     BrowserActivity.startActivity(getActivity(), actionStrUri);
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
-                mListener.OnErrorReceived(uri.getAuthority());
+                mListener.OnErrorReceived(uri.getAuthority(), mWebView, mUrl);
             }
             return true;
         }

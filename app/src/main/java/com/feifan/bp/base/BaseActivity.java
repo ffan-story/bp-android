@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 //        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 //                | View.SYSTEM_UI_FLAG_FULLSCREEN;
 //        decorView.setSystemUiVisibility(uiOptions);
+
     }
 
     @Override
@@ -65,6 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         setupToolbar(mToolbar);
+        Log.e("xuchunlei", "mToolbar---->" + mToolbar);
     }
 
     /**
@@ -74,6 +77,9 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @return
      */
     protected Toolbar getToolbar() {
+//        if(mToolbar == null) {
+//            initToolbar();
+//        }
         return mToolbar;
     }
 

@@ -8,8 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
@@ -57,7 +57,7 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_browser_fragment);
+        setContentView(R.layout.activity_browser);
         initViews();
         initDialog();
         mShowFab = UserProfile.getInstance().getAuthRangeType().equals("merchant");
@@ -69,6 +69,12 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
         }else{
             sUrl = mUrl;
         }
+//        loadWeb(sUrl);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         loadWeb(sUrl);
     }
 
@@ -170,9 +176,19 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
     }
 
     @Override
-    public void OnErrorReceived(String msg) {
+    public void OnErrorReceived(String msg, final WebView web, final String url) {
         if(isShowDlg) {
-            mDialog.setMessage(msg).show();
+            mDialog.setMessage(msg)
+                    .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                            isShowDlg = true;
+                            web.loadUrl(url);
+                        }
+                    })
+                    .show();
+
             isShowDlg = false;
         }
     }

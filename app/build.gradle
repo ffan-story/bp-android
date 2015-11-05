@@ -59,6 +59,8 @@ android {
             applicationId "com.feifan.bp.test"
             versionName version + "-" + gitSha
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.SIT"
+
+            manifestPlaceholders = [UMENG_APP_KEY_VALUE : "55ffcb5e67e58e10d8000f85"]
         }
         productpre{
             applicationId "com.feifan.bp.pre"
@@ -69,6 +71,8 @@ android {
             applicationId "com.feifan.bp"
             versionName version
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT"
+
+            manifestPlaceholders = [UMENG_APP_KEY_VALUE : "55ffc7ffe0f55afc2d0016ee"]
         }
     }
 
@@ -101,6 +105,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
     compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile 'com.umeng.analytics:analytics:latest.integration'
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile 'com.loopj.android:android-async-http:1.4.8'
     compile project(':codescanner')
