@@ -111,10 +111,8 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     private void initViews() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-//        mScrollView = (ObservableScrollView) findViewById(R.id.scrollView);
         mShadowView = findViewById(R.id.shadowView);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.attachToScrollView(mScrollView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,7 +201,6 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
        if(resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE_STAFF_EDIT){
            initData();
        }

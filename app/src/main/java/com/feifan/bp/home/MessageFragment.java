@@ -12,12 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
+import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 import java.util.ArrayList;
@@ -79,11 +82,11 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
                 if (mList == null || mList.size() <= 0) {
                     mList = new ArrayList<MessageModel.MessageData>();
                     mList = messageModel.getMessageDataList();
-                    if(mList != null && mList.size()>0){
+                    if (mList != null && mList.size() > 0) {
                         mPtrFrame.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.setVisibility(View.GONE);
                         mPtrFrame.refreshComplete();
-                    }else{
+                    } else {
                         mPtrFrame.setVisibility(View.GONE);
                         mPtrFrameEmpty.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.refreshComplete();
@@ -96,6 +99,18 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
                 }
                 mAdapter.notifyDataSetChanged();
             }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                LogUtil.i("congjing","111111111111");
+                hideProgressBar();
+                if (mPtrFrameEmpty != null){
+                    mPtrFrame.refreshComplete();
+                }else if(mPtrFrame !=null){
+                    mPtrFrame.refreshComplete();
+                }
+
+            }
         });
     }
 
@@ -104,6 +119,11 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
             @Override
             public void onResponse(MessageStatusModel messageModel) {
                 mList.get(position).setmStrMessageStatus(Constants.READ);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
             }
         });
     }

@@ -72,11 +72,15 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
         loadWeb(sUrl);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     private void initViews() {
-//        mScrollView = (ObservableScrollView) findViewById(R.id.scrollView);
         mShadowView = findViewById(R.id.shadowView);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.attachToScrollView(mScrollView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +123,6 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
      * 门店选择
      */
     private void selectMenu() {
-
         mPopWindow = new SelectPopWindow(BrowserActivity.this, lastSelectPos);
         mShadowView.setVisibility(View.VISIBLE);
         mShadowView.startAnimation(AnimationUtils.loadAnimation(BrowserActivity.this, R.anim.pop_bg_show));
