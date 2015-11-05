@@ -13,6 +13,7 @@
         android:layout_marginRight="@dimen/view_spacing_15">
 
         <TextView
+            android:id="@+id/login_info_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -22,10 +23,15 @@
 
         <TextView
             android:id="@+id/login_info_name"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/view_width_230"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/view_spacing_5"
+            android:layout_toRightOf="@+id/login_info_name_tv"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:singleLine="true"
             android:textColor="@color/login_info_color"
             android:textSize="@dimen/font_size_19" />
     </RelativeLayout>
@@ -75,6 +81,7 @@
         android:layout_marginRight="@dimen/view_spacing_15">
 
         <TextView
+            android:id="@+id/login_info_identity_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -88,6 +95,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/view_spacing_5"
+            android:layout_toRightOf="@+id/login_info_identity_tv"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:singleLine="true"
             android:textColor="@color/login_info_color"
             android:textSize="@dimen/font_size_19" />
     </RelativeLayout>
@@ -112,6 +124,7 @@
             android:layout_height="@dimen/view_height_50">
 
             <TextView
+                android:id="@+id/login_info_store_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -125,6 +138,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/view_spacing_5"
+                android:layout_toRightOf="@+id/login_info_store_tv"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:singleLine="true"
                 android:textColor="@color/login_info_color"
                 android:textSize="@dimen/font_size_19" />
         </RelativeLayout>
@@ -139,6 +157,7 @@
             android:layout_height="@dimen/view_height_50">
 
             <TextView
+                android:id="@+id/login_info_square_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -152,6 +171,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/view_spacing_5"
+                android:layout_toRightOf="@+id/login_info_square_tv"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:singleLine="true"
                 android:textColor="@color/login_info_color"
                 android:textSize="@dimen/font_size_19" />
         </RelativeLayout>
@@ -163,14 +187,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/view_spacing_15"
         android:layout_marginRight="@dimen/view_spacing_15"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/view_height_50">
 
             <TextView
+                android:id="@+id/login_info_merchant_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -184,6 +209,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/view_spacing_5"
+                android:layout_toRightOf="@+id/login_info_merchant_tv"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:singleLine="true"
                 android:textColor="@color/login_info_color"
                 android:textSize="@dimen/font_size_19" />
         </RelativeLayout>
