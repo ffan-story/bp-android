@@ -110,6 +110,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     public OnBrowserListener mListener;
 
+    public Dialog phoneDialog;
+    public DialogPhoneLayout dialogPhoneLayout;
+    private String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/feifandp/img.jpg";
+
     public static BrowserFragment newInstance(String url) {
         Bundle args = new Bundle();
         args.putString(EXTRA_KEY_URL, url);
@@ -159,7 +163,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         if (mToolbarStatus == TOOLBAR_STATUS_STAFF) {
             inflater.inflate(R.menu.menu_staff_manage, menu);
             (menu.findItem(R.id.action_staff)).setOnMenuItemClickListener(this);
-
         } else if (mToolbarStatus == TOOLBAR_STATUS_COUPON) {
             inflater.inflate(R.menu.menu_coupon_add, menu);
             (menu.findItem(R.id.action_coupon)).setOnMenuItemClickListener(this);
@@ -340,7 +343,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 String actionStrUri = UrlFactory.urlForHtml(actionUri.getAuthority()+actionUri.getEncodedPath()+"#"+actionUri.getEncodedFragment());
                 LogUtil.i(TAG, "actionStrUri=1======" +  actionStrUri);
                 if(actionStrUri.contains("/refund/detail")){//退款单详情
-                    BrowserTabActivity.startActivity(getActivity(),actionStrUri+"&status=",getActivity().getResources().getStringArray(R.array.data_type),
+                    BrowserTabActivity.startActivity(getActivity(),
+                            actionStrUri+"&status=",
+                            getActivity().getResources().getStringArray(R.array.data_type),
                             getActivity().getResources().getStringArray(R.array.tab_title_refund_detail_titles));
                 }else if( actionStrUri.contains("/staff/edit/")){//员工管理
                     Intent i = new Intent(getActivity(), BrowserActivity.class);
@@ -490,9 +495,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    public Dialog phoneDialog;
-    public DialogPhoneLayout dialogPhoneLayout;
-
     public void initLeaveWordsDialog() {
         phoneDialog = new Dialog(getActivity(), R.style.FullScreenPhoneDialog);
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -511,9 +513,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         dialogPhoneLayout.setLayoutCameraClicklListener(this);
         phoneDialog.show();
     }
-
-    String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/feifandp/img.jpg";
-
 
     @Override
     public void onClick(View v) {

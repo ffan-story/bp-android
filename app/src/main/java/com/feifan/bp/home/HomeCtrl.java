@@ -37,8 +37,8 @@ public class HomeCtrl {
      * @param pageIndex
      * @param listener
      */
-    public static void messageList(String userId,  int pageIndex, Listener listener) {
-        JsonRequest<MessageModel> request = new GetRequest.Builder<MessageModel>(UrlFactory.getMessgeList())
+    public static void messageList(String userId,  int pageIndex, Listener listener, ErrorListener errorListener) {
+        JsonRequest<MessageModel> request = new GetRequest.Builder<MessageModel>(UrlFactory.getMessgeList()).errorListener(errorListener)
                 .param("userId", userId)
                 .param("userType", "1")//固定传1
                 .param("pageIndex", Integer.toString(pageIndex))
@@ -55,7 +55,7 @@ public class HomeCtrl {
      * @param maillnboxid
      * @param listener
      */
-    public static void setMessageStatusRead(String userid,  String maillnboxid, Listener listener) {
+    public static void setMessageStatusRead(String userid,  String maillnboxid, Listener listener, ErrorListener errorListener) {
         JsonRequest<MessageStatusModel> request = new PostRequest<MessageStatusModel>(UrlFactory.getMessgeListStatus(), new DefaultErrorListener())
                 .param("userId", userid)
                 .param("mailInboxId", maillnboxid)

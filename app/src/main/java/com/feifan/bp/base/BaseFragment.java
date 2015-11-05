@@ -7,6 +7,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.util.LogUtil;
+
 /**
  * Created by maning on 15/7/9.
  */
