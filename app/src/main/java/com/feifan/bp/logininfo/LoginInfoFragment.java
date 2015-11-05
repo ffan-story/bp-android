@@ -67,12 +67,12 @@ public class LoginInfoFragment extends BaseFragment implements View.OnClickListe
     private void setLoginInfo(View rootView, LoginInfoModel loginInfoModel) {
         ((TextView) rootView.findViewById(R.id.login_info_name)).setText(loginInfoModel.getName());
         ((TextView) rootView.findViewById(R.id.login_info_phone)).setText(loginInfoModel.getPhone());
+        ((TextView) rootView.findViewById(R.id.login_info_identity)).setText(loginInfoModel.getIdentity());
         if (loginInfoModel.getAuthRangeType().equals("store")) {// store：门店，merchant：商户）
             mLoginInfoStore.setVisibility(View.VISIBLE);
             mLoginInfoMerchant.setVisibility(View.GONE);
             ((TextView) rootView.findViewById(R.id.login_info_belongs_store)).setText(loginInfoModel
                     .getStoreViewName());
-            ((TextView) rootView.findViewById(R.id.login_info_identity)).setText(loginInfoModel.getIdentity());
             if (loginInfoModel.getPlazaName().equals("null")) {
                 ((TextView) rootView.findViewById(R.id.login_info_belongs_square)).setText(getString(R.string.login_info_empty));
             } else {
