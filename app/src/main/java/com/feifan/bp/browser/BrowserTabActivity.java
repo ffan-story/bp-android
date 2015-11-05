@@ -4,9 +4,11 @@ package com.feifan.bp.browser;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -124,7 +126,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     }
 
     private void initDialog() {
-        mDialog = new MaterialDialog(this)
+        mDialog = new MaterialDialog(BrowserTabActivity.this)
                 .setNegativeButton(R.string.common_close_text, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -188,7 +190,8 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
 
     @Override
     public void OnErrorReceived(String msg, final WebView web, final String url) {
-        if(isShowDlg) {
+
+        if(isShowDlg && !isFinishing() ) {
             mDialog.setMessage(msg)
                     .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
                         @Override

@@ -96,7 +96,7 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
     }
 
     private void initDialog() {
-        mDialog = new MaterialDialog(this)
+        mDialog = new MaterialDialog(BrowserActivity.this)
                 .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -177,7 +177,7 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
 
     @Override
     public void OnErrorReceived(String msg, final WebView web, final String url) {
-        if(isShowDlg) {
+        if(isShowDlg && !isFinishing()) {
             mDialog.setMessage(msg)
                     .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
                         @Override

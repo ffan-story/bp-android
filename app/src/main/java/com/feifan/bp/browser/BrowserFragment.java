@@ -336,7 +336,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     UserProfile.getInstance().clear();
                     startActivity(LaunchActivity.buildIntent(getActivity()));
                 } else if (url.contains(Constants.URL_PATH_EXIT)) {
-                    if (getActivity() != null) {
+                    if (getActivity() != null ) {
                         getActivity().finish();
                     }
                 } else if (url.contains(Constants.URL_PATH_HOME)) {

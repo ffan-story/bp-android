@@ -67,7 +67,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         setupToolbar(mToolbar);
-        Log.e("xuchunlei", "mToolbar---->" + mToolbar);
     }
 
     /**
