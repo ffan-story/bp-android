@@ -50,7 +50,7 @@ public class AuthListModel extends BaseModel {
             IAuthFactory factory = EnvironmentManager.getAuthFactory();
 
             if(factory.getHistoryId().equals(String.valueOf(id))){
-                historyUrl = String.valueOf(item.optString("url"));
+                historyUrl = item.optString("url");
                 continue;
             }
 
@@ -59,6 +59,7 @@ public class AuthListModel extends BaseModel {
                 aItem.id = id;
                 aItem.name = item.optString("name");
                 aItem.url = item.optString("url");
+
                 aItem.icon = EnvironmentManager.getAuthFactory().getAuthFilter().get(id);
                 list.add(aItem);
 //            }
