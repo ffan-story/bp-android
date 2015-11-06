@@ -167,6 +167,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
         mWebView.loadUrl(mUrl);
+        PlatformState.getInstance().setLastUrl(mUrl);
         LogUtil.i(TAG, "mUrl==" + mUrl);
         return v;
     }
