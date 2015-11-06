@@ -55,6 +55,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
     // views
 //    private IconClickableEditText mCodeEdt;
     private EditText mCodeEditText;
+    private boolean mDeleteFlag = true;
 
     public static IndexFragment newInstance() {
         IndexFragment fragment = new IndexFragment();
@@ -108,6 +109,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                         mCodeEditText.setSelection(s.length() + 1);
                     }
                 } else if (count == 0) { // 删除字符
+
                     // 自动删除空格
                     if (s.length() > 0 && s.length() % 5 == 0) {
                         mCodeEditText.setText(s.subSequence(0, s.length() - 1));
@@ -275,11 +277,13 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         @Override
         public void onBindViewHolder(final IndexViewHolder indexViewHolder, int i) {
             final AuthItem item = mList.get(i);
+            if(item.icon != 0) {
+                Drawable t = getResources().getDrawable(item.icon);
+                t.setBounds(0, 0, mIconSize, mIconSize);
 
-            Drawable t = getResources().getDrawable(item.icon);
-            t.setBounds(0, 0, mIconSize, mIconSize);
+                indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
+            }
 
-            indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
             indexViewHolder.textView.setText(item.name);
             indexViewHolder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
