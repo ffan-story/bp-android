@@ -167,8 +167,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
         mWebView.loadUrl(mUrl);
-        LogUtil.i(TAG,"mUrl=="+mUrl);
-        PlatformState.getInstance().setLastUrl(mUrl);
+        LogUtil.i(TAG, "mUrl==" + mUrl);
         return v;
     }
 
@@ -234,6 +233,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setSavePassword(false);
 
         // 缓存相关
         if (PlatformState.getInstance().isCacheClearable()) {
