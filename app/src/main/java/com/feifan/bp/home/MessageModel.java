@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by apple on 15-11-2.
+ * Created by congjing on 15-11-2.
  */
 public class MessageModel extends BaseModel {
 
