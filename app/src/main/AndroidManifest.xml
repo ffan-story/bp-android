@@ -61,9 +61,10 @@
         <activity
             android:name=".CodeScannerActivity"
             android:label="@string/lable_activity_scanner"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
+
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name="com.feifan.croplib.CropImageActivity"
             android:screenOrientation="portrait" />

@@ -2,6 +2,7 @@ package com.feifan.bp.base;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -191,6 +192,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return result;
     }
+
 
 
 }

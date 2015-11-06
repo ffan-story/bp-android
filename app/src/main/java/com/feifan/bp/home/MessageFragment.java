@@ -14,13 +14,11 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
-import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 import java.util.ArrayList;
@@ -39,9 +37,8 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     private PtrClassicFrameLayout mPtrFrame, mPtrFrameEmpty;
     private int pageIndex = 1;
     private int totalCount = 0;
-    LoadingMoreListView mListView;
+    private LoadingMoreListView mListView;
     private List<MessageModel.MessageData> mList = new ArrayList<MessageModel.MessageData>();
-
     private Adapter mAdapter;
 
     public static MessageFragment newInstance() {
@@ -102,7 +99,6 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                LogUtil.i("congjing","111111111111");
                 hideProgressBar();
                 if (mPtrFrameEmpty != null){
                     mPtrFrame.refreshComplete();

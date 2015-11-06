@@ -2,7 +2,12 @@ package com.feifan.bp.browser;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
@@ -11,14 +16,26 @@ import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.PopupWindow;
 
+import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.util.IOUtil;
+import com.feifan.bp.util.ImageUtil;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.bp.widget.SelectPopWindow;
+import com.feifan.croplib.Crop;
 import com.feifan.materialwidget.MaterialDialog;
+import com.loopj.android.http.RequestParams;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class BrowserActivity extends BaseActivity implements OnFragmentInteractionListener,BrowserFragment.OnBrowserListener {
     /**
@@ -26,7 +43,6 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
      */
     public static final String EXTRA_KEY_URL = "url";
     public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
-    private boolean mIsStaffManagementPage = false;
 
     private ObservableScrollView mScrollView;
     private FloatingActionButton fab;
@@ -62,7 +78,6 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
         initDialog();
         mShowFab = UserProfile.getInstance().getAuthRangeType().equals("merchant");
         mUrl = getIntent().getStringExtra(EXTRA_KEY_URL);
-        mIsStaffManagementPage = getIntent().getBooleanExtra(EXTRA_KEY_STAFF_MANAGE, false);
         if(mShowFab){
             mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
             sUrl = mUrl + "&storeId=" + mStoreId;
@@ -114,13 +129,15 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
                 });
     }
 
+    BrowserFragment mBrowserFragment ;
     /**
      * 载入网页
      */
     private void loadWeb(String url) {
+        mBrowserFragment =BrowserFragment.newInstance(url);
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.browser_fragment, BrowserFragment.newInstance(url));
+        transaction.replace(R.id.browser_fragment, mBrowserFragment);
         transaction.commitAllowingStateLoss();
     }
 
@@ -190,6 +207,18 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
                     .show();
 
             isShowDlg = false;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
+            mBrowserFragment.beginCrop(data.getData());
+        } else if (requestCode == Crop.REQUEST_CROP && resultCode == RESULT_OK) {
+            mBrowserFragment.handleCrop(resultCode, data);
+        } else if (requestCode == Crop.REQUEST_CARMAER && resultCode == RESULT_OK) {
+            mBrowserFragment.beginCrop(Uri.fromFile(new File(mBrowserFragment.imgPath)));
         }
     }
 }

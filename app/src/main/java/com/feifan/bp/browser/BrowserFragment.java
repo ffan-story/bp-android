@@ -2,6 +2,8 @@ package com.feifan.bp.browser;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.FragmentManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceActivity;
 import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -39,13 +42,20 @@ import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.network.UploadHttpClient;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.DialogPhoneLayout;
 import com.feifan.croplib.Crop;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -109,7 +119,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     public Dialog phoneDialog;
     public DialogPhoneLayout dialogPhoneLayout;
-    private String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/feifandp/img.jpg";
+    public String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/feifandp/img.jpg";
 
     /**
      * 监听浏览器接口
@@ -434,7 +444,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    private void beginCrop(Uri source) {
+    public void beginCrop(Uri source) {
         Uri outputUri = Uri.fromFile(new File(getActivity().getCacheDir(), "cropped"));
         if (IMG_PICK_TYPE_1 == mImgPickType) {
             new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
@@ -459,7 +469,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    private void handleCrop(int resultCode, Intent result) {
+    public void handleCrop(int resultCode, Intent result) {
         if (resultCode == getActivity().RESULT_OK) {
 
             int i = ImageUtil.readPictureDegree(Crop.getOutput(result).getPath());
@@ -478,6 +488,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     private void uploadPicture(Uri uri) {
 
+        LogUtil.i(TAG,"uri=="+uri);
         // 获取符合条件的图片输入流
         Bitmap uploadImg = null;
         try {
@@ -496,6 +507,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             params.put("image", in);
             String url = UrlFactory.uploadPicture();
             showProgressBar(false);
+
         } catch (Exception e) {
             e.printStackTrace();
             Utils.showShortToast(getActivity(),
@@ -530,7 +542,15 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 if (null != phoneDialog) {
                     phoneDialog.dismiss();
                 }
-                Crop.pickImage(getActivity());
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
+                try {
+                    startActivityForResult(intent, Crop.REQUEST_PICK);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getActivity(), com.feifan.croplib.R.string.crop_pick_error, Toast.LENGTH_SHORT).show();
+                }
+
+//                startActivityForResult();
+//                Crop.pickImage(getActivity());
                 break;
 
             case R.id.dialog_camera:

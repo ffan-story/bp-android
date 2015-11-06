@@ -209,7 +209,8 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-       if(resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE_STAFF_EDIT){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE_STAFF_EDIT){
            initData();
        }
     }
