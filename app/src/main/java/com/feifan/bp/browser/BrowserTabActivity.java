@@ -19,6 +19,7 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.bp.widget.SelectPopWindow;
@@ -55,10 +56,6 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     // dialog
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
-
-    public static void startActivity(Context context, String url) {
-        startActivity(context, url, null, null);
-    }
 
     /**
      *
@@ -98,6 +95,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         arryStatus = getIntent().getStringArrayExtra(EXTRA_KEY_STATUS);
         tabTitles = getIntent().getStringArrayExtra(EXTRA_KEY_TITLES);
         arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
+
         if(null!=tabTitles && tabTitles.length>4){
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         } else{
@@ -123,7 +121,23 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
                 selectMenu();
             }
         });
-    }
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                pagerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        }
 
     private void initDialog() {
         mDialog = new MaterialDialog(BrowserTabActivity.this)

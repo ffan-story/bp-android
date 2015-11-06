@@ -18,12 +18,13 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
     private String url;
     private String urlStatus[];
     private int position;
-
+    private int mChildCount = 0;
     public BrowserTabPagerAdapter(FragmentManager fm,String[] tabTitles, String url,String[] urlStatus) {
         super(fm);
         this.urlStatus= urlStatus;
         this.tabTitles = tabTitles;
         this.url = url;
+        mChildCount = url.length();
     }
 
     @Override
@@ -35,6 +36,23 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
             return null;
         }
     }
+
+
+    @Override
+    public void notifyDataSetChanged() {
+        mChildCount = getCount();
+        super.notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemPosition(Object object)   {
+        if ( mChildCount > 0) {
+            mChildCount --;
+            return POSITION_NONE;
+        }
+        return super.getItemPosition(object);
+    }
+
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
