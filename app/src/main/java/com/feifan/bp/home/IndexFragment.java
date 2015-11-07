@@ -277,8 +277,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         @Override
         public void onBindViewHolder(final IndexViewHolder indexViewHolder, int i) {
             final AuthItem item = mList.get(i);
-            if(item.icon != 0) {
-                Drawable t = getResources().getDrawable(item.icon);
+            int iconRes = EnvironmentManager.getAuthFactory().getAuthFilter().get(item.id);
+            if(iconRes > 0) {
+                Drawable t = getResources().getDrawable(iconRes);
                 t.setBounds(0, 0, mIconSize, mIconSize);
 
                 indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
