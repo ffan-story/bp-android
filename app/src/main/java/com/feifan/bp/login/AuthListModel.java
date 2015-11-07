@@ -59,8 +59,6 @@ public class AuthListModel extends BaseModel {
                 aItem.id = id;
                 aItem.name = item.optString("name");
                 aItem.url = item.optString("url");
-
-                aItem.icon = EnvironmentManager.getAuthFactory().getAuthFilter().get(id);
                 list.add(aItem);
 //            }
         }
@@ -134,11 +132,6 @@ public class AuthListModel extends BaseModel {
          */
         public String url;
 
-        /**
-         * 权限项图标资源
-         */
-        public int icon;
-
         public AuthItem(){
 
         }
@@ -160,7 +153,6 @@ public class AuthListModel extends BaseModel {
                 writer.name("id").value(id);
                 writer.name("name").value(name);
                 writer.name("url").value(url);
-                writer.name("icon").value(icon);
                 writer.endObject();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -179,8 +171,6 @@ public class AuthListModel extends BaseModel {
                         item.name = reader.nextString();
                     } else if (name.equals("url")) {
                         item.url = reader.nextString();
-                    } else if(name.equals("icon")){
-                        item.icon = reader.nextInt();
                     } else {
                         reader.skipValue();
                     }
