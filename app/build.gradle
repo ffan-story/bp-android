@@ -105,6 +105,7 @@ dependencies {
 
     compile 'com.android.support:design:23.0.1'
     compile 'com.android.support:recyclerview-v7:23.0.1'
+<<<<<<< 2c8922581199309a9efa891d666c1c39a0c01280
 <<<<<<< 492f6f2edfea20823c31d012a6a84f45a97d25f9
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
@@ -112,6 +113,9 @@ dependencies {
     compile files('libs/nineoldandroids-2.4.0.jar')
    // compile 'com.umeng.analytics:analytics:latest.integration'
 =======
+=======
+    compile 'com.android.support:appcompat-v7:23.1.0'
+>>>>>>> merge develop
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile files('libs/nineoldandroids-2.4.0.jar')
 <<<<<<< 45d5db0667c352ee1ce92c45e5e1c11fe0b825d1
