@@ -1,7 +1,6 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -22,8 +21,8 @@ import com.android.volley.Response;
 import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.ReconciliationManagement.ReconciliationManagementFragment;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
@@ -306,8 +305,11 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                                 Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
                             }
                         } else {
-                            // TODO open a new window
-
+                            // TODO notify host activity depends on item.id
+                            Bundle args = new Bundle();
+                            args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
+                            args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, PlatformTopbarActivity.class.getName());
+                            mListener.onFragmentInteraction(args);
                         }
                     }
                 }

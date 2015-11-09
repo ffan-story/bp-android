@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.RadioGroup;
 
 
-import com.feifan.bp.ReconciliationManagement.ReconciliationManagementFragment;
+import com.feifan.bp.home.check.ReconciliationManagementFragment;
 import com.feifan.bp.feedback.FeedBackFragment;
 
 import com.feifan.bp.base.BaseActivity;
@@ -133,9 +133,11 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 }else{
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
-            }else if(to.equals(ReconciliationManagementFragment.class.getName())){
-                if (Utils.isNetworkAvailable(this)) {//Utils.isCurrentNetworkAvailable(this)
-                    showReconciliationManagement();
+            }else if(to.equals(PlatformTopbarActivity.class.getName())){
+                if (Utils.isNetworkAvailable(this)) { //Utils.isCurrentNetworkAvailable(this)
+//                    showReconciliationManagement();
+                    Intent intent = new Intent(this, PlatformTopbarActivity.class);
+                    startActivity(intent);
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
