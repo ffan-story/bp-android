@@ -11,16 +11,15 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.RadioGroup;
 
-
-import com.feifan.bp.home.check.ReconciliationManagementFragment;
-import com.feifan.bp.feedback.FeedBackFragment;
-
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
+import com.feifan.bp.feedback.FeedBackFragment;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.SettingsFragment;
+import com.feifan.bp.home.check.IndicatorFragment;
+import com.feifan.bp.home.check.ReconciliationManagementFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.logininfo.LoginInfoFragment;
@@ -111,10 +110,10 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             } else if (to.equals(ResetPasswordFragment.class.getName())) {
                 showResetPassword();
                 //add by tianjun 2015.10.27
-            }else if(to.equals(FeedBackFragment.class.getName())){
+            } else if (to.equals(FeedBackFragment.class.getName())) {
                 showFeedBack();
                 //end
-            }else {
+            } else {
                 startActivity(Utils.getSystemBrowser(to));
             }
         } else if (from.equals(ForgetPasswordFragment.class.getName())) {
@@ -127,10 +126,10 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             if (to.equals(CodeScannerActivity.class.getName())) {
                 CodeScannerActivity.startActivity(this);
                 //add by tianjun 2015.10.27
-            } else if(to.equals(LoginInfoFragment.class.getName())){
+            } else if (to.equals(LoginInfoFragment.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) {//Utils.isCurrentNetworkAvailable(this)
                     showLoginInfo();
-                }else{
+                } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
             }else if(to.equals(PlatformTopbarActivity.class.getName())){
@@ -138,21 +137,28 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 //                    showReconciliationManagement();
                     Intent intent = new Intent(this, PlatformTopbarActivity.class);
                     startActivity(intent);
+//=======
+//            } else if (to.equals(ReconciliationManagementFragment.class.getName())) {
+//                if (Utils.isNetworkAvailable(this)) {//Utils.isCurrentNetworkAvailable(this)
+//                    showReconciliationManagement();
+//>>>>>>> Stashed changes
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
+            } else if (to.equals(IndicatorFragment.class.getName())) {
+                showIndicatorInfo();
                 //end.
-            } else if(to.equals(BrowserTabActivity.class.getName())){
+            } else if (to.equals(BrowserTabActivity.class.getName())) {
                 openTabBrowser(args);
-            }else{
+            } else {
                 openBrowser(args.getString(BrowserActivity.EXTRA_KEY_URL));
             }
             //add by tianjun 2015.10.27
-        } else if(from.equals(LoginInfoFragment.class.getName())) {
+        } else if (from.equals(LoginInfoFragment.class.getName())) {
             if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
                 showHome(false);
             }
-        } else if(from.equals(FeedBackFragment.class.getName())){
+        } else if (from.equals(FeedBackFragment.class.getName())) {
             if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
                 showHome(false);
             }
@@ -184,7 +190,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 
     // 显示主界面
     private void showHome(boolean reset) {
-        if(reset) {
+        if (reset) {
             mBottomBar.reset();
         }
         mBottomBar.setVisibility(View.VISIBLE);
@@ -210,20 +216,26 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     }
 
     //显示意见反馈页面
-    private void showFeedBack(){
+    private void showFeedBack() {
         mBottomBar.setVisibility(View.GONE);
         switchFragment(FeedBackFragment.newInstance());
     }
 
-    private void showLoginInfo(){
+    private void showLoginInfo() {
         mBottomBar.setVisibility(View.GONE);
         switchFragment(LoginInfoFragment.newInstance());
     }
 
-    private void showReconciliationManagement(){
+    private void showReconciliationManagement() {
         mBottomBar.setVisibility(View.GONE);
         switchFragment(ReconciliationManagementFragment.newInstance());
     }
+
+    private void showIndicatorInfo(){
+        mBottomBar.setVisibility(View.GONE);
+        switchFragment(IndicatorFragment.newInstance());
+    }
+
 
     // 打开TAB浏览器
     private void openTabBrowser(Bundle args) {
@@ -237,7 +249,6 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
         }
     }
-
 
 
     // 打开浏览器
@@ -258,9 +269,9 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         } else if (mCurrentFragment != null && mCurrentFragment instanceof ResetPasswordFragment) {
             showHome(false);
             //add by tianjun 2015.10.27
-        }else if(mCurrentFragment != null && mCurrentFragment instanceof LoginInfoFragment){
+        } else if (mCurrentFragment != null && mCurrentFragment instanceof LoginInfoFragment) {
             showHome(false);
-        }else if(mCurrentFragment != null && mCurrentFragment instanceof FeedBackFragment){
+        } else if (mCurrentFragment != null && mCurrentFragment instanceof FeedBackFragment) {
             showHome(false);
             //end.
         } else {

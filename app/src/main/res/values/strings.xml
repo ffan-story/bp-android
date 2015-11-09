@@ -152,4 +152,20 @@
     <string name="reconciliation_management_view_details">查看详情</string>
     <string name="reconciliation_management_temporarily_not_open">暂不开放</string>
 
+    <!-- indicator -->
+    <string name="indicator_title">指标说明</string>
+    <string name="indicator_flash_purchase_index">闪购指标</string>
+    <string name="indicator_payment_success">付款成功</string>
+    <string name="indicator_store_line">用户该时间段内在该门店线上付款成功订单笔数及金额</string>
+    <string name="indicator_trading_success">交易成功</string>
+    <string name="indicator_write_off_successfully">用户该时间段内在该门店核销成功订单笔数及金额</string>
+    <string name="indicator_users_initiate_refund">用户发起退款</string>
+    <string name="indicator_initiate_refund">用户该时间段内在该门店后发起退款的订单笔数及金额</string>
+    <string name="indicator_merchant_confirmation_refund">商户确认退款</string>
+    <string name="indicator_system_automatic_refund">用户核销后发起退款后由商户确认退款或系统自动退款的笔数及金额</string>
+    <string name="indicator_general_vouchers">通用券指标</string>
+    <string name="indicator_write_successfully">核销成功</string>
+    <string name="indicator_general_certificate_success">该门店在该时间段内核销成功的通用券的笔数及金额</string>
+    <string name="indicator_more_trading_flow">更多交易流水单明细,请至sop.ffan.com查看</string>
+
 </resources>

@@ -15,7 +15,7 @@
         android:paddingRight="@dimen/view_spacing_20"
         android:paddingTop="@dimen/view_spacing_15"
         android:paddingBottom="@dimen/view_spacing_15"
-        android:background="@mipmap/index_ic_transaction_flow_background">
+        android:background="@drawable/red_fillet_rect">
 
         <TextView
             android:id="@+id/reconciliation_management_transaction_flow"
@@ -56,7 +56,7 @@
         android:paddingRight="@dimen/view_spacing_20"
         android:paddingTop="@dimen/view_spacing_15"
         android:paddingBottom="@dimen/view_spacing_15"
-        android:background="@mipmap/index_ic_financial_reconciliation_background">
+        android:background="@drawable/yellow_fillet_rect">
 
         <TextView
             android:id="@+id/reconciliation_management_financial_reconciliation"
@@ -96,7 +96,7 @@
         android:paddingRight="@dimen/view_spacing_20"
         android:paddingTop="@dimen/view_spacing_15"
         android:paddingBottom="@dimen/view_spacing_15"
-        android:background="@mipmap/index_ic_inventory_query_background">
+        android:background="@drawable/blue_fillet_rect">
 
         <TextView
             android:id="@+id/reconciliation_management_inventory_query"
