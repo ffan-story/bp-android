@@ -24,7 +24,6 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
         this.urlStatus= urlStatus;
         this.tabTitles = tabTitles;
         this.url = url;
-        mChildCount = url.length();
     }
 
     @Override
@@ -37,11 +36,9 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
-
-    @Override
-    public void notifyDataSetChanged() {
+    public void notifyData() {
         mChildCount = getCount();
-        super.notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     @Override

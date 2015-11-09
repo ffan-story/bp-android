@@ -121,23 +121,27 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
                 selectMenu();
             }
         });
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                pagerAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+//        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                pagerAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
         }
+
+    public void notifyData(){
+        pagerAdapter.notifyData();
+    }
 
     private void initDialog() {
         mDialog = new MaterialDialog(BrowserTabActivity.this)

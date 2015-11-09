@@ -70,7 +70,9 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
         mConfirmPwd = (EditText) rootView.findViewById(R.id.et_confirm_password);
         mConfirmBtn = (Button) rootView.findViewById(R.id.btn_confirm);
 
+        mOldPwd.addTextChangedListener(mTextWatcher);
         mNewPwd.addTextChangedListener(mTextWatcher);
+        mConfirmPwd.addTextChangedListener(mTextWatcher);
         mConfirmBtn.setOnClickListener(this);
         return rootView;
     }
@@ -83,6 +85,7 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            mIsConfirmEnable = true;
             Editable editable = mNewPwd.getText();
             int len = editable.length();
             if (len > Constants.PASSWORD_MAX_LENGTH) {
