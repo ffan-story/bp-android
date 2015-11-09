@@ -4,21 +4,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.feifan.bp.util.LogUtil;
-
 /**
- *
+ * page adapter
  */
 public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
-
     private String tabTitles[] ;
     private String url;
     private String urlStatus[];
     private int position;
-    private int mChildCount = 0;
+    private boolean isRefresh = false;
     public BrowserTabPagerAdapter(FragmentManager fm,String[] tabTitles, String url,String[] urlStatus) {
         super(fm);
         this.urlStatus= urlStatus;
@@ -36,20 +32,20 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
-    public void notifyData() {
-        mChildCount = getCount();
+    public void refreshViewPage() {
+//        if(getCount()>0){
+        isRefresh =true;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemPosition(Object object)   {
-        if ( mChildCount > 0) {
-            mChildCount --;
+        if (isRefresh) {
+            isRefresh =false;
             return POSITION_NONE;
         }
         return super.getItemPosition(object);
     }
-
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {

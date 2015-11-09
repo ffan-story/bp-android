@@ -2,13 +2,10 @@ package com.feifan.bp.browser;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -19,9 +16,7 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.FloatingActionButton;
-import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.materialwidget.MaterialDialog;
 
@@ -32,9 +27,8 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     private TabLayout tabLayout;
     private String tabTitles[];
     private String arryStatus[];
-    private BrowserTabItem[] arryTabItem;
+    //private BrowserTabItem[] arryTabItem;
 
-    private ObservableScrollView mScrollView;
     private FloatingActionButton fab;
     private SelectPopWindow mPopWindow;
     private View mShadowView;
@@ -58,7 +52,6 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     private transient boolean isShowDlg = true;
 
     /**
-     *
      * @param context
      * @param url
      * @param Status
@@ -94,7 +87,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         mUrl = getIntent().getStringExtra(EXTRA_KEY_URL);
         arryStatus = getIntent().getStringArrayExtra(EXTRA_KEY_STATUS);
         tabTitles = getIntent().getStringArrayExtra(EXTRA_KEY_TITLES);
-        arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
+        //arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
 
         if(null!=tabTitles && tabTitles.length>4){
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -121,26 +114,10 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
                 selectMenu();
             }
         });
-//        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                pagerAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
         }
 
-    public void notifyData(){
-        pagerAdapter.notifyData();
+    public void refreshViewPage(){
+        pagerAdapter.refreshViewPage();
     }
 
     private void initDialog() {

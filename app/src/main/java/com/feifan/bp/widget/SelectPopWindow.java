@@ -58,7 +58,7 @@ public class SelectPopWindow extends PopupWindow {
         mAdapter.setOnItemClickListener(new ShopListAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
-                Toast.makeText(context, "选择了第"+(postion+1)+"个门店", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "选择了第"+(postion+1)+"个门店", Toast.LENGTH_SHORT).show();
                 lastSelectPos = postion;
                 dismiss();
             }
