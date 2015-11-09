@@ -2,7 +2,6 @@ package com.feifan.bp.browser;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.FragmentManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceActivity;
 import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -359,8 +357,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }
             } else if (schema.equals(Constants.URL_SCHEME_ACTION)) {
                 Uri actionUri = Uri.parse(url);
-                String actionStrUri = UrlFactory.urlForHtml(actionUri.getAuthority()+actionUri.getEncodedPath()+"#"+actionUri.getEncodedFragment());
-                LogUtil.i(TAG, "actionStrUri=1======" +  actionStrUri);
+                String actionStrUri = UrlFactory.urlForHtml(actionUri.getAuthority() + actionUri.getEncodedPath() + "#" + actionUri.getEncodedFragment());
+                LogUtil.i(TAG, "actionStrUri======" +  actionStrUri);
                 Activity mActivity = getActivity();
                 if(actionStrUri.contains("/refund/detail")){//退款单详情
                     BrowserTabActivity.startActivity(getActivity(),
@@ -374,10 +372,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }else if(actionStrUri.contains("/staff") && !(mActivity instanceof BrowserTabActivity)){//添加员工
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
-                }else if (actionStrUri.contains("/order/detail/")){//验证历史  订单管理</order/detail/>
+                }else if (actionStrUri.contains("/order/detail/")){//验证历史  订单管理
                     BrowserActivity.startActivity(getActivity(), actionStrUri);
                 }else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserTabActivity)){
-                    ((BrowserTabActivity) mActivity).notifyData();
+                    ((BrowserTabActivity) mActivity).refreshViewPage();
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
                 mListener.OnErrorReceived(uri.getAuthority(), mWebView, mUrl);

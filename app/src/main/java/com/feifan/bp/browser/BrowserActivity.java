@@ -2,12 +2,8 @@ package com.feifan.bp.browser;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
@@ -16,26 +12,16 @@ import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.PopupWindow;
 
-import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
-import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseActivity;
-import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.IOUtil;
-import com.feifan.bp.util.ImageUtil;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.croplib.Crop;
 import com.feifan.materialwidget.MaterialDialog;
-import com.loopj.android.http.RequestParams;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 public class BrowserActivity extends BaseActivity implements OnFragmentInteractionListener,BrowserFragment.OnBrowserListener {
     /**
@@ -140,7 +126,6 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
         transaction.replace(R.id.browser_fragment, mBrowserFragment);
         transaction.commitAllowingStateLoss();
     }
-
 
     /**
      * 门店选择

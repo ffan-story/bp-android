@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.feifan.bp.R;
 
 /**
- * Created by huangzx on 2015/8/27.
+ * Created by congjing
  */
 public class BrowserTabItem {
 
