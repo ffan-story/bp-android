@@ -1,5 +1,6 @@
 package com.feifan.bp.home.check;
 
+import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
 import com.feifan.bp.base.BaseFragment;
 
 import android.app.Activity;
@@ -43,7 +44,7 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
             case R.id.reconciliation_management_view_details:
                 // TODO 跳转到流水对账界面
                 LogUtil.i(Constants.TAG, "From CheckManageFragment to ----Fragment");
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, "your fragment class name");
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, TransFlowTabActivity.class.getName());
 
                 break;
         }
