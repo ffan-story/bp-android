@@ -19,10 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
 import com.feifan.bp.UserProfile;
