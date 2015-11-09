@@ -34,7 +34,6 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
-
     public void refreshViewPage() {
         // TODO: 15-11-9
         // if(getCount()>0){

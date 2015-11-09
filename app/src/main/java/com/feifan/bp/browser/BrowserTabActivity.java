@@ -114,7 +114,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
                 selectMenu();
             }
         });
-        }
+    }
 
     public void refreshViewPage(){
         pagerAdapter.refreshViewPage();

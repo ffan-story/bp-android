@@ -367,6 +367,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 Uri actionUri = Uri.parse(url);
                 String actionStrUri = UrlFactory.urlForHtml(actionUri.getAuthority() + actionUri.getEncodedPath() + "#" + actionUri.getEncodedFragment());
                 LogUtil.i(TAG, "actionStrUri======" +  actionStrUri);
+
                 Activity mActivity = getActivity();
                 if(actionStrUri.contains("/refund/detail")){//退款单详情
                     BrowserTabActivity.startActivity(getActivity(),

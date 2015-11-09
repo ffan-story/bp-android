@@ -105,11 +105,17 @@ dependencies {
 
     compile 'com.android.support:design:23.0.1'
     compile 'com.android.support:recyclerview-v7:23.0.1'
+<<<<<<< 492f6f2edfea20823c31d012a6a84f45a97d25f9
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     //    compile 'com.umeng.analytics:analytics:latest.integration'
     compile files('libs/nineoldandroids-2.4.0.jar')
    // compile 'com.umeng.analytics:analytics:latest.integration'
+=======
+    compile 'org.apache.httpcomponents:httpcore:4.4.2'
+    compile files('libs/nineoldandroids-2.4.0.jar')
+    compile 'com.umeng.analytics:analytics:latest.integration'
+>>>>>>> fix bug 37151 and revies code BrowserTabPagerAdapter
     compile 'com.loopj.android:android-async-http:1.4.8'
     compile 'me.relex:circleindicator:1.1.5@aar'
     compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
