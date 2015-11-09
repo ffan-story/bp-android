@@ -1,10 +1,8 @@
 package com.feifan.bp.home.check;
 
-import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
 import com.feifan.bp.base.BaseFragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -38,12 +36,6 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mListener.onTitleChanged(getString(R.string.check_manage_title));
-    }
-
-    @Override
     public void onClick(View v) {
         Bundle args = new Bundle();
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, CheckManageFragment.class.getName());
@@ -51,7 +43,7 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
             case R.id.reconciliation_management_view_details:
                 // TODO 跳转到流水对账界面
                 LogUtil.i(Constants.TAG, "From CheckManageFragment to ----Fragment");
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, TransFlowTabActivity.class.getName());
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, "your fragment class name");
 
                 break;
         }
@@ -79,12 +71,12 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) context;
+            mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
+            throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
