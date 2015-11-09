@@ -9,6 +9,8 @@
         android:minHeight="?attr/actionBarSize"
         android:layout_alignParentTop="true" >
         <TextView
+            android:id="@+id/topbar_center_title"
+            style="@style/TitleBarCenterText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />

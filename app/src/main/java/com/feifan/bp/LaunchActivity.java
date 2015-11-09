@@ -164,6 +164,11 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         //end.
     }
 
+    @Override
+    public void onTitleChanged(String title) {
+
+    }
+
     /**
      * 切换界面
      *

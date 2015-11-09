@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
 
 import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
 import com.feifan.bp.base.PlatformBaseActivity;
@@ -18,6 +20,7 @@ import com.feifan.bp.home.check.CheckManageFragment;
 public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFragmentInteractionListener {
 
     private Toolbar mToolbar;
+    private TextView mCenterTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +28,24 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
         setContentView(R.layout.activity_topbar);
 
         mToolbar = (Toolbar)findViewById(R.id.topbar_header);
+        mCenterTitle = (TextView)mToolbar.findViewById(R.id.topbar_center_title);
+        initHeader(mToolbar);
 
         String fragmentName = getIntent().getStringExtra(OnFragmentInteractionListener.INTERATION_KEY_TO);
         if(!TextUtils.isEmpty(fragmentName)) {
             switchFragment(Fragment.instantiate(this, fragmentName));
         }
 
+    }
+
+    protected void initHeader(Toolbar header) {
+        header.setNavigationIcon(R.mipmap.ic_left_arrow);
+        header.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     /**
@@ -57,5 +72,10 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
                 startActivity(intent);
             }
         }
+    }
+
+    @Override
+    public void onTitleChanged(String title) {
+        mCenterTitle.setText(title);
     }
 }
