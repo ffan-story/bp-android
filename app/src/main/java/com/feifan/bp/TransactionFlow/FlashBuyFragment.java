@@ -158,7 +158,6 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                     }
                 });
         PlatformState.getInstance().getRequestQueue().add(request);
-
     }
 
     @Override
