@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.RadioGroup;
 
 import com.feifan.bp.FeedBack.FeedBackFragment;
+import com.feifan.bp.ReconciliationManagement.ReconciliationManagementFragment;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
@@ -130,6 +131,12 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 }else{
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
+            }else if(to.equals(ReconciliationManagementFragment.class.getName())){
+                if (Utils.isNetworkAvailable(this)) {//Utils.isCurrentNetworkAvailable(this)
+                    showReconciliationManagement();
+                } else {
+                    Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
+                }
                 //end.
             } else if(to.equals(BrowserTabActivity.class.getName())){
                 openTabBrowser(args);
@@ -207,6 +214,11 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     private void showLoginInfo(){
         mBottomBar.setVisibility(View.GONE);
         switchFragment(LoginInfoFragment.newInstance());
+    }
+
+    private void showReconciliationManagement(){
+        mBottomBar.setVisibility(View.GONE);
+        switchFragment(ReconciliationManagementFragment.newInstance());
     }
 
     // 打开TAB浏览器

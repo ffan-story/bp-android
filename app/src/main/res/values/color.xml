@@ -34,5 +34,6 @@
     <color name="login_info_color">#333333</color>
     <color name="font_color_66">#666666</color>
     <color name="red">#FF0000</color>
+    <color name="brown">#39536b</color>
 
 </resources>

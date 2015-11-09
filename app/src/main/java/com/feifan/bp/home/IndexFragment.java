@@ -23,6 +23,7 @@ import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
+import com.feifan.bp.ReconciliationManagement.ReconciliationManagementFragment;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
@@ -31,9 +32,9 @@ import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.logininfo.LoginInfoFragment;
-import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ import java.util.List;
 public class IndexFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = "IndexFragment";
+    private static final String STATISTICAL_PATH = "http://sop.sit.ffan.com/H5App/index.html#/statistical";
 
     private OnFragmentInteractionListener mListener;
 
@@ -187,8 +189,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
         switch (v.getId()) {
             case R.id.index_scan:
-                if(!UserProfile.getInstance().isStoreUser()) {
-                    Toast.makeText(getActivity(), R.string.error_message_permission_limited,Toast.LENGTH_SHORT).show();
+                if (!UserProfile.getInstance().isStoreUser()) {
+                    Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
@@ -200,20 +202,20 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
             case R.id.index_history:
                 if (Utils.isNetworkAvailable(getActivity())) {
-                    String url = UrlFactory.checkHistoryForHtml(UserProfile.getInstance().getHistoryUrl())+"&status=";
+                    String url = UrlFactory.checkHistoryForHtml(UserProfile.getInstance().getHistoryUrl()) + "&status=";
                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
                     args.putString(BrowserTabActivity.EXTRA_KEY_URL, url);
                     args.putStringArray(BrowserTabActivity.EXTRA_KEY_STATUS, getActivity().getResources().getStringArray(R.array.data_type));
-                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES,  getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
-                }else{
+                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES, getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
+                } else {
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
                     return;
                 }
                 break;
 
             case R.id.index_search_btn:
-                if(!UserProfile.getInstance().isStoreUser()) {
-                    Toast.makeText(getActivity(), R.string.error_message_permission_limited,Toast.LENGTH_SHORT).show();
+                if (!UserProfile.getInstance().isStoreUser()) {
+                    Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
                     mCodeEditText.setText("");
                     return;
                 }
@@ -278,7 +280,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         public void onBindViewHolder(final IndexViewHolder indexViewHolder, int i) {
             final AuthItem item = mList.get(i);
             int iconRes = EnvironmentManager.getAuthFactory().getAuthFilter().get(item.id);
-            if(iconRes > 0) {
+            if (iconRes > 0) {
                 Drawable t = getResources().getDrawable(iconRes);
                 t.setBounds(0, 0, mIconSize, mIconSize);
 
@@ -290,19 +292,29 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 @Override
                 public void onClick(View v) {
                     String url = UrlFactory.urlForHtml(item.url);
-                    if(isAdded()) {
+                    if (isAdded()) {
                         if (Utils.isNetworkAvailable(getContext())) {
-                            if (EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id) != -1 && EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id) != -1){
-                                BrowserTabActivity.startActivity(getContext(),url+"&status=",
+                            if (EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id) != -1 && EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id) != -1) {
+                                BrowserTabActivity.startActivity(getContext(), url + "&status=",
                                         getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
                                         getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)));
-                        }else{
-                            BrowserActivity.startActivity(getContext(),url);
+                                Log.i("", "@@@@@@@true url = " + url + " id = " + item.id);
+                            } else {
+                                Log.i("", "@@@@@@@false url = " + url);
+                                //add by tianjun 2015.11.9
+                                if (url.contains(STATISTICAL_PATH)) {
+                                    Bundle args = new Bundle();
+                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
+                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, ReconciliationManagementFragment.class.getName());
+                                    mListener.onFragmentInteraction(args);
+                                } else {
+                                    BrowserActivity.startActivity(getContext(), url);
+                                }
+                            }
+                        } else {
+                            Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
                         }
-                    } else {
-                        Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
                     }
-                }
                 }
             });
             indexViewHolder.redDotView.setVisibility(View.GONE);

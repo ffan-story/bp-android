@@ -7,6 +7,7 @@
     <dimen name="view_spacing_10">10dp</dimen>
     <dimen name="view_spacing_15">15dp</dimen>
     <dimen name="view_spacing_20">20dp</dimen>
+    <dimen name="view_spacing_25">25dp</dimen>
     <dimen name="dividerheight">0.5dp</dimen>
     <!-- 字体 -->
     <dimen name="font_size_24">24sp</dimen>
