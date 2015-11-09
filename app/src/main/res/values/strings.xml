@@ -169,7 +169,6 @@
     <string name="indicator_general_certificate_success">该门店在该时间段内核销成功的通用券的笔数及金额</string>
     <string name="indicator_more_trading_flow">更多交易流水单明细,请至sop.ffan.com查看</string>
 
-
     <!--交易流水-->
     <string name="transaction_flow">交易流水</string>
     <string name="falsh_buy">闪购</string>

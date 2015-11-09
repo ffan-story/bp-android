@@ -1,5 +1,7 @@
 package com.feifan.bp.home.check;
 
+import com.feifan.bp.base.BaseFragment;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
-import com.feifan.bp.base.BaseFragment;
 
 /**
  * Created by tianjun on 2015-11-6.
