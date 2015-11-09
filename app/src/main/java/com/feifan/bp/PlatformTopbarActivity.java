@@ -4,16 +4,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 
-import com.feifan.bp.base.BaseActivity;
-import com.feifan.bp.home.check.ReconciliationManagementFragment;
+import com.feifan.bp.base.PlatformBaseActivity;
 
 /**
  * Created by xuchunlei on 15/11/9.
  */
-public class PlatformTopbarActivity extends AppCompatActivity implements OnFragmentInteractionListener {
+public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFragmentInteractionListener {
 
     private Toolbar mToolbar;
 
@@ -23,9 +22,12 @@ public class PlatformTopbarActivity extends AppCompatActivity implements OnFragm
         setContentView(R.layout.activity_topbar);
 
         mToolbar = (Toolbar)findViewById(R.id.topbar_header);
-        mToolbar.setTitle("对账管理");
 
-        switchFragment(ReconciliationManagementFragment.newInstance());
+        String fragmentName = getIntent().getStringExtra(OnFragmentInteractionListener.INTERATION_KEY_TO);
+        if(!TextUtils.isEmpty(fragmentName)) {
+            switchFragment(Fragment.instantiate(this, fragmentName));
+        }
+
     }
 
     /**

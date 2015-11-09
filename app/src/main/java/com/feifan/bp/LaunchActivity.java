@@ -11,18 +11,17 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.RadioGroup;
 
-import com.feifan.bp.home.check.ReconciliationManagementFragment;
+
 import com.feifan.bp.feedback.FeedBackFragment;
-import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
+import com.feifan.bp.home.check.CheckManageFragment;
+
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
-import com.feifan.bp.feedback.FeedBackFragment;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.SettingsFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
-import com.feifan.bp.home.check.ReconciliationManagementFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.logininfo.LoginInfoFragment;
@@ -135,10 +134,10 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
-            } else if (to.equals(PlatformTopbarActivity.class.getName())) {
+            }else if(to.equals(CheckManageFragment.class.getName())){
                 if (Utils.isNetworkAvailable(this)) { //Utils.isCurrentNetworkAvailable(this)
-//                    showReconciliationManagement();
                     Intent intent = new Intent(this, PlatformTopbarActivity.class);
+                    intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, CheckManageFragment.class.getName());
                     startActivity(intent);
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
@@ -225,16 +224,10 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         switchFragment(LoginInfoFragment.newInstance());
     }
 
-    private void showReconciliationManagement() {
-        mBottomBar.setVisibility(View.GONE);
-        switchFragment(ReconciliationManagementFragment.newInstance());
-    }
-
     private void showIndicatorInfo(){
         mBottomBar.setVisibility(View.GONE);
         switchFragment(IndicatorFragment.newInstance());
     }
-
 
     // 打开TAB浏览器
     private void openTabBrowser(Bundle args) {

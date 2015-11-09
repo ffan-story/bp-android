@@ -2,18 +2,15 @@ package com.feifan.bp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
-import android.util.LruCache;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.feifan.bp.util.LogUtil;
 
-import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 状态类
@@ -128,5 +125,4 @@ public class PlatformState {
     public RequestQueue getRequestQueue() {
         return mQueue;
     }
-
 }

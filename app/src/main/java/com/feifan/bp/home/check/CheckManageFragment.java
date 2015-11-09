@@ -9,17 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
+import com.feifan.bp.util.LogUtil;
 
 /**
+ * 对账管理界面
+ *
  * Created by tianjun on 2015-11-6.
  */
-public class ReconciliationManagementFragment extends BaseFragment implements View.OnClickListener {
+public class CheckManageFragment extends BaseFragment implements View.OnClickListener {
+
     private OnFragmentInteractionListener mListener;
 
-    public static ReconciliationManagementFragment newInstance() {
-        ReconciliationManagementFragment fragment = new ReconciliationManagementFragment();
+    public static CheckManageFragment newInstance() {
+        CheckManageFragment fragment = new CheckManageFragment();
         return fragment;
     }
 
@@ -32,12 +37,17 @@ public class ReconciliationManagementFragment extends BaseFragment implements Vi
 
     @Override
     public void onClick(View v) {
+        Bundle args = new Bundle();
+        args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, CheckManageFragment.class.getName());
         switch (v.getId()) {
             case R.id.reconciliation_management_view_details:
-                //跳转到流水对账界面
+                // TODO 跳转到流水对账界面
+                LogUtil.i(Constants.TAG, "From CheckManageFragment to ----Fragment");
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, "your fragment class name");
 
                 break;
         }
+        mListener.onFragmentInteraction(args);
     }
 
     @Override
@@ -51,7 +61,7 @@ public class ReconciliationManagementFragment extends BaseFragment implements Vi
                 if (mListener != null) {
                     Bundle b = new Bundle();
                     b.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM,
-                            ReconciliationManagementFragment.class.getName());
+                            CheckManageFragment.class.getName());
                     b.putInt(OnFragmentInteractionListener.INTERATION_KEY_TYPE,
                             OnFragmentInteractionListener.TYPE_NAVI_CLICK);
                     mListener.onFragmentInteraction(b);

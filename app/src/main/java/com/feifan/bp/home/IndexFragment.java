@@ -30,6 +30,7 @@ import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
+import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.logininfo.LoginInfoFragment;
 import com.feifan.bp.network.GetRequest;
@@ -317,7 +318,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                             // TODO notify host activity depends on item.id
                             Bundle args = new Bundle();
                             args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-                            args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, PlatformTopbarActivity.class.getName());
+                            args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CheckManageFragment.class.getName());
                             mListener.onFragmentInteraction(args);
                         }
                     }
