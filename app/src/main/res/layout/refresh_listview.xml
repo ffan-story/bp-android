@@ -43,23 +43,13 @@
         cube_ptr:ptr_resistance="1.7"
         android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/line_message_empty"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@mipmap/message_ic_empty"
             android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/message_ic_empty" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/message_empty"
-                android:layout_marginTop="@dimen/view_spacing_15"/>
-        </LinearLayout>
+            android:drawablePadding="@dimen/view_spacing_5"
+            android:text="@string/message_empty"/>
     </bp.feifan.com.refresh.PtrClassicFrameLayout>
 </RelativeLayout>

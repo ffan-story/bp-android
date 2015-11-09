@@ -33,7 +33,6 @@ import bp.feifan.com.refresh.PtrHandler;
  * 消息列表
  */
 public class MessageFragment extends BaseFragment implements OnLoadingMoreListener, PtrHandler {
-    private static final String TAG = MessageFragment.class.getSimpleName();
     private PtrClassicFrameLayout mPtrFrame, mPtrFrameEmpty;
     private int pageIndex = 1;
     private int totalCount = 0;
