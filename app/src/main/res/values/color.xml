@@ -14,6 +14,7 @@
 
     <!-- 背景 -->
     <color name="bg_color_blue">#3d99e9</color>
+    <color name="bg_color_grey">#e6e6e6</color>
 
     <!-- Progress bar background -->
     <color name="progress_bar_bg">#cc000000</color>
@@ -36,4 +37,6 @@
     <color name="red">#FF0000</color>
     <color name="brown">#39536b</color>
 
+    <color name="radio_button_selected_color">@color/accent</color>
+    <color name="radio_button_unselected_color">@color/transparent</color>
 </resources>

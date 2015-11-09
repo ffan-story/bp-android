@@ -11,6 +11,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.feifan.bp.home.check.ReconciliationManagementFragment;
+import com.feifan.bp.feedback.FeedBackFragment;
+import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
@@ -132,22 +135,18 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
-            }else if(to.equals(PlatformTopbarActivity.class.getName())){
+            } else if (to.equals(PlatformTopbarActivity.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) { //Utils.isCurrentNetworkAvailable(this)
 //                    showReconciliationManagement();
                     Intent intent = new Intent(this, PlatformTopbarActivity.class);
                     startActivity(intent);
-//=======
-//            } else if (to.equals(ReconciliationManagementFragment.class.getName())) {
-//                if (Utils.isNetworkAvailable(this)) {//Utils.isCurrentNetworkAvailable(this)
-//                    showReconciliationManagement();
-//>>>>>>> Stashed changes
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
             } else if (to.equals(IndicatorFragment.class.getName())) {
                 showIndicatorInfo();
-                //end.
+            }  else if (to.equals(LoginInfoFragment.class.getName())) {
+                showLoginInfo();
             } else if (to.equals(BrowserTabActivity.class.getName())) {
                 openTabBrowser(args);
             } else {

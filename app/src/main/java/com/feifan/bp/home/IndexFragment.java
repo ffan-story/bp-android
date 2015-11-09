@@ -23,6 +23,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
@@ -192,7 +193,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, TransFlowTabActivity.class.getName());
                 break;
 
             case R.id.login_info_icon:

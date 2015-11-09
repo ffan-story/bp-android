@@ -73,6 +73,11 @@
             android:name=".PlatformTopbarActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".TransactionFlow.TransFlowTabActivity"
+            android:label=" "
+            android:screenOrientation="portrait">
+        </activity>
         <!--<meta-data android:name="UMENG_APPKEY" android:value="${UMENG_APPKEY_VALUE}" />-->
     </application>
 

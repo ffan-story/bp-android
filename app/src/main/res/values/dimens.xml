@@ -46,4 +46,7 @@
     <dimen name="view_height_50">50dp</dimen>
     <dimen name="view_height_180">180dp</dimen>
 
+    <!--SegmentedGroup-->
+    <dimen name="radio_button_conner_radius">5dp</dimen>
+    <dimen name="radio_button_stroke_border">1dp</dimen>
 </resources>
