@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.feifan.bp.FeedBack.FeedBackFragment">
+    tools:context="com.feifan.bp.feedback.FeedBackFragment">
 
     <EditText
         android:id="@+id/feedback_content"

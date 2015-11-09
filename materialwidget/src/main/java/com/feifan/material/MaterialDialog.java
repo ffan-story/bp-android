@@ -1,4 +1,4 @@
-package com.feifan.materialwidget;
+package com.feifan.material;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.feifan.materialwidget.R;
 
 /**
  * Created by drakeet on 9/28/14.
