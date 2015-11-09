@@ -508,7 +508,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             params.put("image", in);
             String url = UrlFactory.uploadPicture();
             showProgressBar(false);
-
             UploadHttpClient.post(url, params, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

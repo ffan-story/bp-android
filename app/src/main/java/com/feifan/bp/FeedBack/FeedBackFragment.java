@@ -1,4 +1,4 @@
-package com.feifan.bp.FeedBack;
+package com.feifan.bp.feedback;
 
 import android.app.Activity;
 import android.content.Context;

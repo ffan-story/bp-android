@@ -18,7 +18,7 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.SelectPopWindow;
-import com.feifan.materialwidget.MaterialDialog;
+import com.feifan.material.MaterialDialog;
 
 public class BrowserTabActivity extends BaseActivity implements BrowserFragment.OnBrowserListener{
     private BrowserTabPagerAdapter pagerAdapter;

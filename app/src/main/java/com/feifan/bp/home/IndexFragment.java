@@ -1,6 +1,7 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -291,28 +291,23 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
             indexViewHolder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String url = UrlFactory.urlForHtml(item.url);
                     if (isAdded()) {
-                        if (Utils.isNetworkAvailable(getContext())) {
-                            if (EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id) != -1 && EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id) != -1) {
-                                BrowserTabActivity.startActivity(getContext(), url + "&status=",
-                                        getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
-                                        getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)));
-                                Log.i("", "@@@@@@@true url = " + url + " id = " + item.id);
-                            } else {
-                                Log.i("", "@@@@@@@false url = " + url);
-                                //add by tianjun 2015.11.9
-                                if (url.contains(STATISTICAL_PATH)) {
-                                    Bundle args = new Bundle();
-                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, ReconciliationManagementFragment.class.getName());
-                                    mListener.onFragmentInteraction(args);
+                        if (item.url != null && item.url.length() != 0) {
+                            String url = UrlFactory.urlForHtml(item.url);
+                            if (Utils.isNetworkAvailable(getContext())) {
+                                if (EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id) != -1 && EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id) != -1) {
+                                    BrowserTabActivity.startActivity(getContext(), url + "&status=",
+                                            getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
+                                            getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)));
                                 } else {
                                     BrowserActivity.startActivity(getContext(), url);
                                 }
+                            } else {
+                                Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
                             }
                         } else {
-                            Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
+                            // TODO open a new window
+
                         }
                     }
                 }

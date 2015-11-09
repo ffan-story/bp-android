@@ -20,7 +20,8 @@ import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.croplib.Crop;
-import com.feifan.materialwidget.MaterialDialog;
+import com.feifan.material.MaterialDialog;
+
 import java.io.File;
 
 public class BrowserActivity extends BaseActivity implements OnFragmentInteractionListener,BrowserFragment.OnBrowserListener {
