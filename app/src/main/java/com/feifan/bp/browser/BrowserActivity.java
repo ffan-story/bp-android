@@ -74,14 +74,14 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
-        initViews();
-        initDialog();
-        mShowFab = UserProfile.getInstance().getAuthRangeType().equals("merchant");
-        mUrl = getIntent().getStringExtra(EXTRA_KEY_URL);
-        if(mShowFab){
-            mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
-            sUrl = mUrl + "&storeId=" + mStoreId;
-        }else{
+            initViews();
+            initDialog();
+            mShowFab = UserProfile.getInstance().getAuthRangeType().equals("merchant");
+            mUrl = getIntent().getStringExtra(EXTRA_KEY_URL);
+            if(mShowFab){
+                mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
+                sUrl = mUrl + "&storeId=" + mStoreId;
+            }else{
             sUrl = mUrl;
         }
 //        loadWeb(sUrl);

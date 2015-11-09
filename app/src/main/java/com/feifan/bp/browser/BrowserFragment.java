@@ -361,6 +361,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 Uri actionUri = Uri.parse(url);
                 String actionStrUri = UrlFactory.urlForHtml(actionUri.getAuthority()+actionUri.getEncodedPath()+"#"+actionUri.getEncodedFragment());
                 LogUtil.i(TAG, "actionStrUri=1======" +  actionStrUri);
+                Activity mActivity = getActivity();
                 if(actionStrUri.contains("/refund/detail")){//退款单详情
                     BrowserTabActivity.startActivity(getActivity(),
                             actionStrUri+"&status=",
@@ -370,11 +371,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     Intent i = new Intent(getActivity(), BrowserActivity.class);
                     i.putExtra(BrowserActivity.EXTRA_KEY_URL, actionStrUri);
                     getActivity().startActivityForResult(i,Constants.REQUEST_CODE_STAFF_EDIT);
-                }else if(actionStrUri.contains("/staff")){//添加员工
+                }else if(actionStrUri.contains("/staff") && !(mActivity instanceof BrowserTabActivity)){//添加员工
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
-                }else{//验证历史  订单管理</order/detail/>
+                }else if (actionStrUri.contains("/order/detail/")){//验证历史  订单管理</order/detail/>
                     BrowserActivity.startActivity(getActivity(), actionStrUri);
+                }else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserTabActivity)){
+                    ((BrowserTabActivity) mActivity).notifyData();
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
                 mListener.OnErrorReceived(uri.getAuthority(), mWebView, mUrl);
