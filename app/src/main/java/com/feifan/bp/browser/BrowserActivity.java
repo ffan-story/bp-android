@@ -24,7 +24,7 @@ import com.feifan.material.MaterialDialog;
 
 import java.io.File;
 
-public class BrowserActivity extends BaseActivity implements OnFragmentInteractionListener,BrowserFragment.OnBrowserListener {
+public class BrowserActivity extends BaseActivity implements BrowserFragment.OnBrowserListener {
     /**
      * 参数键名称－URL
      */
@@ -161,11 +161,6 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
-    }
-
-    @Override
-    public void onFragmentInteraction(Bundle args) {
 
     }
 

@@ -4,6 +4,7 @@ import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
 import com.feifan.bp.base.BaseFragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -37,6 +38,12 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mListener.onTitleChanged(getString(R.string.check_manage_title));
+    }
+
+    @Override
     public void onClick(View v) {
         Bundle args = new Bundle();
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, CheckManageFragment.class.getName());
@@ -54,7 +61,7 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
     @Override
     protected void setupToolbar(Toolbar toolbar) {
         super.setupToolbar(toolbar);
-        toolbar.setTitle(R.string.reconciliation_management_title);
+        toolbar.setTitle(R.string.check_manage_title);
         toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,12 +79,12 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
