@@ -1,7 +1,6 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +20,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
 import com.feifan.bp.UserProfile;

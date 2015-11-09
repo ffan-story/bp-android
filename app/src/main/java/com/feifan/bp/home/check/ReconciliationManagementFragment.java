@@ -1,4 +1,4 @@
-package com.feifan.bp.ReconciliationManagement;
+package com.feifan.bp.home.check;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -42,7 +42,7 @@ public class ReconciliationManagementFragment extends BaseFragment implements Vi
     @Override
     protected void setupToolbar(Toolbar toolbar) {
         super.setupToolbar(toolbar);
-        toolbar.setTitle(R.string.reconciliation_management_title);
+        toolbar.setTitle(R.string.check_manage_title);
         toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
