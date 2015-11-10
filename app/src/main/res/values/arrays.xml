@@ -28,19 +28,20 @@
     <!--退款售后 列表-->
     <array name="tab_title_refund">
         <item>所有状态</item>
+        <item>商户审核</item>
+        <item>运营审核</item>
         <item>退款中</item>
         <item>退款成功</item>
         <item>退款失败</item>
-        <item>商户审核</item>
-        <item>运营审核</item>
     </array>
+
     <array name="tab_title_refund_status">
         <item>ALL</item>
         <item>PROCESSING</item>
-        <item>SUCCESS</item>
-        <item>FAIL</item>
         <item>MER_REVIEW</item>
         <item>OPER_REVIEW</item>
+        <item>SUCCESS</item>
+        <item>FAIL</item>
     </array>
 
 

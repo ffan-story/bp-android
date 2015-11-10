@@ -15,6 +15,7 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
     private String tabTitles[] ;
     private String url;
     private String urlStatus[];
+    private String contextTitle;
     private int position;
     private boolean isRefresh = false;
     public BrowserTabPagerAdapter(FragmentManager fm,String[] tabTitles, String url,String[] urlStatus) {
@@ -22,6 +23,14 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
         this.urlStatus= urlStatus;
         this.tabTitles = tabTitles;
         this.url = url;
+    }
+
+    public BrowserTabPagerAdapter(FragmentManager fm,String[] tabTitles, String url,String[] urlStatus,String contextTitle) {
+        super(fm);
+        this.urlStatus= urlStatus;
+        this.tabTitles = tabTitles;
+        this.url = url;
+        this.contextTitle = contextTitle;
     }
 
     @Override
@@ -54,6 +63,7 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         BrowserFragment browserFragment = (BrowserFragment)super.instantiateItem(container, position);
         browserFragment.setmUrl(url+urlStatus[position]);
+        browserFragment.setmTitleName(contextTitle);
         return browserFragment;
     }
 
