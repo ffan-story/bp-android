@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -221,12 +222,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (canGoBack()) {
-                    mWebView.goBack();
-                } else {
-                    getActivity().setResult(Activity.RESULT_OK);
-                    getActivity().finish();
-                }
+                goBack();
             }
         });
     }
@@ -265,6 +261,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         return mWebView.canGoBack();
     }
 
+    public void goBack(){
+        if(canGoBack()){
+            mWebView.goBack();
+        }else{
+            getActivity().setResult(Activity.RESULT_OK);
+            getActivity().finish();
+        }
+    }
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         if (mWebViewProgress < 100) {
@@ -610,4 +614,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 break;
         }
     }
+
+
+
 }
