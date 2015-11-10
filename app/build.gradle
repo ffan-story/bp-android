@@ -109,6 +109,7 @@ dependencies {
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     //    compile 'com.umeng.analytics:analytics:latest.integration'
     compile files('libs/nineoldandroids-2.4.0.jar')
+   // compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.loopj.android:android-async-http:1.4.8'
     compile 'me.relex:circleindicator:1.1.5@aar'
     compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'

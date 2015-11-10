@@ -1,6 +1,7 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -281,7 +282,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         public void onBindViewHolder(final IndexViewHolder indexViewHolder, int i) {
             final AuthItem item = mList.get(i);
             int iconRes = EnvironmentManager.getAuthFactory().getAuthFilter().get(item.id);
-            if (iconRes > 0) {
+
+            if(iconRes > 0) {
                 Drawable t = getResources().getDrawable(iconRes);
                 t.setBounds(0, 0, mIconSize, mIconSize);
 
@@ -301,15 +303,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                                             getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
                                             getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)));
                                 } else {
-//                                    Bundle args = new Bundle();
-//                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-//                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, IndicatorFragment.class.getName());
-//                                    mListener.onFragmentInteraction(args);
                                     BrowserActivity.startActivity(getContext(), url);
-//                                    Bundle args = new Bundle();
-//                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-//                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, ReconciliationManagementFragment.class.getName());
-//                                    mListener.onFragmentInteraction(args);
                                 }
                             } else {
                                 Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
