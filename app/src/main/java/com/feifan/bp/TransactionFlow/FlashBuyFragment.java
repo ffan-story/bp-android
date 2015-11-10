@@ -305,7 +305,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 );
                 dpd.setAccentColor(getResources().getColor(R.color.accent));
                 dpd.show(getFragmentManager(), "Datepickerdialog");
-                Toast.makeText(getActivity(), "选择其他日期", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), "选择其他日期", Toast.LENGTH_LONG).show();
                 break;
         }
         getFlashFlowData(true);
