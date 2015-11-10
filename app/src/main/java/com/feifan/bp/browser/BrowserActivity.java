@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
@@ -206,5 +207,14 @@ public class BrowserActivity extends BaseActivity implements OnFragmentInteracti
         } else if (requestCode == Crop.REQUEST_CARMAER && resultCode == RESULT_OK) {
             mBrowserFragment.beginCrop(Uri.fromFile(new File(mBrowserFragment.imgPath)));
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode,KeyEvent event){
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            mBrowserFragment.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode,event);
     }
 }
