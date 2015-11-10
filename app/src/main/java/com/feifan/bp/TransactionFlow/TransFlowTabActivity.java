@@ -7,6 +7,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 
 import com.feifan.bp.R;
@@ -70,15 +72,15 @@ public class TransFlowTabActivity extends BaseActivity{
         return true;
     }
 
-    @Override
-    protected void setupToolbar(Toolbar toolbar) {
-        toolbar.setTitle(R.string.transaction_flow);
-        toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-    }
+//    @Override
+//    protected void setupToolbar(Toolbar toolbar) {
+//        toolbar.setTitle(R.string.transaction_flow);
+//        toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onBackPressed();
+//            }
+//        });
+//    }
 }

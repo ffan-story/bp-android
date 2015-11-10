@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/bg_color_blue</item>
         <item name="android:listDivider">@drawable/list_divider</item>
+        <item name="android:actionMenuTextColor">@android:color/white</item>
     </style>
 
     <style name="commmonTxt">

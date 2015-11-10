@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_color_grey"
+              android:orientation="vertical">
+
+    <com.feifan.bp.widget.SegmentedGroup
+        android:id="@+id/segmentedGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/view_spacing_10"
+        android:layout_marginLeft="@dimen/view_spacing_20"
+        android:layout_marginRight="@dimen/view_spacing_20"
+        android:layout_marginTop="@dimen/view_spacing_10"
+        android:orientation="horizontal"
+        segmentedgroup:sc_border_width="1dp"
+        segmentedgroup:sc_corner_radius="5dp"
+        segmentedgroup:sc_tint_color="@color/accent">
+
+        <RadioButton
+            android:id="@+id/last1"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="上期"/>
+
+        <RadioButton
+            android:id="@+id/last2"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="上上期"/>
+
+        <RadioButton
+            android:id="@+id/other"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="自定义"/>
+
+    </com.feifan.bp.widget.SegmentedGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/item_1"
+            layout="@layout/item_flow_detail"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/view_spacing_20"
+            android:layout_marginLeft="@dimen/view_spacing_20"
+            android:layout_marginTop="@dimen/view_spacing_20"/>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="@dimen/view_spacing_20"
+            android:layout_marginTop="@dimen/view_spacing_20"
+            android:background="@color/bg_color_grey"/>
+
+        <include
+            android:id="@+id/item_2"
+            layout="@layout/item_flow_detail"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/view_spacing_20"
+            android:layout_marginLeft="@dimen/view_spacing_20"
+            android:layout_marginTop="@dimen/view_spacing_20"/>
+    </LinearLayout>>
+</LinearLayout>

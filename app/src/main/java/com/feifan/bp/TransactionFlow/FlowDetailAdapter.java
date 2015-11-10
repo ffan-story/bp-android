@@ -16,6 +16,7 @@ public class FlowDetailAdapter extends FragmentPagerAdapter {
 
     private int pagerCount = 2;
     private ArrayList<FlashSummaryDetailModel> mTradeDataList;
+    private boolean isRefresh = false;
 
     public FlowDetailAdapter(FragmentManager fm,ArrayList<FlashSummaryDetailModel> tradeDataList) {
         super(fm);
