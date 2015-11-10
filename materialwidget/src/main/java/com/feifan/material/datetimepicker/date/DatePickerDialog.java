@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.feifan.material.picker.date;
+package com.feifan.material.datetimepicker.date;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -38,9 +38,10 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.feifan.material.picker.HapticFeedbackController;
-import com.feifan.material.picker.TypefaceHelper;
-import com.feifan.material.picker.Utils;
+import com.feifan.material.datetimepicker.HapticFeedbackController;
+import com.feifan.material.datetimepicker.TypefaceHelper;
+import com.feifan.material.datetimepicker.Utils;
+import com.feifan.materialwidget.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -413,7 +414,7 @@ public class DatePickerDialog extends DialogFragment implements
                 if(getDialog() != null) getDialog().cancel();
             }
         });
-        cancelButton.setTypeface(TypefaceHelper.get(activity,"Roboto-Medium"));
+        cancelButton.setTypeface(TypefaceHelper.get(activity, "Roboto-Medium"));
         cancelButton.setVisibility(isCancelable() ? View.VISIBLE : View.GONE);
 
         //If an accent color has not been set manually, try and get it from the context

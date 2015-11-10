@@ -1,9 +1,22 @@
-<resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2013 The Android Open Source Project
 
-    <!-- Picker -->
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
     <item name="mdtp_circle_radius_multiplier" format="float" type="string">0.82</item>
     <item name="mdtp_circle_radius_multiplier_24HourMode" format="float" type="string">0.85</item>
     <item name="mdtp_selection_radius_multiplier" format="float" type="string">0.16</item>
@@ -53,5 +66,4 @@
     <dimen name="mdtp_material_button_textsize">14sp</dimen>
     <dimen name="mdtp_material_button_minwidth">64dp</dimen>
     <dimen name="mdtp_material_button_textpadding_horizontal">8dp</dimen>
-
 </resources>
