@@ -34,6 +34,7 @@ import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.TimeUtils;
 import com.feifan.bp.widget.DividerItemDecoration;
 import com.feifan.bp.widget.SegmentedGroup;
@@ -142,12 +143,6 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         rb_today = (RadioButton) v.findViewById(R.id.today);
         rb_yesterday = (RadioButton) v.findViewById(R.id.yesterday);
         rb_other = (RadioButton) v.findViewById(R.id.other);
-        rb_other.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "选择其他日期", Toast.LENGTH_LONG).show();
-            }
-        });
         segmentedGroup.setOnCheckedChangeListener(this);
 
         initDatas();
@@ -289,10 +284,14 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
             case R.id.today:
                 startDate = endDate = TimeUtils.getToday();
                 mPageNum = 1;
+                getFlashFlowData(true);
+                getFlashFlowList(true, false);
                 break;
             case R.id.yesterday:
                 startDate = endDate = TimeUtils.getYesterday();
                 mPageNum = 1;
+                getFlashFlowData(true);
+                getFlashFlowList(true, false);
                 break;
             case R.id.other:
                 mPageNum = 1;
@@ -305,11 +304,8 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 );
                 dpd.setAccentColor(getResources().getColor(R.color.accent));
                 dpd.show(getFragmentManager(), "Datepickerdialog");
-//                Toast.makeText(getActivity(), "选择其他日期", Toast.LENGTH_LONG).show();
                 break;
         }
-        getFlashFlowData(true);
-        getFlashFlowList(true, false);
     }
 
     private void stopRefresh() {
@@ -327,6 +323,21 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     }
 
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
+        startDate = year+"-"+DataFormat(monthOfYear+1)+"-"+DataFormat(dayOfMonth);
+        LogUtil.i("fangke","startDate============"+startDate);
 
+        endDate = yearEnd+"-"+DataFormat(monthOfYearEnd+1)+"-"+DataFormat(dayOfMonthEnd);
+        LogUtil.i("fangke","endDate============"+endDate);
+
+        getFlashFlowData(true);
+        getFlashFlowList(true, false);
+    }
+
+    private String DataFormat(int data){
+        if(data<10){
+            return "0"+data;
+        }else{
+            return String.valueOf(data);
+        }
     }
 }
