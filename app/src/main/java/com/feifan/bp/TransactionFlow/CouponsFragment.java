@@ -45,6 +45,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     private MaterialDialog mDialog;
     private Spinner mAccountPeriodSpinner;
     private ArrayAdapter<String> mAdapter;
+    private String selectData;
 
     public CouponsFragment(){
     }
@@ -85,7 +86,8 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Spinner spinner = (Spinner) parent;
-                Toast.makeText(getActivity(), "你选择的月份是：" + spinner.getItemAtPosition(position), Toast.LENGTH_LONG).show();
+                String data =  (String)spinner.getItemAtPosition(position);
+                selectData = data.replace("年", "-").replace("月","");
             }
 
             @Override
@@ -98,6 +100,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
                 .setPositiveButton(R.string.date_self_define_confirm, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        getCouponsData("", selectData,"");
                         mDialog.dismiss();
                     }
                 })
@@ -196,8 +199,10 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.last1:
+                getCouponsData("1","","");
                 break;
             case R.id.last2:
+                getCouponsData("2","","");
                 break;
             case R.id.other:
                 initDialog();
