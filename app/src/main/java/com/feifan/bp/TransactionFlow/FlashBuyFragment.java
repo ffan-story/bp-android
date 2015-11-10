@@ -147,7 +147,6 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         return v;
     }
 
-
     private void initDatas() {
         mStoreId = UserProfile.getInstance().getAuthRangeId();
         tradeDetailList = new ArrayList<>();
