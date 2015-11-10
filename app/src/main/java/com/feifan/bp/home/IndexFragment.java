@@ -107,18 +107,35 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count == 1) { // 输入字符
-                    if ((s.length() + 1) % 5 == 0) {
-                        mCodeEditText.setText(s + " ");
-                        mCodeEditText.setSelection(s.length() + 1);
+                if (s == null || s.length() == 0) return;
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < s.length(); i++) {
+                    if (i != 4 && i!= 9 && i != 14  && s.charAt(i) == ' ') {
+                        continue;
+                    } else {
+                        sb.append(s.charAt(i));
+                        if ((sb.length() == 5 || sb.length() == 10|| sb.length() == 15) && sb.charAt(sb.length() - 1) != ' ') {
+                            sb.insert(sb.length() - 1, ' ');
+                        }
                     }
-                } else if (count == 0) { // 删除字符
+                }
 
-                    // 自动删除空格
-                    if (s.length() > 0 && s.length() % 5 == 0) {
-                        mCodeEditText.setText(s.subSequence(0, s.length() - 1));
-                        mCodeEditText.setSelection(s.length() - 1);
+                if (!sb.toString().equals(s.toString())) {
+                    int index = start + 1;
+                    if (sb.charAt(start) == ' ') {
+                        if (before == 0) {
+                            index++;
+                        } else {
+                            mCodeEditText.setText(sb.subSequence(0, sb.length() - 1));
+                            index--;
+                        }
+                    } else {
+                        if (before == 1) {
+                            index--;
+                        }
                     }
+                    mCodeEditText.setText(sb.toString());
+                    mCodeEditText.setSelection(index);
                 }
             }
 
