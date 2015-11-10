@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.feifan.material.picker.date;
+package com.feifan.material.datetimepicker.date;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -27,6 +27,8 @@ import android.graphics.Paint.Style;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import com.feifan.materialwidget.R;
 
 /**
  * A text view which, when pressed or activated, displays a colored circle around the text.

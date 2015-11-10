@@ -41,6 +41,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     private Fragment mCurrentFragment;
 
     public static Intent buildIntent(Context context) {
+
         Intent intent = new Intent(context, LaunchActivity.class);
         return intent;
     }

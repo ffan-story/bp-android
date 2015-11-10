@@ -26,7 +26,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.feifan.material.picker.AccessibleLinearLayout
+    <com.borax12.materialdaterangepicker.AccessibleLinearLayout
         android:id="@+id/date_picker_month_and_day"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             android:textSize="25sp"
             android:layout_marginLeft="8dp"
             tools:text="15"/>
-    </com.feifan.material.picker.AccessibleLinearLayout>
+    </com.borax12.materialdaterangepicker.AccessibleLinearLayout>
 
     <com.borax12.materialdaterangepicker.AccessibleTextView
         android:id="@+id/date_picker_year"

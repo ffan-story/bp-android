@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.feifan.material.picker.date;
+package com.feifan.material.datetimepicker.date;
 
 import android.content.Context;
 import android.graphics.Canvas;

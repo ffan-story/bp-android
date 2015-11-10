@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.feifan.material.picker.date;
+package com.feifan.material.datetimepicker.date;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -26,10 +26,12 @@ import android.widget.BaseAdapter;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import com.feifan.material.datetimepicker.date.MonthView.OnDayClickListener;
+
 /**
  * An adapter for a list of {@link MonthView} items.
  */
-public abstract class MonthAdapter extends BaseAdapter implements MonthView.OnDayClickListener {
+public abstract class MonthAdapter extends BaseAdapter implements OnDayClickListener {
 
     private static final String TAG = "SimpleMonthAdapter";
 

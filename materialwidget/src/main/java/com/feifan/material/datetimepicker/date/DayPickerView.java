@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.feifan.material.picker.date;
+package com.feifan.material.datetimepicker.date;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -32,8 +32,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
-
-import com.feifan.material.picker.Utils;
+import com.feifan.material.datetimepicker.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

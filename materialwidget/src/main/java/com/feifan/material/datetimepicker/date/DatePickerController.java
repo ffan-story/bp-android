@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package com.feifan.material.picker.date;
+package com.feifan.material.datetimepicker.date;
 
 import java.util.Calendar;
+
+import com.feifan.material.datetimepicker.date.DatePickerDialog.OnDateChangedListener;
+import com.feifan.material.datetimepicker.date.MonthAdapter.CalendarDay;
 
 /**
  * Controller class to communicate among the various components of the date picker dialog.
@@ -27,11 +30,11 @@ public interface DatePickerController {
 
     void onDayOfMonthSelected(int year, int month, int day);
 
-    void registerOnDateChangedListener(DatePickerDialog.OnDateChangedListener listener);
+    void registerOnDateChangedListener(OnDateChangedListener listener);
 
     void unregisterOnDateChangedListener(DatePickerDialog.OnDateChangedListener listener);
 
-    MonthAdapter.CalendarDay getSelectedDay();
+    CalendarDay getSelectedDay();
 
     boolean isThemeDark();
     

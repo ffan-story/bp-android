@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.feifan.material.picker.date;
+package com.feifan.material.datetimepicker.date;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -37,15 +37,15 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.feifan.material.datetimepicker.TypefaceHelper;
+import com.feifan.materialwidget.R;
+
 import java.security.InvalidParameterException;
 import java.util.Calendar;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
-import com.feifan.material.picker.TypefaceHelper;
-import com.feifan.material.picker.date.MonthAdapter.CalendarDay;
 
 /**
  * A calendar-like view displaying a specified month and the appropriate selectable day numbers
@@ -747,7 +747,7 @@ public abstract class MonthView extends View {
      * @return {@code false} if the date is not valid for this month view, or
      *         {@code true} if the date received focus
      */
-    public boolean restoreAccessibilityFocus(CalendarDay day) {
+    public boolean restoreAccessibilityFocus(MonthAdapter.CalendarDay day) {
         if ((day.year != mYear) || (day.month != mMonth) || (day.day > mNumCells)) {
             return false;
         }
@@ -877,6 +877,6 @@ public abstract class MonthView extends View {
      * Handles callbacks when the user clicks on a time object.
      */
     public interface OnDayClickListener {
-        void onDayClick(MonthView view, CalendarDay day);
+        void onDayClick(MonthView view, MonthAdapter.CalendarDay day);
     }
 }

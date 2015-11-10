@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.feifan.material.picker.date;
+package com.feifan.material.datetimepicker.date;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -28,16 +28,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.feifan.materialwidget.R;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.feifan.material.picker.date.DatePickerDialog.OnDateChangedListener;
 
 
 /**
  * Displays a selectable list of years.
  */
-public class YearPickerView extends ListView implements OnItemClickListener, OnDateChangedListener {
+public class YearPickerView extends ListView implements OnItemClickListener, DatePickerDialog.OnDateChangedListener {
     private static final String TAG = "YearPickerView";
 
     private final DatePickerController mController;

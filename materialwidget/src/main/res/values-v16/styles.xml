@@ -13,12 +13,18 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<com.borax12.materialdaterangepicker.date.TextViewWithCircularIndicator
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/month_text_view"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/mdtp_year_label_height"
-    android:layout_gravity="center"
-    android:gravity="center"
-    android:textColor="@color/mdtp_date_picker_year_selector"
-    android:textSize="@dimen/mdtp_year_label_text_size" />
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Style for dialog labels. -->
+    <style name="mdtp_time_label_thin">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="mdtp_done_button_light">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="mdtp_day_of_week_label_condensed">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+</resources>
