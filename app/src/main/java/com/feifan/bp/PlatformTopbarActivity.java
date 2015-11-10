@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
 
 /**
+ * 项目通用带有Topbar的活动
+ *
  * Created by xuchunlei on 15/11/9.
  */
 public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFragmentInteractionListener {
