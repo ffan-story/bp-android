@@ -5,7 +5,7 @@
       tools:context=".BrowserActivity">
 
     <item
-        android:id="@+id/action_coupon"
+        android:id="@+id/check_menu_directions"
         android:orderInCategory="80"
         android:title="指标说明"
         app:showAsAction="ifRoom" />

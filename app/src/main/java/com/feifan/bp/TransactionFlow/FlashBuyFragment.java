@@ -1,11 +1,13 @@
 package com.feifan.bp.TransactionFlow;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,12 +22,15 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.TransactionFlow.FlashSummaryModel.FlashSummaryDetailModel;
 import com.feifan.bp.TransactionFlow.FlashListModel.FlashDetailModel;
+import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 
@@ -42,7 +47,7 @@ import com.bartoszlipinski.recyclerviewheader.*;
 /**
  * Created by Frank on 15/11/6.
  */
-public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener {
+public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, MenuItem.OnMenuItemClickListener {
 
     private ViewPager viewPager;
     private CircleIndicator circleIndicator;
@@ -253,6 +258,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_option, menu);
+        menu.findItem(R.id.check_menu_directions).setOnMenuItemClickListener(this);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -266,12 +272,13 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 getActivity().onBackPressed();
             }
         });
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                return false;
-            }
-        });
+//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -291,12 +298,20 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 break;
         }
         getFlashFlowData(true);
-        getFlashFlowList(true,false);
+        getFlashFlowList(true, false);
     }
 
     private void stopRefresh(){
         if(mRefreshLayout.isRefreshing()){
             mRefreshLayout.setRefreshing(false);
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Intent intent = new Intent(getActivity(), PlatformTopbarActivity.class);
+        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, IndicatorFragment.class.getName());
+        startActivity(intent);
+        return false;
     }
 }

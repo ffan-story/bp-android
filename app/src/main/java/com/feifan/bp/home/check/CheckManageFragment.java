@@ -53,73 +53,11 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
         return v;
     }
 
-    // add by tianjun 2015.11.10
-    private MaterialDialog mDialog;
-    private Spinner mAccountPeriodSpinner;
-    private ArrayAdapter<String> mAdapter;
 
-    private void initDialog() {
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.data_selection_dialog, null);
-        mAccountPeriodSpinner = (Spinner) view.findViewById(R.id.date_self_define_account_spinner);
-        mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, getDateList(5));
-        mAdapter.setDropDownViewResource(R.layout.spinner_item);
-        mAccountPeriodSpinner.setAdapter(mAdapter);
-        mAccountPeriodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Spinner spinner = (Spinner) parent;
-                Toast.makeText(getActivity(), "你选择的月份是：" + spinner.getItemAtPosition(position), Toast.LENGTH_LONG).show();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
 
-        mDialog = new MaterialDialog(getActivity()).setContentView(view)
-                .setPositiveButton(R.string.date_self_define_confirm, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                    }
-                })
-                .setNegativeButton(R.string.date_self_define_cancel, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                    }
-                });
-        mDialog.show();
-    }
 
-    public String getCurrentData() {
-        Date dNow = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.date_format));
-        String currentDate = sdf.format(dNow);
-        return currentDate;
-    }
-
-    public List<String> getDateList(int month) {
-        Date dNow = new Date();
-        Date dBefore = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dNow);
-        SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.date_format));
-        String startDate;
-        List<String> timeList = new ArrayList<String>();
-        for (int i = 0; i < month; i++) {
-            calendar.add(calendar.MONTH, -i);
-            dBefore = calendar.getTime();
-            startDate = sdf.format(dBefore);
-            System.out.println(startDate);
-            timeList.add(startDate);
-            calendar.add(calendar.MONTH, i);
-        }
-        return timeList;
-    }
-    //end.
 
     @Override
     public void onClick(View v) {
