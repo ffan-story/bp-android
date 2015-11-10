@@ -69,6 +69,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
      * 参数键名称－URL
      */
     public static final String EXTRA_KEY_URL = "url";
+    public static final String EXTRA_KEY_TITLE_NAME = "title_name";
     public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
     public static final String EXTRA_KEY_SELECT_POS = "pos";
 
@@ -111,6 +112,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private int mWebViewProgress = 0;
 
     private String mUrl;
+    private String mTitleName = "";
 
     public OnBrowserListener mListener;
 
@@ -150,6 +152,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     public void setmUrl(String mUrl) {
         this.mUrl = mUrl;
+    }
+
+    public void setmTitleName(String contextTitle) {
+        this.mTitleName = contextTitle;
     }
 
     @Override
@@ -203,7 +209,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     @Override
     protected void setupToolbar(Toolbar toolbar) {
         super.setupToolbar(toolbar);
-        toolbar.setTitle("");
+        toolbar.setTitle(mTitleName);
         toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override

@@ -24,6 +24,8 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     private BrowserTabPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
+    private String mContextTitle ="";
+
     private TabLayout tabLayout;
     private String tabTitles[];
     private String arryStatus[];
@@ -45,6 +47,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     public static final String EXTRA_KEY_URL = "url";
     public static final String EXTRA_KEY_TITLES = "titles";
     public static final String EXTRA_KEY_STATUS = "status";
+    public static final String EXTRA_KEY_CONTEXT_TITLE = "contextTitle";
 //    public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
 
     // dialog
@@ -62,6 +65,22 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         i.putExtra(EXTRA_KEY_URL, url);
         i.putExtra(EXTRA_KEY_STATUS, Status);
         i.putExtra(EXTRA_KEY_TITLES, titles);
+        context.startActivity(i);
+    }
+
+    /**
+     * @param context
+     * @param url
+     * @param Status
+     * @param titles
+     * @param contextTitle
+     */
+    public static void startActivity(Context context,String url,String[] Status, String[] titles,String contextTitle) {
+        Intent i = new Intent(context, BrowserTabActivity.class);
+        i.putExtra(EXTRA_KEY_URL, url);
+        i.putExtra(EXTRA_KEY_STATUS, Status);
+        i.putExtra(EXTRA_KEY_TITLES, titles);
+        i.putExtra(EXTRA_KEY_CONTEXT_TITLE, contextTitle);
         context.startActivity(i);
     }
 
@@ -87,6 +106,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         mUrl = getIntent().getStringExtra(EXTRA_KEY_URL);
         arryStatus = getIntent().getStringArrayExtra(EXTRA_KEY_STATUS);
         tabTitles = getIntent().getStringArrayExtra(EXTRA_KEY_TITLES);
+        mContextTitle= getIntent().getStringExtra(EXTRA_KEY_CONTEXT_TITLE);
         //arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
 
         if(null!=tabTitles && tabTitles.length>4){
@@ -133,7 +153,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     }
 
     private void loadWeb(String url){
-        pagerAdapter = new BrowserTabPagerAdapter(getSupportFragmentManager(),tabTitles,url,arryStatus);
+        pagerAdapter = new BrowserTabPagerAdapter(getSupportFragmentManager(),tabTitles,url,arryStatus,mContextTitle);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(0);
         tabLayout.setupWithViewPager(viewPager);

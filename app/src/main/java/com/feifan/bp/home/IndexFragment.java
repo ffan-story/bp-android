@@ -311,9 +311,14 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                             String url = UrlFactory.urlForHtml(item.url);
                             if (Utils.isNetworkAvailable(getContext())) {
                                 if (EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id) != -1 && EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id) != -1) {
+                                    String titleName = "";
+                                    if (!url.contains("/staff?") && !item.name.equals("员工管理")){
+                                        titleName = item.name;
+                                    }
                                     BrowserTabActivity.startActivity(getContext(), url + "&status=",
                                             getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
-                                            getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)));
+                                            getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)),
+                                            titleName);
                                 } else {
                                     BrowserActivity.startActivity(getContext(), url);
                                 }
