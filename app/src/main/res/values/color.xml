@@ -36,6 +36,7 @@
     <color name="font_color_66">#666666</color>
     <color name="red">#FF0000</color>
     <color name="brown">#39536b</color>
+    <color name="font_color_light_gray">#EDEDED</color>
 
     <color name="radio_button_selected_color">@color/accent</color>
     <color name="radio_button_unselected_color">@color/transparent</color>

@@ -43,6 +43,7 @@
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_elevation_lollipop">8dp</dimen>
 
+    <dimen name="view_height_1">1dp</dimen>
     <dimen name="view_height_50">50dp</dimen>
     <dimen name="view_height_180">180dp</dimen>
 

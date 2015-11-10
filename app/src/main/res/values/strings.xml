@@ -183,4 +183,11 @@
     <string name="confirm_retreat_sum">确认退单金额</string>
     <string name="flash_detail_title">(%1$s 至 %2$s 总条数:%3$s)</string>
 
+    <!-- data selection dialog -->
+    <string name="date_self_define_time">自定义时间</string>
+    <string name="date_self_define_account_period">自定义账期:</string>
+    <string name="date_self_define_confirm">确定</string>
+    <string name="date_self_define_cancel">取消</string>
+    <string name="date_format">yyyy年MM月</string>
+
 </resources>
