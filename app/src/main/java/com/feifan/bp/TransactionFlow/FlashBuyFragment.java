@@ -39,15 +39,17 @@ import com.feifan.bp.widget.DividerItemDecoration;
 import com.feifan.bp.widget.SegmentedGroup;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import me.relex.circleindicator.CircleIndicator;
 
 import com.bartoszlipinski.recyclerviewheader.*;
+import com.feifan.material.datetimepicker.date.DatePickerDialog;
 
 /**
  * Created by Frank on 15/11/6.
  */
-public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, MenuItem.OnMenuItemClickListener {
+public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, MenuItem.OnMenuItemClickListener, DatePickerDialog.OnDateSetListener {
 
     private ViewPager viewPager;
     private CircleIndicator circleIndicator;
@@ -119,7 +121,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         viewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         mRefreshLayout.setEnabled(false);
                         break;
@@ -204,7 +206,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     /**
      * 获取闪购对账流水单明细列表
      */
-    private void getFlashFlowList(final boolean isShowLoading,final boolean isLoadMore) {
+    private void getFlashFlowList(final boolean isShowLoading, final boolean isLoadMore) {
         if (isShowLoading) {
             ((TransFlowTabActivity) getActivity()).showProgressBar(true);
         }
@@ -224,7 +226,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                             ((TransFlowTabActivity) getActivity()).hideProgressBar();
                         }
                         stopRefresh();
-                        if(isLoadMore){
+                        if (isLoadMore) {
                             mPageNum--;
                         }
                     }
@@ -234,13 +236,13 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 .listener(new Response.Listener<FlashListModel>() {
                     @Override
                     public void onResponse(FlashListModel model) {
-                        if(isLoadMore){
-                            if (model.flashDetailList == null||model.flashDetailList.size() == 0){
-                                Toast.makeText(getActivity(),"没有更多数据",Toast.LENGTH_LONG).show();
-                            }else{
+                        if (isLoadMore) {
+                            if (model.flashDetailList == null || model.flashDetailList.size() == 0) {
+                                Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
+                            } else {
                                 flashDetailList.addAll(model.flashDetailList);
                             }
-                        }else{
+                        } else {
                             flashDetailList = model.flashDetailList;
                         }
                         flowListAdapter = new FlowListAdapter(getActivity(), flashDetailList);
@@ -294,6 +296,15 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 break;
             case R.id.other:
                 mPageNum = 1;
+                Calendar now = Calendar.getInstance();
+                DatePickerDialog dpd = DatePickerDialog.newInstance(
+                        FlashBuyFragment.this,
+                        now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        now.get(Calendar.DAY_OF_MONTH)
+                );
+                dpd.setAccentColor(getResources().getColor(R.color.accent));
+                dpd.show(getFragmentManager(), "Datepickerdialog");
                 Toast.makeText(getActivity(), "选择其他日期", Toast.LENGTH_LONG).show();
                 break;
         }
@@ -301,8 +312,8 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         getFlashFlowList(true, false);
     }
 
-    private void stopRefresh(){
-        if(mRefreshLayout.isRefreshing()){
+    private void stopRefresh() {
+        if (mRefreshLayout.isRefreshing()) {
             mRefreshLayout.setRefreshing(false);
         }
     }
@@ -313,5 +324,9 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, IndicatorFragment.class.getName());
         startActivity(intent);
         return false;
+    }
+
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
+
     }
 }
