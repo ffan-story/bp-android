@@ -37,9 +37,9 @@
 
     <array name="tab_title_refund_status">
         <item>ALL</item>
-        <item>PROCESSING</item>
         <item>MER_REVIEW</item>
         <item>OPER_REVIEW</item>
+        <item>PROCESSING</item>
         <item>SUCCESS</item>
         <item>FAIL</item>
     </array>
