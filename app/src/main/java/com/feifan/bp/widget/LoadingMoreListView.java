@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.feifan.bp.R;
 
@@ -22,7 +24,8 @@ public class LoadingMoreListView extends ListView implements AbsListView.OnScrol
     private View footerView; // 脚布局的对象
     private int footerViewHeight; // 脚布局的高度
     private boolean isLoadingMore = false; // 是否正在加载更多中
-
+    TextView  tvLoadingMoreText;
+    private ProgressBar pb;
     public LoadingMoreListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initFooterView();
@@ -34,6 +37,8 @@ public class LoadingMoreListView extends ListView implements AbsListView.OnScrol
      */
     private void initFooterView() {
         footerView = View.inflate(getContext(), R.layout.listview_footer, null);
+        tvLoadingMoreText = (TextView)footerView.findViewById(R.id.tv_loading_more_text);
+        pb = (ProgressBar)footerView.findViewById(R.id.progress_bar);
         footerView.measure(0, 0);
         footerViewHeight = footerView.getMeasuredHeight();
         footerView.setPadding(0, -footerViewHeight, 0, 0);
@@ -200,7 +205,14 @@ public class LoadingMoreListView extends ListView implements AbsListView.OnScrol
     }
 
 
-
+    /**
+     * 加载完成
+     * @param strText
+     */
+    public void setLoadComplete(String strText){
+        pb.setVisibility(View.GONE);
+        tvLoadingMoreText.setText(strText);
+    }
     /**
      * 隐藏脚布局
      */
