@@ -1,13 +1,11 @@
 package com.feifan.bp.TransactionFlow;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,7 +34,7 @@ import com.feifan.bp.network.JsonRequest;
 
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.TimeUtils;
-import com.feifan.bp.widget.DividerItemDecoration;
+import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.SegmentedGroup;
 
 import java.util.ArrayList;
@@ -44,13 +42,16 @@ import java.util.Calendar;
 
 import me.relex.circleindicator.CircleIndicator;
 
-import com.bartoszlipinski.recyclerviewheader.*;
+import com.feifan.bp.widget.OnLoadingMoreListener;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
 
 /**
  * Created by Frank on 15/11/6.
  */
-public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, MenuItem.OnMenuItemClickListener, DatePickerDialog.OnDateSetListener {
+public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,
+        MenuItem.OnMenuItemClickListener,
+        DatePickerDialog.OnDateSetListener,
+        OnLoadingMoreListener {
 
     private ViewPager viewPager;
     private CircleIndicator circleIndicator;
@@ -58,10 +59,8 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     private SegmentedGroup segmentedGroup;
     private RadioButton rb_today, rb_yesterday, rb_other;
     private SwipeRefreshLayout mRefreshLayout;
-    private RecyclerView mFlowList;
+    private LoadingMoreListView mFlowList;
     private TextView mDetailTitle;
-    private LinearLayoutManager mLayoutManager;
-    private RecyclerViewHeader header;
 
     private ArrayList<FlashSummaryDetailModel> tradeDetailList;
     private ArrayList<FlashDetailModel> flashDetailList;
@@ -70,7 +69,9 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     private String endDate;
 
     private String mStoreId;
-    private int mPageNum;
+    private int mPageNum = 1;
+    private int mTotalCount = 0;
+    private Boolean mCheckFlag = false;
 
     public FlashBuyFragment() {
     }
@@ -84,28 +85,11 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_flash_buy, null);
-        mFlowList = (RecyclerView) v.findViewById(R.id.rv_detail);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mFlowList.setLayoutManager(mLayoutManager);
-        mFlowList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-        header = RecyclerViewHeader.fromXml(getActivity(), R.layout.header_fragment_flash_buy);
-        header.attachTo(mFlowList);
-        mFlowList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy == 0) {
-                    mRefreshLayout.setEnabled(true);
-                } else {
-                    mRefreshLayout.setEnabled(false);
-                }
-            }
+        View header = inflater.inflate(R.layout.header_fragment_flash_buy, null);
+        mFlowList = (LoadingMoreListView) v.findViewById(R.id.rv_detail);
+        mFlowList.addHeaderView(header);
+        mFlowList.setOnLoadingMoreListener(this);
 
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-        });
 
         mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe);
         mRefreshLayout.setColorSchemeResources(R.color.accent);
@@ -117,8 +101,25 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 getFlashFlowList(false, false);
             }
         });
-        viewPager = (ViewPager) v.findViewById(R.id.viewpager);
-        //解决滑动ViewPager引起swiperefreshlayout刷新的冲突
+
+        viewPager = (ViewPager) header.findViewById(R.id.viewpager);
+        circleIndicator = (CircleIndicator) header.findViewById(R.id.indicator);
+        segmentedGroup = (SegmentedGroup) header.findViewById(R.id.segmentedGroup);
+        mDetailTitle = (TextView) header.findViewById(R.id.tv_detail);
+
+        rb_today = (RadioButton) header.findViewById(R.id.today);
+        rb_yesterday = (RadioButton) header.findViewById(R.id.yesterday);
+        rb_other = (RadioButton) header.findViewById(R.id.other);
+        segmentedGroup.setOnCheckedChangeListener(this);
+        rb_other.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCheckFlag) {
+                    initDialog();
+                }
+            }
+        });
+
         viewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -127,8 +128,6 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                         mRefreshLayout.setEnabled(false);
                         break;
                     case MotionEvent.ACTION_UP:
-                        mRefreshLayout.setEnabled(true);
-                        break;
                     case MotionEvent.ACTION_CANCEL:
                         mRefreshLayout.setEnabled(true);
                         break;
@@ -136,14 +135,6 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 return false;
             }
         });
-        circleIndicator = (CircleIndicator) v.findViewById(R.id.indicator);
-        segmentedGroup = (SegmentedGroup) v.findViewById(R.id.segmentedGroup);
-        mDetailTitle = (TextView) v.findViewById(R.id.tv_detail);
-
-        rb_today = (RadioButton) v.findViewById(R.id.today);
-        rb_yesterday = (RadioButton) v.findViewById(R.id.yesterday);
-        rb_other = (RadioButton) v.findViewById(R.id.other);
-        segmentedGroup.setOnCheckedChangeListener(this);
 
         initDatas();
         return v;
@@ -233,13 +224,14 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                     public void onResponse(FlashListModel model) {
                         if (isLoadMore) {
                             if (model.flashDetailList == null || model.flashDetailList.size() == 0) {
-                                Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "获得数据为空", Toast.LENGTH_LONG).show();
                             } else {
                                 flashDetailList.addAll(model.flashDetailList);
                             }
                         } else {
                             flashDetailList = model.flashDetailList;
                         }
+                        mTotalCount = model.totalCount;
                         flowListAdapter = new FlowListAdapter(getActivity(), flashDetailList);
                         mFlowList.setAdapter(flowListAdapter);
                         mDetailTitle.setText(getActivity().getString(R.string.flash_detail_title, startDate, endDate, model.totalCount));
@@ -286,26 +278,39 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 mPageNum = 1;
                 getFlashFlowData(true);
                 getFlashFlowList(true, false);
+                mCheckFlag = false;
                 break;
             case R.id.yesterday:
                 startDate = endDate = TimeUtils.getYesterday();
                 mPageNum = 1;
                 getFlashFlowData(true);
                 getFlashFlowList(true, false);
+                mCheckFlag = false;
                 break;
             case R.id.other:
                 mPageNum = 1;
-                Calendar now = Calendar.getInstance();
-                DatePickerDialog dpd = DatePickerDialog.newInstance(
-                        FlashBuyFragment.this,
-                        now.get(Calendar.YEAR),
-                        now.get(Calendar.MONTH),
-                        now.get(Calendar.DAY_OF_MONTH)
-                );
-                dpd.setAccentColor(getResources().getColor(R.color.accent));
-                dpd.show(getFragmentManager(), "Datepickerdialog");
+                initDialog();
                 break;
         }
+    }
+
+    private void initDialog() {
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog dpd = DatePickerDialog.newInstance(
+                FlashBuyFragment.this,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+        );
+        dpd.setAccentColor(getResources().getColor(R.color.accent));
+        dpd.show(getFragmentManager(), "Datepickerdialog");
+        dpd.setOnDateSetListener(this);
+        dpd.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mCheckFlag = true;
+            }
+        });
     }
 
     private void stopRefresh() {
@@ -323,21 +328,44 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     }
 
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
-        startDate = year+"-"+DataFormat(monthOfYear+1)+"-"+DataFormat(dayOfMonth);
-        LogUtil.i("fangke","startDate============"+startDate);
+        mCheckFlag = true;
 
-        endDate = yearEnd+"-"+DataFormat(monthOfYearEnd+1)+"-"+DataFormat(dayOfMonthEnd);
-        LogUtil.i("fangke","endDate============"+endDate);
+        String FromDate = year + "-" + DataFormat(monthOfYear + 1) + "-" + DataFormat(dayOfMonth);
+        LogUtil.i("fangke", "FromDate============" + FromDate);
 
-        getFlashFlowData(true);
-        getFlashFlowList(true, false);
+        String ToDate = yearEnd + "-" + DataFormat(monthOfYearEnd + 1) + "-" + DataFormat(dayOfMonthEnd);
+        LogUtil.i("fangke", "ToDate============" + ToDate);
+
+        if (TimeUtils.compare_date(FromDate, TimeUtils.getToday())) {
+            Toast.makeText(getActivity(), "起始时间不能超过今天", Toast.LENGTH_LONG).show();
+        } else if (TimeUtils.compare_date(ToDate, TimeUtils.getToday())) {
+            Toast.makeText(getActivity(), "截止时间不能超过今天", Toast.LENGTH_LONG).show();
+        } else if (TimeUtils.compare_date(FromDate, ToDate)) {
+            Toast.makeText(getActivity(), "起始时间不能超过截止时间", Toast.LENGTH_LONG).show();
+        } else {
+            startDate = FromDate;
+            endDate = FromDate;
+            getFlashFlowData(true);
+            getFlashFlowList(true, false);
+        }
     }
 
-    private String DataFormat(int data){
-        if(data<10){
-            return "0"+data;
-        }else{
+    private String DataFormat(int data) {
+        if (data < 10) {
+            return "0" + data;
+        } else {
             return String.valueOf(data);
+        }
+    }
+
+    @Override
+    public void onLoadingMore() {
+        if (flashDetailList.size() >= mTotalCount) {
+            Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
+            mFlowList.hideFooterView();
+        } else {
+            mPageNum++;
+            getFlashFlowList(true, true);
         }
     }
 }

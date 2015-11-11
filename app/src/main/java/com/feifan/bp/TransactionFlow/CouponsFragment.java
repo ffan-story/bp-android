@@ -46,6 +46,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     private Spinner mAccountPeriodSpinner;
     private ArrayAdapter<String> mAdapter;
     private String selectData;
+    private Boolean mCheckFlag = false;
 
     public CouponsFragment(){
     }
@@ -63,6 +64,14 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
         rb_last1 = (RadioButton) v.findViewById(R.id.last1);
         rb_last2 = (RadioButton) v.findViewById(R.id.last2);
         rb_other = (RadioButton) v.findViewById(R.id.other);
+        rb_other.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mCheckFlag){
+                    initDialog();
+                }
+            }
+        });
         title1 = (TextView) v.findViewById(R.id.item_1).findViewById(R.id.title);
         title2 = (TextView) v.findViewById(R.id.item_2).findViewById(R.id.title);
         content1 = (TextView) v.findViewById(R.id.item_1).findViewById(R.id.content);
@@ -101,12 +110,14 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
                     @Override
                     public void onClick(View v) {
                         getCouponsData("", selectData,"");
+                        mCheckFlag = true;
                         mDialog.dismiss();
                     }
                 })
                 .setNegativeButton(R.string.date_self_define_cancel, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        mCheckFlag = true;
                         mDialog.dismiss();
                     }
                 });

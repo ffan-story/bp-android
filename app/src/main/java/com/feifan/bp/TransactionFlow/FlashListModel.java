@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by Frank on 15/11/9.
  */
-public class FlashListModel extends BaseModel {
+public class    FlashListModel extends BaseModel {
 
     public int totalCount;
 
