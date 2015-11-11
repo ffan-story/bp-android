@@ -382,7 +382,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }else if(actionStrUri.contains("/staff") && !(mActivity instanceof BrowserTabActivity)){//添加员工
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
-                }else if (actionStrUri.contains("/order/detail/")){//验证历史  订单管理
+                }else if (actionStrUri.contains("/order/detail/") || actionStrUri.contains("/goods/search_result")){//验证历史  订单管理  券码历史详情
                     BrowserActivity.startActivity(getActivity(), actionStrUri);
                 }else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserTabActivity)){
                     ((BrowserTabActivity) mActivity).refreshViewPage();
@@ -616,7 +616,4 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 break;
         }
     }
-
-
-
 }
