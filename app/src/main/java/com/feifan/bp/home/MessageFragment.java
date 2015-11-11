@@ -39,6 +39,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     private LoadingMoreListView mListView;
     private List<MessageModel.MessageData> mList = new ArrayList<MessageModel.MessageData>();
     private Adapter mAdapter;
+    private boolean isLoadingMore = true;
 
     public static MessageFragment newInstance() {
         MessageFragment fragment = new MessageFragment();
@@ -99,9 +100,9 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 hideProgressBar();
-                if (mPtrFrameEmpty != null){
+                if (mPtrFrameEmpty != null) {
                     mPtrFrame.refreshComplete();
-                }else if(mPtrFrame !=null){
+                } else if (mPtrFrame != null) {
                     mPtrFrame.refreshComplete();
                 }
 
@@ -192,9 +193,11 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     @Override
     public void onLoadingMore() {
         if (mList.size() >= totalCount) {
-            Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
-            mListView.hideFooterView();
+            mListView.setLoadComplete("没有更多数据");
+            //Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
+            //mListView.hideFooterView();
         } else {
+            isLoadingMore = true;
             pageIndex++;
             fetchData(pageIndex);
         }

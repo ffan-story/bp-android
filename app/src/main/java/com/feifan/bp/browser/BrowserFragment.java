@@ -255,6 +255,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     // 当前页面是否可以回退
     private boolean canGoBack() {
+        if(TextUtils.isEmpty(getToolbar().getTitle())){
+            return false;
+        }
         // 特殊页面
         String title = getToolbar().getTitle().toString();
         if (title.equals(getString(R.string.browser_coupon_list))) {

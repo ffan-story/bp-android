@@ -12,11 +12,13 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
         <ProgressBar
+            android:id="@+id/progress_bar"
             style="@android:style/Widget.ProgressBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
         <TextView
+            android:id="@+id/tv_loading_more_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/view_spacing_10"
