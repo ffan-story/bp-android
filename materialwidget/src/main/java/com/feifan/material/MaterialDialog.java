@@ -257,7 +257,7 @@ public class MaterialDialog {
             mAlertDialog.show();
 
             mAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-            mAlertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+           // mAlertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
             mAlertDialogWindow = mAlertDialog.getWindow();
             View contv = LayoutInflater.from(mContext).inflate(R.layout.layout_materialdialog, null);

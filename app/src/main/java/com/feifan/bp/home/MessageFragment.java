@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
@@ -37,9 +36,8 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     private int pageIndex = 1;
     private int totalCount = 0;
     private LoadingMoreListView mListView;
-    private List<MessageModel.MessageData> mList = new ArrayList<MessageModel.MessageData>();
+    private List<MessageModel.MessageData> mList = new ArrayList<>();
     private Adapter mAdapter;
-    private boolean isLoadingMore = true;
 
     public static MessageFragment newInstance() {
         MessageFragment fragment = new MessageFragment();
@@ -77,7 +75,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
                 hideProgressBar();
                 totalCount = messageModel.getTotalCount();
                 if (mList == null || mList.size() <= 0) {
-                    mList = new ArrayList<MessageModel.MessageData>();
+                    mList = new ArrayList<>();
                     mList = messageModel.getMessageDataList();
                     if (mList != null && mList.size() > 0) {
                         mPtrFrame.setVisibility(View.VISIBLE);
@@ -197,7 +195,6 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
             //Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
             //mListView.hideFooterView();
         } else {
-            isLoadingMore = true;
             pageIndex++;
             fetchData(pageIndex);
         }
