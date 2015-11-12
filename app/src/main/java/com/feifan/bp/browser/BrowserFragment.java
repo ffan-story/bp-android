@@ -17,7 +17,6 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -63,16 +62,15 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * congjing
+ */
 public class BrowserFragment extends BaseFragment implements View.OnClickListener, MenuItem.OnMenuItemClickListener {
     private static final String TAG = "BrowserFragment";
     /**
      * 参数键名称－URL
      */
     public static final String EXTRA_KEY_URL = "url";
-    public static final String EXTRA_KEY_TITLE_NAME = "title_name";
-    public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
-    public static final String EXTRA_KEY_SELECT_POS = "pos";
 
     private static final int TOOLBAR_STATUS_IDLE = 0;
     /**
@@ -91,11 +89,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private static final int TOOLBAR_STATUS_COMMODITY = 3;
     private static final int TOOLBAR_STATUS_COMMODITY_DESC = 4;
     private int mToolbarStatus = TOOLBAR_STATUS_IDLE;
-
-    /**
-     * tab 状态
-     */
-    private boolean isShowTabBar = true;
 
     //type=0不限制大小
     private static final int IMG_PICK_TYPE_0 = 0;
@@ -128,13 +121,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     public interface OnBrowserListener {
         /**
          * 获取到标题
-         * @param title
+         * @param title 标题
          */
         void OnTitleReceived(String title);
 
         /**
          * 获取到错误
-         * @param msg
+         * @param msg 错误消息
          */
         void OnErrorReceived(String msg, WebView web, String url);
     }
@@ -382,16 +375,16 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                             actionStrUri+"&status=",
                             getActivity().getResources().getStringArray(R.array.data_type),
                             getActivity().getResources().getStringArray(R.array.tab_title_refund_detail_titles));
-                }else if( actionStrUri.contains("/staff/edit/")){//员工管理
+                }else if(actionStrUri.contains("/staff/edit/")){//员工管理 编辑
                     Intent i = new Intent(getActivity(), BrowserActivity.class);
                     i.putExtra(BrowserActivity.EXTRA_KEY_URL, actionStrUri);
                     getActivity().startActivityForResult(i,Constants.REQUEST_CODE_STAFF_EDIT);
-                }else if(actionStrUri.contains("/staff") && !(mActivity instanceof BrowserTabActivity)){//添加员工
+                }else if(actionStrUri.contains("/staff") && (mActivity instanceof BrowserActivity)){//添加员工成功  以及编辑成功
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
-                }else if (actionStrUri.contains("/order/detail/") || actionStrUri.contains("/goods/search_result")){//验证历史  订单管理  券码历史详情
+                }else if (actionStrUri.contains("/order/detail/") || actionStrUri.contains("/goods/search_result")){//查看详情：验证历史  订单管理  券码历史
                     BrowserActivity.startActivity(getActivity(), actionStrUri);
-                }else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserTabActivity)){
+                }else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserTabActivity)){//员工管理冻结、解冻刷新ViewPage
                     ((BrowserTabActivity) mActivity).refreshViewPage();
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
@@ -505,7 +498,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void uploadPicture(Uri uri) {
-
         LogUtil.i(TAG,"uri=="+uri);
         // 获取符合条件的图片输入流
         Bitmap uploadImg = null;
