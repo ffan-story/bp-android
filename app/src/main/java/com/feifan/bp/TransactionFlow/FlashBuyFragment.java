@@ -360,7 +360,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
             Toast.makeText(getActivity(), "起始时间不能超过截止时间", Toast.LENGTH_LONG).show();
         } else {
             startDate = FromDate;
-            endDate = FromDate;
+            endDate = ToDate;
             getFlashFlowData(true);
             getFlashFlowList(true, false);
         }
