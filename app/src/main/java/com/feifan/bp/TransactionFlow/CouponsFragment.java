@@ -178,9 +178,11 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
         switch (checkedId) {
             case R.id.last1:
                 getCouponsData("1","");
+                mCheckFlag = false;
                 break;
             case R.id.last2:
                 getCouponsData("2","");
+                mCheckFlag = false;
                 break;
             case R.id.other:
                 initDialog();
