@@ -95,10 +95,11 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
                 }else {
                     return Response.error(new VolleyError(t.msg));
                 }
+            } else {
+                throw new IllegalArgumentException("Please provide target class for your request!");
             }
-            return Response.error(new VolleyError("unknown error!"));
         } catch (Exception e) {
-            Log.e("xuchunlei", "---------------->big error!");
+            Log.e(TAG, "Fatal error:Parsing response to json model failed!");
             return Response.error(new ParseError(e));
         }
     }

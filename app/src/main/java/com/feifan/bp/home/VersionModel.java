@@ -48,4 +48,10 @@ public class VersionModel extends BaseModel {
     public String getVersionUrl() {
         return versionUrl;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + ",versionCode=" + versionDesc + ",versionUrl=" + versionUrl
+                + ",versionDesc=" + versionDesc + ",mustUpdate=" + mustUpdate;
+    }
 }

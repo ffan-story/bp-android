@@ -2,8 +2,11 @@ package com.feifan.bp.home;
 
 
 
+import android.util.Log;
+
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.feifan.bp.BuildConfig;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.login.UserModel;
 import com.feifan.bp.network.DefaultErrorListener;
@@ -26,7 +29,9 @@ public class HomeCtrl {
      * @param listener
      */
     public static void checkVersion(Listener<VersionModel> listener, ErrorListener errorListener) {
-        JsonRequest<VersionModel> request = new PostRequest<VersionModel>(UrlFactory.getCheckVersionUrl(), errorListener)
+        JsonRequest<VersionModel> request = new PostRequest<VersionModel>(UrlFactory.checkVersionUpdate(), errorListener)
+                .param("currVersionCode", String.valueOf(BuildConfig.VERSION_CODE))
+                .targetClass(VersionModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }
