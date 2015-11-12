@@ -6,26 +6,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.util.LogUtil;
-import com.feifan.material.MaterialDialog;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 对账管理界面
@@ -50,7 +40,9 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_reconciliation_management, container, false);
-        ((RelativeLayout) v.findViewById(R.id.rl_transaction_flow)).setOnClickListener(this);
+        ((RelativeLayout) v.findViewById(R.id.check_manager_transaction_flow_rl)).setOnClickListener(this);
+        ((RelativeLayout) v.findViewById(R.id.check_manager_financial_reconciliation_rl)).setOnClickListener(this);
+        ((RelativeLayout) v.findViewById(R.id.check_manager_inventory_query_rl)).setOnClickListener(this);
         return v;
     }
 
@@ -65,13 +57,19 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
         Bundle args = new Bundle();
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, CheckManageFragment.class.getName());
         switch (v.getId()) {
-            case R.id.rl_transaction_flow:
+            case R.id.check_manager_transaction_flow_rl:
                 // TODO 跳转到流水对账界面
                 LogUtil.i(Constants.TAG, "From CheckManageFragment to ----Fragment");
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, TransFlowTabActivity.class.getName());
+                mListener.onFragmentInteraction(args);
+                break;
+            case R.id.check_manager_financial_reconciliation_rl:
+                Utils.showToast(getActivity(), R.string.check_manage_system_construction, Toast.LENGTH_SHORT);
+                break;
+            case R.id.check_manager_inventory_query_rl:
+                Utils.showToast(getActivity(), R.string.check_manage_system_construction, Toast.LENGTH_SHORT);
                 break;
         }
-        mListener.onFragmentInteraction(args);
     }
 
     @Override

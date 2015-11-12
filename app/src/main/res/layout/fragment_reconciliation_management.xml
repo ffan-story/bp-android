@@ -6,7 +6,7 @@
     android:background="@color/brown">
 
     <RelativeLayout
-        android:id="@+id/rl_transaction_flow"
+        android:id="@+id/check_manager_transaction_flow_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/view_spacing_10"
@@ -48,6 +48,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/check_manager_financial_reconciliation_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/view_spacing_10"
@@ -88,6 +89,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/check_manager_inventory_query_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/view_spacing_10"

@@ -10,7 +10,7 @@
         android:layout_marginBottom="@dimen/view_spacing_10"
         android:text="@string/date_self_define_time"
         android:textColor="@color/font_color_66"
-        android:textSize="@dimen/font_size_22"
+        android:textSize="@dimen/font_size_20"
         android:textStyle="bold" />
 
     <TextView
@@ -19,10 +19,11 @@
         android:background="@color/divider" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/view_spacing_10"
         android:layout_marginTop="@dimen/view_spacing_10"
+        android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
 
         <TextView
@@ -30,14 +31,14 @@
             android:layout_height="wrap_content"
             android:text="@string/date_self_define_account_period"
             android:textColor="@color/font_color_66"
-            android:textSize="@dimen/font_size_20" />
+            android:textSize="@dimen/font_size_18" />
 
         <Spinner
             android:id="@+id/date_self_define_account_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/view_spacing_10"
-            android:background="@color/font_color_light_gray"/>
+            android:layout_marginLeft="@dimen/view_spacing_5"
+            />
     </LinearLayout>
 
     <TextView

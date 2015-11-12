@@ -13,11 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.browser.BrowserActivity;
 
 /**
  * Created by tianjun on 2015-11-9.
@@ -46,8 +46,8 @@ public class IndicatorFragment extends BaseFragment {
         spannableString1.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Toast.makeText(getActivity(), "who hit me", Toast.LENGTH_SHORT).show();
-                //BrowserActivity.startActivity(getActivity(), "http://sop.ffan.com");
+                //Toast.makeText(getActivity(), "who hit me", Toast.LENGTH_SHORT).show();
+                BrowserActivity.startActivity(getActivity(), "http://sop.ffan.com");
             }
         }, 12, str.length() - 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString1.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.accent)), 12, str.length() - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
