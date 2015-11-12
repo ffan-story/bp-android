@@ -189,5 +189,8 @@
     <string name="date_self_define_confirm">确定</string>
     <string name="date_self_define_cancel">取消</string>
     <string name="date_format">yyyy年MM月</string>
+    <string name="date_error_1">起始时间不能超过今天</string>
+    <string name="date_error_2">结束时间不能超过今天</string>
+    <string name="date_error_3">起始时间不能超过截止时间</string>
 
 </resources>

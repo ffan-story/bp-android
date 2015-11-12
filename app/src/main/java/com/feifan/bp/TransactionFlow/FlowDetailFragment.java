@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.feifan.bp.TransactionFlow.FlashSummaryModel.FlashSummaryDetailModel;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,13 +68,13 @@ public class FlowDetailFragment extends Fragment {
                 content1.setText(mTradeDataList.get(0).getCountValue());
 
                 title2.setText(mTradeDataList.get(0).getAmountName());
-                content2.setText(mTradeDataList.get(0).getAmountValue());
+                content2.setText(Utils.formatMoney(mTradeDataList.get(0).getAmountValue(),2));
 
                 title3.setText(mTradeDataList.get(1).getCountName());
                 content3.setText(mTradeDataList.get(1).getCountValue());
 
                 title4.setText(mTradeDataList.get(1).getAmountName());
-                content4.setText(mTradeDataList.get(1).getAmountValue());
+                content4.setText(Utils.formatMoney(mTradeDataList.get(1).getAmountValue(),2));
 
                 break;
             case 1:
@@ -81,13 +82,13 @@ public class FlowDetailFragment extends Fragment {
                 content1.setText(mTradeDataList.get(2).getCountValue());
 
                 title2.setText(mTradeDataList.get(2).getAmountName());
-                content2.setText(mTradeDataList.get(2).getAmountValue());
+                content2.setText(Utils.formatMoney(mTradeDataList.get(2).getAmountValue(),2));
 
                 title3.setText(mTradeDataList.get(3).getCountName());
                 content3.setText(mTradeDataList.get(3).getCountValue());
 
                 title4.setText(mTradeDataList.get(3).getAmountName());
-                content4.setText(mTradeDataList.get(3).getAmountValue());
+                content4.setText(Utils.formatMoney(mTradeDataList.get(3).getAmountValue(),2));
 
                 break;
         }

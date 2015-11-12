@@ -9,11 +9,14 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.feifan.bp.util.LogUtil;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -213,11 +216,12 @@ public class Utils {
 
     /**
      * 创建目录
+     *
      * @param dir
      */
-    public static void createDir(String dir){
+    public static void createDir(String dir) {
         File file = new File(dir);
-        if(!file.exists()){
+        if (!file.exists()) {
             file.mkdir();
         }
     }
@@ -236,22 +240,60 @@ public class Utils {
         return intent;
     }
 
-    public static boolean isChineseChar(String str){
+    public static boolean isChineseChar(String str) {
         boolean result = false;
-        Pattern p=Pattern.compile("[\u4e00-\u9fa5]");
-        Matcher m=p.matcher(str);
-        if(m.find()){
-            result =  true;
+        Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+        Matcher m = p.matcher(str);
+        if (m.find()) {
+            result = true;
         }
         return result;
     }
 
     /**
      * 获取sdcar路径
+     *
      * @return
      */
-    public static boolean isHasSdCard(){
+    public static boolean isHasSdCard() {
         boolean sdCardExist = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
         return sdCardExist;
+    }
+
+    /**
+     * 金额格式化,支持精度设置
+     *
+     * @param amount
+     * @return
+     */
+    public static String formatMoney(String amount, int len) {
+
+        if (amount == null || amount.length() < 1) {
+            return "0.00";
+        }
+        NumberFormat formater = null;
+        double num = Double.parseDouble(amount);
+        if (len == 0) {
+            formater = new DecimalFormat("###,###");
+
+        } else {
+            StringBuffer buff = new StringBuffer();
+            buff.append("###,###.");
+            for (int i = 0; i < len; i++) {
+                buff.append("#");
+            }
+            formater = new DecimalFormat(buff.toString());
+        }
+        String result = formater.format(num);
+        if (result.indexOf(".") == -1) {
+            result = result + ".00";
+        } else if (result.contains(".")) {
+            String[] strs = result.split("\\.");
+            if (strs[1].length() == 1) {
+                result = result+"0";
+            }
+        }else{
+        }
+        return result;
     }
 }

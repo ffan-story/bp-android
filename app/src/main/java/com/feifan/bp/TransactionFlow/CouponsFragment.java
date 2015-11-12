@@ -10,13 +10,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -25,6 +21,7 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.network.GetRequest;
@@ -149,7 +146,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
                         title1.setText(model.total_text);
                         title2.setText(model.totalAmount_text);
                         content1.setText(model.total);
-                        content2.setText(model.totalAmount);
+                        content2.setText(Utils.formatMoney(model.totalAmount,2));
 
                         ((TransFlowTabActivity) getActivity()).hideProgressBar();
                     }

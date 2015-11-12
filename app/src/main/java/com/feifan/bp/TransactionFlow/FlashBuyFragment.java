@@ -353,11 +353,11 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         LogUtil.i("fangke", "ToDate============" + ToDate);
 
         if (TimeUtils.compare_date(FromDate, TimeUtils.getToday())) {
-            Toast.makeText(getActivity(), "起始时间不能超过今天", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.date_error_1), Toast.LENGTH_LONG).show();
         } else if (TimeUtils.compare_date(ToDate, TimeUtils.getToday())) {
-            Toast.makeText(getActivity(), "截止时间不能超过今天", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.date_error_2), Toast.LENGTH_LONG).show();
         } else if (TimeUtils.compare_date(FromDate, ToDate)) {
-            Toast.makeText(getActivity(), "起始时间不能超过截止时间", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.date_error_3), Toast.LENGTH_LONG).show();
         } else {
             startDate = FromDate;
             endDate = ToDate;

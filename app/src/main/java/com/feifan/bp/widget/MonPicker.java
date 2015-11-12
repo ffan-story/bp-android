@@ -10,6 +10,7 @@ import android.widget.DatePicker;
  * Created by Frank on 15/11/12.
  */
 public class MonPicker extends DatePicker {
+
     public MonPicker(Context context) {
         super(context);
         ((ViewGroup) ((ViewGroup) this.getChildAt(0)).getChildAt(0)).getChildAt(2).setVisibility(View.GONE);
