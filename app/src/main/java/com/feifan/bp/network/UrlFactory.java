@@ -190,6 +190,14 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiV1Host() + "cdaservice/stores/";
     }
 
+    public static String getFlashBuyUrl(){
+        return EnvironmentManager.getHostFactory().getFFanApiHost()+"mapp/v1/mapp/transactionspecific";
+    }
+
+    public static String getCouponsUrl(){
+        return EnvironmentManager.getHostFactory().getFFanApiHost()+"mapp/v1/mapp/transactionspecificcpsummary";
+    }
+
     //add by tianjun 2015.10.29
     public static String submitFeedBack() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/feedback";

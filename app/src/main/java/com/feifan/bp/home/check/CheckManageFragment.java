@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +50,7 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_reconciliation_management, container, false);
-        ((TextView) v.findViewById(R.id.reconciliation_management_view_details)).setOnClickListener(this);
+        ((RelativeLayout) v.findViewById(R.id.rl_transaction_flow)).setOnClickListener(this);
         return v;
     }
 
@@ -64,7 +65,7 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
         Bundle args = new Bundle();
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, CheckManageFragment.class.getName());
         switch (v.getId()) {
-            case R.id.reconciliation_management_view_details:
+            case R.id.rl_transaction_flow:
                 // TODO 跳转到流水对账界面
                 LogUtil.i(Constants.TAG, "From CheckManageFragment to ----Fragment");
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, TransFlowTabActivity.class.getName());

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.TimeUtils;
 import com.feifan.bp.widget.LoadingMoreListView;
@@ -79,6 +81,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        mStoreId = UserProfile.getInstance().getAuthRangeId();
         super.onCreate(savedInstanceState);
     }
 
@@ -119,6 +122,17 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 }
             }
         });
+        mFlowList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                mRefreshLayout.setEnabled(firstVisibleItem == 0);
+            }
+        });
 
         viewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -156,12 +170,13 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         }
 
         //测试
-        String url = "http://api.sit.ffan.com/mapp/v1/mapp/transactionspecific";
+        String url = UrlFactory.getFlashBuyUrl();
 
         JsonRequest<FlashSummaryModel> request = new GetRequest.Builder<FlashSummaryModel>(url)
                 .param("endDate", endDate)
                 .param("startDate", startDate)
                 .param("action", "flashsummary")
+                .param("storeId",mStoreId)
                 .errorListener(new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
@@ -198,13 +213,14 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         }
 
         //测试
-        String url = "http://api.sit.ffan.com/mapp/v1/mapp/transactionspecific";
+        String url = UrlFactory.getFlashBuyUrl();
 
         JsonRequest<FlashListModel> request = new GetRequest.Builder<FlashListModel>(url)
                 .param("endDate", endDate)
                 .param("startDate", startDate)
                 .param("pageIndex", String.valueOf(mPageNum))
                 .param("limit", "10")
+                .param("storeId",mStoreId)
                 .errorListener(new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {

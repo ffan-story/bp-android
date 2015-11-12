@@ -1,6 +1,7 @@
 package com.feifan.bp.TransactionFlow;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -19,11 +20,16 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.MaterialDialog;
 
@@ -36,7 +42,7 @@ import java.util.List;
 /**
  * Created by Frank on 15/11/6.
  */
-public class CouponsFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener{
+public class CouponsFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,MenuItem.OnMenuItemClickListener{
     private SegmentedGroup segmentedGroup;
     private RadioButton rb_last1,rb_last2,rb_other;
     private TextView title1,content1,title2,content2;
@@ -47,6 +53,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     private ArrayAdapter<String> mAdapter;
     private String selectData;
     private Boolean mCheckFlag = false;
+    private String mStoreId;
 
     public CouponsFragment(){
     }
@@ -54,6 +61,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        mStoreId = UserProfile.getInstance().getAuthRangeId();
         super.onCreate(savedInstanceState);
     }
 
@@ -78,7 +86,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
         content2 = (TextView) v.findViewById(R.id.item_2).findViewById(R.id.content);
 
         rb_last1.setChecked(true);
-        getCouponsData("1","","");
+        getCouponsData("1", "");
         segmentedGroup.setOnCheckedChangeListener(this);
 
         return v;
@@ -109,7 +117,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
                 .setPositiveButton(R.string.date_self_define_confirm, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getCouponsData("", selectData,"");
+                        getCouponsData("", selectData);
                         mCheckFlag = true;
                         mDialog.dismiss();
                     }
@@ -151,15 +159,15 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     }
     //end.
 
-    private void getCouponsData(String type,String month,String storeId){
+    private void getCouponsData(String type,String month){
         ((TransFlowTabActivity) getActivity()).showProgressBar(true);
         //测试
-        String url = "http://api.sit.ffan.com/mapp/v1/mapp/transactionspecificcpsummary";
+        String url = UrlFactory.getCouponsUrl();
 
         JsonRequest<CpSummaryModel> request = new GetRequest.Builder<CpSummaryModel>(url)
                 .param("type", type)
                 .param("month", month)
-                .param("storeId",storeId)
+                .param("storeId",mStoreId)
                 .errorListener(new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
@@ -185,6 +193,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_option, menu);
+        menu.findItem(R.id.check_menu_directions).setOnMenuItemClickListener(this);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -198,26 +207,28 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
                 getActivity().onBackPressed();
             }
         });
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                return false;
-            }
-        });
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.last1:
-                getCouponsData("1","","");
+                getCouponsData("1","");
                 break;
             case R.id.last2:
-                getCouponsData("2","","");
+                getCouponsData("2","");
                 break;
             case R.id.other:
                 initDialog();
                 break;
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Intent intent = new Intent(getActivity(), PlatformTopbarActivity.class);
+        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, IndicatorFragment.class.getName());
+        startActivity(intent);
+        return false;
     }
 }

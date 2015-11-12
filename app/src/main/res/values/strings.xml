@@ -172,7 +172,7 @@
     <!--交易流水-->
     <string name="transaction_flow">交易流水</string>
     <string name="falsh_buy">闪购</string>
-    <string name="coupons">优惠券</string>
+    <string name="coupons">通用券</string>
     <string name="pay_success_num">付款成功笔数</string>
     <string name="pay_success_sum">付款成功金额</string>
     <string name="trade_success_num">交易成功笔数</string>
