@@ -17,35 +17,24 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.OnFragmentInteractionListener;
-import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
-import com.feifan.bp.network.GetRequest;
-import com.feifan.bp.network.JsonRequest;
-import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.util.TimeUtils;
 import com.feifan.bp.widget.MonPicker;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.MaterialDialog;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 /**
  * Created by Frank on 15/11/6.
  */
-public class CouponsFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,MenuItem.OnMenuItemClickListener{
+public class CouponsFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, MenuItem.OnMenuItemClickListener {
     private SegmentedGroup segmentedGroup;
-    private RadioButton rb_last1,rb_last2,rb_other;
-    private TextView title1,content1,title2,content2;
+    private RadioButton rb_last1, rb_last2, rb_other;
+    private TextView title1, content1, title2, content2;
 
     private MaterialDialog mDialog;
     private MonPicker picker;
@@ -53,7 +42,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     private Boolean mCheckFlag = false;
     private String mStoreId;
 
-    public CouponsFragment(){
+    public CouponsFragment() {
     }
 
     @Override
@@ -73,7 +62,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
         rb_other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mCheckFlag){
+                if (mCheckFlag) {
                     initDialog();
                 }
             }
@@ -98,8 +87,8 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
                 .setPositiveButton(R.string.date_self_define_confirm, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        selectData = picker.getYear()+"-"+DataFormat(picker.getMonth()+1);
-                        LogUtil.i("fangke","selectData===========>"+selectData);
+                        selectData = picker.getYear() + "-" + DataFormat(picker.getMonth() + 1);
+                        LogUtil.i("fangke", "selectData===========>" + selectData);
                         getCouponsData("", selectData);
                         mCheckFlag = true;
                         mDialog.dismiss();
@@ -123,35 +112,29 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
         }
     }
 
-    private void getCouponsData(String type,String month){
+    private void getCouponsData(String type, String month) {
         ((TransFlowTabActivity) getActivity()).showProgressBar(true);
-        //测试
-        String url = UrlFactory.getCouponsUrl();
 
-        JsonRequest<CpSummaryModel> request = new GetRequest.Builder<CpSummaryModel>(url)
-                .param("type", type)
-                .param("month", month)
-                .param("storeId",mStoreId)
-                .errorListener(new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        ((TransFlowTabActivity) getActivity()).hideProgressBar();
-                    }
-                })
-                .build()
-                .targetClass(CpSummaryModel.class)
-                .listener(new Response.Listener<CpSummaryModel>() {
-                    @Override
-                    public void onResponse(CpSummaryModel model) {
-                        title1.setText(model.total_text);
-                        title2.setText(model.totalAmount_text);
-                        content1.setText(model.total);
-                        content2.setText(Utils.formatMoney(model.totalAmount,2));
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                ((TransFlowTabActivity) getActivity()).hideProgressBar();
+            }
+        };
 
-                        ((TransFlowTabActivity) getActivity()).hideProgressBar();
-                    }
-                });
-        PlatformState.getInstance().getRequestQueue().add(request);
+        Response.Listener<CpSummaryModel> responseListener = new Response.Listener<CpSummaryModel>() {
+            @Override
+            public void onResponse(CpSummaryModel cpSummaryModel) {
+                title1.setText(cpSummaryModel.total_text);
+                title2.setText(cpSummaryModel.totalAmount_text);
+                content1.setText(cpSummaryModel.total);
+                content2.setText(Utils.formatMoney(cpSummaryModel.totalAmount, 2));
+
+                ((TransFlowTabActivity) getActivity()).hideProgressBar();
+            }
+        };
+
+        TransCtrl.getCouponsSummary(type, month, mStoreId, responseListener, errorListener);
     }
 
     @Override
@@ -177,11 +160,11 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.last1:
-                getCouponsData("1","");
+                getCouponsData("1", "");
                 mCheckFlag = false;
                 break;
             case R.id.last2:
-                getCouponsData("2","");
+                getCouponsData("2", "");
                 mCheckFlag = false;
                 break;
             case R.id.other:

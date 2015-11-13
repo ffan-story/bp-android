@@ -182,6 +182,8 @@
     <string name="confirm_retreat_num">确认退单笔数</string>
     <string name="confirm_retreat_sum">确认退单金额</string>
     <string name="flash_detail_title">(%1$s 至 %2$s 总条数:%3$s)</string>
+    <string name="error_data_null">获得数据为空</string>
+    <string name="error_no_more_data">没有更多数据</string>
 
     <!-- data selection dialog -->
     <string name="date_self_define_time">自定义时间</string>
