@@ -36,6 +36,7 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 
 import com.feifan.material.datetimepicker.HapticFeedbackController;
@@ -139,6 +140,7 @@ public class DatePickerDialog extends DialogFragment implements
     private int mAccentColor = -1;
     private boolean mVibrate;
     private boolean mDismissOnPause;
+    private int mTabBackground = -1;
 
     private HapticFeedbackController mHapticFeedbackController;
 
@@ -440,6 +442,21 @@ public class DatePickerDialog extends DialogFragment implements
             mDayPickerViewEnd.setAccentColor(mAccentColor);
         }
 
+        if(mTabBackground != -1) {
+
+            TabWidget widget = tabHost.getTabWidget();
+            for(int i = 0; i < widget.getChildCount(); i++) {
+                View v = widget.getChildAt(i);
+
+                // Look for the title view to ensure this is an indicator and not a divider.
+                TextView tv = (TextView)v.findViewById(android.R.id.title);
+                if(tv == null) {
+                    continue;
+                }
+                v.setBackgroundResource(mTabBackground);
+            }
+        }
+
         updateDisplay(false);
         setCurrentView(currentView);
 
@@ -468,8 +485,7 @@ public class DatePickerDialog extends DialogFragment implements
                 if(tabId=="start"){
                     calendarDay = new MonthAdapter.CalendarDay(mCalendar.getTimeInMillis());
                     mDayPickerView.goTo(calendarDay,true,true,false);
-                }
-                else{
+                } else{
                     calendarDay = new MonthAdapter.CalendarDay(mCalendarEnd.getTimeInMillis());
                     mDayPickerViewEnd.goTo(calendarDay,true,true,false);
 
@@ -656,6 +672,10 @@ public class DatePickerDialog extends DialogFragment implements
 
     public void setStopDateTitle(String title) {
         mStopTitle = title;
+    }
+
+    public void setTabBackground(int resourceId) {
+        mTabBackground = resourceId;
     }
 
     /**

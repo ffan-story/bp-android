@@ -40,4 +40,6 @@
 
     <color name="radio_button_selected_color">@color/accent</color>
     <color name="radio_button_unselected_color">@color/transparent</color>
+
+    <color name="blue_dark">#087aaa</color>
 </resources>

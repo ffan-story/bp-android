@@ -321,6 +321,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         dpd.setAccentColor(getResources().getColor(R.color.accent));
         dpd.setStartDateTitle(getString(R.string.date_start_text));
         dpd.setStopDateTitle(getString(R.string.date_end_text));
+        dpd.setTabBackground(R.drawable.date_tab_selector);
         dpd.show(getFragmentManager(), "Datepickerdialog");
         dpd.setOnDateSetListener(this);
         dpd.setOnDismissListener(new DialogInterface.OnDismissListener() {
