@@ -160,6 +160,10 @@ public class DatePickerDialog extends DialogFragment implements
     private AccessibleDateAnimator mAnimatorEnd;
     private int tabTag=1;
 
+    // Displayed strings
+    private String mStartTitle = "From";
+    private String mStopTitle = "To";
+
     /**
      * The callback used to indicate the user is done filling in the date.
      */
@@ -290,11 +294,11 @@ public class DatePickerDialog extends DialogFragment implements
         tabHost.setup();
         TabHost.TabSpec startDatePage = tabHost.newTabSpec("start");
         startDatePage.setContent(R.id.start_date_group);
-        startDatePage.setIndicator("FROM");
+        startDatePage.setIndicator(mStartTitle);
 
         TabHost.TabSpec endDatePage = tabHost.newTabSpec("end");
         endDatePage.setContent(R.id.end_date_group);
-        endDatePage.setIndicator("TO");
+        endDatePage.setIndicator(mStopTitle);
 
         tabHost.addTab(startDatePage);
         tabHost.addTab(endDatePage);
@@ -644,6 +648,14 @@ public class DatePickerDialog extends DialogFragment implements
      */
     public void setAccentColor(int accentColor) {
         mAccentColor = accentColor;
+    }
+
+    public void setStartDateTitle(String title) {
+        mStartTitle = title;
+    }
+
+    public void setStopDateTitle(String title) {
+        mStopTitle = title;
     }
 
     /**
