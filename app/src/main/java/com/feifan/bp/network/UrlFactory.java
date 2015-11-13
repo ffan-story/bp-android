@@ -5,6 +5,7 @@ package com.feifan.bp.network;
 
 import android.text.TextUtils;
 
+import com.feifan.bp.BuildConfig;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.envir.EnvironmentManager;
 
@@ -16,7 +17,6 @@ import com.feifan.bp.envir.EnvironmentManager;
  */
 public abstract class UrlFactory {
 
-    private static final String APP_VERSION = "5";
     // H5页面相对路径－报表统计
     private static final String URL_PATH_REPORT = "H5App/index.html#/statistical";
     // H5页面相对路径－验证历史
@@ -41,7 +41,7 @@ public abstract class UrlFactory {
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
                 concat("&appType=bpMobile").
-                concat("&version="+APP_VERSION).
+                concat("&version="+BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
         return url;
     }
@@ -55,7 +55,7 @@ public abstract class UrlFactory {
                 concat(String.valueOf(userProfile.getUid())).
                 concat("&appType=bpMobile").concat("&signStatus=2&merchantId=").
                 concat(userProfile.getAuthRangeId()).
-                concat("&version=" + APP_VERSION).
+                concat("&version=" + BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
         return url;
     }
@@ -68,7 +68,7 @@ public abstract class UrlFactory {
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
                 concat("&appType=bpMobile").
-                concat("&version="+APP_VERSION).
+                concat("&version="+BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
         return url;
     }
@@ -81,7 +81,7 @@ public abstract class UrlFactory {
                 concat("&appType=bpMobile").
                 concat("&merchantId=").concat(userProfile.getAuthRangeId()).
                 concat("&signNo=").concat(code).
-                concat("&version=" + APP_VERSION).
+                concat("&version=" + BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
 
         return url;
@@ -95,7 +95,20 @@ public abstract class UrlFactory {
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
                 concat("&appType=bpMobile").
-                concat("&version="+APP_VERSION).
+                concat("&version="+BuildConfig.VERSION_CODE).
+                concat("&showTabs=0");
+        return url;
+    }
+
+    public static String urlForHtmlAddJoin(String reUrl) {
+        UserProfile userProfile = UserProfile.getInstance();
+        String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
+                concat("&loginToken=").
+                concat(userProfile.getLoginToken()).
+                concat("&uid=").
+                concat(String.valueOf(userProfile.getUid())).
+                concat("&appType=bpMobile").
+                concat("&version="+BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
         return url;
     }
@@ -108,7 +121,7 @@ public abstract class UrlFactory {
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
                 concat("&appType=bpMobile").
-                concat("&version="+APP_VERSION).
+                concat("&version="+BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
         return url;
     }
@@ -121,7 +134,7 @@ public abstract class UrlFactory {
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
                 concat("&appType=bpMobile").
-                concat("&version="+APP_VERSION).
+                concat("&version="+BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
         return url;
     }
@@ -134,7 +147,7 @@ public abstract class UrlFactory {
                 concat("&uid=").
                 concat(String.valueOf(userProfile.getUid())).
                 concat("&appType=bpMobile").
-                concat("&version="+APP_VERSION).
+                concat("&version="+BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
         return url;
     }

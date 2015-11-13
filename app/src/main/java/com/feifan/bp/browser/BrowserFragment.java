@@ -366,24 +366,30 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     addImage(url);
                 }
             } else if (schema.equals(Constants.URL_SCHEME_ACTION)) {
+                Activity mActivity = getActivity();
                 Uri actionUri = Uri.parse(url);
                 String actionStrUri = UrlFactory.urlForHtml(actionUri.getAuthority() + actionUri.getEncodedPath() + "#" + actionUri.getEncodedFragment());
+                if(actionStrUri.contains("/goods/search_result")){//券码历史  链接符为&
+                    LogUtil.i(TAG, "actionStrUri======" +  actionStrUri);
+                    actionStrUri = UrlFactory.urlForHtmlAddJoin(actionUri.getAuthority() + actionUri.getEncodedPath() + "#" + actionUri.getEncodedFragment());
+                    BrowserActivity.startActivity(mActivity, actionStrUri);
+                    return true;
+                }
                 LogUtil.i(TAG, "actionStrUri======" +  actionStrUri);
-                Activity mActivity = getActivity();
                 if(actionStrUri.contains("/refund/detail")){//退款单详情
-                    BrowserTabActivity.startActivity(getActivity(),
+                    BrowserTabActivity.startActivity(mActivity,
                             actionStrUri+"&status=",
-                            getActivity().getResources().getStringArray(R.array.data_type),
-                            getActivity().getResources().getStringArray(R.array.tab_title_refund_detail_titles));
+                            mActivity.getResources().getStringArray(R.array.data_type),
+                            mActivity.getResources().getStringArray(R.array.tab_title_refund_detail_titles));
                 }else if(actionStrUri.contains("/staff/edit/")){//员工管理 编辑
-                    Intent i = new Intent(getActivity(), BrowserActivity.class);
+                    Intent i = new Intent(mActivity, BrowserActivity.class);
                     i.putExtra(BrowserActivity.EXTRA_KEY_URL, actionStrUri);
                     getActivity().startActivityForResult(i,Constants.REQUEST_CODE_STAFF_EDIT);
                 }else if(actionStrUri.contains("/staff") && (mActivity instanceof BrowserActivity)){//添加员工成功  以及编辑成功
-                    getActivity().setResult(Activity.RESULT_OK);
-                    getActivity().finish();
-                }else if (actionStrUri.contains("/order/detail/") || actionStrUri.contains("/goods/search_result")){//查看详情：验证历史  订单管理  券码历史
-                    BrowserActivity.startActivity(getActivity(), actionStrUri);
+                    mActivity.setResult(Activity.RESULT_OK);
+                    mActivity.finish();
+                }else if (actionStrUri.contains("/order/detail/")){//查看详情：验证历史  订单管理
+                    BrowserActivity.startActivity(mActivity, actionStrUri);
                 }else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserTabActivity)){//员工管理冻结、解冻刷新ViewPage
                     ((BrowserTabActivity) mActivity).refreshViewPage();
                 }
