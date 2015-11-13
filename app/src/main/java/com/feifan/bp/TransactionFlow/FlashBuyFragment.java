@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.OnFragmentInteractionListener;
-import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
@@ -30,10 +29,7 @@ import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.TransactionFlow.FlashSummaryModel.FlashSummaryDetailModel;
 import com.feifan.bp.TransactionFlow.FlashListModel.FlashDetailModel;
 import com.feifan.bp.home.check.IndicatorFragment;
-import com.feifan.bp.network.GetRequest;
-import com.feifan.bp.network.JsonRequest;
 
-import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.TimeUtils;
 import com.feifan.bp.widget.LoadingMoreListView;
@@ -122,17 +118,6 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 }
             }
         });
-        mFlowList.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                mRefreshLayout.setEnabled(firstVisibleItem == 0);
-            }
-        });
 
         viewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -168,40 +153,29 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         if (isShowLoading) {
             ((TransFlowTabActivity) getActivity()).showProgressBar(true);
         }
-
-        //测试
-        String url = UrlFactory.getFlashBuyUrl();
-
-        JsonRequest<FlashSummaryModel> request = new GetRequest.Builder<FlashSummaryModel>(url)
-                .param("endDate", endDate)
-                .param("startDate", startDate)
-                .param("action", "flashsummary")
-                .param("storeId",mStoreId)
-                .errorListener(new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        if (isShowLoading) {
-                            ((TransFlowTabActivity) getActivity()).hideProgressBar();
-                        }
-                        stopRefresh();
-                    }
-                })
-                .build()
-                .targetClass(FlashSummaryModel.class)
-                .listener(new Response.Listener<FlashSummaryModel>() {
-                    @Override
-                    public void onResponse(FlashSummaryModel model) {
-                        tradeDetailList = model.flashSummaryList;
-                        flowDetailadapter = new FlowDetailAdapter(getChildFragmentManager(), tradeDetailList);
-                        viewPager.setAdapter(flowDetailadapter);
-                        circleIndicator.setViewPager(viewPager);
-                        if (isShowLoading) {
-                            ((TransFlowTabActivity) getActivity()).hideProgressBar();
-                        }
-                        stopRefresh();
-                    }
-                });
-        PlatformState.getInstance().getRequestQueue().add(request);
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (isShowLoading) {
+                    ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                }
+                stopRefresh();
+            }
+        };
+        Response.Listener<FlashSummaryModel> responseListenr = new Response.Listener<FlashSummaryModel>() {
+            @Override
+            public void onResponse(FlashSummaryModel model) {
+                tradeDetailList = model.flashSummaryList;
+                flowDetailadapter = new FlowDetailAdapter(getChildFragmentManager(), tradeDetailList);
+                viewPager.setAdapter(flowDetailadapter);
+                circleIndicator.setViewPager(viewPager);
+                if (isShowLoading) {
+                    ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                }
+                stopRefresh();
+            }
+        };
+        TransCtrl.getFlashSummary(startDate, endDate, mStoreId, responseListenr, errorListener);
     }
 
     /**
@@ -211,53 +185,41 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         if (isShowLoading) {
             ((TransFlowTabActivity) getActivity()).showProgressBar(true);
         }
-
-        //测试
-        String url = UrlFactory.getFlashBuyUrl();
-
-        JsonRequest<FlashListModel> request = new GetRequest.Builder<FlashListModel>(url)
-                .param("endDate", endDate)
-                .param("startDate", startDate)
-                .param("pageIndex", String.valueOf(mPageNum))
-                .param("limit", "10")
-                .param("storeId",mStoreId)
-                .errorListener(new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        if (isShowLoading) {
-                            ((TransFlowTabActivity) getActivity()).hideProgressBar();
-                        }
-                        stopRefresh();
-                        if (isLoadMore) {
-                            mPageNum--;
-                        }
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (isShowLoading) {
+                    ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                }
+                stopRefresh();
+                if (isLoadMore) {
+                    mPageNum--;
+                }
+            }
+        };
+        Response.Listener<FlashListModel> responseListener = new Response.Listener<FlashListModel>() {
+            @Override
+            public void onResponse(FlashListModel model) {
+                if (isLoadMore) {
+                    if (model.flashDetailList == null || model.flashDetailList.size() == 0) {
+                        Toast.makeText(getActivity(), getString(R.string.error_data_null), Toast.LENGTH_LONG).show();
+                    } else {
+                        flashDetailList.addAll(model.flashDetailList);
                     }
-                })
-                .build()
-                .targetClass(FlashListModel.class)
-                .listener(new Response.Listener<FlashListModel>() {
-                    @Override
-                    public void onResponse(FlashListModel model) {
-                        if (isLoadMore) {
-                            if (model.flashDetailList == null || model.flashDetailList.size() == 0) {
-                                Toast.makeText(getActivity(), "获得数据为空", Toast.LENGTH_LONG).show();
-                            } else {
-                                flashDetailList.addAll(model.flashDetailList);
-                            }
-                        } else {
-                            flashDetailList = model.flashDetailList;
-                        }
-                        mTotalCount = model.totalCount;
-                        flowListAdapter = new FlowListAdapter(getActivity(), flashDetailList);
-                        mFlowList.setAdapter(flowListAdapter);
-                        mDetailTitle.setText(getActivity().getString(R.string.flash_detail_title, startDate, endDate, model.totalCount));
-                        if (isShowLoading) {
-                            ((TransFlowTabActivity) getActivity()).hideProgressBar();
-                        }
-                        stopRefresh();
-                    }
-                });
-        PlatformState.getInstance().getRequestQueue().add(request);
+                } else {
+                    flashDetailList = model.flashDetailList;
+                }
+                mTotalCount = model.totalCount;
+                flowListAdapter = new FlowListAdapter(getActivity(), flashDetailList);
+                mFlowList.setAdapter(flowListAdapter);
+                mDetailTitle.setText(getActivity().getString(R.string.flash_detail_title, startDate, endDate, model.totalCount));
+                if (isShowLoading) {
+                    ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                }
+                stopRefresh();
+            }
+        };
+        TransCtrl.getFlashList(startDate, endDate, mStoreId, String.valueOf(mPageNum), "10", responseListener, errorListener);
     }
 
     @Override
@@ -277,13 +239,6 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 getActivity().onBackPressed();
             }
         });
-//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//
-//                return false;
-//            }
-//        });
     }
 
     @Override
@@ -380,7 +335,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     @Override
     public void onLoadingMore() {
         if (flashDetailList.size() >= mTotalCount) {
-            Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.error_no_more_data), Toast.LENGTH_LONG).show();
             mFlowList.hideFooterView();
         } else {
             mPageNum++;
