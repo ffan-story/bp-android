@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -277,6 +278,17 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
+            }
+        });
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFlowList.setSelection(0);
+
+                mPageNum = 1;
+                getFlashFlowData(false);
+                getFlashFlowList(true, false);
+
             }
         });
     }

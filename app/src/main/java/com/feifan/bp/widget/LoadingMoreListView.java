@@ -159,6 +159,7 @@ public class LoadingMoreListView extends ListView implements AbsListView.OnScrol
         if (scrollState == SCROLL_STATE_IDLE
                 || scrollState == SCROLL_STATE_FLING) {
             // 判断当前是否已经到了底部
+
             if (isScrollToBottom && !isLoadingMore) {
                 isLoadingMore = true;
                 // 当前到底部
