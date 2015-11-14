@@ -9,7 +9,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.feifan.bp.util.LogUtil;
@@ -26,11 +25,17 @@ import java.util.regex.Pattern;
 public class Utils {
 
     private static final String TAG = "Utils";
+    private static Toast mToast;
+    private static Handler mhandler = new Handler();
+    private static Runnable r = new Runnable() {
+        public void run() {
+            mToast.cancel();
+        }
+    };
 
     private Utils() {
 
     }
-
 
     public static int getVersionCode(Context context) {
         try {
@@ -42,15 +47,12 @@ public class Utils {
         return 0;
     }
 
-    private static Toast mToast;
-    private static Handler mhandler = new Handler();
-    private static Runnable r = new Runnable() {
-        public void run() {
-            mToast.cancel();
-        }
-    };
-
-    public static void showToast(Context context, String text, int duration) {
+    /**
+     * 显示不重复的toast提示
+     *
+     * @param text
+     */
+    public static void showToast(Context context, int text, int duration) {
         mhandler.removeCallbacks(r);
         if (null != mToast) {
             mToast.setText(text);
@@ -59,15 +61,6 @@ public class Utils {
         }
         mhandler.postDelayed(r, 5000);
         mToast.show();
-    }
-
-    /**
-     * 显示不重复的toast提示
-     *
-     * @param message
-     */
-    public static void showToast(Context context, int message, int duration) {
-        showToast(context, context.getString(message), duration);
     }
 
     /**
