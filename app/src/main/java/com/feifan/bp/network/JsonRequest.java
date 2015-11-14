@@ -16,8 +16,6 @@
 
 package com.feifan.bp.network;
 
-import android.util.Log;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -29,12 +27,9 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.feifan.bp.Constants;
 import com.feifan.bp.util.LogUtil;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Json请求
@@ -99,7 +94,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
                 throw new IllegalArgumentException("Please provide target class for your request!");
             }
         } catch (Exception e) {
-            Log.e(TAG, "Fatal error:Parsing response to json model failed!");
+            LogUtil.e(TAG, "Fatal error:Parsing response to json model failed!");
             return Response.error(new ParseError(e));
         }
     }

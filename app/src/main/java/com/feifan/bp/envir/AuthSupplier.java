@@ -134,6 +134,7 @@ public class AuthSupplier {
             mFilter.put(1004, R.mipmap.index_ic_refund);   // 退款售后
             mFilter.put(1081, R.mipmap.index_ic_commodity);// 商品管理
             mFilter.put(1082, R.mipmap.index_ic_marketing);// 营销管理
+            mFilter.put(1145, R.mipmap.index_ic_report);   // 对账管理
         }
 
         @Override

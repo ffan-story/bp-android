@@ -17,12 +17,6 @@ import com.feifan.bp.envir.EnvironmentManager;
  */
 public abstract class UrlFactory {
 
-    // H5页面相对路径－报表统计
-    private static final String URL_PATH_REPORT = "H5App/index.html#/statistical";
-    // H5页面相对路径－验证历史
-    private static final String URL_PATH_HISTORY = "H5App/index.html#/goods/search_history";
-    // H5页面相对路径－订单管理
-    private static final String URL_PATH_ORDER = "H5App/index.html#/order";
     // H5页面相对路径－查询提货码
     private static final String URL_PATH_SEARCH = "H5App/index.html#/goods/search_result";
 
@@ -33,119 +27,44 @@ public abstract class UrlFactory {
     private static final String URL_PATH_COMMODITY_MANAGE = "H5App/index.html#/commodity/select_cat_menu";
 
 
-    public static String statisticReportForHtml() {
-        UserProfile userProfile = UserProfile.getInstance();
-        String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(URL_PATH_REPORT).
-                concat("?loginToken=").
-                concat(userProfile.getLoginToken()).
-                concat("&uid=").
-                concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile").
-                concat("&version="+BuildConfig.VERSION_CODE).
-                concat("&showTabs=0");
-        return url;
-    }
-
     public static String checkHistoryForHtml(String relativeUrl) {
         UserProfile userProfile = UserProfile.getInstance();
-        String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(relativeUrl)).
-                concat("?loginToken=").
-                concat(userProfile.getLoginToken()).
-                concat("&uid=").
-                concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile").concat("&signStatus=2&merchantId=").
-                concat(userProfile.getAuthRangeId()).
-                concat("&version=" + BuildConfig.VERSION_CODE).
-                concat("&showTabs=0");
-        return url;
+        return urlForHtml(relativeUrl).
+                concat("&signStatus=2").
+                concat("&merchantId=").concat(userProfile.getAuthRangeId());
     }
 
-    public static String orderManagementForHtml() {
-        UserProfile userProfile = UserProfile.getInstance();
-        String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(URL_PATH_ORDER).
-                concat("?loginToken=").
-                concat(userProfile.getLoginToken()).
-                concat("&uid=").
-                concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile").
-                concat("&version="+BuildConfig.VERSION_CODE).
-                concat("&showTabs=0");
-        return url;
-    }
 
     public static String searchCodeForHtml(String code) {
         UserProfile userProfile = UserProfile.getInstance();
-        String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(URL_PATH_SEARCH).
-                concat("?loginToken=").concat(userProfile.getLoginToken()).
-                concat("&uid=").concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile").
+        return urlForHtml(URL_PATH_SEARCH).
                 concat("&merchantId=").concat(userProfile.getAuthRangeId()).
-                concat("&signNo=").concat(code).
-                concat("&version=" + BuildConfig.VERSION_CODE).
-                concat("&showTabs=0");
+                concat("&signNo=").concat(code);
+    }
 
-        return url;
+
+
+    public static String urlForHtmlAddJoin(String reUrl) {
+        return urlForHtml(reUrl);
+    }
+
+    public static String staffAddForHtml() {
+        return urlForHtml(URL_PATH_STAFF_ADD);
+    }
+
+    public static String couponAddForHtml() {
+        return urlForHtml(URL_PATH_COUPON_ADD);
+    }
+
+    public static String commodityManageForHtml() {
+        return urlForHtml(URL_PATH_COMMODITY_MANAGE);
     }
 
     public static String urlForHtml(String reUrl) {
         UserProfile userProfile = UserProfile.getInstance();
         String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
-                concat("?loginToken=").
-                concat(userProfile.getLoginToken()).
-                concat("&uid=").
-                concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile").
-                concat("&version="+BuildConfig.VERSION_CODE).
-                concat("&showTabs=0");
-        return url;
-    }
-
-    public static String urlForHtmlAddJoin(String reUrl) {
-        UserProfile userProfile = UserProfile.getInstance();
-        String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
-                concat("&loginToken=").
-                concat(userProfile.getLoginToken()).
-                concat("&uid=").
-                concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile").
-                concat("&version="+BuildConfig.VERSION_CODE).
-                concat("&showTabs=0");
-        return url;
-    }
-
-    public static String staffAddForHtml() {
-        UserProfile userProfile = UserProfile.getInstance();
-        String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(URL_PATH_STAFF_ADD).
-                concat("?loginToken=").
-                concat(userProfile.getLoginToken()).
-                concat("&uid=").
-                concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile").
-                concat("&version="+BuildConfig.VERSION_CODE).
-                concat("&showTabs=0");
-        return url;
-    }
-
-    public static String couponAddForHtml() {
-        UserProfile userProfile = UserProfile.getInstance();
-        String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(URL_PATH_COUPON_ADD).
-                concat("?loginToken=").
-                concat(userProfile.getLoginToken()).
-                concat("&uid=").
-                concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile").
-                concat("&version="+BuildConfig.VERSION_CODE).
-                concat("&showTabs=0");
-        return url;
-    }
-
-    public static String commodityManageForHtml() {
-        UserProfile userProfile = UserProfile.getInstance();
-        String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(URL_PATH_COMMODITY_MANAGE).
-                concat("?loginToken=").
-                concat(userProfile.getLoginToken()).
-                concat("&uid=").
-                concat(String.valueOf(userProfile.getUid())).
+                concat("?loginToken=").concat(userProfile.getLoginToken()).
+                concat("&uid=").concat(String.valueOf(userProfile.getUid())).
                 concat("&appType=bpMobile").
                 concat("&version="+BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
@@ -169,10 +88,6 @@ public abstract class UrlFactory {
 
     public static String getAuthorizeUrl() {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/userAuth";
-    }
-
-    public static String getCheckVersionUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/getversioninfo?appType=bpMobile";
     }
 
     public static String getCheckPhoneNumExistUrl() {

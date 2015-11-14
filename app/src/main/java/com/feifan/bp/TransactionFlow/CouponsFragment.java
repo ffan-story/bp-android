@@ -122,18 +122,25 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     }
 
     private void getCouponsData(String type, String month) {
-        ((TransFlowTabActivity) getActivity()).showProgressBar(true);
+        if(isAdded()) {
+            ((TransFlowTabActivity) getActivity()).showProgressBar(true);
+        }
 
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                if(isAdded()) {
+                    ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                }
             }
         };
 
         Response.Listener<CpSummaryModel> responseListener = new Response.Listener<CpSummaryModel>() {
             @Override
             public void onResponse(CpSummaryModel cpSummaryModel) {
+                if(!isAdded()){
+                    return;
+                }
                 title1.setText(cpSummaryModel.total_text);
                 title2.setText(cpSummaryModel.totalAmount_text);
                 content1.setText(cpSummaryModel.total);

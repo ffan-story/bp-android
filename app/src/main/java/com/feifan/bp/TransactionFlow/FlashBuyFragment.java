@@ -25,6 +25,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.TransactionFlow.FlashSummaryModel.FlashSummaryDetailModel;
 import com.feifan.bp.TransactionFlow.FlashListModel.FlashDetailModel;
@@ -41,6 +42,7 @@ import java.util.Calendar;
 import me.relex.circleindicator.CircleIndicator;
 
 import com.feifan.bp.widget.OnLoadingMoreListener;
+import com.feifan.material.MaterialDialog;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
 
 /**
@@ -79,6 +81,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         setHasOptionsMenu(true);
         mStoreId = UserProfile.getInstance().getAuthRangeId();
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -150,6 +153,10 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
      * 获取闪购对账流水明细
      */
     private void getFlashFlowData(final boolean isShowLoading) {
+        if(!isAdded()) {
+            return;
+        }
+
         if (isShowLoading) {
             ((TransFlowTabActivity) getActivity()).showProgressBar(true);
         }
@@ -157,7 +164,9 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if (isShowLoading) {
-                    ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                    if(isAdded()) {
+                        ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                    }
                 }
                 stopRefresh();
             }
@@ -170,7 +179,9 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 viewPager.setAdapter(flowDetailadapter);
                 circleIndicator.setViewPager(viewPager);
                 if (isShowLoading) {
-                    ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                    if(isAdded()) {
+                        ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                    }
                 }
                 stopRefresh();
             }
@@ -189,7 +200,9 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if (isShowLoading) {
-                    ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                    if(isAdded()) {
+                        ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                    }
                 }
                 stopRefresh();
                 if (isLoadMore) {
@@ -214,7 +227,9 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 mFlowList.setAdapter(flowListAdapter);
                 mDetailTitle.setText(getActivity().getString(R.string.flash_detail_title, startDate, endDate, model.totalCount));
                 if (isShowLoading) {
-                    ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                    if(isAdded()) {
+                        ((TransFlowTabActivity) getActivity()).hideProgressBar();
+                    }
                 }
                 stopRefresh();
             }

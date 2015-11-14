@@ -1,6 +1,8 @@
 package com.feifan.bp.network;
 
 import com.android.volley.Response.ErrorListener;
+import com.feifan.bp.BuildConfig;
+import com.feifan.bp.UserProfile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +27,15 @@ public class GetRequest<T extends BaseModel> extends JsonRequest<T> {
         public Builder(String url){
             this.mUrl = url;
             mParams = new HashMap<String, String>();
+            // FIXME add some redundant here temporally
+            mParams.put("appType", "bpMobile");
+            mParams.put("clientType", "Android");
+            mParams.put("version", String.valueOf(BuildConfig.VERSION_CODE));
+//            mParams.put("clientAgent", )
+            mParams.put("uid", String.valueOf(UserProfile.getInstance().getUid()));
+            mParams.put("agid", UserProfile.getInstance().getAuthRangeId());
+            mParams.put("loginToken", UserProfile.getInstance().getLoginToken());
+
             mErrorListener = new DefaultErrorListener();
         }
 
