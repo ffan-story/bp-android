@@ -76,6 +76,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
         content2 = (TextView) v.findViewById(R.id.item_2).findViewById(R.id.content);
 
         rb_last1.setChecked(true);
+        tabIndex = R.id.last1;
         getCouponsData("1", "");
         segmentedGroup.setOnCheckedChangeListener(this);
         return v;
@@ -99,6 +100,8 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
                         getCouponsData("", selectData);
                         mCheckFlag = true;
                         mDialog.dismiss();
+                        tabIndex = R.id.other;
+                        setTabFocus(tabIndex);
                     }
                 })
                 .setNegativeButton(R.string.date_self_define_cancel, new View.OnClickListener() {
@@ -108,6 +111,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
                         mIntMonth = picker.getMonth()+1;
                         mCheckFlag = true;
                         mDialog.dismiss();
+                        setTabFocus(tabIndex);
                     }
                 });
         mDialog.show();
@@ -172,14 +176,35 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
         });
     }
 
+    private int tabIndex = 0;
+    /**
+     * 设置Tab高亮显示
+     * @param tabIndex
+     */
+    private void setTabFocus(int tabIndex) {
+        switch (tabIndex){
+            case R.id.last1:
+                rb_last1.setChecked(true);
+                break ;
+            case R.id.last2:
+                rb_last2.setChecked(true);
+                break ;
+            case R.id.other:
+                rb_other.setChecked(true);
+                break;
+        }
+    }
+
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.last1:
+                tabIndex = R.id.last1;
                 getCouponsData("1", "");
                 mCheckFlag = false;
                 break;
             case R.id.last2:
+                tabIndex = R.id.last2;
                 getCouponsData("2", "");
                 mCheckFlag = false;
                 break;

@@ -73,6 +73,8 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     private int mTotalCount = 0;
     private Boolean mCheckFlag = false;
 
+    private int tabIndex = 0;
+
     public FlashBuyFragment() {
     }
 
@@ -91,8 +93,6 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         mFlowList = (LoadingMoreListView) v.findViewById(R.id.rv_detail);
         mFlowList.addHeaderView(header);
         mFlowList.setOnLoadingMoreListener(this);
-
-
         mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe);
         mRefreshLayout.setColorSchemeResources(R.color.accent);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -147,6 +147,25 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         tradeDetailList = new ArrayList<>();
         flashDetailList = new ArrayList<>();
         rb_today.setChecked(true);
+        tabIndex = R.id.today;
+    }
+
+    /**
+     * 设置Tab高亮显示
+     * @param tabIndex
+     */
+    private void setTabFocus(int tabIndex) {
+        switch (tabIndex){
+            case R.id.today:
+                rb_today.setChecked(true);
+                break ;
+            case R.id.yesterday:
+                rb_yesterday.setChecked(true);
+                break ;
+            case R.id.other:
+                rb_other.setChecked(true);
+                break;
+        }
     }
 
     /**
@@ -265,6 +284,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 getFlashFlowData(true);
                 getFlashFlowList(true, false);
                 mCheckFlag = false;
+                tabIndex = R.id.today;
                 break;
             case R.id.yesterday:
                 startDate = endDate = TimeUtils.getYesterday();
@@ -272,6 +292,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 getFlashFlowData(true);
                 getFlashFlowList(true, false);
                 mCheckFlag = false;
+                tabIndex = R.id.yesterday;
                 break;
             case R.id.other:
                 mPageNum = 1;
@@ -298,6 +319,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
             @Override
             public void onDismiss(DialogInterface dialog) {
                 mCheckFlag = true;
+                setTabFocus(tabIndex);
             }
         });
     }
@@ -317,6 +339,8 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     }
 
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
+        tabIndex = R.id.other;
+        setTabFocus(tabIndex);
         mCheckFlag = true;
 
         String FromDate = year + "-" + DataFormat(monthOfYear + 1) + "-" + DataFormat(dayOfMonth);
