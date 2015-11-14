@@ -26,6 +26,8 @@ public abstract class UrlFactory {
 
     private static final String URL_PATH_COMMODITY_MANAGE = "H5App/index.html#/commodity/select_cat_menu";
 
+    private static final String URL_SOP_FFAN = "http://sop.ffan.com";
+
 
     public static String checkHistoryForHtml(String relativeUrl) {
         UserProfile userProfile = UserProfile.getInstance();
@@ -157,6 +159,10 @@ public abstract class UrlFactory {
 
     public static String uploadPicture() {
         return EnvironmentManager.getHostFactory().getFFanPicHost() + "uploadpicture";
+    }
+
+    public static String getSopFfanUrl() {
+        return URL_SOP_FFAN;
     }
 
 }

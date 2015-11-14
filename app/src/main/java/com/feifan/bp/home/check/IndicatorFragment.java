@@ -16,8 +16,10 @@ import android.widget.TextView;
 
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.network.UrlFactory;
 
 /**
  * Created by tianjun on 2015-11-9.
@@ -46,8 +48,8 @@ public class IndicatorFragment extends BaseFragment {
         spannableString1.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                //Toast.makeText(getActivity(), "who hit me", Toast.LENGTH_SHORT).show();
-                BrowserActivity.startActivity(getActivity(), "http://sop.ffan.com");
+
+                startActivity(Utils.getSystemBrowser(UrlFactory.getSopFfanUrl()));
             }
         }, 12, str.length() - 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString1.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.accent)), 12, str.length() - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
