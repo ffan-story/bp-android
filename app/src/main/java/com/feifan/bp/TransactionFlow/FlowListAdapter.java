@@ -21,11 +21,15 @@ public class FlowListAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<FlashDetailModel> mFlashDetailList;
 
-    public FlowListAdapter(Context context, ArrayList<FlashDetailModel> flashDetailList) {
-        mContext = context;
+    public FlowListAdapter(Context context,ArrayList<FlashDetailModel> flashDetailList) {
         mFlashDetailList = flashDetailList;
+        mContext = context;
     }
 
+    public void setData(ArrayList<FlashDetailModel> flashDetailList){
+        mFlashDetailList = flashDetailList;
+        notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
         return mFlashDetailList.size();

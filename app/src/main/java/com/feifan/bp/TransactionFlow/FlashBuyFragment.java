@@ -143,11 +143,13 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     }
 
     private void initDatas() {
+        rb_today.setChecked(true);
+        tabIndex = R.id.today;
         mStoreId = UserProfile.getInstance().getAuthRangeId();
         tradeDetailList = new ArrayList<>();
         flashDetailList = new ArrayList<>();
-        rb_today.setChecked(true);
-        tabIndex = R.id.today;
+        flowListAdapter = new FlowListAdapter(getActivity(),flashDetailList);
+        mFlowList.setAdapter(flowListAdapter);
     }
 
     /**
@@ -242,8 +244,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                     flashDetailList = model.flashDetailList;
                 }
                 mTotalCount = model.totalCount;
-                flowListAdapter = new FlowListAdapter(getActivity(), flashDetailList);
-                mFlowList.setAdapter(flowListAdapter);
+                flowListAdapter.setData(flashDetailList);
                 mDetailTitle.setText(getActivity().getString(R.string.flash_detail_title, startDate, endDate, model.totalCount));
                 if (isShowLoading) {
                     if(isAdded()) {
