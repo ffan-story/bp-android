@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
@@ -18,6 +20,7 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 import java.util.ArrayList;
@@ -72,16 +75,20 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         HomeCtrl.messageList(UserProfile.getInstance().getUid() + "", pageIndex, new Response.Listener<MessageModel>() {
             @Override
             public void onResponse(MessageModel messageModel) {
+
                 hideProgressBar();
                 totalCount = messageModel.getTotalCount();
+                if(messageModel.getMessageDataList() ==null){
+                    return;
+                }
                 if (mList == null || mList.size() <= 0) {
                     mList = new ArrayList<>();
                     mList = messageModel.getMessageDataList();
-                    if (mList != null && mList.size() > 0) {
+                    if (mList != null && mList.size() > 0 && mPtrFrame !=null) {
                         mPtrFrame.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.setVisibility(View.GONE);
                         mPtrFrame.refreshComplete();
-                    } else {
+                    } else  if (mPtrFrameEmpty !=null){
                         mPtrFrame.setVisibility(View.GONE);
                         mPtrFrameEmpty.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.refreshComplete();
@@ -90,7 +97,6 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
                     for (int i = 0; i < messageModel.getMessageDataList().size(); i++) {
                         mList.add(messageModel.getMessageDataList().get(i));
                     }
-                    mListView.hideFooterView();
                 }
                 mAdapter.notifyDataSetChanged();
             }
@@ -191,13 +197,12 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     @Override
     public void onLoadingMore() {
         if (mList.size() >= totalCount) {
-            mListView.setLoadComplete("没有更多数据");
-            //Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_LONG).show();
-            //mListView.hideFooterView();
+            Toast.makeText(getActivity(), getString(R.string.error_no_more_data), Toast.LENGTH_LONG).show();
         } else {
             pageIndex++;
             fetchData(pageIndex);
         }
+        mListView.hideFooterView();
     }
 
     @Override

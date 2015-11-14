@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
@@ -149,7 +150,6 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         tradeDetailList = new ArrayList<>();
         flashDetailList = new ArrayList<>();
         flowListAdapter = new FlowListAdapter(getActivity(),flashDetailList);
-        mFlowList.setAdapter(flowListAdapter);
     }
 
     /**
@@ -242,9 +242,11 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                     }
                 } else {
                     flashDetailList = model.flashDetailList;
+                    flowListAdapter = new FlowListAdapter(getActivity(),flashDetailList);
+                    mFlowList.setAdapter(flowListAdapter);
                 }
-                mTotalCount = model.totalCount;
                 flowListAdapter.setData(flashDetailList);
+                mTotalCount = model.totalCount;
                 mDetailTitle.setText(getActivity().getString(R.string.flash_detail_title, startDate, endDate, model.totalCount));
                 if (isShowLoading) {
                     if(isAdded()) {
@@ -254,7 +256,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 stopRefresh();
             }
         };
-        TransCtrl.getFlashList(startDate, endDate, mStoreId, String.valueOf(mPageNum), "10", responseListener, errorListener);
+        TransCtrl.getFlashList(startDate, endDate, mStoreId, String.valueOf(mPageNum), Integer.toString(Constants.LIST_MAX_LENGTH),responseListener, errorListener);
     }
 
     @Override
@@ -376,10 +378,10 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     public void onLoadingMore() {
         if (flashDetailList.size() >= mTotalCount) {
             Toast.makeText(getActivity(), getString(R.string.error_no_more_data), Toast.LENGTH_LONG).show();
-            mFlowList.hideFooterView();
         } else {
             mPageNum++;
             getFlashFlowList(true, true);
         }
+        mFlowList.hideFooterView();
     }
 }

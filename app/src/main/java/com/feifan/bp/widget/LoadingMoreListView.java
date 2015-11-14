@@ -212,6 +212,8 @@ public class LoadingMoreListView extends ListView implements AbsListView.OnScrol
     public void setLoadComplete(String strText){
         pb.setVisibility(View.GONE);
         tvLoadingMoreText.setText(strText);
+        footerView.setPadding(0, -footerViewHeight, 0, 0);
+        isLoadingMore = false;
     }
     /**
      * 隐藏脚布局
