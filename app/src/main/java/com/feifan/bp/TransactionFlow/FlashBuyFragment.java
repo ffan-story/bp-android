@@ -197,13 +197,16 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
             public void onResponse(FlashSummaryModel model) {
                 tradeDetailList = model.flashSummaryList;
                 flowDetailadapter = new FlowDetailAdapter(getChildFragmentManager(), tradeDetailList);
+                int mIntCurrentItem = viewPager.getCurrentItem();
                 viewPager.setAdapter(flowDetailadapter);
                 circleIndicator.setViewPager(viewPager);
+                viewPager.setCurrentItem(mIntCurrentItem);
                 if (isShowLoading) {
                     if(isAdded()) {
                         ((TransFlowTabActivity) getActivity()).hideProgressBar();
                     }
                 }
+
                 stopRefresh();
             }
         };
