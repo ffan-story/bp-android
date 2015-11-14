@@ -26,9 +26,14 @@
         <item name="android:textSize">@dimen/font_size_16</item>
     </style>
 
+    <style name="txt_color66_size14" parent="commmonTxt">
+        <item name="android:textColor">@color/font_color_66</item>
+        <item name="android:textSize">@dimen/font_size_14</item>
+    </style>
+
     <style name="txt_color99_size14" parent="commmonTxt">
         <item name="android:textColor">@color/font_color_66</item>
-        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="android:textSize">@dimen/font_size_14</item>
     </style>
 
     <style name="SplashStyle" parent="Theme.AppCompat.Light.NoActionBar">
