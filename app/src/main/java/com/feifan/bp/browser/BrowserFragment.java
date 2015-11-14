@@ -400,7 +400,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }else{
                     Activity a = getActivity();
                     if (a instanceof BrowserTabActivity) {
-                        ((BrowserTabActivity) a).notifyData();
+                        ((BrowserTabActivity) a).refreshViewPage();
                     }
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
