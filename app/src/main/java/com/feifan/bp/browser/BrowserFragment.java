@@ -40,6 +40,7 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
+import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.network.UploadHttpClient;
 import com.feifan.bp.network.UrlFactory;
@@ -48,7 +49,6 @@ import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.DialogPhoneLayout;
 import com.feifan.croplib.Crop;
-
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -392,6 +392,16 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     BrowserActivity.startActivity(mActivity, actionStrUri);
                 }else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserTabActivity)){//员工管理冻结、解冻刷新ViewPage
                     ((BrowserTabActivity) mActivity).refreshViewPage();
+                }else if(actionStrUri.contains("/staff")){//添加员工
+                    getActivity().setResult(Activity.RESULT_OK);
+                    getActivity().finish();
+                }else if(actionStrUri.contains("/order/detail/")){//验证历史  订单管理</order/detail/>
+                    BrowserActivity.startActivity(getActivity(), actionStrUri);
+                }else{
+                    Activity a = getActivity();
+                    if (a instanceof BrowserTabActivity) {
+                        ((BrowserTabActivity) a).notifyData();
+                    }
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
                 mListener.OnErrorReceived(uri.getAuthority(), mWebView, mUrl);

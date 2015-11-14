@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.PopupWindow;
-
 import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
@@ -139,6 +139,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     public void refreshViewPage(){
         pagerAdapter.refreshViewPage();
     }
+
 
     private void initDialog() {
         mDialog = new MaterialDialog(BrowserTabActivity.this)

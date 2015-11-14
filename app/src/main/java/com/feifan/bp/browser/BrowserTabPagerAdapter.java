@@ -6,8 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 
-import com.feifan.bp.util.LogUtil;
-
 /**
  * page adapter
  */
@@ -43,12 +41,10 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
-
     public void refreshViewPage() {
         // TODO: 15-11-9
         // if(getCount()>0){
         isRefresh =true;
-        notifyDataSetChanged();
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +42,6 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     private String selectData;
     private Boolean mCheckFlag = false;
     private String mStoreId;
-
     public CouponsFragment() {
     }
 
@@ -51,6 +51,9 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
         mStoreId = UserProfile.getInstance().getAuthRangeId();
         super.onCreate(savedInstanceState);
     }
+
+    private static int mIntYear;
+    private static int mIntMonth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,7 +66,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
             @Override
             public void onClick(View v) {
                 if (mCheckFlag) {
-                    initDialog();
+                    initDialog(mIntYear,mIntMonth-1);
                 }
             }
         });
@@ -75,20 +78,24 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
         rb_last1.setChecked(true);
         getCouponsData("1", "");
         segmentedGroup.setOnCheckedChangeListener(this);
-
         return v;
     }
 
-    private void initDialog() {
+    private void initDialog(final int year , final int month) {
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.dialog_month_pick, null);
         picker = (MonPicker) view.findViewById(R.id.month_picker);
+        if (year !=0 && month !=0){
+            picker.init(year, month, 1, null);
+        }
+
         mDialog = new MaterialDialog(getActivity()).setContentView(view)
                 .setPositiveButton(R.string.date_self_define_confirm, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        selectData = picker.getYear() + "-" + DataFormat(picker.getMonth() + 1);
-                        LogUtil.i("fangke", "selectData===========>" + selectData);
+                        selectData = picker.getYear() + "-" + DataFormat(picker.getMonth()+1);
+                        mIntYear =  picker.getYear();
+                        mIntMonth = picker.getMonth()+1;
                         getCouponsData("", selectData);
                         mCheckFlag = true;
                         mDialog.dismiss();
@@ -97,6 +104,8 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
                 .setNegativeButton(R.string.date_self_define_cancel, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        mIntYear =  picker.getYear();
+                        mIntMonth = picker.getMonth()+1;
                         mCheckFlag = true;
                         mDialog.dismiss();
                     }
@@ -168,7 +177,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
                 mCheckFlag = false;
                 break;
             case R.id.other:
-                initDialog();
+                initDialog(0,0);
                 break;
         }
     }
