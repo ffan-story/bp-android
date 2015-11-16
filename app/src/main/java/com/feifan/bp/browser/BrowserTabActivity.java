@@ -112,7 +112,6 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
             tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
-                    super.onTabSelected(tab);
                     pagerAdapter.refreshViewPage();
                     pagerAdapter.notifyDataSetChanged();
                 }
@@ -122,8 +121,6 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
 
     @Override
     public void onResume() {
-        pagerAdapter.refreshViewPage();
-        pagerAdapter.notifyDataSetChanged();
         super.onResume();
         refreshViewPage();
         pagerAdapter.notifyDataSetChanged();
