@@ -42,7 +42,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     private String sUrl;
     private String mUrl;
     private String mStoreId;
-    private boolean mForceRefresh = false;
+    private boolean mForce;
 
     /**
      * 参数键名称－URL
@@ -51,7 +51,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     public static final String EXTRA_KEY_TITLES = "titles";
     public static final String EXTRA_KEY_STATUS = "status";
     public static final String EXTRA_KEY_CONTEXT_TITLE = "contextTitle";
-    public static final String EXTRA_KEY_FORCE_REFRESH = "force";
+    public static final String EXTRA_KEY_FORCE = "force";
 //    public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
 
     // dialog
@@ -90,12 +90,12 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         context.startActivity(i);
     }
 
-    public static void startActivity(Context context,String url,String[] Status, String[] titles, boolean forceRefresh) {
+    public static void startActivity(Context context,String url,String[] Status, String[] titles,Boolean force) {
         Intent i = new Intent(context, BrowserTabActivity.class);
         i.putExtra(EXTRA_KEY_URL, url);
         i.putExtra(EXTRA_KEY_STATUS, Status);
         i.putExtra(EXTRA_KEY_TITLES, titles);
-        i.putExtra(EXTRA_KEY_FORCE_REFRESH, forceRefresh);
+        i.putExtra(EXTRA_KEY_FORCE, force);
         context.startActivity(i);
     }
 
@@ -106,10 +106,24 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         initViews();
         initDialog();
         initData();
+
+        // FIXME 增加强制刷新界面功能
+        if(mForce) {
+            tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    super.onTabSelected(tab);
+                    pagerAdapter.refreshViewPage();
+                    pagerAdapter.notifyDataSetChanged();
+                }
+            });
+        }
     }
 
     @Override
     public void onResume() {
+        pagerAdapter.refreshViewPage();
+        pagerAdapter.notifyDataSetChanged();
         super.onResume();
         refreshViewPage();
         pagerAdapter.notifyDataSetChanged();
@@ -124,7 +138,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         arryStatus = getIntent().getStringArrayExtra(EXTRA_KEY_STATUS);
         tabTitles = getIntent().getStringArrayExtra(EXTRA_KEY_TITLES);
         mContextTitle= getIntent().getStringExtra(EXTRA_KEY_CONTEXT_TITLE);
-        mForceRefresh = getIntent().getBooleanExtra(EXTRA_KEY_FORCE_REFRESH, false);
+        mForce = getIntent().getBooleanExtra(EXTRA_KEY_FORCE, false);
         //arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
 
         if(null!=tabTitles && tabTitles.length>4){
@@ -138,17 +152,6 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
             sUrl = addStoreId(mUrl,mStoreId);
         }else{
             sUrl = mUrl;
-        }
-
-        if(mForceRefresh) {
-            tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager){
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    super.onTabSelected(tab);
-                    refreshViewPage();
-                    pagerAdapter.notifyDataSetChanged();
-                }
-            });
         }
 
         loadWeb(sUrl);
