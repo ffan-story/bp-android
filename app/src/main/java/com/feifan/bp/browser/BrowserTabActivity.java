@@ -111,6 +111,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     @Override
     public void onResume() {
         super.onResume();
+        refreshViewPage();
         pagerAdapter.notifyDataSetChanged();
     }
 
