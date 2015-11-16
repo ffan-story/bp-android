@@ -6,6 +6,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 
+import com.android.volley.Response;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * page adapter
  */
@@ -16,6 +21,10 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
     private String contextTitle;
     private int position;
     private boolean isRefresh = false;
+
+    // WebView Fragments
+    private List<BrowserFragment> mFragments = new ArrayList<BrowserFragment>();
+
     public BrowserTabPagerAdapter(FragmentManager fm,String[] tabTitles, String url,String[] urlStatus) {
         super(fm);
         this.urlStatus= urlStatus;
@@ -35,7 +44,16 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         this.position = position;
         if (urlStatus!=null && urlStatus.length>0 && !TextUtils.isEmpty(urlStatus[position])){
-            return BrowserFragment.newInstance(url + urlStatus[position]);
+            BrowserFragment fragment = null;
+            if(position < mFragments.size()) {
+                fragment = mFragments.get(position);
+            }
+
+            if(fragment == null) {
+                fragment = BrowserFragment.newInstance(url + urlStatus[position]);
+                mFragments.add(fragment);
+            }
+            return fragment;
         }else{
             return null;
         }
@@ -45,6 +63,7 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
         // TODO: 15-11-9
         // if(getCount()>0){
         isRefresh =true;
+
     }
 
     @Override
@@ -53,15 +72,16 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
             return POSITION_NONE;
         }
         return super.getItemPosition(object);
+//        return POSITION_NONE;
     }
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        BrowserFragment browserFragment = (BrowserFragment)super.instantiateItem(container, position);
-        browserFragment.setmUrl(url+urlStatus[position]);
-        browserFragment.setmTitleName(contextTitle);
-        return browserFragment;
-    }
+//    @Override
+//    public Object instantiateItem(ViewGroup container, int position) {
+//        BrowserFragment browserFragment = (BrowserFragment)super.instantiateItem(container, position);
+//        browserFragment.setmUrl(url+urlStatus[position]);
+//        browserFragment.setmTitleName(contextTitle);
+//        return browserFragment;
+//    }
 
     @Override
     public int getCount() {
