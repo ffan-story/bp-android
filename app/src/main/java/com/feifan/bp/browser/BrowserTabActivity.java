@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -40,6 +42,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     private String sUrl;
     private String mUrl;
     private String mStoreId;
+    private boolean mForceRefresh = false;
 
     /**
      * 参数键名称－URL
@@ -48,6 +51,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     public static final String EXTRA_KEY_TITLES = "titles";
     public static final String EXTRA_KEY_STATUS = "status";
     public static final String EXTRA_KEY_CONTEXT_TITLE = "contextTitle";
+    public static final String EXTRA_KEY_FORCE_REFRESH = "force";
 //    public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
 
     // dialog
@@ -68,6 +72,8 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         context.startActivity(i);
     }
 
+
+
     /**
      * @param context
      * @param url
@@ -84,6 +90,15 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         context.startActivity(i);
     }
 
+    public static void startActivity(Context context,String url,String[] Status, String[] titles, boolean forceRefresh) {
+        Intent i = new Intent(context, BrowserTabActivity.class);
+        i.putExtra(EXTRA_KEY_URL, url);
+        i.putExtra(EXTRA_KEY_STATUS, Status);
+        i.putExtra(EXTRA_KEY_TITLES, titles);
+        i.putExtra(EXTRA_KEY_FORCE_REFRESH, forceRefresh);
+        context.startActivity(i);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +111,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     @Override
     public void onResume() {
         super.onResume();
+        pagerAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -107,6 +123,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         arryStatus = getIntent().getStringArrayExtra(EXTRA_KEY_STATUS);
         tabTitles = getIntent().getStringArrayExtra(EXTRA_KEY_TITLES);
         mContextTitle= getIntent().getStringExtra(EXTRA_KEY_CONTEXT_TITLE);
+        mForceRefresh = getIntent().getBooleanExtra(EXTRA_KEY_FORCE_REFRESH, false);
         //arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
 
         if(null!=tabTitles && tabTitles.length>4){
@@ -114,12 +131,25 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         } else{
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
         }
+
         if(mShowFab){
             mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
             sUrl = addStoreId(mUrl,mStoreId);
         }else{
             sUrl = mUrl;
         }
+
+        if(mForceRefresh) {
+            tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager){
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    super.onTabSelected(tab);
+                    refreshViewPage();
+                    pagerAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
         loadWeb(sUrl);
     }
 
@@ -156,8 +186,16 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     private void loadWeb(String url){
         pagerAdapter = new BrowserTabPagerAdapter(getSupportFragmentManager(),tabTitles,url,arryStatus,mContextTitle);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setOffscreenPageLimit(0);
+        viewPager.setOffscreenPageLimit(1);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                super.onTabSelected(tab);
+//                pagerAdapter.refreshViewPage();
+                pagerAdapter.notifyDataSetChanged();
+            }
+        });
         pagerAdapter.notifyDataSetChanged();
     }
 

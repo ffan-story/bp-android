@@ -109,7 +109,7 @@ public abstract class UrlFactory {
     }
 
     public static String checkVersionUpdate() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/appVersion/bpMobile/getLatest";
+        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/appVersion/android/getLatest";
     }
 
     public static String refundCount() {

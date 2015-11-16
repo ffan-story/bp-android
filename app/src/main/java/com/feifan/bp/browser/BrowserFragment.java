@@ -121,15 +121,21 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     public interface OnBrowserListener {
         /**
          * 获取到标题
+         *
          * @param title 标题
          */
         void OnTitleReceived(String title);
 
         /**
          * 获取到错误
+         *
          * @param msg 错误消息
          */
         void OnErrorReceived(String msg, WebView web, String url);
+    }
+
+    public static BrowserFragment newInstance() {
+        return new BrowserFragment();
     }
 
     public static BrowserFragment newInstance(String url) {
@@ -167,9 +173,12 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         View v = inflater.inflate(R.layout.fragment_browser, container, false);
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
-        mWebView.loadUrl(mUrl);
-        PlatformState.getInstance().setLastUrl(mUrl);
-        LogUtil.i(TAG, "mUrl==" + mUrl);
+        if(mUrl != null) {
+            mWebView.loadUrl(mUrl);
+            PlatformState.getInstance().setLastUrl(mUrl);
+            LogUtil.i(TAG, "mUrl==" + mUrl);
+        }
+
         return v;
     }
 
@@ -380,7 +389,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     BrowserTabActivity.startActivity(mActivity,
                             actionStrUri+"&status=",
                             mActivity.getResources().getStringArray(R.array.data_type),
-                            mActivity.getResources().getStringArray(R.array.tab_title_refund_detail_titles));
+                            mActivity.getResources().getStringArray(R.array.tab_title_refund_detail_titles),
+                            true);
                 }else if(actionStrUri.contains("/staff/edit/")){//员工管理 编辑
                     Intent i = new Intent(mActivity, BrowserActivity.class);
                     i.putExtra(BrowserActivity.EXTRA_KEY_URL, actionStrUri);
