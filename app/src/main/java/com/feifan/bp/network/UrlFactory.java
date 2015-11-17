@@ -44,12 +44,6 @@ public abstract class UrlFactory {
                 concat("&signNo=").concat(code);
     }
 
-
-
-    public static String urlForHtmlAddJoin(String reUrl) {
-        return urlForHtml(reUrl);
-    }
-
     public static String staffAddForHtml() {
         return urlForHtml(URL_PATH_STAFF_ADD);
     }
@@ -60,6 +54,17 @@ public abstract class UrlFactory {
 
     public static String commodityManageForHtml() {
         return urlForHtml(URL_PATH_COMMODITY_MANAGE);
+    }
+
+    public static String actionUrlForHtml(String reUrl) {
+        UserProfile userProfile = UserProfile.getInstance();
+        String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
+                concat("&loginToken=").concat(userProfile.getLoginToken()).
+                concat("&uid=").concat(String.valueOf(userProfile.getUid())).
+                concat("&appType=bpMobile").
+                concat("&version="+BuildConfig.VERSION_CODE).
+                concat("&showTabs=0");
+        return url;
     }
 
     public static String urlForHtml(String reUrl) {
