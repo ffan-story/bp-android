@@ -65,8 +65,10 @@ import java.util.Map;
 /**
  * congjing
  */
-public class BrowserFragment extends BaseFragment implements View.OnClickListener, MenuItem.OnMenuItemClickListener {
+public class BrowserFragment extends BaseFragment implements View.OnClickListener, Toolbar.OnMenuItemClickListener {
+
     private static final String TAG = "BrowserFragment";
+
     /**
      * 参数键名称－URL
      */
@@ -119,6 +121,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
      * 防止webview action 连续点击，页面重复
      */
     private boolean isOnclicked =false;
+
+    private BrowserMatcher mMatcher = new BrowserMatcher();
 
 
     /**
@@ -200,22 +204,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (mToolbarStatus == TOOLBAR_STATUS_STAFF) {
-            inflater.inflate(R.menu.menu_staff_manage, menu);
-            (menu.findItem(R.id.action_staff)).setOnMenuItemClickListener(this);
-        } else if (mToolbarStatus == TOOLBAR_STATUS_COUPON) {
-            inflater.inflate(R.menu.menu_coupon_add, menu);
-            (menu.findItem(R.id.action_coupon)).setOnMenuItemClickListener(this);
-        } else if (mToolbarStatus == TOOLBAR_STATUS_COMMODITY) {
-            inflater.inflate(R.menu.menu_commodity_manage, menu);
-            (menu.findItem(R.id.action_commodity)).setOnMenuItemClickListener(this);
-        } else if (mToolbarStatus == TOOLBAR_STATUS_COMMODITY_DESC) {
-            inflater.inflate(R.menu.menu_commodity_manage_desc, menu);
-            (menu.findItem(R.id.action_commodity_desc)).setOnMenuItemClickListener(this);
-        } else {
-            menu.clear();
-        }
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.browser_menu, menu);
+        BrowserMatcher.MenuInfo info = mMatcher.matchForMenu(mTitleName);
+        if(info != null) {
+            MenuItem item = menu.add(Menu.NONE, info.id, 1, info.titleRes);
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
+
     }
 
     @Override
@@ -223,16 +219,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         super.setupToolbar(toolbar);
         toolbar.setTitle(mTitleName);
         toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_staff:
-                        break;
-                }
-                return false;
-            }
-        });
+        toolbar.setOnMenuItemClickListener(this);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -293,7 +280,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
         String url = "";
         switch (item.getItemId()) {
-            case R.id.action_staff:
+            case R.id.menu_staff_add:
                 url = UrlFactory.staffAddForHtml();
                 Intent i = new Intent(getActivity(), BrowserActivity.class);
                 i.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
@@ -332,24 +319,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            mListener.OnTitleReceived(title);
+
             if (!isAdded()) {
                 return;
             }
-            if (getToolbar() != null) {
-                getToolbar().setTitle(title);
-            }
-            if (getString(R.string.browser_staff_list).equals(title)) {
-                mToolbarStatus = TOOLBAR_STATUS_STAFF;
-            } else if (getString(R.string.browser_coupon_list).equals(title)) {
-                mToolbarStatus = TOOLBAR_STATUS_COUPON;
-            } else if (getString(R.string.index_commodity_text).equals(title)) {
-                mToolbarStatus = TOOLBAR_STATUS_COMMODITY;
-            } else if (getString(R.string.browser_commodity_desc).equals(title)) {
-                mToolbarStatus = TOOLBAR_STATUS_COMMODITY_DESC;
-            } else {
-                mToolbarStatus = TOOLBAR_STATUS_IDLE;
-            }
+
+            mListener.OnTitleReceived(title);
+            mTitleName = title;
+            getToolbar().setTitle(title);
             getActivity().supportInvalidateOptionsMenu();
         }
     }

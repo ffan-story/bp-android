@@ -15,11 +15,15 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.material.MaterialDialog;
 
 public class BrowserTabActivity extends BaseActivity implements BrowserFragment.OnBrowserListener{
+
+    private static final String TAG = BrowserTabActivity.class.getSimpleName();
+
     private BrowserTabPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
@@ -221,6 +225,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
 
     @Override
     public void OnTitleReceived(String title) {
+        LogUtil.i(TAG, "Change title to " + title);
         if((title.equals(getString(R.string.index_history_text))||
                 title.equals(getString(R.string.index_order_text))||
                 title.equals(getString(R.string.browser_staff_list)))&&mShowFab){

@@ -327,15 +327,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                                             getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)),
                                             titleName);
                                 } else {
-//                                    Bundle args = new Bundle();
-//                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-//                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, IndicatorFragment.class.getName());
-//                                    mListener.onFragmentInteraction(args);
                                     BrowserActivity.startActivity(getContext(), url);
-//                                    Bundle args = new Bundle();
-//                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-//                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, ReconciliationManagementFragment.class.getName());
-//                                    mListener.onFragmentInteraction(args);
                                 }
                             } else {
                                 Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
