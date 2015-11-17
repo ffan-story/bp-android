@@ -6,8 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 
-import com.android.volley.Response;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,10 +58,8 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
     }
 
     public void refreshViewPage() {
-        // TODO: 15-11-9
-        // if(getCount()>0){
         isRefresh =true;
-
+        notifyDataSetChanged();
     }
 
     @Override
@@ -72,16 +68,15 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
             return POSITION_NONE;
         }
         return super.getItemPosition(object);
-//        return POSITION_NONE;
     }
 
-//    @Override
-//    public Object instantiateItem(ViewGroup container, int position) {
-//        BrowserFragment browserFragment = (BrowserFragment)super.instantiateItem(container, position);
-//        browserFragment.setmUrl(url+urlStatus[position]);
-//        browserFragment.setmTitleName(contextTitle);
-//        return browserFragment;
-//    }
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        BrowserFragment browserFragment = (BrowserFragment)super.instantiateItem(container, position);
+        browserFragment.setmUrl(url+urlStatus[position]);
+        browserFragment.setmTitleName(contextTitle);
+        return browserFragment;
+    }
 
     @Override
     public int getCount() {
