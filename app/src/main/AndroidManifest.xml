@@ -49,11 +49,13 @@
 
         <activity
             android:name=".browser.BrowserTabActivity"
+            android:launchMode="singleTask"
             android:label=" "
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".browser.BrowserActivity"
+            android:launchMode="singleTask"
             android:label=" "
             android:screenOrientation="portrait">
         </activity>

@@ -116,6 +116,12 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     public String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/feifandp/img.jpg";
 
     /**
+     * 防止webview action 连续点击，页面重复
+     */
+    private boolean isOnclicked =false;
+
+
+    /**
      * 监听浏览器接口
      */
     public interface OnBrowserListener {
@@ -375,6 +381,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     addImage(url);
                 }
             } else if (schema.equals(Constants.URL_SCHEME_ACTION)) {
+                if(isOnclicked){
+                    return true;
+                }
+                isOnclicked = true;
                 Activity mActivity = getActivity();
                 Uri actionUri = Uri.parse(url);
                 String actionStrUri = UrlFactory.urlForHtml(actionUri.getAuthority() + actionUri.getEncodedPath() + "#" + actionUri.getEncodedFragment());
@@ -429,6 +439,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         public void onPageFinished(WebView view, String url) {
             hideProgressBar();
             super.onPageFinished(view, url);
+            isOnclicked = false;
         }
     }
 
