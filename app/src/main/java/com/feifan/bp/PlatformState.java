@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.feifan.bp.network.HttpsUrlStack;
 import com.feifan.bp.util.LogUtil;
 
 import java.util.HashMap;
@@ -38,7 +39,7 @@ public class PlatformState {
     private String mLastUrl;
 
     private PlatformState(){
-        mQueue = Volley.newRequestQueue(sContext);
+        mQueue = Volley.newRequestQueue(sContext, new HttpsUrlStack());
         Log.i(Constants.TAG, "App is running within " + BuildConfig.CURRENT_ENVIRONMENT);
     }
 
