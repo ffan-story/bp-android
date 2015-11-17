@@ -18,6 +18,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 /**
+ * 重载HurlStack，对Https请求信任所有证书，提升请求成功率
  * Created by maning on 15/8/26.
  */
 public class HttpsUrlStack extends HurlStack {
