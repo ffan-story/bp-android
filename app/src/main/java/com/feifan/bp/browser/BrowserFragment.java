@@ -209,6 +209,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         BrowserMatcher.MenuInfo info = mMatcher.matchForMenu(mTitleName);
         if(info != null) {
             MenuItem item = menu.add(Menu.NONE, info.id, 1, info.titleRes);
+            if(info.iconRes != Constants.NO_INTEGER) {
+                item.setIcon(info.iconRes);
+            }
             item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
 
@@ -288,13 +291,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 LogUtil.i(TAG, "menu onClick() staff url=" + url);
                 return true;
 
-            case R.id.action_coupon:
+            case R.id.menu_coupon_add:
                 url = UrlFactory.couponAddForHtml();
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() coupon url=" + url);
                 return true;
 
-            case R.id.action_commodity:
+            case R.id.menu_commodity_add:
                 url = UrlFactory.commodityManageForHtml();
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() commodity url=" + url);

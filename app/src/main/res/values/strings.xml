@@ -11,6 +11,7 @@
     <string name="btn_version_update_later">稍候</string>
     <string name="btn_version_update_new">更新</string>
     <string name="version_update_title">版本更新</string>
+    <string name="no_title_text">无标题</string>
 
     <!-- LoginFragment(登录界面) - begin -->
     <string name="login_login_text">登录</string>
