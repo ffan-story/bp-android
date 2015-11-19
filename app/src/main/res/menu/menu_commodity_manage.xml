@@ -8,7 +8,6 @@
         android:id="@+id/action_commodity"
         android:icon="@mipmap/menu_ic_staff"
         android:orderInCategory="80"
-        android:onClick="onClick"
         android:title="@string/browser_staff_add"
         app:showAsAction="ifRoom" />
 

@@ -16,12 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.Response;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.net.BaseRequestProcessListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,7 +70,9 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
         mConfirmPwd = (EditText) rootView.findViewById(R.id.et_confirm_password);
         mConfirmBtn = (Button) rootView.findViewById(R.id.btn_confirm);
 
+        mOldPwd.addTextChangedListener(mTextWatcher);
         mNewPwd.addTextChangedListener(mTextWatcher);
+        mConfirmPwd.addTextChangedListener(mTextWatcher);
         mConfirmBtn.setOnClickListener(this);
         return rootView;
     }
@@ -83,6 +85,7 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            mIsConfirmEnable = true;
             Editable editable = mNewPwd.getText();
             int len = editable.length();
             if (len > Constants.PASSWORD_MAX_LENGTH) {
@@ -156,8 +159,8 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
         switch (view.getId()) {
             case R.id.btn_confirm:
                 if (!mIsConfirmEnable) {
-                    break;
-                }
+                break;
+            }
                 String oldPwd = mOldPwd.getText().toString();
                 String newPwd = mNewPwd.getText().toString();
                 String confirmPwd = mConfirmPwd.getText().toString();
@@ -181,20 +184,27 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                     return;
                 }
                 mIsConfirmEnable = false;
-                PasswordCtrl.resetPassword(getActivity(), oldPwd, newPwd,
-                        new BaseRequestProcessListener<PasswordModel>(getActivity()) {
-                            @Override
-                            public void onResponse(PasswordModel passwordModel2) {
-                                getActivity().onBackPressed();
-                                Utils.showShortToast(getActivity(), getString(R.string.reset_pwd_suc));
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                super.onFinish();
-                                mIsConfirmEnable = true;
-                            }
-                        });
+                PasswordCtrl.resetPassword(oldPwd, newPwd, new Response.Listener<PasswordModel>() {
+                    @Override
+                    public void onResponse(PasswordModel passwordModel) {
+                        getActivity().onBackPressed();
+                        Utils.showShortToast(getActivity(), getString(R.string.reset_pwd_suc));
+                    }
+                });
+//                PasswordCtrl.resetPassword(getActivity(), oldPwd, newPwd,
+//                        new BaseRequestProcessListener<PasswordModel>(getActivity()) {
+//                            @Override
+//                            public void onResponse(PasswordModel passwordModel2) {
+//                                getActivity().onBackPressed();
+//                                Utils.showShortToast(getActivity(), getString(R.string.reset_pwd_suc));
+//                            }
+//
+//                            @Override
+//                            public void onFinish() {
+//                                super.onFinish();
+//                                mIsConfirmEnable = true;
+//                            }
+//                        });
 
                 break;
         }

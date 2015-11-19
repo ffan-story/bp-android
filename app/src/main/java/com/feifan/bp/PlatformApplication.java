@@ -13,11 +13,22 @@ import java.util.List;
  */
 public class PlatformApplication extends Application {
 
+    private int selectPos = 0;//门店默认选择
+
+    public int getSelectPos() {
+        return selectPos;
+    }
+
+    public void setSelectPos(int selectPos) {
+        this.selectPos = selectPos;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         PlatformState.setApplicationContext(this);
         PlatformState.getInstance();
+        UserProfile.getInstance().initialize(this);
     }
 
     @Override

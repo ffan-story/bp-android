@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/txt_color66_size14"
+            android:layout_marginBottom="@dimen/view_spacing_10"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            android:text="@string/indicator_flash_purchase_index" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/view_spacing_10"
+            android:paddingLeft="@dimen/view_spacing_15"
+            android:paddingRight="@dimen/view_spacing_15"
+            android:paddingTop="@dimen/view_spacing_10">
+
+            <TextView
+                style="@style/txt_color66_size16"
+                android:text="@string/indicator_payment_success"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/txt_color66_size14"
+                android:text="@string/indicator_store_line1" />
+
+            <TextView
+                style="@style/txt_color66_size14"
+                android:text="@string/indicator_store_line2" />
+
+            <TextView
+                style="@style/txt_color66_size16"
+                android:layout_marginTop="@dimen/view_spacing_10"
+                android:text="@string/indicator_trading_success"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/txt_color66_size14"
+                android:text="@string/indicator_write_off_successfully1" />
+
+            <TextView
+                style="@style/txt_color66_size14"
+                android:text="@string/indicator_write_off_successfully2" />
+
+            <TextView
+                style="@style/txt_color66_size16"
+                android:layout_marginTop="@dimen/view_spacing_10"
+                android:text="@string/indicator_users_initiate_refund"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/txt_color99_size14"
+                android:text="@string/indicator_initiate_refund1" />
+
+            <TextView
+                style="@style/txt_color99_size14"
+                android:text="@string/indicator_initiate_refund2" />
+
+            <TextView
+                style="@style/txt_color66_size16"
+                android:layout_marginTop="@dimen/view_spacing_10"
+                android:text="@string/indicator_merchant_confirmation_refund"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/txt_color66_size14"
+                android:text="@string/indicator_system_automatic_refund1" />
+
+            <TextView
+                style="@style/txt_color66_size14"
+                android:text="@string/indicator_system_automatic_refund2" />
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/txt_color66_size14"
+            android:layout_marginBottom="@dimen/view_spacing_10"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            android:text="@string/indicator_general_vouchers" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/view_spacing_10"
+            android:paddingLeft="@dimen/view_spacing_15"
+            android:paddingRight="@dimen/view_spacing_15"
+            android:paddingTop="@dimen/view_spacing_10">
+
+            <TextView
+                style="@style/txt_color66_size16"
+                android:text="@string/indicator_write_successfully"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/txt_color66_size14"
+                android:text="@string/indicator_general_certificate_success" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/indicator_more_trading_flow"
+            style="@style/txt_color66_size14"
+            android:layout_marginBottom="@dimen/view_spacing_10"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            android:maxLines="1"
+            android:text="@string/indicator_more_trading_flow" />
+
+    </LinearLayout>
+</ScrollView>

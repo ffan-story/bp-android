@@ -1,8 +1,8 @@
 package com.feifan.bp.password;
 
-import com.feifan.bp.base.BaseModel;
+import com.feifan.bp.network.BaseModel;
 
-import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -13,22 +13,15 @@ public class PasswordModel extends BaseModel {
     private String key;
 
     public PasswordModel(JSONObject json) {
-        super(json, false);
+        super(json);
     }
 
     @Override
-    protected void parseData(JSONObject data) {
-        if (data == null) {
-            return;
-        }
+    protected void parseData(String json) throws JSONException {
+        super.parseData(json);
+        JSONObject data = new JSONObject(json);
         setAuthCode(data.optString("authCode"));
         setKey(data.optString("key"));
-    }
-
-
-    @Override
-    protected void parseArrayData(JSONArray data) {
-
     }
 
     private void setAuthCode(String authCode){
@@ -43,5 +36,10 @@ public class PasswordModel extends BaseModel {
     }
     public String getKey(){
         return  key;
+    }
+
+    @Override
+    public String toString() {
+        return "authCode=" + authCode + ",key=" + key;
     }
 }

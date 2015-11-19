@@ -1,15 +1,17 @@
 package com.feifan.bp;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
-import android.util.LruCache;
 
-import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.feifan.bp.network.HttpsUrlStack;
 import com.feifan.bp.util.LogUtil;
 
-import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 状态类
@@ -21,15 +23,23 @@ import java.io.File;
 public class PlatformState {
 
     private static final String TAG = "PlatformState";
+    // 状态相关的偏好项名称
+    private static final String STATE_PREFERENCES_NAME = "state";
+    // 偏好项键值－清除缓存标记
+    private static final String CLEAR_CACHE_FLAG = "CLEAR_CACHE_FLAG";
 
     private static PlatformState INSTANCE;
 
-//    private static Context sContext;
+    private static Context sContext;
+
+    // 网络请求队列
+    private RequestQueue mQueue;
 
     // 上次访问的url地址
     private String mLastUrl;
 
     private PlatformState(){
+        mQueue = Volley.newRequestQueue(sContext, new HttpsUrlStack());
         Log.i(Constants.TAG, "App is running within " + BuildConfig.CURRENT_ENVIRONMENT);
     }
 
@@ -41,7 +51,15 @@ public class PlatformState {
     }
 
     public static void setApplicationContext(Context context) {
+        sContext = context;
+    }
 
+    public static Context getApplicationContext() {
+        return sContext;
+    }
+
+    public static String getStatePreferenceName(){
+        return STATE_PREFERENCES_NAME;
     }
 
     public void setLastUrl(String url) {
@@ -55,8 +73,8 @@ public class PlatformState {
             Uri uri = Uri.parse(standardUrl);
             String token = uri.getQueryParameter("loginToken");
             String uid = uri.getQueryParameter("uid");
-            mLastUrl = mLastUrl.replace(token, UserProfile.instance(context).getLoginToken())
-                    .replace(uid, String.valueOf(UserProfile.instance(context).getUid()));
+            mLastUrl = mLastUrl.replace(token, UserProfile.getInstance().getLoginToken())
+                    .replace(uid, String.valueOf(UserProfile.getInstance().getUid()));
             LogUtil.i(TAG, "update last request url " + mLastUrl + " with new loginToken and uid");
         }
 
@@ -66,48 +84,46 @@ public class PlatformState {
     /**
      * 重置状态
      */
-    public void reset(Context context) {
+    public void reset() {
         mLastUrl = null;
-        clearCache(context);
+        clearCache();
     }
 
-    private void clearCache(Context context) {
-
-        File cacheDir = context.getCacheDir().getAbsoluteFile();
-        Utils.deleteFile(cacheDir, "webview");
-        Utils.deleteFile(context.getDatabasePath("webview").getParentFile(), "webview");
-        LogUtil.i(TAG, "WebView cache cleared");
+    /**
+     * 缓存是否可被清除
+     * @return
+     */
+    public boolean isCacheClearable() {
+        SharedPreferences sp = sContext.getSharedPreferences(STATE_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        boolean flag = sp.getBoolean(CLEAR_CACHE_FLAG, false);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.remove(CLEAR_CACHE_FLAG);
+        editor.apply();
+        return flag;
     }
 
-    private static class BitmapCache extends LruCache<String, Bitmap> implements ImageLoader.ImageCache {
-        public static int getDefaultLruCacheSize() {
-            final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-            final int cacheSize = maxMemory / 8;
+    /**
+     * 清除缓存
+     * <pre>
+     *     将清除缓存标记置为true，当下次进入webview界面时执行清除缓存操作
+     * </pre>
+     */
+    public void clearCache() {
 
-            return cacheSize;
-        }
+//        File cacheDir = context.getCacheDir().getAbsoluteFile();
+//        Utils.deleteFile(cacheDir, "webview");
+//        Utils.deleteFile(context.getDatabasePath("webview").getParentFile(), "webview");
+//        Utils.deleteFile(cacheDir, "ApplicationCache.db");
 
-        public BitmapCache() {
-            this(getDefaultLruCacheSize());
-        }
+        SharedPreferences sp = sContext.getSharedPreferences(STATE_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(CLEAR_CACHE_FLAG, true);
+        editor.apply();
 
-        public BitmapCache(int sizeInKiloBytes) {
-            super(sizeInKiloBytes);
-        }
+        LogUtil.i(TAG, "Enable clearing webview'cache.");
+    }
 
-        @Override
-        protected int sizeOf(String key, Bitmap value) {
-            return value.getRowBytes() * value.getHeight() / 1024;
-        }
-
-        @Override
-        public Bitmap getBitmap(String url) {
-            return get(url);
-        }
-
-        @Override
-        public void putBitmap(String url, Bitmap bitmap) {
-            put(url, bitmap);
-        }
+    public RequestQueue getRequestQueue() {
+        return mQueue;
     }
 }

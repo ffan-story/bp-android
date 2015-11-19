@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/view_spacing_10"
+        android:text="@string/date_self_define_account_period"
+        android:textColor="@color/font_color_66"
+        android:textSize="@dimen/font_size_22"
+        android:textStyle="bold"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_height_1"
+        android:background="@color/divider"/>
+
+
+    <com.feifan.bp.widget.MonPicker
+        android:id="@+id/month_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:datePickerMode="spinner"
+        android:calendarViewShown="false">
+
+    </com.feifan.bp.widget.MonPicker>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_height_1"
+        android:background="@color/divider"/>
+
+</LinearLayout>

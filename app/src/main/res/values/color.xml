@@ -14,6 +14,7 @@
 
     <!-- 背景 -->
     <color name="bg_color_blue">#3d99e9</color>
+    <color name="bg_color_grey">#e6e6e6</color>
 
     <!-- Progress bar background -->
     <color name="progress_bar_bg">#cc000000</color>
@@ -22,13 +23,23 @@
     <color name="main">#4c85c2</color>
     <color name="main_bg">#f2f2f2</color>
 
-
     <color name="text_normal">#415560</color>
-
-    <color name="crop_button_bar">#f3f3f3</color>
-    <color name="crop_button_text">#666666</color>
-    <color name="crop_selector_pressed">#1a000000</color>
-    <color name="crop_selector_focused">#77000000</color>
-
     <color name="transparent">#00000000</color>
+
+    <color name="white">#ffffff</color>
+
+    <color name="accent">#1bb0ed</color>
+    <color name="ripple">#4dc6f8</color>
+    <color name="accent_pressed">#00a8ed</color>
+    <color name="feed_back_color">#999999</color>
+    <color name="login_info_color">#333333</color>
+    <color name="font_color_66">#666666</color>
+    <color name="red">#FF0000</color>
+    <color name="brown">#39536b</color>
+    <color name="font_color_light_gray">#EDEDED</color>
+
+    <color name="radio_button_selected_color">@color/accent</color>
+    <color name="radio_button_unselected_color">@color/transparent</color>
+
+    <color name="blue_dark">#087aaa</color>
 </resources>

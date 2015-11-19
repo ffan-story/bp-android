@@ -4,33 +4,40 @@
 
     <TextView
         android:id="@+id/settings_check_upgrade"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/SettingButton"
         android:layout_alignParentTop="true"
-        android:background="@drawable/border_bottom_background"
         android:drawableLeft="@mipmap/settings_ic_check_upgrade"
-        android:drawableRight="@mipmap/settings_ic_right_arrow"
-        android:drawablePadding="@dimen/view_spacing_10"
-        android:padding="@dimen/view_spacing_15"
-        android:clickable="true"/>
+        android:drawableRight="@mipmap/settings_ic_right_arrow" />
+
     <TextView
         android:id="@+id/settings_change_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/SettingButton"
         android:layout_below="@id/settings_check_upgrade"
-        android:background="@drawable/border_bottom_background"
         android:drawableLeft="@mipmap/settings_ic_modify_password"
         android:drawableRight="@mipmap/settings_ic_right_arrow"
-        android:drawablePadding="@dimen/view_spacing_10"
-        android:padding="@dimen/view_spacing_15"
-        android:text="@string/settings_change_password_text"
-        android:clickable="true"/>
+        android:text="@string/settings_change_password_text" />
+
+    <TextView
+        android:id="@+id/settings_advice_feedback"
+        style="@style/SettingButton"
+        android:layout_below="@id/settings_change_password"
+        android:drawableLeft="@mipmap/settings_ic_feed_back"
+        android:drawableRight="@mipmap/settings_ic_right_arrow"
+        android:text="@string/settings_advice_feedback_text" />
+
+    <TextView
+        android:id="@+id/settings_clear_cache"
+        style="@style/SettingButton"
+        android:layout_below="@id/settings_advice_feedback"
+        android:drawableLeft="@mipmap/settings_ic_clear_cache"
+        android:drawableRight="@mipmap/settings_ic_right_arrow"
+        android:text="@string/settings_clear_cache_text" />
 
     <TextView
         android:id="@+id/settings_exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/settings_change_password"
+        android:layout_below="@id/settings_clear_cache"
         android:padding="@dimen/view_spacing_15"
         android:layout_marginTop="@dimen/view_spacing_20"
         android:text="@string/settings_logout_text"

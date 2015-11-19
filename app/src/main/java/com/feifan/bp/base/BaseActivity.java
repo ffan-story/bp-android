@@ -2,11 +2,13 @@ package com.feifan.bp.base;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,6 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 //        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 //                | View.SYSTEM_UI_FLAG_FULLSCREEN;
 //        decorView.setSystemUiVisibility(uiOptions);
+
     }
 
     @Override
@@ -74,6 +77,9 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @return
      */
     protected Toolbar getToolbar() {
+//        if(mToolbar == null) {
+//            initToolbar();
+//        }
         return mToolbar;
     }
 
@@ -108,7 +114,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (this.isFinishing()) {
             return;
         }
-        dismissDialog(DIALOG_ID_PROGRESS_BAR);
+        removeDialog(DIALOG_ID_PROGRESS_BAR);
     }
 
     @Override
@@ -146,7 +152,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (hideSoftInputIfShow(ev)) {
             return true;
         }
-
         //Second, Let fragments have chances to handle motion events.
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         if (fragments != null) {
@@ -187,6 +192,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return result;
     }
+
 
 
 }

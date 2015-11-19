@@ -32,4 +32,10 @@ public interface OnFragmentInteractionListener {
      * 重载该方法，可以响应界面切换事件
      */
     void onFragmentInteraction(Bundle args);
+
+    /**
+     * 重载该方法，可以响应标题变更时间
+     * @param title
+     */
+    void onTitleChanged(String title);
 }

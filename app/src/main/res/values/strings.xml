@@ -46,8 +46,11 @@
     <!-- Settings（设置） - begin -->
     <string name="settings_check_upgrade_format">检查更新&#040;当前版本&#058;<xliff:g>%1s</xliff:g>&#041;</string>
     <string name="settings_change_password_text">修改密码</string>
+    <string name="settings_advice_feedback_text">意见反馈</string>
+    <string name="settings_clear_cache_text">清除缓存</string>
     <string name="settings_logout_text">退出登录</string>
     <string name="settings_check_update_none">无最新版本</string>
+    <string name="settings_clear_cache_finished_text">清除完毕</string>
     <!-- Settings（设置） - end -->
 
     <!-- Message(消息)－begin -->
@@ -75,6 +78,9 @@
     <string name="error_message_text_network_block">网络加载缓慢，请稍后再试</string>
     <string name="error_message_upload_picture_fail">未能上传图片</string>
     <string name="error_message_picture_size">海报图片尺寸必须是1280*720，请重新上传图片</string>
+    <string name="error_message_feed_back_length">意见反馈信息长度不能超过300个字</string>
+    <string name="error_message_feed_back_length_empty">意见反馈信息不能为空</string>
+    <string name="error_message_permission_limited">无此操作权限</string>
 
     <string name="sd_card_exist">sd卡不存在</string>
     <string name="title_activity_browser">BrowserActivity</string>
@@ -107,12 +113,92 @@
     <string name="common_cancel">取消</string>
     <string name="dialog_phone">从相册选择</string>
     <string name="dialog_camera">拍照</string>
+    <string name="shop_select">门店选择</string>
+    <string name="common_retry_text">重试</string>
+    <string name="common_close_text">关闭</string>
 
-    <!-- crop -->
-    <string name="crop_saving"></string>
-    <string name="crop_wait">请稍等…</string>
-    <string name="crop_pick_error">图片不存在</string>
+    <!--tab titles-->
+    <string name="tab_veri_history_pickupgoods">提货码历史</string>
+    <string name="tab_veri_history_coupone">券码历史</string>
 
     <string name="crop_done">确定</string>
     <string name="crop_cancel" tools:ignore="ButtonCase">取消</string>
+
+    <!-- login info -->
+    <string name="login_info">登录信息</string>
+    <string name="login_info_name">姓名:</string>
+    <string name="login_info_mobile_number">手机号:</string>
+    <string name="login_info_identity">登陆身份:</string>
+    <string name="login_info_belongs_store">所属门店:</string>
+    <string name="login_info_belongs_square">所属广场:</string>
+    <string name="login_info_belongs_merchant">所属商户:</string>
+    <string name="login_info_store">门店账号</string>
+    <string name="login_info_merchant">商户账号</string>
+    <string name="login_info_empty">无</string>
+
+    <!-- feed back -->
+    <string name="feed_back">意见反馈</string>
+    <string name="feed_back_info">您对飞凡的意见和建议，我们会尽快处理(300字以内)</string>
+    <string name="feed_back_submit">提交</string>
+    <string name="feed_back_prompt">300字以内</string>
+    <string name="feed_back_success_prompt">感谢您的反馈，我们将努力做好产品</string>
+    <string name="feed_back_input_strings">还能输入%d字符</string>
+
+    <!--  check manager -->
+    <string name="check_manage_title">对账管理</string>
+    <string name="check_manage_system_construction">系统建设中,敬请期待!</string>
+    <string name="reconciliation_management_transaction_flow">交易流水</string>
+    <string name="reconciliation_management_financial_reconciliation">财务对账</string>
+    <string name="reconciliation_management_inventory_query">库存查询</string>
+    <string name="reconciliation_management_view_details">查看详情</string>
+    <string name="reconciliation_management_temporarily_not_open">暂不开放</string>
+
+    <!-- indicator -->
+    <string name="indicator_title">指标说明</string>
+    <string name="indicator_flash_purchase_index">闪购指标</string>
+    <string name="indicator_payment_success">付款成功</string>
+    <string name="indicator_store_line1">付款成功笔数：用户该时间内在该门店线上付款成功订单笔数；</string>
+    <string name="indicator_store_line2">付款成功金额：用户该时间内在该门店线上付款成功订单金额；</string>
+    <string name="indicator_trading_success">交易成功</string>
+    <string name="indicator_write_off_successfully1">交易成功笔数：用户该时间内在该门店核销成功订单笔数；</string>
+    <string name="indicator_write_off_successfully2">交易成功金额：在该时间内在该门店核销成功后应结算给该门店的金额（包括用户付款金额＋平台补贴金额）；</string>
+    <string name="indicator_users_initiate_refund">用户退单</string>
+    <string name="indicator_initiate_refund1">用户退单笔数：用户该时间内在该门店发起退款的订单笔数；</string>
+    <string name="indicator_initiate_refund2">用户退单金额：用户该时间内在该门店发起退款的订单金额；</string>
+    <string name="indicator_merchant_confirmation_refund">确认退款</string>
+    <string name="indicator_system_automatic_refund1">确认退款笔数：用户已核销发起退款后由商户确认退款或系统自动退款的笔数；</string>
+    <string name="indicator_system_automatic_refund2">确认退款金额：用户已核销发起退款后由商户确认退款或系统自动退款的金额（包括用户付款金额＋平台补贴金额）；</string>
+    <string name="indicator_general_vouchers">通用券指标</string>
+    <string name="indicator_write_successfully">核销成功</string>
+    <string name="indicator_general_certificate_success">该门店在该时间段内核销成功的通用券的笔数及金额;</string>
+    <string name="indicator_more_trading_flow">更多交易流水单明细,请至sop.ffan.com查看</string>
+
+    <!--交易流水-->
+    <string name="transaction_flow">交易流水</string>
+    <string name="falsh_buy">闪购</string>
+    <string name="coupons">通用券</string>
+    <string name="pay_success_num">付款成功笔数</string>
+    <string name="pay_success_sum">付款成功金额</string>
+    <string name="trade_success_num">交易成功笔数</string>
+    <string name="trade_success_sum">交易成功金额</string>
+    <string name="user_retreat_num">用户退单笔数</string>
+    <string name="user_retreat_sum">用户退单金额</string>
+    <string name="confirm_retreat_num">确认退单笔数</string>
+    <string name="confirm_retreat_sum">确认退单金额</string>
+    <string name="flash_detail_title">(%1$s 至 %2$s 总条数:%3$s)</string>
+    <string name="error_data_null">获得数据为空</string>
+    <string name="error_no_more_data">没有更多数据</string>
+
+    <!-- data selection dialog -->
+    <string name="date_self_define_time">自定义时间</string>
+    <string name="date_self_define_account_period">自定义账期:</string>
+    <string name="date_self_define_confirm">确定</string>
+    <string name="date_self_define_cancel">取消</string>
+    <string name="date_format">yyyy年MM月</string>
+    <string name="date_error_1">起始时间不能超过今天</string>
+    <string name="date_error_2">结束时间不能超过今天</string>
+    <string name="date_error_3">开始时间不能大于结束时间</string>
+    <string name="date_start_text">开始日期</string>
+    <string name="date_end_text">结束日期</string>
+
 </resources>

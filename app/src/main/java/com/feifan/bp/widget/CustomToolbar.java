@@ -78,4 +78,5 @@ public class CustomToolbar extends Toolbar {
             super.setTitleTextColor(color);
         }
     }
+    
 }

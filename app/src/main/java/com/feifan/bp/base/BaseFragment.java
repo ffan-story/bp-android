@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.util.LogUtil;
 
 /**
  * Created by maning on 15/7/9.
