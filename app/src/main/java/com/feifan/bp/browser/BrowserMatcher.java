@@ -24,6 +24,7 @@ public class BrowserMatcher {
         sMenuStore.put(Utils.getString(R.string.browser_staff_list), new MenuInfo(R.id.menu_staff_add, R.mipmap.menu_ic_add));
         sMenuStore.put(Utils.getString(R.string.browser_coupon_list), new MenuInfo(R.id.menu_coupon_add, R.mipmap.menu_ic_add));
         sMenuStore.put(Utils.getString(R.string.index_commodity_text), new MenuInfo(R.id.menu_commodity_add, R.mipmap.menu_ic_add));
+        sMenuStore.put(Utils.getString(R.string.browser_commodity_desc), new MenuInfo(R.id.menu_picture_add, R.mipmap.menu_ic_pict));
     }
 
     /**
@@ -59,18 +60,6 @@ public class BrowserMatcher {
      * @return 菜单名称
      */
     public MenuInfo matchForMenu(String title) {
-//       if (getString(R.string.browser_commodity_desc).equals(title)) {
-//            mToolbarStatus = TOOLBAR_STATUS_COMMODITY_DESC;
-//        } else {
-//            mToolbarStatus = TOOLBAR_STATUS_IDLE;
-//        }
-
-//       if (mToolbarStatus == TOOLBAR_STATUS_COMMODITY_DESC) {
-//            inflater.inflate(R.menu.menu_commodity_manage_desc, menu);
-//            (menu.findItem(R.id.action_commodity_desc)).setOnMenuItemClickListener(this);
-//        } else {
-//            menu.clear();
-//        }
 
         if(title == null) {
             return null;

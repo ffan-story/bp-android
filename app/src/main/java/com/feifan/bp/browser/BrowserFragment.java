@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -40,7 +39,6 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.network.UploadHttpClient;
 import com.feifan.bp.network.UrlFactory;
@@ -73,24 +71,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
      * 参数键名称－URL
      */
     public static final String EXTRA_KEY_URL = "url";
-
-    private static final int TOOLBAR_STATUS_IDLE = 0;
-    /**
-     * 员工管理
-     */
-    private static final int TOOLBAR_STATUS_STAFF = 1;
-
-    /**
-     * 优惠券列表
-     */
-    private static final int TOOLBAR_STATUS_COUPON = 2;
-
-    /**
-     * 商品管理
-     */
-    private static final int TOOLBAR_STATUS_COMMODITY = 3;
-    private static final int TOOLBAR_STATUS_COMMODITY_DESC = 4;
-    private int mToolbarStatus = TOOLBAR_STATUS_IDLE;
 
     //type=0不限制大小
     private static final int IMG_PICK_TYPE_0 = 0;
@@ -303,7 +283,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 LogUtil.i(TAG, "menu onClick() commodity url=" + url);
                 return true;
 
-            case R.id.action_commodity_desc:
+            case R.id.menu_picture_add:
                 initLeaveWordsDialog();
                 return true;
 
