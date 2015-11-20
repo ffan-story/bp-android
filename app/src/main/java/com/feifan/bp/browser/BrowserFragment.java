@@ -178,7 +178,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         try {
             mListener = (OnBrowserListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement OnTitleReceiveListener");
+            throw new ClassCastException(context.toString() + "must implement OnBrowserListener");
         }
     }
 
@@ -317,13 +317,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private class PlatformWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.d(TAG, "shouldOverrideUrlLoading url======" + url);
+            Log.d(TAG, "We got " + url + " in shouldOverrideUrlLoading via PlatformWebViewClient");
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
-            Log.d(TAG, "schema ======" + schema);
             if(TextUtils.isEmpty(schema)){
                return true;
             }
+
+
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
                 if (url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
                     UserProfile.getInstance().clear();

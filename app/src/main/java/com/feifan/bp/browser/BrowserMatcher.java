@@ -1,7 +1,12 @@
 package com.feifan.bp.browser;
 
+import android.inputmethodservice.KeyboardView;
+import android.os.Bundle;
+
 import com.feifan.bp.Constants;
+import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 
 import java.util.HashMap;
@@ -17,6 +22,12 @@ import java.util.Map;
  */
 public class BrowserMatcher {
 
+    /** 期望动作－打开 */
+    public static final int PENDING_DO_OPEN = 1;
+    /** 期望动作－关闭 */
+    public static final int PENDING_DO_CLOSE = PENDING_DO_OPEN;
+
+    // 顶部菜单项集合
     private static final Map<String, MenuInfo> sMenuStore;
 
     static {
@@ -54,10 +65,10 @@ public class BrowserMatcher {
     }
 
     /**
-     * 通过标题匹配顶部右侧菜单项名称
+     * 通过标题匹配顶部右侧菜单项信息
      *
      * @param title 页面标题
-     * @return 菜单名称
+     * @return 菜单信息
      */
     public MenuInfo matchForMenu(String title) {
 

@@ -64,7 +64,6 @@
             android:screenOrientation="portrait">
         </activity>
 
-        <!--android:launchMode="singleTask"-->
         <activity
             android:name="com.feifan.croplib.CropImageActivity"
             android:screenOrientation="portrait" />
@@ -72,6 +71,9 @@
         <activity
             android:name=".PlatformTopbarActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".PlatformTabActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".TransactionFlow.TransFlowTabActivity"

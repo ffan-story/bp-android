@@ -29,8 +29,9 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topbar);
 
+        // 初始化标题栏
         mToolbar = (Toolbar)findViewById(R.id.topbar_header);
-        mCenterTitle = (TextView)mToolbar.findViewById(R.id.topbar_center_title);
+        mCenterTitle = (TextView)mToolbar.findViewById(R.id.header_center_title);
         initHeader(mToolbar);
 
         String fragmentName = getIntent().getStringExtra(OnFragmentInteractionListener.INTERATION_KEY_TO);
@@ -40,7 +41,7 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
 
     }
 
-    protected void initHeader(Toolbar header) {
+    private void initHeader(Toolbar header) {
         header.setNavigationIcon(R.mipmap.ic_left_arrow);
         header.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,6 +2,7 @@ package com.feifan.bp.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,7 @@ import com.android.volley.Response;
 import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
@@ -31,6 +33,7 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.browser.BrowserFragment;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.check.CheckManageFragment;
@@ -210,13 +213,23 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
         switch (v.getId()) {
             case R.id.index_scan:
-                if (!UserProfile.getInstance().isStoreUser()) {
-                    Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
-                break;
+//                if (!UserProfile.getInstance().isStoreUser()) {
+//                    Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
+//                break;
 
+                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
+                              .addFragment(SettingsFragment.class.getName(), "设置")
+                              .addArgument(SettingsFragment.class.getName(), "count", 1)
+                              .addFragment(MessageFragment.class.getName(), "消息 ")
+                              .addArgument(MessageFragment.class.getName(), "count", 2)
+                              .build();
+
+                Intent intent = PlatformTabActivity.buildIntent(getContext(), "测试中心", fragmentArgs);
+                startActivity(intent);
+                return;
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LoginInfoFragment.class.getName());
                 break;

@@ -34,7 +34,7 @@ public interface OnFragmentInteractionListener {
     void onFragmentInteraction(Bundle args);
 
     /**
-     * 重载该方法，可以响应标题变更时间
+     * 重载该方法，可以响应标题变更事件
      * @param title
      */
     void onTitleChanged(String title);
