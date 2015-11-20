@@ -36,12 +36,14 @@ import android.widget.Toast;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.network.UploadHttpClient;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.refund.RefundFragment;
 import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
@@ -285,6 +287,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
             case R.id.menu_picture_add:
                 initLeaveWordsDialog();
+                return true;
+            case R.id.menu_refund_index_explain:
+                PlatformTopbarActivity.startActivity(getActivity(), RefundFragment.class.getName(),getActivity().getResources().getString(R.string.refund));
                 return true;
 
             default:

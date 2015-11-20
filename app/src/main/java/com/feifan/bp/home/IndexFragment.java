@@ -1,18 +1,17 @@
 package com.feifan.bp.home;
 
 import android.app.Activity;
-import android.content.Context;
+
 import android.content.Intent;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +27,6 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
@@ -42,6 +40,7 @@ import com.feifan.bp.logininfo.LoginInfoFragment;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.refund.RefundFragment;
 import com.feifan.bp.util.LogUtil;
 
 import java.util.ArrayList;

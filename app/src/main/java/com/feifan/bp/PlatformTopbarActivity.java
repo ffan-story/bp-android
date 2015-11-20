@@ -1,5 +1,6 @@
 package com.feifan.bp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 
 import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
 import com.feifan.bp.base.PlatformBaseActivity;
+import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
+import com.feifan.bp.refund.RefundFragment;
 
 /**
  * 项目通用带有Topbar的活动
@@ -23,17 +26,33 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
 
     private Toolbar mToolbar;
     private TextView mCenterTitle;
+    public static final String EXTRA_TITLE = "titleName";
+    private String mStrTitleName = "";
+
+    /**
+     *
+     * @param context
+     * @param fragmentName
+     * @param titleName
+     */
+    public static void startActivity(Context context, String fragmentName,String titleName) {
+        Intent i = new Intent(context, PlatformTopbarActivity.class);
+        i.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO,fragmentName);
+        i.putExtra(EXTRA_TITLE,titleName);
+        context.startActivity(i);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topbar);
 
+        mStrTitleName = getIntent().getStringExtra(EXTRA_TITLE);
         // 初始化标题栏
         mToolbar = (Toolbar)findViewById(R.id.topbar_header);
         mCenterTitle = (TextView)mToolbar.findViewById(R.id.header_center_title);
+        mCenterTitle.setText(mStrTitleName);
         initHeader(mToolbar);
-
         String fragmentName = getIntent().getStringExtra(OnFragmentInteractionListener.INTERATION_KEY_TO);
         if(!TextUtils.isEmpty(fragmentName)) {
             switchFragment(Fragment.instantiate(this, fragmentName));

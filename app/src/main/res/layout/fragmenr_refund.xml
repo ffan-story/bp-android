@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.feifan.bp.home.IndexFragment"
+    android:background="@color/bg_color_grey">
+
+
+    <RelativeLayout
+        android:id="@+id/index_search_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/index_bg_search"
+        android:gravity="center"
+        android:paddingLeft="@dimen/view_spacing_15">
+
+        <RelativeLayout
+            android:id="@+id/index_search_btn"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/index_ic_search" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/et_refund_code_edit"
+            style="@style/txt_colorwhite_size18"
+            android:layout_width="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/index_search_btn"
+            android:background="@null"
+            android:inputType="none"
+            android:maxLength="16"
+            android:textColorHint="@android:color/white"
+            android:textStyle="bold">
+        <requestFocus />
+    </EditText>
+    </RelativeLayout>
+
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboard_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5.0dp"
+        android:background="#ffffffff"
+        android:focusable="true"
+        android:keyBackground="@drawable/calculator_button_bg"
+        android:keyTextColor="@color/font_color_66"
+        android:keyTextSize="26.0sp"
+        android:shadowColor="#ffffffff"
+        android:shadowRadius="0.0"
+        android:visibility="gone"  />
+
+</RelativeLayout>

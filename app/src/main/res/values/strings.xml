@@ -36,7 +36,7 @@
     <string name="index_search_input_hint">请输入提货码或券码</string>
     <string name="index_commodity_text">商品管理</string>
     <string name="index_marketing_text">营销管理</string>
-
+    <string name="refund">发起退款</string>
     <!-- 浏览器 -->
     <string name="browser_staff_add">添加员工</string>
     <string name="browser_staff_list">员工列表</string>
