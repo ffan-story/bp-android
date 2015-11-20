@@ -14,9 +14,10 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/index_bg_search"
+        android:background="@drawable/bg_round_stroke_white"
         android:gravity="center"
-        android:paddingLeft="@dimen/view_spacing_15">
+        android:paddingLeft="@dimen/view_spacing_15"
+        android:layout_marginBottom="@dimen/view_spacing_30">
 
         <RelativeLayout
             android:id="@+id/index_search_btn"
@@ -29,24 +30,32 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/index_ic_search" />
+                android:padding="@dimen/view_spacing_25"
+                android:src="@mipmap/sym_keyboard_delete" />
         </RelativeLayout>
+
 
         <EditText
             android:id="@+id/et_refund_code_edit"
-            style="@style/txt_colorwhite_size18"
+            style="@style/txt_color33_size18"
             android:layout_width="fill_parent"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/index_search_btn"
             android:background="@null"
             android:inputType="none"
             android:maxLength="16"
-            android:textColorHint="@android:color/white"
-            android:textStyle="bold">
+            android:textColorHint="@color/font_color_99"
+            android:hint="@string/input_order_id">
         <requestFocus />
     </EditText>
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_below="@id/index_search_input"
+        android:text="@string/next"
+        style="@style/btn_margin15_round_blue_click"
+        />
 
     <android.inputmethodservice.KeyboardView
         android:id="@+id/keyboard_view"
@@ -56,7 +65,7 @@
         android:layout_marginTop="5.0dp"
         android:background="#ffffffff"
         android:focusable="true"
-        android:keyBackground="@drawable/calculator_button_bg"
+        android:keyBackground="@drawable/bg_btn_custom_keyboard"
         android:keyTextColor="@color/font_color_66"
         android:keyTextSize="26.0sp"
         android:shadowColor="#ffffffff"

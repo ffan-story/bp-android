@@ -255,7 +255,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
                 holder.mTvMessageTitle.setTextColor(context.getResources().getColor(R.color.font_color_66));
             } else {
                 holder.mImgRedPoint.setVisibility(View.INVISIBLE);
-                holder.mTvMessageTitle.setTextColor(context.getResources().getColor(R.color.feed_back_color));
+                holder.mTvMessageTitle.setTextColor(context.getResources().getColor(R.color.font_color_99));
             }
             holder.mTvMessageTitle.setText(data.getmStrMessageTitle());
             holder.mTvMessageTime.setText(data.getmStrMessageTime());

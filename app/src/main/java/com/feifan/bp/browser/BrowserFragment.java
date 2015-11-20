@@ -289,7 +289,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 initLeaveWordsDialog();
                 return true;
             case R.id.menu_refund_index_explain:
-                PlatformTopbarActivity.startActivity(getActivity(), RefundFragment.class.getName(),getActivity().getResources().getString(R.string.refund));
+                PlatformTopbarActivity.startActivity(getActivity(), RefundFragment.class.getName(),getActivity().getResources().getString(R.string.start_refund));
                 return true;
 
             default:

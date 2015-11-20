@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,20 +14,14 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="交易流水单号: "
-            android:textColor="@color/font_color_66"
-            android:textSize="@dimen/font_size_14"/>
+            style="@style/txt_color66_size14"
+            android:text="交易流水单号: " />
 
         <TextView
             android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/login_info_color"
-            android:textSize="@dimen/font_size_14"
-            android:singleLine="true"
-            android:ellipsize="end"/>
+            style="@style/txt_color33_size14"
+            android:ellipsize="end"
+            android:singleLine="true" />
 
     </LinearLayout>
 
@@ -40,18 +34,12 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="订单编号: "
-            android:textColor="@color/font_color_66"
-            android:textSize="@dimen/font_size_14"/>
+            style="@style/txt_color66_size14"
+            android:text="订单编号: " />
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/login_info_color"
-            android:textSize="@dimen/font_size_14"/>
+            style="@style/txt_color33_size14" />
 
     </LinearLayout>
 
@@ -62,20 +50,13 @@
         android:layout_marginTop="@dimen/view_spacing_10"
         android:orientation="horizontal">
 
-
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="会员手机号: "
-            android:textColor="@color/font_color_66"
-            android:textSize="@dimen/font_size_14"/>
+            style="@style/txt_color66_size14"
+            android:text="会员手机号: " />
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/login_info_color"
-            android:textSize="@dimen/font_size_14"/>
+            style="@style/txt_color33_size14" />
 
     </LinearLayout>
 
@@ -88,18 +69,12 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="交易成功时间: "
-            android:textColor="@color/font_color_66"
-            android:textSize="@dimen/font_size_14"/>
+            style="@style/txt_color66_size14"
+            android:text="交易成功时间: " />
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/login_info_color"
-            android:textSize="@dimen/font_size_14"/>
+            style="@style/txt_color33_size14" />
 
     </LinearLayout>
 
@@ -111,22 +86,13 @@
         android:layout_marginTop="@dimen/view_spacing_10"
         android:orientation="horizontal">
 
-
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="退款确认时间: "
-            android:textColor="@color/font_color_66"
-            android:textSize="@dimen/font_size_14"/>
+            style="@style/txt_color66_size14"
+            android:text="退款确认时间: " />
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/login_info_color"
-            android:textSize="@dimen/font_size_14"/>
+            style="@style/txt_color33_size14" />
 
     </LinearLayout>
-
-
 </LinearLayout>

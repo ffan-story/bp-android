@@ -64,14 +64,8 @@
 
     <Button
         android:id="@+id/login_go"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@id/login_forget_password"
-        android:layout_margin="@dimen/view_spacing_15"
-        android:background="@drawable/blue_button_background"
         android:text="@string/login_login_text"
-        android:textSize="@dimen/font_size_16"
-        android:textColor="@android:color/white"/>
-
+        style="@style/btn_margin15_round_blue_click"/>
 
 </RelativeLayout>
