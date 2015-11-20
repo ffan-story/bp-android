@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 
 
 import com.feifan.bp.feedback.FeedBackFragment;
+import com.feifan.bp.helpcenter.HelpCenterFragment;
 import com.feifan.bp.home.check.CheckManageFragment;
 
 import com.feifan.bp.base.BaseActivity;
@@ -116,6 +117,8 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             } else if (to.equals(FeedBackFragment.class.getName())) {
                 showFeedBack();
                 //end
+            } else if (to.equals(HelpCenterFragment.class.getName())) {// add by congjing
+                showHelpCenter();
             } else {
                 startActivity(Utils.getSystemBrowser(to));
             }
@@ -217,6 +220,12 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     private void showLogin() {
         mBottomBar.setVisibility(View.GONE);
         switchFragment(LoginFragment.newInstance());
+    }
+
+    //帮助中心
+    private void showHelpCenter() {
+        mBottomBar.setVisibility(View.GONE);
+        switchFragment(HelpCenterFragment.newInstance());
     }
 
     //显示意见反馈页面

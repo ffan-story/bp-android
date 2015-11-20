@@ -8,7 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 
 /**
@@ -33,6 +37,9 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
         final View contentView = inflater.inflate(R.layout.fragmenr_refund, null);
         mEdCode = (EditText) contentView.findViewById(R.id.et_refund_code_edit);
 
+        contentView.findViewById(R.id.img_refund_scancode).setOnClickListener(this);
+        contentView.findViewById(R.id.btn_refund_next).setOnClickListener(this);
+
         KeyboardView mKeyboardView  = (KeyboardView)contentView.findViewById(R.id.keyboard_view);
         mCustomKeyboard = new CustomKeyboard(getActivity(),mKeyboardView, R.xml.custom_keyboard,mEdCode);
         mCustomKeyboard.registerEditText();
@@ -44,7 +51,18 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.img_refund_scancode:
+                if (!UserProfile.getInstance().isStoreUser()) {
+                    Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                CodeScannerActivity.startActivity(getActivity());
+                break;
+            case R.id.btn_refund_next:
+                break;
 
+        }
     }
 
     TextWatcher mRefundTextWatcher = new TextWatcher() {

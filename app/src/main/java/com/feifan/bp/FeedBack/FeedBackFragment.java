@@ -150,10 +150,8 @@ public class FeedBackFragment extends BaseFragment implements View.OnClickListen
             public void onClick(View v) {
                 if (mListener != null) {
                     Bundle b = new Bundle();
-                    b.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM,
-                            FeedBackFragment.class.getName());
-                    b.putInt(OnFragmentInteractionListener.INTERATION_KEY_TYPE,
-                            OnFragmentInteractionListener.TYPE_NAVI_CLICK);
+                    b.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM,  FeedBackFragment.class.getName());
+                    b.putInt(OnFragmentInteractionListener.INTERATION_KEY_TYPE,  OnFragmentInteractionListener.TYPE_NAVI_CLICK);
                     mListener.onFragmentInteraction(b);
                 }
             }

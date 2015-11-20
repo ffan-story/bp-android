@@ -44,19 +44,14 @@
             android:gravity="center"
             android:paddingLeft="@dimen/view_spacing_15">
 
-            <RelativeLayout
+            <ImageView
                 android:id="@+id/index_search_btn"
-                android:layout_width="60dp"
-                android:layout_height="50dp"
-                android:layout_alignParentRight="true">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:src="@mipmap/index_ic_search" />
-            </RelativeLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="15dp"
+                android:src="@mipmap/index_ic_search" />
 
             <EditText
                 android:id="@+id/et_code_edit"

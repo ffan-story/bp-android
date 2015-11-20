@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.feedback.FeedBackFragment;
 import com.feifan.bp.LaunchActivity;
+import com.feifan.bp.helpcenter.HelpCenterFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
@@ -64,9 +65,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
+        v.findViewById(R.id.settings_help_center).setOnClickListener(this);
         v.findViewById(R.id.settings_change_password).setOnClickListener(this);
         v.findViewById(R.id.settings_clear_cache).setOnClickListener(this);
         v.findViewById(R.id.settings_exit).setOnClickListener(this);
@@ -107,6 +108,13 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.settings_help_center:
+                Bundle helpBundle = new Bundle();
+                helpBundle.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
+                helpBundle.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, HelpCenterFragment.class.getName());
+                mListener.onFragmentInteraction(helpBundle);
+                break;
+
             case R.id.settings_check_upgrade:
                 if (SystemClock.elapsedRealtime() - mLastClickTime < 3000) {
                     return;

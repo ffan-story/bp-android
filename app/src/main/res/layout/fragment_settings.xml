@@ -1,11 +1,20 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.feifan.bp.home.SettingsFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.feifan.bp.home.SettingsFragment">
+
+    <TextView
+        android:id="@+id/settings_help_center"
+        style="@style/SettingButton"
+        android:drawableLeft="@mipmap/settings_ic_clear_cache"
+        android:drawableRight="@mipmap/settings_ic_right_arrow"
+        android:text="@string/settings_help_center" />
 
     <TextView
         android:id="@+id/settings_check_upgrade"
         style="@style/SettingButton"
-        android:layout_alignParentTop="true"
         android:drawableLeft="@mipmap/settings_ic_check_upgrade"
         android:drawableRight="@mipmap/settings_ic_right_arrow" />
 
@@ -20,7 +29,6 @@
     <TextView
         android:id="@+id/settings_advice_feedback"
         style="@style/SettingButton"
-        android:layout_below="@id/settings_change_password"
         android:drawableLeft="@mipmap/settings_ic_feed_back"
         android:drawableRight="@mipmap/settings_ic_right_arrow"
         android:text="@string/settings_advice_feedback_text" />
@@ -28,20 +36,18 @@
     <TextView
         android:id="@+id/settings_clear_cache"
         style="@style/SettingButton"
-        android:layout_below="@id/settings_advice_feedback"
         android:drawableLeft="@mipmap/settings_ic_clear_cache"
         android:drawableRight="@mipmap/settings_ic_right_arrow"
         android:text="@string/settings_clear_cache_text" />
+
 
     <TextView
         android:id="@+id/settings_exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/settings_clear_cache"
-        android:padding="@dimen/view_spacing_15"
         android:layout_marginTop="@dimen/view_spacing_20"
-        android:text="@string/settings_logout_text"
+        android:background="@drawable/border_top_bottom_background"
         android:gravity="center"
-        android:background="@drawable/border_top_bottom_background"/>
-
-</RelativeLayout>
+        android:padding="@dimen/view_spacing_15"
+        android:text="@string/settings_logout_text" />
+</LinearLayout>

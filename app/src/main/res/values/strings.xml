@@ -56,6 +56,7 @@
     <string name="settings_logout_text">退出登录</string>
     <string name="settings_check_update_none">无最新版本</string>
     <string name="settings_clear_cache_finished_text">清除完毕</string>
+    <string name="settings_help_center">帮助中心</string>
     <!-- Settings（设置） - end -->
 
     <!-- Message(消息)－begin -->
@@ -140,6 +141,9 @@
     <string name="login_info_store">门店账号</string>
     <string name="login_info_merchant">商户账号</string>
     <string name="login_info_empty">无</string>
+
+    <!-- help center -->
+    <string name="help_center_title">帮助中心</string>
 
     <!-- feed back -->
     <string name="feed_back">意见反馈</string>
