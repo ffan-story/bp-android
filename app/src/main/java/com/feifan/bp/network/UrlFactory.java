@@ -17,6 +17,9 @@ import com.feifan.bp.envir.EnvironmentManager;
  */
 public abstract class UrlFactory {
 
+    //退款
+    private static final String URL_PATH_REFUND_QUERY = "/H5App/index.html#/order/detail/";
+
     // H5页面相对路径－查询提货码
     private static final String URL_PATH_SEARCH = "H5App/index.html#/goods/search_result";
 
@@ -36,12 +39,16 @@ public abstract class UrlFactory {
                 concat("&merchantId=").concat(userProfile.getAuthRangeId());
     }
 
-
     public static String searchCodeForHtml(String code) {
         UserProfile userProfile = UserProfile.getInstance();
         return urlForHtml(URL_PATH_SEARCH).
                 concat("&merchantId=").concat(userProfile.getAuthRangeId()).
                 concat("&signNo=").concat(code);
+    }
+
+    public static String refundQueryHtml(String code) {
+        return urlForHtml(URL_PATH_REFUND_QUERY + code).
+                concat("&refund=").concat("1");
     }
 
     public static String staffAddForHtml() {
