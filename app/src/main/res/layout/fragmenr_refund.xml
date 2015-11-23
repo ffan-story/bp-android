@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:inputType="none"
             android:padding="13dp"
-            android:src="@mipmap/sym_keyboard_delete" />
+            android:src="@mipmap/icon_scanning" />
 
         <EditText
             android:id="@+id/et_refund_code_edit"

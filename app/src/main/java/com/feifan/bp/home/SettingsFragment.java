@@ -142,6 +142,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, ResetPasswordFragment.class.getName());
                 mListener.onFragmentInteraction(args);
                 break;
+
             case R.id.settings_advice_feedback:
                 //add by tianjun 2015.10.27
                 Bundle bundle = new Bundle();

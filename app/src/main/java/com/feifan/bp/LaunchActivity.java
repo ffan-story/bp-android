@@ -156,11 +156,8 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 openBrowser(args.getString(BrowserActivity.EXTRA_KEY_URL));
             }
             //add by tianjun 2015.10.27
-        } else if (from.equals(LoginInfoFragment.class.getName())) {
-            if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
-                showHome(false);
-            }
-        } else if (from.equals(FeedBackFragment.class.getName())) {
+        } else if (from.equals(LoginInfoFragment.class.getName()) || from.equals(FeedBackFragment.class.getName())
+                || from.equals(HelpCenterFragment.class.getName())) {
             if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
                 showHome(false);
             }
@@ -273,15 +270,13 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     public void onBackPressed() {
         if (mCurrentFragment != null && mCurrentFragment instanceof ForgetPasswordFragment) {
             showLogin();
-        } else if (mCurrentFragment != null && mCurrentFragment instanceof ResetPasswordFragment) {
+        } else if (mCurrentFragment != null
+                && mCurrentFragment instanceof ResetPasswordFragment
+                || mCurrentFragment instanceof LoginInfoFragment
+                || mCurrentFragment instanceof FeedBackFragment
+                || mCurrentFragment instanceof HelpCenterFragment) {
             showHome(false);
-            //add by tianjun 2015.10.27
-        } else if (mCurrentFragment != null && mCurrentFragment instanceof LoginInfoFragment) {
-            showHome(false);
-        } else if (mCurrentFragment != null && mCurrentFragment instanceof FeedBackFragment) {
-            showHome(false);
-            //end.
-        } else {
+        }  else {
             super.onBackPressed();
         }
     }

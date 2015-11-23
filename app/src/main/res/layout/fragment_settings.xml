@@ -6,23 +6,16 @@
     tools:context="com.feifan.bp.home.SettingsFragment">
 
     <TextView
-        android:id="@+id/settings_help_center"
-        style="@style/SettingButton"
-        android:drawableLeft="@mipmap/settings_ic_clear_cache"
-        android:drawableRight="@mipmap/settings_ic_right_arrow"
-        android:text="@string/settings_help_center" />
-
-    <TextView
         android:id="@+id/settings_check_upgrade"
         style="@style/SettingButton"
-        android:drawableLeft="@mipmap/settings_ic_check_upgrade"
+        android:drawableLeft="@mipmap/icon_update"
         android:drawableRight="@mipmap/settings_ic_right_arrow" />
 
     <TextView
         android:id="@+id/settings_change_password"
         style="@style/SettingButton"
         android:layout_below="@id/settings_check_upgrade"
-        android:drawableLeft="@mipmap/settings_ic_modify_password"
+        android:drawableLeft="@mipmap/icon_edit"
         android:drawableRight="@mipmap/settings_ic_right_arrow"
         android:text="@string/settings_change_password_text" />
 
@@ -36,10 +29,16 @@
     <TextView
         android:id="@+id/settings_clear_cache"
         style="@style/SettingButton"
-        android:drawableLeft="@mipmap/settings_ic_clear_cache"
+        android:drawableLeft="@mipmap/icon_junk"
         android:drawableRight="@mipmap/settings_ic_right_arrow"
         android:text="@string/settings_clear_cache_text" />
 
+    <TextView
+        android:id="@+id/settings_help_center"
+        style="@style/SettingButton"
+        android:drawableLeft="@mipmap/icon_help"
+        android:drawableRight="@mipmap/settings_ic_right_arrow"
+        android:text="@string/settings_help_center" />
 
     <TextView
         android:id="@+id/settings_exit"
@@ -50,4 +49,5 @@
         android:gravity="center"
         android:padding="@dimen/view_spacing_15"
         android:text="@string/settings_logout_text" />
+
 </LinearLayout>
