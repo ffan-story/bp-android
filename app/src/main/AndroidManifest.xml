@@ -80,7 +80,8 @@
             android:label=" "
             android:screenOrientation="portrait">
         </activity>
-        <!--<meta-data android:name="UMENG_APPKEY" android:value="${UMENG_APPKEY_VALUE}" />-->
+        <meta-data android:name="UMENG_APPKEY" android:value="${UMENG_APPKEY_VALUE}" />
+        <meta-data android:name="UMENG_CHANNEL" android:value="pgyer" />
     </application>
 
 </manifest>

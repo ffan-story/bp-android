@@ -8,13 +8,7 @@
         <!-- 条目布局 -->
         <attr name="itemLayout" format="reference" />
     </declare-styleable>
-    <!-- 带图标的TextView -->
-    <declare-styleable name="IconTextView">
-        <attr name="exampleString" format="string" />
-        <attr name="exampleDimension" format="dimension" />
-        <attr name="exampleColor" format="color" />
-        <attr name="exampleDrawable" format="color|reference" />
-    </declare-styleable>
+
     <!-- CountDownButton倒计时按钮属性-begin -->
 
     <declare-styleable name="CountDownButton" >

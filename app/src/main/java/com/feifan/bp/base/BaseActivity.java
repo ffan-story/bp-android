@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.R;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -139,8 +140,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
+
+        MobclickAgent.onPause(this);
+
         if (isFinishing()) {
             removeDialog(DIALOG_ID_PROGRESS_BAR);
         }

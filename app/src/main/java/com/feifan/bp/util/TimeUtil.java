@@ -8,10 +8,10 @@ import java.util.Date;
 /**
  * Created by Frank on 15/8/19.
  */
-public class TimeUtils {
+public class TimeUtil {
 
     private static final SimpleDateFormat DATE_FORMAT_DATE = new SimpleDateFormat("yyyy-MM-dd");
-    private TimeUtils() {
+    private TimeUtil() {
     }
 
     /**

@@ -1,11 +1,11 @@
 package com.feifan.bp.home;
 
-import android.app.Activity;
-
+import android.content.Context;
 import android.content.Intent;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -21,17 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTabActivity;
-import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
-import com.feifan.bp.browser.BrowserFragment;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.check.CheckManageFragment;
@@ -40,7 +37,6 @@ import com.feifan.bp.logininfo.LoginInfoFragment;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.refund.RefundFragment;
 import com.feifan.bp.util.LogUtil;
 
 import java.util.ArrayList;
@@ -190,12 +186,12 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
@@ -228,6 +224,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
                 Intent intent = PlatformTabActivity.buildIntent(getContext(), "测试中心", fragmentArgs);
                 startActivity(intent);
+
                 return;
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LoginInfoFragment.class.getName());
@@ -304,7 +301,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         @Override
         public IndexViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(getActivity()).
-                    inflate(R.layout.item_index_function, viewGroup, false);
+                    inflate(R.layout.index_function_item, viewGroup, false);
             IndexViewHolder holder = new IndexViewHolder(view);
             return holder;
         }
@@ -317,12 +314,17 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 return;
             }
 
-            Drawable t = getResources().getDrawable(iconRes);
+            Drawable t = ContextCompat.getDrawable(getContext(), iconRes);
             t.setBounds(0, 0, mIconSize, mIconSize);
+
+            // TODO use the code below to show red dot for a function
+//            Drawable red = ContextCompat.getDrawable(getContext(), R.drawable.bg_red_dot);
+//            red.setBounds(0, 0, red.getIntrinsicWidth(), red.getIntrinsicHeight());
+
             indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
 
             indexViewHolder.textView.setText(item.name);
-            indexViewHolder.layout.setOnClickListener(new View.OnClickListener() {
+            indexViewHolder.textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (isAdded()) {
@@ -354,35 +356,14 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     }
                 }
             });
-            indexViewHolder.redDotView.setVisibility(View.GONE);
-//            if (Authority.REFUND_ID.equals(f.getId())) {
-//                RefundCountRequest.Params params = BaseRequest.newParams(RefundCountRequest.Params.class);
-//                params.setStoreId(AccountManager.instance(getActivity()).getAuthRangeId());
-//                params.setRefundStatus("MER_REVIEW");
-//                HttpEngine.Builder builder = HttpEngine.Builder.newInstance(getActivity());
-//                builder.setRequest(new RefundCountRequest(params,
-//                        new BaseRequestProcessListener<RefundCountModel>(getActivity(), false) {
-//                            @Override
-//                            public void onResponse(RefundCountModel refundCountModel) {
-//                                if (refundCountModel.getCount() > 0) {
-//                                    indexViewHolder.redDotView.setVisibility(View.VISIBLE);
-//                                }
-//                            }
-//                        })).build().start();
-//
-//            }
         }
 
         class IndexViewHolder extends RecyclerView.ViewHolder {
             private TextView textView;
-            private View layout;
-            private View redDotView;
 
             public IndexViewHolder(View itemView) {
                 super(itemView);
-                layout = itemView.findViewById(R.id.tv_function_item);
-                textView = (TextView) itemView.findViewById(R.id.text);
-                redDotView = itemView.findViewById(R.id.iv_red_dot);
+                textView = (TextView)itemView;
             }
         }
     }

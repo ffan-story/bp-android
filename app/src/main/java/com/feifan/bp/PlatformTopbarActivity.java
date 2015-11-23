@@ -16,6 +16,7 @@ import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.refund.RefundFragment;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 项目通用带有Topbar的活动
