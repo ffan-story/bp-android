@@ -150,7 +150,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         List<AuthItem> list = UserProfile.getInstance().getAuthList();
         LogUtil.i(TAG, "auth list=" + list);
 
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_function_container);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.index_function_container);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(
                 3, StaggeredGridLayoutManager.VERTICAL));
 //        mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));

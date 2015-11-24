@@ -30,6 +30,7 @@ import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.logininfo.LoginInfoFragment;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
+import com.feifan.bp.widget.BadgerRadioButton;
 import com.feifan.bp.widget.TabBar;
 
 import java.util.ArrayList;
@@ -68,6 +69,9 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 switchFragment(mFragments.get(checkedId));
             }
         });
+
+        // FIXME Just a sample code to show badger, remove me later please
+         ((BadgerRadioButton)mBottomBar.getChildAt(1)).showBadger();
 
         // 加载内容视图
         initContent();

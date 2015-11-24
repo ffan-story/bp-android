@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+<com.feifan.bp.widget.BadgerRadioButton xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:drawablePadding="@dimen/view_spacing_5"
     android:textColor="@color/home_bottom_bar_item_text_color_selector"
+    android:clickable="true"
     android:button="@null"
-    android:background="@null">
-
-</RadioButton>
+    android:background="@null" />

@@ -133,4 +133,14 @@
         <item name="android:textColor">@color/font_color_33</item>
         <item name="android:textSize">@dimen/font_size_16</item>
     </style>
+
+    <!-- 主页面按钮 -->
+    <style name="IndexButton">
+        <item name="android:clickable">true</item>
+        <item name="android:drawablePadding">@dimen/view_spacing_10</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/view_spacing_20</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/font_size_14</item>
+    </style>
 </resources>
