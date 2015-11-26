@@ -124,10 +124,9 @@
     </style>
 
     <style name="item_help_center">
-        <item name="android:background">@drawable/border_bottom_background</item>
         <item name="android:drawablePadding">@dimen/view_spacing_10</item>
-        <item name="android:padding">@dimen/view_spacing_15</item>
-        <item name="android:clickable">true</item>
+        <item name="android:paddingLeft">@dimen/view_spacing_10</item>
+        <item name="android:clickable">false</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/font_color_33</item>

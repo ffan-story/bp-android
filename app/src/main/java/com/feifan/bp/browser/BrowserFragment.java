@@ -289,7 +289,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 initLeaveWordsDialog();
                 return true;
             case R.id.menu_refund_index_explain:
-                PlatformTopbarActivity.startActivity(getActivity(), RefundFragment.class.getName(),getActivity().getResources().getString(R.string.start_refund));
+                PlatformTopbarActivity.startActivityForResult(getActivity(), RefundFragment.class.getName(),getActivity().getResources().getString(R.string.start_refund));
                 return true;
 
             default:
@@ -325,10 +325,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             Log.d(TAG, "We got " + url + " in shouldOverrideUrlLoading via PlatformWebViewClient");
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
+            LogUtil.i(TAG, "schema======" +  schema);
             if(TextUtils.isEmpty(schema)){
                return true;
             }
-
 
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
                 if (url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
@@ -341,6 +341,11 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 } else if (url.contains(Constants.URL_PATH_HOME)) {
                     // 目前关闭当前界面即显示主界面
                     if (getActivity() != null) {
+                        getActivity().finish();
+                    }
+                } else if (url.contains(Constants.URL_PATH_CLOSE)) {//返回退款售后
+                    if (getActivity() != null) {
+                        getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
                     }
                 } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
@@ -404,8 +409,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         @Override
         public void onPageFinished(WebView view, String url) {
             hideProgressBar();
-            super.onPageFinished(view, url);
             isOnclicked = false;
+            super.onPageFinished(view, url);
+
         }
     }
 
@@ -617,5 +623,11 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isOnclicked = false;
     }
 }

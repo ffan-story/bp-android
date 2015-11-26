@@ -13,18 +13,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.feifan.bp.CodeScannerActivity;
-import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
-import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.LogUtil;
 
 /**
- * Created by congjing 15-11-19.
+ * Created by congjing
  */
 public class RefundFragment extends BaseFragment implements View.OnClickListener {
     private EditText mEdRefundCode;
@@ -65,9 +62,11 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
                     Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                CodeScannerActivity.startActivity(getActivity(),RefundFragment.class.getName());
+                String urlStr = UrlFactory.refundForHtml();
+                CodeScannerActivity.startActivity(getActivity(),urlStr);
                 break;
             case R.id.btn_refund_next:
+
                 if (!UserProfile.getInstance().isStoreUser()) {
                     Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
                     mEdRefundCode.setText("");
@@ -89,9 +88,10 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
                     Utils.showShortToast(getActivity(), throwable.getMessage());
                     return;
                 }
+
                 mEdRefundCode.setText("");
-                String urlStr = UrlFactory.refundQueryHtml(code);
-                BrowserActivity.startActivity(getActivity(), urlStr);
+                String url = String.format( UrlFactory.refundForHtml(), code);
+                BrowserActivity.startForResultActivity(getActivity(), url);
                 break;
 
         }

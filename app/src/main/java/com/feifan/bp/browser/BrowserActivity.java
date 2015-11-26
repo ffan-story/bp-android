@@ -1,5 +1,6 @@
 package com.feifan.bp.browser;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.PopupWindow;
 
+import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
@@ -24,6 +26,8 @@ import com.feifan.croplib.Crop;
 import com.feifan.material.MaterialDialog;
 
 import java.io.File;
+
+import bp.feifan.com.codescanner.Contents;
 
 public class BrowserActivity extends BaseActivity implements BrowserFragment.OnBrowserListener {
     /**
@@ -51,6 +55,12 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
         Intent i = new Intent(context, BrowserActivity.class);
         i.putExtra(EXTRA_KEY_URL, url);
         context.startActivity(i);
+    }
+
+    public static void startForResultActivity(Activity activity, String url) {
+        Intent i = new Intent(activity, BrowserActivity.class);
+        i.putExtra(EXTRA_KEY_URL, url);
+        activity.startActivityForResult(i, Constants.REQUEST_CODE_STAFF_EDIT);
     }
 
     public static Intent buildIntent(Context context) {

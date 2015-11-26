@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,8 +20,10 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.MessageModel;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 
@@ -28,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bp.feifan.com.refresh.PtrClassicFrameLayout;
+import bp.feifan.com.refresh.PtrDefaultHandler;
 import bp.feifan.com.refresh.PtrFrameLayout;
 import bp.feifan.com.refresh.PtrHandler;
 
@@ -36,12 +40,15 @@ import bp.feifan.com.refresh.PtrHandler;
  */
 public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreListener, PtrHandler {
     private PtrClassicFrameLayout mPtrFrame, mPtrFrameEmpty;
-    private List<MessageModel.MessageData> mList = new ArrayList<>();
+    private List<HelpCenterModel.HelpCenterData> mList = new ArrayList<>();
     private LoadingMoreListView mListView;
 
     private OnFragmentInteractionListener mListener;
 
     private Adapter mAdapter;
+    private int pageIndex = 1;
+    private int totalCount = 0;
+
     public static HelpCenterFragment newInstance() {
         HelpCenterFragment fragment = new HelpCenterFragment();
         Bundle args = new Bundle();
@@ -58,13 +65,10 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (mList != null && mList.size() > 0) {
-//                    if (mList.get(position).getmStrMessageStatus() != null && mList.get(position).getmStrMessageStatus().equals(Constants.UNREAD)) {
-//                        setMessageListStatus(mList.get(position).getUserid(), mList.get(position).getMaillnboxid(),position);
-//                    }
-//                    String strUri = UrlFactory.urlForHtml(mList.get(position).getmStrDetailUrl());
-//                    BrowserActivity.startActivity(getActivity(), strUri);
-//                }
+                if (mList != null && mList.size() > 0) {
+                    String strUri = UrlFactory.helpCenterDetailForHtml(mList.get(position).getmStrHelpCenterId());
+                    BrowserActivity.startActivity(getActivity(), strUri);
+                }
             }
         });
         mAdapter = new Adapter(getActivity());
@@ -87,6 +91,53 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
         }, 100);
         return contentView;
     }
+
+
+    /**
+     * 获取列表数据
+     */
+    private void fetchHelpCenterList(int pageIndex) {
+        HelpCenterCtrl.getHelpCenter("getList", pageIndex, new Response.Listener<HelpCenterModel>() {
+            @Override
+            public void onResponse(HelpCenterModel helpCenterModel) {
+                hideProgressBar();
+                totalCount = helpCenterModel.getTotalCount();
+                if (helpCenterModel.getStrHelpCenterData() == null) {
+                    return;
+                }
+                if (mList.isEmpty()) {
+                    mList = new ArrayList<>();
+                    mList = helpCenterModel.getArryListHelpCenterData();
+                    if (!mList.isEmpty() && mPtrFrame != null) {
+                        mPtrFrame.setVisibility(View.VISIBLE);
+                        mPtrFrameEmpty.setVisibility(View.GONE);
+                        mPtrFrame.refreshComplete();
+                    } else if (mPtrFrameEmpty != null) {
+                        mPtrFrame.setVisibility(View.GONE);
+                        mPtrFrameEmpty.setVisibility(View.VISIBLE);
+                        mPtrFrameEmpty.refreshComplete();
+                    }
+                } else {
+                    for (int i = 0; i < helpCenterModel.getArryListHelpCenterData().size(); i++) {
+                        mList.add(helpCenterModel.getArryListHelpCenterData().get(i));
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                hideProgressBar();
+                if (mPtrFrameEmpty != null) {
+                    mPtrFrame.refreshComplete();
+                } else if (mPtrFrame != null) {
+                    mPtrFrame.refreshComplete();
+                }
+
+            }
+        });
+    }
+
 
     @Override
     protected void setupToolbar(Toolbar toolbar) {
@@ -122,26 +173,40 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
     }
 
 
+    /**
+     * 加载更多
+     */
     @Override
     public void onLoadingMore() {
-
+        if (mList.size() >= totalCount) {
+            Toast.makeText(getActivity(), getString(R.string.error_no_more_data), Toast.LENGTH_LONG).show();
+        } else {
+            pageIndex++;
+            fetchHelpCenterList(pageIndex);
+        }
+        mListView.hideFooterView();
     }
 
     @Override
     public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-        return false;
+        return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
     }
 
     @Override
     public void onRefreshBegin(PtrFrameLayout frame) {
-
+        updateData();
     }
 
     /**
-     * 获取列表数据
+     * 更新数据
      */
-    private void fetchData(int pageIndex) {
-
+    protected void updateData() {
+        pageIndex = 1;
+        if(mList !=null){
+            mList.clear();
+            mAdapter.notifyDataSetChanged();
+        }
+        fetchHelpCenterList(pageIndex);
     }
 
     class Adapter extends BaseAdapter {
@@ -177,8 +242,8 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            MessageModel.MessageData data = mList.get(position);
-            holder.mTvHelpCenterTitle.setText(data.getmStrMessageTitle());
+            HelpCenterModel.HelpCenterData mhelpCenterData = mList.get(position);
+            holder.mTvHelpCenterTitle.setText(mhelpCenterData.getmStrHelpCenterTitle());
             return convertView;
         }
     }
@@ -187,7 +252,7 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
         private TextView mTvHelpCenterTitle;
         public static ViewHolder findAndCacheViews(View view) {
             ViewHolder holder = new ViewHolder();
-            holder.mTvHelpCenterTitle = (TextView) view.findViewById(R.id.tv_message_title);
+            holder.mTvHelpCenterTitle = (TextView) view.findViewById(R.id.settings_help_center);
             view.setTag(holder);
             return holder;
         }

@@ -11,6 +11,7 @@
     <dimen name="view_spacing_30">30dp</dimen>
     <dimen name="dividerheight">0.5dp</dimen>
     <!-- 字体 -->
+    <dimen name="font_size_26">26sp</dimen>
     <dimen name="font_size_24">24sp</dimen>
     <dimen name="font_size_22">22sp</dimen>
     <dimen name="font_size_21">21sp</dimen>

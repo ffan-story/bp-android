@@ -112,21 +112,23 @@ class CustomKeyboard {
     private OnKeyboardActionListener mOnKeyboardActionListener = new OnKeyboardActionListener() {
         public final static int CodeDelete = -5; // Keyboard.KEYCODE_DELETE
         public final static int CodeCancel = -3; // Keyboard.KEYCODE_CANCEL
-        public final static int CodePoint= 46; // Keyboard.KEYCODE_CANCEL
-
+        public final static int CodePoint = 46;//keyboard.
         @Override
         public void onKey(int primaryCode, int[] keyCodes) {
             Editable editable = mEditText.getText();
             int start = mEditText.getSelectionStart();
-            if (primaryCode == CodeCancel) {
-                hideCustomKeyboard();
-            } else if (primaryCode == CodeDelete) {
-                if (editable != null && start > 0)
+            switch (primaryCode){
+                case CodeCancel://KEYCODE_CANCEL
+                    hideCustomKeyboard();
+                    break;
+                case CodeDelete://delete
                     editable.delete(start - 1, start);
-            } else if (primaryCode == CodePoint) {
-
-            } else { // insert character
-                editable.insert(start, Character.toString((char) primaryCode));
+                    break;
+                case CodePoint://点不显示
+                    break;
+                default:// insert character
+                    editable.insert(start, Character.toString((char) primaryCode));
+                    break;
             }
         }
 

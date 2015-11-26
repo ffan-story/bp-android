@@ -12,8 +12,6 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.feifan.bp.browser.BrowserActivity;
-import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.refund.RefundFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.base.BaseActivity;
 
@@ -26,33 +24,21 @@ import bp.feifan.com.codescanner.CodeScannerFragment;
 public class CodeScannerActivity extends BaseActivity implements CaptureActivityOfResult {
     private static final String TAG = CodeScannerActivity.class.getSimpleName();
 
-    private static String INTERATION_KEY_FROM = "interation_key_from";
+    public static final String INTERATION_KEY_URL = "inter_URL";
+    private String mUrlStr = "";
 
-    private String mfrom ="";
-    public static void startActivity(Context context) {
+    public static void startActivity(Context context,String url) {
         Intent i = new Intent(context, CodeScannerActivity.class);
+        i.putExtra(INTERATION_KEY_URL,url);
         context.startActivity(i);
     }
-
-    /**
-     *
-     * @param context
-     * @param from
-     */
-    public static void startActivity(Context context,String from) {
-        Intent i = new Intent(context, CodeScannerActivity.class);
-        i.putExtra(INTERATION_KEY_FROM,from);
-        context.startActivity(i);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_scanner);
-        if(null != getIntent().getStringExtra(INTERATION_KEY_FROM)){
-            mfrom = getIntent().getStringExtra(INTERATION_KEY_FROM);
-        }
+
+        mUrlStr = getIntent().getStringExtra(INTERATION_KEY_URL);
         initViews();
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -90,14 +76,19 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
             //TODO: Toast and return??
             return;
         }
-        String urlStr ="";
-        if(!TextUtils.isEmpty(mfrom) && mfrom.equals(RefundFragment.class.getName())){
-            LogUtil.i(TAG, "resultText="+resultText);
-           urlStr = UrlFactory.refundQueryHtml(resultText);
-        }else{
-           urlStr = UrlFactory.searchCodeForHtml(resultText);
+//        String urlStr =""+resultText;
+//        if(!TextUtils.isEmpty(intentFrom) && intentFrom.equals(RefundFragment.class.getName())){
+//            urlStr = UrlFactory.refundForHtml(resultText);
+//        }else{
+//            urlStr = UrlFactory.searchCodeForHtml(resultText);
+//        }
+
+        if(TextUtils.isEmpty(mUrlStr)){
+            return;
         }
-        BrowserActivity.startActivity(this, urlStr);
+        String urlStr = String.format(mUrlStr, resultText);
+        LogUtil.i(TAG, "urlStr  ==" + urlStr);
+        BrowserActivity.startForResultActivity(this, urlStr);
         finish();
     }
 
