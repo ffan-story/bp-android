@@ -28,8 +28,10 @@ import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.logininfo.LoginInfoFragment;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
+import com.feifan.bp.widget.BadgerRadioButton;
 import com.feifan.bp.widget.TabBar;
 
 import java.util.ArrayList;
@@ -68,6 +70,9 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 switchFragment(mFragments.get(checkedId));
             }
         });
+
+        // FIXME Just a sample code to show badger, remove me later please
+         ((BadgerRadioButton)mBottomBar.getChildAt(1)).showBadger();
 
         // 加载内容视图
         initContent();
@@ -132,7 +137,8 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             }
         } else if (from.equals(IndexFragment.class.getName())) {
             if (to.equals(CodeScannerActivity.class.getName())) {
-                CodeScannerActivity.startActivity(this);
+                String mUrlStr = UrlFactory.searchCodeForHtml();
+                CodeScannerActivity.startActivity(this,mUrlStr);
                 //add by tianjun 2015.10.27
             } else if (to.equals(LoginInfoFragment.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) {//Utils.isCurrentNetworkAvailable(this)

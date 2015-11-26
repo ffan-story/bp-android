@@ -21,9 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTabActivity;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
@@ -37,6 +39,7 @@ import com.feifan.bp.logininfo.LoginInfoFragment;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.refund.RefundFragment;
 import com.feifan.bp.util.LogUtil;
 
 import java.util.ArrayList;
@@ -150,7 +153,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         List<AuthItem> list = UserProfile.getInstance().getAuthList();
         LogUtil.i(TAG, "auth list=" + list);
 
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_function_container);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.index_function_container);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(
                 3, StaggeredGridLayoutManager.VERTICAL));
 //        mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
@@ -208,24 +211,27 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
         switch (v.getId()) {
             case R.id.index_scan:
-//                if (!UserProfile.getInstance().isStoreUser()) {
-//                    Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
-//                break;
+                if (!UserProfile.getInstance().isStoreUser()) {
+                    Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String urlStr = UrlFactory.searchCodeForHtml();
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
+                args.putString(CodeScannerActivity.INTERATION_KEY_URL, urlStr);
+                break;
 
-                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
-                              .addFragment(SettingsFragment.class.getName(), "设置")
-                              .addArgument(SettingsFragment.class.getName(), "count", 1)
-                              .addFragment(MessageFragment.class.getName(), "消息 ")
-                              .addArgument(MessageFragment.class.getName(), "count", 2)
-                              .build();
+//                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
+//                              .addFragment(SettingsFragment.class.getName(), "设置")
+//                              .addArgument(SettingsFragment.class.getName(), "count", 1)
+//                              .addFragment(MessageFragment.class.getName(), "消息 ")
+//                              .addArgument(MessageFragment.class.getName(), "count", 2)
+//                              .build();
+//
+//                Intent intent = PlatformTabActivity.buildIntent(getContext(), "测试中心", fragmentArgs);
+//                startActivity(intent);
 
-                Intent intent = PlatformTabActivity.buildIntent(getContext(), "测试中心", fragmentArgs);
-                startActivity(intent);
-
-                return;
+//                PlatformTopbarActivity.startActivity(getActivity(), RefundFragment.class.getName(), getActivity().getResources().getString(R.string.start_refund));
+              //  return;
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LoginInfoFragment.class.getName());
                 break;
@@ -268,8 +274,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 }
                 mCodeEditText.setText("");
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivity.class.getName());
-                String urlStr = UrlFactory.searchCodeForHtml(code);
-                args.putString(BrowserActivity.EXTRA_KEY_URL, urlStr);
+                //String urlStr = UrlFactory.searchCodeForHtml(code);
+                String mUrlStr = String.format(UrlFactory.searchCodeForHtml(), code);
+                args.putString(BrowserActivity.EXTRA_KEY_URL, mUrlStr);
                 break;
 
             default:

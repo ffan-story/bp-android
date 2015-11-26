@@ -17,8 +17,11 @@ import com.feifan.bp.envir.EnvironmentManager;
  */
 public abstract class UrlFactory {
 
-    //退款
-    private static final String URL_PATH_REFUND_QUERY = "/H5App/index.html#/order/detail/";
+    //帮助中心详情
+    private static final String URL_PATH_HELP_DETAIL= "/H5App/default.html#/help/detail/";
+
+    //退款单详情
+    private static final String URL_PATH_REFUND = "/H5App/index.html#/order/detail/";
 
     // H5页面相对路径－查询提货码
     private static final String URL_PATH_SEARCH = "H5App/index.html#/goods/search_result";
@@ -39,16 +42,29 @@ public abstract class UrlFactory {
                 concat("&merchantId=").concat(userProfile.getAuthRangeId());
     }
 
-    public static String searchCodeForHtml(String code) {
+
+    public static String searchCodeForHtml() {
         UserProfile userProfile = UserProfile.getInstance();
         return urlForHtml(URL_PATH_SEARCH).
                 concat("&merchantId=").concat(userProfile.getAuthRangeId()).
-                concat("&signNo=").concat(code);
+                concat("&signNo=").concat("%s");
     }
 
-    public static String refundQueryHtml(String code) {
-        return urlForHtml(URL_PATH_REFUND_QUERY + code).
-                concat("&refund=").concat("1");
+    /**
+     * 退款查询
+     * @return
+     */
+    public static String refundForHtml() {
+        return urlForHtml(URL_PATH_REFUND + "%s").concat("&refund=1");
+    }
+
+    /**
+     * 帮助中心详情
+     * @param id
+     * @return
+     */
+    public static String helpCenterDetailForHtml(String id) {
+        return urlForHtml(URL_PATH_HELP_DETAIL + id);
     }
 
     public static String staffAddForHtml() {
@@ -86,11 +102,6 @@ public abstract class UrlFactory {
     }
 
     public static String staffManagementForHtml() {
-        //TODO: need url.
-        return "";
-    }
-
-    public static String refundForHtml() {
         //TODO: need url.
         return "";
     }
@@ -158,6 +169,9 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/messagestatus";
     }
 
+    public static String getHelpCenter() {
+        return EnvironmentManager.getHostFactory().getFFanApiHost() + "/mapp/helpcenter";
+    }
     private static String formatRelativeUrl(String relativeUrl) {
         if (TextUtils.isEmpty(relativeUrl)) {
             return relativeUrl;

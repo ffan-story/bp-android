@@ -45,12 +45,15 @@ public class HostSupplier {
         public String getFFanApiHost() {
             return "http://api.sit.ffan.com/";
         }
-
+//        public String getFFanApiHost() {
+//            return "http://xapi.sit.ffan.com/";
+//        }
         @Override
         public String getFFanH5Host() {
             return "http://sop.sit.ffan.com/";
 //            return "http://10.1.171.103:1111/";
 //            return "http://10.1.171.60:81/";
+//            return "http://10.1.171.85/";
         }
 
         @Override

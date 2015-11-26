@@ -1,5 +1,6 @@
 package com.feifan.bp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
 import com.feifan.bp.base.PlatformBaseActivity;
+import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.refund.RefundFragment;
@@ -36,11 +38,11 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
      * @param fragmentName
      * @param titleName
      */
-    public static void startActivity(Context context, String fragmentName,String titleName) {
+    public static void startActivityForResult(Activity context, String fragmentName,String titleName) {
         Intent i = new Intent(context, PlatformTopbarActivity.class);
         i.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO,fragmentName);
         i.putExtra(EXTRA_TITLE,titleName);
-        context.startActivity(i);
+        context.startActivityForResult(i, Constants.REQUEST_CODE_STAFF_EDIT);
     }
 
     @Override
@@ -58,7 +60,6 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
         if(!TextUtils.isEmpty(fragmentName)) {
             switchFragment(Fragment.instantiate(this, fragmentName));
         }
-
     }
 
     private void initHeader(Toolbar header) {
@@ -100,5 +101,13 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     @Override
     public void onTitleChanged(String title) {
         mCenterTitle.setText(title);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE_STAFF_EDIT){
+           finish();
+        }
     }
 }

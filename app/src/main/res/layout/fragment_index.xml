@@ -5,7 +5,7 @@
     tools:context="com.feifan.bp.home.IndexFragment">
 
     <RelativeLayout
-        android:id="@+id/rl_fun_layout"
+        android:id="@+id/index_top_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/home_index_main_background">
@@ -86,54 +86,39 @@
             android:textColorHint="@android:color/white"
             android:textSize="@dimen/font_size_12" />-->
 
-        <LinearLayout
+        <View
+            android:id="@+id/index_splitter"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_below="@id/index_search_input"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/index_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/index_splitter"
             android:layout_below="@id/index_search_input"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:id="@+id/index_scan"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:drawablePadding="@dimen/view_spacing_10"
-                android:drawableTop="@mipmap/index_ic_scan"
-                android:gravity="center"
-                android:padding="@dimen/view_spacing_20"
-                android:text="@string/index_scan_text"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/font_size_14" />
-
-            <TextView
-                android:id="@+id/index_history"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:drawablePadding="@dimen/view_spacing_10"
-                android:drawableTop="@mipmap/index_ic_history"
-                android:gravity="center"
-                android:padding="@dimen/view_spacing_20"
-                android:text="@string/index_history_text"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/font_size_14" />
-
-        </LinearLayout>
-
-
+            style="@style/IndexButton"
+            android:drawableTop="@mipmap/index_ic_history"
+            android:text="@string/index_history_text" />
+        <TextView
+            android:id="@+id/index_scan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/index_splitter"
+            android:layout_below="@id/index_search_input"
+            android:layout_alignBaseline="@id/index_history"
+            style="@style/IndexButton"
+            android:drawableTop="@mipmap/index_ic_scan"
+            android:text="@string/index_scan_text"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_function_container"
+        android:id="@+id/index_function_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_fun_layout"
+        android:layout_below="@id/index_top_container"
         android:padding="@dimen/view_spacing_5"
         android:background="@android:color/white"
         android:divider="#000000"

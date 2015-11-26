@@ -57,12 +57,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="5.0dp"
-        android:background="#ffffffff"
+        android:layout_marginTop="@dimen/view_spacing_5"
+        android:background="@color/white"
         android:keyBackground="@drawable/bg_btn_custom_keyboard"
         android:keyTextColor="@color/font_color_66"
-        android:keyTextSize="26.0sp"
-        android:shadowColor="#ffffffff"
+        android:keyTextSize="@dimen/font_size_26"
+        android:shadowColor="@color/white"
         android:shadowRadius="0.0"
         android:visibility="gone" />
 

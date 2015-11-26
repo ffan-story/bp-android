@@ -39,6 +39,7 @@ public class Constants {
     public static final String URL_PATH_HOME = "home";
     public static final String URL_LOCAL_IMAGE = "getLocalImage";
     public static final String URL_SCHEME_ACTION = "action";
+    public static final String URL_PATH_CLOSE = "close";
 
 
     public enum Environment {
