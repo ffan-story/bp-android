@@ -57,6 +57,6 @@ public class Constants {
      * 员工管理
      *
      */
-    public static int REQUEST_CODE_STAFF_EDIT = 1000;
+    public static int REQUEST_CODE = 1000;
 
 }

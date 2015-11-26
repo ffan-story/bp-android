@@ -60,7 +60,8 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
     public static void startForResultActivity(Activity activity, String url) {
         Intent i = new Intent(activity, BrowserActivity.class);
         i.putExtra(EXTRA_KEY_URL, url);
-        activity.startActivityForResult(i, Constants.REQUEST_CODE_STAFF_EDIT);
+        activity.startActivityForResult(i, Constants.REQUEST_CODE);
+
     }
 
     public static Intent buildIntent(Context context) {

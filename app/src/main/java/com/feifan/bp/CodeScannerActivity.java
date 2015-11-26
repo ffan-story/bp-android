@@ -1,5 +1,6 @@
 package com.feifan.bp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,10 +28,10 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
     public static final String INTERATION_KEY_URL = "inter_URL";
     private String mUrlStr = "";
 
-    public static void startActivity(Context context,String url) {
+    public static void startActivity(Activity context,String url) {
         Intent i = new Intent(context, CodeScannerActivity.class);
         i.putExtra(INTERATION_KEY_URL,url);
-        context.startActivity(i);
+        context.startActivityForResult(i,Constants.REQUEST_CODE);
     }
 
     @Override
@@ -76,12 +77,6 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
             //TODO: Toast and return??
             return;
         }
-//        String urlStr =""+resultText;
-//        if(!TextUtils.isEmpty(intentFrom) && intentFrom.equals(RefundFragment.class.getName())){
-//            urlStr = UrlFactory.refundForHtml(resultText);
-//        }else{
-//            urlStr = UrlFactory.searchCodeForHtml(resultText);
-//        }
 
         if(TextUtils.isEmpty(mUrlStr)){
             return;
@@ -95,5 +90,14 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
     @Override
     protected boolean isShowToolbar() {
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 }

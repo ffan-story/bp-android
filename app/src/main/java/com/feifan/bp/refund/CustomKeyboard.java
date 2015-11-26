@@ -122,7 +122,9 @@ class CustomKeyboard {
                     hideCustomKeyboard();
                     break;
                 case CodeDelete://delete
-                    editable.delete(start - 1, start);
+                    if (null != editable && start >=1){
+                        editable.delete(start - 1, start);
+                    }
                     break;
                 case CodePoint://点不显示
                     break;

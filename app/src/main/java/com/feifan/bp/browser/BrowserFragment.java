@@ -269,7 +269,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 url = UrlFactory.staffAddForHtml();
                 Intent i = new Intent(getActivity(), BrowserActivity.class);
                 i.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
-                getActivity().startActivityForResult(i,Constants.REQUEST_CODE_STAFF_EDIT);
+                getActivity().startActivityForResult(i,Constants.REQUEST_CODE);
                 LogUtil.i(TAG, "menu onClick() staff url=" + url);
                 return true;
 
@@ -375,7 +375,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }else if(actionStrUri.contains("/staff/edit/")){//员工管理 编辑
                     Intent i = new Intent(mActivity, BrowserActivity.class);
                     i.putExtra(BrowserActivity.EXTRA_KEY_URL, actionStrUri);
-                    getActivity().startActivityForResult(i,Constants.REQUEST_CODE_STAFF_EDIT);
+                    getActivity().startActivityForResult(i,Constants.REQUEST_CODE);
                 }else if(actionStrUri.contains("/staff") && (mActivity instanceof BrowserActivity)){//添加员工成功  以及编辑成功
                     mActivity.setResult(Activity.RESULT_OK);
                     mActivity.finish();

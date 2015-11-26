@@ -74,9 +74,6 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         // FIXME Just a sample code to show badger, remove me later please
          ((BadgerRadioButton)mBottomBar.getChildAt(1)).showBadger();
 
-        // FIXME Just a sample code to show badger, remove me later please
-         ((BadgerRadioButton)mBottomBar.getChildAt(1)).showBadger();
-
         // 加载内容视图
         initContent();
     }

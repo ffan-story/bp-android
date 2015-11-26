@@ -42,7 +42,7 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
         Intent i = new Intent(context, PlatformTopbarActivity.class);
         i.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO,fragmentName);
         i.putExtra(EXTRA_TITLE,titleName);
-        context.startActivityForResult(i, Constants.REQUEST_CODE_STAFF_EDIT);
+        context.startActivityForResult(i, Constants.REQUEST_CODE);
     }
 
     @Override
@@ -106,8 +106,9 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE_STAFF_EDIT){
-           finish();
+        if(resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE){
+            setResult(RESULT_OK);
+            finish();
         }
     }
 }

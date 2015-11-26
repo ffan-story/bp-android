@@ -58,6 +58,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     // dialog
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
+    private final int intDefaultDurrent = 0;
 
     /**
      * @param context
@@ -136,7 +137,14 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         mContextTitle= getIntent().getStringExtra(EXTRA_KEY_CONTEXT_TITLE);
         mForce = getIntent().getBooleanExtra(EXTRA_KEY_FORCE, false);
         //arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
+        reLoadPage();
+    }
 
+    /**
+     * 刷新界面
+     */
+    private void reLoadPage(){
+        viewPager.setCurrentItem(intDefaultDurrent);
         if(null!=tabTitles && tabTitles.length>4){
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         } else{
@@ -149,10 +157,8 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         }else{
             sUrl = mUrl;
         }
-
         loadWeb(sUrl);
     }
-
     private void initViews() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -257,8 +263,8 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE_STAFF_EDIT){
-           initData();
+        if(resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE){
+            reLoadPage();
        }
     }
 }
