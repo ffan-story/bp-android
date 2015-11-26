@@ -3,7 +3,9 @@ package com.feifan.bp.refund;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +13,21 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.feifan.bp.CodeScannerActivity;
+import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.browser.BrowserTabActivity;
+import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.util.LogUtil;
 
 /**
  * Created by congjing 15-11-19.
  */
 public class RefundFragment extends BaseFragment implements View.OnClickListener {
-    private EditText mEdCode;
+    private EditText mEdRefundCode;
     CustomKeyboard mCustomKeyboard;
 
     public RefundFragment() {
@@ -35,17 +43,17 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View contentView = inflater.inflate(R.layout.fragmenr_refund, null);
-        mEdCode = (EditText) contentView.findViewById(R.id.et_refund_code_edit);
+        mEdRefundCode = (EditText) contentView.findViewById(R.id.et_refund_code_edit);
 
         contentView.findViewById(R.id.img_refund_scancode).setOnClickListener(this);
         contentView.findViewById(R.id.btn_refund_next).setOnClickListener(this);
 
         KeyboardView mKeyboardView  = (KeyboardView)contentView.findViewById(R.id.keyboard_view);
-        mCustomKeyboard = new CustomKeyboard(getActivity(),mKeyboardView, R.xml.custom_keyboard,mEdCode);
+        mCustomKeyboard = new CustomKeyboard(getActivity(),mKeyboardView, R.xml.custom_keyboard,mEdRefundCode);
         mCustomKeyboard.registerEditText();
-        mCustomKeyboard.showCustomKeyboard(mEdCode);
+        mCustomKeyboard.showCustomKeyboard(mEdRefundCode);
 
-        mEdCode.addTextChangedListener(mRefundTextWatcher);
+        mEdRefundCode.addTextChangedListener(mRefundTextWatcher);
         return contentView;
     }
 
@@ -57,9 +65,33 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
                     Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                CodeScannerActivity.startActivity(getActivity());
+                CodeScannerActivity.startActivity(getActivity(),RefundFragment.class.getName());
                 break;
             case R.id.btn_refund_next:
+                if (!UserProfile.getInstance().isStoreUser()) {
+                    Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
+                    mEdRefundCode.setText("");
+                    return;
+                }
+                if (TextUtils.isEmpty(mEdRefundCode.getText())) {
+                    return;
+                }
+
+                if (!Utils.isNetworkAvailable(getActivity())) {
+                    Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
+                    return;
+                }
+
+                String code = mEdRefundCode.getText().toString().replaceAll(" ", "");
+                try {
+                    Utils.checkDigitAndLetter(getActivity(), code);
+                } catch (Throwable throwable) {
+                    Utils.showShortToast(getActivity(), throwable.getMessage());
+                    return;
+                }
+                mEdRefundCode.setText("");
+                String urlStr = UrlFactory.refundQueryHtml(code);
+                BrowserActivity.startActivity(getActivity(), urlStr);
                 break;
 
         }
@@ -91,7 +123,7 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
                     if (before == 0) {
                         index++;
                     } else {
-                        mEdCode.setText(sb.subSequence(0, sb.length() - 1));
+                        mEdRefundCode.setText(sb.subSequence(0, sb.length() - 1));
                         index--;
                     }
                 } else {
@@ -99,8 +131,8 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
                         index--;
                     }
                 }
-                mEdCode.setText(sb.toString());
-                mEdCode.setSelection(index);
+                mEdRefundCode.setText(sb.toString());
+                mEdRefundCode.setSelection(index);
             }
         }
 

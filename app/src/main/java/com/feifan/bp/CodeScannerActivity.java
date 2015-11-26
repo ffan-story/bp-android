@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.refund.RefundFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.base.BaseActivity;
 
@@ -25,24 +26,40 @@ import bp.feifan.com.codescanner.CodeScannerFragment;
 public class CodeScannerActivity extends BaseActivity implements CaptureActivityOfResult {
     private static final String TAG = CodeScannerActivity.class.getSimpleName();
 
+    private static String INTERATION_KEY_FROM = "interation_key_from";
+
+    private String mfrom ="";
     public static void startActivity(Context context) {
         Intent i = new Intent(context, CodeScannerActivity.class);
         context.startActivity(i);
     }
 
+    /**
+     *
+     * @param context
+     * @param from
+     */
+    public static void startActivity(Context context,String from) {
+        Intent i = new Intent(context, CodeScannerActivity.class);
+        i.putExtra(INTERATION_KEY_FROM,from);
+        context.startActivity(i);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_scanner);
+        if(null != getIntent().getStringExtra(INTERATION_KEY_FROM)){
+            mfrom = getIntent().getStringExtra(INTERATION_KEY_FROM);
+        }
         initViews();
-
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         CodeScannerFragment f = (CodeScannerFragment) Fragment.instantiate(this, CodeScannerFragment.class.getName());
         f.setCaptureActivityOfResult(this);
         transaction.add(R.id.content_container, f);
         transaction.commit();
-
     }
 
     private void initViews() {
@@ -73,11 +90,15 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
             //TODO: Toast and return??
             return;
         }
-
-        String urlStr = UrlFactory.searchCodeForHtml(resultText);
+        String urlStr ="";
+        if(!TextUtils.isEmpty(mfrom) && mfrom.equals(RefundFragment.class.getName())){
+            LogUtil.i(TAG, "resultText="+resultText);
+           urlStr = UrlFactory.refundQueryHtml(resultText);
+        }else{
+           urlStr = UrlFactory.searchCodeForHtml(resultText);
+        }
         BrowserActivity.startActivity(this, urlStr);
         finish();
-
     }
 
     @Override
