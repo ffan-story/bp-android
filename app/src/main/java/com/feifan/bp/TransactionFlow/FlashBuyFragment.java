@@ -1,4 +1,4 @@
-package com.feifan.bp.TransactionFlow;
+package com.feifan.bp.transactionflow;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,8 +26,8 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.TransactionFlow.FlashSummaryModel.FlashSummaryDetailModel;
-import com.feifan.bp.TransactionFlow.FlashListModel.FlashDetailModel;
+import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
+import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
 import com.feifan.bp.home.check.IndicatorFragment;
 
 import com.feifan.bp.util.LogUtil;

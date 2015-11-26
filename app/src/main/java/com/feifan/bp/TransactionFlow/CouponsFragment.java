@@ -1,10 +1,9 @@
-package com.feifan.bp.TransactionFlow;
+package com.feifan.bp.transactionflow;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +23,6 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.MonPicker;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.MaterialDialog;

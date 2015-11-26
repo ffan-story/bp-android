@@ -102,6 +102,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     public void onFragmentInteraction(Bundle args) {
         String from = args.getString(OnFragmentInteractionListener.INTERATION_KEY_FROM);
         String to = args.getString(OnFragmentInteractionListener.INTERATION_KEY_TO);
+        String title = args.getString(OnFragmentInteractionListener.INTERATION_KEY_TITLE);
         int type = args.getInt(OnFragmentInteractionListener.INTERATION_KEY_TYPE, OnFragmentInteractionListener.TYPE_IDLE);
         if (from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
             if (PlatformState.getInstance().getLastUrl(this) != null) {
@@ -113,31 +114,22 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 }
             }
             showHome(true);
-        } else if (from.equals(SettingsFragment.class.getName())) {
+        } else if (from.equals(SettingsFragment.class.getName())) {//设置界面
             if (to.equals(LaunchActivity.class.getName())) {
-                startActivity(buildIntent(this));
-            } else if (to.equals(ResetPasswordFragment.class.getName())) {
-                showResetPassword();
-                //add by tianjun 2015.10.27
-            } else if (to.equals(FeedBackFragment.class.getName())) {
-                showFeedBack();
-                //end
-            } else if (to.equals(HelpCenterFragment.class.getName())) {// add by congjing
-                showHelpCenter();
-            } else {
-                startActivity(Utils.getSystemBrowser(to));
+               startActivity(buildIntent(this));
+            }else{
+                Intent intent = new Intent(this, PlatformTopbarActivity.class);
+                intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_FROM,from);
+                intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, to);
+                intent.putExtra(PlatformTopbarActivity.EXTRA_TITLE,title);
+                startActivity(intent);
             }
         } else if (from.equals(ForgetPasswordFragment.class.getName())) {
             showForgetPassword();
-        } else if (from.equals(ResetPasswordFragment.class.getName())) {
-            if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
-                showHome(false);
-            }
         } else if (from.equals(IndexFragment.class.getName())) {
             if (to.equals(CodeScannerActivity.class.getName())) {
                 String mUrlStr = UrlFactory.searchCodeForHtml();
                 CodeScannerActivity.startActivity(this,mUrlStr);
-                //add by tianjun 2015.10.27
             } else if (to.equals(UserInfoFragment.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) {//Utils.isCurrentNetworkAvailable(this)
                     showLoginInfo();
@@ -154,16 +146,12 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 }
             } else if (to.equals(IndicatorFragment.class.getName())) {
                 showIndicatorInfo();
-            }  else if (to.equals(UserInfoFragment.class.getName())) {
-                showLoginInfo();
             } else if (to.equals(BrowserTabActivity.class.getName())) {
                 openTabBrowser(args);
             } else {
                 openBrowser(args.getString(BrowserActivity.EXTRA_KEY_URL));
             }
-            //add by tianjun 2015.10.27
-        } else if (from.equals(UserInfoFragment.class.getName()) || from.equals(FeedBackFragment.class.getName())
-                || from.equals(HelpCenterFragment.class.getName())) {
+        } else if (from.equals(UserInfoFragment.class.getName())) {
             if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
                 showHome(false);
             }
@@ -214,10 +202,10 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     }
 
     // 显示重置密码
-    private void showResetPassword() {
-        mBottomBar.setVisibility(View.GONE);
-        switchFragment(ResetPasswordFragment.newInstance());
-    }
+//    private void showResetPassword() {
+//        mBottomBar.setVisibility(View.GONE);
+//        switchFragment(ResetPasswordFragment.newInstance());
+//    }
 
     // 显示登录界面
     private void showLogin() {
@@ -226,16 +214,16 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     }
 
     //帮助中心
-    private void showHelpCenter() {
-        mBottomBar.setVisibility(View.GONE);
-        switchFragment(HelpCenterFragment.newInstance());
-    }
+//    private void showHelpCenter() {
+//        mBottomBar.setVisibility(View.GONE);
+//        switchFragment(HelpCenterFragment.newInstance());
+//    }
 
     //显示意见反馈页面
-    private void showFeedBack() {
-        mBottomBar.setVisibility(View.GONE);
-        switchFragment(FeedBackFragment.newInstance());
-    }
+//    private void showFeedBack() {
+//        mBottomBar.setVisibility(View.GONE);
+//        switchFragment(FeedBackFragment.newInstance());
+//    }
 
     private void showLoginInfo() {
         mBottomBar.setVisibility(View.GONE);

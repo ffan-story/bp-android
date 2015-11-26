@@ -1,11 +1,11 @@
-package com.feifan.bp.TransactionFlow;
+package com.feifan.bp.transactionflow;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.feifan.bp.TransactionFlow.FlashSummaryModel.FlashSummaryDetailModel;
+import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
 
 import java.util.ArrayList;
 

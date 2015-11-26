@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context="com.feifan.bp.login.LoginFragment">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                tools:context="com.feifan.bp.login.LoginFragment">
 
     <ImageView
         android:id="@+id/login_logo"
@@ -11,61 +11,61 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/login_logo_margin"
         android:layout_marginBottom="@dimen/login_logo_margin"
-        android:src="@mipmap/logo" />
+        android:layout_marginTop="@dimen/login_logo_margin"
+        android:src="@mipmap/logo"/>
 
     <EditText
         android:id="@+id/login_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_logo"
-        android:drawableLeft="@mipmap/login_ic_phone"
-        android:drawablePadding="@dimen/view_spacing_20"
-        android:background="@drawable/border_bottom_background"
         android:layout_marginLeft="@dimen/view_spacing_15"
         android:layout_marginRight="@dimen/view_spacing_15"
-        android:padding="@dimen/view_spacing_10"
+        android:background="@drawable/border_bottom_background"
+        android:drawableLeft="@mipmap/login_ic_phone"
+        android:drawablePadding="@dimen/view_spacing_20"
         android:hint="@string/login_phone_edit_hint"
-        android:textSize="@dimen/font_size_14"
-        android:inputType="phone"/>
+        android:inputType="phone"
+        android:padding="@dimen/view_spacing_10"
+        android:textSize="@dimen/font_size_14"/>
 
     <TextView
         android:id="@+id/login_forget_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/login_account"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/view_spacing_15"
+        android:layout_below="@id/login_account"
         android:layout_marginRight="@dimen/view_spacing_15"
-        android:padding="@dimen/view_spacing_10"
+        android:layout_marginTop="@dimen/view_spacing_15"
         android:background="@drawable/border_bottom_background"
+        android:padding="@dimen/view_spacing_10"
         android:text="@string/login_forget_password_text"
-        android:textSize="@dimen/font_size_14"
-        android:textColor="@color/font_color_blue" />
+        android:textColor="@color/font_color_blue"
+        android:textSize="@dimen/font_size_14"/>
 
     <EditText
         android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/login_forget_password"
-        android:layout_toLeftOf="@id/login_forget_password"
         android:layout_alignParentLeft="true"
+        android:layout_below="@id/login_account"
+        android:layout_marginLeft="@dimen/view_spacing_15"
+        android:layout_marginTop="@dimen/view_spacing_15"
+        android:layout_toLeftOf="@id/login_forget_password"
+        android:background="@drawable/border_bottom_background"
         android:drawableLeft="@mipmap/login_ic_password"
         android:drawablePadding="@dimen/view_spacing_20"
-        android:background="@drawable/border_bottom_background"
-        android:layout_marginTop="@dimen/view_spacing_15"
-        android:layout_marginLeft="@dimen/view_spacing_15"
-        android:padding="@dimen/view_spacing_10"
         android:hint="@string/login_password_edit_hint"
-        android:textSize="@dimen/font_size_14"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:padding="@dimen/view_spacing_10"
+        android:textSize="@dimen/font_size_14"/>
 
 
     <Button
         android:id="@+id/login_go"
+        style="@style/btn_margin15_round_blue_click"
         android:layout_below="@id/login_forget_password"
-        android:text="@string/login_login_text"
-        style="@style/btn_margin15_round_blue_click"/>
+        android:text="@string/login_login_text"/>
 
 </RelativeLayout>

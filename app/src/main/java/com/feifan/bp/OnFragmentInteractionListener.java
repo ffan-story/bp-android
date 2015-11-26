@@ -22,6 +22,8 @@ public interface OnFragmentInteractionListener {
     String INTERATION_KEY_FROM = "from";
     /** 交互参数键名称－目标类 */
     String INTERATION_KEY_TO = "to";
+    /** 交互参数键名称－toolbar标题 */
+    String INTERATION_KEY_TITLE="title";
 
     /**
      * The key of event type.

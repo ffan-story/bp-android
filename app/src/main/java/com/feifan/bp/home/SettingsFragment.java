@@ -112,6 +112,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 Bundle helpBundle = new Bundle();
                 helpBundle.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
                 helpBundle.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, HelpCenterFragment.class.getName());
+                helpBundle.putString(OnFragmentInteractionListener.INTERATION_KEY_TITLE,getString(R.string.help_center_title));
                 mListener.onFragmentInteraction(helpBundle);
                 break;
 
@@ -140,6 +141,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 Bundle args = new Bundle();
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, ResetPasswordFragment.class.getName());
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TITLE,getString(R.string.reset_password));
                 mListener.onFragmentInteraction(args);
                 break;
 
@@ -148,6 +150,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 Bundle bundle = new Bundle();
                 bundle.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
                 bundle.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, FeedBackFragment.class.getName());
+                bundle.putString(OnFragmentInteractionListener.INTERATION_KEY_TITLE,getString(R.string.feed_back));
                 mListener.onFragmentInteraction(bundle);
                 break;
             //end.
