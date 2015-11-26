@@ -58,5 +58,6 @@ public class Constants {
      *
      */
     public static int REQUEST_CODE = 1000;
+    public static int REQUEST_OK_REFUND= 1000;
 
 }

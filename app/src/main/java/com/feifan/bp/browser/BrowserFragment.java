@@ -354,7 +354,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     }
                 } else if (url.contains(Constants.URL_PATH_CLOSE)) {//返回退款售后
                     if (getActivity() != null) {
-                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().setResult(Constants.REQUEST_OK_REFUND);
                         getActivity().finish();
                     }
                 } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
