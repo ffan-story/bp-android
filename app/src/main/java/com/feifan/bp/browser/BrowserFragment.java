@@ -263,7 +263,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         if(canGoBack()){
             mWebView.goBack();
         }else{
-            getActivity().setResult(Activity.RESULT_OK);
+            getActivity().setResult(Activity.RESULT_CANCELED);
             getActivity().finish();
         }
     }
