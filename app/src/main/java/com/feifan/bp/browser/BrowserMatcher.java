@@ -36,7 +36,7 @@ public class BrowserMatcher {
         sMenuStore.put(Utils.getString(R.string.browser_coupon_list), new MenuInfo(R.id.menu_coupon_add, R.mipmap.menu_ic_add));
         sMenuStore.put(Utils.getString(R.string.index_commodity_text), new MenuInfo(R.id.menu_commodity_add, R.mipmap.menu_ic_add));
         sMenuStore.put(Utils.getString(R.string.browser_commodity_desc), new MenuInfo(R.id.menu_picture_add, R.mipmap.menu_ic_pict));
-        sMenuStore.put(Utils.getString(R.string.index_refund_text), new MenuInfo(R.id.menu_refund_index_explain,Constants.NO_INTEGER, R.string.start_refund));
+        sMenuStore.put(Utils.getString(R.string.index_refund_text), new MenuInfo(R.id.menu_refund_start,Constants.NO_INTEGER, R.string.refund_menu_start_text));
     }
 
     /**

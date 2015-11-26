@@ -4,6 +4,6 @@
     <item name="menu_coupon_add" type="id" />
     <item name="menu_commodity_add" type="id" />
     <item name="menu_picture_add" type="id" />
-    <item name="menu_refund_index_explain" type="id" />
+    <item name="menu_refund_start" type="id" />
 
 </resources>

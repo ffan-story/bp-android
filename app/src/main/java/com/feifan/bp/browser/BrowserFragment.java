@@ -297,7 +297,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             case R.id.menu_picture_add:
                 initLeaveWordsDialog();
                 return true;
-            case R.id.menu_refund_index_explain:
+            case R.id.menu_refund_start:
                 PlatformTopbarActivity.startActivityForResult(getActivity(), RefundFragment.class.getName(),getActivity().getResources().getString(R.string.start_refund));
                 return true;
 
