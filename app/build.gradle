@@ -16,7 +16,7 @@ def commitCount = Integer.parseInt('git rev-list master --count'.execute([], pro
 // I want to use git tags as my version names (1.2.2)
 def gitCurrentTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
 
-def version = "1.4.0"
+def version = "1.5.0"
 
 android {
     compileSdkVersion 23
@@ -28,7 +28,7 @@ android {
         applicationId "com.feifan.bp"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 5
+        versionCode 6
         versionName version
     }
 
@@ -43,7 +43,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../app/proguard-rules.pro'
             signingConfig signingConfigs.releaseConfig

@@ -260,12 +260,23 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_CANCELED || resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE){
-            viewPager.setCurrentItem(DEFAULT_PAGE_INDEX);
-            Fragment current = pagerAdapter.getItem(viewPager.getCurrentItem());
-            if(current instanceof OnActionListener) {
-                ((OnActionListener)current).onReload();
+        if(requestCode == Constants.REQUEST_CODE) {
+            switch (resultCode) {
+                case RESULT_OK:
+                    tabLayout.getTabAt(DEFAULT_PAGE_INDEX).select();
+                    break;
+                case RESULT_CANCELED:
+                    break;
             }
-       }
+        }
+
+
+//        if(resultCode == RESULT_CANCELED || resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE){
+//
+//            Fragment current = pagerAdapter.getItem(viewPager.getCurrentItem());
+//            if(current instanceof OnActionListener) {
+//                ((OnActionListener)current).onReload();
+//            }
+//       }
     }
 }
