@@ -65,7 +65,8 @@ import java.util.Map;
 /**
  * congjing
  */
-public class BrowserFragment extends BaseFragment implements View.OnClickListener, Toolbar.OnMenuItemClickListener {
+public class BrowserFragment extends BaseFragment implements View.OnClickListener,
+        Toolbar.OnMenuItemClickListener, OnActionListener {
 
     private static final String TAG = "BrowserFragment";
 
@@ -105,6 +106,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private boolean isOnclicked =false;
 
     private BrowserMatcher mMatcher = new BrowserMatcher();
+
+    @Override
+    public void onReload() {
+        // TODO 重构时验证
+//        mWebView.loadUrl("about:blank");
+//        mWebView.loadUrl(mUrl);
+        LogUtil.i(TAG, "reload " + mUrl);
+    }
 
 
     /**

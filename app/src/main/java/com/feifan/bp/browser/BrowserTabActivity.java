@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
@@ -24,27 +25,6 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
 
     private static final String TAG = BrowserTabActivity.class.getSimpleName();
 
-    private BrowserTabPagerAdapter pagerAdapter;
-    private ViewPager viewPager;
-
-    private String mContextTitle ="";
-
-    private TabLayout tabLayout;
-    private String tabTitles[];
-    private String arryStatus[];
-    //private BrowserTabItem[] arryTabItem;
-
-    private FloatingActionButton fab;
-    private SelectPopWindow mPopWindow;
-    private View mShadowView;
-    private int lastSelectPos = 0;
-
-    private boolean mShowFab = false;
-    private String sUrl;
-    private String mUrl;
-    private String mStoreId;
-    private boolean mForce;
-
     /**
      * 参数键名称－URL
      */
@@ -53,12 +33,34 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     public static final String EXTRA_KEY_STATUS = "status";
     public static final String EXTRA_KEY_CONTEXT_TITLE = "contextTitle";
     public static final String EXTRA_KEY_FORCE = "force";
-//    public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
+
+    private BrowserTabPagerAdapter pagerAdapter;
+    private ViewPager viewPager;
+
+    private String mContextTitle ="";
+
+    // tabs
+    private TabLayout tabLayout;
+    private String tabTitles[];
+    private String arryStatus[];
+    //private BrowserTabItem[] arryTabItem;
+
+    // floating
+    private FloatingActionButton fab;
+    private SelectPopWindow mPopWindow;
+    private View mShadowView;
+    private int lastSelectPos = 0;
+    private boolean mShowFab = false;
+
+    private String sUrl;
+    private String mUrl;
+    private String mStoreId;
+    private boolean mForce;
 
     // dialog
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
-    private final int intDefaultDurrent = 0;
+    private final int DEFAULT_PAGE_INDEX = 0;
 
     /**
      * @param context
@@ -114,6 +116,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
             tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
+
                     pagerAdapter.refreshViewPage();
                 }
             });
@@ -137,14 +140,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         mContextTitle= getIntent().getStringExtra(EXTRA_KEY_CONTEXT_TITLE);
         mForce = getIntent().getBooleanExtra(EXTRA_KEY_FORCE, false);
         //arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
-        reLoadPage();
-    }
 
-    /**
-     * 刷新界面
-     */
-    private void reLoadPage(){
-        viewPager.setCurrentItem(intDefaultDurrent);
         if(null!=tabTitles && tabTitles.length>4){
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         } else{
@@ -159,6 +155,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         }
         loadWeb(sUrl);
     }
+
     private void initViews() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -264,7 +261,11 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE){
-            reLoadPage();
+            viewPager.setCurrentItem(DEFAULT_PAGE_INDEX);
+            Fragment current = pagerAdapter.getItem(viewPager.getCurrentItem());
+            if(current instanceof OnActionListener) {
+                ((OnActionListener)current).onReload();
+            }
        }
     }
 }
