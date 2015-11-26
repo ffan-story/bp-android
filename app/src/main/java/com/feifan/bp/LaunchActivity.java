@@ -6,16 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 
-import com.feifan.bp.feedback.FeedBackFragment;
-import com.feifan.bp.helpcenter.HelpCenterFragment;
+import com.feifan.bp.settings.feedback.FeedBackFragment;
+import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
 import com.feifan.bp.home.check.CheckManageFragment;
 
 import com.feifan.bp.base.BaseActivity;
@@ -27,7 +25,7 @@ import com.feifan.bp.home.SettingsFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
-import com.feifan.bp.logininfo.LoginInfoFragment;
+import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
@@ -140,7 +138,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 String mUrlStr = UrlFactory.searchCodeForHtml();
                 CodeScannerActivity.startActivity(this,mUrlStr);
                 //add by tianjun 2015.10.27
-            } else if (to.equals(LoginInfoFragment.class.getName())) {
+            } else if (to.equals(UserInfoFragment.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) {//Utils.isCurrentNetworkAvailable(this)
                     showLoginInfo();
                 } else {
@@ -156,7 +154,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 }
             } else if (to.equals(IndicatorFragment.class.getName())) {
                 showIndicatorInfo();
-            }  else if (to.equals(LoginInfoFragment.class.getName())) {
+            }  else if (to.equals(UserInfoFragment.class.getName())) {
                 showLoginInfo();
             } else if (to.equals(BrowserTabActivity.class.getName())) {
                 openTabBrowser(args);
@@ -164,7 +162,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 openBrowser(args.getString(BrowserActivity.EXTRA_KEY_URL));
             }
             //add by tianjun 2015.10.27
-        } else if (from.equals(LoginInfoFragment.class.getName()) || from.equals(FeedBackFragment.class.getName())
+        } else if (from.equals(UserInfoFragment.class.getName()) || from.equals(FeedBackFragment.class.getName())
                 || from.equals(HelpCenterFragment.class.getName())) {
             if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
                 showHome(false);
@@ -241,7 +239,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 
     private void showLoginInfo() {
         mBottomBar.setVisibility(View.GONE);
-        switchFragment(LoginInfoFragment.newInstance());
+        switchFragment(UserInfoFragment.newInstance());
     }
 
     private void showIndicatorInfo(){
@@ -280,7 +278,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             showLogin();
         } else if (mCurrentFragment != null
                 && mCurrentFragment instanceof ResetPasswordFragment
-                || mCurrentFragment instanceof LoginInfoFragment
+                || mCurrentFragment instanceof UserInfoFragment
                 || mCurrentFragment instanceof FeedBackFragment
                 || mCurrentFragment instanceof HelpCenterFragment) {
             showHome(false);

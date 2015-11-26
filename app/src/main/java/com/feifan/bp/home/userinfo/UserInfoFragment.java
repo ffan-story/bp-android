@@ -1,4 +1,4 @@
-package com.feifan.bp.logininfo;
+package com.feifan.bp.home.userinfo;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -21,13 +21,13 @@ import com.feifan.bp.base.BaseFragment;
 /**
  * Created by tianjun on 2015-10-26.
  */
-public class LoginInfoFragment extends BaseFragment implements View.OnClickListener {
+public class UserInfoFragment extends BaseFragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
     private LinearLayout mLoginInfoStore;
     private LinearLayout mLoginInfoMerchant;
 
-    public static LoginInfoFragment newInstance() {
-        LoginInfoFragment fragment = new LoginInfoFragment();
+    public static UserInfoFragment newInstance() {
+        UserInfoFragment fragment = new UserInfoFragment();
         return fragment;
     }
 
@@ -49,39 +49,39 @@ public class LoginInfoFragment extends BaseFragment implements View.OnClickListe
         showProgressBar(true);
             UserProfile manager = UserProfile.getInstance();
             int uid = manager.getUid();
-            LoginInfoCtrl.getLoginInfo(String.valueOf(uid), new Response.Listener<LoginInfoModel>() {
+            UserInfoCtrl.getLoginInfo(String.valueOf(uid), new Response.Listener<UserInfoModel>() {
                 @Override
-                public void onResponse(LoginInfoModel loginInfoModel) {
+                public void onResponse(UserInfoModel userInfoModel) {
                     hideProgressBar();
-                    if (loginInfoModel.status == Constants.RESPONSE_CODE_SUCCESS) {
-                        setLoginInfo(rootView, loginInfoModel);
+                    if (userInfoModel.status == Constants.RESPONSE_CODE_SUCCESS) {
+                        setLoginInfo(rootView, userInfoModel);
                     } else {
-                        Utils.showShortToast(getActivity(), loginInfoModel.msg,
+                        Utils.showShortToast(getActivity(), userInfoModel.msg,
                                 Gravity.CENTER);
                     }
                 }
             });
     }
 
-    private void setLoginInfo(View rootView, LoginInfoModel loginInfoModel) {
-        ((TextView) rootView.findViewById(R.id.login_info_name)).setText(loginInfoModel.getName());
-        ((TextView) rootView.findViewById(R.id.login_info_phone)).setText(loginInfoModel.getPhone());
-        ((TextView) rootView.findViewById(R.id.login_info_identity)).setText(loginInfoModel.getIdentity());
-        if (loginInfoModel.getAuthRangeType().equals("store")) {// store：门店，merchant：商户）
+    private void setLoginInfo(View rootView, UserInfoModel userInfoModel) {
+        ((TextView) rootView.findViewById(R.id.login_info_name)).setText(userInfoModel.getName());
+        ((TextView) rootView.findViewById(R.id.login_info_phone)).setText(userInfoModel.getPhone());
+        ((TextView) rootView.findViewById(R.id.login_info_identity)).setText(userInfoModel.getIdentity());
+        if (userInfoModel.getAuthRangeType().equals("store")) {// store：门店，merchant：商户）
             mLoginInfoStore.setVisibility(View.VISIBLE);
             mLoginInfoMerchant.setVisibility(View.GONE);
-            ((TextView) rootView.findViewById(R.id.login_info_belongs_store)).setText(loginInfoModel
+            ((TextView) rootView.findViewById(R.id.login_info_belongs_store)).setText(userInfoModel
                     .getStoreViewName());
-            if (loginInfoModel.getPlazaName().equals("null")) {
+            if (userInfoModel.getPlazaName().equals("null")) {
                 ((TextView) rootView.findViewById(R.id.login_info_belongs_square)).setText(getString(R.string.login_info_empty));
             } else {
-                ((TextView) rootView.findViewById(R.id.login_info_belongs_square)).setText(loginInfoModel
+                ((TextView) rootView.findViewById(R.id.login_info_belongs_square)).setText(userInfoModel
                         .getPlazaName());
             }
-        } else if (loginInfoModel.getAuthRangeType().equals("merchant")) {
+        } else if (userInfoModel.getAuthRangeType().equals("merchant")) {
             mLoginInfoMerchant.setVisibility(View.VISIBLE);
             mLoginInfoStore.setVisibility(View.GONE);
-            ((TextView) rootView.findViewById(R.id.login_info_belongs_merchant)).setText(loginInfoModel
+            ((TextView) rootView.findViewById(R.id.login_info_belongs_merchant)).setText(userInfoModel
                     .getMerchantName());
         }
     }
@@ -114,7 +114,7 @@ public class LoginInfoFragment extends BaseFragment implements View.OnClickListe
                 if (mListener != null) {
                     Bundle b = new Bundle();
                     b.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM,
-                            LoginInfoFragment.class.getName());
+                            UserInfoFragment.class.getName());
                     b.putInt(OnFragmentInteractionListener.INTERATION_KEY_TYPE,
                             OnFragmentInteractionListener.TYPE_NAVI_CLICK);
                     mListener.onFragmentInteraction(b);

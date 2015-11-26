@@ -1,7 +1,6 @@
 package com.feifan.bp.home;
 
 import android.content.Context;
-import android.content.Intent;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -24,8 +23,6 @@ import com.android.volley.Response;
 import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.PlatformTabActivity;
-import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
@@ -35,11 +32,10 @@ import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.login.AuthListModel.AuthItem;
-import com.feifan.bp.logininfo.LoginInfoFragment;
+import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.refund.RefundFragment;
 import com.feifan.bp.util.LogUtil;
 
 import java.util.ArrayList;
@@ -233,7 +229,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 //                PlatformTopbarActivity.startActivity(getActivity(), RefundFragment.class.getName(), getActivity().getResources().getString(R.string.start_refund));
               //  return;
             case R.id.login_info_icon:
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LoginInfoFragment.class.getName());
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, UserInfoFragment.class.getName());
                 break;
 
             case R.id.index_history:

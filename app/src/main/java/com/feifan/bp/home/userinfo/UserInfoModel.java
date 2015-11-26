@@ -1,4 +1,4 @@
-package com.feifan.bp.logininfo;
+package com.feifan.bp.home.userinfo;
 
 import android.text.TextUtils;
 
@@ -10,7 +10,7 @@ import org.json.JSONObject;
 /**
  * Created by tianjun on 2015-10-30.
  */
-public class LoginInfoModel extends BaseModel {
+public class UserInfoModel extends BaseModel {
     /**
      * 商户ID
      */
@@ -67,7 +67,7 @@ public class LoginInfoModel extends BaseModel {
      */
     private String identity;
 
-    public LoginInfoModel(JSONObject json) {
+    public UserInfoModel(JSONObject json) {
         super(json);
     }
 

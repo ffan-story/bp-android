@@ -1,4 +1,4 @@
-package com.feifan.bp.helpcenter;
+package com.feifan.bp.settings.helpcenter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,20 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
-import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
-import com.feifan.bp.home.HomeCtrl;
-import com.feifan.bp.home.MessageModel;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;

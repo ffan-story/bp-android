@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.feifan.bp.logininfo.LoginInfoFragment">
+    tools:context=".home.userinfo.UserInfoFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

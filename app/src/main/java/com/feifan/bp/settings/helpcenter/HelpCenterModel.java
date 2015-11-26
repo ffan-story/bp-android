@@ -1,4 +1,4 @@
-package com.feifan.bp.helpcenter;
+package com.feifan.bp.settings.helpcenter;
 
 import com.feifan.bp.network.BaseModel;
 

@@ -1,4 +1,4 @@
-package com.feifan.bp.feedback;
+package com.feifan.bp.settings.feedback;
 
 import com.android.volley.Response;
 import com.feifan.bp.PlatformState;
