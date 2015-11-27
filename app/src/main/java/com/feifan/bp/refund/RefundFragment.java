@@ -63,7 +63,7 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
                     return;
                 }
                 String urlStr = UrlFactory.refundForHtml();
-                CodeScannerActivity.startActivity(getActivity(),urlStr);
+                CodeScannerActivity.startActivityForResult(getActivity(),urlStr);
                 break;
             case R.id.btn_refund_next:
 

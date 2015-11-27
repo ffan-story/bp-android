@@ -136,7 +136,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         } else if (from.equals(IndexFragment.class.getName())) {
             if (to.equals(CodeScannerActivity.class.getName())) {
                 String mUrlStr = UrlFactory.searchCodeForHtml();
-                CodeScannerActivity.startActivity(this,mUrlStr);
+                CodeScannerActivity.startActivityForResult(this, mUrlStr);
                 //add by tianjun 2015.10.27
             } else if (to.equals(UserInfoFragment.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) {//Utils.isCurrentNetworkAvailable(this)

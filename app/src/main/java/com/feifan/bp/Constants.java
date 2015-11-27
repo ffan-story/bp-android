@@ -33,14 +33,13 @@ public class Constants {
 
     // 浏览器
     public static final String URL_SCHEME_PLATFORM = "platform";
-    public static final String URL_SCHEME_ERROR = "error";
-    public static final String URL_PATH_LOGIN = "login";
-    public static final String URL_PATH_EXIT = "exit";
-    public static final String URL_PATH_HOME = "home";
-    public static final String URL_LOCAL_IMAGE = "getLocalImage";
+    public static final String URL_SCHEME_PLATFORM_LOGIN = "login";
+    public static final String URL_SCHEME_PLATFORM_EXIT= "exit";
+    public static final String URL_SCHEME_PLATFORM_HOME = "home";
+    public static final String URL_SCHEME_PLATFORM_IMAGE = "getLocalImage";
+    public static final String URL_SCHEME_PLATFORM_CLOSE = "close";
     public static final String URL_SCHEME_ACTION = "action";
-    public static final String URL_PATH_CLOSE = "close";
-
+    public static final String URL_SCHEME_ERROR = "error";
 
     public enum Environment {
         SIT,              // Api集成环境
@@ -58,6 +57,5 @@ public class Constants {
      *
      */
     public static int REQUEST_CODE = 1000;
-    public static int REQUEST_OK_REFUND= 1000;
 
 }
