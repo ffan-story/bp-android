@@ -112,15 +112,18 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         initData();
 
         // FIXME 增加强制刷新界面功能
-//        if(mForce) {
-//            tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
-//                @Override
-//                public void onTabSelected(TabLayout.Tab tab) {
-//
-//                    pagerAdapter.refreshViewPage();
-//                }
-//            });
-//        }
+        if(mForce) {
+            tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    super.onTabSelected(tab);
+                    Fragment current = pagerAdapter.getItem(tab.getPosition());
+                    if(current instanceof OnActionListener) {
+                        ((OnActionListener)current).onReload();
+                    }
+                }
+            });
+        }
     }
 
     @Override
