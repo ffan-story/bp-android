@@ -171,7 +171,7 @@ public class PlatformTabActivity extends PlatformBaseActivity implements OnFragm
         }
 
         /**
-         * 增加参数
+         * 增加参数q
          * <pre>
          *     目前支持Integer和String类型的参数
          * </pre>

@@ -67,7 +67,7 @@ public class PlatformState {
         mLastUrl = url;
     }
 
-    public String getLastUrl(Context context) {
+    public String getLastUrl() {
         if(mLastUrl != null) {
             final String standardUrl = mLastUrl.replace("#", "");
             Uri uri = Uri.parse(standardUrl);
@@ -109,11 +109,6 @@ public class PlatformState {
      * </pre>
      */
     public void clearCache() {
-
-//        File cacheDir = context.getCacheDir().getAbsoluteFile();
-//        Utils.deleteFile(cacheDir, "webview");
-//        Utils.deleteFile(context.getDatabasePath("webview").getParentFile(), "webview");
-//        Utils.deleteFile(cacheDir, "ApplicationCache.db");
 
         SharedPreferences sp = sContext.getSharedPreferences(STATE_PREFERENCES_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();

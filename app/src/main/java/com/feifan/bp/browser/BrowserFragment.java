@@ -110,8 +110,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onReload() {
         // TODO 重构时验证
-//        mWebView.loadUrl("about:blank");
-//        mWebView.loadUrl(mUrl);
+        mWebView.loadUrl("about:blank");
+        mWebView.loadUrl(mUrl);
         LogUtil.i(TAG, "reload " + mUrl);
     }
 

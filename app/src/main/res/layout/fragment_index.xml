@@ -119,7 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/index_top_container"
-        android:padding="@dimen/view_spacing_5"
+        android:padding="@dimen/view_spacing_10"
         android:background="@android:color/white"
         android:divider="#000000"
         android:dividerHeight="1dp" />

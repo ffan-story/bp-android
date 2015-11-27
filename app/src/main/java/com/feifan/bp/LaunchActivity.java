@@ -105,9 +105,9 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         String title = args.getString(OnFragmentInteractionListener.INTERATION_KEY_TITLE);
         int type = args.getInt(OnFragmentInteractionListener.INTERATION_KEY_TYPE, OnFragmentInteractionListener.TYPE_IDLE);
         if (from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
-            if (PlatformState.getInstance().getLastUrl(this) != null) {
+            if (PlatformState.getInstance().getLastUrl() != null) {
                 if (Utils.isNetworkAvailable(this)) {
-                    BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl(this));
+                    BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl());
 
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
