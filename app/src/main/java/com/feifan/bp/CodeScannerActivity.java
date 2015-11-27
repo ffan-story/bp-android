@@ -28,7 +28,7 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
     public static final String INTERATION_KEY_URL = "inter_URL";
     private String mUrlStr = "";
 
-    public static void startActivity(Activity context,String url) {
+    public static void startActivityForResult(Activity context,String url) {
         Intent i = new Intent(context, CodeScannerActivity.class);
         i.putExtra(INTERATION_KEY_URL,url);
         context.startActivityForResult(i,Constants.REQUEST_CODE);
@@ -96,7 +96,7 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
-            setResult(Constants.REQUEST_OK_REFUND);
+            setResult(RESULT_OK);
             finish();
         }
     }

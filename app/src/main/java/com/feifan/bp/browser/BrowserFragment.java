@@ -109,7 +109,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onReload() {
-        // TODO 重构时验证
         mWebView.loadUrl("about:blank");
         mWebView.loadUrl(mUrl);
         LogUtil.i(TAG, "reload " + mUrl);
@@ -340,24 +339,24 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             }
 
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
-                if (url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
+                if (url.contains(Constants.URL_SCHEME_PLATFORM_LOGIN)) {      // 重新登录
                     UserProfile.getInstance().clear();
                     startActivity(LaunchActivity.buildIntent(getActivity()));
-                } else if (url.contains(Constants.URL_PATH_EXIT)) {
+                } else if (url.contains(Constants.URL_SCHEME_PLATFORM_EXIT)) {
                     if (getActivity() != null ) {
                         getActivity().finish();
                     }
-                } else if (url.contains(Constants.URL_PATH_HOME)) {
+                } else if (url.contains(Constants.URL_SCHEME_PLATFORM_HOME)) {
                     // 目前关闭当前界面即显示主界面
                     if (getActivity() != null) {
                         getActivity().finish();
                     }
-                } else if (url.contains(Constants.URL_PATH_CLOSE)) {//返回退款售后
+                } else if (url.contains(Constants.URL_SCHEME_PLATFORM_CLOSE)) {//返回退款售后
                     if (getActivity() != null) {
-                        getActivity().setResult(Constants.REQUEST_OK_REFUND);
+                        getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
                     }
-                } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
+                } else if (url.contains(Constants.URL_SCHEME_PLATFORM_IMAGE)) {
                     addImage(url);
                 }
             } else if (schema.equals(Constants.URL_SCHEME_ACTION)) {
