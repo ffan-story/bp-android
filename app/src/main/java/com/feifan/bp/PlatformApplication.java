@@ -6,6 +6,8 @@ import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
 
+import com.feifan.bp.network.JsonRequest;
+
 import java.util.List;
 
 /**
@@ -29,6 +31,7 @@ public class PlatformApplication extends Application {
         PlatformState.setApplicationContext(this);
         PlatformState.getInstance();
         UserProfile.getInstance().initialize(this);
+        JsonRequest.updateRedundantParams(UserProfile.getInstance());
     }
 
     @Override

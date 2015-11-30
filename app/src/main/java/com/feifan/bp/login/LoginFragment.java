@@ -18,6 +18,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.password.ForgetPasswordFragment;
 
 /**
@@ -95,6 +96,7 @@ public class LoginFragment extends BaseFragment {
                             profile.setAuthRangeType(userModel.authRangeType);
                             profile.setAgId(userModel.agId);
                             profile.setLoginToken(userModel.loginToken);
+                            JsonRequest.updateRedundantParams(profile);
 
                             UserCtrl.checkPermissions(userModel.uid, new Listener<AuthListModel>() {
                                 @Override

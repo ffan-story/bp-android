@@ -48,9 +48,14 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
 
     protected static final String TAG = "Request";
 
-    protected static final Map<String, String> REDUNDANT_PARAMS;
+    protected static Map<String, String> REDUNDANT_PARAMS;
 
-    static {
+
+    /**
+     * 更新冗余参数内容
+     * @param profile
+     */
+    public static void updateRedundantParams(UserProfile profile) {
         REDUNDANT_PARAMS = new HashMap<String, String>();
         REDUNDANT_PARAMS.put("appType", "bpMobile");
         REDUNDANT_PARAMS.put("clientType", "Android");
