@@ -1,7 +1,6 @@
 package com.feifan.bp;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,13 +11,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
+import com.feifan.bp.transactionflow.TransFlowTabActivity;
 import com.feifan.bp.base.PlatformBaseActivity;
-import com.feifan.bp.browser.BrowserActivity;
-import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
-import com.feifan.bp.refund.RefundFragment;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * 项目通用带有Topbar的活动
