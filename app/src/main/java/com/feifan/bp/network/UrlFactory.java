@@ -21,7 +21,7 @@ public abstract class UrlFactory {
     private static final String URL_PATH_HELP_DETAIL= "/H5App/default.html#/help/detail/";
 
     //退款单详情
-    private static final String URL_PATH_REFUND = "/H5App/index.html#/order/detail?";
+    private static final String URL_PATH_REFUND = "/H5App/index.html#/order/detail";
 
     // H5页面相对路径－查询提货码
     private static final String URL_PATH_SEARCH = "H5App/index.html#/goods/search_result";
@@ -55,7 +55,7 @@ public abstract class UrlFactory {
      * @return
      */
     public static String refundForHtml() {
-        return urlForHtml(URL_PATH_REFUND).concat("code=%s").concat("&refund=1");
+        return urlForHtml(URL_PATH_REFUND).concat("&code=%s").concat("&refund=1");
     }
 
     /**

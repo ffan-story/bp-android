@@ -19,6 +19,7 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.util.LogUtil;
 
 /**
  * Created by congjing
@@ -92,6 +93,7 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
                 mEdRefundCode.setText("");
                 String url = String.format( UrlFactory.refundForHtml(), code);
                 BrowserActivity.startForResultActivity(getActivity(), url);
+                LogUtil.e("xuchunlei", url);
                 break;
 
         }
