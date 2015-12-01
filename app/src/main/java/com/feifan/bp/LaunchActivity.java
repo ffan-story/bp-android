@@ -11,24 +11,26 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.RadioGroup;
 
-
-import com.feifan.bp.settings.feedback.FeedBackFragment;
-import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
-import com.feifan.bp.home.check.CheckManageFragment;
-
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
+import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
+import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.home.SettingsFragment;
+import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
+import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
-import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
+import com.feifan.bp.settings.feedback.FeedBackFragment;
+import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
 import com.feifan.bp.widget.BadgerRadioButton;
 import com.feifan.bp.widget.TabBar;
 
@@ -43,6 +45,15 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     private List<Fragment> mFragments = new ArrayList<>();
 
     private Fragment mCurrentFragment;
+
+    public static final String STORE_TYPE = "store";
+    public static final String MERCHANTID = "merchant";
+    public static final String USER_TYPE = "1";
+    public static final String MESSAGE_ZERO = "0";
+    public static final int MESSAGE_POSITION = 1;
+    private String storeId = "";
+    private String merchantId = "";
+    private BadgerRadioButton badgerRadioButton;
 
     public static Intent buildIntent(Context context) {
 
@@ -70,7 +81,29 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         });
 
         // FIXME Just a sample code to show badger, remove me later please
-         ((BadgerRadioButton)mBottomBar.getChildAt(1)).showBadger();
+        //add by tianjun 2015.11.30
+        badgerRadioButton = (BadgerRadioButton) mBottomBar.getChildAt(MESSAGE_POSITION);
+        if(UserProfile.getInstance().getAuthRangeType().trim().equals(STORE_TYPE)){
+            storeId = UserProfile.getInstance().getAuthRangeId();
+        }else if(UserProfile.getInstance().getAuthRangeType().trim().equals(MERCHANTID)){
+            merchantId = UserProfile.getInstance().getAuthRangeId();
+        }
+        HomeCtrl.isShowRedDot(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
+            @Override
+            public void onResponse(ReadMessageModel readMessageModel) {
+                if (!readMessageModel.getMessage().equals(MESSAGE_ZERO)) {
+                    badgerRadioButton.showBadger();
+                } else {
+                    badgerRadioButton.hideBadger();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+
 
         // 加载内容视图
         initContent();
@@ -91,6 +124,18 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     @Override
     protected boolean isShowToolbar() {
         return true;
+    }
+
+    @Override
+    protected int getContentContainerId() {
+        return R.id.content_container;
+    }
+
+    @Override
+    protected void retryRequestNetwork() {
+        if(mCurrentFragment instanceof MessageFragment){
+            ((MessageFragment)mCurrentFragment).updateData();
+        }
     }
 
     @Override
@@ -275,5 +320,4 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             super.onBackPressed();
         }
     }
-
 }

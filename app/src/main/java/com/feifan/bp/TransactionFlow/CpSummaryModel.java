@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.TransactionFlow;
 
 import com.feifan.bp.network.BaseModel;
 

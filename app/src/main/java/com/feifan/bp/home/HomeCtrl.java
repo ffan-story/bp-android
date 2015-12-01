@@ -2,19 +2,16 @@ package com.feifan.bp.home;
 
 
 
-import android.util.Log;
-
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.feifan.bp.BuildConfig;
+import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.login.UserModel;
 import com.feifan.bp.network.DefaultErrorListener;
+import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.PostRequest;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.Constants;
-import com.feifan.bp.network.GetRequest;
 
 /**
  * 主界面控制类
@@ -66,6 +63,36 @@ public class HomeCtrl {
                 .param("mailInboxId", maillnboxid)
                 .param("mailStatus", Constants.READ)
                 .targetClass(MessageStatusModel.class)
+                .listener(listener);
+        PlatformState.getInstance().getRequestQueue().add(request);
+    }
+
+    /**
+     * 是否显示红点
+     * @param merchantId
+     * @param storeId
+     * @param userType
+     * @param listener
+     */
+
+//    agid = 340;
+//    appType = bpMobile;
+//    clientAgent = "iPhone/iPhone OS/9.1/750*1334";
+//    clientType = iOS;
+//    loginToken = 86bdbcb585d32a4d19f54e30d4e001ef;
+//    merchantId = "";
+//    storeId = 9050588;
+//    uid = 13980;
+//    userType = 1;
+//    version = 7;
+
+    public static void isShowRedDot(String merchantId, String storeId, String userType, Listener listener, ErrorListener errorListener) {
+        JsonRequest<ReadMessageModel> request = new GetRequest.Builder<ReadMessageModel>(UrlFactory.getReadMessage()).errorListener(errorListener)
+                .param("merchantId", merchantId)
+                .param("storeId", storeId)
+                .param("userType", userType)
+                .build()
+                .targetClass(ReadMessageModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }

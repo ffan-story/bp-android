@@ -156,6 +156,10 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/feedback";
     }
 
+    public static String getReadMessage(){
+        return  EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/unread";
+    }
+
     public static String getLoginInfo(){
         //return "http://api.sit.ffan.com/mapp/v1/mapp/user";
         return EnvironmentManager.getHostFactory().getFFanApiHost() +"mapp/v1/mapp/user";

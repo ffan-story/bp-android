@@ -1,6 +1,6 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.TransactionFlow;
 
-import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.network.GetRequest;
@@ -25,13 +25,13 @@ public class TransCtrl {
                                        String endDate,
                                        String storeId,
                                        Listener<FlashSummaryModel> listener,
-                                       ErrorListener errorListener) {
+                                       Response.ErrorListener errorListener) {
         JsonRequest<FlashSummaryModel> request = new GetRequest.Builder<FlashSummaryModel>(UrlFactory.getFlashBuyUrl())
                 .param("startDate", startDate)
                 .param("endDate", endDate)
                 .param("storeId", storeId)
                 .param("action", "flashsummary")
-                .errorListener(errorListener)
+                //.errorListener(errorListener)
                 .build()
                 .targetClass(FlashSummaryModel.class)
                 .listener(listener);
@@ -55,14 +55,14 @@ public class TransCtrl {
                                     String pageIndex,
                                     String limit,
                                     Listener<FlashListModel> listener,
-                                    ErrorListener errorListener) {
+                                    Response.ErrorListener errorListener) {
         JsonRequest<FlashListModel> request = new GetRequest.Builder<FlashListModel>(UrlFactory.getFlashBuyUrl())
                 .param("startDate", startDate)
                 .param("endDate", endDate)
                 .param("storeId", storeId)
                 .param("pageIndex", pageIndex)
                 .param("limit", limit)
-                .errorListener(errorListener)
+                //.errorListener(errorListener)
                 .build()
                 .targetClass(FlashListModel.class)
                 .listener(listener);
@@ -82,12 +82,12 @@ public class TransCtrl {
                                          String month,
                                          String storeId,
                                          Listener<CpSummaryModel> listener,
-                                         ErrorListener errorListener) {
+                                         Response.ErrorListener errorListener) {
         JsonRequest<CpSummaryModel> request = new GetRequest.Builder<CpSummaryModel>(UrlFactory.getCouponsUrl())
                 .param("type", type)
                 .param("month", month)
                 .param("storeId", storeId)
-                .errorListener(errorListener)
+                //.errorListener(errorListener)
                 .build()
                 .targetClass(CpSummaryModel.class)
                 .listener(listener);

@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.TransactionFlow;
 
 import android.content.Context;
 import android.content.Intent;
@@ -44,6 +44,16 @@ public class TransFlowTabActivity extends BaseActivity{
     @Override
     protected void hideProgressBar() {
         super.hideProgressBar();
+    }
+
+    @Override
+    protected int getContentContainerId() {
+        return R.id.flow_tab_framelayout;
+    }
+
+    @Override
+    protected void retryRequestNetwork() {
+
     }
 
     private void initViews(){

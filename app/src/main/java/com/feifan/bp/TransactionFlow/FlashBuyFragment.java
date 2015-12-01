@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.TransactionFlow;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,24 +24,22 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.TransactionFlow.FlashListModel.FlashDetailModel;
+import com.feifan.bp.TransactionFlow.FlashSummaryModel.FlashSummaryDetailModel;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
-import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
 import com.feifan.bp.home.check.IndicatorFragment;
-
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
+import com.feifan.bp.widget.OnLoadingMoreListener;
 import com.feifan.bp.widget.SegmentedGroup;
+import com.feifan.material.datetimepicker.date.DatePickerDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import me.relex.circleindicator.CircleIndicator;
-
-import com.feifan.bp.widget.OnLoadingMoreListener;
-import com.feifan.material.datetimepicker.date.DatePickerDialog;
 
 /**
  * Created by Frank on 15/11/6.

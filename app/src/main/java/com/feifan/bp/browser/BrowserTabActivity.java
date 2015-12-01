@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.PopupWindow;
+
 import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
@@ -61,6 +62,9 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
     private final int DEFAULT_PAGE_INDEX = 0;
+    //add by tianjun 2015.11.27
+    private WebView webView;
+    private String webUrl;
 
     /**
      * @param context
@@ -130,6 +134,16 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     public void onResume() {
         super.onResume();
         refreshViewPage();
+    }
+
+    @Override
+    protected int getContentContainerId() {
+        return R.id.browser_tab_framelayout;
+    }
+
+    @Override
+    public void retryRequestNetwork() {
+        webView.loadUrl(webUrl);
     }
 
     /**
@@ -244,20 +258,22 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     @Override
     public void OnErrorReceived(String msg, final WebView web, final String url) {
 
-        if(isShowDlg && !isFinishing() ) {
-            mDialog.setMessage(msg)
-                    .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mDialog.dismiss();
-                            isShowDlg = true;
-                            web.loadUrl(url);
-                        }
-                    })
-                    .show();
-
-            isShowDlg = false;
-        }
+        webView = web;
+        webUrl = url;
+//        if(isShowDlg && !isFinishing() ) {
+//            mDialog.setMessage(msg)
+//                    .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            mDialog.dismiss();
+//                            isShowDlg = true;
+//                            web.loadUrl(url);
+//                        }
+//                    })
+//                    .show();
+//
+//            isShowDlg = false;
+//        }
     }
 
     @Override

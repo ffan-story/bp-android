@@ -54,8 +54,10 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                 public void onResponse(UserInfoModel userInfoModel) {
                     hideProgressBar();
                     if (userInfoModel.status == Constants.RESPONSE_CODE_SUCCESS) {
+                        hideEmptyView();
                         setLoginInfo(rootView, userInfoModel);
                     } else {
+                        showEmptyView();
                         Utils.showShortToast(getActivity(), userInfoModel.msg,
                                 Gravity.CENTER);
                     }

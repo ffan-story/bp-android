@@ -86,11 +86,11 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     private int mImgPickType = IMG_PICK_TYPE_0;
 
-    private WebView mWebView;
+    public WebView mWebView;
 
     private int mWebViewProgress = 0;
 
-    private String mUrl;
+    public String mUrl;
     private String mTitleName = "";
 
     public OnBrowserListener mListener;
@@ -219,6 +219,12 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 goBack();
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideEmptyView();
     }
 
     private void initWeb(WebView webView) {
@@ -404,6 +410,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
                 mListener.OnErrorReceived(uri.getAuthority(), mWebView, mUrl);
+                //add by tianjun 2015.11.27
+                showEmptyView();
             }
             return true;
         }
@@ -417,6 +425,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         @Override
         public void onPageFinished(WebView view, String url) {
             hideProgressBar();
+            //add by tianjun 2015.11.27
+            if (mWebViewProgress < 100) {
+                showEmptyView();
+            } else if (mWebViewProgress == 100) {
+                hideEmptyView();
+            }
+            super.onPageFinished(view, url);
             isOnclicked = false;
             super.onPageFinished(view, url);
 

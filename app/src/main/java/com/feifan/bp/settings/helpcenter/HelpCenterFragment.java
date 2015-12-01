@@ -1,6 +1,5 @@
 package com.feifan.bp.settings.helpcenter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -103,7 +102,9 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
                 if (mList.isEmpty()) {
                     mList = new ArrayList<>();
                     mList = helpCenterModel.getArryListHelpCenterData();
-                    if (!mList.isEmpty() && mPtrFrame != null) {
+                    if (mList != null && mList.size() > 0 && mPtrFrame != null) {
+                        getActivity();
+                        hideEmptyView();
                         mPtrFrame.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.setVisibility(View.GONE);
                         mPtrFrame.refreshComplete();
@@ -113,22 +114,25 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
                         mPtrFrameEmpty.refreshComplete();
                     }
                 } else {
+                    hideEmptyView();
                     for (int i = 0; i < helpCenterModel.getArryListHelpCenterData().size(); i++) {
                         mList.add(helpCenterModel.getArryListHelpCenterData().get(i));
                     }
                 }
-                mAdapter.notifyDataSetChanged();
+                if (mAdapter != null) {
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                showEmptyView();
                 hideProgressBar();
                 if (mPtrFrameEmpty != null) {
                     mPtrFrame.refreshComplete();
                 } else if (mPtrFrame != null) {
                     mPtrFrame.refreshComplete();
                 }
-
             }
         });
     }
@@ -195,11 +199,13 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
     /**
      * 更新数据
      */
-    protected void updateData() {
+    public void updateData() {
         pageIndex = 1;
         if(mList !=null){
             mList.clear();
-            mAdapter.notifyDataSetChanged();
+            if (mAdapter != null) {
+                mAdapter.notifyDataSetChanged();
+            }
         }
         fetchHelpCenterList(pageIndex);
     }

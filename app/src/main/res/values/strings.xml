@@ -211,4 +211,7 @@
     <string name="date_start_text">开始日期</string>
     <string name="date_end_text">结束日期</string>
 
+    <string name="empty_view_retry">重试</string>
+    <string name="empty_view_connect_error">你的网络好像有问题</string>
+
 </resources>

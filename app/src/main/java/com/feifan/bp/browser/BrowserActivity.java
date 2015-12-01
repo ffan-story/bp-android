@@ -15,7 +15,6 @@ import android.webkit.WebView;
 import android.widget.PopupWindow;
 
 import com.feifan.bp.Constants;
-import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
@@ -26,8 +25,6 @@ import com.feifan.croplib.Crop;
 import com.feifan.material.MaterialDialog;
 
 import java.io.File;
-
-import bp.feifan.com.codescanner.Contents;
 
 public class BrowserActivity extends BaseActivity implements BrowserFragment.OnBrowserListener {
     /**
@@ -50,6 +47,10 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
     // dialog
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
+
+    //add by tianjun 2015.11.27
+    private WebView webView;
+    private String webUrl;
 
     public static void startActivity(Context context, String url) {
         Intent i = new Intent(context, BrowserActivity.class);
@@ -96,6 +97,17 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected int getContentContainerId() {
+        return R.id.browser_fragment;
+    }
+
+    @Override
+    protected void retryRequestNetwork() {
+        mBrowserFragment.mWebView.loadUrl(mBrowserFragment.mUrl);
+        //webView.loadUrl(webUrl);
     }
 
     private void initViews() {
@@ -187,20 +199,22 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
 
     @Override
     public void OnErrorReceived(String msg, final WebView web, final String url) {
-        if(isShowDlg && !isFinishing()) {
-            mDialog.setMessage(msg)
-                    .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mDialog.dismiss();
-                            isShowDlg = true;
-                            web.loadUrl(url);
-                        }
-                    })
-                    .show();
-
-            isShowDlg = false;
-        }
+        webView = web;
+        webUrl = url;
+//        if(isShowDlg && !isFinishing()) {
+//            mDialog.setMessage(msg)
+//                    .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            mDialog.dismiss();
+//                            isShowDlg = true;
+//                            web.loadUrl(url);
+//                        }
+//                    })
+//                    .show();
+//
+//            isShowDlg = false;
+//        }
     }
 
     @Override

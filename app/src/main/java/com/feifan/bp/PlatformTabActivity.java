@@ -8,9 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.feifan.bp.base.PlatformBaseActivity;
@@ -87,6 +85,16 @@ public class PlatformTabActivity extends PlatformBaseActivity implements OnFragm
         tabLayout.setTabMode(pager.getAdapter().getCount() > MAX_TAB_COUNT ? TabLayout.MODE_SCROLLABLE : TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(pager);
 
+
+    }
+
+    @Override
+    protected int getContentContainerId() {
+        return 0;
+    }
+
+    @Override
+    protected void retryRequestNetwork() {
 
     }
 

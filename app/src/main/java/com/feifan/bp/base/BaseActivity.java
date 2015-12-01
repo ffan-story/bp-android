@@ -2,22 +2,20 @@ package com.feifan.bp.base;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.R;
-import com.umeng.analytics.MobclickAgent;
+import com.feifan.bp.util.LogUtil;
 
 import java.util.List;
 
@@ -31,6 +29,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final int DIALOG_ID_PROGRESS_BAR = 1;
     private static final String KEY_PROGRESS_BAR_CANCELABLE = "cancelable";
 
+    private EmptyViewImpl mEmptyViewImpl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +39,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 //                | View.SYSTEM_UI_FLAG_FULLSCREEN;
 //        decorView.setSystemUiVisibility(uiOptions);
 
+        //add by tianjun 2015.11.26
+        mEmptyViewImpl = new EmptyViewImpl(this,
+                getEmptyViewContainerLayoutId(),
+                getEmptyViewLayoutResourceId(), getEmptyViewPlaceHolderType(),
+                getEmptyViewAlignment());
+        mEmptyViewImpl.setupEmptyView();
     }
 
     @Override
@@ -142,14 +147,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+        //MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        MobclickAgent.onPause(this);
+        //MobclickAgent.onPause(this);
 
         if (isFinishing()) {
             removeDialog(DIALOG_ID_PROGRESS_BAR);
@@ -203,6 +208,38 @@ public abstract class BaseActivity extends AppCompatActivity {
         return result;
     }
 
+    //add by tianjun 2015.11.26
+    protected IEmptyView.EmptyViewPlaceHolderType getEmptyViewPlaceHolderType() {
+        return IEmptyView.EmptyViewPlaceHolderType.PlaceHolderTypeInsertToView;
+    }
 
+    protected IEmptyView.EmptyViewAlignment getEmptyViewAlignment() {
+        return IEmptyView.EmptyViewAlignment.AlignmentCenter;
+    }
+
+    protected int getEmptyViewLayoutResourceId() {
+        return R.layout.layout_empty_view;
+    }
+
+    protected int getEmptyViewContainerLayoutId() {
+        return getContentContainerId();
+    }
+
+    public ViewGroup getEmptyView() {
+        return mEmptyViewImpl.getEmptyView();
+    }
+
+    public void showEmptyView() {
+        mEmptyViewImpl.showEmptyView();
+    }
+
+    public void hideEmptyView() {
+        mEmptyViewImpl.hideEmptyView();
+    }
+
+    protected abstract int getContentContainerId();
+
+    protected abstract void retryRequestNetwork();
+    //end.
 
 }

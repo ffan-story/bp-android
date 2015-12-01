@@ -11,9 +11,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.feifan.bp.transactionflow.TransFlowTabActivity;
+import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
+import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
 
 /**
  * 项目通用带有Topbar的活动
@@ -26,6 +27,7 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     private TextView mCenterTitle;
     public static final String EXTRA_TITLE = "titleName";
     private String mStrTitleName = "";
+    private Fragment mCurrentFragment;
 
     /**
      *
@@ -57,6 +59,16 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
         }
     }
 
+    @Override
+    protected int getContentContainerId() {
+        return R.id.topbar_container;
+    }
+
+    @Override
+    protected void retryRequestNetwork() {
+        ((HelpCenterFragment) mCurrentFragment).updateData();
+    }
+
     private void initHeader(Toolbar header) {
         header.setNavigationIcon(R.mipmap.ic_left_arrow);
         header.setNavigationOnClickListener(new View.OnClickListener() {
@@ -77,7 +89,7 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.topbar_container, fragment);
         transaction.commitAllowingStateLoss();
-//        mCurrentFragment = fragment;
+        mCurrentFragment = fragment;
     }
 
     @Override
@@ -106,4 +118,6 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
             finish();
         }
     }
+
+
 }

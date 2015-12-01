@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
@@ -59,6 +60,13 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 //    private IconClickableEditText mCodeEdt;
     private EditText mCodeEditText;
     private boolean mDeleteFlag = true;
+
+    public static final String STORE_TYPE = "store";
+    public static final String MERCHANTID = "merchant";
+    public static final String USER_TYPE = "1";
+    public static final String MESSAGE_NUM_ZERO = "0";
+    private String storeId = "";
+    private String merchantId = "";
 
     public static IndexFragment newInstance() {
         IndexFragment fragment = new IndexFragment();
@@ -317,14 +325,38 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 return;
             }
 
-            Drawable t = ContextCompat.getDrawable(getContext(), iconRes);
+            final Drawable t = ContextCompat.getDrawable(getContext(), iconRes);
             t.setBounds(0, 0, mIconSize, mIconSize);
 
             // TODO use the code below to show red dot for a function
-//            Drawable red = ContextCompat.getDrawable(getContext(), R.drawable.bg_red_dot);
-//            red.setBounds(0, 0, red.getIntrinsicWidth(), red.getIntrinsicHeight());
+            final Drawable red = ContextCompat.getDrawable(getContext(), R.drawable.bg_red_dot);
+            red.setBounds(0, 0, red.getIntrinsicWidth(), red.getIntrinsicHeight());
 
-            indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
+            //add by tianjun 2015.11.30
+            if(UserProfile.getInstance().getAuthRangeType().trim().equals(STORE_TYPE)){
+                storeId = UserProfile.getInstance().getAuthRangeId();
+            }else if(UserProfile.getInstance().getAuthRangeType().trim().equals(MERCHANTID)){
+                merchantId = UserProfile.getInstance().getAuthRangeId();
+            }
+            HomeCtrl.isShowRedDot(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
+                @Override
+                public void onResponse(ReadMessageModel readMessageModel) {
+                    if (item.id == ReadMessageModel.REFUND_INDEX) {
+                        if (!readMessageModel.getRefund().equals(MESSAGE_NUM_ZERO)) {
+                            indexViewHolder.textView.setCompoundDrawables(null, t, red, null);
+                        } else {
+                            indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
+                        }
+                    } else {
+                        indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            });
 
             indexViewHolder.textView.setText(item.name);
             indexViewHolder.textView.setOnClickListener(new View.OnClickListener() {
@@ -336,7 +368,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                             if (Utils.isNetworkAvailable(getContext())) {
                                 if (EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id) != -1 && EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id) != -1) {
                                     String titleName = "";
-                                    if (!url.contains("/staff?") && !item.name.equals("员工管理")){
+                                    if (!url.contains("/staff?") && !item.name.equals("员工管理")) {
                                         titleName = item.name;
                                     }
                                     BrowserTabActivity.startActivity(getContext(), url + "&status=",

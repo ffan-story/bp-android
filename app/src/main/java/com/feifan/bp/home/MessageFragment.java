@@ -20,11 +20,12 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import bp.feifan.com.refresh.PtrClassicFrameLayout;
 import bp.feifan.com.refresh.PtrDefaultHandler;
 import bp.feifan.com.refresh.PtrFrameLayout;
@@ -57,7 +58,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showProgressBar(true);
-
+        hideEmptyView();
     }
 
     @Override
@@ -78,22 +79,24 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
 
                 hideProgressBar();
                 totalCount = messageModel.getTotalCount();
-                if(messageModel.getMessageDataList() ==null){
+                if (messageModel.getMessageDataList() == null) {
                     return;
                 }
                 if (mList == null || mList.size() <= 0) {
                     mList = new ArrayList<>();
                     mList = messageModel.getMessageDataList();
-                    if (mList != null && mList.size() > 0 && mPtrFrame !=null) {
+                    if (mList != null && mList.size() > 0 && mPtrFrame != null) {
+                        hideEmptyView();
                         mPtrFrame.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.setVisibility(View.GONE);
                         mPtrFrame.refreshComplete();
-                    } else  if (mPtrFrameEmpty !=null){
+                    } else if (mPtrFrameEmpty != null) {
                         mPtrFrame.setVisibility(View.GONE);
                         mPtrFrameEmpty.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.refreshComplete();
                     }
                 } else {
+                    hideEmptyView();
                     for (int i = 0; i < messageModel.getMessageDataList().size(); i++) {
                         mList.add(messageModel.getMessageDataList().get(i));
                     }
@@ -103,6 +106,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                showEmptyView();
                 hideProgressBar();
                 if (mPtrFrameEmpty != null) {
                     mPtrFrame.refreshComplete();
@@ -119,11 +123,11 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
             @Override
             public void onResponse(MessageStatusModel messageModel) {
                 mList.get(position).setmStrMessageStatus(Constants.READ);
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
             }
         });
     }
@@ -146,7 +150,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mList != null && mList.size() > 0) {
                     if (mList.get(position).getmStrMessageStatus() != null && mList.get(position).getmStrMessageStatus().equals(Constants.UNREAD)) {
-                        setMessageListStatus(mList.get(position).getUserid(), mList.get(position).getMaillnboxid(),position);
+                        setMessageListStatus(mList.get(position).getUserid(), mList.get(position).getMaillnboxid(), position);
                     }
                     String strUri = UrlFactory.urlForHtml(mList.get(position).getmStrDetailUrl());
                     BrowserActivity.startActivity(getActivity(), strUri);
@@ -179,10 +183,16 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         super.onDetach();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideEmptyView();
+    }
+
     /**
      * 更新数据
      */
-    protected void updateData() {
+    public void updateData() {
         pageIndex = 1;
         if(mList !=null){
             mList.clear();

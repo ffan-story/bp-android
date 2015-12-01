@@ -1,11 +1,10 @@
 package com.feifan.bp.network;
 
-import com.android.volley.Response.ErrorListener;
-import com.feifan.bp.BuildConfig;
-import com.feifan.bp.UserProfile;
+import com.android.volley.Response;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  * Get请求
@@ -14,7 +13,7 @@ import java.util.Map;
  */
 public class GetRequest<T extends BaseModel> extends JsonRequest<T> {
 
-    public GetRequest(String url, ErrorListener errorListener) {
+    public GetRequest(String url, Response.ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
     }
 
@@ -22,7 +21,7 @@ public class GetRequest<T extends BaseModel> extends JsonRequest<T> {
 
         private String mUrl;
         private Map<String, String> mParams;
-        private ErrorListener mErrorListener;
+        private Response.ErrorListener mErrorListener;
 
         public Builder(String url){
             this.mUrl = url;
@@ -32,7 +31,7 @@ public class GetRequest<T extends BaseModel> extends JsonRequest<T> {
             mErrorListener = new DefaultErrorListener();
         }
 
-        public Builder<T> errorListener(ErrorListener listener) {
+        public Builder<T> errorListener(Response.ErrorListener listener) {
             mErrorListener = listener;
             return this;
         }
@@ -52,5 +51,7 @@ public class GetRequest<T extends BaseModel> extends JsonRequest<T> {
             }
             return new GetRequest<T>(mUrl, mErrorListener);
         }
+
+
     }
 }
