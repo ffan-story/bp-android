@@ -415,7 +415,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
                 mListener.OnErrorReceived(uri.getAuthority(), mWebView, mUrl);
                 //add by tianjun 2015.11.27
-                showEmptyView();
+                //showEmptyView();
             }
             return true;
         }
@@ -435,7 +435,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 //            } else if (mWebViewProgress == 100) {
 //                hideEmptyView();
 //            }
-
             super.onPageFinished(view, url);
             isOnclicked = false;
         }

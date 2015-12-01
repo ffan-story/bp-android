@@ -78,9 +78,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 switchFragment(mFragments.get(checkedId));
             }
         });
-
         mMessageItem = (BadgerRadioButton) mBottomBar.getChildAt(MESSAGE_POSITION);
-
         // 加载内容视图
         initContent();
     }

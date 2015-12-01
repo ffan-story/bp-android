@@ -355,6 +355,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
             t.setBounds(0, 0, mIconSize, mIconSize);
 
             indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
+
             indexViewHolder.textView.setText(item.name);
             indexViewHolder.textView.setOnClickListener(new View.OnClickListener() {
                 @Override

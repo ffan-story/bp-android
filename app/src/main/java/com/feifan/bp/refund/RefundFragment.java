@@ -19,7 +19,6 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.LogUtil;
 
 /**
  * Created by congjing
@@ -73,7 +72,8 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
                     mEdRefundCode.setText("");
                     return;
                 }
-                if (TextUtils.isEmpty(mEdRefundCode.getText())) {
+                if (TextUtils.isEmpty(mEdRefundCode.getText().toString().trim())) {
+                    Toast.makeText(getActivity(), R.string.order_number_can_not_be_empty, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
