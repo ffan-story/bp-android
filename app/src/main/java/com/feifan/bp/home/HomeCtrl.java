@@ -74,20 +74,8 @@ public class HomeCtrl {
      * @param userType
      * @param listener
      */
-
-//    agid = 340;
-//    appType = bpMobile;
-//    clientAgent = "iPhone/iPhone OS/9.1/750*1334";
-//    clientType = iOS;
-//    loginToken = 86bdbcb585d32a4d19f54e30d4e001ef;
-//    merchantId = "";
-//    storeId = 9050588;
-//    uid = 13980;
-//    userType = 1;
-//    version = 7;
-
-    public static void isShowRedDot(String merchantId, String storeId, String userType, Listener listener, ErrorListener errorListener) {
-        JsonRequest<ReadMessageModel> request = new GetRequest.Builder<ReadMessageModel>(UrlFactory.getReadMessage()).errorListener(errorListener)
+    public static void isHaveUnreadMessage(String merchantId, String storeId, String userType, Listener listener) {
+        JsonRequest<ReadMessageModel> request = new GetRequest.Builder<ReadMessageModel>(UrlFactory.getReadMessage())
                 .param("merchantId", merchantId)
                 .param("storeId", storeId)
                 .param("userType", userType)

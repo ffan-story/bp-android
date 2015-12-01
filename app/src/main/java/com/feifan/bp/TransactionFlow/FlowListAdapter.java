@@ -1,4 +1,4 @@
-package com.feifan.bp.TransactionFlow;
+package com.feifan.bp.transactionflow;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.feifan.bp.TransactionFlow.FlashListModel.FlashDetailModel;
+import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
 import com.feifan.bp.R;
 
 import java.util.ArrayList;

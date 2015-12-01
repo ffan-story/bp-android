@@ -1,7 +1,6 @@
 package com.feifan.bp.home;
 
 import android.content.Context;
-
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
@@ -32,8 +30,8 @@ import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.check.CheckManageFragment;
-import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
+import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
@@ -338,10 +336,10 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
             }else if(UserProfile.getInstance().getAuthRangeType().trim().equals(MERCHANTID)){
                 merchantId = UserProfile.getInstance().getAuthRangeId();
             }
-            HomeCtrl.isShowRedDot(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
+            HomeCtrl.isHaveUnreadMessage(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
                 @Override
                 public void onResponse(ReadMessageModel readMessageModel) {
-                    if (item.id == ReadMessageModel.REFUND_INDEX) {
+                    if (item.id == ReadMessageModel.getCurrentRefundIndex()) {
                         if (!readMessageModel.getRefund().equals(MESSAGE_NUM_ZERO)) {
                             indexViewHolder.textView.setCompoundDrawables(null, t, red, null);
                         } else {
@@ -350,11 +348,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     } else {
                         indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
                     }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-
                 }
             });
 

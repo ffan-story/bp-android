@@ -137,7 +137,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     }
 
     @Override
-    protected int getContentContainerId() {
+    public int getContentContainerId() {
         return R.id.browser_tab_framelayout;
     }
 

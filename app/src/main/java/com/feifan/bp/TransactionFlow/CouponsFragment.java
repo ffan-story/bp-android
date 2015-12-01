@@ -1,4 +1,4 @@
-package com.feifan.bp.TransactionFlow;
+package com.feifan.bp.transactionflow;
 
 import android.content.Context;
 import android.content.Intent;

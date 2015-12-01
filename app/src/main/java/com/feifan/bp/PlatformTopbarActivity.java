@@ -11,7 +11,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
+import com.feifan.bp.transactionflow.TransFlowTabActivity;
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
@@ -60,12 +60,12 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     }
 
     @Override
-    protected int getContentContainerId() {
+    public int getContentContainerId() {
         return R.id.topbar_container;
     }
 
     @Override
-    protected void retryRequestNetwork() {
+    public void retryRequestNetwork() {
         ((HelpCenterFragment) mCurrentFragment).updateData();
     }
 

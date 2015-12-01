@@ -1,7 +1,6 @@
 package com.feifan.bp;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,9 +11,9 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 
+import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.base.BaseActivity;
 
 import bp.feifan.com.codescanner.CaptureActivityOfResult;
 import bp.feifan.com.codescanner.CodeScannerFragment;
@@ -101,11 +100,11 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
         }
     }
 
-    protected int getContentContainerId() {
-        return 0;
-    }
-
-    protected void retryRequestNetwork() {
-
-    }
+//    protected int getContentContainerId() {
+//        return 0;
+//    }
+//
+//    protected void retryRequestNetwork() {
+//
+//    }
 }

@@ -88,16 +88,6 @@ public class PlatformTabActivity extends PlatformBaseActivity implements OnFragm
 
     }
 
-    @Override
-    protected int getContentContainerId() {
-        return 0;
-    }
-
-    @Override
-    protected void retryRequestNetwork() {
-
-    }
-
     private void initHeader(Toolbar header) {
         header.setNavigationIcon(R.mipmap.ic_left_arrow);
         header.setNavigationOnClickListener(new View.OnClickListener() {

@@ -70,8 +70,11 @@ public abstract class PlatformBaseActivity extends AppCompatActivity {
         mEmptyViewImpl.hideEmptyView();
     }
 
-    protected abstract int getContentContainerId();
+    public int getContentContainerId(){
+        return 0;
+    }
 
-    protected abstract void retryRequestNetwork();
+    public void retryRequestNetwork(){
+    }
     //end.
 }

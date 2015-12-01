@@ -54,16 +54,6 @@ public class SplashActivity extends BaseActivity {
         return false;
     }
 
-    @Override
-    protected int getContentContainerId() {
-        return 0;
-    }
-
-    @Override
-    protected void retryRequestNetwork() {
-
-    }
-
     private static final String PREFERENCE_NAME = "wanda_bp";
     private static final String PREF_VERSION_CODE = "pref_version_code";
     private static final String PREF_VERSION_BEFORE_UPDATE = "pref_version_before_update";

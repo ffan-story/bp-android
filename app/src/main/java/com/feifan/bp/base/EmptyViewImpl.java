@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,7 +22,6 @@ public class EmptyViewImpl implements IEmptyView {
      * Common Empty View
      */
     protected TextView mTvEmptyText;
-    protected ImageView mIvEmptyImage;
     protected Button mBtnRetry;
     protected ViewGroup mEmptyView;
 
@@ -60,8 +58,6 @@ public class EmptyViewImpl implements IEmptyView {
             mEmptyView = inflateEmptyView();
             mTvEmptyText = (TextView) mEmptyView
                     .findViewById(R.id.tv_empty_text);
-            mIvEmptyImage = (ImageView) mEmptyView
-                    .findViewById(R.id.iv_empty_image);
             mBtnRetry = (Button) mEmptyView.findViewById(R.id.btn_retry);
             mBtnRetry.setOnClickListener(new OnClickListener() {
                 @Override
@@ -90,7 +86,6 @@ public class EmptyViewImpl implements IEmptyView {
             }
             ViewGroup view = inflateEmptyView();
             mTvEmptyText = (TextView) view.findViewById(R.id.tv_empty_text);
-            mIvEmptyImage = (ImageView) view.findViewById(R.id.iv_empty_image);
             mBtnRetry = (Button) view.findViewById(R.id.btn_retry);
             mBtnRetry.setOnClickListener(new OnClickListener() {
                 @Override

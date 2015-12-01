@@ -2,6 +2,9 @@ package com.feifan.bp.base;
 
 import android.view.ViewGroup;
 
+/**
+ * 网络异常时视图的接口
+ */
 public interface IEmptyView {
     static enum EmptyViewPlaceHolderType {
         /**

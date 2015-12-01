@@ -100,12 +100,12 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
     }
 
     @Override
-    protected int getContentContainerId() {
+    public int getContentContainerId() {
         return R.id.browser_fragment;
     }
 
     @Override
-    protected void retryRequestNetwork() {
+    public void retryRequestNetwork() {
         mBrowserFragment.mWebView.loadUrl(mBrowserFragment.mUrl);
         //webView.loadUrl(webUrl);
     }

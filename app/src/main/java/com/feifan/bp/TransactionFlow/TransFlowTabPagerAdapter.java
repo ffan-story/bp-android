@@ -1,4 +1,4 @@
-package com.feifan.bp.TransactionFlow;
+package com.feifan.bp.transactionflow;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

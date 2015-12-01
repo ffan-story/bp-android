@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.RadioGroup;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
@@ -88,7 +87,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         }else if(UserProfile.getInstance().getAuthRangeType().trim().equals(MERCHANTID)){
             merchantId = UserProfile.getInstance().getAuthRangeId();
         }
-        HomeCtrl.isShowRedDot(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
+        HomeCtrl.isHaveUnreadMessage(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
             @Override
             public void onResponse(ReadMessageModel readMessageModel) {
                 if (!readMessageModel.getMessage().equals(MESSAGE_ZERO)) {
@@ -96,11 +95,6 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 } else {
                     badgerRadioButton.hideBadger();
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
             }
         });
 
@@ -127,12 +121,12 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     }
 
     @Override
-    protected int getContentContainerId() {
+    public int getContentContainerId() {
         return R.id.content_container;
     }
 
     @Override
-    protected void retryRequestNetwork() {
+    public void retryRequestNetwork() {
         if(mCurrentFragment instanceof MessageFragment){
             ((MessageFragment)mCurrentFragment).updateData();
         }
