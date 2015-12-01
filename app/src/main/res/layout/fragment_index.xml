@@ -121,7 +121,6 @@
         android:layout_below="@id/index_top_container"
         android:padding="@dimen/view_spacing_10"
         android:background="@android:color/white"
-        android:divider="#000000"
-        android:dividerHeight="1dp" />
+         />
 
 </RelativeLayout>

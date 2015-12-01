@@ -1,11 +1,16 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:drawablePadding="@dimen/view_spacing_5"
-    android:padding="@dimen/view_spacing_10"
-    android:gravity="center"
-    android:text="@string/index_history_text"
-    android:textColor="@color/font_color_gray"
-    android:textSize="@dimen/font_size_14" />
+    android:padding="@dimen/view_spacing_10">
+    <TextView
+        android:id="@+id/function_item_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/view_spacing_5"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="@string/index_history_text"
+        android:textColor="@color/font_color_gray"
+        android:textSize="@dimen/font_size_14" />
+</FrameLayout>
 

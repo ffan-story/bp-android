@@ -46,7 +46,7 @@
     <!--退款-->
     <string name="start_refund">发起退款</string>
     <string name="next">下一步</string>
-    <string name="input_order_id">请填写订单号</string>
+    <string name="input_order_id">请输入订单号</string>
     <string name="refund_menu_start_text">我要退款</string>
 
     <!-- Settings（设置） - begin -->

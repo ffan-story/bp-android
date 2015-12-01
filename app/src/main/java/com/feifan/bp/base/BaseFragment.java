@@ -68,6 +68,7 @@ public class BaseFragment extends Fragment implements OnDispatchTouchEventListen
 
     //add by tianjun 2015.11.26
     public void showEmptyView() {
+
         Activity a = getActivity();
         if (a instanceof BaseActivity) {
             ((BaseActivity) a).showEmptyView();

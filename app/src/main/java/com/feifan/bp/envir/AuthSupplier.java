@@ -58,6 +58,12 @@ public class AuthSupplier {
          */
         int getAuthTabStatusRes(int authId);
 
+        /**
+         * 获取退款售后项ID
+         * @return
+         */
+        String getRefundId();
+
     }
 
     /**
@@ -121,6 +127,11 @@ public class AuthSupplier {
 
         }
 
+        @Override
+        public String getRefundId() {
+            return "1162";
+        }
+
     }
 
     static class ProductAuthFactory implements IAuthFactory {
@@ -178,6 +189,11 @@ public class AuthSupplier {
                 default:
                     return -1;
             }
+        }
+
+        @Override
+        public String getRefundId() {
+            return "1004";
         }
 
     }

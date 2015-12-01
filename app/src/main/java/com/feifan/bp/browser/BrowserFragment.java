@@ -109,9 +109,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onReload() {
-        mWebView.loadUrl("about:blank");
-        mWebView.loadUrl(mUrl);
-        LogUtil.i(TAG, "reload " + mUrl);
+        LogUtil.e("xuchunlei", "webview----->" + mWebView);
+        if(mWebView != null) {
+            mWebView.loadUrl("about:blank");
+            mWebView.loadUrl(mUrl);
+            LogUtil.i(TAG, "reload " + mUrl);
+        }
+
     }
 
 
@@ -426,15 +430,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         public void onPageFinished(WebView view, String url) {
             hideProgressBar();
             //add by tianjun 2015.11.27
-            if (mWebViewProgress < 100) {
-                showEmptyView();
-            } else if (mWebViewProgress == 100) {
-                hideEmptyView();
-            }
+//            if (mWebViewProgress < 100) {
+//                showEmptyView();
+//            } else if (mWebViewProgress == 100) {
+//                hideEmptyView();
+//            }
+
             super.onPageFinished(view, url);
             isOnclicked = false;
-            super.onPageFinished(view, url);
-
         }
     }
 

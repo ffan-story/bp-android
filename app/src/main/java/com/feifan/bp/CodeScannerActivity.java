@@ -94,10 +94,10 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            setResult(RESULT_OK);
-            finish();
-        }
+//        if (resultCode == RESULT_OK) {
+//            setResult(RESULT_OK);
+//            finish();
+//        }
     }
 
 //    protected int getContentContainerId() {

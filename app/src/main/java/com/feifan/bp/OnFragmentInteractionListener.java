@@ -40,4 +40,10 @@ public interface OnFragmentInteractionListener {
      * @param title
      */
     void onTitleChanged(String title);
+
+    /**
+     * 重载该方法，可以相应状态变更事件
+     * @param flag
+     */
+    void onStatusChanged(boolean flag);
 }

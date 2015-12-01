@@ -111,6 +111,11 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     }
 
     @Override
+    public void onStatusChanged(boolean flag) {
+
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode ==RESULT_OK && requestCode == Constants.REQUEST_CODE){

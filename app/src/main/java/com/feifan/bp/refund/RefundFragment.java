@@ -93,7 +93,6 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
                 mEdRefundCode.setText("");
                 String url = String.format( UrlFactory.refundForHtml(), code);
                 BrowserActivity.startForResultActivity(getActivity(), url);
-                LogUtil.e("xuchunlei", url);
                 break;
 
         }

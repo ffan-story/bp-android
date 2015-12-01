@@ -1,5 +1,6 @@
 package com.feifan.bp.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -66,6 +67,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
     private String storeId = "";
     private String merchantId = "";
 
+    private TextView mRefundMenu;
+    private Drawable mRedView;
+
     public static IndexFragment newInstance() {
         IndexFragment fragment = new IndexFragment();
         return fragment;
@@ -88,6 +92,27 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
+
+        // 获取未读提示状态
+        if(UserProfile.getInstance().getAuthRangeType().trim().equals(STORE_TYPE)){
+            storeId = UserProfile.getInstance().getAuthRangeId();
+        }else if(UserProfile.getInstance().getAuthRangeType().trim().equals(MERCHANTID)){
+            merchantId = UserProfile.getInstance().getAuthRangeId();
+        }
+        HomeCtrl.getUnReadtatus(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
+            @Override
+            public void onResponse(ReadMessageModel readMessageModel) {
+                Drawable[] drawables = mRefundMenu.getCompoundDrawables();
+                if (readMessageModel.refundCount > 0) {
+                    mRefundMenu.setCompoundDrawables(null, drawables[1], mRedView, null);
+                } else {
+                    mRefundMenu.setCompoundDrawables(null, mRedView, null, null);
+                }
+
+                mListener.onStatusChanged(readMessageModel.messageCount > 0);
+            }
+        });
+
     }
 
     @Override
@@ -98,8 +123,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         v.findViewById(R.id.index_scan).setOnClickListener(this);
         v.findViewById(R.id.index_history).setOnClickListener(this);
         v.findViewById(R.id.login_info_icon).setOnClickListener(this);
-//        mCodeEdt = (IconClickableEditText) v.findViewById(R.id.index_search_input);
-//        mCodeEdt.setOnIconClickListener(this);
         if (UserProfile.getInstance().getAuthRangeType().equals("merchant")) {
             getShopData();
         }
@@ -115,11 +138,11 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 if (s == null || s.length() == 0) return;
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < s.length(); i++) {
-                    if (i != 4 && i!= 9 && i != 14  && s.charAt(i) == ' ') {
+                    if (i != 4 && i != 9 && i != 14 && s.charAt(i) == ' ') {
                         continue;
                     } else {
                         sb.append(s.charAt(i));
-                        if ((sb.length() == 5 || sb.length() == 10|| sb.length() == 15) && sb.charAt(sb.length() - 1) != ' ') {
+                        if ((sb.length() == 5 || sb.length() == 10 || sb.length() == 15) && sb.charAt(sb.length() - 1) != ' ') {
                             sb.insert(sb.length() - 1, ' ');
                         }
                     }
@@ -158,7 +181,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.index_function_container);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(
                 3, StaggeredGridLayoutManager.VERTICAL));
-//        mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         mAdapter = new IndexAdapter(list);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -199,6 +221,10 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
             throw new ClassCastException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        mRedView = ContextCompat.getDrawable(getContext(), R.drawable.bg_red_dot);
+        mRedView.setBounds(0, 0, mRedView.getIntrinsicWidth(), mRedView.getIntrinsicHeight());
+
     }
 
     @Override
@@ -294,7 +320,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         private final int mIconSize;
 
         {
-            mIconSize = getResources().getDrawable(R.mipmap.index_ic_order).getMinimumHeight();
+//            mIconSize = getResources().getDrawable(R.mipmap.index_ic_order).getMinimumHeight();
+            mIconSize = ContextCompat.getDrawable(getContext(), R.mipmap.index_ic_order).getMinimumWidth();
         }
 
         public IndexAdapter(List<AuthItem> list) {
@@ -318,6 +345,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         @Override
         public void onBindViewHolder(final IndexViewHolder indexViewHolder, int i) {
             final AuthItem item = mList.get(i);
+
             Integer iconRes = EnvironmentManager.getAuthFactory().getAuthFilter().get(item.id);
             if(iconRes == null) {
                 return;
@@ -326,31 +354,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
             final Drawable t = ContextCompat.getDrawable(getContext(), iconRes);
             t.setBounds(0, 0, mIconSize, mIconSize);
 
-            // TODO use the code below to show red dot for a function
-            final Drawable red = ContextCompat.getDrawable(getContext(), R.drawable.bg_red_dot);
-            red.setBounds(0, 0, red.getIntrinsicWidth(), red.getIntrinsicHeight());
-
-            //add by tianjun 2015.11.30
-            if(UserProfile.getInstance().getAuthRangeType().trim().equals(STORE_TYPE)){
-                storeId = UserProfile.getInstance().getAuthRangeId();
-            }else if(UserProfile.getInstance().getAuthRangeType().trim().equals(MERCHANTID)){
-                merchantId = UserProfile.getInstance().getAuthRangeId();
-            }
-            HomeCtrl.isHaveUnreadMessage(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
-                @Override
-                public void onResponse(ReadMessageModel readMessageModel) {
-                    if (item.id == ReadMessageModel.getCurrentRefundIndex()) {
-                        if (!readMessageModel.getRefund().equals(MESSAGE_NUM_ZERO)) {
-                            indexViewHolder.textView.setCompoundDrawables(null, t, red, null);
-                        } else {
-                            indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
-                        }
-                    } else {
-                        indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
-                    }
-                }
-            });
-
+            indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
             indexViewHolder.textView.setText(item.name);
             indexViewHolder.textView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -384,6 +388,11 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     }
                 }
             });
+
+            // 退款售后菜单项，用于未读提示
+            if(item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId())) {
+                mRefundMenu = indexViewHolder.textView;
+            }
         }
 
         class IndexViewHolder extends RecyclerView.ViewHolder {
@@ -391,7 +400,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
             public IndexViewHolder(View itemView) {
                 super(itemView);
-                textView = (TextView)itemView;
+                textView = (TextView)itemView.findViewById(R.id.function_item_text);
             }
         }
     }

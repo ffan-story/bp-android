@@ -52,7 +52,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     public static final int MESSAGE_POSITION = 1;
     private String storeId = "";
     private String merchantId = "";
-    private BadgerRadioButton badgerRadioButton;
+    private BadgerRadioButton mMessageItem;
 
     public static Intent buildIntent(Context context) {
 
@@ -79,25 +79,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             }
         });
 
-        // FIXME Just a sample code to show badger, remove me later please
-        //add by tianjun 2015.11.30
-        badgerRadioButton = (BadgerRadioButton) mBottomBar.getChildAt(MESSAGE_POSITION);
-        if(UserProfile.getInstance().getAuthRangeType().trim().equals(STORE_TYPE)){
-            storeId = UserProfile.getInstance().getAuthRangeId();
-        }else if(UserProfile.getInstance().getAuthRangeType().trim().equals(MERCHANTID)){
-            merchantId = UserProfile.getInstance().getAuthRangeId();
-        }
-        HomeCtrl.isHaveUnreadMessage(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
-            @Override
-            public void onResponse(ReadMessageModel readMessageModel) {
-                if (!readMessageModel.getMessage().equals(MESSAGE_ZERO)) {
-                    badgerRadioButton.showBadger();
-                } else {
-                    badgerRadioButton.hideBadger();
-                }
-            }
-        });
-
+        mMessageItem = (BadgerRadioButton) mBottomBar.getChildAt(MESSAGE_POSITION);
 
         // 加载内容视图
         initContent();
@@ -201,6 +183,16 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 
     @Override
     public void onTitleChanged(String title) {
+
+    }
+
+    @Override
+    public void onStatusChanged(boolean flag) {
+        if(flag) {
+            mMessageItem.showBadger();
+        } else {
+            mMessageItem.hideBadger();
+        }
 
     }
 

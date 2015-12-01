@@ -68,13 +68,14 @@ public class HomeCtrl {
     }
 
     /**
-     * 是否显示红点
+     * 获得未读提示状态，目前包括：退款售后，消息
+     *
      * @param merchantId
      * @param storeId
      * @param userType
      * @param listener
      */
-    public static void isHaveUnreadMessage(String merchantId, String storeId, String userType, Listener listener) {
+    public static void getUnReadtatus(String merchantId, String storeId, String userType, Listener listener) {
         JsonRequest<ReadMessageModel> request = new GetRequest.Builder<ReadMessageModel>(UrlFactory.getReadMessage())
                 .param("merchantId", merchantId)
                 .param("storeId", storeId)

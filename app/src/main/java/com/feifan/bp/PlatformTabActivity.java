@@ -137,6 +137,11 @@ public class PlatformTabActivity extends PlatformBaseActivity implements OnFragm
         mCenterTitle.setText(title);
     }
 
+    @Override
+    public void onStatusChanged(boolean flag) {
+
+    }
+
     /**
      * 参数构建器，用来传递初始化需要的fragments及其参数，调用方式如下：
      *
