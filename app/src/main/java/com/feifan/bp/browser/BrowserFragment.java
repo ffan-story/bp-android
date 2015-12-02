@@ -110,6 +110,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onReload() {
         if(mWebView != null) {
+            mWebView.clearView();
             mWebView.loadUrl(mUrl);
             LogUtil.i(TAG, "Reload web page " + mUrl);
         }

@@ -174,8 +174,8 @@ public abstract class UrlFactory {
     }
 
     public static String getHelpCenter() {
-//        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/helpcenter";
-        return "http://xapi.sit.ffan.com/mapp/helpcenter";
+        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/helpcenter";
+//        return "http://xapi.sit.ffan.com/mapp/helpcenter";
     }
     private static String formatRelativeUrl(String relativeUrl) {
         if (TextUtils.isEmpty(relativeUrl)) {
