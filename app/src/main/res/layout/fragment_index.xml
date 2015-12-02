@@ -120,7 +120,6 @@
         android:layout_height="match_parent"
         android:layout_below="@id/index_top_container"
         android:padding="@dimen/view_spacing_10"
-        android:background="@android:color/white"
-         />
+        android:background="@android:color/white" />
 
 </RelativeLayout>

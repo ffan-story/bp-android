@@ -3,21 +3,18 @@ package com.feifan.bp.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.ViewTreeObserver;
-import android.widget.RadioButton;
+import android.widget.TextView;
 
-import com.feifan.bp.BuildConfig;
 import com.feifan.bp.R;
 import com.feifan.bp.util.VersionUtil;
 
 /**
- * 可显示角标的RadioButton
- * Created by xuchunlei on 15/11/24.
+ * Created by xuchunlei on 15/12/2.
  */
-public class BadgerRadioButton extends RadioButton {
+public class BadgerTextView extends TextView {
 
     private Drawable mBadgerView;
 
@@ -25,15 +22,15 @@ public class BadgerRadioButton extends RadioButton {
 
     private boolean isShow = false;
 
-    public BadgerRadioButton(Context context) {
+    public BadgerTextView(Context context) {
         this(context, null);
     }
 
-    public BadgerRadioButton(Context context, AttributeSet attrs) {
+    public BadgerTextView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public BadgerRadioButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BadgerTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         mBadgerView = ContextCompat.getDrawable(context, R.drawable.bg_red_dot);
@@ -83,5 +80,4 @@ public class BadgerRadioButton extends RadioButton {
         isShow = false;
         invalidate();
     }
-
 }

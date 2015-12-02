@@ -106,7 +106,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 if (readMessageModel.refundCount > 0) {
                     mRefundMenu.setCompoundDrawables(null, drawables[1], mRedView, null);
                 } else {
-                    mRefundMenu.setCompoundDrawables(null, mRedView, null, null);
+                    mRefundMenu.setCompoundDrawables(null, drawables[1], null, null);
                 }
 
                 mListener.onStatusChanged(readMessageModel.messageCount > 0);

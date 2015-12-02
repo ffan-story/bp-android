@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
             fragment.setmTitleName(contextTitle);
             mFragments.add(fragment);
         }
+        Log.e("xuchunlei", "BrowserTabPager---->" + url);
     }
 
     @Override
@@ -68,13 +70,13 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
         return super.getItemPosition(object);
     }
 
-//    @Override
-//    public Object instantiateItem(ViewGroup container, int position) {
-//        BrowserFragment browserFragment = (BrowserFragment)super.instantiateItem(container, position);
-//        browserFragment.setmUrl(url+urlStatus[position]);
-//        browserFragment.setmTitleName(contextTitle);
-//        return browserFragment;
-//    }
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        BrowserFragment browserFragment = (BrowserFragment)super.instantiateItem(container, position);
+        browserFragment.setmUrl(url+urlStatus[position]);
+        browserFragment.setmTitleName(contextTitle);
+        return browserFragment;
+    }
 
     @Override
     public int getCount() {
