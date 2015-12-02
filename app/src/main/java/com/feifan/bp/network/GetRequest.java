@@ -45,7 +45,9 @@ public class GetRequest<T extends BaseModel> extends JsonRequest<T> {
             if(!mParams.isEmpty()) {
                 mUrl = mUrl.concat("?");
                 for(Map.Entry<String, String> entry : mParams.entrySet()){
-                    mUrl = mUrl.concat(entry.getKey()).concat("=").concat(entry.getValue()).concat("&");
+                    if(entry.getValue() != null) {
+                        mUrl = mUrl.concat(entry.getKey()).concat("=").concat(entry.getValue()).concat("&");
+                    }
                 }
                 mUrl = mUrl.substring(0, mUrl.length() - 1);
             }

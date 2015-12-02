@@ -16,10 +16,14 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
+import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.base.OnTabLifetimeListener;
 import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
@@ -44,6 +48,8 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     private List<MessageModel.MessageData> mList = new ArrayList<>();
     private Adapter mAdapter;
 
+    private OnFragmentInteractionListener mListener;
+
     public static MessageFragment newInstance() {
         MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
@@ -53,6 +59,14 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
 
     public MessageFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener)context;
+        }
     }
 
     @Override
@@ -103,6 +117,29 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
                     }
                 }
                 mAdapter.notifyDataSetChanged();
+
+                // FIXME add by xuchunlei
+                // 获取未读提示状态
+                String storeId = null;
+                String merchantId = null;
+                if(UserProfile.getInstance().isStoreUser()){
+                    storeId = UserProfile.getInstance().getAuthRangeId();
+                }else {
+                    merchantId = UserProfile.getInstance().getAuthRangeId();
+                }
+
+                HomeCtrl.getUnReadtatus(merchantId, storeId, "1", new Response.Listener<ReadMessageModel>() {
+                    @Override
+                    public void onResponse(ReadMessageModel readMessageModel) {
+                        int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
+                        PlatformState.getInstance().updateUnreadStatus(refundId, readMessageModel.refundCount > 0);
+
+                        // 更新消息提示
+                        if(mListener != null) {
+                            mListener.onStatusChanged(readMessageModel.messageCount > 0);
+                        }
+                    }
+                });
             }
         }, new Response.ErrorListener() {
             @Override

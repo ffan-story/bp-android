@@ -13,8 +13,10 @@ import android.widget.RadioGroup;
 
 import com.android.volley.Response;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.base.OnTabLifetimeListener;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
+import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
@@ -40,11 +42,10 @@ import java.util.List;
 public class LaunchActivity extends BaseActivity implements OnFragmentInteractionListener {
 
     private TabBar mBottomBar;
-
     private List<Fragment> mFragments = new ArrayList<>();
-
     private Fragment mCurrentFragment;
 
+    // badger
     public static final String STORE_TYPE = "store";
     public static final String MERCHANTID = "merchant";
     public static final String USER_TYPE = "1";
@@ -52,7 +53,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     public static final int MESSAGE_POSITION = 1;
     private String storeId = "";
     private String merchantId = "";
-    private BadgerRadioButton mMessageItem;
+    private BadgerRadioButton mMessageTab;
 
     public static Intent buildIntent(Context context) {
 
@@ -78,9 +79,39 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 switchFragment(mFragments.get(checkedId));
             }
         });
-        mMessageItem = (BadgerRadioButton) mBottomBar.getChildAt(MESSAGE_POSITION);
+        mMessageTab = (BadgerRadioButton) mBottomBar.getChildAt(MESSAGE_POSITION);
         // 加载内容视图
         initContent();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 获取未读提示状态
+        if(UserProfile.getInstance().isStoreUser()){
+            storeId = UserProfile.getInstance().getAuthRangeId();
+        }else {
+            merchantId = UserProfile.getInstance().getAuthRangeId();
+        }
+        HomeCtrl.getUnReadtatus(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
+            @Override
+            public void onResponse(ReadMessageModel readMessageModel) {
+                int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
+                PlatformState.getInstance().updateUnreadStatus(refundId, readMessageModel.refundCount > 0);
+
+                // 更新消息提示
+                if(readMessageModel.messageCount > 0) {
+                    mMessageTab.showBadger();
+                } else {
+                    mMessageTab.hideBadger();
+                }
+
+                if(mCurrentFragment instanceof OnTabLifetimeListener) {
+                    ((OnTabLifetimeListener)mCurrentFragment).onEnter();
+                }
+            }
+        });
     }
 
     @Override
@@ -187,9 +218,9 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     @Override
     public void onStatusChanged(boolean flag) {
         if(flag) {
-            mMessageItem.showBadger();
+            mMessageTab.showBadger();
         } else {
-            mMessageItem.hideBadger();
+            mMessageTab.hideBadger();
         }
 
     }

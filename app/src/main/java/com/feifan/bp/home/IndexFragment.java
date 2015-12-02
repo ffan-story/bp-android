@@ -1,6 +1,5 @@
 package com.feifan.bp.home;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -11,12 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -27,6 +26,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.base.OnTabLifetimeListener;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
@@ -37,6 +37,7 @@ import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
+import com.feifan.bp.widget.BadgerTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ import java.util.List;
  * 首页Fragment
  * Created by xuchunlei on 15/7/2.
  */
-public class IndexFragment extends BaseFragment implements View.OnClickListener {
+public class IndexFragment extends BaseFragment implements View.OnClickListener, OnTabLifetimeListener {
 
     private static final String TAG = "IndexFragment";
     private static final String STATISTICAL_PATH = "http://sop.sit.ffan.com/H5App/index.html#/statistical";
@@ -67,8 +68,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
     private String storeId = "";
     private String merchantId = "";
 
-    private TextView mRefundMenu;
-    private Drawable mRedView;
+    private BadgerTextView mRefundMenu;
 
     public static IndexFragment newInstance() {
         IndexFragment fragment = new IndexFragment();
@@ -92,27 +92,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
-
-        // 获取未读提示状态
-        if(UserProfile.getInstance().getAuthRangeType().trim().equals(STORE_TYPE)){
-            storeId = UserProfile.getInstance().getAuthRangeId();
-        }else if(UserProfile.getInstance().getAuthRangeType().trim().equals(MERCHANTID)){
-            merchantId = UserProfile.getInstance().getAuthRangeId();
-        }
-        HomeCtrl.getUnReadtatus(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
-            @Override
-            public void onResponse(ReadMessageModel readMessageModel) {
-                Drawable[] drawables = mRefundMenu.getCompoundDrawables();
-                if (readMessageModel.refundCount > 0) {
-                    mRefundMenu.setCompoundDrawables(null, drawables[1], mRedView, null);
-                } else {
-                    mRefundMenu.setCompoundDrawables(null, drawables[1], null, null);
-                }
-
-                mListener.onStatusChanged(readMessageModel.messageCount > 0);
-            }
-        });
-
     }
 
     @Override
@@ -191,9 +170,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
      * 获取门店数据
      */
     private void getShopData() {
-
-//        由于种种特殊原因,目前商户ID用测试数据
-//        String merchantId = "2052506";
         String merchantId = UserProfile.getInstance().getAuthRangeId();
         String url = UrlFactory.getShopListUrl();
         LogUtil.i(TAG, "Url = " + url);
@@ -222,9 +198,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                     + " must implement OnFragmentInteractionListener");
         }
 
-        mRedView = ContextCompat.getDrawable(getContext(), R.drawable.bg_red_dot);
-        mRedView.setBounds(0, 0, mRedView.getIntrinsicWidth(), mRedView.getIntrinsicHeight());
-
     }
 
     @Override
@@ -247,19 +220,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
                 args.putString(CodeScannerActivity.INTERATION_KEY_URL, urlStr);
                 break;
-
-//                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
-//                              .addFragment(SettingsFragment.class.getName(), "设置")
-//                              .addArgument(SettingsFragment.class.getName(), "count", 1)
-//                              .addFragment(MessageFragment.class.getName(), "消息 ")
-//                              .addArgument(MessageFragment.class.getName(), "count", 2)
-//                              .build();
-//
-//                Intent intent = PlatformTabActivity.buildIntent(getContext(), "测试中心", fragmentArgs);
-//                startActivity(intent);
-
-//                PlatformTopbarActivity.startActivity(getActivity(), RefundFragment.class.getName(), getActivity().getResources().getString(R.string.start_refund));
-              //  return;
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, UserInfoFragment.class.getName());
                 break;
@@ -314,6 +274,24 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
     }
 
+    @Override
+    public void onEnter() {
+        LogUtil.i(TAG, "Home enter into IndexFragment!");
+        if(mRefundMenu != null) {
+            refreshRefund();
+        }
+    }
+
+    private void refreshRefund() {
+        Log.e(TAG, "refresh Refund!");
+        int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
+        if(PlatformState.getInstance().getUnreadStatus(refundId)){
+            mRefundMenu.showBadger();
+        }else {
+            mRefundMenu.hideBadger();
+        }
+    }
+
     class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexViewHolder> {
 
         private List<AuthItem> mList = new ArrayList<>();
@@ -354,10 +332,10 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
             final Drawable t = ContextCompat.getDrawable(getContext(), iconRes);
             t.setBounds(0, 0, mIconSize, mIconSize);
 
-            indexViewHolder.textView.setCompoundDrawables(null, t, null, null);
+            indexViewHolder.t.setCompoundDrawables(null, t, null, null);
 
-            indexViewHolder.textView.setText(item.name);
-            indexViewHolder.textView.setOnClickListener(new View.OnClickListener() {
+            indexViewHolder.t.setText(item.name);
+            indexViewHolder.t.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (isAdded()) {
@@ -392,16 +370,21 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener 
 
             // 退款售后菜单项，用于未读提示
             if(item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId())) {
-                mRefundMenu = indexViewHolder.textView;
+                if(mRefundMenu != null) { //再次显示界面时，首先清除状态
+                    mRefundMenu.hideBadger();
+                }
+                mRefundMenu = indexViewHolder.t;
+                refreshRefund();
             }
         }
 
         class IndexViewHolder extends RecyclerView.ViewHolder {
-            private TextView textView;
+            private BadgerTextView t;
 
             public IndexViewHolder(View itemView) {
                 super(itemView);
-                textView = (TextView)itemView.findViewById(R.id.function_item_text);
+//                textView = (TextView)itemView.findViewById(R.id.function_item_text);
+                t = (BadgerTextView)itemView;
             }
         }
     }

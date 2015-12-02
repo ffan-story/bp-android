@@ -2,9 +2,12 @@ package com.feifan.bp.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
@@ -18,9 +21,12 @@ public class BadgerTextView extends TextView {
 
     private Drawable mBadgerView;
 
-    private int mDrawableWidth;
-
     private boolean isShow = false;
+
+    // 用于计算绘制Badger位移的尺寸
+    private int mTextWidth;
+    private int mTextHeight;
+    private int mGap;
 
     public BadgerTextView(Context context) {
         this(context, null);
@@ -34,21 +40,17 @@ public class BadgerTextView extends TextView {
         super(context, attrs, defStyleAttr);
 
         mBadgerView = ContextCompat.getDrawable(context, R.drawable.bg_red_dot);
+        mGap = context.getResources().getDimensionPixelSize(R.dimen.view_spacing_5);
 
         ViewTreeObserver observer = getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (VersionUtil.isHigherThanICS_MR1()){
-                    getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }else{
-                    getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                }
-
-                Drawable[] drawables = getCompoundDrawables();
-                if (drawables[1] != null) {
-                    mDrawableWidth = drawables[1].getIntrinsicWidth();
-                }
+                Rect bounds = new Rect();
+                Paint textPaint = getPaint();
+                textPaint.getTextBounds(getText().toString(), 0, getText().length(), bounds);
+                mTextWidth = bounds.width();
+                mTextHeight = bounds.height();
             }
         });
     }
@@ -59,7 +61,7 @@ public class BadgerTextView extends TextView {
         if(isShow) {
             mBadgerView.setBounds(0, 0, mBadgerView.getIntrinsicWidth(), mBadgerView.getIntrinsicHeight());
             canvas.save();
-            canvas.translate((getWidth() + mDrawableWidth) / 2, 0);
+            canvas.translate((getWidth() + mTextWidth + mGap) / 2, getHeight() - getPaddingBottom() - mTextHeight);
             mBadgerView.draw(canvas);
             canvas.restore();
         }
