@@ -412,8 +412,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
                 mListener.OnErrorReceived(uri.getAuthority(), mWebView, mUrl);
-                //add by tianjun 2015.11.27
-                //showEmptyView();
             }
             return true;
         }

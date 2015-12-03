@@ -48,10 +48,6 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
 
-    //add by tianjun 2015.11.27
-    private WebView webView;
-    private String webUrl;
-
     public static void startActivity(Context context, String url) {
         Intent i = new Intent(context, BrowserActivity.class);
         i.putExtra(EXTRA_KEY_URL, url);
@@ -199,22 +195,20 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
 
     @Override
     public void OnErrorReceived(String msg, final WebView web, final String url) {
-        webView = web;
-        webUrl = url;
-//        if(isShowDlg && !isFinishing()) {
-//            mDialog.setMessage(msg)
-//                    .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            mDialog.dismiss();
-//                            isShowDlg = true;
-//                            web.loadUrl(url);
-//                        }
-//                    })
-//                    .show();
-//
-//            isShowDlg = false;
-//        }
+        if(isShowDlg && !isFinishing()) {
+            mDialog.setMessage(msg)
+                    .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                            isShowDlg = true;
+                            web.loadUrl(url);
+                        }
+                    })
+                    .show();
+
+            isShowDlg = false;
+        }
     }
 
     @Override
