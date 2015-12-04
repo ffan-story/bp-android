@@ -8,10 +8,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.feifan.bp.base.PlatformBaseActivity;
+import com.feifan.bp.browser.BrowserFragment;
+import com.feifan.bp.home.check.IndicatorFragment;
+import com.feifan.bp.widget.WebViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,18 +28,26 @@ import java.util.Set;
  * <pre>
  *     目前不支持BrowserFragment
  * </pre>
- *
+ * <p/>
  * Created by xuchunlei on 15/11/19.
  */
-public class PlatformTabActivity extends PlatformBaseActivity implements OnFragmentInteractionListener {
+public class PlatformTabActivity extends PlatformBaseActivity implements
+        OnFragmentInteractionListener,
+        BrowserFragment.OnBrowserListener {
 
-    /** 参数键值－fragments */
+    /**
+     * 参数键值－fragments
+     */
     public static final String EXTRA_KEY_FRAGMENTS = "fragments";
-    /** 参数键值－title */
+    /**
+     * 参数键值－title
+     */
     public static final String EXTRA_KEY_TITLE = "title";
 
 
-    /** 固定模式时最大显示的Tab数，超过这个数字后使用滚动模式 */
+    /**
+     * 固定模式时最大显示的Tab数，超过这个数字后使用滚动模式
+     */
     private static final int MAX_TAB_COUNT = 4;
 
     // view
@@ -42,23 +56,23 @@ public class PlatformTabActivity extends PlatformBaseActivity implements OnFragm
 
     /**
      * 构建意图
+     *
      * @param context
      * @param title
-     * @param fragments
-     * <p>
-     *     构建意图，使用{@link ArgsBuilder}构造fragments参数
-     *     <pre>
-     *     {@code
-     *     Intent intent = PlatformTabActivity.buildIntent(getContext(), "测试中心", fragments);
-     *      startActivity(intent);
-     *     }
-     *    </pre>
-     * </p>
+     * @param fragments <p>
+     *                  构建意图，使用{@link ArgsBuilder}构造fragments参数
+     *                  <pre>
+     *                                                                                                                            {@code
+     *                                                                                                                            Intent intent = PlatformTabActivity.buildIntent(getContext(), "测试中心", fragments);
+     *                                                                                                                             startActivity(intent);
+     *                                                                                                                            }
+     *                                                                                                                           </pre>
+     *                  </p>
      * @return
      */
     public static Intent buildIntent(Context context, String title, Bundle fragments) {
         Intent intent = new Intent(context.getApplicationContext(), PlatformTabActivity.class);
-        if(fragments != null) {
+        if (fragments != null) {
             intent.putExtra(EXTRA_KEY_FRAGMENTS, fragments);
         }
         intent.putExtra(EXTRA_KEY_TITLE, title);
@@ -73,19 +87,17 @@ public class PlatformTabActivity extends PlatformBaseActivity implements OnFragm
         Bundle args = getIntent().getBundleExtra(EXTRA_KEY_FRAGMENTS);
 
         // 初始化标题栏
-        mToolbar = (Toolbar)findViewById(R.id.tab_header);
-        mCenterTitle = (TextView)mToolbar.findViewById(R.id.header_center_title);
+        mToolbar = (Toolbar) findViewById(R.id.tab_header);
+        mCenterTitle = (TextView) mToolbar.findViewById(R.id.header_center_title);
         mCenterTitle.setText(getIntent().getStringExtra(EXTRA_KEY_TITLE));
         initHeader(mToolbar);
 
         // 初始化Tab
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_bar);
-        ViewPager pager = (ViewPager)findViewById(R.id.tab_pager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_bar);
+        WebViewPager pager = (WebViewPager) findViewById(R.id.tab_pager);
         pager.setAdapter(createAdapter(args));
         tabLayout.setTabMode(pager.getAdapter().getCount() > MAX_TAB_COUNT ? TabLayout.MODE_SCROLLABLE : TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(pager);
-
-
     }
 
     private void initHeader(Toolbar header) {
@@ -96,14 +108,15 @@ public class PlatformTabActivity extends PlatformBaseActivity implements OnFragm
                 finish();
             }
         });
+
     }
 
     // 创建界面适配器
     private FragmentPagerAdapter createAdapter(Bundle args) {
-        if(args != null) {
+        if (args != null) {
             final List<Fragment> fragments = new ArrayList<Fragment>();
             Set<String> keySet = args.keySet();
-            for(String key : keySet) {
+            for (String key : keySet) {
                 fragments.add(Fragment.instantiate(this, key, args.getBundle(key)));
             }
 
@@ -142,9 +155,16 @@ public class PlatformTabActivity extends PlatformBaseActivity implements OnFragm
 
     }
 
+    public void OnTitleReceived(String title) {
+    }
+
+    @Override
+    public void OnErrorReceived(String msg, WebView web, String url) {
+    }
+
     /**
      * 参数构建器，用来传递初始化需要的fragments及其参数，调用方式如下：
-     *
+     * <p/>
      * <pre>
      * {@code
      *  Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
@@ -178,6 +198,7 @@ public class PlatformTabActivity extends PlatformBaseActivity implements OnFragm
          * <pre>
          *     目前支持Integer和String类型的参数
          * </pre>
+         *
          * @param className
          * @param key
          * @param value
@@ -185,12 +206,12 @@ public class PlatformTabActivity extends PlatformBaseActivity implements OnFragm
          */
         public ArgsBuilder addArgument(String className, String key, Object value) {
             Bundle fArgs = mArgs.getBundle(className);
-            if(fArgs == null) {
+            if (fArgs == null) {
                 throw new IllegalArgumentException("You should add " + className + " via addFragment method first!");
             } else {
-                if(value instanceof Integer) {
-                    fArgs.putInt(key, (Integer)value);
-                } else if(value instanceof String) {
+                if (value instanceof Integer) {
+                    fArgs.putInt(key, (Integer) value);
+                } else if (value instanceof String) {
                     fArgs.putString(key, String.valueOf(value));
                 }
             }

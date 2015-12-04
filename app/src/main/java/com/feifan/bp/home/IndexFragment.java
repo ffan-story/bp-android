@@ -1,6 +1,7 @@
 package com.feifan.bp.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +23,7 @@ import com.android.volley.Response;
 import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
@@ -31,6 +33,8 @@ import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.check.CheckManageFragment;
+import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
+import com.feifan.bp.home.storeanalysis.visitorsAnalysisFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.network.GetRequest;
@@ -350,6 +354,16 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                             getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
                                             getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)),
                                             titleName);
+                                } else if (item.id == 1445) {//TODO 跳转到店铺分析界面
+                                    Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
+                                            .addFragment(SimpleBrowserFragment.class.getName(), "概览")
+                                            .addArgument(SimpleBrowserFragment.class.getName(), SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
+                                            .addFragment(visitorsAnalysisFragment.class.getName(), "访客分析")
+                                            .addArgument(visitorsAnalysisFragment.class.getName(), visitorsAnalysisFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
+                                            .build();
+
+                                    Intent intent = PlatformTabActivity.buildIntent(getContext(), "店铺分析", fragmentArgs);
+                                    startActivity(intent);
                                 } else {
                                     BrowserActivity.startActivity(getContext(), url);
                                 }

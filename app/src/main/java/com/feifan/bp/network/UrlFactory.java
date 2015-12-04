@@ -32,6 +32,12 @@ public abstract class UrlFactory {
 
     private static final String URL_PATH_COMMODITY_MANAGE = "H5App/index.html#/commodity/select_cat_menu";
 
+    //H5页面相对路径－店铺分析概览
+    private static final String URL_PATH_STORE_OVERVIEW = "/H5App/default.html#/analysis/overview";
+
+    //H5页面相对路径－访客分析
+    private static final String URL_PATH_VISITORS_ANALYSIS = "/H5App/default.html#/analysis/visit";
+
     private static final String URL_SOP_FFAN = "http://sop.ffan.com";
 
 
@@ -77,6 +83,18 @@ public abstract class UrlFactory {
 
     public static String commodityManageForHtml() {
         return urlForHtml(URL_PATH_COMMODITY_MANAGE);
+    }
+
+    /**
+     * 店铺分析
+     * @return
+     */
+    public static String storeOverviewForHtml(){
+        return urlForHtml(URL_PATH_STORE_OVERVIEW);
+    }
+
+    public static String visitorsAnalysisForHtml(){
+        return urlForHtml(URL_PATH_VISITORS_ANALYSIS);
     }
 
     public static String actionUrlForHtml(String reUrl) {

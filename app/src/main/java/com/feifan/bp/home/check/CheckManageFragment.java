@@ -1,6 +1,7 @@
 package com.feifan.bp.home.check;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -9,9 +10,17 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.UserProfile;
+import com.feifan.bp.browser.BrowserFragment;
+import com.feifan.bp.home.MessageFragment;
+import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
+import com.feifan.bp.home.storeanalysis.visitorsAnalysisFragment;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.transactionflow.TransFlowTabActivity;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
@@ -45,12 +54,6 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
         ((RelativeLayout) v.findViewById(R.id.check_manager_inventory_query_rl)).setOnClickListener(this);
         return v;
     }
-
-
-
-
-
-
 
     @Override
     public void onClick(View v) {

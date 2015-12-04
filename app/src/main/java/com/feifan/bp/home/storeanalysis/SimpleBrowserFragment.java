@@ -1,0 +1,123 @@
+package com.feifan.bp.home.storeanalysis;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.CookieManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTopbarActivity;
+import com.feifan.bp.R;
+import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.home.check.IndicatorFragment;
+import com.feifan.bp.util.LogUtil;
+
+/**
+ * 单纯用于网页的显示
+ *
+ * Created by Frank on 15/12/1.
+ */
+public class SimpleBrowserFragment extends BaseFragment implements MenuItem.OnMenuItemClickListener{
+
+    private static final String TAG = "SimpleBrowserFragment";
+    public static final String EXTRA_KEY_URL = "url";
+
+    private String mUrl;
+    private WebView mWebView;
+
+    public SimpleBrowserFragment(){}
+
+    public static SimpleBrowserFragment newInstance() {
+        return new SimpleBrowserFragment();
+    }
+
+    public static SimpleBrowserFragment newInstance(String url) {
+        Bundle args = new Bundle();
+        args.putString(EXTRA_KEY_URL, url);
+        SimpleBrowserFragment fragment = new SimpleBrowserFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mUrl = getArguments().getString(EXTRA_KEY_URL);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_browser, container, false);
+        mWebView = (WebView) v.findViewById(R.id.browser_content);
+        initWeb(mWebView);
+        if(mUrl != null) {
+            mWebView.loadUrl(mUrl);
+            PlatformState.getInstance().setLastUrl(mUrl);
+            LogUtil.i(TAG, "mUrl==" + mUrl);
+        }
+        return v;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_option, menu);
+        menu.findItem(R.id.check_menu_directions).setOnMenuItemClickListener(this);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Intent intent = new Intent(getActivity(), PlatformTopbarActivity.class);
+        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, IndicatorFragment.class.getName());
+        startActivity(intent);
+        return false;
+    }
+
+    private void initWeb(WebView webView) {
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setSavePassword(false);
+
+        // 缓存相关
+        if (PlatformState.getInstance().isCacheClearable()) {
+            webView.clearCache(true);
+            webView.clearHistory();
+            webView.clearFormData();
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.removeAllCookie();
+        }
+
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setAppCachePath(getActivity().getCacheDir().getAbsolutePath());
+        webView.setWebViewClient(new PlatformWebViewClient());
+        webView.requestFocus();
+    }
+
+    private class PlatformWebViewClient extends WebViewClient {
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            showProgressBar(true);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            hideProgressBar();
+        }
+    }
+}
