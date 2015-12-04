@@ -395,15 +395,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }else if(actionStrUri.contains("/staff") && (mActivity instanceof BrowserActivity)){//添加员工成功  以及编辑成功
                     mActivity.setResult(Activity.RESULT_OK);
                     mActivity.finish();
-                }else if (actionStrUri.contains("/order/detail/")){//查看详情：验证历史  订单管理
+                }else if (actionStrUri.contains("/order/detail")){//查看详情：验证历史  订单管理
                     BrowserActivity.startActivity(mActivity, actionStrUri);
                 }else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserTabActivity)){//员工管理冻结、解冻刷新ViewPage
                     ((BrowserTabActivity) mActivity).refreshViewPage();
                 }else if(actionStrUri.contains("/staff")){//添加员工
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
-                }else if(actionStrUri.contains("/order/detail/")){//验证历史  订单管理</order/detail/>
-                    BrowserActivity.startActivity(getActivity(), actionStrUri);
                 }else{
                     Activity a = getActivity();
                     if (a instanceof BrowserTabActivity) {

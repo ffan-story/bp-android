@@ -18,7 +18,7 @@ import com.feifan.bp.envir.EnvironmentManager;
 public abstract class UrlFactory {
 
     //帮助中心详情
-    private static final String URL_PATH_HELP_DETAIL= "/H5App/default.html#/help/detail/";
+    private static final String URL_PATH_HELP_DETAIL = "/H5App/default.html#/help/detail/";
 
     //退款单详情
     private static final String URL_PATH_REFUND = "/H5App/index.html#/order/detail";
@@ -58,6 +58,7 @@ public abstract class UrlFactory {
 
     /**
      * 退款查询
+     *
      * @return
      */
     public static String refundForHtml() {
@@ -66,6 +67,7 @@ public abstract class UrlFactory {
 
     /**
      * 帮助中心详情
+     *
      * @param id
      * @return
      */
@@ -87,13 +89,14 @@ public abstract class UrlFactory {
 
     /**
      * 店铺分析
+     *
      * @return
      */
-    public static String storeOverviewForHtml(){
+    public static String storeOverviewForHtml() {
         return urlForHtml(URL_PATH_STORE_OVERVIEW);
     }
 
-    public static String visitorsAnalysisForHtml(){
+    public static String visitorsAnalysisForHtml() {
         return urlForHtml(URL_PATH_VISITORS_ANALYSIS);
     }
 
@@ -103,19 +106,29 @@ public abstract class UrlFactory {
                 concat("&loginToken=").concat(userProfile.getLoginToken()).
                 concat("&uid=").concat(String.valueOf(userProfile.getUid())).
                 concat("&appType=bpMobile").
-                concat("&version="+BuildConfig.VERSION_CODE).
+                concat("&version=" + BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
         return url;
     }
 
     public static String urlForHtml(String reUrl) {
         UserProfile userProfile = UserProfile.getInstance();
-        String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
-                concat("?loginToken=").concat(userProfile.getLoginToken()).
-                concat("&uid=").concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile").
-                concat("&version="+BuildConfig.VERSION_CODE).
-                concat("&showTabs=0");
+        String url = null;
+        if (reUrl.contains("?")) {
+            url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
+                    concat("&loginToken=").concat(userProfile.getLoginToken()).
+                    concat("&uid=").concat(String.valueOf(userProfile.getUid())).
+                    concat("&appType=bpMobile").
+                    concat("&version=" + BuildConfig.VERSION_CODE).
+                    concat("&showTabs=0");
+        } else {
+            url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
+                    concat("?loginToken=").concat(userProfile.getLoginToken()).
+                    concat("&uid=").concat(String.valueOf(userProfile.getUid())).
+                    concat("&appType=bpMobile").
+                    concat("&version=" + BuildConfig.VERSION_CODE).
+                    concat("&showTabs=0");
+        }
         return url;
     }
 
@@ -161,12 +174,12 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiV1Host() + "cdaservice/stores/";
     }
 
-    public static String getFlashBuyUrl(){
-        return EnvironmentManager.getHostFactory().getFFanApiHost()+"mapp/v1/mapp/transactionspecific";
+    public static String getFlashBuyUrl() {
+        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/transactionspecific";
     }
 
-    public static String getCouponsUrl(){
-        return EnvironmentManager.getHostFactory().getFFanApiHost()+"mapp/v1/mapp/transactionspecificcpsummary";
+    public static String getCouponsUrl() {
+        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/transactionspecificcpsummary";
     }
 
     //add by tianjun 2015.10.29
@@ -174,13 +187,13 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/feedback";
     }
 
-    public static String getReadMessage(){
-        return  EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/unread";
+    public static String getReadMessage() {
+        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/unread";
     }
 
-    public static String getLoginInfo(){
+    public static String getLoginInfo() {
         //return "http://api.sit.ffan.com/mapp/v1/mapp/user";
-        return EnvironmentManager.getHostFactory().getFFanApiHost() +"mapp/v1/mapp/user";
+        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/user";
     }
 
     public static String getMessgeList() {
@@ -195,6 +208,7 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/helpcenter";
 //        return "http://xapi.sit.ffan.com/mapp/helpcenter";
     }
+
     private static String formatRelativeUrl(String relativeUrl) {
         if (TextUtils.isEmpty(relativeUrl)) {
             return relativeUrl;

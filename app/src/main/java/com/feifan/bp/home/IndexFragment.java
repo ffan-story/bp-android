@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.feifan.bp.CodeScannerActivity;
+import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTabActivity;
@@ -230,11 +231,16 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 
             case R.id.index_history:
                 if (Utils.isNetworkAvailable(getActivity())) {
-                    String url = UrlFactory.checkHistoryForHtml(UserProfile.getInstance().getHistoryUrl()) + "&status=";
-                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
-                    args.putString(BrowserTabActivity.EXTRA_KEY_URL, url);
-                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_STATUS, getActivity().getResources().getStringArray(R.array.data_type));
-                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES, getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
+                    if (!UserProfile.getInstance().getHistoryUrl().equals(Constants.NO_STRING)) {
+                        String url = UrlFactory.checkHistoryForHtml(UserProfile.getInstance().getHistoryUrl()) + "&status=";
+                        args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
+                        args.putString(BrowserTabActivity.EXTRA_KEY_URL, url);
+                        args.putStringArray(BrowserTabActivity.EXTRA_KEY_STATUS, getActivity().getResources().getStringArray(R.array.data_type));
+                        args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES, getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
+                    } else {
+                        Utils.showShortToast(getActivity(), R.string.error_message_permission_limited, Gravity.CENTER);
+                        return;
+                    }
                 } else {
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
                     return;
@@ -281,7 +287,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onEnter() {
         LogUtil.i(TAG, "Home enter into IndexFragment!");
-        if(mRefundMenu != null) {
+        if (mRefundMenu != null) {
             refreshRefund();
         }
     }
@@ -289,9 +295,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     private void refreshRefund() {
         Log.e(TAG, "refresh Refund!");
         int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
-        if(PlatformState.getInstance().getUnreadStatus(refundId)){
+        if (PlatformState.getInstance().getUnreadStatus(refundId)) {
             mRefundMenu.showBadger();
-        }else {
+        } else {
             mRefundMenu.hideBadger();
         }
     }
@@ -328,7 +334,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         public void onBindViewHolder(final IndexViewHolder indexViewHolder, int i) {
             final AuthItem item = mList.get(i);
             Integer iconRes = EnvironmentManager.getAuthFactory().getAuthFilter().get(item.id);
-            if(iconRes == null) {
+            if (iconRes == null) {
                 return;
             }
 
@@ -382,8 +388,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             });
 
             // 退款售后菜单项，用于未读提示
-            if(item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId())) {
-                if(mRefundMenu != null) { //再次显示界面时，首先清除状态
+            if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId())) {
+                if (mRefundMenu != null) { //再次显示界面时，首先清除状态
                     mRefundMenu.hideBadger();
                 }
                 mRefundMenu = indexViewHolder.t;
@@ -397,7 +403,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             public IndexViewHolder(View itemView) {
                 super(itemView);
 //                textView = (TextView)itemView.findViewById(R.id.function_item_text);
-                t = (BadgerTextView)itemView;
+                t = (BadgerTextView) itemView;
             }
         }
     }
