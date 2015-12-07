@@ -3,6 +3,8 @@ package com.feifan.bp.home.storeanalysis;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.internal.widget.ViewStubCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,11 +16,14 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.base.PlatformFragment;
+import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.util.LogUtil;
 
@@ -27,7 +32,7 @@ import com.feifan.bp.util.LogUtil;
  *
  * Created by Frank on 15/12/1.
  */
-public class SimpleBrowserFragment extends BaseFragment implements MenuItem.OnMenuItemClickListener{
+public class SimpleBrowserFragment extends ProgressFragment {
 
     private static final String TAG = "SimpleBrowserFragment";
     public static final String EXTRA_KEY_URL = "url";
@@ -53,28 +58,44 @@ public class SimpleBrowserFragment extends BaseFragment implements MenuItem.OnMe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUrl = getArguments().getString(EXTRA_KEY_URL);
-        setHasOptionsMenu(true);
+    }
+
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        View v = inflater.inflate(R.layout.fragment_browser, container, false);
+//        mWebView = (WebView) v.findViewById(R.id.browser_content);
+//        initWeb(mWebView);
+//        if(mUrl != null) {
+//            mWebView.loadUrl(mUrl);
+//            PlatformState.getInstance().setLastUrl(mUrl);
+//            LogUtil.i(TAG, "mUrl==" + mUrl);
+//        }
+//        return v;
+//    }
+
+    @Override
+    protected View onCreateContentView(ViewStubCompat stub) {
+        stub.setLayoutResource(R.layout.fragment_browser);
+        View v = stub.inflate();
+        mWebView = (WebView) v.findViewById(R.id.browser_content);
+        initWeb(mWebView);
+//        if(mUrl != null) {
+//            mWebView.loadUrl(mUrl);
+//            PlatformState.getInstance().setLastUrl(mUrl);
+//            LogUtil.i(TAG, "mUrl==" + mUrl);
+//        }
+        return v;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_browser, container, false);
-        mWebView = (WebView) v.findViewById(R.id.browser_content);
-        initWeb(mWebView);
+    protected void requestData() {
         if(mUrl != null) {
             mWebView.loadUrl(mUrl);
             PlatformState.getInstance().setLastUrl(mUrl);
             LogUtil.i(TAG, "mUrl==" + mUrl);
         }
-        return v;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_option, menu);
-        menu.findItem(R.id.check_menu_directions).setOnMenuItemClickListener(this);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
@@ -83,6 +104,8 @@ public class SimpleBrowserFragment extends BaseFragment implements MenuItem.OnMe
         startActivity(intent);
         return false;
     }
+
+
 
     private void initWeb(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
@@ -106,18 +129,24 @@ public class SimpleBrowserFragment extends BaseFragment implements MenuItem.OnMe
         webView.requestFocus();
     }
 
+    @Override
+    protected MenuInfo getMenuInfo() {
+        return new MenuInfo(R.id.menu_analysis_help, Constants.NO_INTEGER, R.string.indicator_title);
+    }
+
     private class PlatformWebViewClient extends WebViewClient {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            showProgressBar(true);
+            setContentShown(false);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            hideProgressBar();
+            setContentShown(true);
+            setContentEmpty(true);
         }
     }
 }

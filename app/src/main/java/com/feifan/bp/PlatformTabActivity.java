@@ -44,7 +44,6 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
      */
     public static final String EXTRA_KEY_TITLE = "title";
 
-
     /**
      * 固定模式时最大显示的Tab数，超过这个数字后使用滚动模式
      */
@@ -59,15 +58,15 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
      *
      * @param context
      * @param title
-     * @param fragments <p>
-     *                  构建意图，使用{@link ArgsBuilder}构造fragments参数
-     *                  <pre>
-     *                                                                                                                            {@code
-     *                                                                                                                            Intent intent = PlatformTabActivity.buildIntent(getContext(), "测试中心", fragments);
-     *                                                                                                                             startActivity(intent);
-     *                                                                                                                            }
-     *                                                                                                                           </pre>
-     *                  </p>
+     * @param fragments
+     * <p>
+     * 构建意图，使用{@link ArgsBuilder}构造fragments参数
+     * <pre>
+     * {@code
+     * Intent intent = PlatformTabActivity.buildIntent(getContext(), "测试中心", fragments);
+     * startActivity(intent);
+     * }
+     * </p>
      * @return
      */
     public static Intent buildIntent(Context context, String title, Bundle fragments) {
@@ -90,6 +89,8 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         mToolbar = (Toolbar) findViewById(R.id.tab_header);
         mCenterTitle = (TextView) mToolbar.findViewById(R.id.header_center_title);
         mCenterTitle.setText(getIntent().getStringExtra(EXTRA_KEY_TITLE));
+        setSupportActionBar(mToolbar);//作为ActionBar使用，支持加载Menu
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         initHeader(mToolbar);
 
         // 初始化Tab
@@ -108,15 +109,15 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
                 finish();
             }
         });
-
     }
 
     // 创建界面适配器
     private FragmentPagerAdapter createAdapter(Bundle args) {
         if (args != null) {
             final List<Fragment> fragments = new ArrayList<Fragment>();
-            Set<String> keySet = args.keySet();
-            for (String key : keySet) {
+
+            ArrayList<String> orderList = args.getStringArrayList(ArgsBuilder.EXTRA_KEY_ORDER_LIST);
+            for(String key : orderList) {
                 fragments.add(Fragment.instantiate(this, key, args.getBundle(key)));
             }
 
@@ -180,16 +181,19 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
 
         private static final String EXTRA_KEY_TITLE = "title";
 
+        // 用于记录顺序
+        private static final String EXTRA_KEY_ORDER_LIST = "order";
         private Bundle mArgs = new Bundle();
 
         public ArgsBuilder() {
-
+            mArgs.putStringArrayList(EXTRA_KEY_ORDER_LIST, new ArrayList<String>());
         }
 
         public ArgsBuilder addFragment(String className, String title) {
             Bundle fArgs = new Bundle();
             fArgs.putString(EXTRA_KEY_TITLE, title);
             mArgs.putBundle(className, fArgs);
+            mArgs.getStringArrayList(EXTRA_KEY_ORDER_LIST).add(className);
             return this;
         }
 

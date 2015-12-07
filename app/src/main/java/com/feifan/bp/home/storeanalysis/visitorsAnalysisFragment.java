@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.internal.widget.ViewStubCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,13 +19,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.base.PlatformFragment;
+import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
@@ -34,7 +36,7 @@ import java.util.Calendar;
 /**
  * Created by Frank on 15/12/2.
  */
-public class visitorsAnalysisFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener
+public class VisitorsAnalysisFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener
         ,MenuItem.OnMenuItemClickListener
         ,DatePickerDialog.OnDateSetListener {
 
@@ -57,18 +59,45 @@ public class visitorsAnalysisFragment extends BaseFragment implements RadioGroup
         super.onCreate(savedInstanceState);
     }
 
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        View v = inflater.inflate(R.layout.fragment_visitors, null);
+//        segmentedGroup = (SegmentedGroup) v.findViewById(R.id.segmentedGroup);
+//        rb_week = (RadioButton) v.findViewById(R.id.week);
+//        rb_month = (RadioButton) v.findViewById(R.id.month);
+//        rb_define = (RadioButton) v.findViewById(R.id.define);
+//        mWebView = (WebView) v.findViewById(R.id.browser_content);
+//        initWeb(mWebView);
+//        if (mUrl != null) {
+//            mWebView.loadUrl(mUrl + "&days=7");
+//        }
+//        rb_week.setChecked(true);
+//        tabIndex = R.id.week;
+//        segmentedGroup.setOnCheckedChangeListener(this);
+//        rb_define.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (mCheckFlag) {
+//                    initDialog();
+//                }
+//            }
+//        });
+//        return v;
+//    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_visitors, null);
+    protected View onCreateContentView(ViewStubCompat stub) {
+        stub.setLayoutResource(R.layout.fragment_visitors);
+        View v = stub.inflate();
         segmentedGroup = (SegmentedGroup) v.findViewById(R.id.segmentedGroup);
         rb_week = (RadioButton) v.findViewById(R.id.week);
         rb_month = (RadioButton) v.findViewById(R.id.month);
         rb_define = (RadioButton) v.findViewById(R.id.define);
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
-        if (mUrl != null) {
-            mWebView.loadUrl(mUrl + "&days=7");
-        }
+//        if (mUrl != null) {
+//            mWebView.loadUrl(mUrl + "&days=7");
+//        }
         rb_week.setChecked(true);
         tabIndex = R.id.week;
         segmentedGroup.setOnCheckedChangeListener(this);
@@ -84,10 +113,15 @@ public class visitorsAnalysisFragment extends BaseFragment implements RadioGroup
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_option, menu);
-        menu.findItem(R.id.check_menu_directions).setOnMenuItemClickListener(this);
-        super.onCreateOptionsMenu(menu, inflater);
+    protected void requestData() {
+        if (mUrl != null) {
+            mWebView.loadUrl(mUrl + "&days=7");
+        }
+    }
+
+    @Override
+    protected MenuInfo getMenuInfo() {
+        return new MenuInfo(R.id.menu_analysis_help, Constants.NO_INTEGER, R.string.indicator_title);
     }
 
     @Override
@@ -125,20 +159,23 @@ public class visitorsAnalysisFragment extends BaseFragment implements RadioGroup
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            showProgressBar(true);
+//            startWaiting();
+            setContentShown(false);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            hideProgressBar();
+//            finishWaiting();
+            setContentShown(true);
+            setContentEmpty(true);
         }
     }
 
     private void initDialog() {
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
-                visitorsAnalysisFragment.this,
+                VisitorsAnalysisFragment.this,
                 now.get(Calendar.YEAR),
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
