@@ -103,6 +103,7 @@ public class LoginFragment extends BaseFragment {
                                 public void onResponse(AuthListModel authListModel) {
                                     profile.setAuthList(authListModel.toJsonString());
                                     profile.setHistoryUrl(authListModel.historyUrl);
+                                    profile.setRightString(authListModel.rightString);
                                     // 通知界面跳转
                                     Bundle args = new Bundle();
                                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());

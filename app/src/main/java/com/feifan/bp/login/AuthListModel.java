@@ -33,6 +33,8 @@ public class AuthListModel extends BaseModel {
 
     public String historyUrl;
 
+    public String rightString;// 权限字符串
+
     public AuthListModel(JSONObject json) {
         super(json);
     }
@@ -65,6 +67,12 @@ public class AuthListModel extends BaseModel {
 //            }
             }
             Collections.sort(list);
+
+            //权限字符串
+            JSONArray rightArray = array.optJSONObject(0).optJSONArray("rightList");
+            if(rightArray != null) {
+                rightString = rightArray.toString();
+            }
         }
 
     }
