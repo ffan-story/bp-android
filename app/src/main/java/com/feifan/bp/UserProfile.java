@@ -50,6 +50,8 @@ public class UserProfile {
 
     // 偏好项键值－验证历史
     private static final String PREFERENCE_KEY_HISTORY_URL = "history";
+    // 偏好项键值－权限列表字符串
+    private static final String PREFERENCE_KEY_RIGHT_STRING = "rightString";
 
     private Context mContext;
 
@@ -177,6 +179,14 @@ public class UserProfile {
 
     public String getHistoryUrl() {
         return getString(PREFERENCE_KEY_HISTORY_URL);
+    }
+
+    public void setRightString(String right) {
+        putString(PREFERENCE_KEY_RIGHT_STRING, right);
+    }
+
+    public String getRightString() {
+        return getString(PREFERENCE_KEY_RIGHT_STRING);
     }
 
     public void clear() {
