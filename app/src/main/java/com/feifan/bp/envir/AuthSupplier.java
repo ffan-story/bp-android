@@ -64,6 +64,12 @@ public class AuthSupplier {
          */
         String getRefundId();
 
+        /**
+         * 获取发起退款权限ID
+         * @return
+         */
+        String getRefundRightId();
+
     }
 
     /**
@@ -133,6 +139,11 @@ public class AuthSupplier {
             return "1162";
         }
 
+        @Override
+        public String getRefundRightId() {
+            return "1419";
+        }
+
     }
 
     static class ProductAuthFactory implements IAuthFactory {
@@ -195,6 +206,11 @@ public class AuthSupplier {
         @Override
         public String getRefundId() {
             return "1004";
+        }
+
+        @Override
+        public String getRefundRightId() {
+            return null;
         }
 
     }
