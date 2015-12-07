@@ -183,6 +183,7 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
             Toast.makeText(getActivity(), getString(R.string.error_no_more_data), Toast.LENGTH_LONG).show();
         } else {
             pageIndex++;
+            showProgressBar(true);
             fetchHelpCenterList(pageIndex);
         }
         mListView.hideFooterView();
@@ -209,6 +210,7 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
                 mAdapter.notifyDataSetChanged();
             }
         }
+        showProgressBar(true);
         fetchHelpCenterList(pageIndex);
     }
 
