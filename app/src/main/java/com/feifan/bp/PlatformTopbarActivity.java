@@ -11,10 +11,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.feifan.bp.transactionflow.TransFlowTabActivity;
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
+import com.feifan.bp.transactionflow.TransFlowTabActivity;
 
 /**
  * 项目通用带有Topbar的活动
@@ -99,7 +99,7 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
 
         if(from.equals(CheckManageFragment.class.getName())) {
             if(to.equals(TransFlowTabActivity.class.getName())) {
-                Intent intent = new Intent(this, TransFlowTabActivity.class);
+                Intent intent = new Intent(this,TransFlowTabActivity.class);
                 startActivity(intent);
             }
         }
@@ -123,6 +123,4 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
             finish();
         }
     }
-
-
 }

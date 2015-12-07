@@ -72,7 +72,6 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showProgressBar(true);
         hideEmptyView();
     }
 
@@ -88,6 +87,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
      * 获取列表数据
      */
     private void fetchData(int pageIndex) {
+        showProgressBar(true);
         HomeCtrl.messageList(UserProfile.getInstance().getUid() + "", pageIndex, new Response.Listener<MessageModel>() {
             @Override
             public void onResponse(MessageModel messageModel) {

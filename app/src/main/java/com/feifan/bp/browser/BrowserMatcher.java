@@ -1,10 +1,6 @@
 package com.feifan.bp.browser;
 
-import android.inputmethodservice.KeyboardView;
-import android.os.Bundle;
-
 import com.feifan.bp.Constants;
-import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;

@@ -8,8 +8,6 @@ import android.support.v7.internal.widget.ViewStubCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -34,7 +32,7 @@ import java.util.Calendar;
 /**
  * Created by Frank on 15/12/2.
  */
-public class VisitorsAnalysisFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener
+public class visitorsAnalysisFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener
         , MenuItem.OnMenuItemClickListener
         , DatePickerDialog.OnDateSetListener {
 
@@ -173,7 +171,7 @@ public class VisitorsAnalysisFragment extends ProgressFragment implements RadioG
     private void initDialog() {
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
-                VisitorsAnalysisFragment.this,
+                visitorsAnalysisFragment.this,
                 now.get(Calendar.YEAR),
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
