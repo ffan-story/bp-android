@@ -163,7 +163,7 @@ public class VisitorsAnalysisFragment extends ProgressFragment implements RadioG
             super.onPageFinished(view, url);
 //            finishWaiting();
             setContentShown(true);
-            setContentEmpty(true);
+//            setContentEmpty(true);
         }
     }
 
