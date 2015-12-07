@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -56,15 +54,19 @@ public class BaseFragment extends Fragment implements OnDispatchTouchEventListen
 
     protected void showProgressBar(boolean cancelable) {
         Activity a = getActivity();
-        if (a instanceof BaseActivity || a instanceof  PlatformBaseActivity) {
+        if (a instanceof BaseActivity) {
             ((BaseActivity) a).showProgressBar(cancelable);
+        }else if(a instanceof PlatformBaseActivity){
+            ((PlatformBaseActivity) a).showProgressBar(cancelable);
         }
     }
 
     protected void hideProgressBar() {
         Activity a = getActivity();
-        if (a instanceof BaseActivity || a instanceof  PlatformBaseActivity) {
+        if (a instanceof BaseActivity) {
             ((BaseActivity) a).hideProgressBar();
+        }else if(a instanceof PlatformBaseActivity){
+            ((PlatformBaseActivity) a).hideProgressBar();
         }
     }
 

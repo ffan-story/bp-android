@@ -94,6 +94,11 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
 
                 hideProgressBar();
                 totalCount = messageModel.getTotalCount();
+                if (totalCount<=0 && mPtrFrameEmpty != null) {
+                    mPtrFrame.setVisibility(View.GONE);
+                    mPtrFrameEmpty.setVisibility(View.VISIBLE);
+                    mPtrFrameEmpty.refreshComplete();
+                }
                 if (messageModel.getMessageDataList() == null) {
                     return;
                 }

@@ -1,5 +1,6 @@
 package com.feifan.bp.base;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.feifan.bp.R;
 import com.feifan.bp.util.DeviceUtil;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.CircleImageView;
 import com.feifan.material.MaterialDialog;
 import com.umeng.analytics.MobclickAgent;
@@ -27,11 +29,11 @@ public abstract class PlatformBaseActivity extends AppCompatActivity implements 
 //    private ProgressDialog mWaitingDlg;
     private MaterialDialog mErrorDlg;
 
-
-
     // 空视图界面
     private EmptyViewImpl mEmptyViewImpl;
 
+    public static final int DIALOG_ID_PROGRESS_BAR = 1;
+    public static final String KEY_PROGRESS_BAR_CANCELABLE = "cancelable";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,42 @@ public abstract class PlatformBaseActivity extends AppCompatActivity implements 
         mEmptyViewImpl.setupEmptyView();
     }
 
+    protected void showProgressBar(boolean cancelable) {
+        if (this.isFinishing()) {
+            return;
+        }
+        Bundle b = new Bundle();
+        b.putBoolean(KEY_PROGRESS_BAR_CANCELABLE, cancelable);
+        showDialog(DIALOG_ID_PROGRESS_BAR, b);
+
+    }
+
+    protected void hideProgressBar() {
+        if (this.isFinishing()) {
+            return;
+        }
+        removeDialog(DIALOG_ID_PROGRESS_BAR);
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id, Bundle args) {
+        boolean cancelable = args.getBoolean(KEY_PROGRESS_BAR_CANCELABLE);
+        switch (id) {
+            case DIALOG_ID_PROGRESS_BAR:
+                Dialog dialog = new Dialog(this, R.style.LoadingDialog);
+                dialog.setContentView(R.layout.progress_bar_layout);
+                dialog.setCancelable(cancelable);
+                return dialog;
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
+        boolean cancelable = args.getBoolean(KEY_PROGRESS_BAR_CANCELABLE);
+        dialog.setCancelable(cancelable);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -54,6 +92,9 @@ public abstract class PlatformBaseActivity extends AppCompatActivity implements 
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+        if (isFinishing()) {
+            removeDialog(DIALOG_ID_PROGRESS_BAR);
+        }
     }
 
     @Override
@@ -65,9 +106,6 @@ public abstract class PlatformBaseActivity extends AppCompatActivity implements 
     public void finishWaiting() {
 
     }
-
-
-
 
     //add by tianjun 2015.11.30
     protected IEmptyView.EmptyViewPlaceHolderType getEmptyViewPlaceHolderType() {
@@ -103,6 +141,6 @@ public abstract class PlatformBaseActivity extends AppCompatActivity implements 
     }
 
     public void retryRequestNetwork(){
-    }
+}
     //end.
 }
