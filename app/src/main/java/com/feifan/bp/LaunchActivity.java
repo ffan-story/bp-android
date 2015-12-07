@@ -106,10 +106,9 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 } else {
                     mMessageTab.hideBadger();
                 }
-
-                if(mCurrentFragment instanceof OnTabLifetimeListener) {
-                    ((OnTabLifetimeListener)mCurrentFragment).onEnter();
-                }
+//                if(mCurrentFragment instanceof OnTabLifetimeListener) {
+//                    ((OnTabLifetimeListener)mCurrentFragment).onEnter();
+//                }
             }
         });
     }

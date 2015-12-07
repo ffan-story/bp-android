@@ -26,8 +26,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
 
     private Toolbar mToolbar;
-    private static final int DIALOG_ID_PROGRESS_BAR = 1;
-    private static final String KEY_PROGRESS_BAR_CANCELABLE = "cancelable";
+    public static final int DIALOG_ID_PROGRESS_BAR = 1;
+    public static final String KEY_PROGRESS_BAR_CANCELABLE = "cancelable";
 
     private EmptyViewImpl mEmptyViewImpl;
     @Override
