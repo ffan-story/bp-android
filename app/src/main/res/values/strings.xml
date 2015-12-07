@@ -215,4 +215,7 @@
     <string name="empty_view_text">你的网络好像有问题\n点击刷新</string>
     <!--店铺分析-->
     <string name="store_analysis">店铺分析</string>
+
+    <!--优惠券-->
+    <string name="coupone_marketing_contract_not_hint">您尚未和飞凡平台签订营销合同，请先联系飞凡平台签署合同后再来添加优惠券。</string>
 </resources>
