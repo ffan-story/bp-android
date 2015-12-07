@@ -146,7 +146,7 @@ public class SimpleBrowserFragment extends ProgressFragment {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             setContentShown(true);
-            setContentEmpty(true);
+//            setContentEmpty(true);
         }
     }
 }
