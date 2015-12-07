@@ -209,6 +209,10 @@ public abstract class UrlFactory {
 //        return "http://xapi.sit.ffan.com/mapp/helpcenter";
     }
 
+    public static String getMarketingContract() {
+        return EnvironmentManager.getHostFactory().getFFanApiHost() + "ffan/v1/mapp/cdaservice/marketingcontract";
+    }
+
     private static String formatRelativeUrl(String relativeUrl) {
         if (TextUtils.isEmpty(relativeUrl)) {
             return relativeUrl;

@@ -33,6 +33,8 @@ import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.PlatformState;
@@ -49,6 +51,7 @@ import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.DialogPhoneLayout;
 import com.feifan.croplib.Crop;
+import com.feifan.material.MaterialDialog;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -106,7 +109,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private boolean isOnclicked =false;
 
     private BrowserMatcher mMatcher = new BrowserMatcher();
-
+    // dialog
+    private MaterialDialog mDialog;
     @Override
     public void onReload() {
         if(mWebView != null) {
@@ -291,8 +295,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
             case R.id.menu_coupon_add:
                 url = UrlFactory.couponAddForHtml();
-                mWebView.loadUrl(url);
-                LogUtil.i(TAG, "menu onClick() coupon url=" + url);
+                fetchMarketingData(UserProfile.getInstance().getAuthRangeId(),url);
                 return true;
 
             case R.id.menu_commodity_add:
@@ -311,6 +314,29 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * 获取合同状态
+     * @param storeId  商户id
+     */
+    private void fetchMarketingData(String storeId,final String url){
+        MarketingCtrl.marketingStatus(storeId, new Response.Listener<MarketingModel>() {
+            @Override
+            public void onResponse(MarketingModel baseModel) {
+                if (baseModel.hasContract == 1) {
+                    mWebView.loadUrl(url);
+                } else {
+                    Utils.showShortToast(getActivity(),getResources().getString(R.string.coupone_marketing_contract_not_hint));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+
     }
 
     private class PlatformWebChromeClient extends WebChromeClient {
