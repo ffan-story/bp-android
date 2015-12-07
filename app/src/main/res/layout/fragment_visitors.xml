@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_color_grey"
+              android:orientation="vertical">
+
+    <com.feifan.bp.widget.SegmentedGroup
+        android:id="@+id/segmentedGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/view_spacing_10"
+        android:layout_marginLeft="@dimen/view_spacing_20"
+        android:layout_marginRight="@dimen/view_spacing_20"
+        android:layout_marginTop="@dimen/view_spacing_10"
+        android:orientation="horizontal"
+        segmentedgroup:sc_border_width="1dp"
+        segmentedgroup:sc_corner_radius="5dp"
+        segmentedgroup:sc_tint_color="@color/accent">
+
+        <RadioButton
+            android:id="@+id/week"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="近7天"/>
+
+        <RadioButton
+            android:id="@+id/month"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="近30天"/>
+
+        <RadioButton
+            android:id="@+id/define"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="自定义"/>
+
+    </com.feifan.bp.widget.SegmentedGroup>
+
+    <WebView
+        android:id="@+id/browser_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

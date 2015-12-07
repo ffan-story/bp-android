@@ -81,7 +81,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private static final int IMG_PICK_TYPE_1 = 1;
     //type=2是亲子类目规格为16:9，尺寸：最小640px*360px，最大1280px*720px
     private static final int IMG_PICK_TYPE_2 = 2;
-    //type=3是优惠券类目规格为16:9，尺寸固定为1280 x 720
+    //type=3是优惠券类目规格为16:9，图片不限制大小
     private static final int IMG_PICK_TYPE_3 = 3;
 
     private int mImgPickType = IMG_PICK_TYPE_0;
@@ -197,7 +197,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.browser_menu, menu);
+        inflater.inflate(R.menu.topbar_menu, menu);
         BrowserMatcher.MenuInfo info = mMatcher.matchForMenu(mTitleName);
         if(info != null) {
             MenuItem item = menu.add(Menu.NONE, info.id, 1, info.titleRes);
@@ -305,7 +305,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 initLeaveWordsDialog();
                 return true;
             case R.id.menu_refund_start:
-                PlatformTopbarActivity.startActivityForResult(getActivity(), RefundFragment.class.getName(),getActivity().getResources().getString(R.string.start_refund));
+                PlatformTopbarActivity.startActivityForResult(getActivity(), RefundFragment.class.getName(), getActivity().getResources().getString(R.string.start_refund));
                 return true;
 
             default:
@@ -341,7 +341,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             Log.d(TAG, "We got " + url + " in shouldOverrideUrlLoading via PlatformWebViewClient");
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
-            LogUtil.i(TAG, "schema======" +  schema);
+            LogUtil.i(TAG, "schema======" + schema);
             if(TextUtils.isEmpty(schema)){
                return true;
             }
@@ -395,15 +395,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }else if(actionStrUri.contains("/staff") && (mActivity instanceof BrowserActivity)){//添加员工成功  以及编辑成功
                     mActivity.setResult(Activity.RESULT_OK);
                     mActivity.finish();
-                }else if (actionStrUri.contains("/order/detail/")){//查看详情：验证历史  订单管理
+                }else if (actionStrUri.contains("/order/detail")){//查看详情：验证历史  订单管理
                     BrowserActivity.startActivity(mActivity, actionStrUri);
                 }else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserTabActivity)){//员工管理冻结、解冻刷新ViewPage
                     ((BrowserTabActivity) mActivity).refreshViewPage();
                 }else if(actionStrUri.contains("/staff")){//添加员工
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
-                }else if(actionStrUri.contains("/order/detail/")){//验证历史  订单管理</order/detail/>
-                    BrowserActivity.startActivity(getActivity(), actionStrUri);
                 }else{
                     Activity a = getActivity();
                     if (a instanceof BrowserTabActivity) {
@@ -425,12 +423,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         @Override
         public void onPageFinished(WebView view, String url) {
             hideProgressBar();
-            //add by tianjun 2015.11.27
-//            if (mWebViewProgress < 100) {
-//                showEmptyView();
-//            } else if (mWebViewProgress == 100) {
-//                hideEmptyView();
-//            }
             super.onPageFinished(view, url);
             isOnclicked = false;
         }
@@ -487,26 +479,21 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     public void beginCrop(Uri source) {
         Uri outputUri = Uri.fromFile(new File(getActivity().getCacheDir(), "cropped"));
-        if (IMG_PICK_TYPE_1 == mImgPickType) {
-            new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
-        } else if (IMG_PICK_TYPE_2 == mImgPickType) {
-            new Crop(getActivity(), source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(getActivity());
-        } else if (IMG_PICK_TYPE_0 == mImgPickType) {
-            new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
-        } else if (IMG_PICK_TYPE_3 == mImgPickType) {
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), source);
-                if (bitmap.getHeight() == 720 && bitmap.getWidth() == 1280) {
-                    uploadPicture(source);
-                    // new Crop(this, source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(this);
-                } else {
-                    Utils.showShortToast(getActivity(), R.string.error_message_picture_size, Gravity.CENTER);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
+
+        switch (mImgPickType) {
+            case IMG_PICK_TYPE_0:
+                new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
+                break;
+            case IMG_PICK_TYPE_1:
+                new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
+                break;
+            case IMG_PICK_TYPE_2:
+            case IMG_PICK_TYPE_3:
+                new Crop(getActivity(), source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(getActivity());
+                break;
+            default:
+                new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
+                break;
         }
     }
 

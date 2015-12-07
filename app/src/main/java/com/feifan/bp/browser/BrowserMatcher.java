@@ -22,10 +22,7 @@ import java.util.Map;
  */
 public class BrowserMatcher {
 
-    /** 期望动作－打开 */
-    public static final int PENDING_DO_OPEN = 1;
-    /** 期望动作－关闭 */
-    public static final int PENDING_DO_CLOSE = PENDING_DO_OPEN;
+
 
     // 顶部菜单项集合
     private static final Map<String, MenuInfo> sMenuStore;

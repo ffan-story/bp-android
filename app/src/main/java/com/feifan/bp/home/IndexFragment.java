@@ -1,6 +1,7 @@
 package com.feifan.bp.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -19,18 +20,24 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+
 import com.feifan.bp.CodeScannerActivity;
+import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.base.OnTabLifetimeListener;
+import com.feifan.bp.base.SimpleProgressFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.check.CheckManageFragment;
+import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
+import com.feifan.bp.home.storeanalysis.VisitorsAnalysisFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.network.GetRequest;
@@ -220,17 +227,32 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
                 args.putString(CodeScannerActivity.INTERATION_KEY_URL, urlStr);
                 break;
+//                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
+//                        .addFragment(SimpleProgressFragment.class.getName(), "概览")
+//                        .addArgument(SimpleProgressFragment.class.getName(), SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
+//                        .addFragment(VisitorsAnalysisFragment.class.getName(), "访客分析")
+//                        .addArgument(VisitorsAnalysisFragment.class.getName(), VisitorsAnalysisFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
+//                        .build();
+//
+//                Intent intent = PlatformTabActivity.buildIntent(getContext(), "店铺分析", fragmentArgs);
+//                startActivity(intent);
+//                return;
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, UserInfoFragment.class.getName());
                 break;
 
             case R.id.index_history:
                 if (Utils.isNetworkAvailable(getActivity())) {
-                    String url = UrlFactory.checkHistoryForHtml(UserProfile.getInstance().getHistoryUrl()) + "&status=";
-                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
-                    args.putString(BrowserTabActivity.EXTRA_KEY_URL, url);
-                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_STATUS, getActivity().getResources().getStringArray(R.array.data_type));
-                    args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES, getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
+                    if (!UserProfile.getInstance().getHistoryUrl().equals(Constants.NO_STRING)) {
+                        String url = UrlFactory.checkHistoryForHtml(UserProfile.getInstance().getHistoryUrl()) + "&status=";
+                        args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
+                        args.putString(BrowserTabActivity.EXTRA_KEY_URL, url);
+                        args.putStringArray(BrowserTabActivity.EXTRA_KEY_STATUS, getActivity().getResources().getStringArray(R.array.data_type));
+                        args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES, getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
+                    } else {
+                        Utils.showShortToast(getActivity(), R.string.error_message_permission_limited, Gravity.CENTER);
+                        return;
+                    }
                 } else {
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
                     return;
@@ -277,7 +299,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onEnter() {
         LogUtil.i(TAG, "Home enter into IndexFragment!");
-        if(mRefundMenu != null) {
+        if (mRefundMenu != null) {
             refreshRefund();
         }
     }
@@ -285,9 +307,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     private void refreshRefund() {
         Log.e(TAG, "refresh Refund!");
         int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
-        if(PlatformState.getInstance().getUnreadStatus(refundId)){
+        if (PlatformState.getInstance().getUnreadStatus(refundId)) {
             mRefundMenu.showBadger();
-        }else {
+        } else {
             mRefundMenu.hideBadger();
         }
     }
@@ -324,7 +346,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         public void onBindViewHolder(final IndexViewHolder indexViewHolder, int i) {
             final AuthItem item = mList.get(i);
             Integer iconRes = EnvironmentManager.getAuthFactory().getAuthFilter().get(item.id);
-            if(iconRes == null) {
+            if (iconRes == null) {
                 return;
             }
 
@@ -350,6 +372,16 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                             getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
                                             getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)),
                                             titleName);
+                                } else if (item.id == 1445) {//TODO 跳转到店铺分析界面
+                                    Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
+                                            .addFragment(SimpleBrowserFragment.class.getName(), "概览")
+                                            .addArgument(SimpleBrowserFragment.class.getName(), SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
+                                            .addFragment(VisitorsAnalysisFragment.class.getName(), "访客分析")
+                                            .addArgument(VisitorsAnalysisFragment.class.getName(), VisitorsAnalysisFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
+                                            .build();
+
+                                    Intent intent = PlatformTabActivity.buildIntent(getContext(), "店铺分析", fragmentArgs);
+                                    startActivity(intent);
                                 } else {
                                     BrowserActivity.startActivity(getContext(), url);
                                 }
@@ -368,8 +400,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             });
 
             // 退款售后菜单项，用于未读提示
-            if(item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId())) {
-                if(mRefundMenu != null) { //再次显示界面时，首先清除状态
+            if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId())) {
+                if (mRefundMenu != null) { //再次显示界面时，首先清除状态
                     mRefundMenu.hideBadger();
                 }
                 mRefundMenu = indexViewHolder.t;
@@ -383,7 +415,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             public IndexViewHolder(View itemView) {
                 super(itemView);
 //                textView = (TextView)itemView.findViewById(R.id.function_item_text);
-                t = (BadgerTextView)itemView;
+                t = (BadgerTextView) itemView;
             }
         }
     }

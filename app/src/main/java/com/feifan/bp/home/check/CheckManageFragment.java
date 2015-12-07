@@ -46,12 +46,6 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
         return v;
     }
 
-
-
-
-
-
-
     @Override
     public void onClick(View v) {
         Bundle args = new Bundle();
