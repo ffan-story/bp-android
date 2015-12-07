@@ -157,8 +157,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     }
 
-
-
     public void setmUrl(String mUrl) {
         this.mUrl = mUrl;
     }
@@ -184,7 +182,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             PlatformState.getInstance().setLastUrl(mUrl);
             LogUtil.i(TAG, "mUrl==" + mUrl);
         }
-
         return v;
     }
 
@@ -210,7 +207,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             }
             item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
-
     }
 
     @Override
