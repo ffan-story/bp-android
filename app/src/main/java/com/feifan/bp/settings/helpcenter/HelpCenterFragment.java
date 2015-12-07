@@ -99,13 +99,20 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
             public void onResponse(HelpCenterModel helpCenterModel) {
                 hideProgressBar();
                 totalCount = helpCenterModel.getTotalCount();
+                if (totalCount <= 0){
+                    mPtrFrame.setVisibility(View.GONE);
+                    mPtrFrameEmpty.setVisibility(View.VISIBLE);
+                    mPtrFrameEmpty.refreshComplete();
+                }
+
                 if (helpCenterModel.getStrHelpCenterData() == null) {
                     return;
                 }
-                if (mList.isEmpty()) {
+
+               if (mList.isEmpty()) {
                     mList = new ArrayList<>();
                     mList = helpCenterModel.getArryListHelpCenterData();
-                    if (mList != null && mList.size() > 0 && mPtrFrame != null) {
+                    if (!mList.isEmpty() && mPtrFrame != null) {
                         getActivity();
                         hideEmptyView();
                         mPtrFrame.setVisibility(View.VISIBLE);
@@ -122,6 +129,7 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
                         mList.add(helpCenterModel.getArryListHelpCenterData().get(i));
                     }
                 }
+
                 if (mAdapter != null) {
                     mAdapter.notifyDataSetChanged();
                 }
