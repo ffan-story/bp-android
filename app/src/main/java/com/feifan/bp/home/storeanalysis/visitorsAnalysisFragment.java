@@ -8,6 +8,8 @@ import android.support.v7.internal.widget.ViewStubCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -20,6 +22,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.util.TimeUtil;
@@ -32,8 +35,8 @@ import java.util.Calendar;
  * Created by Frank on 15/12/2.
  */
 public class VisitorsAnalysisFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener
-        ,MenuItem.OnMenuItemClickListener
-        ,DatePickerDialog.OnDateSetListener {
+        , MenuItem.OnMenuItemClickListener
+        , DatePickerDialog.OnDateSetListener {
 
     public static final String EXTRA_KEY_URL = "url";
 
@@ -209,8 +212,12 @@ public class VisitorsAnalysisFragment extends ProgressFragment implements RadioG
         } else {
             startDate = FromDate;
             endDate = ToDate;
-            mWebView.loadUrl("about:blank");
-            mWebView.loadUrl(mUrl + "&sdate=" + startDate + "&edate=" + endDate);
+            if (Utils.isNetworkAvailable(getActivity())) {
+                mWebView.loadUrl("about:blank");
+                mWebView.loadUrl(mUrl + "&sdate=" + startDate + "&edate=" + endDate);
+            } else {
+                setContentEmpty(true);
+            }
         }
     }
 
@@ -219,16 +226,24 @@ public class VisitorsAnalysisFragment extends ProgressFragment implements RadioG
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.week:
-                mWebView.loadUrl("about:blank");
-                mWebView.loadUrl(mUrl + "&days=7");
-                mCheckFlag = false;
-                tabIndex = R.id.week;
+                if (Utils.isNetworkAvailable(getActivity())) {
+                    mWebView.loadUrl("about:blank");
+                    mWebView.loadUrl(mUrl + "&days=7");
+                    mCheckFlag = false;
+                    tabIndex = R.id.week;
+                } else {
+                    setContentEmpty(true);
+                }
                 break;
             case R.id.month:
-                mWebView.loadUrl("about:blank");
-                mWebView.loadUrl(mUrl + "&days=30");
-                tabIndex = R.id.month;
-                mCheckFlag = false;
+                if (Utils.isNetworkAvailable(getActivity())) {
+                    mWebView.loadUrl("about:blank");
+                    mWebView.loadUrl(mUrl + "&days=30");
+                    tabIndex = R.id.month;
+                    mCheckFlag = false;
+                } else {
+                    setContentEmpty(true);
+                }
                 break;
             case R.id.define:
                 initDialog();

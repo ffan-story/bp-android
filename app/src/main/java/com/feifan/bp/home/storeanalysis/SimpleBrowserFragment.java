@@ -21,6 +21,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.base.PlatformFragment;
 import com.feifan.bp.base.ProgressFragment;
@@ -29,7 +30,7 @@ import com.feifan.bp.util.LogUtil;
 
 /**
  * 单纯用于网页的显示
- *
+ * <p/>
  * Created by Frank on 15/12/1.
  */
 public class SimpleBrowserFragment extends ProgressFragment {
@@ -40,7 +41,8 @@ public class SimpleBrowserFragment extends ProgressFragment {
     private String mUrl;
     private WebView mWebView;
 
-    public SimpleBrowserFragment(){}
+    public SimpleBrowserFragment() {
+    }
 
     public static SimpleBrowserFragment newInstance() {
         return new SimpleBrowserFragment();
@@ -89,10 +91,14 @@ public class SimpleBrowserFragment extends ProgressFragment {
 
     @Override
     protected void requestData() {
-        if(mUrl != null) {
-            mWebView.loadUrl(mUrl);
-            PlatformState.getInstance().setLastUrl(mUrl);
-            LogUtil.i(TAG, "mUrl==" + mUrl);
+        if (mUrl != null) {
+            if (Utils.isNetworkAvailable(getActivity())) {
+                mWebView.loadUrl(mUrl);
+                PlatformState.getInstance().setLastUrl(mUrl);
+                LogUtil.i(TAG, "mUrl==" + mUrl);
+            } else {
+                setContentEmpty(true);
+            }
         }
     }
 
@@ -104,7 +110,6 @@ public class SimpleBrowserFragment extends ProgressFragment {
         startActivity(intent);
         return false;
     }
-
 
 
     private void initWeb(WebView webView) {
