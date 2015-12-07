@@ -98,7 +98,22 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
+        // 获取未读提示状态
+        if (UserProfile.getInstance().isStoreUser()) {
+            storeId = UserProfile.getInstance().getAuthRangeId();
+        } else {
+            merchantId = UserProfile.getInstance().getAuthRangeId();
+        }
+        HomeCtrl.getUnReadtatus(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
+            @Override
+            public void onResponse(ReadMessageModel readMessageModel) {
+                int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
+                PlatformState.getInstance().updateUnreadStatus(refundId, readMessageModel.refundCount > 0);
+                refreshRefund();
+            }
+        });
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -304,8 +319,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void refreshRefund() {
-        Log.e(TAG, "refresh Refund!");
         int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
+        Log.e(TAG, "refresh Refund!" + PlatformState.getInstance().getUnreadStatus(refundId));
         if (PlatformState.getInstance().getUnreadStatus(refundId)) {
             mRefundMenu.showBadger();
         } else {
