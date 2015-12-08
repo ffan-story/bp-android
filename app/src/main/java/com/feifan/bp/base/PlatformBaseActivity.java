@@ -1,21 +1,14 @@
 package com.feifan.bp.base;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.feifan.bp.R;
-import com.feifan.bp.util.DeviceUtil;
-import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.widget.CircleImageView;
 import com.feifan.material.MaterialDialog;
 import com.umeng.analytics.MobclickAgent;
-
-import bp.feifan.com.refresh.header.MaterialProgressDrawable;
-
 
 /**
  * 基类活动
@@ -24,7 +17,7 @@ import bp.feifan.com.refresh.header.MaterialProgressDrawable;
  * </pre>
  * Created by xuchunlei on 15/11/9.
  */
-public abstract class PlatformBaseActivity extends AppCompatActivity implements OnFragmentListener {
+public abstract class PlatformBaseActivity extends AppCompatActivity {
 
 //    private ProgressDialog mWaitingDlg;
     private MaterialDialog mErrorDlg;
@@ -95,16 +88,6 @@ public abstract class PlatformBaseActivity extends AppCompatActivity implements 
         if (isFinishing()) {
             removeDialog(DIALOG_ID_PROGRESS_BAR);
         }
-    }
-
-    @Override
-    public void startWaiting() {
-
-    }
-
-    @Override
-    public void finishWaiting() {
-
     }
 
     //add by tianjun 2015.11.30

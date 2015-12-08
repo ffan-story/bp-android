@@ -111,7 +111,6 @@ public class SimpleBrowserFragment extends ProgressFragment {
         return false;
     }
 
-
     private void initWeb(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);

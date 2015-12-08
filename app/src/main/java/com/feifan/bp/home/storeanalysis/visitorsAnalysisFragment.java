@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -32,7 +33,7 @@ import java.util.Calendar;
 /**
  * Created by Frank on 15/12/2.
  */
-public class visitorsAnalysisFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener
+public class VisitorsAnalysisFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener
         , MenuItem.OnMenuItemClickListener
         , DatePickerDialog.OnDateSetListener {
 
@@ -171,7 +172,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
     private void initDialog() {
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
-                visitorsAnalysisFragment.this,
+                VisitorsAnalysisFragment.this,
                 now.get(Calendar.YEAR),
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)

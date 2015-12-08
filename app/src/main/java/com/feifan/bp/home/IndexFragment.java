@@ -31,12 +31,13 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.base.OnTabLifetimeListener;
+import com.feifan.bp.base.SimpleProgressFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
-import com.feifan.bp.home.storeanalysis.visitorsAnalysisFragment;
+import com.feifan.bp.home.storeanalysis.VisitorsAnalysisFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.network.GetRequest;
@@ -251,6 +252,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 //                Intent intent = PlatformTabActivity.buildIntent(getContext(), "店铺分析", fragmentArgs);
 //                startActivity(intent);
 //                return;
+
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, UserInfoFragment.class.getName());
                 break;
@@ -390,8 +392,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                     Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
                                             .addFragment(SimpleBrowserFragment.class.getName(), "概览")
                                             .addArgument(SimpleBrowserFragment.class.getName(), SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
-                                            .addFragment(visitorsAnalysisFragment.class.getName(), "访客分析")
-                                            .addArgument(visitorsAnalysisFragment.class.getName(), visitorsAnalysisFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
+                                            .addFragment(VisitorsAnalysisFragment.class.getName(), "访客分析")
+                                            .addArgument(VisitorsAnalysisFragment.class.getName(), VisitorsAnalysisFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
                                             .build();
 
                                     Intent intent = PlatformTabActivity.buildIntent(getContext(), "店铺分析", fragmentArgs);

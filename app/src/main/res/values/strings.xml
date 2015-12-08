@@ -218,4 +218,5 @@
 
     <!--优惠券-->
     <string name="coupone_marketing_contract_not_hint">您尚未和飞凡平台签订营销合同，请先联系飞凡平台签署合同后再来添加优惠券。</string>
+
 </resources>
