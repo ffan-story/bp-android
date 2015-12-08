@@ -38,6 +38,9 @@ public abstract class UrlFactory {
     //H5页面相对路径－访客分析
     private static final String URL_PATH_VISITORS_ANALYSIS = "/H5App/default.html#/analysis/visit";
 
+    //H5页面相对路径－店铺分析指标说明
+    private static final String URL_PATH_STORE_DESCRIPTION ="/H5App/default.html#/analysis/note";
+
     private static final String URL_SOP_FFAN = "http://sop.ffan.com";
 
 
@@ -99,6 +102,8 @@ public abstract class UrlFactory {
     public static String visitorsAnalysisForHtml() {
         return urlForHtml(URL_PATH_VISITORS_ANALYSIS);
     }
+
+    public static String storeDescriptionForHtml(){return urlForHtml(URL_PATH_STORE_DESCRIPTION);}
 
     public static String actionUrlForHtml(String reUrl) {
         UserProfile userProfile = UserProfile.getInstance();

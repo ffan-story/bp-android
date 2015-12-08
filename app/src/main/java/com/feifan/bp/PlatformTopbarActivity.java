@@ -10,11 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-
+import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
+import com.feifan.bp.transactionflow.TransFlowTabActivity;
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
-import com.feifan.bp.transactionflow.TransFlowTabActivity;
 
 /**
  * 项目通用带有Topbar的活动
@@ -26,7 +26,9 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     private Toolbar mToolbar;
     private TextView mCenterTitle;
     public static final String EXTRA_TITLE = "titleName";
+    public static final String EXTRA_URL = "url";
     private String mStrTitleName = "";
+    private String mStrUrl = "";
     private Fragment mCurrentFragment;
 
     /**
@@ -48,6 +50,7 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
         setContentView(R.layout.activity_topbar);
 
         mStrTitleName = getIntent().getStringExtra(EXTRA_TITLE);
+        mStrUrl = getIntent().getStringExtra(EXTRA_URL);
         // 初始化标题栏
         mToolbar = (Toolbar)findViewById(R.id.topbar_header);
         mCenterTitle = (TextView)mToolbar.findViewById(R.id.header_center_title);
@@ -55,7 +58,13 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
         initHeader(mToolbar);
         String fragmentName = getIntent().getStringExtra(OnFragmentInteractionListener.INTERATION_KEY_TO);
         if(!TextUtils.isEmpty(fragmentName)) {
-            switchFragment(Fragment.instantiate(this, fragmentName));
+            if(mStrUrl!= null){
+                Bundle args = new Bundle();
+                args.putString(SimpleBrowserFragment.EXTRA_KEY_URL, mStrUrl);
+                switchFragment(Fragment.instantiate(this, fragmentName,args));
+            }else{
+                switchFragment(Fragment.instantiate(this,fragmentName));
+            }
         }
     }
 

@@ -31,9 +31,9 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.base.OnTabLifetimeListener;
-import com.feifan.bp.base.SimpleProgressFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
+import com.feifan.bp.envir.AuthSupplier;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
@@ -388,7 +388,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                             getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
                                             getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)),
                                             titleName);
-                                } else if (item.id == 1445) {//TODO 跳转到店铺分析界面
+                                } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getStoreAnalysisId())) {//TODO 跳转到店铺分析界面
                                     Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
                                             .addFragment(SimpleBrowserFragment.class.getName(), "概览")
                                             .addArgument(SimpleBrowserFragment.class.getName(), SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())

@@ -24,6 +24,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
@@ -124,7 +125,9 @@ public class VisitorsAnalysisFragment extends ProgressFragment implements RadioG
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         Intent intent = new Intent(getActivity(), PlatformTopbarActivity.class);
-        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, IndicatorFragment.class.getName());
+        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, SimpleBrowserFragment.class.getName());
+        intent.putExtra(PlatformTopbarActivity.EXTRA_URL,UrlFactory.storeDescriptionForHtml());
+        intent.putExtra(PlatformTopbarActivity.EXTRA_TITLE,getString(R.string.indicator_title));
         startActivity(intent);
         return false;
     }

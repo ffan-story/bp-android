@@ -26,6 +26,7 @@ import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.base.PlatformFragment;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 
 /**
@@ -106,7 +107,9 @@ public class SimpleBrowserFragment extends ProgressFragment {
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         Intent intent = new Intent(getActivity(), PlatformTopbarActivity.class);
-        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, IndicatorFragment.class.getName());
+        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, SimpleBrowserFragment.class.getName());
+        intent.putExtra(PlatformTopbarActivity.EXTRA_URL, UrlFactory.storeDescriptionForHtml());
+        intent.putExtra(PlatformTopbarActivity.EXTRA_TITLE,getString(R.string.indicator_title));
         startActivity(intent);
         return false;
     }
