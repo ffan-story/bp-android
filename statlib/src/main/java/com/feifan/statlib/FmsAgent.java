@@ -1,6 +1,8 @@
 package com.feifan.statlib;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.HandlerThread;
 
 /**
  * 飞凡统计代理类
@@ -12,7 +14,15 @@ import android.content.Context;
  */
 public class FmsAgent {
 
+    private static Handler handler;
+
     private static final String TAG = "FFan-Stat";
+
+    static {
+        HandlerThread localHandlerThread = new HandlerThread("FmsAgent");
+        localHandlerThread.start();
+        handler = new Handler(localHandlerThread.getLooper());
+    }
 
     private FmsAgent() {
 
@@ -39,15 +49,15 @@ public class FmsAgent {
      * @param context
      */
     static void postHistoryLog(final Context context) {
-//        CobubLog.i(tag, "postHistoryLog");
-//        if (CommonUtil.isNetworkAvailable(context)) {
+        StatLog.i(TAG, "Post HistoryLog to " + FmsConstants.urlPrefix);
+        if (CommonUtil.isNetworkAvailable(context)) {
 //            if (UmsAgent.isPostFile) {
 //                Thread thread = new UploadHistoryLog(context);
 //                handler.post(thread);
 //                UmsAgent.isPostFile = false;
 //            }
 //
-//        }
+        }
     }
 
     /**
@@ -56,13 +66,13 @@ public class FmsAgent {
      * @param context
      */
     public static void onEvent(final Context context, final String event_id) {
-//        Thread thread = new Thread(new Runnable() {
-//            public void run() {
-//                CobubLog.i(tag, "Call onEvent(context,event_id)");
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                StatLog.i(TAG, "Send " + event_id + " to " + FmsConstants.urlPrefix);
 //                onEvent(context, event_id, 1);
-//            }
-//        });
-//        handler.post(thread);
-        StatLog.i(TAG, "Send " + event_id + " to " + FmsConstants.urlPrefix);
+            }
+        });
+        handler.post(thread);
+
     }
 }

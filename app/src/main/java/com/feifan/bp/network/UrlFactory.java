@@ -139,11 +139,11 @@ public abstract class UrlFactory {
 
     //----for http request---//
     public static String getLoginUrl() {
-        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "login";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "login";
     }
 
     public static String getAuthorizeUrl() {
-        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "userAuth";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "userAuth";
     }
 
     public static String getCheckPhoneNumExistUrl() {
