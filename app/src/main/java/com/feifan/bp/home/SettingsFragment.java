@@ -18,6 +18,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.feifan.bp.BuildConfig;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.settings.feedback.FeedBackFragment;
 import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
@@ -30,6 +31,7 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
+import com.feifan.statlib.FmsAgent;
 
 import java.util.concurrent.Executors;
 
@@ -146,6 +148,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 break;
 
             case R.id.settings_advice_feedback:
+                //统计埋点 意见反馈
+                FmsAgent.onEvent(getActivity(), Statistics.FB_SETTING_FEEDBACK);
                 //add by tianjun 2015.10.27
                 Bundle bundle = new Bundle();
                 bundle.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());

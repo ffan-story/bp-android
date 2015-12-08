@@ -27,6 +27,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
@@ -37,7 +38,7 @@ import com.feifan.bp.envir.AuthSupplier;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
-import com.feifan.bp.home.storeanalysis.VisitorsAnalysisFragment;
+import com.feifan.bp.home.storeanalysis.visitorsAnalysisFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.network.GetRequest;
@@ -45,6 +46,7 @@ import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerTextView;
+import com.feifan.statlib.FmsAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -234,6 +236,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
         switch (v.getId()) {
             case R.id.index_scan:
+                //统计埋点  扫码验证
+                FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_SCANCODE);
+
                 if (!UserProfile.getInstance().isStoreUser()) {
                     Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
                     return;
@@ -258,6 +263,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 break;
 
             case R.id.index_history:
+                //统计埋点  验证历史
+                FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_VERIFY);
+
                 if (Utils.isNetworkAvailable(getActivity())) {
                     if (!UserProfile.getInstance().getHistoryUrl().equals(Constants.NO_STRING)) {
                         String url = UrlFactory.checkHistoryForHtml(UserProfile.getInstance().getHistoryUrl()) + "&status=";
@@ -276,6 +284,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 break;
 
             case R.id.index_search_btn:
+                //统计埋点  核销码搜索
+                FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_SEARCHCODE);
+
                 if (!UserProfile.getInstance().isStoreUser()) {
                     Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
                     mCodeEditText.setText("");
@@ -379,6 +390,30 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                         if (item.url != null && item.url.length() != 0) {
                             String url = UrlFactory.urlForHtml(item.url);
                             if (Utils.isNetworkAvailable(getContext())) {
+                                //统计埋点
+                                switch (item.id){
+                                    case 1142:
+                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_ORDERMANA);
+                                        break;// 订单管理
+                                    case 1160:
+                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_STAT);
+                                        break;// 统计报表
+                                    case 1161:
+                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_STAFFMANA);
+                                        break;// 员工管理
+                                    case 1162:
+                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_RETURN);
+                                        break;// 退款售后
+                                    case 1226:
+                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_GOODSMANA);
+                                        break;// 商品管理
+                                    case 1227:
+                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_SALEMANA);
+                                        break;// 营销管理
+                                    case 1445:
+                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_STOREANA);
+                                        break;// 店铺分析
+                                }
                                 if (EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id) != -1 && EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id) != -1) {
                                     String titleName = "";
                                     if (!url.contains("/staff?") && !item.name.equals("员工管理")) {
@@ -392,8 +427,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                     Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
                                             .addFragment(SimpleBrowserFragment.class.getName(), "概览")
                                             .addArgument(SimpleBrowserFragment.class.getName(), SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
-                                            .addFragment(VisitorsAnalysisFragment.class.getName(), "访客分析")
-                                            .addArgument(VisitorsAnalysisFragment.class.getName(), VisitorsAnalysisFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
+                                            .addFragment(visitorsAnalysisFragment.class.getName(), "访客分析")
+                                            .addArgument(visitorsAnalysisFragment.class.getName(), visitorsAnalysisFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
                                             .build();
 
                                     Intent intent = PlatformTabActivity.buildIntent(getContext(), "店铺分析", fragmentArgs);
@@ -405,7 +440,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                 Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
                             }
                         } else {
-                            // TODO notify host activity depends on item.id
+                            //统计埋点 对账管理
+                            FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_FINA);
                             Bundle args = new Bundle();
                             args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
                             args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CheckManageFragment.class.getName());

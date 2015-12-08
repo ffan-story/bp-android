@@ -16,6 +16,7 @@ import com.feifan.bp.home.VersionModel;
 import com.feifan.bp.login.AuthListModel;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.util.LogUtil;
+import com.feifan.statlib.FmsAgent;
 
 /**
  * Created by maning on 15/7/29.
@@ -40,6 +41,8 @@ public class SplashActivity extends BaseActivity {
 
         checkVersion();
 
+        //统计埋点----用户启动APP
+        FmsAgent.onEvent(this,Statistics.USER_OPEN_APP);
 //        new Handler() {}.postDelayed(new Runnable() {
 //            @Override
 //            public void run() {

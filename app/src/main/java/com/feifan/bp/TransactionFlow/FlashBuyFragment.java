@@ -24,6 +24,7 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
 import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
 import com.feifan.bp.UserProfile;
@@ -35,6 +36,7 @@ import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
+import com.feifan.statlib.FmsAgent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,6 +44,7 @@ import java.util.Calendar;
 import me.relex.circleindicator.CircleIndicator;
 
 /**
+ * 闪购
  * Created by Frank on 15/11/6.
  */
 public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,
@@ -79,7 +82,15 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         setHasOptionsMenu(true);
         mStoreId = UserProfile.getInstance().getAuthRangeId();
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //统计埋点 对账管理  闪购
+            FmsAgent.onEvent(getActivity(), Statistics.FB_FINA_FLASHBUY);
+        }
     }
 
     @Override

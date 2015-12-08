@@ -21,6 +21,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
@@ -28,13 +29,14 @@ import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
+import com.feifan.statlib.FmsAgent;
 
 import java.util.Calendar;
 
 /**
  * Created by Frank on 15/12/2.
  */
-public class VisitorsAnalysisFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener
+public class visitorsAnalysisFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener
         , MenuItem.OnMenuItemClickListener
         , DatePickerDialog.OnDateSetListener {
 
@@ -55,6 +57,15 @@ public class VisitorsAnalysisFragment extends ProgressFragment implements RadioG
         setHasOptionsMenu(true);
         mUrl = getArguments().getString(EXTRA_KEY_URL);
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //统计埋点 访客分析
+            FmsAgent.onEvent(getActivity(), Statistics.FB_STOREANA_VISITORANA);
+        }
     }
 
 //    @Override
@@ -175,7 +186,7 @@ public class VisitorsAnalysisFragment extends ProgressFragment implements RadioG
     private void initDialog() {
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
-                VisitorsAnalysisFragment.this,
+                visitorsAnalysisFragment.this,
                 now.get(Calendar.YEAR),
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
