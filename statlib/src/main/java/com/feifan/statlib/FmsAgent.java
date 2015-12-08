@@ -63,6 +63,6 @@ public class FmsAgent {
 //            }
 //        });
 //        handler.post(thread);
-        StatLog.i(TAG, event_id);
+        StatLog.i(TAG, "Send " + event_id + " to " + FmsConstants.urlPrefix);
     }
 }
