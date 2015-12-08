@@ -40,6 +40,7 @@ import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
@@ -52,6 +53,7 @@ import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.DialogPhoneLayout;
 import com.feifan.croplib.Crop;
 import com.feifan.material.MaterialDialog;
+import com.feifan.statlib.FmsAgent;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -281,7 +283,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
         String url = "";
         switch (item.getItemId()) {
-            case R.id.menu_staff_add:
+            case R.id.menu_staff_add://添加员工
+                //统计埋点
+                FmsAgent.onEvent(getActivity(), Statistics.FB_STAFFMANA_ADD);
                 url = UrlFactory.staffAddForHtml();
                 Intent i = new Intent(getActivity(), BrowserActivity.class);
                 i.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
@@ -294,7 +298,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 fetchMarketingData(UserProfile.getInstance().getAuthRangeId(),url);
                 return true;
 
-            case R.id.menu_commodity_add:
+            case R.id.menu_commodity_add://发布商品
+                //统计埋点
+                FmsAgent.onEvent(getActivity(), Statistics.FB_GOODSMANA_PUB);
+
                 url = UrlFactory.commodityManageForHtml();
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() commodity url=" + url);

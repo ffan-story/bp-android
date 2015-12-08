@@ -34,6 +34,7 @@ import com.feifan.bp.settings.feedback.FeedBackFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
 import com.feifan.bp.widget.BadgerRadioButton;
 import com.feifan.bp.widget.TabBar;
+import com.feifan.statlib.FmsAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,9 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
 
+        //统计埋点初始化
+        FmsAgent.init(this, EnvironmentManager.getHostFactory().getFFanApiPrefix());
+
         //初始化数据
         mFragments.add(IndexFragment.newInstance());
         mFragments.add(MessageFragment.newInstance());
@@ -76,6 +80,20 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         mBottomBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                //统计埋点 首页home、消息、设置
+              switch (checkedId){
+                  case 0:
+                      FmsAgent.onEvent(LaunchActivity.this,Statistics.FB_HOME_HOME);
+                      break;
+                  case 1:
+                      FmsAgent.onEvent(LaunchActivity.this,Statistics.FB_HOME_MESSAGE);
+                      break;
+                  case 2:
+                      FmsAgent.onEvent(LaunchActivity.this,Statistics.FB_HOME_SETTING);
+                      break;
+
+              }
                 switchFragment(mFragments.get(checkedId));
             }
         });
@@ -123,6 +141,8 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     protected void onDestroy() {
         super.onDestroy();
         PlatformState.getInstance().reset();
+        //统计埋点----用户启动APP
+        FmsAgent.onEvent(this, Statistics.CLOSE_APP);
     }
 
     @Override

@@ -6,22 +6,17 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.browser.BrowserFragment;
-import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.widget.WebViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 项目通用带有Topbar和Tab的活动
