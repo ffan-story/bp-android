@@ -32,7 +32,7 @@ public class FmsAgent {
         FmsAgent.postHistoryLog(context);
 //        UmsAgent.postClientData(context);
 //        UmsAgent.onError(context);
-//        CobubLog.i(TAG, "Call init();BaseURL = " + urlPrefix);
+        StatLog.i(TAG, "Call init();BaseURL = " + urlPrefix);
     }
 
     /**
@@ -63,5 +63,6 @@ public class FmsAgent {
 //            }
 //        });
 //        handler.post(thread);
+        StatLog.i(TAG, event_id);
     }
 }
