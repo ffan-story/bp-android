@@ -139,35 +139,31 @@ public abstract class UrlFactory {
 
     //----for http request---//
     public static String getLoginUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/login";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "login";
     }
 
     public static String getAuthorizeUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/userAuth";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "userAuth";
     }
 
     public static String getCheckPhoneNumExistUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/verificationphone";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "verificationphone";
     }
 
     public static String getForgetPasswordUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/forgetpwd";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "forgetpwd";
     }
 
     public static String getResetPasswordUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/editPassword";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "editPassword";
     }
 
     public static String getSendSMSUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/phoneSms";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "phoneSms";
     }
 
     public static String checkVersionUpdate() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/appVersion/android/getLatest";
-    }
-
-    public static String refundCount() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "trade/webrefunds";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "appVersion/android/getLatest";
     }
 
     public static String getShopListUrl() {
@@ -175,42 +171,40 @@ public abstract class UrlFactory {
     }
 
     public static String getFlashBuyUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/transactionspecific";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/transactionspecific";
     }
 
     public static String getCouponsUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/transactionspecificcpsummary";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/transactionspecificcpsummary";
     }
 
     //add by tianjun 2015.10.29
     public static String submitFeedBack() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/feedback";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/feedback";
     }
 
     public static String getReadMessage() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/unread";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/unread";
     }
 
     public static String getLoginInfo() {
-        //return "http://api.sit.ffan.com/mapp/v1/mapp/user";
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/user";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/user";
     }
 
     public static String getMessgeList() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/message";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/message";
     }
 
     public static String getMessgeListStatus() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/messagestatus";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/messagestatus";
     }
 
     public static String getHelpCenter() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/helpcenter";
-//        return "http://xapi.sit.ffan.com/mapp/helpcenter";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/helpcenter";
     }
 
     public static String getMarketingContract() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "ffan/v1/mapp/cdaservice/marketingcontract";
+        return EnvironmentManager.getHostFactory().getFFanApiPrefix() + "mapp/cdaservice/marketingcontract";
     }
 
     private static String formatRelativeUrl(String relativeUrl) {
@@ -225,7 +219,7 @@ public abstract class UrlFactory {
     }
 
     public static String uploadPicture() {
-        return EnvironmentManager.getHostFactory().getFFanPicHost() + "uploadpicture";
+        return EnvironmentManager.getHostFactory().getFFanApiPrefix() + "uploadpicture";
     }
 
     public static String getSopFfanUrl() {
