@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.feifan.bp.network.JsonRequest;
+import com.feifan.statlib.FmsConstants;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class PlatformApplication extends Application {
         PlatformState.getInstance();
         UserProfile.getInstance().initialize(this);
         JsonRequest.updateRedundantParams(UserProfile.getInstance());
+        Statistics.updateClientData(UserProfile.getInstance());
     }
 
     @Override

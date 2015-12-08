@@ -1,11 +1,15 @@
 package com.feifan.bp;
 
+import android.provider.ContactsContract;
+
+import com.feifan.statlib.FmsConstants;
+
 /**
  * 统计埋点ID
  * Created by apple on 15-12-8.
  */
 public class Statistics {
-    public final static String USER_OPEN_APP            = "USER_OPEN_APP";		    //用户启动APP	
+    public final static String USER_OPEN_APP            = "USER_OPEN_APP";		    //用户启动APP
     public final static String CLOSE_APP                = "CLOSE_APP";	            //关闭APP	
     public final static String FB_HOME_SEARCHCODE       = "FB_HOME_SEARCHCODE";     //	核销码搜索	
     public final static String FB_HOME_SCANCODE         = "FB_HOME_SCANCODE";       //	扫码验证	
@@ -32,6 +36,15 @@ public class Statistics {
 
     public final static String FB_HOME_FINA	            = "FB_HOME_FINA";           //商户APP首页 	点击对账管理
     public final static String FB_FINA_FLASHBUY         = "FB_FINA_FLASHBUY";       //交易流水页面	闪购	
-    public final static String FB_FINA_GENCOUPON        = "FB_FINA_GENCOUPON";      //交易流水页面	通用券	
+    public final static String FB_FINA_GENCOUPON        = "FB_FINA_GENCOUPON";      //交易流水页面	通用券
+
+    public static void updateClientData(UserProfile profile){
+        FmsConstants.sClientDataMap.put("user_id", profile.getUid());
+        if(!profile.isStoreUser()) {
+            FmsConstants.sClientDataMap.put("merchant_id", profile.getAuthRangeId());
+        }
+
+    }
+
 
 }

@@ -9,6 +9,10 @@ import android.util.Log;
  */
 class StatLog {
 
+    public static void d(String tag, String msg) {
+        Log.d(tag, msg);
+    }
+
     public static void i(String tag, String msg) {
 
 //        if (!UmsConstants.DebugEnabled)

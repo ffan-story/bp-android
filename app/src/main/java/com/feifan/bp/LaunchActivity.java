@@ -68,7 +68,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         setContentView(R.layout.activity_launch);
 
         //统计埋点初始化
-        FmsAgent.init(this, EnvironmentManager.getHostFactory().getFFanApiPrefix());
+        FmsAgent.init(this, EnvironmentManager.getHostFactory().getFFanApiPrefix() + "appstatlog");
 
         //初始化数据
         mFragments.add(IndexFragment.newInstance());
