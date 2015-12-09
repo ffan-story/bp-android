@@ -42,11 +42,11 @@ class EventManager {
                 && CommonUtil.isNetworkAvailable(context)) {
 
             StringBuffer paramsBuffer = new StringBuffer();
-            String params = paramsBuffer.append("type=20")
+            String params = paramsBuffer.append("type=20").append("&")
                                         .append("content=" + localJSONObject.toString())
                                         .toString();
             String result = NetworkUtil.Post(FmsConstants.urlPrefix + EVENT_URL, params);
-            StatLog.i(TAG, result);
+            StatLog.i(TAG, "Post " + eventid + " response " + result);
             ResponseMessage message = NetworkUtil.parse(result);
             if (message == null) {
                 CommonUtil.saveInfoToFile("eventInfo", localJSONObject, context);
