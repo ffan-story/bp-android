@@ -181,6 +181,11 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
             setContentShown(true);
 //            setContentEmpty(true);
         }
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            super.onReceivedError(view, errorCode, description, failingUrl);
+            setContentEmpty(true);
+        }
     }
 
     private void initDialog() {
