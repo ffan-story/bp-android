@@ -289,11 +289,9 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
             @Override
             public void onClick(View v) {
                 mFlowList.setSelection(0);
-
                 mPageNum = 1;
                 getFlashFlowData(false);
                 getFlashFlowList(true, false);
-
             }
         });
     }
