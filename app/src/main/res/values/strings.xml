@@ -209,6 +209,10 @@
     <string name="date_error_1">起始时间不能超过今天</string>
     <string name="date_error_2">结束时间不能超过今天</string>
     <string name="date_error_3">开始时间不能大于结束时间</string>
+    <string name="date_error_4">起始时间请选择今天以前的时间</string>
+    <string name="date_error_5">结束时间请选择今天以前的时间</string>
+    <string name="date_error_6">选择的时间段最小为3天</string>
+    <string name="date_error_7">选择的时间段最长为30天</string>
     <string name="date_start_text">开始日期</string>
     <string name="date_end_text">结束日期</string>
     <string name="empty_view_retry">重试</string>
