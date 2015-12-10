@@ -57,6 +57,31 @@ public class TimeUtil {
         return false;
     }
 
+    /**
+     * 获得两个日期的日期差
+     * @param date1
+     * @param date2
+     * @return
+     */
+
+    public static int getIntervalDays(String date1,String date2){
+
+        int days = 0;
+        try{
+            Date dt1 = DATE_FORMAT_DATE.parse(date1);
+            Date dt2 = DATE_FORMAT_DATE.parse(date2);
+
+            if (dt1.getTime()>dt2.getTime()){
+                days = (int)((dt1.getTime() - dt2.getTime())/86400000);
+            }else{
+                days = (int)((dt2.getTime() - dt1.getTime())/86400000);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return days;
+    }
+
     // 字符串类型日期转化成date类型
     public static Date strToDate(String style, String date) {
         SimpleDateFormat formatter = new SimpleDateFormat(style);
