@@ -124,6 +124,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
     @Override
     protected void requestData() {
         if (mUrl != null) {
+            setContentEmpty(false);
             mWebView.loadUrl(mUrl + "&days=7");
         }
     }

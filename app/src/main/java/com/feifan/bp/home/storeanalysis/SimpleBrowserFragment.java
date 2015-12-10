@@ -19,7 +19,6 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.statlib.FmsAgent;
@@ -99,6 +98,7 @@ public class SimpleBrowserFragment extends ProgressFragment {
     protected void requestData() {
         if (mUrl != null) {
             if (Utils.isNetworkAvailable(getActivity())) {
+                setContentEmpty(false);
                 mWebView.loadUrl(mUrl);
                 PlatformState.getInstance().setLastUrl(mUrl);
                 LogUtil.i(TAG, "mUrl==" + mUrl);
