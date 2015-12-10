@@ -1,6 +1,7 @@
 package com.feifan.bp.home.userinfo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -56,6 +57,7 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                     if (userInfoModel.status == Constants.RESPONSE_CODE_SUCCESS) {
                         hideEmptyView();
                         setLoginInfo(rootView, userInfoModel);
+                        UserProfile.getInstance().setCityId(userInfoModel.getCityId());
                     } else {
                         showEmptyView();
                         Utils.showShortToast(getActivity(), userInfoModel.msg,
@@ -89,12 +91,12 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }

@@ -118,28 +118,17 @@ public abstract class UrlFactory {
 
     public static String urlForHtml(String reUrl) {
         UserProfile userProfile = UserProfile.getInstance();
-        String url = null;
-        if (reUrl.contains("?")) {
-            url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
-                    concat("&loginToken=").concat(userProfile.getLoginToken()).
-                    concat("&uid=").concat(String.valueOf(userProfile.getUid())).
-                    concat("&appType=bpMobile").
-                    concat("&version=" + BuildConfig.VERSION_CODE).
-                    concat("&showTabs=0");
-        } else {
-            url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
-                    concat("?loginToken=").concat(userProfile.getLoginToken()).
-                    concat("&uid=").concat(String.valueOf(userProfile.getUid())).
-                    concat("&appType=bpMobile").
-                    concat("&version=" + BuildConfig.VERSION_CODE).
-                    concat("&showTabs=0");
+        String paramStart = "?";
+        if (!reUrl.contains(paramStart)) {
+          paramStart = "&";
         }
-        return url;
-    }
-
-    public static String staffManagementForHtml() {
-        //TODO: need url.
-        return "";
+        return EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
+                concat(paramStart).
+                concat("loginToken=").concat(userProfile.getLoginToken()).
+                concat("&uid=").concat(String.valueOf(userProfile.getUid())).
+                concat("&appType=bpMobile").
+                concat("&version=" + BuildConfig.VERSION_CODE).
+                concat("&showTabs=0");
     }
 
     //----for http request---//

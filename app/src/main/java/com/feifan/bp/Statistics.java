@@ -38,10 +38,20 @@ public class Statistics {
     public final static String FB_FINA_FLASHBUY         = "FB_FINA_FLASHBUY";       //交易流水页面	闪购	
     public final static String FB_FINA_GENCOUPON        = "FB_FINA_GENCOUPON";      //交易流水页面	通用券
 
+    /**
+     * 更新客户端数据
+     * 发送统计日志时作为业务相关的客户端参数数据
+     * @param profile
+     */
     public static void updateClientData(UserProfile profile){
         FmsConstants.sClientDataMap.put("user_id", profile.getUid());
-        if(!profile.isStoreUser()) {
+        if(!profile.isStoreUser()) {        // 商户ID
             FmsConstants.sClientDataMap.put("merchant_id", profile.getAuthRangeId());
+        }else {                             // 门店ID
+            FmsConstants.sClientDataMap.put("store_id", profile.getAuthRangeId());
+        }
+        if(profile.getCityId() != Constants.NO_INTEGER) {  // 城市ID
+            FmsConstants.sClientDataMap.put("city_id", profile.getCityId());
         }
 
     }
