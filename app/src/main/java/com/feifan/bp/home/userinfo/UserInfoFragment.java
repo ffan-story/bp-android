@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
@@ -58,6 +59,7 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                         hideEmptyView();
                         setLoginInfo(rootView, userInfoModel);
                         UserProfile.getInstance().setCityId(userInfoModel.getCityId());
+                        Statistics.updateClientData(UserProfile.getInstance());
                     } else {
                         showEmptyView();
                         Utils.showShortToast(getActivity(), userInfoModel.msg,
