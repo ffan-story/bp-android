@@ -119,7 +119,7 @@ public abstract class UrlFactory {
     public static String urlForHtml(String reUrl) {
         UserProfile userProfile = UserProfile.getInstance();
         String paramStart = "?";
-        if (!reUrl.contains(paramStart)) {
+        if (reUrl.contains(paramStart)) {
           paramStart = "&";
         }
         return EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).

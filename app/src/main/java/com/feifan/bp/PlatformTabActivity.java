@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.browser.BrowserFragment;
@@ -47,6 +50,8 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
     // view
     private Toolbar mToolbar;
     private TextView mCenterTitle;
+    private FragmentPagerAdapter mAdapter;
+    private onPageSelectListener mListener;
 
     /**
      * 构建意图
@@ -91,9 +96,40 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         // 初始化Tab
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_bar);
         WebViewPager pager = (WebViewPager) findViewById(R.id.tab_pager);
-        pager.setAdapter(createAdapter(args));
+        pager.setOffscreenPageLimit(1);
+        mAdapter = createAdapter(args);
+        pager.setAdapter(mAdapter);
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mListener.onPageSelected();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         tabLayout.setTabMode(pager.getAdapter().getCount() > MAX_TAB_COUNT ? TabLayout.MODE_SCROLLABLE : TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(pager);
+
+    }
+
+    /**
+     * fragment的Tab页选择接口
+     */
+    public interface onPageSelectListener{
+        void onPageSelected();
+    }
+
+    public void setOnPageSelectListener(onPageSelectListener mListener) {
+        this.mListener = mListener;
     }
 
     private void initHeader(Toolbar header) {

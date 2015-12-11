@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
@@ -37,7 +38,8 @@ import java.util.Calendar;
  */
 public class visitorsAnalysisFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener
         , MenuItem.OnMenuItemClickListener
-        , DatePickerDialog.OnDateSetListener {
+        , DatePickerDialog.OnDateSetListener
+        , PlatformTabActivity.onPageSelectListener{
 
     public static final String EXTRA_KEY_URL = "url";
 
@@ -103,9 +105,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
         rb_define = (RadioButton) v.findViewById(R.id.define);
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
-//        if (mUrl != null) {
-//            mWebView.loadUrl(mUrl + "&days=7");
-//        }
+
         rb_week.setChecked(true);
         tabIndex = R.id.week;
         segmentedGroup.setOnCheckedChangeListener(this);
@@ -117,6 +117,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
                 }
             }
         });
+        ((PlatformTabActivity)getActivity()).setOnPageSelectListener(this);
         return v;
     }
 
@@ -127,6 +128,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
             mWebView.loadUrl(mUrl + "&days=7");
         }
     }
+
 
     @Override
     protected MenuInfo getMenuInfo() {
@@ -165,6 +167,21 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
         webView.requestFocus();
     }
 
+    @Override
+    public void onPageSelected() {
+        switch (tabIndex){
+            case R.id.week:
+                mWebView.loadUrl(mUrl + "&days=7");
+                break;
+            case R.id.month:
+                mWebView.loadUrl(mUrl + "&days=30");
+                break;
+            case R.id.define:
+                mWebView.loadUrl(mUrl + "&sdate=" + startDate + "&edate=" + endDate);
+                break;
+        }
+    }
+
     private class PlatformWebViewClient extends WebViewClient {
 
         @Override
@@ -181,6 +198,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
             setContentShown(true);
 //            setContentEmpty(true);
         }
+
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
@@ -218,17 +236,17 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
 
         String ToDate = yearEnd + "-" + DataFormat(monthOfYearEnd + 1) + "-" + DataFormat(dayOfMonthEnd);
 
-        if (!TimeUtil.compare_date(TimeUtil.getToday(),FromDate )) {
+        if (!TimeUtil.compare_date(TimeUtil.getToday(), FromDate)) {
             Toast.makeText(getActivity(), getString(R.string.date_error_4), Toast.LENGTH_LONG).show();
         } else if (!TimeUtil.compare_date(TimeUtil.getToday(), ToDate)) {
             Toast.makeText(getActivity(), getString(R.string.date_error_5), Toast.LENGTH_LONG).show();
         } else if (TimeUtil.compare_date(FromDate, ToDate)) {
             Toast.makeText(getActivity(), getString(R.string.date_error_3), Toast.LENGTH_LONG).show();
-        } else if(TimeUtil.getIntervalDays(FromDate,ToDate)<3){
+        } else if (TimeUtil.getIntervalDays(FromDate, ToDate) < 3) {
             Toast.makeText(getActivity(), getString(R.string.date_error_6), Toast.LENGTH_LONG).show();
-        }else if(TimeUtil.getIntervalDays(FromDate,ToDate)>30){
+        } else if (TimeUtil.getIntervalDays(FromDate, ToDate) > 30) {
             Toast.makeText(getActivity(), getString(R.string.date_error_7), Toast.LENGTH_LONG).show();
-        }else {
+        } else {
             tabIndex = R.id.define;
             setTabFocus(tabIndex);
             mCheckFlag = true;

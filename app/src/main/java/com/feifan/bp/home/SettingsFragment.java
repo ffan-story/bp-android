@@ -193,9 +193,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private static final String PREFERENCE_NAME = "wanda_bp";
-    private static final String PREF_VERSION_CODE = "pref_version_code";
-    private static final String PREF_VERSION_BEFORE_UPDATE = "pref_version_before_update";
+//    private static final String PREFERENCE_NAME = "wanda_bp";
+//    private static final String PREF_VERSION_CODE = "pref_version_code";
+//    private static final String PREF_VERSION_BEFORE_UPDATE = "pref_version_before_update";
 
     private void checkVersion() {
         HomeCtrl.checkVersion(new Listener<VersionModel>() {
@@ -207,7 +207,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
                 final int mustUpdate = versionModel.getMustUpdate();
                 final String url = versionModel.getVersionUrl();
-                final int versionCode = versionModel.getVersionCode();
+//                final int versionCode = versionModel.getVersionCode();
 
                 if (mustUpdate == VersionModel.UPDATE_NO_UPDATE) {
                     Utils.showShortToast(getActivity(), R.string.settings_check_update_none);
@@ -218,10 +218,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                     b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            SharedPreferences.Editor editor = getActivity().
-                                    getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-                            editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
-                            editor.apply();
+//                            SharedPreferences.Editor editor = getActivity().
+//                                    getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+//                            editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
+//                            editor.apply();
                             startActivity(Utils.getSystemBrowser(url));
                         }
                     });
@@ -230,10 +230,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                         b.setNegativeButton(getString(R.string.btn_version_update_later), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                SharedPreferences.Editor editor = getActivity().getSharedPreferences(PREFERENCE_NAME,
-                                        Context.MODE_PRIVATE).edit();
-                                editor.putInt(PREF_VERSION_CODE, versionCode);
-                                editor.apply();
+//                                SharedPreferences.Editor editor = getActivity().getSharedPreferences(PREFERENCE_NAME,
+//                                        Context.MODE_PRIVATE).edit();
+//                                editor.putInt(PREF_VERSION_CODE, versionCode);
+//                                editor.apply();
                                 dialog.dismiss();
                             }
                         });
