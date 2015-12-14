@@ -84,13 +84,13 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 //统计埋点 首页home、消息、设置
               switch (checkedId){
                   case 0:
-                      FmsAgent.onEvent(LaunchActivity.this,Statistics.FB_HOME_HOME);
+                      FmsAgent.onEvent(getApplicationContext(),Statistics.FB_HOME_HOME);
                       break;
                   case 1:
-                      FmsAgent.onEvent(LaunchActivity.this,Statistics.FB_HOME_MESSAGE);
+                      FmsAgent.onEvent(getApplicationContext(),Statistics.FB_HOME_MESSAGE);
                       break;
                   case 2:
-                      FmsAgent.onEvent(LaunchActivity.this,Statistics.FB_HOME_SETTING);
+                      FmsAgent.onEvent(getApplicationContext(),Statistics.FB_HOME_SETTING);
                       break;
 
               }
@@ -142,7 +142,7 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         super.onDestroy();
         PlatformState.getInstance().reset();
         //统计埋点----用户启动APP
-        FmsAgent.onEvent(this, Statistics.CLOSE_APP);
+        FmsAgent.onEvent(getApplicationContext(), Statistics.CLOSE_APP);
     }
 
     @Override

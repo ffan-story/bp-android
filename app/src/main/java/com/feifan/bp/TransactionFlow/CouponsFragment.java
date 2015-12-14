@@ -61,7 +61,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             //统计埋点 对账管理  通用券
-            FmsAgent.onEvent(getActivity(), Statistics.FB_FINA_GENCOUPON);
+            FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_FINA_GENCOUPON);
         }
     }
 

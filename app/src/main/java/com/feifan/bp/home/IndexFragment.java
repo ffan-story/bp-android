@@ -237,10 +237,10 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         switch (v.getId()) {
             case R.id.index_scan:
                 //统计埋点  扫码验证
-                FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_SCANCODE);
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_SCANCODE);
 
                 if (!UserProfile.getInstance().isStoreUser()) {
-                    Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String urlStr = UrlFactory.searchCodeForHtml();
@@ -264,9 +264,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 
             case R.id.index_history:
                 //统计埋点  验证历史
-                FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_VERIFY);
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_VERIFY);
 
-                if (Utils.isNetworkAvailable(getActivity())) {
+                if (Utils.isNetworkAvailable(getActivity().getApplicationContext())) {
                     if (!UserProfile.getInstance().getHistoryUrl().equals(Constants.NO_STRING)) {
                         String url = UrlFactory.checkHistoryForHtml(UserProfile.getInstance().getHistoryUrl()) + "&status=";
                         args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
@@ -285,7 +285,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 
             case R.id.index_search_btn:
                 //统计埋点  核销码搜索
-                FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_SEARCHCODE);
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_SEARCHCODE);
 
                 if (!UserProfile.getInstance().isStoreUser()) {
                     Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
@@ -393,25 +393,25 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                 //统计埋点
                                 switch (item.id){
                                     case 1142:
-                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_ORDERMANA);
+                                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_ORDERMANA);
                                         break;// 订单管理
                                     case 1160:
-                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_STAT);
+                                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STAT);
                                         break;// 统计报表
                                     case 1161:
-                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_STAFFMANA);
+                                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STAFFMANA);
                                         break;// 员工管理
                                     case 1162:
-                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_RETURN);
+                                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_RETURN);
                                         break;// 退款售后
                                     case 1226:
-                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_GOODSMANA);
+                                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_GOODSMANA);
                                         break;// 商品管理
                                     case 1227:
-                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_SALEMANA);
+                                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_SALEMANA);
                                         break;// 营销管理
                                     case 1445:
-                                        FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_STOREANA);
+                                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STOREANA);
                                         break;// 店铺分析
                                 }
                                 if (EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id) != -1 && EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id) != -1) {

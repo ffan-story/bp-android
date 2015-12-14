@@ -2,9 +2,7 @@ package com.feifan.bp.home;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -85,7 +83,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     protected void setupToolbar(Toolbar toolbar) {
         super.setupToolbar(toolbar);
         toolbar.setTitle(R.string.home_settings_text);
-//        toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
     }
 
     @Override
@@ -124,20 +121,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
                 checkVersion();
-//               HomeCtrl.checkVersion(getActivity(), new BaseRequestProcessListener<CheckVersionModel>(getActivity()) {
-//                   @Override
-//                   public void onResponse(CheckVersionModel checkVersionModel) {
-//                       LogUtil.i(TAG, checkVersionModel.toString());
-//                       if (checkVersionModel.getVersionCode() > BuildConfig.VERSION_CODE) {
-//                           Bundle args = new Bundle();
-//                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
-//                           args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, checkVersionModel.getVersionUrl());
-//                           mListener.onFragmentInteraction(args);
-//                       } else {
-//                           Utils.showShortToast(getActivity(), R.string.settings_check_update_none);
-//                       }
-//                   }
-//               });
                 break;
             case R.id.settings_change_password:
                 Bundle args = new Bundle();
@@ -149,7 +132,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
             case R.id.settings_advice_feedback:
                 //统计埋点 意见反馈
-                FmsAgent.onEvent(getActivity(), Statistics.FB_SETTING_FEEDBACK);
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_SETTING_FEEDBACK);
                 //add by tianjun 2015.10.27
                 Bundle bundle = new Bundle();
                 bundle.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
@@ -193,10 +176,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-//    private static final String PREFERENCE_NAME = "wanda_bp";
-//    private static final String PREF_VERSION_CODE = "pref_version_code";
-//    private static final String PREF_VERSION_BEFORE_UPDATE = "pref_version_before_update";
-
     private void checkVersion() {
         HomeCtrl.checkVersion(new Listener<VersionModel>() {
             @Override
@@ -207,7 +186,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
                 final int mustUpdate = versionModel.getMustUpdate();
                 final String url = versionModel.getVersionUrl();
-//                final int versionCode = versionModel.getVersionCode();
 
                 if (mustUpdate == VersionModel.UPDATE_NO_UPDATE) {
                     Utils.showShortToast(getActivity(), R.string.settings_check_update_none);
@@ -218,10 +196,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                     b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-//                            SharedPreferences.Editor editor = getActivity().
-//                                    getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-//                            editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
-//                            editor.apply();
                             startActivity(Utils.getSystemBrowser(url));
                         }
                     });
@@ -230,10 +204,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                         b.setNegativeButton(getString(R.string.btn_version_update_later), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-//                                SharedPreferences.Editor editor = getActivity().getSharedPreferences(PREFERENCE_NAME,
-//                                        Context.MODE_PRIVATE).edit();
-//                                editor.putInt(PREF_VERSION_CODE, versionCode);
-//                                editor.apply();
                                 dialog.dismiss();
                             }
                         });

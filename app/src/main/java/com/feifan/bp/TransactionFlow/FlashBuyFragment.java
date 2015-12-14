@@ -89,7 +89,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             //统计埋点 对账管理  闪购
-            FmsAgent.onEvent(getActivity(), Statistics.FB_FINA_FLASHBUY);
+            FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_FINA_FLASHBUY);
         }
     }
 

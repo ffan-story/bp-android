@@ -285,7 +285,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         switch (item.getItemId()) {
             case R.id.menu_staff_add://添加员工
                 //统计埋点
-                FmsAgent.onEvent(getActivity(), Statistics.FB_STAFFMANA_ADD);
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_STAFFMANA_ADD);
                 url = UrlFactory.staffAddForHtml();
                 Intent i = new Intent(getActivity(), BrowserActivity.class);
                 i.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
@@ -300,7 +300,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
             case R.id.menu_commodity_add://发布商品
                 //统计埋点
-                FmsAgent.onEvent(getActivity(), Statistics.FB_GOODSMANA_PUB);
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_GOODSMANA_PUB);
 
                 url = UrlFactory.commodityManageForHtml();
                 mWebView.loadUrl(url);

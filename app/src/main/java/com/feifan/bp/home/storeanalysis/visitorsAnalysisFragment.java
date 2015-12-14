@@ -65,7 +65,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             //统计埋点 访客分析
-            FmsAgent.onEvent(getActivity(), Statistics.FB_STOREANA_VISITORANA);
+            FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_STOREANA_VISITORANA);
         }
     }
 

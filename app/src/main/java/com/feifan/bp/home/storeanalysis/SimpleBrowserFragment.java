@@ -64,7 +64,7 @@ public class SimpleBrowserFragment extends ProgressFragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             //统计埋点 概览
-            FmsAgent.onEvent(getActivity(), Statistics.FB_STOREANA_OVERVIEW);
+            FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_STOREANA_OVERVIEW);
         }
     }
 //    @Override
