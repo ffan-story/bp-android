@@ -16,6 +16,7 @@ import com.feifan.bp.home.VersionModel;
 import com.feifan.bp.login.AuthListModel;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.util.LogUtil;
+import com.feifan.statlib.FmsAgent;
 
 /**
  * Created by maning on 15/7/29.
@@ -32,14 +33,17 @@ public class SplashActivity extends BaseActivity {
         getWindow().setFormat(PixelFormat.RGBA_8888);
         setContentView(R.layout.activity_splash);
 
-        int versionBeforeUpdate = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
-                getInt(PREF_VERSION_BEFORE_UPDATE, -1);
-        if (versionBeforeUpdate != -1 && versionBeforeUpdate < BuildConfig.VERSION_CODE) {
-            UserProfile.getInstance().clear();
-        }
+//        版本更新BUG罪魁祸首!!!!!!!!!!!!!!!
+//        int versionBeforeUpdate = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
+//                getInt(PREF_VERSION_BEFORE_UPDATE, -1);
+//        if (versionBeforeUpdate != -1 && versionBeforeUpdate < BuildConfig.VERSION_CODE) {
+//            UserProfile.getInstance().clear();
+//        }
 
         checkVersion();
 
+        //统计埋点----用户启动APP
+        FmsAgent.onEvent(this, Statistics.USER_OPEN_APP);
 //        new Handler() {}.postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
@@ -65,20 +69,20 @@ public class SplashActivity extends BaseActivity {
             public void onResponse(VersionModel versionModel) {
                 final int mustUpdate = versionModel.getMustUpdate();
                 final String url = versionModel.getVersionUrl();
-                final int versionCode = versionModel.getVersionCode();
+//                final int versionCode = versionModel.getVersionCode();
 
                 UserProfile manager = UserProfile.getInstance();
                 int uid = manager.getUid();
 
                 if (uid == Constants.NO_INTEGER) {
-                    int sVersionCode = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
-                            getInt(PREF_VERSION_CODE, -1);
+//                    int sVersionCode = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
+//                            getInt(PREF_VERSION_CODE, -1);
 
-                    if (versionCode <= sVersionCode) {
-                        startActivity(LaunchActivity.buildIntent(SplashActivity.this));
-                        finish();
-                        return;
-                    }
+//                    if (versionCode <= sVersionCode) {
+//                        startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+//                        finish();
+//                        return;
+//                    }
                     if (mustUpdate == VersionModel.UPDATE_NO_UPDATE) {
                         startActivity(LaunchActivity.buildIntent(SplashActivity.this));
                         finish();
@@ -89,9 +93,9 @@ public class SplashActivity extends BaseActivity {
                         b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-                                editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
-                                editor.apply();
+//                                SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+//                                editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
+//                                editor.apply();
                                 startActivity(Utils.getSystemBrowser(url));
                                 finish();
                             }
@@ -101,9 +105,9 @@ public class SplashActivity extends BaseActivity {
                             b.setNegativeButton(getString(R.string.btn_version_update_later), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-                                    editor.putInt(PREF_VERSION_CODE, versionCode);
-                                    editor.apply();
+//                                    SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+//                                    editor.putInt(PREF_VERSION_CODE, versionCode);
+//                                    editor.apply();
                                     dialog.dismiss();
                                     startActivity(LaunchActivity.buildIntent(SplashActivity.this));
                                     finish();
@@ -131,14 +135,14 @@ public class SplashActivity extends BaseActivity {
                                     UserProfile manager = UserProfile.getInstance();
                                     manager.setAuthList(authListModel.toJsonString());
 
-                                    int sVersionCode = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
-                                            getInt(PREF_VERSION_CODE, -1);
-
-                                    if (versionCode <= sVersionCode) {
-                                        startActivity(LaunchActivity.buildIntent(SplashActivity.this));
-                                        finish();
-                                        return;
-                                    }
+//                                    int sVersionCode = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).
+//                                            getInt(PREF_VERSION_CODE, -1);
+//
+//                                    if (versionCode <= sVersionCode) {
+//                                        startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+//                                        finish();
+//                                        return;
+//                                    }
                                     if (mustUpdate == VersionModel.UPDATE_NO_UPDATE) {
                                         startActivity(LaunchActivity.buildIntent(SplashActivity.this));
                                         finish();
@@ -149,9 +153,9 @@ public class SplashActivity extends BaseActivity {
                                         b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-                                                editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
-                                                editor.apply();
+//                                                SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+//                                                editor.putInt(PREF_VERSION_BEFORE_UPDATE, BuildConfig.VERSION_CODE);
+//                                                editor.apply();
                                                 startActivity(Utils.getSystemBrowser(url));
                                                 finish();
                                             }
@@ -161,9 +165,9 @@ public class SplashActivity extends BaseActivity {
                                             b.setNegativeButton(getString(R.string.btn_version_update_later), new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
-                                                    editor.putInt(PREF_VERSION_CODE, versionCode);
-                                                    editor.apply();
+//                                                    SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
+//                                                    editor.putInt(PREF_VERSION_CODE, versionCode);
+//                                                    editor.apply();
                                                     dialog.dismiss();
                                                     startActivity(LaunchActivity.buildIntent(SplashActivity.this));
                                                     finish();

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import com.android.volley.Response.Listener;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
@@ -97,6 +98,7 @@ public class LoginFragment extends BaseFragment {
                             profile.setAgId(userModel.agId);
                             profile.setLoginToken(userModel.loginToken);
                             JsonRequest.updateRedundantParams(profile);
+                            Statistics.updateClientData(profile);
 
                             UserCtrl.checkPermissions(userModel.uid, new Listener<AuthListModel>() {
                                 @Override

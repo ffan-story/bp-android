@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
@@ -26,8 +27,10 @@ import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.widget.MonPicker;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.MaterialDialog;
+import com.feifan.statlib.FmsAgent;
 
 /**
+ * 通用券
  * Created by Frank on 15/11/6.
  */
 public class CouponsFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, MenuItem.OnMenuItemClickListener {
@@ -40,6 +43,9 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     private String selectData;
     private Boolean mCheckFlag = false;
     private String mStoreId;
+    private static int mIntYear;
+    private static int mIntMonth;
+
     public CouponsFragment() {
     }
 
@@ -50,8 +56,14 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
         super.onCreate(savedInstanceState);
     }
 
-    private static int mIntYear;
-    private static int mIntMonth;
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //统计埋点 对账管理  通用券
+            FmsAgent.onEvent(getActivity(), Statistics.FB_FINA_GENCOUPON);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

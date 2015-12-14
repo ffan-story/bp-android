@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -18,14 +19,17 @@ import android.widget.Toast;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.home.check.IndicatorFragment;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
+import com.feifan.statlib.FmsAgent;
 
 import java.util.Calendar;
 
@@ -34,7 +38,8 @@ import java.util.Calendar;
  */
 public class visitorsAnalysisFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener
         , MenuItem.OnMenuItemClickListener
-        , DatePickerDialog.OnDateSetListener {
+        , DatePickerDialog.OnDateSetListener
+        , PlatformTabActivity.onPageSelectListener{
 
     public static final String EXTRA_KEY_URL = "url";
 
@@ -53,6 +58,15 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
         setHasOptionsMenu(true);
         mUrl = getArguments().getString(EXTRA_KEY_URL);
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //统计埋点 访客分析
+            FmsAgent.onEvent(getActivity(), Statistics.FB_STOREANA_VISITORANA);
+        }
     }
 
 //    @Override
@@ -91,9 +105,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
         rb_define = (RadioButton) v.findViewById(R.id.define);
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
-//        if (mUrl != null) {
-//            mWebView.loadUrl(mUrl + "&days=7");
-//        }
+
         rb_week.setChecked(true);
         tabIndex = R.id.week;
         segmentedGroup.setOnCheckedChangeListener(this);
@@ -105,15 +117,18 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
                 }
             }
         });
+        ((PlatformTabActivity)getActivity()).setOnPageSelectListener(this);
         return v;
     }
 
     @Override
     protected void requestData() {
         if (mUrl != null) {
+            setContentEmpty(false);
             mWebView.loadUrl(mUrl + "&days=7");
         }
     }
+
 
     @Override
     protected MenuInfo getMenuInfo() {
@@ -123,7 +138,9 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         Intent intent = new Intent(getActivity(), PlatformTopbarActivity.class);
-        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, IndicatorFragment.class.getName());
+        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, SimpleBrowserFragment.class.getName());
+        intent.putExtra(PlatformTopbarActivity.EXTRA_URL, UrlFactory.storeDescriptionForHtml());
+        intent.putExtra(PlatformTopbarActivity.EXTRA_TITLE, getString(R.string.indicator_title));
         startActivity(intent);
         return false;
     }
@@ -150,6 +167,21 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
         webView.requestFocus();
     }
 
+    @Override
+    public void onPageSelected() {
+        switch (tabIndex){
+            case R.id.week:
+                mWebView.loadUrl(mUrl + "&days=7");
+                break;
+            case R.id.month:
+                mWebView.loadUrl(mUrl + "&days=30");
+                break;
+            case R.id.define:
+                mWebView.loadUrl(mUrl + "&sdate=" + startDate + "&edate=" + endDate);
+                break;
+        }
+    }
+
     private class PlatformWebViewClient extends WebViewClient {
 
         @Override
@@ -165,6 +197,12 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
 //            finishWaiting();
             setContentShown(true);
 //            setContentEmpty(true);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            super.onReceivedError(view, errorCode, description, failingUrl);
+            setContentEmpty(true);
         }
     }
 
@@ -193,21 +231,26 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
-        tabIndex = R.id.define;
-        setTabFocus(tabIndex);
-        mCheckFlag = true;
 
         String FromDate = year + "-" + DataFormat(monthOfYear + 1) + "-" + DataFormat(dayOfMonth);
 
         String ToDate = yearEnd + "-" + DataFormat(monthOfYearEnd + 1) + "-" + DataFormat(dayOfMonthEnd);
 
-        if (TimeUtil.compare_date(FromDate, TimeUtil.getToday())) {
-            Toast.makeText(getActivity(), getString(R.string.date_error_1), Toast.LENGTH_LONG).show();
-        } else if (TimeUtil.compare_date(ToDate, TimeUtil.getToday())) {
-            Toast.makeText(getActivity(), getString(R.string.date_error_2), Toast.LENGTH_LONG).show();
+        if (!TimeUtil.compare_date(TimeUtil.getToday(), FromDate)) {
+            Toast.makeText(getActivity(), getString(R.string.date_error_4), Toast.LENGTH_LONG).show();
+        } else if (!TimeUtil.compare_date(TimeUtil.getToday(), ToDate)) {
+            Toast.makeText(getActivity(), getString(R.string.date_error_5), Toast.LENGTH_LONG).show();
         } else if (TimeUtil.compare_date(FromDate, ToDate)) {
             Toast.makeText(getActivity(), getString(R.string.date_error_3), Toast.LENGTH_LONG).show();
+        } else if (TimeUtil.getIntervalDays(FromDate, ToDate) < 3) {
+            Toast.makeText(getActivity(), getString(R.string.date_error_6), Toast.LENGTH_LONG).show();
+        } else if (TimeUtil.getIntervalDays(FromDate, ToDate) > 30) {
+            Toast.makeText(getActivity(), getString(R.string.date_error_7), Toast.LENGTH_LONG).show();
         } else {
+            tabIndex = R.id.define;
+            setTabFocus(tabIndex);
+            mCheckFlag = true;
+
             startDate = FromDate;
             endDate = ToDate;
             if (Utils.isNetworkAvailable(getActivity())) {

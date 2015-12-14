@@ -61,7 +61,7 @@ public class UserInfoModel extends BaseModel {
     /**
      * 城市ID
      */
-    private String cityId;
+    private int cityId;
     /**
      * "店长" －－商户身份 店长、店员或商户
      */
@@ -100,7 +100,7 @@ public class UserInfoModel extends BaseModel {
                 provinceId = rangNameJSONObject.optString("provinceId");
             }
             if (!TextUtils.isEmpty(rangNameJSONObject.optString("cityId"))) {
-                cityId = rangNameJSONObject.optString("cityId");
+                cityId = rangNameJSONObject.optInt("cityId");
             }
             if (!TextUtils.isEmpty(rangNameJSONObject.optString("identity"))) {
                 identity = rangNameJSONObject.optString("identity");
@@ -154,7 +154,7 @@ public class UserInfoModel extends BaseModel {
         return provinceId;
     }
 
-    public String getCityId() {
+    public int getCityId() {
         return cityId;
     }
 

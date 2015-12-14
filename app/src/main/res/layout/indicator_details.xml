@@ -59,11 +59,11 @@
                 android:textStyle="bold" />
 
             <TextView
-                style="@style/txt_color99_size14"
+                style="@style/txt_color66_size14"
                 android:text="@string/indicator_initiate_refund1" />
 
             <TextView
-                style="@style/txt_color99_size14"
+                style="@style/txt_color66_size14"
                 android:text="@string/indicator_initiate_refund2" />
 
             <TextView

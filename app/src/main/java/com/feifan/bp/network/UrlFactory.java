@@ -38,6 +38,9 @@ public abstract class UrlFactory {
     //H5页面相对路径－访客分析
     private static final String URL_PATH_VISITORS_ANALYSIS = "/H5App/default.html#/analysis/visit";
 
+    //H5页面相对路径－店铺分析指标说明
+    private static final String URL_PATH_STORE_DESCRIPTION ="/H5App/default.html#/analysis/note";
+
     private static final String URL_SOP_FFAN = "http://sop.ffan.com";
 
 
@@ -100,6 +103,8 @@ public abstract class UrlFactory {
         return urlForHtml(URL_PATH_VISITORS_ANALYSIS);
     }
 
+    public static String storeDescriptionForHtml(){return urlForHtml(URL_PATH_STORE_DESCRIPTION);}
+
     public static String actionUrlForHtml(String reUrl) {
         UserProfile userProfile = UserProfile.getInstance();
         String url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
@@ -113,61 +118,46 @@ public abstract class UrlFactory {
 
     public static String urlForHtml(String reUrl) {
         UserProfile userProfile = UserProfile.getInstance();
-        String url = null;
-        if (reUrl.contains("?")) {
-            url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
-                    concat("&loginToken=").concat(userProfile.getLoginToken()).
-                    concat("&uid=").concat(String.valueOf(userProfile.getUid())).
-                    concat("&appType=bpMobile").
-                    concat("&version=" + BuildConfig.VERSION_CODE).
-                    concat("&showTabs=0");
-        } else {
-            url = EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
-                    concat("?loginToken=").concat(userProfile.getLoginToken()).
-                    concat("&uid=").concat(String.valueOf(userProfile.getUid())).
-                    concat("&appType=bpMobile").
-                    concat("&version=" + BuildConfig.VERSION_CODE).
-                    concat("&showTabs=0");
+        String paramStart = "?";
+        if (reUrl.contains(paramStart)) {
+          paramStart = "&";
         }
-        return url;
-    }
-
-    public static String staffManagementForHtml() {
-        //TODO: need url.
-        return "";
+        return EnvironmentManager.getHostFactory().getFFanH5Host().concat(formatRelativeUrl(reUrl)).
+                concat(paramStart).
+                concat("loginToken=").concat(userProfile.getLoginToken()).
+                concat("&uid=").concat(String.valueOf(userProfile.getUid())).
+                concat("&appType=bpMobile").
+                concat("&version=" + BuildConfig.VERSION_CODE).
+                concat("&showTabs=0");
     }
 
     //----for http request---//
     public static String getLoginUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/login";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "login";
     }
 
     public static String getAuthorizeUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/userAuth";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "userAuth";
     }
 
     public static String getCheckPhoneNumExistUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/verificationphone";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "verificationphone";
     }
 
     public static String getForgetPasswordUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/forgetpwd";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "forgetpwd";
     }
 
     public static String getResetPasswordUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/editPassword";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "editPassword";
     }
 
     public static String getSendSMSUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/phoneSms";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "phoneSms";
     }
 
     public static String checkVersionUpdate() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "xadmin/appVersion/android/getLatest";
-    }
-
-    public static String refundCount() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "trade/webrefunds";
+        return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "appVersion/android/getLatest";
     }
 
     public static String getShopListUrl() {
@@ -175,42 +165,40 @@ public abstract class UrlFactory {
     }
 
     public static String getFlashBuyUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/transactionspecific";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/transactionspecific";
     }
 
     public static String getCouponsUrl() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/transactionspecificcpsummary";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/transactionspecificcpsummary";
     }
 
     //add by tianjun 2015.10.29
     public static String submitFeedBack() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/feedback";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/feedback";
     }
 
     public static String getReadMessage() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/unread";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/unread";
     }
 
     public static String getLoginInfo() {
-        //return "http://api.sit.ffan.com/mapp/v1/mapp/user";
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/user";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/user";
     }
 
     public static String getMessgeList() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/message";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/message";
     }
 
     public static String getMessgeListStatus() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/messagestatus";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/messagestatus";
     }
 
     public static String getHelpCenter() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "mapp/v1/mapp/helpcenter";
-//        return "http://xapi.sit.ffan.com/mapp/helpcenter";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/helpcenter";
     }
 
     public static String getMarketingContract() {
-        return EnvironmentManager.getHostFactory().getFFanApiHost() + "ffan/v1/mapp/cdaservice/marketingcontract";
+        return EnvironmentManager.getHostFactory().getFFanApiPrefix() + "mapp/cdaservice/marketingcontract";
     }
 
     private static String formatRelativeUrl(String relativeUrl) {
@@ -225,7 +213,7 @@ public abstract class UrlFactory {
     }
 
     public static String uploadPicture() {
-        return EnvironmentManager.getHostFactory().getFFanPicHost() + "uploadpicture";
+        return EnvironmentManager.getHostFactory().getFFanApiPrefix() + "uploadpicture";
     }
 
     public static String getSopFfanUrl() {

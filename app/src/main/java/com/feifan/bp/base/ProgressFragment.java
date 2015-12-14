@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.TextView;
-
 import com.feifan.bp.R;
 
 /**
@@ -73,13 +71,6 @@ public abstract class ProgressFragment extends PlatformFragment {
      */
     protected void initEmptyView() {
         ensureContent();
-        if (mEmptyView != null && mEmptyView instanceof TextView) {
-            TextView empty = (TextView) mEmptyView;
-            empty.setText(getString(R.string.empty_view_text));
-            empty.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.empty_ic_timeout, 0, 0);
-        } else {
-            throw new IllegalStateException("Can't be used with a custom content view");
-        }
     }
 
     /**
@@ -187,11 +178,6 @@ public abstract class ProgressFragment extends PlatformFragment {
      */
     public void setEmptyText(CharSequence text) {
         ensureContent();
-        if (mEmptyView != null && mEmptyView instanceof TextView) {
-            ((TextView) mEmptyView).setText(text);
-        } else {
-            throw new IllegalStateException("Can't be used with a custom content view");
-        }
     }
 
     /**
@@ -300,17 +286,16 @@ public abstract class ProgressFragment extends PlatformFragment {
         if (mContentContainer == null) {
             throw new RuntimeException("Your content must have a ViewGroup whose id attribute is 'R.id.content_container'");
         }
-        mEmptyView = root.findViewById(android.R.id.empty);
-        if (mEmptyView != null) {
-            mEmptyView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setContentShown(false);
-                    requestData();
-                }
-            });
-            mEmptyView.setVisibility(View.GONE);
-        }
+        mEmptyView = root.findViewById(android.R.id.extractArea);
+        ((View)root.findViewById(android.R.id.button1)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentShown(false);
+                requestData();
+            }
+        });
+        mEmptyView.setVisibility(View.GONE);
+
         mContentShown = true;
         // We are starting without a content, so assume we won't
         // have our data right away and start with the progress indicator.
@@ -318,5 +303,4 @@ public abstract class ProgressFragment extends PlatformFragment {
             setContentShown(false, false);
         }
     }
-
 }
