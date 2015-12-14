@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 飞凡统计代理类
  * <pre>
@@ -13,10 +16,8 @@ import android.os.HandlerThread;
  * Created by xuchunlei on 15/12/8.
  */
 public class FmsAgent {
-
-
-
     private static final String TAG = "FFan-Stat";
+    private static List<String> eventList = new ArrayList();
 
     /**
      * 发送策略
@@ -83,14 +84,17 @@ public class FmsAgent {
      * @param context
      */
     public static void onEvent(final Context context, final String event_id) {
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                StatLog.i(TAG, "Send " + event_id + " to " + FmsConstants.urlPrefix);
-                EventManager em = new EventManager(context, event_id);
-                em.postEventInfo();
-            }
-        });
-        handler.post(thread);
-
+        eventList.add(event_id);
+        StatLog.i(TAG, "Send " + event_id + " to " + FmsConstants.urlPrefix);
+        if (eventList.size()>10 || event_id.equals("CLOSE_APP") ){
+            Thread thread = new Thread(new Runnable() {
+                public void run() {
+                    EventManager em = new EventManager(context);
+                    em.postEventInfo(em.prepareEventJSON(eventList));
+                    eventList.clear();
+                }
+            });
+            handler.post(thread);
+        }
     }
 }
