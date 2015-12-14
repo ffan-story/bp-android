@@ -56,7 +56,7 @@ public class BaseFragment extends Fragment implements OnDispatchTouchEventListen
 
     protected void showProgressBar(boolean cancelable) {
         Activity a = getActivity();
-        if (a instanceof BaseActivity || a instanceof  PlatformBaseActivity) {
+        if (a instanceof BaseActivity) {
             ((BaseActivity) a).showProgressBar(cancelable);
         }else if(a instanceof PlatformBaseActivity){
             ((PlatformBaseActivity) a).showProgressBar(cancelable);
@@ -65,7 +65,7 @@ public class BaseFragment extends Fragment implements OnDispatchTouchEventListen
 
     protected void hideProgressBar() {
         Activity a = getActivity();
-        if (a instanceof BaseActivity || a instanceof  PlatformBaseActivity) {
+        if (a instanceof BaseActivity) {
             ((BaseActivity) a).hideProgressBar();
         }else if(a instanceof PlatformBaseActivity){
             ((PlatformBaseActivity) a).hideProgressBar();
