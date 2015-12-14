@@ -168,7 +168,7 @@ public class AuthSupplier {
             mFilter.put(1081, R.mipmap.index_ic_commodity);// 商品管理
             mFilter.put(1082, R.mipmap.index_ic_marketing);// 营销管理
             mFilter.put(1145, R.mipmap.index_ic_report);   // 对账管理
-            mFilter.put(1445, R.mipmap.index_ic_analysis); // 店铺分析
+            mFilter.put(1293, R.mipmap.index_ic_analysis); // 店铺分析
         }
 
         @Override
@@ -221,12 +221,12 @@ public class AuthSupplier {
 
         @Override
         public String getRefundRightId() {
-            return null;
+            return "1292";
         }
 
         @Override
         public String getStoreAnalysisId() {
-            return null;
+            return "1293";
         }
     }
 
