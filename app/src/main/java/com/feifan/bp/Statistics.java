@@ -44,6 +44,7 @@ public class Statistics {
      * @param profile
      */
     public static void updateClientData(UserProfile profile){
+        FmsConstants.sClientDataMap.clear();
         FmsConstants.sClientDataMap.put("user_id", profile.getUid());
         if(!profile.isStoreUser()) {        // 商户ID
             FmsConstants.sClientDataMap.put("merchant_id", profile.getAuthRangeId());
