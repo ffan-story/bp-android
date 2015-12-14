@@ -26,6 +26,7 @@ import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.network.UrlFactory;
+
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
@@ -69,32 +70,6 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
         }
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View v = inflater.inflate(R.layout.fragment_visitors, null);
-//        segmentedGroup = (SegmentedGroup) v.findViewById(R.id.segmentedGroup);
-//        rb_week = (RadioButton) v.findViewById(R.id.week);
-//        rb_month = (RadioButton) v.findViewById(R.id.month);
-//        rb_define = (RadioButton) v.findViewById(R.id.define);
-//        mWebView = (WebView) v.findViewById(R.id.browser_content);
-//        initWeb(mWebView);
-//        if (mUrl != null) {
-//            mWebView.loadUrl(mUrl + "&days=7");
-//        }
-//        rb_week.setChecked(true);
-//        tabIndex = R.id.week;
-//        segmentedGroup.setOnCheckedChangeListener(this);
-//        rb_define.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mCheckFlag) {
-//                    initDialog();
-//                }
-//            }
-//        });
-//        return v;
-//    }
-
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
         stub.setLayoutResource(R.layout.fragment_visitors);
@@ -105,7 +80,6 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
         rb_define = (RadioButton) v.findViewById(R.id.define);
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
-
         rb_week.setChecked(true);
         tabIndex = R.id.week;
         segmentedGroup.setOnCheckedChangeListener(this);
@@ -128,7 +102,6 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
             mWebView.loadUrl(mUrl + "&days=7");
         }
     }
-
 
     @Override
     protected MenuInfo getMenuInfo() {
@@ -194,9 +167,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-//            finishWaiting();
             setContentShown(true);
-//            setContentEmpty(true);
         }
 
         @Override

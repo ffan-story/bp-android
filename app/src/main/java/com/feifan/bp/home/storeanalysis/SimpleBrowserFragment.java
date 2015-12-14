@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -58,7 +59,6 @@ public class SimpleBrowserFragment extends ProgressFragment {
         mUrl = getArguments().getString(EXTRA_KEY_URL);
     }
 
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -67,18 +67,6 @@ public class SimpleBrowserFragment extends ProgressFragment {
             FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_STOREANA_OVERVIEW);
         }
     }
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View v = inflater.inflate(R.layout.fragment_browser, container, false);
-//        mWebView = (WebView) v.findViewById(R.id.browser_content);
-//        initWeb(mWebView);
-//        if(mUrl != null) {
-//            mWebView.loadUrl(mUrl);
-//            PlatformState.getInstance().setLastUrl(mUrl);
-//            LogUtil.i(TAG, "mUrl==" + mUrl);
-//        }
-//        return v;
-//    }
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
@@ -119,6 +107,8 @@ public class SimpleBrowserFragment extends ProgressFragment {
         return false;
     }
 
+
+
     private void initWeb(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
@@ -158,7 +148,6 @@ public class SimpleBrowserFragment extends ProgressFragment {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             setContentShown(true);
-//            setContentEmpty(true);
         }
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
