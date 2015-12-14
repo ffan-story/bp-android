@@ -61,6 +61,8 @@ public class SplashActivity extends BaseActivity {
                         b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                PlatformState.getInstance().reset();
+                                UserProfile.getInstance().clear();
                                 startActivity(Utils.getSystemBrowser(url));
                                 finish();
                             }
@@ -106,6 +108,8 @@ public class SplashActivity extends BaseActivity {
                                         b.setPositiveButton(getString(R.string.btn_version_update_new), new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
+                                                PlatformState.getInstance().reset();
+                                                UserProfile.getInstance().clear();
                                                 startActivity(Utils.getSystemBrowser(url));
                                                 finish();
                                             }

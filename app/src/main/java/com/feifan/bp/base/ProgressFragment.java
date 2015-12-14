@@ -136,6 +136,9 @@ public abstract class ProgressFragment extends PlatformFragment {
      * @see #getContentView()
      */
     public void setContentView(View view) {
+        if (!isAdded()){
+            return;
+        }
         ensureContent();
         if (view == null) {
             throw new IllegalArgumentException("Content view can't be null");
@@ -207,6 +210,9 @@ public abstract class ProgressFragment extends PlatformFragment {
      * @param animate 设置为true，状态切换时，有动画效果
      */
     private void setContentShown(boolean shown, boolean animate) {
+        if (!isAdded()){
+            return;
+        }
         ensureContent();
         if (mContentShown == shown) {
             return;
@@ -253,6 +259,9 @@ public abstract class ProgressFragment extends PlatformFragment {
      * @see #isContentEmpty()
      */
     public void setContentEmpty(boolean isEmpty) {
+        if (!isAdded()){
+            return;
+        }
         ensureContent();
         if (mContentView == null) {
             throw new IllegalStateException("Content view must be initialized before");
