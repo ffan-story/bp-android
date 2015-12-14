@@ -68,12 +68,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     // views
 //    private IconClickableEditText mCodeEdt;
     private EditText mCodeEditText;
-    private boolean mDeleteFlag = true;
 
-    public static final String STORE_TYPE = "store";
-    public static final String MERCHANTID = "merchant";
     public static final String USER_TYPE = "1";
-    public static final String MESSAGE_NUM_ZERO = "0";
     private String storeId = "";
     private String merchantId = "";
 
@@ -247,17 +243,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
                 args.putString(CodeScannerActivity.INTERATION_KEY_URL, urlStr);
                 break;
-//                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
-//                        .addFragment(SimpleProgressFragment.class.getName(), "概览")
-//                        .addArgument(SimpleProgressFragment.class.getName(), SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
-//                        .addFragment(VisitorsAnalysisFragment.class.getName(), "访客分析")
-//                        .addArgument(VisitorsAnalysisFragment.class.getName(), VisitorsAnalysisFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
-//                        .build();
-//
-//                Intent intent = PlatformTabActivity.buildIntent(getContext(), "店铺分析", fragmentArgs);
-//                startActivity(intent);
-//                return;
-
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, UserInfoFragment.class.getName());
                 break;
@@ -333,7 +318,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 
     private void refreshRefund() {
         int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
-        Log.e(TAG, "refresh Refund!" + PlatformState.getInstance().getUnreadStatus(refundId));
         if (PlatformState.getInstance().getUnreadStatus(refundId)) {
             mRefundMenu.showBadger();
         } else {
@@ -347,7 +331,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         private final int mIconSize;
 
         {
-//            mIconSize = getResources().getDrawable(R.mipmap.index_ic_order).getMinimumHeight();
             mIconSize = ContextCompat.getDrawable(getContext(), R.mipmap.index_ic_order).getMinimumWidth();
         }
 
@@ -466,7 +449,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 
             public IndexViewHolder(View itemView) {
                 super(itemView);
-//                textView = (TextView)itemView.findViewById(R.id.function_item_text);
                 t = (BadgerTextView) itemView;
             }
         }
