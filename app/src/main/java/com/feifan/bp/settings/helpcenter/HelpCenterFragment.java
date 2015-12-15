@@ -100,6 +100,7 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
                 hideProgressBar();
                 totalCount = helpCenterModel.getTotalCount();
                 if (totalCount <= 0){
+                    hideEmptyView();
                     mPtrFrame.setVisibility(View.GONE);
                     mPtrFrameEmpty.setVisibility(View.VISIBLE);
                     mPtrFrameEmpty.refreshComplete();
@@ -119,6 +120,7 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
                         mPtrFrameEmpty.setVisibility(View.GONE);
                         mPtrFrame.refreshComplete();
                     } else if (mPtrFrameEmpty != null) {
+                        hideEmptyView();
                         mPtrFrame.setVisibility(View.GONE);
                         mPtrFrameEmpty.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.refreshComplete();
