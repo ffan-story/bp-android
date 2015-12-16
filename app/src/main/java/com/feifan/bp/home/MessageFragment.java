@@ -1,6 +1,7 @@
 package com.feifan.bp.home;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -15,16 +16,21 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
+import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.base.OnTabLifetimeListener;
 import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import bp.feifan.com.refresh.PtrClassicFrameLayout;
 import bp.feifan.com.refresh.PtrDefaultHandler;
 import bp.feifan.com.refresh.PtrFrameLayout;
@@ -42,6 +48,8 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     private List<MessageModel.MessageData> mList = new ArrayList<>();
     private Adapter mAdapter;
 
+    private OnFragmentInteractionListener mListener;
+
     public static MessageFragment newInstance() {
         MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
@@ -54,10 +62,17 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener)context;
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showProgressBar(true);
-
+        hideEmptyView();
     }
 
     @Override
@@ -72,37 +87,71 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
      * 获取列表数据
      */
     private void fetchData(int pageIndex) {
+        showProgressBar(true);
         HomeCtrl.messageList(UserProfile.getInstance().getUid() + "", pageIndex, new Response.Listener<MessageModel>() {
             @Override
             public void onResponse(MessageModel messageModel) {
 
                 hideProgressBar();
                 totalCount = messageModel.getTotalCount();
-                if(messageModel.getMessageDataList() ==null){
+                if (totalCount<=0 && mPtrFrameEmpty != null) {
+                    hideEmptyView();
+                    mPtrFrame.setVisibility(View.GONE);
+                    mPtrFrameEmpty.setVisibility(View.VISIBLE);
+                    mPtrFrameEmpty.refreshComplete();
+                }
+                if (messageModel.getMessageDataList() == null) {
                     return;
                 }
                 if (mList == null || mList.size() <= 0) {
                     mList = new ArrayList<>();
                     mList = messageModel.getMessageDataList();
-                    if (mList != null && mList.size() > 0 && mPtrFrame !=null) {
+                    if (mList != null && mList.size() > 0 && mPtrFrame != null) {
+                        hideEmptyView();
                         mPtrFrame.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.setVisibility(View.GONE);
                         mPtrFrame.refreshComplete();
-                    } else  if (mPtrFrameEmpty !=null){
+                    } else if (mPtrFrameEmpty != null) {
+                        hideEmptyView();
                         mPtrFrame.setVisibility(View.GONE);
                         mPtrFrameEmpty.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.refreshComplete();
                     }
                 } else {
+                    hideEmptyView();
                     for (int i = 0; i < messageModel.getMessageDataList().size(); i++) {
                         mList.add(messageModel.getMessageDataList().get(i));
                     }
                 }
                 mAdapter.notifyDataSetChanged();
+
+                // FIXME add by xuchunlei
+                // 获取未读提示状态
+                String storeId = null;
+                String merchantId = null;
+                if(UserProfile.getInstance().isStoreUser()){
+                    storeId = UserProfile.getInstance().getAuthRangeId();
+                }else {
+                    merchantId = UserProfile.getInstance().getAuthRangeId();
+                }
+
+                HomeCtrl.getUnReadtatus(merchantId, storeId, "1", new Response.Listener<ReadMessageModel>() {
+                    @Override
+                    public void onResponse(ReadMessageModel readMessageModel) {
+                        int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
+                        PlatformState.getInstance().updateUnreadStatus(refundId, readMessageModel.refundCount > 0);
+
+                        // 更新消息提示
+                        if(mListener != null) {
+                            mListener.onStatusChanged(readMessageModel.messageCount > 0);
+                        }
+                    }
+                });
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                showEmptyView();
                 hideProgressBar();
                 if (mPtrFrameEmpty != null) {
                     mPtrFrame.refreshComplete();
@@ -119,11 +168,11 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
             @Override
             public void onResponse(MessageStatusModel messageModel) {
                 mList.get(position).setmStrMessageStatus(Constants.READ);
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
             }
         });
     }
@@ -146,7 +195,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mList != null && mList.size() > 0) {
                     if (mList.get(position).getmStrMessageStatus() != null && mList.get(position).getmStrMessageStatus().equals(Constants.UNREAD)) {
-                        setMessageListStatus(mList.get(position).getUserid(), mList.get(position).getMaillnboxid(),position);
+                        setMessageListStatus(mList.get(position).getUserid(), mList.get(position).getMaillnboxid(), position);
                     }
                     String strUri = UrlFactory.urlForHtml(mList.get(position).getmStrDetailUrl());
                     BrowserActivity.startActivity(getActivity(), strUri);
@@ -179,10 +228,16 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         super.onDetach();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideEmptyView();
+    }
+
     /**
      * 更新数据
      */
-    protected void updateData() {
+    public void updateData() {
         pageIndex = 1;
         if(mList !=null){
             mList.clear();
@@ -255,7 +310,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
                 holder.mTvMessageTitle.setTextColor(context.getResources().getColor(R.color.font_color_66));
             } else {
                 holder.mImgRedPoint.setVisibility(View.INVISIBLE);
-                holder.mTvMessageTitle.setTextColor(context.getResources().getColor(R.color.feed_back_color));
+                holder.mTvMessageTitle.setTextColor(context.getResources().getColor(R.color.font_color_99));
             }
             holder.mTvMessageTitle.setText(data.getmStrMessageTitle());
             holder.mTvMessageTime.setText(data.getmStrMessageTime());

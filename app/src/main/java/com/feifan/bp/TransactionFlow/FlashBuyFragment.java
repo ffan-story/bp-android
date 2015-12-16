@@ -1,4 +1,4 @@
-package com.feifan.bp.TransactionFlow;
+package com.feifan.bp.transactionflow;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -26,28 +24,27 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
+import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
+import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
 import com.feifan.bp.UserProfile;
-import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.TransactionFlow.FlashSummaryModel.FlashSummaryDetailModel;
-import com.feifan.bp.TransactionFlow.FlashListModel.FlashDetailModel;
 import com.feifan.bp.home.check.IndicatorFragment;
-
 import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.util.TimeUtils;
+import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
+import com.feifan.bp.widget.OnLoadingMoreListener;
 import com.feifan.bp.widget.SegmentedGroup;
+import com.feifan.material.datetimepicker.date.DatePickerDialog;
+import com.feifan.statlib.FmsAgent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import me.relex.circleindicator.CircleIndicator;
 
-import com.feifan.bp.widget.OnLoadingMoreListener;
-import com.feifan.material.MaterialDialog;
-import com.feifan.material.datetimepicker.date.DatePickerDialog;
-
 /**
+ * 闪购
  * Created by Frank on 15/11/6.
  */
 public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,
@@ -85,7 +82,15 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         setHasOptionsMenu(true);
         mStoreId = UserProfile.getInstance().getAuthRangeId();
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //统计埋点 对账管理  闪购
+            FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_FINA_FLASHBUY);
+        }
     }
 
     @Override
@@ -284,11 +289,9 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
             @Override
             public void onClick(View v) {
                 mFlowList.setSelection(0);
-
                 mPageNum = 1;
                 getFlashFlowData(false);
                 getFlashFlowList(true, false);
-
             }
         });
     }
@@ -297,7 +300,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.today:
-                startDate = endDate = TimeUtils.getToday();
+                startDate = endDate = TimeUtil.getToday();
                 mPageNum = 1;
                 getFlashFlowData(true);
                 getFlashFlowList(true, false);
@@ -305,7 +308,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 tabIndex = R.id.today;
                 break;
             case R.id.yesterday:
-                startDate = endDate = TimeUtils.getYesterday();
+                startDate = endDate = TimeUtil.getYesterday();
                 mPageNum = 1;
                 getFlashFlowData(true);
                 getFlashFlowList(true, false);
@@ -367,11 +370,11 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
         String ToDate = yearEnd + "-" + DataFormat(monthOfYearEnd + 1) + "-" + DataFormat(dayOfMonthEnd);
         LogUtil.i("fangke", "ToDate============" + ToDate);
 
-        if (TimeUtils.compare_date(FromDate, TimeUtils.getToday())) {
+        if (TimeUtil.compare_date(FromDate, TimeUtil.getToday())) {
             Toast.makeText(getActivity(), getString(R.string.date_error_1), Toast.LENGTH_LONG).show();
-        } else if (TimeUtils.compare_date(ToDate, TimeUtils.getToday())) {
+        } else if (TimeUtil.compare_date(ToDate, TimeUtil.getToday())) {
             Toast.makeText(getActivity(), getString(R.string.date_error_2), Toast.LENGTH_LONG).show();
-        } else if (TimeUtils.compare_date(FromDate, ToDate)) {
+        } else if (TimeUtil.compare_date(FromDate, ToDate)) {
             Toast.makeText(getActivity(), getString(R.string.date_error_3), Toast.LENGTH_LONG).show();
         } else {
             startDate = FromDate;

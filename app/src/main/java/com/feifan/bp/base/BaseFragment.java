@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
-
-import com.feifan.bp.browser.BrowserActivity;
-import com.feifan.bp.util.LogUtil;
 
 /**
  * Created by maning on 15/7/9.
@@ -60,6 +58,8 @@ public class BaseFragment extends Fragment implements OnDispatchTouchEventListen
         Activity a = getActivity();
         if (a instanceof BaseActivity) {
             ((BaseActivity) a).showProgressBar(cancelable);
+        }else if(a instanceof PlatformBaseActivity){
+            ((PlatformBaseActivity) a).showProgressBar(cancelable);
         }
     }
 
@@ -67,6 +67,28 @@ public class BaseFragment extends Fragment implements OnDispatchTouchEventListen
         Activity a = getActivity();
         if (a instanceof BaseActivity) {
             ((BaseActivity) a).hideProgressBar();
+        }else if(a instanceof PlatformBaseActivity){
+            ((PlatformBaseActivity) a).hideProgressBar();
+        }
+    }
+
+    //add by tianjun 2015.11.26
+    public void showEmptyView() {
+
+        Activity a = getActivity();
+        if (a instanceof BaseActivity) {
+            ((BaseActivity) a).showEmptyView();
+        } else if (a instanceof PlatformBaseActivity) {
+            ((PlatformBaseActivity) a).showEmptyView();
+        }
+    }
+
+    public void hideEmptyView() {
+        Activity a = getActivity();
+        if (a instanceof BaseActivity) {
+            ((BaseActivity) a).hideEmptyView();
+        } else if (a instanceof PlatformBaseActivity) {
+            ((PlatformBaseActivity) a).hideEmptyView();
         }
     }
 }

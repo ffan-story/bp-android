@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -34,21 +33,27 @@ import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.network.UploadHttpClient;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.refund.RefundFragment;
 import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.DialogPhoneLayout;
 import com.feifan.croplib.Crop;
+import com.feifan.material.MaterialDialog;
+import com.feifan.statlib.FmsAgent;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -65,30 +70,15 @@ import java.util.Map;
 /**
  * congjing
  */
-public class BrowserFragment extends BaseFragment implements View.OnClickListener, MenuItem.OnMenuItemClickListener {
+public class BrowserFragment extends BaseFragment implements View.OnClickListener,
+        Toolbar.OnMenuItemClickListener, OnActionListener {
+
     private static final String TAG = "BrowserFragment";
+
     /**
      * 参数键名称－URL
      */
     public static final String EXTRA_KEY_URL = "url";
-
-    private static final int TOOLBAR_STATUS_IDLE = 0;
-    /**
-     * 员工管理
-     */
-    private static final int TOOLBAR_STATUS_STAFF = 1;
-
-    /**
-     * 优惠券列表
-     */
-    private static final int TOOLBAR_STATUS_COUPON = 2;
-
-    /**
-     * 商品管理
-     */
-    private static final int TOOLBAR_STATUS_COMMODITY = 3;
-    private static final int TOOLBAR_STATUS_COMMODITY_DESC = 4;
-    private int mToolbarStatus = TOOLBAR_STATUS_IDLE;
 
     //type=0不限制大小
     private static final int IMG_PICK_TYPE_0 = 0;
@@ -96,16 +86,16 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private static final int IMG_PICK_TYPE_1 = 1;
     //type=2是亲子类目规格为16:9，尺寸：最小640px*360px，最大1280px*720px
     private static final int IMG_PICK_TYPE_2 = 2;
-    //type=3是优惠券类目规格为16:9，尺寸固定为1280 x 720
+    //type=3是优惠券类目规格为16:9，图片不限制大小
     private static final int IMG_PICK_TYPE_3 = 3;
 
     private int mImgPickType = IMG_PICK_TYPE_0;
 
-    private WebView mWebView;
+    public WebView mWebView;
 
     private int mWebViewProgress = 0;
 
-    private String mUrl;
+    public String mUrl;
     private String mTitleName = "";
 
     public OnBrowserListener mListener;
@@ -119,6 +109,18 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
      * 防止webview action 连续点击，页面重复
      */
     private boolean isOnclicked =false;
+
+    private BrowserMatcher mMatcher = new BrowserMatcher();
+    // dialog
+    private MaterialDialog mDialog;
+    @Override
+    public void onReload() {
+        if(mWebView != null) {
+            mWebView.clearView();
+            mWebView.loadUrl(mUrl);
+            LogUtil.i(TAG, "Reload web page " + mUrl);
+        }
+    }
 
 
     /**
@@ -157,8 +159,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     }
 
-
-
     public void setmUrl(String mUrl) {
         this.mUrl = mUrl;
     }
@@ -184,7 +184,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             PlatformState.getInstance().setLastUrl(mUrl);
             LogUtil.i(TAG, "mUrl==" + mUrl);
         }
-
         return v;
     }
 
@@ -194,28 +193,22 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         try {
             mListener = (OnBrowserListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement OnTitleReceiveListener");
+            throw new ClassCastException(context.toString() + "must implement OnBrowserListener");
         }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (mToolbarStatus == TOOLBAR_STATUS_STAFF) {
-            inflater.inflate(R.menu.menu_staff_manage, menu);
-            (menu.findItem(R.id.action_staff)).setOnMenuItemClickListener(this);
-        } else if (mToolbarStatus == TOOLBAR_STATUS_COUPON) {
-            inflater.inflate(R.menu.menu_coupon_add, menu);
-            (menu.findItem(R.id.action_coupon)).setOnMenuItemClickListener(this);
-        } else if (mToolbarStatus == TOOLBAR_STATUS_COMMODITY) {
-            inflater.inflate(R.menu.menu_commodity_manage, menu);
-            (menu.findItem(R.id.action_commodity)).setOnMenuItemClickListener(this);
-        } else if (mToolbarStatus == TOOLBAR_STATUS_COMMODITY_DESC) {
-            inflater.inflate(R.menu.menu_commodity_manage_desc, menu);
-            (menu.findItem(R.id.action_commodity_desc)).setOnMenuItemClickListener(this);
-        } else {
-            menu.clear();
-        }
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.topbar_menu, menu);
+        BrowserMatcher.MenuInfo info = mMatcher.matchForMenu(mTitleName);
+        if(info != null) {
+            MenuItem item = menu.add(Menu.NONE, info.id, 1, info.titleRes);
+            if(info.iconRes != Constants.NO_INTEGER) {
+                item.setIcon(info.iconRes);
+            }
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
     }
 
     @Override
@@ -223,22 +216,19 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         super.setupToolbar(toolbar);
         toolbar.setTitle(mTitleName);
         toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_staff:
-                        break;
-                }
-                return false;
-            }
-        });
+        toolbar.setOnMenuItemClickListener(this);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goBack();
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideEmptyView();
     }
 
     private void initWeb(WebView webView) {
@@ -282,7 +272,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         if(canGoBack()){
             mWebView.goBack();
         }else{
-            getActivity().setResult(Activity.RESULT_OK);
+            getActivity().setResult(Activity.RESULT_CANCELED);
             getActivity().finish();
         }
     }
@@ -293,33 +283,63 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         }
         String url = "";
         switch (item.getItemId()) {
-            case R.id.action_staff:
+            case R.id.menu_staff_add://添加员工
+                //统计埋点
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_STAFFMANA_ADD);
                 url = UrlFactory.staffAddForHtml();
                 Intent i = new Intent(getActivity(), BrowserActivity.class);
                 i.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
-                getActivity().startActivityForResult(i,Constants.REQUEST_CODE_STAFF_EDIT);
+                getActivity().startActivityForResult(i,Constants.REQUEST_CODE);
                 LogUtil.i(TAG, "menu onClick() staff url=" + url);
                 return true;
 
-            case R.id.action_coupon:
+            case R.id.menu_coupon_add:
                 url = UrlFactory.couponAddForHtml();
-                mWebView.loadUrl(url);
-                LogUtil.i(TAG, "menu onClick() coupon url=" + url);
+                fetchMarketingData(UserProfile.getInstance().getAuthRangeId(),url);
                 return true;
 
-            case R.id.action_commodity:
+            case R.id.menu_commodity_add://发布商品
+                //统计埋点
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_GOODSMANA_PUB);
+
                 url = UrlFactory.commodityManageForHtml();
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() commodity url=" + url);
                 return true;
 
-            case R.id.action_commodity_desc:
+            case R.id.menu_picture_add:
                 initLeaveWordsDialog();
+                return true;
+            case R.id.menu_refund_start:
+                PlatformTopbarActivity.startActivityForResult(getActivity(), RefundFragment.class.getName(), getActivity().getResources().getString(R.string.start_refund));
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * 获取合同状态
+     * @param storeId  商户id
+     */
+    private void fetchMarketingData(String storeId,final String url){
+        MarketingCtrl.marketingStatus(storeId, new Response.Listener<MarketingModel>() {
+            @Override
+            public void onResponse(MarketingModel baseModel) {
+                if (baseModel.hasContract == 1) {
+                    mWebView.loadUrl(url);
+                } else {
+                    Utils.showShortToast(getActivity(),getResources().getString(R.string.coupone_marketing_contract_not_hint));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+
     }
 
     private class PlatformWebChromeClient extends WebChromeClient {
@@ -332,24 +352,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            mListener.OnTitleReceived(title);
+
             if (!isAdded()) {
                 return;
             }
-            if (getToolbar() != null) {
-                getToolbar().setTitle(title);
-            }
-            if (getString(R.string.browser_staff_list).equals(title)) {
-                mToolbarStatus = TOOLBAR_STATUS_STAFF;
-            } else if (getString(R.string.browser_coupon_list).equals(title)) {
-                mToolbarStatus = TOOLBAR_STATUS_COUPON;
-            } else if (getString(R.string.index_commodity_text).equals(title)) {
-                mToolbarStatus = TOOLBAR_STATUS_COMMODITY;
-            } else if (getString(R.string.browser_commodity_desc).equals(title)) {
-                mToolbarStatus = TOOLBAR_STATUS_COMMODITY_DESC;
-            } else {
-                mToolbarStatus = TOOLBAR_STATUS_IDLE;
-            }
+
+            mListener.OnTitleReceived(title);
+            mTitleName = title;
+            getToolbar().setTitle(title);
             getActivity().supportInvalidateOptionsMenu();
         }
     }
@@ -357,27 +367,33 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     private class PlatformWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.d(TAG, "shouldOverrideUrlLoading url======" + url);
+            Log.d(TAG, "We got " + url + " in shouldOverrideUrlLoading via PlatformWebViewClient");
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
-            Log.d(TAG, "schema ======" + schema);
+            LogUtil.i(TAG, "schema======" + schema);
             if(TextUtils.isEmpty(schema)){
                return true;
             }
+
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
-                if (url.contains(Constants.URL_PATH_LOGIN)) {      // 重新登录
+                if (url.contains(Constants.URL_SCHEME_PLATFORM_LOGIN)) {      // 重新登录
                     UserProfile.getInstance().clear();
                     startActivity(LaunchActivity.buildIntent(getActivity()));
-                } else if (url.contains(Constants.URL_PATH_EXIT)) {
+                } else if (url.contains(Constants.URL_SCHEME_PLATFORM_EXIT)) {
                     if (getActivity() != null ) {
                         getActivity().finish();
                     }
-                } else if (url.contains(Constants.URL_PATH_HOME)) {
+                } else if (url.contains(Constants.URL_SCHEME_PLATFORM_HOME)) {
                     // 目前关闭当前界面即显示主界面
                     if (getActivity() != null) {
                         getActivity().finish();
                     }
-                } else if (url.contains(Constants.URL_LOCAL_IMAGE)) {
+                } else if (url.contains(Constants.URL_SCHEME_PLATFORM_CLOSE)) {//返回退款售后
+                    if (getActivity() != null) {
+                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().finish();
+                    }
+                } else if (url.contains(Constants.URL_SCHEME_PLATFORM_IMAGE)) {
                     addImage(url);
                 }
             } else if (schema.equals(Constants.URL_SCHEME_ACTION)) {
@@ -404,19 +420,17 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }else if(actionStrUri.contains("/staff/edit/")){//员工管理 编辑
                     Intent i = new Intent(mActivity, BrowserActivity.class);
                     i.putExtra(BrowserActivity.EXTRA_KEY_URL, actionStrUri);
-                    getActivity().startActivityForResult(i,Constants.REQUEST_CODE_STAFF_EDIT);
+                    getActivity().startActivityForResult(i,Constants.REQUEST_CODE);
                 }else if(actionStrUri.contains("/staff") && (mActivity instanceof BrowserActivity)){//添加员工成功  以及编辑成功
                     mActivity.setResult(Activity.RESULT_OK);
                     mActivity.finish();
-                }else if (actionStrUri.contains("/order/detail/")){//查看详情：验证历史  订单管理
+                }else if (actionStrUri.contains("/order/detail")){//查看详情：验证历史  订单管理
                     BrowserActivity.startActivity(mActivity, actionStrUri);
                 }else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserTabActivity)){//员工管理冻结、解冻刷新ViewPage
                     ((BrowserTabActivity) mActivity).refreshViewPage();
                 }else if(actionStrUri.contains("/staff")){//添加员工
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
-                }else if(actionStrUri.contains("/order/detail/")){//验证历史  订单管理</order/detail/>
-                    BrowserActivity.startActivity(getActivity(), actionStrUri);
                 }else{
                     Activity a = getActivity();
                     if (a instanceof BrowserTabActivity) {
@@ -494,26 +508,21 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     public void beginCrop(Uri source) {
         Uri outputUri = Uri.fromFile(new File(getActivity().getCacheDir(), "cropped"));
-        if (IMG_PICK_TYPE_1 == mImgPickType) {
-            new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
-        } else if (IMG_PICK_TYPE_2 == mImgPickType) {
-            new Crop(getActivity(), source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(getActivity());
-        } else if (IMG_PICK_TYPE_0 == mImgPickType) {
-            new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
-        } else if (IMG_PICK_TYPE_3 == mImgPickType) {
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), source);
-                if (bitmap.getHeight() == 720 && bitmap.getWidth() == 1280) {
-                    uploadPicture(source);
-                    // new Crop(this, source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(this);
-                } else {
-                    Utils.showShortToast(getActivity(), R.string.error_message_picture_size, Gravity.CENTER);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
+
+        switch (mImgPickType) {
+            case IMG_PICK_TYPE_0:
+                new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
+                break;
+            case IMG_PICK_TYPE_1:
+                new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
+                break;
+            case IMG_PICK_TYPE_2:
+            case IMG_PICK_TYPE_3:
+                new Crop(getActivity(), source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(getActivity());
+                break;
+            default:
+                new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
+                break;
         }
     }
 
@@ -651,5 +660,11 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isOnclicked = false;
     }
 }

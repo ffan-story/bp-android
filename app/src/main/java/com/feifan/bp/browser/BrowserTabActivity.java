@@ -5,41 +5,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.PopupWindow;
+
 import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.material.MaterialDialog;
 
 public class BrowserTabActivity extends BaseActivity implements BrowserFragment.OnBrowserListener{
-    private BrowserTabPagerAdapter pagerAdapter;
-    private ViewPager viewPager;
 
-    private String mContextTitle ="";
-
-    private TabLayout tabLayout;
-    private String tabTitles[];
-    private String arryStatus[];
-    //private BrowserTabItem[] arryTabItem;
-
-    private FloatingActionButton fab;
-    private SelectPopWindow mPopWindow;
-    private View mShadowView;
-    private int lastSelectPos = 0;
-
-    private boolean mShowFab = false;
-    private String sUrl;
-    private String mUrl;
-    private String mStoreId;
-    private boolean mForce;
+    private static final String TAG = BrowserTabActivity.class.getSimpleName();
 
     /**
      * 参数键名称－URL
@@ -49,11 +34,34 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     public static final String EXTRA_KEY_STATUS = "status";
     public static final String EXTRA_KEY_CONTEXT_TITLE = "contextTitle";
     public static final String EXTRA_KEY_FORCE = "force";
-//    public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
+
+    private BrowserTabPagerAdapter pagerAdapter;
+    private ViewPager viewPager;
+
+    private String mContextTitle ="";
+
+    // tabs
+    private TabLayout tabLayout;
+    private String tabTitles[];
+    private String arryStatus[];
+    //private BrowserTabItem[] arryTabItem;
+
+    // floating
+    private FloatingActionButton fab;
+    private SelectPopWindow mPopWindow;
+    private View mShadowView;
+    private int lastSelectPos = 0;
+    private boolean mShowFab = false;
+
+    private String sUrl;
+    private String mUrl;
+    private String mStoreId;
+    private boolean mForce;
 
     // dialog
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
+    private final int DEFAULT_PAGE_INDEX = 0;
 
     /**
      * @param context
@@ -109,7 +117,11 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
             tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
-                    pagerAdapter.refreshViewPage();
+                    super.onTabSelected(tab);
+                    Fragment current = pagerAdapter.getItem(tab.getPosition());
+                    if(current instanceof OnActionListener) {
+                        ((OnActionListener)current).onReload();
+                    }
                 }
             });
         }
@@ -145,7 +157,6 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         }else{
             sUrl = mUrl;
         }
-
         loadWeb(sUrl);
     }
 
@@ -221,6 +232,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
 
     @Override
     public void OnTitleReceived(String title) {
+        LogUtil.i(TAG, "Change title to " + title);
         if((title.equals(getString(R.string.index_history_text))||
                 title.equals(getString(R.string.index_order_text))||
                 title.equals(getString(R.string.browser_staff_list)))&&mShowFab){
@@ -232,7 +244,6 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
 
     @Override
     public void OnErrorReceived(String msg, final WebView web, final String url) {
-
         if(isShowDlg && !isFinishing() ) {
             mDialog.setMessage(msg)
                     .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
@@ -252,8 +263,14 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE_STAFF_EDIT){
-           initData();
-       }
+        if(requestCode == Constants.REQUEST_CODE) {
+            switch (resultCode) {
+                case RESULT_OK:
+                    tabLayout.getTabAt(DEFAULT_PAGE_INDEX).select();
+                    break;
+                case RESULT_CANCELED:
+                    break;
+            }
+        }
     }
 }

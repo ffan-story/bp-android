@@ -37,16 +37,6 @@ public class Utils {
 
     }
 
-    public static int getVersionCode(Context context) {
-        try {
-            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            return pi.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
     /**
      * 显示不重复的toast提示
      *
@@ -182,42 +172,6 @@ public class Utils {
         }
     }
 
-    /**
-     * 删除文件
-     *
-     * @param file   删除的文件或目录
-     * @param filter 过滤字符串，文件名中包含该字符串的文件都将被删除
-     */
-    public static void deleteFile(File file, String filter) {
-        if (file.exists()) {
-            if (file.isFile() && file.getName().contains(filter)) {
-                file.delete();
-                LogUtil.i(Constants.TAG, "deleted" + file.getAbsolutePath());
-            } else if (file.isDirectory()) {
-                File files[] = file.listFiles();
-                for (int i = 0; i < files.length; i++) {
-                    deleteFile(files[i], filter);
-                }
-            }
-//            if (file.getName().contains(filter)) {
-//                file.delete();
-//                LogUtil.i(Constants.TAG, "deleted" + file.getAbsolutePath());
-//            }
-
-        }
-    }
-
-    /**
-     * 创建目录
-     *
-     * @param dir
-     */
-    public static void createDir(String dir) {
-        File file = new File(dir);
-        if (!file.exists()) {
-            file.mkdir();
-        }
-    }
 
     /**
      * 打开浏览器
@@ -288,5 +242,59 @@ public class Utils {
         }else{
         }
         return result;
+    }
+
+    /**
+     * 获取字符串内容
+     * <pre>
+     *     使用ApplicationContext，适用于没有Context的场景
+     * </pre>
+     * @param resource
+     * @return
+     */
+    public static String getString(int resource) {
+        if(resource > 0) {
+            return PlatformState.getApplicationContext().getString(resource);
+        }
+        return null;
+    }
+
+
+
+    /**
+     * 删除文件
+     *
+     * @param file   删除的文件或目录
+     * @param filter 过滤字符串，文件名中包含该字符串的文件都将被删除
+     */
+    public static void deleteFile(File file, String filter) {
+        if (file.exists()) {
+            if (file.isFile() && file.getName().contains(filter)) {
+                file.delete();
+                LogUtil.i(Constants.TAG, "deleted" + file.getAbsolutePath());
+            } else if (file.isDirectory()) {
+                File files[] = file.listFiles();
+                for (int i = 0; i < files.length; i++) {
+                    deleteFile(files[i], filter);
+                }
+            }
+//            if (file.getName().contains(filter)) {
+//                file.delete();
+//                LogUtil.i(Constants.TAG, "deleted" + file.getAbsolutePath());
+//            }
+
+        }
+    }
+
+    /**
+     * 创建目录
+     *
+     * @param dir
+     */
+    public static void createDir(String dir) {
+        File file = new File(dir);
+        if (!file.exists()) {
+            file.mkdir();
+        }
     }
 }

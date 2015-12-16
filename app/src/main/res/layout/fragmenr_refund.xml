@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color_grey"
+    tools:context="com.feifan.bp.home.IndexFragment">
+
+
+    <RelativeLayout
+        android:id="@+id/index_search_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/view_spacing_30"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_round_stroke_white"
+        android:gravity="center"
+        android:inputType="none"
+        android:paddingLeft="@dimen/view_spacing_15">
+
+        <ImageView
+            android:id="@+id/img_refund_scancode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:inputType="none"
+            android:padding="13dp"
+            android:src="@mipmap/icon_scanning" />
+
+        <EditText
+            android:id="@+id/et_refund_code_edit"
+            style="@style/txt_color33_size18"
+            android:layout_width="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/img_refund_scancode"
+            android:background="@null"
+            android:hint="@string/input_order_id"
+            android:inputType="none"
+            android:maxLength="17"
+            android:textColorHint="@color/font_color_99">
+
+            <requestFocus />
+        </EditText>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_refund_next"
+        style="@style/btn_margin15_round_blue_click"
+        android:layout_below="@id/index_search_input"
+        android:text="@string/next" />
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboard_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/view_spacing_5"
+        android:background="@color/white"
+        android:keyBackground="@drawable/bg_btn_custom_keyboard"
+        android:keyTextColor="@color/font_color_66"
+        android:keyTextSize="@dimen/font_size_26"
+        android:shadowColor="@color/white"
+        android:shadowRadius="0.0"
+        android:visibility="gone" />
+
+</RelativeLayout>

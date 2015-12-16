@@ -58,6 +58,23 @@ public class AuthSupplier {
          */
         int getAuthTabStatusRes(int authId);
 
+        /**
+         * 获取退款售后项ID
+         * @return
+         */
+        String getRefundId();
+
+        /**
+         * 获取发起退款权限ID
+         * @return
+         */
+        String getRefundRightId();
+
+        /**
+         * 获取店铺分析ID
+         * @return
+         */
+        String getStoreAnalysisId();
     }
 
     /**
@@ -75,6 +92,7 @@ public class AuthSupplier {
             mFilter.put(1226, R.mipmap.index_ic_commodity);// 商品管理
             mFilter.put(1227, R.mipmap.index_ic_marketing);// 营销管理
             mFilter.put(1333, R.mipmap.index_ic_report);   // 对账管理
+            mFilter.put(1445, R.mipmap.index_ic_analysis); // 店铺分析
         }
 
         @Override
@@ -121,6 +139,21 @@ public class AuthSupplier {
 
         }
 
+        @Override
+        public String getRefundId() {
+            return "1162";
+        }
+
+        @Override
+        public String getRefundRightId() {
+            return "1419";
+        }
+
+        @Override
+        public String getStoreAnalysisId() {
+            return "1445";
+        }
+
     }
 
     static class ProductAuthFactory implements IAuthFactory {
@@ -135,6 +168,7 @@ public class AuthSupplier {
             mFilter.put(1081, R.mipmap.index_ic_commodity);// 商品管理
             mFilter.put(1082, R.mipmap.index_ic_marketing);// 营销管理
             mFilter.put(1145, R.mipmap.index_ic_report);   // 对账管理
+            mFilter.put(1293, R.mipmap.index_ic_analysis); // 店铺分析
         }
 
         @Override
@@ -180,6 +214,20 @@ public class AuthSupplier {
             }
         }
 
+        @Override
+        public String getRefundId() {
+            return "1004";
+        }
+
+        @Override
+        public String getRefundRightId() {
+            return "1292";
+        }
+
+        @Override
+        public String getStoreAnalysisId() {
+            return "1293";
+        }
     }
 
 }

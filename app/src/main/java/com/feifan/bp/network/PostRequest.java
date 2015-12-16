@@ -19,13 +19,7 @@ public class PostRequest<T extends BaseModel> extends JsonRequest<T> {
 
     public PostRequest(String url, ErrorListener errorListener) {
         super(Method.POST, url, errorListener);
-        mParams.put("appType", "bpMobile");
-        mParams.put("clientType", "Android");
-        mParams.put("version", String.valueOf(BuildConfig.VERSION_CODE));
-//            mParams.put("clientAgent", )
-        mParams.put("uid", String.valueOf(UserProfile.getInstance().getUid()));
-        mParams.put("agid", UserProfile.getInstance().getAuthRangeId());
-        mParams.put("loginToken", UserProfile.getInstance().getLoginToken());
+        mParams.putAll(JsonRequest.REDUNDANT_PARAMS);
     }
 
     public PostRequest<T> param(String key, String value) {

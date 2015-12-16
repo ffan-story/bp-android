@@ -12,6 +12,8 @@ import java.util.Map;
 
 import com.feifan.bp.network.VolleyPatches.ProgressListener;
 
+import org.apache.http.HttpEntity;
+
 /**
  * Multi-Part请求
  * <pre>
@@ -59,7 +61,7 @@ public abstract class MultiPartRequest<T> extends Request<T> implements Progress
      * @param value the value of the paramter
      * @return The Multipart request for chaining calls
      */
-    public MultiPartRequest<T> addMultipartParam(String name, String contentType, String value) {
+    public MultiPartRequest<T> param(String name, String contentType, String value) {
         mMultipartParams.put(name, new MultiPartParam(contentType, value));
         return this;
     }
@@ -71,7 +73,7 @@ public abstract class MultiPartRequest<T> extends Request<T> implements Progress
      * @param filePath The path to the file. This file MUST exist.
      * @return The Multipart request for chaining method calls
      */
-    public MultiPartRequest<T> addFile(String name, String filePath) {
+    public MultiPartRequest<T> file(String name, String filePath) {
 
         mFileUploads.put(name, filePath);
         return this;

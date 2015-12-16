@@ -24,12 +24,16 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.util.LogUtil;
 
 import org.json.JSONObject;
 
 import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Json请求
@@ -43,6 +47,24 @@ import java.lang.reflect.Constructor;
 public class JsonRequest<T extends BaseModel> extends Request<T> {
 
     protected static final String TAG = "Request";
+
+    protected static Map<String, String> REDUNDANT_PARAMS;
+
+
+    /**
+     * 更新冗余参数内容
+     * @param profile
+     */
+    public static void updateRedundantParams(UserProfile profile) {
+        REDUNDANT_PARAMS = new HashMap<String, String>();
+        REDUNDANT_PARAMS.put("appType", "bpMobile");
+        REDUNDANT_PARAMS.put("clientType", "Android");
+        REDUNDANT_PARAMS.put("version", String.valueOf(BuildConfig.VERSION_CODE));
+//            mParams.put("clientAgent", )
+        REDUNDANT_PARAMS.put("uid", String.valueOf(UserProfile.getInstance().getUid()));
+        REDUNDANT_PARAMS.put("agid", UserProfile.getInstance().getAuthRangeId());
+        REDUNDANT_PARAMS.put("loginToken", UserProfile.getInstance().getLoginToken());
+    }
 
     /**
      * 编码

@@ -15,9 +15,11 @@ import android.widget.EditText;
 import com.android.volley.Response.Listener;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.password.ForgetPasswordFragment;
 
 /**
@@ -95,12 +97,15 @@ public class LoginFragment extends BaseFragment {
                             profile.setAuthRangeType(userModel.authRangeType);
                             profile.setAgId(userModel.agId);
                             profile.setLoginToken(userModel.loginToken);
+                            JsonRequest.updateRedundantParams(profile);
+                            Statistics.updateClientData(profile);
 
                             UserCtrl.checkPermissions(userModel.uid, new Listener<AuthListModel>() {
                                 @Override
                                 public void onResponse(AuthListModel authListModel) {
                                     profile.setAuthList(authListModel.toJsonString());
                                     profile.setHistoryUrl(authListModel.historyUrl);
+                                    profile.setRightString(authListModel.rightString);
                                     // 通知界面跳转
                                     Bundle args = new Bundle();
                                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());

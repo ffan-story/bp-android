@@ -22,6 +22,8 @@ public interface OnFragmentInteractionListener {
     String INTERATION_KEY_FROM = "from";
     /** 交互参数键名称－目标类 */
     String INTERATION_KEY_TO = "to";
+    /** 交互参数键名称－toolbar标题 */
+    String INTERATION_KEY_TITLE="title";
 
     /**
      * The key of event type.
@@ -34,8 +36,14 @@ public interface OnFragmentInteractionListener {
     void onFragmentInteraction(Bundle args);
 
     /**
-     * 重载该方法，可以响应标题变更时间
+     * 重载该方法，可以响应标题变更事件
      * @param title
      */
     void onTitleChanged(String title);
+
+    /**
+     * 重载该方法，可以相应状态变更事件
+     * @param flag
+     */
+    void onStatusChanged(boolean flag);
 }

@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
-import com.feifan.bp.TransactionFlow.TransFlowTabActivity;
+import com.feifan.bp.transactionflow.TransFlowTabActivity;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.util.LogUtil;
@@ -45,12 +45,6 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
         ((RelativeLayout) v.findViewById(R.id.check_manager_inventory_query_rl)).setOnClickListener(this);
         return v;
     }
-
-
-
-
-
-
 
     @Override
     public void onClick(View v) {

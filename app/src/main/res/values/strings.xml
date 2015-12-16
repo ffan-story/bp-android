@@ -11,6 +11,7 @@
     <string name="btn_version_update_later">稍候</string>
     <string name="btn_version_update_new">更新</string>
     <string name="version_update_title">版本更新</string>
+    <string name="no_title_text">无标题</string>
 
     <!-- LoginFragment(登录界面) - begin -->
     <string name="login_login_text">登录</string>
@@ -42,6 +43,12 @@
 
     <string name="browser_commodity_desc">宝贝描述</string>
     <string name="browser_coupon_list">优惠券列表</string>
+    <!--退款-->
+    <string name="start_refund">发起退款</string>
+    <string name="next">下一步</string>
+    <string name="input_order_id">请输入订单号</string>
+    <string name="refund_menu_start_text">我要退款</string>
+    <string name="order_number_can_not_be_empty">订单号不能为空</string>
 
     <!-- Settings（设置） - begin -->
     <string name="settings_check_upgrade_format">检查更新&#040;当前版本&#058;<xliff:g>%1s</xliff:g>&#041;</string>
@@ -51,6 +58,7 @@
     <string name="settings_logout_text">退出登录</string>
     <string name="settings_check_update_none">无最新版本</string>
     <string name="settings_clear_cache_finished_text">清除完毕</string>
+    <string name="settings_help_center">帮助中心</string>
     <!-- Settings（设置） - end -->
 
     <!-- Message(消息)－begin -->
@@ -136,6 +144,9 @@
     <string name="login_info_merchant">商户账号</string>
     <string name="login_info_empty">无</string>
 
+    <!-- help center -->
+    <string name="help_center_title">帮助中心</string>
+
     <!-- feed back -->
     <string name="feed_back">意见反馈</string>
     <string name="feed_back_info">您对飞凡的意见和建议，我们会尽快处理(300字以内)</string>
@@ -198,7 +209,18 @@
     <string name="date_error_1">起始时间不能超过今天</string>
     <string name="date_error_2">结束时间不能超过今天</string>
     <string name="date_error_3">开始时间不能大于结束时间</string>
+    <string name="date_error_4">起始时间请选择今天以前的时间</string>
+    <string name="date_error_5">结束时间请选择今天以前的时间</string>
+    <string name="date_error_6">选择的时间段最小为3天</string>
+    <string name="date_error_7">选择的时间段最长为30天</string>
     <string name="date_start_text">开始日期</string>
     <string name="date_end_text">结束日期</string>
+    <string name="empty_view_retry">重试</string>
+    <string name="empty_view_text">你的网络好像有问题  点击刷新</string>
+    <!--店铺分析-->
+    <string name="store_analysis">店铺分析</string>
+
+    <!--优惠券-->
+    <string name="coupone_marketing_contract_not_hint">您尚未和飞凡平台签订营销合同，请先联系飞凡平台签署合同后再来添加优惠券。</string>
 
 </resources>

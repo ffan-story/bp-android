@@ -1,5 +1,6 @@
 package com.feifan.bp.browser;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,7 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.PopupWindow;
 
-import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
@@ -53,6 +54,13 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
         context.startActivity(i);
     }
 
+    public static void startForResultActivity(Activity activity, String url) {
+        Intent i = new Intent(activity, BrowserActivity.class);
+        i.putExtra(EXTRA_KEY_URL, url);
+        activity.startActivityForResult(i, Constants.REQUEST_CODE);
+
+    }
+
     public static Intent buildIntent(Context context) {
         Intent intent = new Intent(context, BrowserActivity.class);
         return intent;
@@ -85,6 +93,17 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public int getContentContainerId() {
+        return R.id.browser_fragment;
+    }
+
+    @Override
+    public void retryRequestNetwork() {
+        mBrowserFragment.mWebView.loadUrl(mBrowserFragment.mUrl);
+        //webView.loadUrl(webUrl);
     }
 
     private void initViews() {

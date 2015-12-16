@@ -1,8 +1,7 @@
 package com.feifan.bp.network;
 
+import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
-import com.feifan.bp.BuildConfig;
-import com.feifan.bp.UserProfile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,19 +21,12 @@ public class GetRequest<T extends BaseModel> extends JsonRequest<T> {
 
         private String mUrl;
         private Map<String, String> mParams;
-        private ErrorListener mErrorListener;
+        private Response.ErrorListener mErrorListener;
 
         public Builder(String url){
             this.mUrl = url;
             mParams = new HashMap<String, String>();
-            // FIXME add some redundant here temporally
-            mParams.put("appType", "bpMobile");
-            mParams.put("clientType", "Android");
-            mParams.put("version", String.valueOf(BuildConfig.VERSION_CODE));
-//            mParams.put("clientAgent", )
-            mParams.put("uid", String.valueOf(UserProfile.getInstance().getUid()));
-            mParams.put("agid", UserProfile.getInstance().getAuthRangeId());
-            mParams.put("loginToken", UserProfile.getInstance().getLoginToken());
+            mParams.putAll(JsonRequest.REDUNDANT_PARAMS);
 
             mErrorListener = new DefaultErrorListener();
         }
@@ -53,11 +45,15 @@ public class GetRequest<T extends BaseModel> extends JsonRequest<T> {
             if(!mParams.isEmpty()) {
                 mUrl = mUrl.concat("?");
                 for(Map.Entry<String, String> entry : mParams.entrySet()){
-                    mUrl = mUrl.concat(entry.getKey()).concat("=").concat(entry.getValue()).concat("&");
+                    if(entry.getValue() != null) {
+                        mUrl = mUrl.concat(entry.getKey()).concat("=").concat(entry.getValue()).concat("&");
+                    }
                 }
                 mUrl = mUrl.substring(0, mUrl.length() - 1);
             }
             return new GetRequest<T>(mUrl, mErrorListener);
         }
+
+
     }
 }

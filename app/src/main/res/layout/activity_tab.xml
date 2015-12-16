@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <include layout="@layout/platform_header"
+        android:id="@+id/tab_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tab_header"
+        app:tabMode="scrollable"
+        app:tabIndicatorColor="@color/accent_pressed"
+        app:tabSelectedTextColor="@color/accent_pressed"
+        app:tabTextColor="@color/text_normal" />
+    <com.feifan.bp.widget.WebViewPager
+        android:id="@+id/tab_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tab_bar"
+        android:background="@android:color/white"/>
+</RelativeLayout>

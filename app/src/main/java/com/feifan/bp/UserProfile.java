@@ -40,8 +40,10 @@ public class UserProfile {
     private static final String PREFERENCE_KEY_AGID = "agId";
     // 偏好项键值－访问token
     private static final String PREFERENCE_KEY_LOGIN_TOKEN = "loginToken";
-
+    // 偏好项键值－权限菜单
     private static final String PREFERENCE_KEY_USER_AUTH = "permission";
+    // 偏好项键值－城市ID
+    private static final String PREFERENCE_KEY_CITY_ID = "cityId";
 
     //偏好项键值－商户门店列表
     private static final String PREFERENCE_KEY_STORE_ID = "storeId";
@@ -50,6 +52,8 @@ public class UserProfile {
 
     // 偏好项键值－验证历史
     private static final String PREFERENCE_KEY_HISTORY_URL = "history";
+    // 偏好项键值－权限列表字符串
+    private static final String PREFERENCE_KEY_RIGHT_STRING = "rightString";
 
     private Context mContext;
 
@@ -177,6 +181,22 @@ public class UserProfile {
 
     public String getHistoryUrl() {
         return getString(PREFERENCE_KEY_HISTORY_URL);
+    }
+
+    public void setRightString(String right) {
+        putString(PREFERENCE_KEY_RIGHT_STRING, right);
+    }
+
+    public String getRightString() {
+        return getString(PREFERENCE_KEY_RIGHT_STRING);
+    }
+
+    public void setCityId(int value) {
+        putInt(PREFERENCE_KEY_CITY_ID, value);
+    }
+
+    public int getCityId() {
+        return getInt(PREFERENCE_KEY_CITY_ID);
     }
 
     public void clear() {

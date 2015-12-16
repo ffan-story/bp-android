@@ -1,6 +1,6 @@
 package com.feifan.bp;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,10 +11,9 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 
-import com.feifan.bp.browser.BrowserActivity;
-import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.util.LogUtil;
 
 import bp.feifan.com.codescanner.CaptureActivityOfResult;
 import bp.feifan.com.codescanner.CodeScannerFragment;
@@ -25,24 +24,28 @@ import bp.feifan.com.codescanner.CodeScannerFragment;
 public class CodeScannerActivity extends BaseActivity implements CaptureActivityOfResult {
     private static final String TAG = CodeScannerActivity.class.getSimpleName();
 
-    public static void startActivity(Context context) {
+    public static final String INTERATION_KEY_URL = "inter_URL";
+    private String mUrlStr = "";
+
+    public static void startActivityForResult(Activity context,String url) {
         Intent i = new Intent(context, CodeScannerActivity.class);
-        context.startActivity(i);
+        i.putExtra(INTERATION_KEY_URL,url);
+        context.startActivityForResult(i,Constants.REQUEST_CODE);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_scanner);
-        initViews();
 
+        mUrlStr = getIntent().getStringExtra(INTERATION_KEY_URL);
+        initViews();
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         CodeScannerFragment f = (CodeScannerFragment) Fragment.instantiate(this, CodeScannerFragment.class.getName());
         f.setCaptureActivityOfResult(this);
         transaction.add(R.id.content_container, f);
         transaction.commit();
-
     }
 
     private void initViews() {
@@ -74,14 +77,34 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
             return;
         }
 
-        String urlStr = UrlFactory.searchCodeForHtml(resultText);
-        BrowserActivity.startActivity(this, urlStr);
+        if(TextUtils.isEmpty(mUrlStr)){
+            return;
+        }
+        String urlStr = String.format(mUrlStr, resultText);
+        LogUtil.i(TAG, "urlStr  ==" + urlStr);
+        BrowserActivity.startForResultActivity(this, urlStr);
         finish();
-
     }
 
     @Override
     protected boolean isShowToolbar() {
         return true;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK) {
+//            setResult(RESULT_OK);
+//            finish();
+//        }
+    }
+
+//    protected int getContentContainerId() {
+//        return 0;
+//    }
+//
+//    protected void retryRequestNetwork() {
+//
+//    }
 }

@@ -12,22 +12,33 @@ public class HostSupplier {
     public interface IHostFactory {
 
         /**
-         * 获取API主机域名
+         * API版本
+         */
+        String VERSION = "v1";
+
+        /**
+         * 获取xadmin的API地址前缀
          * @return
          */
-        String getFFanApiHost();
+        String getXadminApiPrefix();
+
+        /**
+         * 获取ffan的API地址前缀
+         * @return
+         */
+        String getFFanApiPrefix();
+
+        /**
+         * 获取mapp的API地址前缀
+         * @return
+         */
+        String getMAppApiPrefix();
 
         /**
          * 获取H5主机域名
          * @return
          */
         String getFFanH5Host();
-
-        /**
-         * 获取图片服务器域名
-         * @return
-         */
-        String getFFanPicHost();
 
         /**
          * 获取V1版的API主机域名
@@ -42,20 +53,24 @@ public class HostSupplier {
     static class SitHostFactory implements IHostFactory {
 
         @Override
-        public String getFFanApiHost() {
-            return "http://api.sit.ffan.com/";
+        public String getXadminApiPrefix() {
+            return "http://api.sit.ffan.com/xadmin/";
         }
+
+        @Override
+        public String getFFanApiPrefix() {
+            return "http://api.sit.ffan.com/ffan/".concat(VERSION).concat("/");
+        }
+
+        @Override
+        public String getMAppApiPrefix() {
+            return "http://api.sit.ffan.com/mapp/".concat(VERSION).concat("/");
+        }
+
 
         @Override
         public String getFFanH5Host() {
             return "http://sop.sit.ffan.com/";
-//            return "http://10.1.171.103:1111/";
-//            return "http://10.1.171.60:81/";
-        }
-
-        @Override
-        public String getFFanPicHost() {
-            return "http://api.sit.ffan.com/ffan/v1/";
         }
 
         @Override
@@ -70,18 +85,23 @@ public class HostSupplier {
     static class ProductPreFactory implements IHostFactory {
 
         @Override
-        public String getFFanApiHost() {
-            return "https://api.ffan.com/";
+        public String getXadminApiPrefix() {
+            return null;
+        }
+
+        @Override
+        public String getFFanApiPrefix() {
+            return null;
+        }
+
+        @Override
+        public String getMAppApiPrefix() {
+            return null;
         }
 
         @Override
         public String getFFanH5Host() {
             return "http://sop.pre.ffan.com/";
-        }
-
-        @Override
-        public String getFFanPicHost() {
-            return "https://api.pre.ffan.com/ffan/v1/";
         }
 
         @Override
@@ -96,18 +116,23 @@ public class HostSupplier {
     static class ProductFactory implements IHostFactory {
 
         @Override
-        public String getFFanApiHost() {
-            return "https://api.ffan.com/";
+        public String getXadminApiPrefix() {
+            return "https://api.ffan.com/xadmin/";
+        }
+
+        @Override
+        public String getFFanApiPrefix() {
+            return "https://api.ffan.com/ffan/".concat(VERSION).concat("/");
+        }
+
+        @Override
+        public String getMAppApiPrefix() {
+            return "https://api.ffan.com/mapp/".concat(VERSION).concat("/");
         }
 
         @Override
         public String getFFanH5Host() {
             return "https://sop.ffan.com/";
-        }
-
-        @Override
-        public String getFFanPicHost() {
-            return "https://api.ffan.com/ffan/v1/";
         }
 
         @Override

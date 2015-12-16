@@ -6,17 +6,12 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/login_info_color"
-        android:textSize="@dimen/font_size_14"/>
+        style="@style/txt_color33_size14"/>
 
     <TextView
         android:id="@+id/content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/view_spacing_5"
-        android:textColor="@color/font_color_66"
+        style="@style/txt_color66_size14"
         android:textSize="@dimen/font_size_24"/>
 
 </LinearLayout>

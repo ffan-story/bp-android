@@ -2,19 +2,16 @@ package com.feifan.bp.home;
 
 
 
-import android.util.Log;
-
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.feifan.bp.BuildConfig;
+import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.login.UserModel;
 import com.feifan.bp.network.DefaultErrorListener;
+import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.PostRequest;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.Constants;
-import com.feifan.bp.network.GetRequest;
 
 /**
  * 主界面控制类
@@ -66,6 +63,25 @@ public class HomeCtrl {
                 .param("mailInboxId", maillnboxid)
                 .param("mailStatus", Constants.READ)
                 .targetClass(MessageStatusModel.class)
+                .listener(listener);
+        PlatformState.getInstance().getRequestQueue().add(request);
+    }
+
+    /**
+     * 获得未读提示状态，目前包括：退款售后，消息
+     *
+     * @param merchantId
+     * @param storeId
+     * @param userType
+     * @param listener
+     */
+    public static void getUnReadtatus(String merchantId, String storeId, String userType, Listener listener) {
+        JsonRequest<ReadMessageModel> request = new GetRequest.Builder<ReadMessageModel>(UrlFactory.getReadMessage())
+                .param("merchantId", merchantId)
+                .param("storeId", storeId)
+                .param("userType", userType)
+                .build()
+                .targetClass(ReadMessageModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }

@@ -10,9 +10,9 @@ import org.json.JSONObject;
  */
 public class VersionModel extends BaseModel {
 
-    public static final int UPDATE_NO_UPDATE = -1;
-    public static final int UPDATE_NO_FORCE = 0;
-    public static final int UPDATE_FORCE = 1;
+    public static final int UPDATE_NO_UPDATE = -1;//不升级
+    public static final int UPDATE_NO_FORCE = 0;//建议更新
+    public static final int UPDATE_FORCE = 1;//强制升级
 
     private int versionCode;
     private String versionDesc;

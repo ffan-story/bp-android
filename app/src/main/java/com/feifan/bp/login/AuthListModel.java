@@ -33,6 +33,8 @@ public class AuthListModel extends BaseModel {
 
     public String historyUrl;
 
+    public String rightString;// 权限字符串
+
     public AuthListModel(JSONObject json) {
         super(json);
     }
@@ -40,19 +42,21 @@ public class AuthListModel extends BaseModel {
     @Override
     protected void parseData(String json) throws JSONException {
         super.parseData(json);
-        JSONArray array = new JSONArray(json);
-        JSONArray menuArray = array.optJSONObject(0).optJSONArray("menu");
         list = new ArrayList<AuthItem>();
-        for(int i = 0;i < menuArray.length();i++) {
-            JSONObject item = menuArray.optJSONObject(i);
-            int id = item.optInt("id");
+        JSONArray array = new JSONArray(json);
+        if(array.length() >= 1) {
+            JSONArray menuArray = array.optJSONObject(0).optJSONArray("menu");
 
-            IAuthFactory factory = EnvironmentManager.getAuthFactory();
+            for(int i = 0;i < menuArray.length();i++) {
+                JSONObject item = menuArray.optJSONObject(i);
+                int id = item.optInt("id");
 
-            if(factory.getHistoryId().equals(String.valueOf(id))){
-                historyUrl = item.optString("url");
-                continue;
-            }
+                IAuthFactory factory = EnvironmentManager.getAuthFactory();
+
+                if(factory.getHistoryId().equals(String.valueOf(id))){
+                    historyUrl = item.optString("url");
+                    continue;
+                }
 
 //            if(factory.getAuthFilter().containsKey(id)){
                 AuthItem aItem = new AuthItem();
@@ -61,8 +65,16 @@ public class AuthListModel extends BaseModel {
                 aItem.url = item.optString("url");
                 list.add(aItem);
 //            }
+            }
+            Collections.sort(list);
+
+            //权限字符串
+            JSONArray rightArray = array.optJSONObject(0).optJSONArray("rightList");
+            if(rightArray != null) {
+                rightString = rightArray.toString();
+            }
         }
-        Collections.sort(list);
+
     }
 
     @Override

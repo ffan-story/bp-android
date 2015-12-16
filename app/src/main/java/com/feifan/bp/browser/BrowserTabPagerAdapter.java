@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
     private int position;
     private boolean isRefresh = false;
 
-    // WebView Fragments
     private List<BrowserFragment> mFragments = new ArrayList<BrowserFragment>();
 
     public BrowserTabPagerAdapter(FragmentManager fm,String[] tabTitles, String url,String[] urlStatus) {
@@ -28,6 +28,8 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
         this.urlStatus= urlStatus;
         this.tabTitles = tabTitles;
         this.url = url;
+
+
     }
 
     public BrowserTabPagerAdapter(FragmentManager fm,String[] tabTitles, String url,String[] urlStatus,String contextTitle) {
@@ -36,22 +38,20 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
         this.tabTitles = tabTitles;
         this.url = url;
         this.contextTitle = contextTitle;
+
+        for(int i = 0;i < tabTitles.length;i++) {
+            BrowserFragment fragment = BrowserFragment.newInstance(url + urlStatus[i]);
+            fragment.setmTitleName(contextTitle);
+            mFragments.add(fragment);
+        }
+        Log.e("xuchunlei", "BrowserTabPager---->" + url);
     }
 
     @Override
     public Fragment getItem(int position) {
         this.position = position;
-        if (urlStatus!=null && urlStatus.length>0 && !TextUtils.isEmpty(urlStatus[position])){
-            BrowserFragment fragment = null;
-            if(position < mFragments.size()) {
-                fragment = mFragments.get(position);
-            }
-
-            if(fragment == null) {
-                fragment = BrowserFragment.newInstance(url + urlStatus[position]);
-                mFragments.add(fragment);
-            }
-            return fragment;
+        if (urlStatus != null && urlStatus.length > 0 && !TextUtils.isEmpty(urlStatus[position])){
+            return mFragments.get(position);
         }else{
             return null;
         }

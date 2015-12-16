@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -38,6 +39,9 @@ public class PlatformState {
     // 上次访问的url地址
     private String mLastUrl;
 
+    // 未读状态集合
+    private SparseArray<Boolean> mUnreadMap = new SparseArray<Boolean>();
+
     private PlatformState(){
         mQueue = Volley.newRequestQueue(sContext, new HttpsUrlStack());
         Log.i(Constants.TAG, "App is running within " + BuildConfig.CURRENT_ENVIRONMENT);
@@ -67,7 +71,7 @@ public class PlatformState {
         mLastUrl = url;
     }
 
-    public String getLastUrl(Context context) {
+    public String getLastUrl() {
         if(mLastUrl != null) {
             final String standardUrl = mLastUrl.replace("#", "");
             Uri uri = Uri.parse(standardUrl);
@@ -110,11 +114,6 @@ public class PlatformState {
      */
     public void clearCache() {
 
-//        File cacheDir = context.getCacheDir().getAbsoluteFile();
-//        Utils.deleteFile(cacheDir, "webview");
-//        Utils.deleteFile(context.getDatabasePath("webview").getParentFile(), "webview");
-//        Utils.deleteFile(cacheDir, "ApplicationCache.db");
-
         SharedPreferences sp = sContext.getSharedPreferences(STATE_PREFERENCES_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean(CLEAR_CACHE_FLAG, true);
@@ -125,5 +124,23 @@ public class PlatformState {
 
     public RequestQueue getRequestQueue() {
         return mQueue;
+    }
+
+    /**
+     * 获取指定key项的未读状态
+     * @param key
+     * @return
+     */
+    public boolean getUnreadStatus(int key){
+        return mUnreadMap.get(key, false);
+    }
+
+    /**
+     * 更新指定key项的未读状态
+     * @param key
+     * @param value
+     */
+    public void updateUnreadStatus(int key, boolean value) {
+        mUnreadMap.put(key, value);
     }
 }

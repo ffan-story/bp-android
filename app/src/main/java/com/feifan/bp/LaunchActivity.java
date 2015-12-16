@@ -11,23 +11,30 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.RadioGroup;
 
-
-import com.feifan.bp.feedback.FeedBackFragment;
-import com.feifan.bp.home.check.CheckManageFragment;
-
+import com.android.volley.Response;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.base.OnTabLifetimeListener;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
+import com.feifan.bp.envir.EnvironmentManager;
+import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.MessageFragment;
+import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.home.SettingsFragment;
+import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
+import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
-import com.feifan.bp.logininfo.LoginInfoFragment;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
+import com.feifan.bp.settings.feedback.FeedBackFragment;
+import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
+import com.feifan.bp.widget.BadgerRadioButton;
 import com.feifan.bp.widget.TabBar;
+import com.feifan.statlib.FmsAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +43,18 @@ import java.util.List;
 public class LaunchActivity extends BaseActivity implements OnFragmentInteractionListener {
 
     private TabBar mBottomBar;
-
     private List<Fragment> mFragments = new ArrayList<>();
-
     private Fragment mCurrentFragment;
+
+    // badger
+    public static final String STORE_TYPE = "store";
+    public static final String MERCHANTID = "merchant";
+    public static final String USER_TYPE = "1";
+    public static final String MESSAGE_ZERO = "0";
+    public static final int MESSAGE_POSITION = 1;
+    private String storeId = "";
+    private String merchantId = "";
+    private BadgerRadioButton mMessageTab;
 
     public static Intent buildIntent(Context context) {
 
@@ -52,6 +67,9 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
 
+        //统计埋点初始化
+        FmsAgent.init(getApplicationContext(), EnvironmentManager.getHostFactory().getFFanApiPrefix() + "appstatlog");
+
         //初始化数据
         mFragments.add(IndexFragment.newInstance());
         mFragments.add(MessageFragment.newInstance());
@@ -62,12 +80,55 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         mBottomBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                //统计埋点 首页home、消息、设置
+              switch (checkedId){
+                  case 0:
+                      FmsAgent.onEvent(getApplicationContext(),Statistics.FB_HOME_HOME);
+                      break;
+                  case 1:
+                      FmsAgent.onEvent(getApplicationContext(),Statistics.FB_HOME_MESSAGE);
+                      break;
+                  case 2:
+                      FmsAgent.onEvent(getApplicationContext(),Statistics.FB_HOME_SETTING);
+                      break;
+
+              }
                 switchFragment(mFragments.get(checkedId));
             }
         });
-
+        mMessageTab = (BadgerRadioButton) mBottomBar.getChildAt(MESSAGE_POSITION);
         // 加载内容视图
         initContent();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 获取未读提示状态
+        if(UserProfile.getInstance().isStoreUser()){
+            storeId = UserProfile.getInstance().getAuthRangeId();
+        }else {
+            merchantId = UserProfile.getInstance().getAuthRangeId();
+        }
+        HomeCtrl.getUnReadtatus(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
+            @Override
+            public void onResponse(ReadMessageModel readMessageModel) {
+                int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
+                PlatformState.getInstance().updateUnreadStatus(refundId, readMessageModel.refundCount > 0);
+
+                // 更新消息提示
+                if(readMessageModel.messageCount > 0) {
+                    mMessageTab.showBadger();
+                } else {
+                    mMessageTab.hideBadger();
+                }
+//                if(mCurrentFragment instanceof OnTabLifetimeListener) {
+//                    ((OnTabLifetimeListener)mCurrentFragment).onEnter();
+//                }
+            }
+        });
     }
 
     @Override
@@ -80,11 +141,25 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     protected void onDestroy() {
         super.onDestroy();
         PlatformState.getInstance().reset();
+        //统计埋点----用户启动APP
+        FmsAgent.onEvent(getApplicationContext(), Statistics.CLOSE_APP);
     }
 
     @Override
     protected boolean isShowToolbar() {
         return true;
+    }
+
+    @Override
+    public int getContentContainerId() {
+        return R.id.content_container;
+    }
+
+    @Override
+    public void retryRequestNetwork() {
+        if(mCurrentFragment instanceof MessageFragment){
+            ((MessageFragment)mCurrentFragment).updateData();
+        }
     }
 
     @Override
@@ -96,40 +171,36 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     public void onFragmentInteraction(Bundle args) {
         String from = args.getString(OnFragmentInteractionListener.INTERATION_KEY_FROM);
         String to = args.getString(OnFragmentInteractionListener.INTERATION_KEY_TO);
+        String title = args.getString(OnFragmentInteractionListener.INTERATION_KEY_TITLE);
         int type = args.getInt(OnFragmentInteractionListener.INTERATION_KEY_TYPE, OnFragmentInteractionListener.TYPE_IDLE);
         if (from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
-            if (PlatformState.getInstance().getLastUrl(this) != null) {
+            if (PlatformState.getInstance().getLastUrl() != null) {
                 if (Utils.isNetworkAvailable(this)) {
-                    BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl(this));
+                    BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl());
 
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
             }
             showHome(true);
-        } else if (from.equals(SettingsFragment.class.getName())) {
+        } else if (from.equals(SettingsFragment.class.getName())) {//设置界面
             if (to.equals(LaunchActivity.class.getName())) {
-                startActivity(buildIntent(this));
-            } else if (to.equals(ResetPasswordFragment.class.getName())) {
-                showResetPassword();
-                //add by tianjun 2015.10.27
-            } else if (to.equals(FeedBackFragment.class.getName())) {
-                showFeedBack();
-                //end
-            } else {
-                startActivity(Utils.getSystemBrowser(to));
+               startActivity(buildIntent(this));
+            }else{
+                Intent intent = new Intent(this, PlatformTopbarActivity.class);
+                intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_FROM,from);
+                intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, to);
+                intent.putExtra(PlatformTopbarActivity.EXTRA_TITLE,title);
+                startActivity(intent);
             }
         } else if (from.equals(ForgetPasswordFragment.class.getName())) {
             showForgetPassword();
-        } else if (from.equals(ResetPasswordFragment.class.getName())) {
-            if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
-                showHome(false);
-            }
         } else if (from.equals(IndexFragment.class.getName())) {
             if (to.equals(CodeScannerActivity.class.getName())) {
-                CodeScannerActivity.startActivity(this);
+                String mUrlStr = UrlFactory.searchCodeForHtml();
+                CodeScannerActivity.startActivityForResult(this, mUrlStr);
                 //add by tianjun 2015.10.27
-            } else if (to.equals(LoginInfoFragment.class.getName())) {
+            } else if (to.equals(UserInfoFragment.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) {//Utils.isCurrentNetworkAvailable(this)
                     showLoginInfo();
                 } else {
@@ -145,19 +216,12 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 }
             } else if (to.equals(IndicatorFragment.class.getName())) {
                 showIndicatorInfo();
-            }  else if (to.equals(LoginInfoFragment.class.getName())) {
-                showLoginInfo();
             } else if (to.equals(BrowserTabActivity.class.getName())) {
                 openTabBrowser(args);
             } else {
                 openBrowser(args.getString(BrowserActivity.EXTRA_KEY_URL));
             }
-            //add by tianjun 2015.10.27
-        } else if (from.equals(LoginInfoFragment.class.getName())) {
-            if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
-                showHome(false);
-            }
-        } else if (from.equals(FeedBackFragment.class.getName())) {
+        } else if (from.equals(UserInfoFragment.class.getName())) {
             if (type == OnFragmentInteractionListener.TYPE_NAVI_CLICK) {
                 showHome(false);
             }
@@ -167,6 +231,16 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 
     @Override
     public void onTitleChanged(String title) {
+
+    }
+
+    @Override
+    public void onStatusChanged(boolean flag) {
+        if(flag) {
+            mMessageTab.showBadger();
+        } else {
+            mMessageTab.hideBadger();
+        }
 
     }
 
@@ -208,10 +282,10 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     }
 
     // 显示重置密码
-    private void showResetPassword() {
-        mBottomBar.setVisibility(View.GONE);
-        switchFragment(ResetPasswordFragment.newInstance());
-    }
+//    private void showResetPassword() {
+//        mBottomBar.setVisibility(View.GONE);
+//        switchFragment(ResetPasswordFragment.newInstance());
+//    }
 
     // 显示登录界面
     private void showLogin() {
@@ -219,15 +293,21 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         switchFragment(LoginFragment.newInstance());
     }
 
+    //帮助中心
+//    private void showHelpCenter() {
+//        mBottomBar.setVisibility(View.GONE);
+//        switchFragment(HelpCenterFragment.newInstance());
+//    }
+
     //显示意见反馈页面
-    private void showFeedBack() {
-        mBottomBar.setVisibility(View.GONE);
-        switchFragment(FeedBackFragment.newInstance());
-    }
+//    private void showFeedBack() {
+//        mBottomBar.setVisibility(View.GONE);
+//        switchFragment(FeedBackFragment.newInstance());
+//    }
 
     private void showLoginInfo() {
         mBottomBar.setVisibility(View.GONE);
-        switchFragment(LoginInfoFragment.newInstance());
+        switchFragment(UserInfoFragment.newInstance());
     }
 
     private void showIndicatorInfo(){
@@ -264,17 +344,14 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
     public void onBackPressed() {
         if (mCurrentFragment != null && mCurrentFragment instanceof ForgetPasswordFragment) {
             showLogin();
-        } else if (mCurrentFragment != null && mCurrentFragment instanceof ResetPasswordFragment) {
+        } else if (mCurrentFragment != null
+                && mCurrentFragment instanceof ResetPasswordFragment
+                || mCurrentFragment instanceof UserInfoFragment
+                || mCurrentFragment instanceof FeedBackFragment
+                || mCurrentFragment instanceof HelpCenterFragment) {
             showHome(false);
-            //add by tianjun 2015.10.27
-        } else if (mCurrentFragment != null && mCurrentFragment instanceof LoginInfoFragment) {
-            showHome(false);
-        } else if (mCurrentFragment != null && mCurrentFragment instanceof FeedBackFragment) {
-            showHome(false);
-            //end.
-        } else {
+        }  else {
             super.onBackPressed();
         }
     }
-
 }
