@@ -148,7 +148,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                     @Override
                     public void run() {
                         hideProgressBar();
-                        Utils.showShortToast(getActivity(), R.string.settings_clear_cache_finished_text);
+                        Utils.showShortToast(getActivity().getApplicationContext(), R.string.settings_clear_cache_finished_text);
                     }
                 }, 1000);
 
