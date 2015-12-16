@@ -138,6 +138,7 @@ public abstract class UrlFactory {
 
     public static String getAuthorizeUrl() {
         return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "userAuth";
+//        return "http://xapi.pre.ffan.com/xadmin/userAuth";
     }
 
     public static String getCheckPhoneNumExistUrl() {
