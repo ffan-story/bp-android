@@ -18,6 +18,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.statlib.FmsAgent;
@@ -94,7 +95,7 @@ public class SimpleBrowserFragment extends ProgressFragment {
     public boolean onMenuItemClick(MenuItem item) {
         Bundle args = new Bundle();
         args.putString(EXTRA_KEY_URL, UrlFactory.storeDescriptionForHtml());
-        PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(),getString(R.string.indicator_title),args);
+        PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.indicator_title), args);
         return false;
     }
 

@@ -5,6 +5,9 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
 
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -16,6 +19,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.feifan.bp.Constants;
+
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.PlatformTopbarActivity;
@@ -78,6 +82,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
         rb_define = (RadioButton) v.findViewById(R.id.define);
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
+
         rb_week.setChecked(true);
         tabIndex = R.id.week;
         segmentedGroup.setOnCheckedChangeListener(this);
