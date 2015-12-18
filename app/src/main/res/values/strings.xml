@@ -230,4 +230,13 @@
     <!--优惠券-->
     <string name="coupone_marketing_contract_not_hint">您尚未和飞凡平台签订营销合同，请先联系飞凡平台签署合同后再来添加优惠券。</string>
 
+    <!-- 核销 -->
+    <string name="chargeoff_ticket_code">券码:</string>
+    <string name="chargeoff_ticket_buytime">领券时间:</string>
+    <string name="changeoff_ticket_expiry_date">有效期至:</string>
+    <string name="changeoff_ticket_status">券状态:</string>
+    <string name="changeoff_ticket_info">券信息</string>
+    <string name="changeoff_ticket_rules">活动规则</string>
+    <string name="changeoff_ticket_use">使用</string>
+
 </resources>

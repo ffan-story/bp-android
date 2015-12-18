@@ -69,7 +69,6 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     private TextView tv_goods_total_money;
     private TextView tv_goods_integrate_money;
     private TextView tv_goods_actual_money;
-    private RelativeLayout ll_code_rule;
     private ListView lv_goods_info;
 
     // dialog
@@ -102,9 +101,8 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             tv_ticket_code_status = (TextView) view.findViewById(R.id.tv_ticket_code_status);
             tv_ticket_code_title1 = (TextView) view.findViewById(R.id.tv_ticket_code_title1);
             tv_ticket_code_title2 = (TextView) view.findViewById(R.id.tv_ticket_code_title2);
-            ll_code_rule = (RelativeLayout) view.findViewById(R.id.ll_code_rule);
+            view.findViewById(R.id.ll_code_rule).setOnClickListener(this);
             btn_code_use = (Button) view.findViewById(R.id.btn_ticket_code_use);
-            ll_code_rule.setOnClickListener(this);
             btn_code_use.setOnClickListener(this);
         }else{//提货码
             stub.setLayoutResource(R.layout.fragment_goods_code_result);

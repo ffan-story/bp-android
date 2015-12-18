@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <!--券码-->
     <RelativeLayout
@@ -15,7 +14,8 @@
             android:id="@+id/ll_code_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
+            android:background="@drawable/border_top_bottom_background"
+            android:padding="@dimen/view_spacing_10"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -28,15 +28,14 @@
                 <TextView
                     style="@style/txt_color99_size14"
                     android:layout_centerVertical="true"
-                    android:text="券码：" />
+                    android:text="@string/chargeoff_ticket_code" />
 
                 <TextView
                     android:id="@+id/tv_ticket_code"
                     style="@style/txt_color33_size14"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:singleLine="true"
-                    android:text="123456" />
+                    android:singleLine="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -49,15 +48,14 @@
                 <TextView
                     style="@style/txt_color99_size14"
                     android:layout_centerVertical="true"
-                    android:text="领券时间：" />
+                    android:text="@string/chargeoff_ticket_buytime" />
 
                 <TextView
                     android:id="@+id/tv_ticket_code_time"
                     style="@style/txt_color33_size14"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:singleLine="true"
-                    android:text="2015-12-31 20:32:00" />
+                    android:singleLine="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -70,15 +68,14 @@
                 <TextView
                     style="@style/txt_color99_size14"
                     android:layout_centerVertical="true"
-                    android:text="有效期至：" />
+                    android:text="@string/changeoff_ticket_expiry_date" />
 
                 <TextView
                     android:id="@+id/tv_ticket_code_timeout"
                     style="@style/txt_color33_size14"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:singleLine="true"
-                    android:text="2015-12-31 20:32:00" />
+                    android:singleLine="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -91,7 +88,7 @@
                 <TextView
                     style="@style/txt_color99_size14"
                     android:layout_centerVertical="true"
-                    android:text="券状态：" />
+                    android:text="@string/changeoff_ticket_status" />
 
                 <TextView
                     android:id="@+id/tv_ticket_code_status"
@@ -101,7 +98,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:singleLine="true"
-                    android:text="已核销"
                     android:textColor="@color/red" />
             </RelativeLayout>
         </LinearLayout>
@@ -112,58 +108,45 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_code_top"
             android:layout_marginTop="@dimen/view_spacing_10"
-            android:background="#FFFFFF"
+            android:background="@drawable/border_top_bottom_background"
             android:orientation="vertical"
             android:padding="@dimen/view_spacing_10">
 
             <TextView
                 style="@style/txt_color99_size14"
                 android:layout_centerVertical="true"
-                android:text="券信息：" />
+                android:text="@string/changeoff_ticket_info" />
 
             <TextView
                 android:id="@+id/tv_ticket_code_title1"
                 style="@style/txt_color33_size14"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/view_spacing_5"
-                android:text="合法的梵非服饰地方：" />
+                android:layout_marginTop="@dimen/view_spacing_5" />
 
             <TextView
                 android:id="@+id/tv_ticket_code_title2"
                 style="@style/txt_color99_size14"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/view_spacing_5"
-                android:text="负担覅私活阿斯顿大少：" />
+                android:layout_marginTop="@dimen/view_spacing_5" />
         </LinearLayout>
 
-        <RelativeLayout
+        <TextView
             android:id="@+id/ll_code_rule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_code_center"
-            android:layout_marginTop="1dp"
-            android:background="#FFFFFF"
-            android:clickable="true"
-            android:padding="@dimen/view_spacing_10">
-
-            <TextView
-                style="@style/txt_color99_size14"
-                android:layout_centerVertical="true"
-                android:text="活动规则：" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/ptr_rotate_arrow" />
-
-        </RelativeLayout>
+            android:layout_marginTop="@dimen/view_spacing_10"
+            style="@style/txt_color99_size14"
+            android:drawableRight="@mipmap/settings_ic_right_arrow"
+            android:background="@drawable/border_top_bottom_background"
+            android:padding="@dimen/view_spacing_10"
+            android:text="@string/changeoff_ticket_rules" />
     </RelativeLayout>
 
     <Button
         android:id="@+id/btn_ticket_code_use"
         style="@style/btn_margin15_round_blue_click"
         android:layout_alignParentBottom="true"
-        android:text="使用"
+        android:text="@string/changeoff_ticket_use"
         android:visibility="gone"/>
 </RelativeLayout>
