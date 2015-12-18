@@ -8,7 +8,8 @@
     <RelativeLayout
         android:id="@+id/rl_ticket_code_result"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/ll_code_top"
@@ -163,5 +164,6 @@
         android:id="@+id/btn_ticket_code_use"
         style="@style/btn_margin15_round_blue_click"
         android:layout_alignParentBottom="true"
-        android:text="使用" />
+        android:text="使用"
+        android:visibility="gone"/>
 </RelativeLayout>

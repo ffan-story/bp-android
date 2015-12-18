@@ -220,6 +220,16 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanApiPrefix() + "mapp/cdaservice/marketingcontract";
     }
 
+    //券码核销
+    public static String getCheckCouponCode() {
+        return EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/coupon/checkCoupon";
+    }
+
+    //提货码核销
+    public static String getCheckGoodsCode() {
+        return  EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/GoodsVerification/useSignOnApp";
+    }
+
     private static String formatRelativeUrl(String relativeUrl) {
         if (TextUtils.isEmpty(relativeUrl)) {
             return relativeUrl;

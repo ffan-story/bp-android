@@ -39,7 +39,7 @@ public class CodeCtrl {
     }
 
     /**
-     * 提货码详情
+     * 提货码详情 10 位
      * http://sop.ffan.com/goods/GoodsVerification/getOrderBySignOnApp?signNo={提货码}
      * @param code
      * @param listener
@@ -50,6 +50,40 @@ public class CodeCtrl {
                 .param("signNo", code)
                 .build()
                 .targetClass(CodeModel.class)
+                .listener(listener);
+        PlatformState.getInstance().getRequestQueue().add(request);
+    }
+
+
+    /**
+     * post
+     * 券码核销
+     * @param code
+     * @param memberId
+     * @param listener
+     */
+    public static void checkCouponCode(String code,  String memberId, Listener listener) {
+        JsonRequest<CodeCheckModel> request = new PostRequest<CodeCheckModel>(UrlFactory.getCheckCouponCode(), new DefaultErrorListener())
+                .param("certificateno", code)
+                .param("memberId", memberId)
+                .targetClass(CodeCheckModel.class)
+                .listener(listener);
+        PlatformState.getInstance().getRequestQueue().add(request);
+    }
+
+
+    /**
+     * post
+     * 券码核销
+     * @param code
+     * @param orderNo
+     * @param listener
+     */
+    public static void checkGoodsCode(String code,  String orderNo, Listener listener) {
+        JsonRequest<CodeCheckModel> request = new PostRequest<CodeCheckModel>(UrlFactory.getCheckGoodsCode(), new DefaultErrorListener())
+                .param("signNo", code)
+                .param("orderNo", orderNo)
+                .targetClass(CodeCheckModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }

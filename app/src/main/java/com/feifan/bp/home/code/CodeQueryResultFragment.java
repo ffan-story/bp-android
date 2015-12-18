@@ -28,8 +28,11 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
+import com.feifan.material.MaterialDialog;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -69,6 +72,9 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     private RelativeLayout ll_code_rule;
     private ListView lv_goods_info;
 
+    // dialog
+    private MaterialDialog mDialog;
+    private transient boolean isShowDlg = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,8 +84,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         isCouponCode = getArguments().getBoolean(EXTRA_KEY_IS_COUPON);
         code = getArguments().getString(CODE);
         LogUtil.i(TAG, "code========="+code);
-
-        isCouponCode = getArguments().getBoolean(EXTRA_KEY_IS_COUPON);
+        initDialog();
     }
 
 
@@ -115,11 +120,29 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         return view;
     }
 
+    private void initDialog() {
+        mDialog = new MaterialDialog(getActivity())
+                .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        isShowDlg = true;
+                    }
+                })
+                .setNegativeButton(R.string.common_close_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        isShowDlg = true;
+                        getActivity().finish();
+                    }
+                });
+    }
 
     @Override
     protected void requestData() {
         if (!TextUtils.isEmpty(code)){
-            if (isCouponCode){
+            if (isCouponCode){//券码
                 if (Utils.isNetworkAvailable(getActivity())) {
                     setContentEmpty(false);
                     CodeCtrl.queryCouponsResult(code, new Response.Listener<CodeModel>() {
@@ -135,6 +158,21 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
                             setContentShown(true);
+
+                            if(isShowDlg && isAdded()) {
+                                mDialog.setMessage( volleyError.getMessage())
+                                        .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                mDialog.dismiss();
+                                                isShowDlg = true;
+                                                requestData();
+                                            }
+                                        })
+                                        .show();
+
+                                isShowDlg = false;
+                            }
                         }
 
                     });
@@ -142,7 +180,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
                     setContentEmpty(true);
                 }
-            }else{
+            }else{//提货吗
                 if (Utils.isNetworkAvailable(getActivity())) {
                     setContentEmpty(false);
                     CodeCtrl.queryGoodsResult(code, new Response.Listener<CodeModel>() {
@@ -157,6 +195,20 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
                             setContentShown(true);
+                            if (isShowDlg && isAdded()) {
+                                mDialog.setMessage(volleyError.getMessage())
+                                        .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                mDialog.dismiss();
+                                                isShowDlg = true;
+                                                requestData();
+                                            }
+                                        })
+                                        .show();
+
+                                isShowDlg = false;
+                            }
                         }
                     });
                 }
@@ -201,20 +253,59 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 break;
 
             case R.id.btn_goods_code_use://提货码
-//                TimerTask task = new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        getActivity().finish();
-//                    }
-//                };
-//                Timer timer = new Timer();
-//                timer.schedule(task, 1000);
+//                checkGoodsCode(code,"");
+                checkGoodsCode("9351000025","10101808494030");
                 break;
 
             case R.id.btn_ticket_code_use://券码
-
+                checkCouponCode(code,"");
                 break;
         }
+    }
+
+    /**
+     * 券码核销
+     * @param code
+     * @param memberId
+     */
+    private void checkCouponCode(String code,String memberId){
+        CodeCtrl.checkCouponCode(code, memberId, new Response.Listener() {
+            @Override
+            public void onResponse(Object o) {
+                Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        getActivity().finish();
+                    }
+                };
+                Timer timer = new Timer();
+                timer.schedule(task, 1000);
+            }
+        });
+    }
+
+    /**
+     * 提货码核销
+     * @param code
+     * @param orderNo
+     */
+    private void checkGoodsCode(String code,String orderNo){
+        CodeCtrl.checkGoodsCode(code, orderNo, new Response.Listener() {
+            @Override
+            public void onResponse(Object o) {
+                Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        getActivity().finish();
+                    }
+                };
+                Timer timer = new Timer();
+                timer.schedule(task, 1000);
+            }
+        });
+
     }
 
     public class MyAdapter extends BaseAdapter{

@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -175,5 +176,6 @@
         android:id="@+id/btn_goods_code_use"
         style="@style/btn_margin15_round_blue_click"
         android:layout_alignParentBottom="true"
-        android:text="使用" />
+        android:text="使用"
+        android:visibility="gone"/>
 </RelativeLayout>
