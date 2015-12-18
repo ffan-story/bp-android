@@ -16,6 +16,7 @@
 
 package com.feifan.bp.network;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -50,6 +51,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
 
     protected static Map<String, String> REDUNDANT_PARAMS;
 
+    private Map<String, String> mHeaders = new HashMap<String, String>();
 
     /**
      * 更新冗余参数内容
@@ -81,6 +83,11 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
         LogUtil.i(TAG, "url=" + url + " by " + method + " method.");
     }
 
+    public JsonRequest<T> header(String key, String value) {
+        mHeaders.put(key, value);
+        return this;
+    }
+
     public JsonRequest<T> listener(Listener listener) {
         mListener = listener;
         return this;
@@ -89,6 +96,11 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
     public JsonRequest<T> targetClass(Class<T> clazz) {
         mClazz = clazz;
         return this;
+    }
+
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        return mHeaders;
     }
 
     @Override
