@@ -1,6 +1,5 @@
 package com.feifan.bp.home.storeanalysis;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
@@ -13,7 +12,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.feifan.bp.Constants;
-import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
@@ -74,11 +72,6 @@ public class SimpleBrowserFragment extends ProgressFragment {
         View v = stub.inflate();
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
-//        if(mUrl != null) {
-//            mWebView.loadUrl(mUrl);
-//            PlatformState.getInstance().setLastUrl(mUrl);
-//            LogUtil.i(TAG, "mUrl==" + mUrl);
-//        }
         return v;
     }
 
@@ -99,11 +92,9 @@ public class SimpleBrowserFragment extends ProgressFragment {
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        Intent intent = new Intent(getActivity(), PlatformTopbarActivity.class);
-        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, SimpleBrowserFragment.class.getName());
-        intent.putExtra(PlatformTopbarActivity.EXTRA_URL, UrlFactory.storeDescriptionForHtml());
-        intent.putExtra(PlatformTopbarActivity.EXTRA_TITLE,getString(R.string.indicator_title));
-        startActivity(intent);
+        Bundle args = new Bundle();
+        args.putString(EXTRA_KEY_URL, UrlFactory.storeDescriptionForHtml());
+        PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(),getString(R.string.indicator_title),args);
         return false;
     }
 

@@ -426,4 +426,11 @@ public final class CameraManager {
       return false;
     }
   }
+
+  public void surfaceDestroyed(SurfaceHolder holder) {
+    camera.setPreviewCallback(null) ;
+    camera.stopPreview();
+    camera.release();
+    camera = null;
+  }
 }

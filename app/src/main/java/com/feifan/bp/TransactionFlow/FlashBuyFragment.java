@@ -256,7 +256,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 }
                 flowListAdapter.setData(flashDetailList);
                 mTotalCount = model.totalCount;
-                mDetailTitle.setText(getActivity().getString(R.string.flash_detail_title, startDate, endDate, model.totalCount));
+                mDetailTitle.setText(getActivity().getApplicationContext().getString(R.string.flash_detail_title, startDate, endDate, model.totalCount));
                 if (isShowLoading) {
                     if(isAdded()) {
                         ((TransFlowTabActivity) getActivity()).hideProgressBar();
