@@ -5,26 +5,26 @@
 
     android:background="#11000000">
 
-    <TextView
-        android:id="@+id/tv_error_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:drawablePadding="@dimen/view_spacing_10"
-        android:drawableTop="@mipmap/empty_ic_timeout"
-        android:ellipsize="end"
-        android:gravity="center_horizontal"
-        android:textColor="#bb000000"
-        android:singleLine="true"
-        android:text="验证码错了"
-        android:textSize="@dimen/font_size_18" />
-    <TextView
-        android:layout_marginTop="@dimen/view_spacing_5"
-        android:layout_below="@id/tv_error_text"
-        android:layout_centerHorizontal="true"
-        style="@style/txt_color33_size14"
-        android:text="请重新输入"/>
+    <!--<TextView-->
+        <!--android:id="@+id/tv_error_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="70dp"-->
+        <!--android:drawablePadding="@dimen/view_spacing_10"-->
+        <!--android:drawableTop="@mipmap/empty_ic_timeout"-->
+        <!--android:ellipsize="end"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:textColor="#bb000000"-->
+        <!--android:singleLine="true"-->
+        <!--android:text="验证码错了"-->
+        <!--android:textSize="@dimen/font_size_18" />-->
+    <!--<TextView-->
+        <!--android:layout_marginTop="@dimen/view_spacing_5"-->
+        <!--android:layout_below="@id/tv_error_text"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--style="@style/txt_color33_size14"-->
+        <!--android:text="请重新输入"/>-->
 
     <RelativeLayout
         android:id="@+id/rl_ticket_code_result"

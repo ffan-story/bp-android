@@ -280,8 +280,20 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     mCodeEditText.setText("");
                     return;
                 }
-                if (TextUtils.isEmpty(mCodeEditText.getText())) {
-                    Utils.showShortToast(getActivity(), "验证码不能为空");
+
+                String code = mCodeEditText.getText().toString().replaceAll(" ", "");
+                if (TextUtils.isEmpty(code)) {
+                    return;
+                }
+                if (Utils.isDigitAndLetter(code)){
+                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.error_message_text_search_illegal_format));
+                    PlatformTopbarActivity.startActivity(getActivity(),ErrorFragment.class.getName(),
+                            getActivity().getApplicationContext().getString(R.string.query_result),args);
+                    return;
+                }else if (code.length()<10){
+                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.error_message_text_search_illegal_format));
+                    PlatformTopbarActivity.startActivity(getActivity(),ErrorFragment.class.getName(),
+                            getActivity().getApplicationContext().getString(R.string.query_result),args);
                     return;
                 }
 
@@ -289,22 +301,33 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
                     return;
                 }
+                mCodeEditText.setText("");
+                if (code.length()==10){//提货吗
+                    args.putString(CodeQueryResultFragment.CODE,code);
+                    PlatformTopbarActivity.startActivity(getActivity(),CodeQueryResultFragment.class.getName(),
+                            getActivity().getApplicationContext().getString(R.string.query_result),args);
+                    return;
+                }else if (code.length() > 10){//券码
+                    args.putString(CodeQueryResultFragment.CODE, code);
+                    PlatformTopbarActivity.startActivity(getActivity(),CodeQueryResultFragment.class.getName(),
+                            getActivity().getApplicationContext().getString(R.string.query_result),args);
+                    return;
+                }
 
-                String code = mCodeEditText.getText().toString().replaceAll(" ", "");
-                LogUtil.i(TAG, "Input code is " + code);
+
 //                try {
 //                    Utils.checkDigitAndLetter(getActivity(), code);
 //                } catch (Throwable throwable) {
 //                    Utils.showShortToast(getActivity(), throwable.getMessage());
 //                    return;
 //                }
-                mCodeEditText.setText("");
-//                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, PlatformTopbarActivity.class.getName());
-                //String urlStr = UrlFactory.searchCodeForHtml(code);
+//                mCodeEditText.setText("");
+//                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivity.class.getName());
+//                //String urlStr = UrlFactory.searchCodeForHtml(code);
 //                String mUrlStr = String.format(UrlFactory.searchCodeForHtml(), code);
-                args.putString(CodeQueryResultFragment.CODE, code);
-                PlatformTopbarActivity.startActivity(getActivity(),CodeQueryResultFragment.class.getName(),"查询结果",args);
-                return;
+//                args.putString(BrowserActivity.EXTRA_KEY_URL, mUrlStr);
+                break;
+
 
             default:
                 return;

@@ -29,7 +29,7 @@ public class CodeCtrl {
      * http://sop.ffan.com/goods/coupon/searchunusecoupons?certificateno={券码}
      * @param listener
      */
-    public static void codeCooperQueryResult(String code,  Listener listener, ErrorListener errorListener) {
+    public static void queryCouponsResult(String code, Listener listener, ErrorListener errorListener) {
         JsonRequest<CodeModel> request = new GetRequest.Builder<CodeModel>(UrlFactory.getCodeQueryResult()).errorListener(errorListener)
                 .param("certificateno", code)
                 .build()
@@ -45,7 +45,7 @@ public class CodeCtrl {
      * @param listener
      * @param errorListener
      */
-    public static void codeGoodsQueryResult(String code,  Listener listener, ErrorListener errorListener) {
+    public static void queryGoodsResult(String code, Listener listener, ErrorListener errorListener) {
         JsonRequest<CodeModel> request = new GetRequest.Builder<CodeModel>(UrlFactory.getCodeQueryResult()).errorListener(errorListener)
                 .param("signNo", code)
                 .build()

@@ -2,7 +2,6 @@ package com.feifan.bp.home.code;
 
 
 import android.app.AlertDialog;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.text.TextUtils;
@@ -19,19 +18,19 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
-import com.feifan.statlib.FmsAgent;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,6 +45,7 @@ public class CodeQueryResultFragment extends ProgressFragment {
     private String code ;
     private String errMsg ;
     private List<String> goodsList = new ArrayList<String>();
+    private CodeModel.CouponsData couponsData;
 
     View view;
     /**
@@ -84,7 +84,6 @@ public class CodeQueryResultFragment extends ProgressFragment {
     protected View onCreateContentView(ViewStubCompat stub) {
         stub.setLayoutResource(R.layout.fragment_code_query_result);
         View view = stub.inflate();
-        tv_error_text = (TextView) view.findViewById(R.id.tv_error_text);
         btn_code_use = (Button) view.findViewById(R.id.btn_code_use);
         //核销券
         rl_ticket_code_result= (RelativeLayout) view.findViewById(R.id.rl_ticket_code_result);
@@ -117,11 +116,6 @@ public class CodeQueryResultFragment extends ProgressFragment {
         btn_code_use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.my_dialog, null, false);
-                builder.setView(view);
-                builder.show();
-
                 TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
@@ -142,16 +136,18 @@ public class CodeQueryResultFragment extends ProgressFragment {
         if (!TextUtils.isEmpty(code)){
             if (Utils.isNetworkAvailable(getActivity())) {
                 setContentEmpty(false);
-                CodeCtrl.codeCooperQueryResult(code, new Response.Listener<CodeModel>() {
+                CodeCtrl.queryCouponsResult(code, new Response.Listener<CodeModel>() {
                     @Override
                     public void onResponse(CodeModel codeModel) {
                         setContentShown(true);
+                        LogUtil.e(TAG, codeModel.getCouponsData().getBuyTime());
+                        initCoupons(codeModel);
                     }
 
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            setContentShown(true);
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        setContentShown(true);
                     }
 
                 });
@@ -160,6 +156,27 @@ public class CodeQueryResultFragment extends ProgressFragment {
                 setContentEmpty(true);
             }
         }
+
+    }
+
+    private void initCoupons(CodeModel codeModel){
+
+        tv_ticket_code.setText(couponsData.getCertificateNo());
+        tv_ticket_code_time.setText(couponsData.getBuyTime());
+        tv_ticket_code_timeout.setText(couponsData.getValidEndTime());
+        switch (couponsData.getStatus()){
+            case 4:
+                tv_ticket_code_status.setText("未核销");
+                break;
+            case 5:
+                tv_ticket_code_status.setText("已核销");
+                break;
+            case 6:
+                tv_ticket_code_status.setText("已过期");
+                break;
+        }
+        tv_ticket_code_title1.setText(couponsData.getSubTitle());
+        tv_ticket_code_title2.setText(couponsData.getTitle());
 
     }
 
@@ -187,10 +204,10 @@ public class CodeQueryResultFragment extends ProgressFragment {
 
         Boolean isCodeCorrect = true;
         if (code.length() < 10){
-            errMsg = "验证码至少需要10位";
+            errMsg = getResources().getString(R.string.error_message_text_sms_code_length_min);
             isCodeCorrect = false;
         }else if (!code.matches("^[0-9]*$")){
-            errMsg = "验证码含有非法字符";
+            errMsg = getResources().getString(R.string.error_message_text_sms_code_all_number);
             isCodeCorrect = false;
         }
         return isCodeCorrect;
