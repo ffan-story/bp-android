@@ -202,6 +202,10 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/coupon/searchunusecoupons";
     }
 
+    public static String getGoodsQueryResult() {
+        return EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/GoodsVerification/getOrderBySignOnApp";
+    }
+
     public static String getMessgeListStatus() {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/messagestatus";
     }

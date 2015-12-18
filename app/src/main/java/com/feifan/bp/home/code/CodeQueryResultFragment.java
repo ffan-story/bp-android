@@ -142,7 +142,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             }else{
                 if (Utils.isNetworkAvailable(getActivity())) {
                     setContentEmpty(false);
-                    CodeCtrl.queryCouponsResult(code, new Response.Listener<CodeModel>() {
+                    CodeCtrl.queryGoodsResult(code, new Response.Listener<CodeModel>() {
                         @Override
                         public void onResponse(CodeModel codeModel) {
                             setContentShown(true);
