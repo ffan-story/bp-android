@@ -47,10 +47,10 @@ public class CodeCtrl {
      * @param errorListener
      */
     public static void queryGoodsResult(String code, Listener listener, ErrorListener errorListener) {
-        JsonRequest<CodeModel> request = new GetRequest.Builder<CodeModel>(UrlFactory.getGoodsQueryResult()).errorListener(errorListener)
+        JsonRequest<GoodsModel> request = new GetRequest.Builder<GoodsModel>(UrlFactory.getGoodsQueryResult()).errorListener(errorListener)
                 .param("signNo", code)
                 .build()
-                .targetClass(CodeModel.class)
+                .targetClass(GoodsModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }
@@ -78,7 +78,7 @@ public class CodeCtrl {
 
     /**
      * post
-     * 券码核销
+     * 提货码核销
      * @param code
      * @param orderNo
      * @param listener

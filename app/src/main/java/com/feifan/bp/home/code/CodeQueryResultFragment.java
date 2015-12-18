@@ -47,6 +47,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     private Boolean isCouponCode = false ;
 
     private List<String> goodsList = new ArrayList<String>();
+    private List<GoodsModel.ProductInfo> productInfos;
     private CodeModel codeModel;
 
     /**
@@ -70,10 +71,11 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     private TextView tv_goods_integrate_money;
     private TextView tv_goods_actual_money;
     private ListView lv_goods_info;
-
+    private String orderNo;
     // dialog
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,6 +109,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         }else{//提货码
             stub.setLayoutResource(R.layout.fragment_goods_code_result);
             view = stub.inflate();
+            ll_goods_code_result = (LinearLayout) view.findViewById(R.id.ll_goods_code_result);
             tv_goods_order = (TextView) view.findViewById(R.id.tv_goods_order);
             tv_goods_branch = (TextView) view.findViewById(R.id.tv_goods_branch);
             tv_goods_status = (TextView) view.findViewById(R.id.tv_goods_status);
@@ -149,7 +152,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                         @Override
                         public void onResponse(CodeModel codeModel1) {
                             codeModel = codeModel1;
-                            initCoupons(codeModel);
+                            initCouponsView(codeModel);
                             setContentShown(true);
                         }
 
@@ -182,12 +185,13 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             }else{//提货吗
                 if (Utils.isNetworkAvailable(getActivity())) {
                     setContentEmpty(false);
-                    CodeCtrl.queryGoodsResult(code, new Response.Listener<CodeModel>() {
+                    CodeCtrl.queryGoodsResult(code, new Response.Listener<GoodsModel>() {
                         @Override
-                        public void onResponse(CodeModel codeModel) {
+                        public void onResponse(GoodsModel goodsModel) {
+                            orderNo = goodsModel.getGoodsData().getOrderNo();
+                            initGoodsView(goodsModel);
                             setContentShown(true);
-                            LogUtil.e(TAG, codeModel.getCouponsData().getBuyTime());
-//                            initCoupons(codeModel);
+//                            initCoupons(goodsModel);
                         }
 
                     }, new Response.ErrorListener() {
@@ -216,7 +220,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
     }
 
-    private void initCoupons(CodeModel codeModel){
+    private void initCouponsView(CodeModel codeModel){
         rl_ticket_code_result.setVisibility(View.VISIBLE);
         tv_ticket_code.setText(codeModel.getCouponsData().getCertificateNo());
         tv_ticket_code_time.setText(codeModel.getCouponsData().getBuyTime());
@@ -240,6 +244,36 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
     }
 
+    private void initGoodsView(GoodsModel goodsModel){
+        ll_goods_code_result.setVisibility(View.VISIBLE);
+//        private TextView tv_goods_total_money;
+//        private TextView tv_goods_integrate_money;
+//        private TextView tv_goods_actual_money;
+//        private ListView lv_goods_info;
+        tv_goods_order.setText(goodsModel.getGoodsData().getOrderNo());
+        tv_goods_branch.setText(goodsModel.getGoodsData().getStoreName());
+        switch (goodsModel.getGoodsData().getSingnStatus()){
+            case 1:
+                tv_goods_status.setText("未核销");
+                btn_code_use.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                tv_goods_status.setText("已核销");
+                btn_code_use.setVisibility(View.GONE);
+                break;
+            case 3:
+                tv_goods_status.setText("已过期");
+                btn_code_use.setVisibility(View.GONE);
+                break;
+        }
+        productInfos  = goodsModel.getGoodsData().getProductList();
+        lv_goods_info.setAdapter(new MyAdapter());
+        tv_goods_total_money.setText("￥" + goodsModel.getGoodsData().getOrderAmt());
+        tv_goods_integrate_money.setText("￥" + goodsModel.getGoodsData().getUsePointDiscount());
+        tv_goods_actual_money.setText("￥" + goodsModel.getGoodsData().getRealPayAmt());
+
+    }
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;
@@ -255,7 +289,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 break;
 
             case R.id.btn_goods_code_use://提货码
-                checkGoodsCode(code,"");
+                checkGoodsCode(code,orderNo);
                 break;
 
 
@@ -313,23 +347,39 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     public class MyAdapter extends BaseAdapter{
         @Override
         public int getCount() {
-            return 0;
-        }
+            return productInfos.size();
 
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            return null;
+
+            View view = View.inflate(getContext(),R.layout.item_goods_info,null);
+
+            TextView googs_item_title = (TextView)view.findViewById(R.id.googs_item_title);
+            TextView googs_item_count = (TextView)view.findViewById(R.id.goods_item_count);
+            TextView googs_item_price = (TextView)view.findViewById(R.id.googs_item_price);
+
+            googs_item_title.setText(productInfos.get(position).getTitle());
+            googs_item_count.setText(productInfos.get(position).getProductCount() + "");
+            googs_item_price.setText("￥" + productInfos.get(position).getProductPrice());
+
+            return view;
         }
+
+        @Override
+        public Object getItem(int position) {
+
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+
+            return position;
+        }
+
+
     }
 
 }

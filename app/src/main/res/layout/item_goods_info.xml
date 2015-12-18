@@ -5,12 +5,13 @@
     android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/googs_item_title"
             style="@style/txt_color33_size14"
             android:layout_centerVertical="true"
             android:text="海风还哈佛啊哈" />
 
         <TextView
-            android:id="@+id/tv_status1"
+            android:id="@+id/googs_item_price"
             style="@style/txt_color33_size16"
             android:layout_width="wrap_content"
             android:layout_alignParentRight="true"
@@ -19,17 +20,16 @@
             android:ellipsize="end"
             android:gravity="right"
             android:singleLine="true"
-            android:text="123" />
+            android:text="￥123" />
 
         <TextView
-            android:id="@+id/tv_status3"
+            android:id="@+id/goods_item_count"
             style="@style/txt_color33_size16"
             android:layout_width="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/view_spacing_15"
-            android:layout_toLeftOf="@id/tv_status1"
+            android:layout_toLeftOf="@id/googs_item_price"
             android:gravity="right"
-            android:singleLine="true"
-            android:text="*1" />
+            android:singleLine="true" />
 
 </RelativeLayout>
