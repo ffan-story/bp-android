@@ -77,6 +77,9 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
         isCouponCode = getArguments().getBoolean(EXTRA_KEY_IS_COUPON);
         code = getArguments().getString(CODE);
+        LogUtil.i(TAG, "code========="+code);
+
+        isCouponCode = getArguments().getBoolean(EXTRA_KEY_IS_COUPON);
     }
 
 
@@ -86,7 +89,6 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         if (isCouponCode){//券码
             stub.setLayoutResource(R.layout.fragment_ticket_code_result);
             view = stub.inflate();
-
             tv_ticket_code = (TextView) view.findViewById(R.id.tv_ticket_code);
             tv_ticket_code_time = (TextView) view.findViewById(R.id.tv_ticket_code_time);
             tv_ticket_code_timeout = (TextView) view.findViewById(R.id.tv_ticket_code_timeout);
@@ -95,6 +97,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             tv_ticket_code_title2 = (TextView) view.findViewById(R.id.tv_ticket_code_title2);
             ll_code_rule = (RelativeLayout) view.findViewById(R.id.ll_code_rule);
             btn_code_use = (Button) view.findViewById(R.id.btn_ticket_code_use);
+            ll_code_rule.setOnClickListener(this);
             btn_code_use.setOnClickListener(this);
         }else{//提货码
             stub.setLayoutResource(R.layout.fragment_goods_code_result);
@@ -193,8 +196,8 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         switch (v.getId()){
             case R.id.ll_code_rule:
                 Bundle args = new Bundle();
-                args.putString(EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail()+code);
-                PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(),getString(R.string.indicator_title),args);
+                args.putString(EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail(code));
+                PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.action_rule), args);
                 break;
 
             case R.id.btn_goods_code_use://提货码

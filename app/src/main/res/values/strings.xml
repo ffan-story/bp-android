@@ -115,6 +115,9 @@
     <string name="coupons_name">券码</string>
     <string name="error_message_text_sms_code_length_min">验证码至少需要10位</string>
     <string name="error_message_text_sms_code_all_number">验证码含有非法字符</string>
+    <string name="action_rule">活动规则</string>
+
+
 
     <string name="digit_letter_limit">
         0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ

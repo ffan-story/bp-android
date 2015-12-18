@@ -105,7 +105,9 @@ public abstract class UrlFactory {
      * 核销券码详情
      * @return
      */
-    public static String getCodeCouponeDetail(){return urlForHtml(URL_PATH_CODE_COUPONE_DETAIL);}
+    public static String getCodeCouponeDetail(String code){
+        return urlForHtml(URL_PATH_CODE_COUPONE_DETAIL+code);
+    }
 
     public static String visitorsAnalysisForHtml() {
         return urlForHtml(URL_PATH_VISITORS_ANALYSIS);
