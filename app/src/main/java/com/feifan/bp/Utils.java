@@ -172,6 +172,14 @@ public class Utils {
         }
     }
 
+    public static boolean isDigitAndLetter( String value)  {
+        Pattern p = Pattern.compile("^[A-Za-z0-9]+$");
+        Matcher m = p.matcher(value);
+        if (!m.matches()) {
+           return true;
+        }
+        return false;
+    }
 
     /**
      * 打开浏览器

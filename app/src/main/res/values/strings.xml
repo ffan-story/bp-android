@@ -111,6 +111,8 @@
     <!--scan code-->
     <string name="scan_code_title">扫一扫</string>
     <string name="lable_activity_scanner">CodeScannerActivity</string>
+    <string name="please_again_input">请重新输入</string>
+    <string name="query_result">查询结果</string>
 
     <string name="digit_letter_limit">
         0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ
