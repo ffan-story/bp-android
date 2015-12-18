@@ -46,7 +46,7 @@ public class CodeCtrl {
      * @param errorListener
      */
     public static void queryGoodsResult(String code, Listener listener, ErrorListener errorListener) {
-        JsonRequest<CodeModel> request = new GetRequest.Builder<CodeModel>(UrlFactory.getCodeQueryResult()).errorListener(errorListener)
+        JsonRequest<CodeModel> request = new GetRequest.Builder<CodeModel>(UrlFactory.getGoodsQueryResult()).errorListener(errorListener)
                 .param("signNo", code)
                 .build()
                 .targetClass(CodeModel.class)

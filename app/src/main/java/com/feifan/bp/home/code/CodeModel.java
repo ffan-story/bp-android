@@ -1,14 +1,10 @@
 package com.feifan.bp.home.code;
 
 import com.feifan.bp.network.BaseModel;
-import com.feifan.bp.util.LogUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by konta on 15-11-2.
@@ -16,7 +12,6 @@ import java.util.List;
 public class CodeModel extends BaseModel {
     private final String TAG = "CodeModel";
     private CouponsData couponsData;
-
     public CodeModel(JSONObject json) {
         super(json);
     }
@@ -24,19 +19,19 @@ public class CodeModel extends BaseModel {
     @Override
     protected void parseData(String json) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
-        JSONObject dataJson = jsonObject.getJSONObject("data");
-        couponsData = new CouponsData();
-        couponsData.setBuyTime(dataJson.getString("buyTime"));
-        couponsData.setCertificateNo(dataJson.getString("certificateNo"));
-        couponsData.setMemberId(dataJson.getString("memberId"));
-        couponsData.setRemark(dataJson.getString("remark"));
-        couponsData.setStatus(dataJson.getInt("status"));
-        couponsData.setSubTitle(dataJson.getString("subTitle"));
-        couponsData.setTitle(dataJson.getString("title"));
-        couponsData.setValidEndTime(dataJson.getString("validEndTime"));
-        couponsData.setValidStartTime(dataJson.getString("validStartTime"));
+        JSONArray dataArray = jsonObject.getJSONArray("data");
 
-        LogUtil.e(TAG, couponsData.getBuyTime());
+        couponsData = new CouponsData();
+        couponsData.setBuyTime(dataArray.getJSONObject(0).optString("buyTime"));
+        couponsData.setCertificateNo(dataArray.getJSONObject(0).optString("certificateNo"));
+        couponsData.setMemberId(dataArray.getJSONObject(0).optString("memberId"));
+        couponsData.setRemark(dataArray.getJSONObject(0).optString("remark"));
+        couponsData.setStatus(dataArray.getJSONObject(0).optInt("status"));
+        couponsData.setSubTitle(dataArray.getJSONObject(0).optString("subTitle"));
+        couponsData.setTitle(dataArray.getJSONObject(0).optString("title"));
+        couponsData.setValidEndTime(dataArray.getJSONObject(0).optString("validEndTime"));
+        couponsData.setValidStartTime(dataArray.getJSONObject(0).optString("validStartTime"));
+
     }
     public CouponsData getCouponsData(){
         return couponsData;
