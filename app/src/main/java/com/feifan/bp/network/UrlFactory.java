@@ -41,6 +41,9 @@ public abstract class UrlFactory {
     //H5页面相对路径－店铺分析指标说明
     private static final String URL_PATH_STORE_DESCRIPTION ="/H5App/default.html#/analysis/note";
 
+    //H5页面相对路径－核销券码详情页
+    private static final String URL_PATH_CODE_COUPONE_DETAIL ="/H5App/default.html#/activity/rule/";
+
     private static final String URL_SOP_FFAN = "http://sop.ffan.com";
 
 
@@ -98,6 +101,11 @@ public abstract class UrlFactory {
     public static String storeOverviewForHtml() {
         return urlForHtml(URL_PATH_STORE_OVERVIEW);
     }
+    /**
+     * 核销券码详情
+     * @return
+     */
+    public static String getCodeCouponeDetail(){return urlForHtml(URL_PATH_CODE_COUPONE_DETAIL);}
 
     public static String visitorsAnalysisForHtml() {
         return urlForHtml(URL_PATH_VISITORS_ANALYSIS);
@@ -188,6 +196,10 @@ public abstract class UrlFactory {
 
     public static String getMessgeList() {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/message";
+    }
+
+    public static String getCodeQueryResult() {
+        return EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/coupon/searchunusecoupons";
     }
 
     public static String getMessgeListStatus() {

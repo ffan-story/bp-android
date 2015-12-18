@@ -26,6 +26,7 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTabActivity;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
@@ -38,6 +39,7 @@ import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.AuthSupplier;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.check.CheckManageFragment;
+import com.feifan.bp.home.code.CodeQueryResultFragment;
 import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
 import com.feifan.bp.home.storeanalysis.visitorsAnalysisFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
@@ -279,6 +281,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     return;
                 }
                 if (TextUtils.isEmpty(mCodeEditText.getText())) {
+                    Utils.showShortToast(getActivity(), "验证码不能为空");
                     return;
                 }
 
@@ -289,18 +292,19 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 
                 String code = mCodeEditText.getText().toString().replaceAll(" ", "");
                 LogUtil.i(TAG, "Input code is " + code);
-                try {
-                    Utils.checkDigitAndLetter(getActivity(), code);
-                } catch (Throwable throwable) {
-                    Utils.showShortToast(getActivity(), throwable.getMessage());
-                    return;
-                }
+//                try {
+//                    Utils.checkDigitAndLetter(getActivity(), code);
+//                } catch (Throwable throwable) {
+//                    Utils.showShortToast(getActivity(), throwable.getMessage());
+//                    return;
+//                }
                 mCodeEditText.setText("");
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivity.class.getName());
+//                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, PlatformTopbarActivity.class.getName());
                 //String urlStr = UrlFactory.searchCodeForHtml(code);
-                String mUrlStr = String.format(UrlFactory.searchCodeForHtml(), code);
-                args.putString(BrowserActivity.EXTRA_KEY_URL, mUrlStr);
-                break;
+//                String mUrlStr = String.format(UrlFactory.searchCodeForHtml(), code);
+                args.putString(CodeQueryResultFragment.CODE, code);
+                PlatformTopbarActivity.startActivity(getActivity(),CodeQueryResultFragment.class.getName(),"查询结果",args);
+                return;
 
             default:
                 return;

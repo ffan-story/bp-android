@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/txt_color33_size14"
+            android:layout_centerVertical="true"
+            android:text="海风还哈佛啊哈" />
+
+        <TextView
+            android:id="@+id/tv_status1"
+            style="@style/txt_color33_size16"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="123" />
+
+        <TextView
+            android:id="@+id/tv_status3"
+            style="@style/txt_color33_size16"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/view_spacing_15"
+            android:layout_toLeftOf="@id/tv_status1"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="*1" />
+
+</RelativeLayout>

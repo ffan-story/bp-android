@@ -13,7 +13,6 @@ import android.widget.RadioGroup;
 
 import com.android.volley.Response;
 import com.feifan.bp.base.BaseActivity;
-import com.feifan.bp.base.OnTabLifetimeListener;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
@@ -24,6 +23,7 @@ import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.home.SettingsFragment;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
+import com.feifan.bp.home.code.CodeQueryResultFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
@@ -218,7 +218,12 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 showIndicatorInfo();
             } else if (to.equals(BrowserTabActivity.class.getName())) {
                 openTabBrowser(args);
-            } else {
+            }
+//            else if(to.equals(PlatformTopbarActivity.class.getName())){
+//                //提货码核销
+//                PlatformTopbarActivity.startActivityForResult(this, CodeQueryResultFragment.class.getName(), "查询结果");
+//            }
+            else{
                 openBrowser(args.getString(BrowserActivity.EXTRA_KEY_URL));
             }
         } else if (from.equals(UserInfoFragment.class.getName())) {
