@@ -290,7 +290,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     PlatformTopbarActivity.startActivity(getActivity(),ErrorFragment.class.getName(),
                             getActivity().getApplicationContext().getString(R.string.query_result),args);
                     return;
-                }else if (code.length()<10){
+                }else if (code.length()<Constants.COUPON_CODE_LENGTH){
                     args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.error_message_text_search_illegal_format));
                     PlatformTopbarActivity.startActivity(getActivity(),ErrorFragment.class.getName(),
                             getActivity().getApplicationContext().getString(R.string.query_result),args);
@@ -302,33 +302,20 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     return;
                 }
                 mCodeEditText.setText("");
-                if (code.length()==10){//提货吗
+                if (code.length()==Constants.COUPON_CODE_LENGTH){//提货吗
                     args.putString(CodeQueryResultFragment.CODE,code);
+                    args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON,false);
                     PlatformTopbarActivity.startActivity(getActivity(),CodeQueryResultFragment.class.getName(),
                             getActivity().getApplicationContext().getString(R.string.query_result),args);
                     return;
-                }else if (code.length() > 10){//券码
+                }else if (code.length() > Constants.COUPON_CODE_LENGTH){//券码
                     args.putString(CodeQueryResultFragment.CODE, code);
+                    args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
                     PlatformTopbarActivity.startActivity(getActivity(),CodeQueryResultFragment.class.getName(),
                             getActivity().getApplicationContext().getString(R.string.query_result),args);
                     return;
                 }
-
-
-//                try {
-//                    Utils.checkDigitAndLetter(getActivity(), code);
-//                } catch (Throwable throwable) {
-//                    Utils.showShortToast(getActivity(), throwable.getMessage());
-//                    return;
-//                }
-//                mCodeEditText.setText("");
-//                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserActivity.class.getName());
-//                //String urlStr = UrlFactory.searchCodeForHtml(code);
-//                String mUrlStr = String.format(UrlFactory.searchCodeForHtml(), code);
-//                args.putString(BrowserActivity.EXTRA_KEY_URL, mUrlStr);
-                break;
-
-
+                return;
             default:
                 return;
         }

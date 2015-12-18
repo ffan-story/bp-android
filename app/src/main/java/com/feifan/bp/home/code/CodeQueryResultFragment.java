@@ -1,11 +1,9 @@
 package com.feifan.bp.home.code;
 
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +24,8 @@ import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,16 +33,17 @@ import java.util.TimerTask;
 /**
  * Created by konta on 2015/12/17.
  */
-public class CodeQueryResultFragment extends ProgressFragment {
+public class CodeQueryResultFragment extends ProgressFragment implements View.OnClickListener {
     public static final String CODE = "code";
+    public static final String EXTRA_KEY_IS_COUPON = "isCouponCode";
     public static final String EXTRA_KEY_URL = "url";
     public static final String TAG = "CodeQueryResultFragment";
     private String code ;
-    private String errMsg ;
+    private Boolean isCouponCode = false ;
+
     private List<String> goodsList = new ArrayList<String>();
     private CodeModel.CouponsData couponsData;
 
-    View view;
     /**
      * 错误信息
      */
@@ -82,51 +78,33 @@ public class CodeQueryResultFragment extends ProgressFragment {
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
-        stub.setLayoutResource(R.layout.fragment_code_query_result);
-        View view = stub.inflate();
-        btn_code_use = (Button) view.findViewById(R.id.btn_code_use);
-        //核销券
-        rl_ticket_code_result= (RelativeLayout) view.findViewById(R.id.rl_ticket_code_result);
-        tv_ticket_code = (TextView) view.findViewById(R.id.tv_ticket_code);
-        tv_ticket_code_time = (TextView) view.findViewById(R.id.tv_ticket_code_time);
-        tv_ticket_code_timeout = (TextView) view.findViewById(R.id.tv_ticket_code_timeout);
-        tv_ticket_code_status = (TextView) view.findViewById(R.id.tv_ticket_code_status);
-        tv_ticket_code_title1 = (TextView) view.findViewById(R.id.tv_ticket_code_title1);
-        tv_ticket_code_title2 = (TextView) view.findViewById(R.id.tv_ticket_code_title2);
-        ll_code_rule = (RelativeLayout) view.findViewById(R.id.ll_code_rule);
-        //提货码
-        ll_goods_code_result= (LinearLayout) view.findViewById(R.id.ll_goods_code_result);
-        tv_goods_order = (TextView) view.findViewById(R.id.tv_goods_order);
-        tv_goods_branch = (TextView) view.findViewById(R.id.tv_goods_branch);
-        tv_goods_status = (TextView) view.findViewById(R.id.tv_goods_status);
-        lv_goods_info = (ListView) view.findViewById(R.id.lv_goods_info);
-        tv_goods_total_money = (TextView) view.findViewById(R.id.tv_goods_total_money);
-        tv_goods_integrate_money = (TextView) view.findViewById(R.id.tv_goods_integrate_money);
-        tv_goods_actual_money = (TextView) view.findViewById(R.id.tv_goods_actual_money);
+        View view;
+        if (isCouponCode){//券码
+            stub.setLayoutResource(R.layout.fragment_ticket_code_result);
+            view = stub.inflate();
 
-        ll_code_rule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle args = new Bundle();
-                args.putString(EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail()+code);
-                PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.indicator_title), args);
-
-            }
-        });
-        btn_code_use.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimerTask task = new TimerTask() {
-                    @Override
-                    public void run() {
-                        getActivity().finish();
-                    }
-                };
-                Timer timer = new Timer();
-                timer.schedule(task, 1000);
-            }
-        });
-        lv_goods_info.setAdapter(new MyAdapter());
+            tv_ticket_code = (TextView) view.findViewById(R.id.tv_ticket_code);
+            tv_ticket_code_time = (TextView) view.findViewById(R.id.tv_ticket_code_time);
+            tv_ticket_code_timeout = (TextView) view.findViewById(R.id.tv_ticket_code_timeout);
+            tv_ticket_code_status = (TextView) view.findViewById(R.id.tv_ticket_code_status);
+            tv_ticket_code_title1 = (TextView) view.findViewById(R.id.tv_ticket_code_title1);
+            tv_ticket_code_title2 = (TextView) view.findViewById(R.id.tv_ticket_code_title2);
+            ll_code_rule = (RelativeLayout) view.findViewById(R.id.ll_code_rule);
+            btn_code_use = (Button) view.findViewById(R.id.btn_ticket_code_use);
+            btn_code_use.setOnClickListener(this);
+        }else{//提货码
+            stub.setLayoutResource(R.layout.fragment_goods_code_result);
+            view = stub.inflate();
+            tv_goods_order = (TextView) view.findViewById(R.id.tv_goods_order);
+            tv_goods_branch = (TextView) view.findViewById(R.id.tv_goods_branch);
+            tv_goods_status = (TextView) view.findViewById(R.id.tv_goods_status);
+            lv_goods_info = (ListView) view.findViewById(R.id.lv_goods_info);
+            tv_goods_total_money = (TextView) view.findViewById(R.id.tv_goods_total_money);
+            tv_goods_integrate_money = (TextView) view.findViewById(R.id.tv_goods_integrate_money);
+            tv_goods_actual_money = (TextView) view.findViewById(R.id.tv_goods_actual_money);
+            btn_code_use = (Button) view.findViewById(R.id.btn_goods_code_use);
+            btn_code_use.setOnClickListener(this);
+        }
         return view;
     }
 
@@ -134,27 +112,52 @@ public class CodeQueryResultFragment extends ProgressFragment {
     @Override
     protected void requestData() {
         if (!TextUtils.isEmpty(code)){
-            if (Utils.isNetworkAvailable(getActivity())) {
-                setContentEmpty(false);
-                CodeCtrl.queryCouponsResult(code, new Response.Listener<CodeModel>() {
-                    @Override
-                    public void onResponse(CodeModel codeModel) {
-                        setContentShown(true);
-                        LogUtil.e(TAG, codeModel.getCouponsData().getBuyTime());
-                        initCoupons(codeModel);
-                    }
+            if (isCouponCode){
+                if (Utils.isNetworkAvailable(getActivity())) {
+                    setContentEmpty(false);
+                    CodeCtrl.queryCouponsResult(code, new Response.Listener<CodeModel>() {
+                        @Override
+                        public void onResponse(CodeModel codeModel) {
+                            setContentShown(true);
+                            LogUtil.e(TAG, codeModel.getCouponsData().getBuyTime());
+                            initCoupons(codeModel);
+                        }
 
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        setContentShown(true);
-                    }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            setContentShown(true);
+                        }
 
-                });
-            } else {
+                    });
+                } else {
 
-                setContentEmpty(true);
+                    setContentEmpty(true);
+                }
+            }else{
+                if (Utils.isNetworkAvailable(getActivity())) {
+                    setContentEmpty(false);
+                    CodeCtrl.queryCouponsResult(code, new Response.Listener<CodeModel>() {
+                        @Override
+                        public void onResponse(CodeModel codeModel) {
+                            setContentShown(true);
+                            LogUtil.e(TAG, codeModel.getCouponsData().getBuyTime());
+                            initCoupons(codeModel);
+                        }
+
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            setContentShown(true);
+                        }
+
+                    });
+                } else {
+
+                    setContentEmpty(true);
+                }
             }
+
         }
 
     }
@@ -180,42 +183,36 @@ public class CodeQueryResultFragment extends ProgressFragment {
 
     }
 
-    private boolean checkCode(String code) {
-
-
-
-//        if(checkCode(code)){
-//            LogUtil.e(TAG,code);
-//            tv_error_text.setVisibility(View.GONE);
-//            if(code.length() == 10){//提货码
-//                ll_goods_code_result.setVisibility(View.VISIBLE);
-//                rl_ticket_code_result.setVisibility(View.GONE);
-//            }else{//券码
-//                rl_ticket_code_result.setVisibility(View.VISIBLE);
-//                ll_goods_code_result.setVisibility(View.GONE);
-//            }
-//        }else{
-//            tv_error_text.setVisibility(View.VISIBLE);
-//            rl_ticket_code_result.setVisibility(View.GONE);
-//            ll_goods_code_result.setVisibility(View.GONE);
-//            tv_error_text.setText(errMsg);
-//        }
-
-
-        Boolean isCodeCorrect = true;
-        if (code.length() < 10){
-            errMsg = getResources().getString(R.string.error_message_text_sms_code_length_min);
-            isCodeCorrect = false;
-        }else if (!code.matches("^[0-9]*$")){
-            errMsg = getResources().getString(R.string.error_message_text_sms_code_all_number);
-            isCodeCorrect = false;
-        }
-        return isCodeCorrect;
-    }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ll_code_rule:
+                Bundle args = new Bundle();
+                args.putString(EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail()+code);
+                PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(),getString(R.string.indicator_title),args);
+                break;
+
+            case R.id.btn_goods_code_use://提货码
+//                TimerTask task = new TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        getActivity().finish();
+//                    }
+//                };
+//                Timer timer = new Timer();
+//                timer.schedule(task, 1000);
+                break;
+
+            case R.id.btn_ticket_code_use://券码
+
+                break;
+        }
     }
 
     public class MyAdapter extends BaseAdapter{
