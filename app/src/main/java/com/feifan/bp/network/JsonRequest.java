@@ -100,6 +100,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
+        LogUtil.i(TAG, "headers:" + mHeaders.toString());
         return mHeaders;
     }
 

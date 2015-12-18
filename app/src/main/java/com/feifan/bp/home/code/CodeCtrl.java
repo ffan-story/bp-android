@@ -7,6 +7,7 @@ import com.android.volley.Response.Listener;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.home.MessageModel;
 import com.feifan.bp.home.MessageStatusModel;
 import com.feifan.bp.home.ReadMessageModel;
@@ -66,6 +67,9 @@ public class CodeCtrl {
         JsonRequest<CodeCheckModel> request = new PostRequest<CodeCheckModel>(UrlFactory.getCheckCouponCode(), new DefaultErrorListener())
                 .param("certificateno", code)
                 .param("memberId", memberId)
+                .header("uid", UserProfile.getInstance().getUid()+"")
+                .header("loginToken", UserProfile.getInstance().getLoginToken())
+                .header("appType", "bpMobile")
                 .targetClass(CodeCheckModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
@@ -83,6 +87,9 @@ public class CodeCtrl {
         JsonRequest<CodeCheckModel> request = new PostRequest<CodeCheckModel>(UrlFactory.getCheckGoodsCode(), new DefaultErrorListener())
                 .param("signNo", code)
                 .param("orderNo", orderNo)
+                .header("uid", UserProfile.getInstance().getUid()+"")
+                .header("loginToken", UserProfile.getInstance().getLoginToken())
+                .header("appType","bpMobile")
                 .targetClass(CodeCheckModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);

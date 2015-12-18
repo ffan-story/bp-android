@@ -16,8 +16,7 @@ public class CodeCheckModel extends BaseModel {
 
     @Override
     protected void parseData(String json) throws JSONException {
-        JSONObject jsonObject = new JSONObject(json);
-        JSONObject dataJson = jsonObject.getJSONObject("data");
 
+    LogUtil.i("CodeCheckModel","json===="+ json);
     }
 }

@@ -3,12 +3,13 @@ package com.feifan.bp.home.code;
 
 import java.util.List;
 
+import com.android.volley.VolleyError;
 import com.feifan.bp.base.ProgressFragment;
 
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
-import android.text.TextUtils;
 
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 
@@ -83,7 +83,6 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
         isCouponCode = getArguments().getBoolean(EXTRA_KEY_IS_COUPON);
         code = getArguments().getString(CODE);
-        LogUtil.i(TAG, "code========="+code);
         initDialog();
 
     }
@@ -92,6 +91,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
         View view;
+        LogUtil.e(TAG, "isCouponCode=="+isCouponCode);
         if (isCouponCode){//券码
             stub.setLayoutResource(R.layout.fragment_ticket_code_result);
             view = stub.inflate();
@@ -257,9 +257,9 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 break;
 
             case R.id.btn_goods_code_use://提货码
-//                checkGoodsCode(code,"");
-                checkGoodsCode("9351000025","10101808494030");
+                checkGoodsCode(code,"");
                 break;
+
 
             case R.id.btn_ticket_code_use://券码
                 checkCouponCode(code,codeModel.getCouponsData().getMemberId());
