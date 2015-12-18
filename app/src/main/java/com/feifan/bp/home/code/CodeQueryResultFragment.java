@@ -47,7 +47,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     private Boolean isCouponCode = false ;
 
     private List<String> goodsList = new ArrayList<String>();
-    private CodeModel.CouponsData couponsData;
+    private CodeModel codeModel;
 
     /**
      * 错误信息
@@ -85,6 +85,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         code = getArguments().getString(CODE);
         LogUtil.i(TAG, "code========="+code);
         initDialog();
+
     }
 
 
@@ -94,6 +95,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         if (isCouponCode){//券码
             stub.setLayoutResource(R.layout.fragment_ticket_code_result);
             view = stub.inflate();
+            rl_ticket_code_result = (RelativeLayout) view.findViewById(R.id.rl_ticket_code_result);
             tv_ticket_code = (TextView) view.findViewById(R.id.tv_ticket_code);
             tv_ticket_code_time = (TextView) view.findViewById(R.id.tv_ticket_code_time);
             tv_ticket_code_timeout = (TextView) view.findViewById(R.id.tv_ticket_code_timeout);
@@ -147,11 +149,10 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                     setContentEmpty(false);
                     CodeCtrl.queryCouponsResult(code, new Response.Listener<CodeModel>() {
                         @Override
-                        public void onResponse(CodeModel codeModel) {
+                        public void onResponse(CodeModel codeModel1) {
+                            codeModel = codeModel1;
                             initCoupons(codeModel);
                             setContentShown(true);
-                            LogUtil.e(TAG, codeModel.getCouponsData().getBuyTime());
-                            initCoupons(codeModel);
                         }
 
                     }, new Response.ErrorListener() {
@@ -188,7 +189,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                         public void onResponse(CodeModel codeModel) {
                             setContentShown(true);
                             LogUtil.e(TAG, codeModel.getCouponsData().getBuyTime());
-                            initCoupons(codeModel);
+//                            initCoupons(codeModel);
                         }
 
                     }, new Response.ErrorListener() {
@@ -218,23 +219,26 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     }
 
     private void initCoupons(CodeModel codeModel){
-
-        tv_ticket_code.setText(couponsData.getCertificateNo());
-        tv_ticket_code_time.setText(couponsData.getBuyTime());
-        tv_ticket_code_timeout.setText(couponsData.getValidEndTime());
-        switch (couponsData.getStatus()){
-            case 4:
+        rl_ticket_code_result.setVisibility(View.VISIBLE);
+        tv_ticket_code.setText(codeModel.getCouponsData().getCertificateNo());
+        tv_ticket_code_time.setText(codeModel.getCouponsData().getBuyTime());
+        tv_ticket_code_timeout.setText(codeModel.getCouponsData().getValidEndTime());
+        switch (codeModel.getCouponsData().getStatus()){
+            case 3:
                 tv_ticket_code_status.setText("未核销");
+                btn_code_use.setVisibility(View.VISIBLE);
                 break;
-            case 5:
+            case 4:
                 tv_ticket_code_status.setText("已核销");
+                btn_code_use.setVisibility(View.GONE);
                 break;
             case 6:
                 tv_ticket_code_status.setText("已过期");
+                btn_code_use.setVisibility(View.GONE);
                 break;
         }
-        tv_ticket_code_title1.setText(couponsData.getSubTitle());
-        tv_ticket_code_title2.setText(couponsData.getTitle());
+        tv_ticket_code_title1.setText(codeModel.getCouponsData().getSubTitle());
+        tv_ticket_code_title2.setText(codeModel.getCouponsData().getTitle());
 
     }
 
@@ -258,7 +262,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 break;
 
             case R.id.btn_ticket_code_use://券码
-                checkCouponCode(code,"");
+                checkCouponCode(code,codeModel.getCouponsData().getMemberId());
                 break;
         }
     }

@@ -1,6 +1,9 @@
 package com.feifan.bp.home.code;
 
+import android.nfc.Tag;
+
 import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.util.LogUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,19 +21,18 @@ public class CodeModel extends BaseModel {
 
     @Override
     protected void parseData(String json) throws JSONException {
-        JSONObject jsonObject = new JSONObject(json);
-        JSONArray dataArray = jsonObject.getJSONArray("data");
-
+        JSONArray jsonArrayObject = new JSONArray(json);
+        JSONObject jsonObject = jsonArrayObject.getJSONObject(0);
         couponsData = new CouponsData();
-        couponsData.setBuyTime(dataArray.getJSONObject(0).optString("buyTime"));
-        couponsData.setCertificateNo(dataArray.getJSONObject(0).optString("certificateNo"));
-        couponsData.setMemberId(dataArray.getJSONObject(0).optString("memberId"));
-        couponsData.setRemark(dataArray.getJSONObject(0).optString("remark"));
-        couponsData.setStatus(dataArray.getJSONObject(0).optInt("status"));
-        couponsData.setSubTitle(dataArray.getJSONObject(0).optString("subTitle"));
-        couponsData.setTitle(dataArray.getJSONObject(0).optString("title"));
-        couponsData.setValidEndTime(dataArray.getJSONObject(0).optString("validEndTime"));
-        couponsData.setValidStartTime(dataArray.getJSONObject(0).optString("validStartTime"));
+        couponsData.setBuyTime(jsonObject.optString("buyTime"));
+        couponsData.setCertificateNo(jsonObject.optString("certificateNo"));
+        couponsData.setMemberId(jsonObject.optString("memberId"));
+        couponsData.setRemark(jsonObject.optString("remark"));
+        couponsData.setStatus(jsonObject.optInt("status"));
+        couponsData.setSubTitle(jsonObject.optString("subTitle"));
+        couponsData.setTitle(jsonObject.optString("title"));
+        couponsData.setValidEndTime(jsonObject.optString("validEndTime"));
+        couponsData.setValidStartTime(jsonObject.optString("validStartTime"));
 
     }
     public CouponsData getCouponsData(){
