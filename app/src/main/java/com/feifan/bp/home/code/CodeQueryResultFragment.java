@@ -1,9 +1,14 @@
 package com.feifan.bp.home.code;
 
 
+import java.util.List;
+
+import com.feifan.bp.base.ProgressFragment;
+
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.text.TextUtils;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +23,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
@@ -72,6 +74,8 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        isCouponCode = getArguments().getBoolean(EXTRA_KEY_IS_COUPON);
         code = getArguments().getString(CODE);
     }
 
@@ -118,6 +122,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                     CodeCtrl.queryCouponsResult(code, new Response.Listener<CodeModel>() {
                         @Override
                         public void onResponse(CodeModel codeModel) {
+                            initCoupons(codeModel);
                             setContentShown(true);
                             LogUtil.e(TAG, codeModel.getCouponsData().getBuyTime());
                             initCoupons(codeModel);
@@ -150,14 +155,9 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                         public void onErrorResponse(VolleyError volleyError) {
                             setContentShown(true);
                         }
-
                     });
-                } else {
-
-                    setContentEmpty(true);
                 }
             }
-
         }
 
     }
@@ -182,7 +182,6 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         tv_ticket_code_title2.setText(couponsData.getTitle());
 
     }
-
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {

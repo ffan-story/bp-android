@@ -108,7 +108,6 @@
     <string name="resend">重新发送</string>
     <string name="card_sms_check_resend_format"><xliff:g>%1d</xliff:g>秒后重发</string>
 
-    <!--  核销scan code-->
     <string name="scan_code_title">扫一扫</string>
     <string name="lable_activity_scanner">CodeScannerActivity</string>
     <string name="please_again_input">请重新输入</string>
