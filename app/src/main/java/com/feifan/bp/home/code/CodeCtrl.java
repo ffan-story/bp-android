@@ -18,6 +18,8 @@ import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.PostRequest;
 import com.feifan.bp.network.UrlFactory;
 
+import java.util.Random;
+
 /**
  * 核销界面控制类
  * <p/>
@@ -33,6 +35,7 @@ public class CodeCtrl {
     public static void queryCouponsResult(String code, Listener listener, ErrorListener errorListener) {
         JsonRequest<CodeModel> request = new GetRequest.Builder<CodeModel>(UrlFactory.getCodeQueryResult()).errorListener(errorListener)
                 .param("certificateno", code)
+                .param("app_verification_native", String.valueOf(new Random().nextInt()))
                 .build()
                 .targetClass(CodeModel.class)
                 .listener(listener);
@@ -49,6 +52,7 @@ public class CodeCtrl {
     public static void queryGoodsResult(String code, Listener listener, ErrorListener errorListener) {
         JsonRequest<GoodsModel> request = new GetRequest.Builder<GoodsModel>(UrlFactory.getGoodsQueryResult()).errorListener(errorListener)
                 .param("signNo", code)
+                .param("app_verification_native", String.valueOf(new Random().nextInt()))
                 .build()
                 .targetClass(GoodsModel.class)
                 .listener(listener);
@@ -71,7 +75,8 @@ public class CodeCtrl {
                 UrlFactory.getCheckCouponCode()
                           .concat("?uid=" + uid)
                           .concat("&loginToken=" + loginToken)
-                          .concat("&appType=bpMobile"), errorListener)
+                          .concat("&appType=bpMobile")
+                        .concat("&app_verification_native=" + new Random().nextInt()), errorListener)
                 .param("certificateno", code)
                 .param("memberId", memberId)
                 .header("uid", uid)
@@ -98,7 +103,8 @@ public class CodeCtrl {
                 UrlFactory.getCheckGoodsCode()
                           .concat("?uid=" + uid)
                           .concat("&loginToken=" + loginToken)
-                          .concat("&appType=bpMobile"),
+                          .concat("&appType=bpMobile")
+                          .concat("&app_verification_native=" + new Random().nextInt()),
                           errorListener)
                 .param("signNo", code)
                 .param("orderNo", orderNo)
