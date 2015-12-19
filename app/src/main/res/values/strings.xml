@@ -236,19 +236,19 @@
     <string name="chargeoff_timeout">已过期</string>
     <string name="chargeoff_ticket_code">券码:</string>
     <string name="chargeoff_ticket_buytime">领券时间:</string>
-    <string name="changeoff_ticket_expiry_date">有效期至:</string>
-    <string name="changeoff_ticket_status">券状态:</string>
-    <string name="changeoff_ticket_info">券信息</string>
-    <string name="changeoff_ticket_rules">活动规则</string>
-    <string name="changeoff_ticket_use">使用</string>
+    <string name="chargeoff_ticket_expiry_date">有效期至:</string>
+    <string name="chargeoff_ticket_status">券状态:</string>
+    <string name="chargeoff_ticket_info">券信息</string>
+    <string name="chargeoff_ticket_rules">活动规则</string>
+    <string name="chargeoff_ticket_use">使用</string>
     <string name="chargeoff_code_empty">提货码或券码不能为空</string>
 
-    <string name="changeoff_goods_order_number">订单号:</string>
-    <string name="changeoff_goods_status">核销状态:</string>
-    <string name="changeoff_goods_info">商品信息</string>
-    <string name="changeoff_goods_orderamt">总金额:</string>
-    <string name="changeoff_goods_point">积分支付:</string>
-    <string name="changeoff_goods_realamt">实付金额:</string>
+    <string name="chargeoff_goods_order_number">订单号:</string>
+    <string name="chargeoff_goods_status">核销状态:</string>
+    <string name="chargeoff_goods_info">商品信息</string>
+    <string name="chargeoff_goods_orderamt">总金额:</string>
+    <string name="chargeoff_goods_point">积分支付:</string>
+    <string name="chargeoff_goods_realamt">实付金额:</string>
 
 
 

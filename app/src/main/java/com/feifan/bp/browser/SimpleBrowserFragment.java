@@ -2,6 +2,8 @@ package com.feifan.bp.browser;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.internal.widget.ViewStubCompat;
 
 import android.view.MenuItem;
@@ -39,10 +41,6 @@ public class SimpleBrowserFragment extends ProgressFragment {
 
     private String mUrl;
     private WebView mWebView;
-
-//    Timer timer;
-//    TimerTask timerTask;
-//    private static final long TIMEOUT = 10000;
 
     public SimpleBrowserFragment() {
     }
@@ -141,22 +139,12 @@ public class SimpleBrowserFragment extends ProgressFragment {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-//            timer = new Timer();
-//            timerTask = new TimerTask() {
-//                @Override
-//                public void run() {
-//                    setContentEmpty(true);
-//                }
-//            };
-//            timer.schedule(timerTask,TIMEOUT,1);
             setContentShown(false);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-//            timerTask.cancel();
-//            timer.purge();
             setContentShown(true);
         }
         @Override

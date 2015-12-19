@@ -6,7 +6,6 @@ import java.util.List;
 import com.android.volley.VolleyError;
 import com.feifan.bp.base.ProgressFragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
 
@@ -124,7 +123,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
     private void initDialog() {
         mDialog = new MaterialDialog(getActivity())
-                .setNegativeButton(R.string.common_close_text, new View.OnClickListener() {
+                .setNegativeButton(R.string.common_confirm, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mDialog.dismiss();
@@ -223,8 +222,8 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 btn_code_use.setVisibility(View.GONE);
                 break;
         }
-        tv_ticket_code_title1.setText(codeModel.getCouponsData().getSubTitle());
-        tv_ticket_code_title2.setText(codeModel.getCouponsData().getTitle());
+        tv_ticket_code_title1.setText(codeModel.getCouponsData().getTitle());
+        tv_ticket_code_title2.setText(codeModel.getCouponsData().getSubTitle());
 
     }
 

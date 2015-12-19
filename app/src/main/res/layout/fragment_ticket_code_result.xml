@@ -64,7 +64,7 @@
                 <TextView
                     style="@style/txt_color99_size14"
                     android:layout_centerVertical="true"
-                    android:text="@string/changeoff_ticket_expiry_date" />
+                    android:text="@string/chargeoff_ticket_expiry_date" />
 
                 <TextView
                     android:id="@+id/tv_ticket_code_timeout"
@@ -83,7 +83,7 @@
                 <TextView
                     style="@style/txt_color99_size14"
                     android:layout_centerVertical="true"
-                    android:text="@string/changeoff_ticket_status" />
+                    android:text="@string/chargeoff_ticket_status" />
 
                 <TextView
                     android:id="@+id/tv_ticket_code_status"
@@ -110,7 +110,7 @@
             <TextView
                 style="@style/txt_color99_size14"
                 android:layout_centerVertical="true"
-                android:text="@string/changeoff_ticket_info" />
+                android:text="@string/chargeoff_ticket_info" />
 
             <TextView
                 android:id="@+id/tv_ticket_code_title1"
@@ -135,13 +135,13 @@
             android:drawableRight="@mipmap/settings_ic_right_arrow"
             android:background="@drawable/border_top_bottom_background"
             android:padding="@dimen/view_spacing_10"
-            android:text="@string/changeoff_ticket_rules" />
+            android:text="@string/chargeoff_ticket_rules" />
     </RelativeLayout>
 
     <Button
         android:id="@+id/btn_ticket_code_use"
         style="@style/btn_margin15_round_blue_click"
         android:layout_alignParentBottom="true"
-        android:text="@string/changeoff_ticket_use"
+        android:text="@string/chargeoff_ticket_use"
         android:visibility="gone"/>
 </RelativeLayout>

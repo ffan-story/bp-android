@@ -20,7 +20,7 @@
             <TextView
                 style="@style/txt_color33_size14"
                 android:layout_centerVertical="true"
-                android:text="@string/changeoff_goods_order_number" />
+                android:text="@string/chargeoff_goods_order_number" />
 
             <TextView
                 android:id="@+id/tv_goods_order"
@@ -62,7 +62,7 @@
             <TextView
                 style="@style/txt_color33_size14"
                 android:layout_centerVertical="true"
-                android:text="@string/changeoff_goods_status" />
+                android:text="@string/chargeoff_goods_status" />
 
             <TextView
                 android:id="@+id/tv_goods_status"
@@ -91,7 +91,7 @@
             android:background="@color/white"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="@string/changeoff_goods_info" />
+            android:text="@string/chargeoff_goods_info" />
 
         <ListView
             android:padding="@dimen/view_spacing_5"
@@ -113,7 +113,7 @@
             <TextView
                 style="@style/txt_color99_size14"
                 android:layout_centerVertical="true"
-                android:text="@string/changeoff_goods_orderamt" />
+                android:text="@string/chargeoff_goods_orderamt" />
 
             <TextView
                 android:id="@+id/tv_goods_total_money"
@@ -134,7 +134,7 @@
             <TextView
                 style="@style/txt_color99_size14"
                 android:layout_centerVertical="true"
-                android:text="@string/changeoff_goods_point" />
+                android:text="@string/chargeoff_goods_point" />
 
             <TextView
                 android:id="@+id/tv_goods_integrate_money"
@@ -155,7 +155,7 @@
             <TextView
                 style="@style/txt_color99_size14"
                 android:layout_centerVertical="true"
-                android:text="@string/changeoff_goods_realamt" />
+                android:text="@string/chargeoff_goods_realamt" />
 
             <TextView
                 android:id="@+id/tv_goods_actual_money"
@@ -175,6 +175,6 @@
         android:id="@+id/btn_goods_code_use"
         style="@style/btn_margin15_round_blue_click"
         android:layout_alignParentBottom="true"
-        android:text="@string/changeoff_ticket_use"
+        android:text="@string/chargeoff_ticket_use"
         android:visibility="gone"/>
 </RelativeLayout>

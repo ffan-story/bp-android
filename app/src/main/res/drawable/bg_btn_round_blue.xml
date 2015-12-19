@@ -2,12 +2,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item android:state_enabled="true">
-        <shape>
-            <solid android:color="@color/bg_blue_defeat" />
-            <corners android:radius="4dp"/>
-        </shape>
-    </item>
+    <!--<item android:state_enabled="true">-->
+        <!--<shape>-->
+            <!--<solid android:color="@color/bg_blue_defeat" />-->
+            <!--<corners android:radius="4dp"/>-->
+        <!--</shape>-->
+    <!--</item>-->
 
     <!-- 禁用状态 -->
     <item android:state_enabled="false" >
@@ -16,6 +16,7 @@
             <corners android:radius="4dp"/>
         </shape>
     </item>
+    <!-- 点击 -->
     <item android:state_pressed="true">
         <shape>
             <solid android:color="@color/bg_blue_focused" />
