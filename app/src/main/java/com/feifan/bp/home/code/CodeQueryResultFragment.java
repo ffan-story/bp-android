@@ -309,7 +309,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 stopWaiting();
-                setContentShown(true);
+//                setContentShown(true);
                 if (isShowDlg && isAdded()) {
                     mDialog.setMessage(volleyError.getMessage())
                             .show();
@@ -344,7 +344,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 stopWaiting();
-                setContentShown(true);
+//                setContentShown(true);
                 if (isShowDlg && isAdded()) {
                     mDialog.setMessage(volleyError.getMessage())
                             .show();

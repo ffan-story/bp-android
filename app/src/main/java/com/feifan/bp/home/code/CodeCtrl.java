@@ -64,11 +64,18 @@ public class CodeCtrl {
      * @param listener
      */
     public static void checkCouponCode(String code,  String memberId, Listener listener,ErrorListener errorListener) {
-        JsonRequest<CodeCheckModel> request = new PostRequest<CodeCheckModel>(UrlFactory.getCheckCouponCode(), errorListener)
+        String uid = String.valueOf(UserProfile.getInstance().getUid());
+        String loginToken = UserProfile.getInstance().getLoginToken();
+
+        JsonRequest<CodeCheckModel> request = new PostRequest<CodeCheckModel>(
+                UrlFactory.getCheckCouponCode()
+                          .concat("?uid=" + uid)
+                          .concat("&loginToken=" + loginToken)
+                          .concat("&appType=bpMobile"), errorListener)
                 .param("certificateno", code)
                 .param("memberId", memberId)
-                .header("uid", UserProfile.getInstance().getUid()+"")
-                .header("loginToken", UserProfile.getInstance().getLoginToken())
+                .header("uid", uid)
+                .header("loginToken", loginToken)
                 .header("appType", "bpMobile")
                 .targetClass(CodeCheckModel.class)
                 .listener(listener);
@@ -84,12 +91,20 @@ public class CodeCtrl {
      * @param listener
      */
     public static void checkGoodsCode(String code,  String orderNo, Listener listener,ErrorListener errorListener) {
-        JsonRequest<CodeCheckModel> request = new PostRequest<CodeCheckModel>(UrlFactory.getCheckGoodsCode(), errorListener)
+        String uid = String.valueOf(UserProfile.getInstance().getUid());
+        String loginToken = UserProfile.getInstance().getLoginToken();
+
+        JsonRequest<CodeCheckModel> request = new PostRequest<CodeCheckModel>(
+                UrlFactory.getCheckGoodsCode()
+                          .concat("?uid=" + uid)
+                          .concat("&loginToken=" + loginToken)
+                          .concat("&appType=bpMobile"),
+                          errorListener)
                 .param("signNo", code)
                 .param("orderNo", orderNo)
-                .header("uid", UserProfile.getInstance().getUid()+"")
-                .header("loginToken", UserProfile.getInstance().getLoginToken())
-                .header("appType","bpMobile")
+                .header("uid", uid)
+                .header("loginToken", loginToken)
+                .header("appType", "bpMobile")
                 .targetClass(CodeCheckModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
