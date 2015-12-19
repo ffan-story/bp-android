@@ -92,6 +92,7 @@ public class SimpleBrowserFragment extends ProgressFragment {
                 PlatformState.getInstance().setLastUrl(mUrl);
                 LogUtil.i(TAG, "mUrl==" + mUrl);
             } else {
+
                 setContentEmpty(true);
             }
         }
