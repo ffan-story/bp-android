@@ -252,6 +252,9 @@ public abstract class ProgressFragment extends PlatformFragment {
     public boolean isContentEmpty() {
         return mIsContentEmpty;
     }
+    public boolean isContentShown(){
+        return mContentShown;
+    }
 
     /**
      * 控制空视图与内容视图的显示和隐藏，调用此方法时，内容视图不能为空

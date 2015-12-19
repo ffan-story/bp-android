@@ -61,6 +61,7 @@ public class SimpleBrowserFragment extends ProgressFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUrl = getArguments().getString(EXTRA_KEY_URL);
+
     }
 
     @Override
@@ -83,14 +84,24 @@ public class SimpleBrowserFragment extends ProgressFragment {
 
     @Override
     protected void requestData() {
+        setContentShown(false);
         if (mUrl != null) {
             if (Utils.isNetworkAvailable(getActivity())) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!isContentShown()){
+                            setContentShown(true);
+                            setContentEmpty(true);
+                        }
+
+                    }
+                },10000);
                 setContentEmpty(false);
                 mWebView.loadUrl(mUrl);
                 PlatformState.getInstance().setLastUrl(mUrl);
                 LogUtil.i(TAG, "mUrl==" + mUrl);
             } else {
-
                 setContentEmpty(true);
             }
         }
@@ -139,7 +150,7 @@ public class SimpleBrowserFragment extends ProgressFragment {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            setContentShown(false);
+
         }
 
         @Override
