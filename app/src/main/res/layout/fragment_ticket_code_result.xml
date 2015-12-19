@@ -21,9 +21,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/view_spacing_10"
-                android:layout_marginRight="@dimen/view_spacing_10"
-                android:layout_marginTop="@dimen/view_spacing_10">
+                android:layout_marginRight="@dimen/view_spacing_10">
 
                 <TextView
                     style="@style/txt_color99_size14"
@@ -41,7 +39,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/view_spacing_10"
                 android:layout_marginRight="@dimen/view_spacing_10"
                 android:layout_marginTop="@dimen/view_spacing_5">
 
@@ -61,7 +58,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/view_spacing_10"
                 android:layout_marginRight="@dimen/view_spacing_10"
                 android:layout_marginTop="@dimen/view_spacing_5">
 
@@ -81,7 +77,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/view_spacing_10"
                 android:layout_marginRight="@dimen/view_spacing_10"
                 android:layout_marginTop="@dimen/view_spacing_5">
 

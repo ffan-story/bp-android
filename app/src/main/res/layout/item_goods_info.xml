@@ -5,8 +5,11 @@
     android:layout_height="wrap_content">
 
         <TextView
+            android:maxEms="30"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:id="@+id/googs_item_title"
-            style="@style/txt_color33_size14"
+            style="@style/txt_color33_size16"
             android:layout_centerVertical="true"
             android:text="海风还哈佛啊哈" />
 

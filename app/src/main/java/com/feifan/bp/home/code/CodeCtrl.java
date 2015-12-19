@@ -63,8 +63,8 @@ public class CodeCtrl {
      * @param memberId
      * @param listener
      */
-    public static void checkCouponCode(String code,  String memberId, Listener listener) {
-        JsonRequest<CodeCheckModel> request = new PostRequest<CodeCheckModel>(UrlFactory.getCheckCouponCode(), new DefaultErrorListener())
+    public static void checkCouponCode(String code,  String memberId, Listener listener,ErrorListener errorListener) {
+        JsonRequest<CodeCheckModel> request = new PostRequest<CodeCheckModel>(UrlFactory.getCheckCouponCode(), errorListener)
                 .param("certificateno", code)
                 .param("memberId", memberId)
                 .header("uid", UserProfile.getInstance().getUid()+"")
@@ -83,8 +83,8 @@ public class CodeCtrl {
      * @param orderNo
      * @param listener
      */
-    public static void checkGoodsCode(String code,  String orderNo, Listener listener) {
-        JsonRequest<CodeCheckModel> request = new PostRequest<CodeCheckModel>(UrlFactory.getCheckGoodsCode(), new DefaultErrorListener())
+    public static void checkGoodsCode(String code,  String orderNo, Listener listener,ErrorListener errorListener) {
+        JsonRequest<CodeCheckModel> request = new PostRequest<CodeCheckModel>(UrlFactory.getCheckGoodsCode(), errorListener)
                 .param("signNo", code)
                 .param("orderNo", orderNo)
                 .header("uid", UserProfile.getInstance().getUid()+"")
