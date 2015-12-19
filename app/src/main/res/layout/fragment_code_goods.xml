@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_margin="@dimen/view_spacing_5"
@@ -21,7 +20,7 @@
             <TextView
                 style="@style/txt_color33_size14"
                 android:layout_centerVertical="true"
-                android:text="订单号：" />
+                android:text="@string/changeoff_goods_order_number" />
 
             <TextView
                 android:id="@+id/tv_goods_order"
@@ -42,7 +41,7 @@
             <TextView
                 style="@style/txt_color33_size14"
                 android:layout_centerVertical="true"
-                android:text="所属部门：" />
+                android:text="@string/login_info_belongs_store" />
 
             <TextView
                 android:id="@+id/tv_goods_branch"
@@ -63,7 +62,7 @@
             <TextView
                 style="@style/txt_color33_size14"
                 android:layout_centerVertical="true"
-                android:text="核销状态：" />
+                android:text="@string/changeoff_goods_status" />
 
             <TextView
                 android:id="@+id/tv_goods_status"
@@ -92,7 +91,7 @@
             android:background="@color/white"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="商品信息" />
+            android:text="@string/changeoff_goods_info" />
 
         <ListView
             android:padding="@dimen/view_spacing_5"
@@ -114,7 +113,7 @@
             <TextView
                 style="@style/txt_color99_size14"
                 android:layout_centerVertical="true"
-                android:text="总金额：" />
+                android:text="@string/changeoff_goods_orderamt" />
 
             <TextView
                 android:id="@+id/tv_goods_total_money"
@@ -135,7 +134,7 @@
             <TextView
                 style="@style/txt_color99_size14"
                 android:layout_centerVertical="true"
-                android:text="积分支付：" />
+                android:text="@string/changeoff_goods_point" />
 
             <TextView
                 android:id="@+id/tv_goods_integrate_money"
@@ -156,7 +155,7 @@
             <TextView
                 style="@style/txt_color99_size14"
                 android:layout_centerVertical="true"
-                android:text="实际金额：" />
+                android:text="@string/changeoff_goods_realamt" />
 
             <TextView
                 android:id="@+id/tv_goods_actual_money"
@@ -176,6 +175,6 @@
         android:id="@+id/btn_goods_code_use"
         style="@style/btn_margin15_round_blue_click"
         android:layout_alignParentBottom="true"
-        android:text="使用"
+        android:text="@string/changeoff_ticket_use"
         android:visibility="gone"/>
 </RelativeLayout>

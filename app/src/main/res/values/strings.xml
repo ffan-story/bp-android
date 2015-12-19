@@ -242,4 +242,13 @@
     <string name="changeoff_ticket_rules">活动规则</string>
     <string name="changeoff_ticket_use">使用</string>
 
+    <string name="changeoff_goods_order_number">订单号:</string>
+    <string name="changeoff_goods_status">核销状态:</string>
+    <string name="changeoff_goods_info">商品信息</string>
+    <string name="changeoff_goods_orderamt">总金额:</string>
+    <string name="changeoff_goods_point">积分支付:</string>
+    <string name="changeoff_goods_realamt">实付金额:</string>
+
+
+
 </resources>

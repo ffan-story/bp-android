@@ -35,6 +35,8 @@
     <color name="bg_blue_defeat">#00a8ed</color>
     <color name="bg_blue_focused">#4dc6f8</color>
 
+    <color name="bg_button_gray">#eeeeee</color>
+
     <color name="accent">#1bb0ed</color>
     <color name="ripple">#4dc6f8</color>
     <color name="accent_pressed">#00a8ed</color>
