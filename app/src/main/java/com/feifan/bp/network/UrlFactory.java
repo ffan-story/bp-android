@@ -44,6 +44,9 @@ public abstract class UrlFactory {
     //H5页面相对路径－核销券码详情页
     private static final String URL_PATH_CODE_COUPONE_DETAIL ="/H5App/default.html#/activity/rule/";
 
+    // H5页面相对路径－订单详情
+    private static final String URL_PATH_ORDER_DETAIL = "/H5App/index.html#/order/detail";
+
     private static final String URL_SOP_FFAN = "http://sop.ffan.com";
 
 
@@ -107,6 +110,15 @@ public abstract class UrlFactory {
      */
     public static String getCodeCouponeDetail(String code){
         return urlForHtml(URL_PATH_CODE_COUPONE_DETAIL+code);
+    }
+
+    /**
+     * 获取订单详情Url
+     * @param order
+     * @return
+     */
+    public static String getOrderDetailUrl(String order) {
+        return urlForHtml(URL_PATH_ORDER_DETAIL) + "&code=" + order;
     }
 
     public static String visitorsAnalysisForHtml() {

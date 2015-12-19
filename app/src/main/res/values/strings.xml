@@ -89,6 +89,9 @@
     <string name="error_message_feed_back_length">意见反馈信息长度不能超过300个字</string>
     <string name="error_message_feed_back_length_empty">意见反馈信息不能为空</string>
     <string name="error_message_permission_limited">无此操作权限</string>
+    <string name="error_message_unknown">未知错误，请稍后重试</string>
+    <string name="error_message_server_file">服务器文件错误</string>
+    <string name="error_message_network">您的网络好像有点问题</string>
 
     <string name="sd_card_exist">sd卡不存在</string>
     <string name="title_activity_browser">BrowserActivity</string>
@@ -249,7 +252,6 @@
     <string name="chargeoff_goods_orderamt">总金额:</string>
     <string name="chargeoff_goods_point">积分支付:</string>
     <string name="chargeoff_goods_realamt">实付金额:</string>
-
-
+    <string name="chargeoff_goods_order_detail">订单详情</string>
 
 </resources>

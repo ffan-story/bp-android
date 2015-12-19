@@ -76,7 +76,7 @@ public class CodeCtrl {
                           .concat("?uid=" + uid)
                           .concat("&loginToken=" + loginToken)
                           .concat("&appType=bpMobile")
-                        .concat("&app_verification_native=" + new Random().nextInt()), errorListener)
+                          .concat("&app_verification_native=" + new Random().nextInt()), errorListener)
                 .param("certificateno", code)
                 .param("memberId", memberId)
                 .header("uid", uid)

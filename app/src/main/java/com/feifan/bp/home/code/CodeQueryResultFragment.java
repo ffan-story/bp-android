@@ -1,6 +1,7 @@
 package com.feifan.bp.home.code;
 
 
+import java.net.UnknownHostException;
 import java.util.List;
 
 import com.android.volley.VolleyError;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,8 @@ import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.material.MaterialDialog;
+
+import org.json.JSONException;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -109,6 +113,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             view = stub.inflate();
             ll_goods_code_result = (LinearLayout) view.findViewById(R.id.ll_goods_code_result);
             tv_goods_order = (TextView) view.findViewById(R.id.tv_goods_order);
+            tv_goods_order.setOnClickListener(this);
             tv_goods_branch = (TextView) view.findViewById(R.id.tv_goods_branch);
             tv_goods_status = (TextView) view.findViewById(R.id.tv_goods_status);
             lv_goods_info = (ListView) view.findViewById(R.id.lv_goods_info);
@@ -153,10 +158,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                             setContentShown(true);
 
                             if(isShowDlg && isAdded()) {
-                                mDialog.setMessage(volleyError.getMessage())
-                                        .show();
-
-                                isShowDlg = false;
+                                showError(volleyError);
                             }
                         }
 
@@ -186,10 +188,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
                             if (isShowDlg && isAdded()) {
-                                mDialog.setMessage(volleyError.getMessage())
-                                        .show();
-
-                                isShowDlg = false;
+                                showError(volleyError);
                             }
                         }
                     });
@@ -266,11 +265,15 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_code_rule://规则
-                Bundle args = new Bundle();
-                args.putString(EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail(code));
-                PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.action_rule), args);
+                Bundle argsRule = new Bundle();
+                argsRule.putString(EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail(code));
+                PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.action_rule), argsRule);
                 break;
-
+            case R.id.tv_goods_order:
+                Bundle argsOrder = new Bundle();
+                argsOrder.putString(EXTRA_KEY_URL, UrlFactory.getOrderDetailUrl(orderNo));
+                PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.chargeoff_goods_order_detail), argsOrder);
+                break;
             case R.id.btn_goods_code_use://提货码
                 btn_code_use.setEnabled(false);
                 checkGoodsCode(code, orderNo);
@@ -312,9 +315,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 btn_code_use.setVisibility(View.GONE);
                 stopWaiting();
                 if (isShowDlg && isAdded()) {
-                    mDialog.setMessage(volleyError.getMessage())
-                            .show();
-                    isShowDlg = false;
+                    showError(volleyError);
                 }
             }
         });
@@ -348,15 +349,27 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             public void onErrorResponse(VolleyError volleyError) {
                 btn_code_use.setVisibility(View.GONE);
                 stopWaiting();
-//                setContentShown(true);
                 if (isShowDlg && isAdded()) {
-                    mDialog.setMessage(volleyError.getMessage())
-                            .show();
-                    isShowDlg = false;
+                    showError(volleyError);
                 }
             }
         });
 
+    }
+
+    private void showError(VolleyError error) {
+        String errorInfo = error.getMessage();
+        Throwable t = error.getCause();
+        if (t != null) {
+            if (t instanceof JSONException) {
+                errorInfo = Utils.getString(R.string.error_message_unknown);
+            } else if (t instanceof UnknownHostException) {
+                errorInfo = Utils.getString(R.string.error_message_network);
+            }
+        }
+        mDialog.setMessage(errorInfo)
+                .show();
+        isShowDlg = false;
     }
 
     public class MyAdapter extends BaseAdapter{
