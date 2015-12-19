@@ -186,7 +186,6 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
-                            setContentShown(true);
                             if (isShowDlg && isAdded()) {
                                 mDialog.setMessage(volleyError.getMessage())
                                         .show();
@@ -295,6 +294,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         CodeCtrl.checkCouponCode(code, memberId, new Response.Listener() {
             @Override
             public void onResponse(Object o) {
+                tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_already));
                 btn_code_use.setVisibility(View.GONE);
                 stopWaiting();
                 Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);
@@ -312,7 +312,6 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             public void onErrorResponse(VolleyError volleyError) {
                 btn_code_use.setVisibility(View.GONE);
                 stopWaiting();
-//                setContentShown(true);
                 if (isShowDlg && isAdded()) {
                     mDialog.setMessage(volleyError.getMessage())
                             .show();
@@ -332,6 +331,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         CodeCtrl.checkGoodsCode(code, orderNo, new Response.Listener() {
             @Override
             public void onResponse(Object o) {
+                tv_goods_status.setText(getResources().getString(R.string.chargeoff_already));
                 btn_code_use.setVisibility(View.GONE);
                 stopWaiting();
                 Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);

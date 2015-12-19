@@ -241,6 +241,7 @@
     <string name="changeoff_ticket_info">券信息</string>
     <string name="changeoff_ticket_rules">活动规则</string>
     <string name="changeoff_ticket_use">使用</string>
+    <string name="chargeoff_code_empty">提货码或券码不能为空</string>
 
     <string name="changeoff_goods_order_number">订单号:</string>
     <string name="changeoff_goods_status">核销状态:</string>

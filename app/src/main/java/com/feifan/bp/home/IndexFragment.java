@@ -280,7 +280,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 
                 String code = mCodeEditText.getText().toString().replaceAll(" ", "");
                 if (TextUtils.isEmpty(code)) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_sms_code_empty, Gravity.CENTER);
+                    Utils.showShortToast(getActivity(), R.string.chargeoff_code_empty, Gravity.CENTER);
                     return;
                 }
                 if (Utils.isDigitAndLetter(code)){
