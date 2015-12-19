@@ -1,4 +1,4 @@
-package com.feifan.bp.home.storeanalysis;
+package com.feifan.bp.browser;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;

@@ -25,7 +25,7 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 
 import com.feifan.bp.Utils;
-import com.feifan.bp.home.storeanalysis.SimpleBrowserFragment;
+import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.material.MaterialDialog;
@@ -290,9 +290,11 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
      * @param memberId
      */
     private void checkCouponCode(String code,String memberId){
+        startWaiting();
         CodeCtrl.checkCouponCode(code, memberId, new Response.Listener() {
             @Override
             public void onResponse(Object o) {
+                stopWaiting();
                 Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);
                 TimerTask task = new TimerTask() {
                     @Override
@@ -306,6 +308,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                stopWaiting();
                 setContentShown(true);
                 if (isShowDlg && isAdded()) {
                     mDialog.setMessage(volleyError.getMessage())
@@ -322,9 +325,11 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
      * @param orderNo
      */
     private void checkGoodsCode(String code,String orderNo){
+        startWaiting();
         CodeCtrl.checkGoodsCode(code, orderNo, new Response.Listener() {
             @Override
             public void onResponse(Object o) {
+                stopWaiting();
                 Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);
                 TimerTask task = new TimerTask() {
                     @Override
@@ -338,6 +343,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                stopWaiting();
                 setContentShown(true);
                 if (isShowDlg && isAdded()) {
                     mDialog.setMessage(volleyError.getMessage())

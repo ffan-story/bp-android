@@ -32,6 +32,7 @@ import android.widget.ImageButton;
 import android.widget.ScrollView;
 
 import com.feifan.bp.R;
+import com.feifan.bp.util.VersionUtil;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
@@ -192,7 +193,12 @@ public class FloatingActionButton extends ImageButton {
             setClipToOutline(true);
             setBackground(rippleDrawable);
         } else {
-            setBackground(drawable);
+            if(VersionUtil.isHigherThanICS_MR1()) {
+                setBackground(drawable);
+            } else {
+                setBackgroundDrawable(drawable);
+            }
+
         }
     }
 

@@ -5,9 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
 
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -27,6 +24,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
 
 import com.feifan.bp.util.TimeUtil;
