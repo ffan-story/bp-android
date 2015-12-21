@@ -53,5 +53,5 @@
 
     <color name="app_background_color">#fff4f3f2</color>
 
-    <color name="chargeoff_bg_gray">#FAFAFA</color>
+    <color name="bg_defult_gray">#FAFAFA</color>
 </resources>

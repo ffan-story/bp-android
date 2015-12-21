@@ -253,5 +253,6 @@
     <string name="chargeoff_goods_point">积分支付:</string>
     <string name="chargeoff_goods_realamt">实付金额:</string>
     <string name="chargeoff_goods_order_detail">订单详情</string>
+    <string name="rmb_￥">￥</string>
 
 </resources>

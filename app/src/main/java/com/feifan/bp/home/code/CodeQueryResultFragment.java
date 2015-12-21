@@ -254,9 +254,9 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         myAdapter = new MyAdapter();
         lv_goods_info.setAdapter(myAdapter);
         lv_goods_info.setSelector(R.drawable.goods_llistview_selector);
-        tv_goods_total_money.setText("￥" + goodsModel.getGoodsData().getOrderAmt());
-        tv_goods_integrate_money.setText("￥" + goodsModel.getGoodsData().getUsePointDiscount());
-        tv_goods_actual_money.setText("￥" + goodsModel.getGoodsData().getRealPayAmt());
+        tv_goods_total_money.setText(getResources().getString(R.string.rmb_￥) + goodsModel.getGoodsData().getOrderAmt());
+        tv_goods_integrate_money.setText(getResources().getString(R.string.rmb_￥) + goodsModel.getGoodsData().getUsePointDiscount());
+        tv_goods_actual_money.setText(getResources().getString(R.string.rmb_￥) + goodsModel.getGoodsData().getRealPayAmt());
 
     }
 
