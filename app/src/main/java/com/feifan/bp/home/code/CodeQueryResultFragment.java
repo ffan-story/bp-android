@@ -8,6 +8,7 @@ import com.android.volley.VolleyError;
 import com.feifan.bp.base.ProgressFragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.internal.widget.ViewStubCompat;
 
 import android.text.TextUtils;
@@ -96,7 +97,6 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
         View view;
-        LogUtil.e(TAG, "isCouponCode=="+isCouponCode);
         if (isCouponCode){//券码
             stub.setLayoutResource(R.layout.fragment_ticket_code_result);
             view = stub.inflate();
@@ -149,9 +149,12 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                     CodeCtrl.queryCouponsResult(code, new Response.Listener<CodeModel>() {
                         @Override
                         public void onResponse(CodeModel codeModel) {
-                            memberId = codeModel.getCouponsData().getMemberId();
-                            initCouponsView(codeModel);
-                            setContentShown(true);
+                            if(null != codeModel){
+                                memberId = codeModel.getCouponsData().getMemberId();
+                                initCouponsView(codeModel);
+                                setContentShown(true);
+                            }
+
                         }
 
                     }, new Response.ErrorListener() {
@@ -181,9 +184,12 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                     CodeCtrl.queryGoodsResult(code, new Response.Listener<GoodsModel>() {
                         @Override
                         public void onResponse(GoodsModel goodsModel) {
-                            orderNo = goodsModel.getGoodsData().getOrderNo();
-                            initGoodsView(goodsModel);
-                            setContentShown(true);
+                            if(null != goodsModel){
+                                orderNo = goodsModel.getGoodsData().getOrderNo();
+                                initGoodsView(goodsModel);
+                                setContentShown(true);
+                            }
+
                         }
 
                     }, new Response.ErrorListener() {
@@ -216,7 +222,8 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 break;
             case 4://已核销
                 tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_already));
-                btn_code_use.setVisibility(View.GONE);
+//                btn_code_use.setVisibility(View.GONE);
+                btn_code_use.setVisibility(View.VISIBLE);
                 break;
             case 6://已过期
                 tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_timeout));
@@ -254,9 +261,9 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         myAdapter = new MyAdapter();
         lv_goods_info.setAdapter(myAdapter);
         lv_goods_info.setSelector(R.drawable.goods_llistview_selector);
-        tv_goods_total_money.setText(getResources().getString(R.string.rmb_￥) + goodsModel.getGoodsData().getOrderAmt());
-        tv_goods_integrate_money.setText(getResources().getString(R.string.rmb_￥) + goodsModel.getGoodsData().getUsePointDiscount());
-        tv_goods_actual_money.setText(getResources().getString(R.string.rmb_￥) + goodsModel.getGoodsData().getRealPayAmt());
+        tv_goods_total_money.setText(getString(R.string.chargeoff_goods_price_format, goodsModel.getGoodsData().getOrderAmt()));
+        tv_goods_integrate_money.setText(getString(R.string.chargeoff_goods_price_format, goodsModel.getGoodsData().getUsePointDiscount()));
+        tv_goods_actual_money.setText(getString(R.string.chargeoff_goods_price_format, goodsModel.getGoodsData().getRealPayAmt()));
 
     }
 
@@ -296,6 +303,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
      * @param memberId
      */
     private void checkCouponCode(String code,String memberId){
+
         startWaiting();
         CodeCtrl.checkCouponCode(code, memberId, new Response.Listener() {
             @Override
@@ -304,14 +312,12 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 btn_code_use.setVisibility(View.GONE);
                 stopWaiting();
                 Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);
-                TimerTask task = new TimerTask() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         getActivity().finish();
                     }
-                };
-                Timer timer = new Timer();
-                timer.schedule(task, 1000);
+                }, 1000);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -345,6 +351,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                         getActivity().finish();
                     }
                 };
+
                 Timer timer = new Timer();
                 timer.schedule(task, 1000);
             }
