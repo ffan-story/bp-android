@@ -197,7 +197,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             startActivity(Utils.getSystemBrowser(url));
-//                            PlatformState.getInstance().reset();
+                            PlatformState.getInstance().reset();
                             UserProfile.getInstance().clear();
                         }
                     });

@@ -98,13 +98,15 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             }
         });
         mMessageTab = (BadgerRadioButton) mBottomBar.getChildAt(MESSAGE_POSITION);
-        // 加载内容视图
-        initContent();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        // 加载内容视图
+        initContent();
 
         // 获取未读提示状态
         if(UserProfile.getInstance().isStoreUser()){
