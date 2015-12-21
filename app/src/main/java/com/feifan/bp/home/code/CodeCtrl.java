@@ -38,6 +38,9 @@ public class CodeCtrl {
                 .param("certificateno", code)
                 .param("app_verification_native", String.valueOf(new Random().nextInt()))
                 .build()
+                .header("uid", String.valueOf(UserProfile.getInstance().getUid()))
+                .header("loginToken", UserProfile.getInstance().getLoginToken())
+                .header("appType", "bpMobile")
                 .targetClass(CodeModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
@@ -55,6 +58,9 @@ public class CodeCtrl {
                 .param("signNo", code)
                 .param("app_verification_native", String.valueOf(new Random().nextInt()))
                 .build()
+                .header("uid", String.valueOf(UserProfile.getInstance().getUid()))
+                .header("loginToken", UserProfile.getInstance().getLoginToken())
+                .header("appType", "bpMobile")
                 .targetClass(GoodsModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);

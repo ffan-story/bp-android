@@ -1,6 +1,9 @@
 package com.feifan.bp.home.code;
 
 
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.List;
 
@@ -372,7 +375,8 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         if (t != null) {
             if (t instanceof JSONException) {
                 errorInfo = Utils.getString(R.string.error_message_unknown);
-            } else if (t instanceof UnknownHostException) {
+            } else if (t instanceof IOException
+                    || t instanceof SocketException) {
                 errorInfo = Utils.getString(R.string.error_message_network);
             }
         }
