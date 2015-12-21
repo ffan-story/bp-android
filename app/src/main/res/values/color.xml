@@ -52,4 +52,6 @@
     <color name="blue_dark">#087aaa</color>
 
     <color name="app_background_color">#fff4f3f2</color>
+
+    <color name="chargeoff_bg_gray">#FAFAFA</color>
 </resources>

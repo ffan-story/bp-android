@@ -7,8 +7,7 @@
     <RelativeLayout
         android:id="@+id/rl_ticket_code_result"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/ll_code_top"
@@ -95,7 +94,9 @@
                     android:singleLine="true"
                     android:textColor="@color/red" />
             </RelativeLayout>
+
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/ll_code_center"

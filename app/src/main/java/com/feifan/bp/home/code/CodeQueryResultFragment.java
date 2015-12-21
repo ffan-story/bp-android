@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -77,6 +78,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     // dialog
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
+    private MyAdapter myAdapter;
 
 
     @Override
@@ -249,7 +251,9 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 break;
         }
         productInfos  = goodsModel.getGoodsData().getProductList();
-        lv_goods_info.setAdapter(new MyAdapter());
+        myAdapter = new MyAdapter();
+        lv_goods_info.setAdapter(myAdapter);
+        lv_goods_info.setSelector(R.drawable.goods_llistview_selector);
         tv_goods_total_money.setText("￥" + goodsModel.getGoodsData().getOrderAmt());
         tv_goods_integrate_money.setText("￥" + goodsModel.getGoodsData().getUsePointDiscount());
         tv_goods_actual_money.setText("￥" + goodsModel.getGoodsData().getRealPayAmt());
@@ -356,7 +360,6 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         });
 
     }
-
     private void showError(VolleyError error) {
         String errorInfo = error.getMessage();
         Throwable t = error.getCause();
@@ -381,29 +384,25 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
+            final ViewHolder holder;
             if(convertView == null){
                 convertView = View.inflate(getContext(),R.layout.item_goods_info,null);
-                holder = new ViewHolder();
-                holder.googsItemTitle = (TextView)convertView.findViewById(R.id.googs_item_title);
-                holder.googsItemCount = (TextView)convertView.findViewById(R.id.goods_item_count);
-                holder.googsItemPrice= (TextView)convertView.findViewById(R.id.googs_item_price);
-                convertView.setTag(holder);
+                holder = ViewHolder.findAndCacheViews(convertView);
             }else{
                 holder = (ViewHolder)convertView.getTag();
             }
-
-            holder.googsItemTitle.setText(productInfos.get(position).getTitle());
-            holder.googsItemCount.setText("X" + productInfos.get(position).getProductCount());
-            holder.googsItemPrice.setText("￥" + productInfos.get(position).getProductPrice());
-
+            if(productInfos != null) {
+                holder.googsItemTitle.setText(productInfos.get(position).getTitle());
+                holder.googsItemCount.setText("x" + productInfos.get(position).getProductCount());
+                holder.googsItemPrice.setText("￥" + productInfos.get(position).getProductPrice());
+            }
             return convertView;
         }
 
         @Override
         public Object getItem(int position) {
 
-            return position;
+            return productInfos.get(position);
         }
 
         @Override
@@ -417,6 +416,14 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         private TextView googsItemTitle;
         private TextView googsItemCount;
         private TextView googsItemPrice;
+        public static ViewHolder findAndCacheViews(View view) {
+            ViewHolder holder = new ViewHolder();
+            holder.googsItemTitle = (TextView) view.findViewById(R.id.googs_item_title);
+            holder.googsItemCount = (TextView) view.findViewById(R.id.goods_item_count);
+            holder.googsItemPrice = (TextView) view.findViewById(R.id.googs_item_price);
+            view.setTag(holder);
+            return holder;
+        }
     }
 
 }
