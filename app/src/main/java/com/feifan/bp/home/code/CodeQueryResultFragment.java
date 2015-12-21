@@ -222,8 +222,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 break;
             case 4://已核销
                 tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_already));
-//                btn_code_use.setVisibility(View.GONE);
-                btn_code_use.setVisibility(View.VISIBLE);
+                btn_code_use.setVisibility(View.GONE);
                 break;
             case 6://已过期
                 tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_timeout));
