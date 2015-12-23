@@ -255,6 +255,7 @@
     <string name="chargeoff_goods_order_detail">订单详情</string>
 
     <string name="chargeoff_goods_price_format">￥%1$s</string>
+
     <!--sales management-->
     <string name="sales_management">营销管理</string>
     <string name="coupon_management">优惠券管理</string>
@@ -266,4 +267,23 @@
     <string name="review">审核中</string>
     <string name="approved">审核通过</string>
     <string name="auditrefused">审核拒绝</string>
+
+    <string name="flash_goods_amount">原价￥%1$s</string>
+    <string name="flash_goods_number">剩余库存：%1$s</string>
+    <string name="flash_goods_not_have_goods_tips">您还没有可报名的商品\n快去“商品管理”添加商品吧</string>
+    <string name="check_history">审核历史</string>
+    <string name="units_yuan">元</string>
+    <string name="shop_discount">商户优惠金额：</string>
+    <string name="feifan_discount">飞凡优惠金额：</string>
+    <string name="discount">优惠价格</string>
+    <string name="goods_number">商品数量</string>
+    <string name="current_status">当前状态：</string>
+    <string name="refuse_cause">拒绝原因：</string>
+    <string name="goods_discount">合计价格：</string>
+    <string name="at_once_submit">立即提交</string>
+    <string name="save_setting">保存设置</string>
+    <string name="goods_understock_tips">商品数量不能大于库存数量</string>
+
+    <string name="discount_content"><![CDATA[%1$s：<font color="#ff0000">%2$s</font>元]]></string>
 </resources>
+

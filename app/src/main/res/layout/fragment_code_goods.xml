@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <!--提货吗-->
     <LinearLayout
         android:id="@+id/ll_goods_code_result"

@@ -286,13 +286,15 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 }
                 if (Utils.isDigitAndLetter(code)) {
                     args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.error_message_text_search_illegal_format));
-                    PlatformTopbarActivity.startActivity(getActivity(), ErrorFragment.class.getName(),
-                            getActivity().getApplicationContext().getString(R.string.query_result), args);
+                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE_NEXT_LINE, getActivity().getApplicationContext().getString(R.string.please_again_input));
+                    PlatformTopbarActivity.startActivity(getActivity(),ErrorFragment.class.getName(),
+                            getActivity().getApplicationContext().getString(R.string.query_result),args);
                     return;
                 } else if (code.length() < Constants.COUPON_CODE_LENGTH) {
                     args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.error_message_text_sms_code_length_min));
-                    PlatformTopbarActivity.startActivity(getActivity(), ErrorFragment.class.getName(),
-                            getActivity().getApplicationContext().getString(R.string.query_result), args);
+                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE_NEXT_LINE, getActivity().getApplicationContext().getString(R.string.please_again_input));
+                    PlatformTopbarActivity.startActivity(getActivity(),ErrorFragment.class.getName(),
+                            getActivity().getApplicationContext().getString(R.string.query_result),args);
                     return;
                 }
 

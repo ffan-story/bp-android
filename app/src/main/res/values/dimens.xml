@@ -46,11 +46,15 @@
     <dimen name="fab_elevation_lollipop">8dp</dimen>
 
     <dimen name="view_height_1">1dp</dimen>
+    <dimen name="view_height_35">35dp</dimen>
     <dimen name="view_height_50">50dp</dimen>
     <dimen name="view_height_180">180dp</dimen>
+    <dimen name="view_height_60">60dp</dimen>
+    <dimen name="view_width_75">75dp</dimen>
 
     <!--SegmentedGroup-->
     <dimen name="radio_button_conner_radius">5dp</dimen>
     <dimen name="radio_button_stroke_border">1dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 
 </resources>

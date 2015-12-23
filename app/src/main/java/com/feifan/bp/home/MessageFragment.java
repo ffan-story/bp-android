@@ -1,7 +1,6 @@
 package com.feifan.bp.home;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -18,10 +17,10 @@ import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.base.OnTabLifetimeListener;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.UrlFactory;
@@ -190,15 +189,29 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         mPtrFrame = (PtrClassicFrameLayout) contentView.findViewById(R.id.rotate_header_list_view_frame);
         mListView = (LoadingMoreListView) mPtrFrame.findViewById(R.id.rotate_header_list_view);
         mPtrFrameEmpty = (PtrClassicFrameLayout) contentView.findViewById(R.id.ptr_empty);
+
+
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mList != null && mList.size() > 0) {
-                    if (mList.get(position).getmStrMessageStatus() != null && mList.get(position).getmStrMessageStatus().equals(Constants.UNREAD)) {
+                   /* if (mList.get(position).getmStrMessageStatus() != null && mList.get(position).getmStrMessageStatus().equals(Constants.UNREAD)) {
                         setMessageListStatus(mList.get(position).getUserid(), mList.get(position).getMaillnboxid(), position);
                     }
                     String strUri = UrlFactory.urlForHtml(mList.get(position).getmStrDetailUrl());
-                    BrowserActivity.startActivity(getActivity(), strUri);
+                    BrowserActivity.startActivity(getActivity(), strUri);*/
+
+                    //PlatformTopbarActivity.startActivityForResult(getActivity(), FlashEventGoodsSettingDetailFragment.class.getName(),"设置详情");
+
+                   Bundle args = new Bundle();
+                    args.putInt(ErrorFragment.EXTRA_KEY_ERROR_MIPMAP_ID,R.mipmap.icon_empty);
+                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.flash_goods_not_have_goods_tips));
+                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_BTN_TEXT, "去商品管理");
+                    args.putInt(ErrorFragment.EXTRA_KEY_ERROR_BTN_TEXT_TYPE, ErrorFragment.EXTRA_KEY_ERROR_BTN_LISTENER_TO_GOODS_MANAGE);
+                    PlatformTopbarActivity.startActivity(getActivity(), ErrorFragment.class.getName(),
+                            getActivity().getApplicationContext().getString(R.string.query_result), args);
+
                 }
             }
         });

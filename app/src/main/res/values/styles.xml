@@ -16,6 +16,11 @@
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
+    <style name="txt_color33_size12" parent="commmonTxt">
+        <item name="android:textColor">@color/font_color_33</item>
+        <item name="android:textSize">@dimen/font_size_12</item>
+    </style>
+
     <style name="txt_color33_size14" parent="commmonTxt">
         <item name="android:textColor">@color/font_color_33</item>
         <item name="android:textSize">@dimen/font_size_14</item>
@@ -55,6 +60,18 @@
         <item name="android:textColor">@color/font_color_33</item>
         <item name="android:textSize">@dimen/font_size_18</item>
     </style>
+
+    <style name="ed_color33_size14" parent="txt_color33_size14">
+        <item name="android:layout_width">@dimen/view_width_75</item>
+        <item name="android:layout_height">@dimen/view_height_35</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@drawable/bg_round_stroke_white</item>
+        <item name="android:padding">@dimen/view_spacing_5</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:inputType">number</item>
+        <item name="android:layout_marginRight">@dimen/view_spacing_15</item>
+    </style>
+
 
     <style name="SplashStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@mipmap/launch_page</item>
@@ -141,5 +158,27 @@
         <item name="android:padding">@dimen/view_spacing_20</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/font_size_14</item>
+    </style>
+
+    <style name="btn_round_orange_click">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/view_height_35</item>
+        <item name="android:layout_margin">@dimen/view_spacing_10</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/button_orange_text_color</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="android:background">@drawable/bg_button_orange_round</item>
+    </style>
+
+    <style name="btn_round_blue_change_white_click">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/view_height_35</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">@dimen/view_spacing_10</item>
+        <item name="android:textColor">@drawable/button_blue_text_color</item>
+        <item name="android:textSize">@dimen/font_size_14</item>
+        <item name="android:background">@drawable/bg_button_round_blue</item>
     </style>
 </resources>

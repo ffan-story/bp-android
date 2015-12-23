@@ -9,6 +9,10 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.feifan.bp.util.LogUtil;
@@ -304,5 +308,25 @@ public class Utils {
         if (!file.exists()) {
             file.mkdir();
         }
+    }
+
+    /**
+     * setting listview height
+     * @param listView
+     */
+    public static void settingListViewHeight(ListView listView) {
+        BaseAdapter listViewAdapter =  (BaseAdapter) listView.getAdapter();
+        if (listViewAdapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+        for ( int i = 0; i < listViewAdapter.getCount(); i++) {
+            View listItem = listViewAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params. height = totalHeight + listView.getDividerHeight()* (listViewAdapter.getCount());
+        listView.setLayoutParams(params);
     }
 }
