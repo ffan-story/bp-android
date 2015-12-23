@@ -18,7 +18,7 @@
         app:tabIndicatorColor="@color/accent_pressed"
         app:tabSelectedTextColor="@color/accent_pressed"
         app:tabTextColor="@color/text_normal" />
-    <com.feifan.bp.widget.WebViewPager
+    <com.feifan.bp.widget.CustomViewPager
         android:id="@+id/tab_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

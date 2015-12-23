@@ -67,16 +67,4 @@ public class TransFlowTabActivity extends BaseActivity{
     protected boolean isShowToolbar() {
         return true;
     }
-
-//    @Override
-//    protected void setupToolbar(Toolbar toolbar) {
-//        toolbar.setTitle(R.string.transaction_flow);
-//        toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
-//    }
 }

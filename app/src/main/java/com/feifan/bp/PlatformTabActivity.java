@@ -9,14 +9,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.browser.BrowserFragment;
-import com.feifan.bp.widget.WebViewPager;
+import com.feifan.bp.widget.CustomViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +93,7 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
 
         // 初始化Tab
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_bar);
-        WebViewPager pager = (WebViewPager) findViewById(R.id.tab_pager);
+        CustomViewPager pager = (CustomViewPager) findViewById(R.id.tab_pager);
         pager.setOffscreenPageLimit(1);
         mAdapter = createAdapter(args);
         pager.setAdapter(mAdapter);
@@ -108,6 +106,7 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
 
             @Override
             public void onPageSelected(int position) {
+                //当加载的Fragment是H5页面需重载刷新页面
                 mListener.onPageSelected();
             }
 

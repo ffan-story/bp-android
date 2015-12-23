@@ -29,6 +29,8 @@ import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
 import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
+import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
 import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.TimeUtil;
@@ -223,6 +225,9 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
      * 获取闪购对账流水单明细列表
      */
     private void getFlashFlowList(final boolean isShowLoading, final boolean isLoadMore) {
+        if(!isAdded()) {
+            return;
+        }
         if (isShowLoading) {
             ((TransFlowTabActivity) getActivity()).showProgressBar(true);
         }
@@ -395,7 +400,8 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
     @Override
     public void onLoadingMore() {
         if (flashDetailList.size() >= mTotalCount) {
-            Toast.makeText(getActivity(), getString(R.string.error_no_more_data), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.error_no_more_data), Toast.LENGTH_SHORT).show();
+            mFlowList.hideFooterView();
         } else {
             mPageNum++;
             getFlashFlowList(true, true);

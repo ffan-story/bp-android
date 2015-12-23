@@ -183,7 +183,6 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 if (getActivity() == null || getActivity().isFinishing()) {
                     return;
                 }
-
                 final int mustUpdate = versionModel.getMustUpdate();
                 final String url = versionModel.getVersionUrl();
 

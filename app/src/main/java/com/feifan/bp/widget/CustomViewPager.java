@@ -11,14 +11,14 @@ import android.view.MotionEvent;
  * <p/>
  * Created by Frank on 15/12/1.
  */
-public class WebViewPager extends ViewPager {
+public class CustomViewPager extends ViewPager {
     private boolean isCanScroll = false;
 
-    public WebViewPager(Context context) {
+    public CustomViewPager(Context context) {
         super(context);
     }
 
-    public WebViewPager(Context context, AttributeSet attrs) {
+    public CustomViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

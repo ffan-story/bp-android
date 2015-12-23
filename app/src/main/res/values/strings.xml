@@ -255,4 +255,15 @@
     <string name="chargeoff_goods_order_detail">订单详情</string>
 
     <string name="chargeoff_goods_price_format">￥%1$s</string>
+    <!--sales management-->
+    <string name="sales_management">营销管理</string>
+    <string name="coupon_management">优惠券管理</string>
+    <string name="event_management">活动管理</string>
+    <string name="event_registered">已报名活动</string>
+    <string name="event_register">可报名活动</string>
+    <string name="register_detail">报名详情</string>
+    <string name="notsubmitted">未提交</string>
+    <string name="review">审核中</string>
+    <string name="approved">审核通过</string>
+    <string name="auditrefused">审核拒绝</string>
 </resources>

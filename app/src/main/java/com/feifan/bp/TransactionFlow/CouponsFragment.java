@@ -138,6 +138,8 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     private void getCouponsData(String type, String month) {
         if(isAdded()) {
             ((TransFlowTabActivity) getActivity()).showProgressBar(true);
+        }else{
+            return;
         }
 
         Response.ErrorListener errorListener = new Response.ErrorListener() {

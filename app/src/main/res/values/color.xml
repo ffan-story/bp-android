@@ -54,4 +54,8 @@
     <color name="app_background_color">#fff4f3f2</color>
 
     <color name="bg_defult_gray">#FAFAFA</color>
+
+    <color name="pinkred">#F93578</color>
+    <color name="orange">#F97A35</color>
+    <color name="dark_orange">#FF5A00</color>
 </resources>

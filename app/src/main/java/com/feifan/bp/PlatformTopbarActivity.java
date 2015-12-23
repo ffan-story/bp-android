@@ -14,6 +14,8 @@ import com.feifan.bp.transactionflow.TransFlowTabActivity;
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
+import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
+
 
 /**
  * 项目通用带有Topbar的活动

@@ -137,8 +137,10 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                 PasswordCtrl.forgetPassword(newPhone, mAuthCode, mKeyCode, new Listener() {
                     @Override
                     public void onResponse(Object o) {
-                        Utils.showShortToast(getActivity().getApplicationContext(), getString(R.string.new_password_sended));
-                        getActivity().onBackPressed();
+                        if (isAdded()) {
+                            Utils.showShortToast(getActivity(), getString(R.string.new_password_sended));
+                            getActivity().onBackPressed();
+                        }
                     }
                 });
                 break;

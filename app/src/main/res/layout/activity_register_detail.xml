@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapse_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="265dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <include
+                layout="@layout/label_activity"
+                android:layout_marginTop="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <com.feifan.bp.widget.CustomToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:gravity="top"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:titleMarginTop="15dp">
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/TitleBarCenterText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"/>
+
+            </com.feifan.bp.widget.CustomToolbar>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_gravity="bottom"
+                app:tabBackground="@color/white"
+                app:tabIndicatorColor="@color/accent"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.feifan.bp.widget.CustomViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+</android.support.design.widget.CoordinatorLayout>

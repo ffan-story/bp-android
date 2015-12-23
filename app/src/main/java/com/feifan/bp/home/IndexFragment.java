@@ -44,6 +44,7 @@ import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerTextView;
 import com.feifan.statlib.FmsAgent;
@@ -283,15 +284,15 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     Utils.showShortToast(getActivity(), R.string.chargeoff_code_empty, Gravity.CENTER);
                     return;
                 }
-                if (Utils.isDigitAndLetter(code)){
+                if (Utils.isDigitAndLetter(code)) {
                     args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.error_message_text_search_illegal_format));
-                    PlatformTopbarActivity.startActivity(getActivity(),ErrorFragment.class.getName(),
-                            getActivity().getApplicationContext().getString(R.string.query_result),args);
+                    PlatformTopbarActivity.startActivity(getActivity(), ErrorFragment.class.getName(),
+                            getActivity().getApplicationContext().getString(R.string.query_result), args);
                     return;
-                }else if (code.length()<Constants.COUPON_CODE_LENGTH){
+                } else if (code.length() < Constants.COUPON_CODE_LENGTH) {
                     args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.error_message_text_sms_code_length_min));
-                    PlatformTopbarActivity.startActivity(getActivity(),ErrorFragment.class.getName(),
-                            getActivity().getApplicationContext().getString(R.string.query_result),args);
+                    PlatformTopbarActivity.startActivity(getActivity(), ErrorFragment.class.getName(),
+                            getActivity().getApplicationContext().getString(R.string.query_result), args);
                     return;
                 }
 
@@ -300,17 +301,17 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     return;
                 }
                 mCodeEditText.setText("");
-                if (code.length()==Constants.COUPON_CODE_LENGTH){//提货吗
-                    args.putString(CodeQueryResultFragment.CODE,code);
-                    args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON,false);
-                    PlatformTopbarActivity.startActivity(getActivity(),CodeQueryResultFragment.class.getName(),
-                            getActivity().getApplicationContext().getString(R.string.query_result),args);
+                if (code.length() == Constants.COUPON_CODE_LENGTH) {//提货吗
+                    args.putString(CodeQueryResultFragment.CODE, code);
+                    args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, false);
+                    PlatformTopbarActivity.startActivity(getActivity(), CodeQueryResultFragment.class.getName(),
+                            getActivity().getApplicationContext().getString(R.string.query_result), args);
                     return;
-                }else if (code.length() > Constants.COUPON_CODE_LENGTH){//券码
+                } else if (code.length() > Constants.COUPON_CODE_LENGTH) {//券码
                     args.putString(CodeQueryResultFragment.CODE, code);
                     args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
-                    PlatformTopbarActivity.startActivity(getActivity(),CodeQueryResultFragment.class.getName(),
-                            getActivity().getApplicationContext().getString(R.string.query_result),args);
+                    PlatformTopbarActivity.startActivity(getActivity(), CodeQueryResultFragment.class.getName(),
+                            getActivity().getApplicationContext().getString(R.string.query_result), args);
                     return;
                 }
                 return;
@@ -387,7 +388,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                             String url = UrlFactory.urlForHtml(item.url);
                             if (Utils.isNetworkAvailable(getContext())) {
                                 //统计埋点
-                                switch (item.id){
+                                switch (item.id) {
                                     case 1142:
                                         FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_ORDERMANA);
                                         break;// 订单管理
@@ -429,6 +430,11 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 
                                     Intent intent = PlatformTabActivity.buildIntent(getContext(), "店铺分析", fragmentArgs);
                                     startActivity(intent);
+                                } else if (item.id == 1227) {
+                                    Bundle args = new Bundle();
+                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
+                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, IndexSalesManageFragment.class.getName());
+                                    mListener.onFragmentInteraction(args);
                                 } else {
                                     BrowserActivity.startActivity(getContext(), url);
                                 }

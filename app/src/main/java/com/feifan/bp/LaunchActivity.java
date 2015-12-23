@@ -33,6 +33,7 @@ import com.feifan.bp.password.ResetPasswordFragment;
 import com.feifan.bp.settings.feedback.FeedBackFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
 import com.feifan.bp.widget.BadgerRadioButton;
+import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.widget.TabBar;
 import com.feifan.statlib.FmsAgent;
 
@@ -216,7 +217,15 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
-            } else if (to.equals(IndicatorFragment.class.getName())) {
+            } else if(to.equals(IndexSalesManageFragment.class.getName())){
+                if (Utils.isNetworkAvailable(this)) {
+                    Intent intent = new Intent(this, PlatformTopbarActivity.class);
+                    intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, IndexSalesManageFragment.class.getName());
+                    startActivity(intent);
+                } else {
+                    Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
+                }
+            }else if (to.equals(IndicatorFragment.class.getName())) {
                 showIndicatorInfo();
             } else if (to.equals(BrowserTabActivity.class.getName())) {
                 openTabBrowser(args);

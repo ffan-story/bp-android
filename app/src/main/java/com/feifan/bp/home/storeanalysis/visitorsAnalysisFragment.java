@@ -140,7 +140,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
     }
 
     @Override
-    public void onPageSelected() {
+      public void onPageSelected() {
         switch (tabIndex){
             case R.id.week:
                 mWebView.loadUrl(mUrl + "&days=7");
