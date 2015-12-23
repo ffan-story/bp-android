@@ -1,8 +1,9 @@
-package com.feifan.bp.home.storeanalysis;
+package com.feifan.bp.browser;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.internal.widget.ViewStubCompat;
 
 import android.view.MenuItem;
@@ -13,16 +14,19 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.feifan.bp.Constants;
-import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.statlib.FmsAgent;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 概览
@@ -57,6 +61,7 @@ public class SimpleBrowserFragment extends ProgressFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUrl = getArguments().getString(EXTRA_KEY_URL);
+
     }
 
     @Override
@@ -74,18 +79,24 @@ public class SimpleBrowserFragment extends ProgressFragment {
         View v = stub.inflate();
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
-//        if(mUrl != null) {
-//            mWebView.loadUrl(mUrl);
-//            PlatformState.getInstance().setLastUrl(mUrl);
-//            LogUtil.i(TAG, "mUrl==" + mUrl);
-//        }
         return v;
     }
 
     @Override
     protected void requestData() {
+        setContentShown(false);
         if (mUrl != null) {
             if (Utils.isNetworkAvailable(getActivity())) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!isContentShown()){
+                            setContentShown(true);
+                            setContentEmpty(true);
+                        }
+
+                    }
+                },10000);
                 setContentEmpty(false);
                 mWebView.loadUrl(mUrl);
                 PlatformState.getInstance().setLastUrl(mUrl);
@@ -99,11 +110,9 @@ public class SimpleBrowserFragment extends ProgressFragment {
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        Intent intent = new Intent(getActivity(), PlatformTopbarActivity.class);
-        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, SimpleBrowserFragment.class.getName());
-        intent.putExtra(PlatformTopbarActivity.EXTRA_URL, UrlFactory.storeDescriptionForHtml());
-        intent.putExtra(PlatformTopbarActivity.EXTRA_TITLE,getString(R.string.indicator_title));
-        startActivity(intent);
+        Bundle args = new Bundle();
+        args.putString(EXTRA_KEY_URL, UrlFactory.storeDescriptionForHtml());
+        PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.indicator_title), args);
         return false;
     }
 
@@ -141,13 +150,13 @@ public class SimpleBrowserFragment extends ProgressFragment {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            setContentShown(false);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             setContentShown(true);
+
         }
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {

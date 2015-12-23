@@ -18,8 +18,6 @@ import com.umeng.analytics.MobclickAgent;
  * Created by xuchunlei on 15/11/9.
  */
 public abstract class PlatformBaseActivity extends AppCompatActivity {
-
-//    private ProgressDialog mWaitingDlg;
     private MaterialDialog mErrorDlg;
 
     // 空视图界面
@@ -89,6 +87,7 @@ public abstract class PlatformBaseActivity extends AppCompatActivity {
             removeDialog(DIALOG_ID_PROGRESS_BAR);
         }
     }
+
 
     //add by tianjun 2015.11.30
     protected IEmptyView.EmptyViewPlaceHolderType getEmptyViewPlaceHolderType() {

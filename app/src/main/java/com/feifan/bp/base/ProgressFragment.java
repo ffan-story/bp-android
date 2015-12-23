@@ -1,5 +1,6 @@
 package com.feifan.bp.base;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import com.feifan.bp.R;
+import com.feifan.bp.util.LogUtil;
 
 /**
  *
@@ -250,6 +252,9 @@ public abstract class ProgressFragment extends PlatformFragment {
     public boolean isContentEmpty() {
         return mIsContentEmpty;
     }
+    public boolean isContentShown(){
+        return mContentShown;
+    }
 
     /**
      * 控制空视图与内容视图的显示和隐藏，调用此方法时，内容视图不能为空
@@ -310,6 +315,28 @@ public abstract class ProgressFragment extends PlatformFragment {
         // have our data right away and start with the progress indicator.
         if (mContentView == null) {
             setContentShown(false, false);
+        }
+    }
+
+    // FIXME refactory me later
+    private Dialog mWaitingDlg;
+
+    protected void startWaiting() {
+        if(isAdded()) {
+            if(mWaitingDlg == null) {
+                mWaitingDlg = new Dialog(getActivity(), R.style.LoadingDialog);
+                mWaitingDlg.setContentView(R.layout.progress_bar_layout);
+                mWaitingDlg.setCancelable(false);
+            }
+            mWaitingDlg.show();
+        }
+    }
+
+    protected void stopWaiting() {
+        if(isAdded()) {
+            if(mWaitingDlg != null && mWaitingDlg.isShowing()) {
+                mWaitingDlg.dismiss();
+            }
         }
     }
 }

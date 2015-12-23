@@ -1,7 +1,6 @@
 package com.feifan.bp.home.storeanalysis;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
@@ -17,7 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.feifan.bp.Constants;
-import com.feifan.bp.OnFragmentInteractionListener;
+
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.PlatformTopbarActivity;
@@ -25,6 +24,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
 
 import com.feifan.bp.util.TimeUtil;
@@ -80,6 +80,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
         rb_define = (RadioButton) v.findViewById(R.id.define);
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
+
         rb_week.setChecked(true);
         tabIndex = R.id.week;
         segmentedGroup.setOnCheckedChangeListener(this);
@@ -110,11 +111,9 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        Intent intent = new Intent(getActivity(), PlatformTopbarActivity.class);
-        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, SimpleBrowserFragment.class.getName());
-        intent.putExtra(PlatformTopbarActivity.EXTRA_URL, UrlFactory.storeDescriptionForHtml());
-        intent.putExtra(PlatformTopbarActivity.EXTRA_TITLE, getString(R.string.indicator_title));
-        startActivity(intent);
+        Bundle args = new Bundle();
+        args.putString(EXTRA_KEY_URL, UrlFactory.storeDescriptionForHtml());
+        PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(),getString(R.string.indicator_title),args);
         return false;
     }
 

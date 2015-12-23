@@ -13,7 +13,6 @@ import android.widget.RadioGroup;
 
 import com.android.volley.Response;
 import com.feifan.bp.base.BaseActivity;
-import com.feifan.bp.base.OnTabLifetimeListener;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
@@ -24,6 +23,7 @@ import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.home.SettingsFragment;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
+import com.feifan.bp.home.code.CodeQueryResultFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
@@ -98,13 +98,18 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             }
         });
         mMessageTab = (BadgerRadioButton) mBottomBar.getChildAt(MESSAGE_POSITION);
+
         // 加载内容视图
         initContent();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        // 用于检查更新后，清除登录信息的情况
+        verifyContent();
 
         // 获取未读提示状态
         if(UserProfile.getInstance().isStoreUser()){
@@ -119,14 +124,11 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 PlatformState.getInstance().updateUnreadStatus(refundId, readMessageModel.refundCount > 0);
 
                 // 更新消息提示
-                if(readMessageModel.messageCount > 0) {
+                if (readMessageModel.messageCount > 0) {
                     mMessageTab.showBadger();
                 } else {
                     mMessageTab.hideBadger();
                 }
-//                if(mCurrentFragment instanceof OnTabLifetimeListener) {
-//                    ((OnTabLifetimeListener)mCurrentFragment).onEnter();
-//                }
             }
         });
     }
@@ -218,7 +220,12 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 showIndicatorInfo();
             } else if (to.equals(BrowserTabActivity.class.getName())) {
                 openTabBrowser(args);
-            } else {
+            }
+//            else if(to.equals(PlatformTopbarActivity.class.getName())){
+//                //提货码核销
+//                PlatformTopbarActivity.startActivityForResult(this, CodeQueryResultFragment.class.getName(), "查询结果");
+//            }
+            else{
                 openBrowser(args.getString(BrowserActivity.EXTRA_KEY_URL));
             }
         } else if (from.equals(UserInfoFragment.class.getName())) {
@@ -281,29 +288,18 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         switchFragment(ForgetPasswordFragment.newInstance());
     }
 
-    // 显示重置密码
-//    private void showResetPassword() {
-//        mBottomBar.setVisibility(View.GONE);
-//        switchFragment(ResetPasswordFragment.newInstance());
-//    }
-
     // 显示登录界面
     private void showLogin() {
         mBottomBar.setVisibility(View.GONE);
         switchFragment(LoginFragment.newInstance());
     }
 
-    //帮助中心
-//    private void showHelpCenter() {
-//        mBottomBar.setVisibility(View.GONE);
-//        switchFragment(HelpCenterFragment.newInstance());
-//    }
-
-    //显示意见反馈页面
-//    private void showFeedBack() {
-//        mBottomBar.setVisibility(View.GONE);
-//        switchFragment(FeedBackFragment.newInstance());
-//    }
+    // 检验内容
+    private void verifyContent(){
+        if (UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
+            showLogin();
+        }
+    }
 
     private void showLoginInfo() {
         mBottomBar.setVisibility(View.GONE);

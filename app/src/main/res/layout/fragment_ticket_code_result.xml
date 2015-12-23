@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--券码-->
+    <RelativeLayout
+        android:id="@+id/rl_ticket_code_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_code_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_top_bottom_background"
+            android:padding="@dimen/view_spacing_10"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/view_spacing_10">
+
+                <TextView
+                    style="@style/txt_color99_size14"
+                    android:layout_centerVertical="true"
+                    android:text="@string/chargeoff_ticket_code" />
+
+                <TextView
+                    android:id="@+id/tv_ticket_code"
+                    style="@style/txt_color33_size14"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/view_spacing_10"
+                android:layout_marginTop="@dimen/view_spacing_5">
+
+                <TextView
+                    style="@style/txt_color99_size14"
+                    android:layout_centerVertical="true"
+                    android:text="@string/chargeoff_ticket_buytime" />
+
+                <TextView
+                    android:id="@+id/tv_ticket_code_time"
+                    style="@style/txt_color33_size14"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/view_spacing_10"
+                android:layout_marginTop="@dimen/view_spacing_5">
+
+                <TextView
+                    style="@style/txt_color99_size14"
+                    android:layout_centerVertical="true"
+                    android:text="@string/chargeoff_ticket_expiry_date" />
+
+                <TextView
+                    android:id="@+id/tv_ticket_code_timeout"
+                    style="@style/txt_color33_size14"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/view_spacing_10"
+                android:layout_marginTop="@dimen/view_spacing_5">
+
+                <TextView
+                    style="@style/txt_color99_size14"
+                    android:layout_centerVertical="true"
+                    android:text="@string/chargeoff_ticket_status" />
+
+                <TextView
+                    android:id="@+id/tv_ticket_code_status"
+                    style="@style/txt_color33_size16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:singleLine="true"
+                    android:textColor="@color/red" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_code_center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_code_top"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            android:background="@drawable/border_top_bottom_background"
+            android:orientation="vertical"
+            android:padding="@dimen/view_spacing_10">
+
+            <TextView
+                style="@style/txt_color99_size14"
+                android:layout_centerVertical="true"
+                android:text="@string/chargeoff_ticket_info" />
+
+            <TextView
+                android:id="@+id/tv_ticket_code_title1"
+                style="@style/txt_color33_size14"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/view_spacing_5" />
+
+            <TextView
+                android:id="@+id/tv_ticket_code_title2"
+                style="@style/txt_color99_size14"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/view_spacing_5" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/ll_code_rule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_code_center"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            style="@style/txt_color99_size14"
+            android:drawableRight="@mipmap/settings_ic_right_arrow"
+            android:background="@drawable/border_top_bottom_background"
+            android:padding="@dimen/view_spacing_10"
+            android:text="@string/chargeoff_ticket_rules" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_ticket_code_use"
+        style="@style/btn_margin15_round_blue_click"
+        android:layout_alignParentBottom="true"
+        android:text="@string/chargeoff_ticket_use"
+        android:visibility="gone"/>
+</RelativeLayout>

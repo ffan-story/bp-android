@@ -13,6 +13,8 @@ import android.view.View;
 
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.home.ErrorFragment;
+import com.feifan.bp.home.code.CodeQueryResultFragment;
 import com.feifan.bp.util.LogUtil;
 
 import bp.feifan.com.codescanner.CaptureActivityOfResult;
@@ -65,24 +67,47 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
 
     @Override
     public void getScanCodeResult(String resultText, long timeStamp, String barcodeFormat) {
-        LogUtil.i(TAG, "getScanCodeResult() text=" + resultText + " time=" + timeStamp +
-                " format=" + barcodeFormat);
-        if (!Utils.isNetworkAvailable(this)) {
-            Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
-            finish();
+        LogUtil.i(TAG, "getScanCodeResult() text=" + resultText + " time=" + timeStamp + " format=" + barcodeFormat);
+
+        if (TextUtils.isEmpty(resultText)) {
             return;
         }
-        if (TextUtils.isEmpty(resultText)) {
-            //TODO: Toast and return??
+        Bundle args = new Bundle();
+        if (Utils.isDigitAndLetter(resultText)){
+            args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getApplicationContext().getString(R.string.error_message_text_sms_code_all_number));
+            PlatformTopbarActivity.startActivity(this,ErrorFragment.class.getName(),
+                    getApplicationContext().getString(R.string.query_result),args);
+            return;
+        }else if (resultText.length()<Constants.COUPON_CODE_LENGTH){
+            args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getApplicationContext().getString(R.string.error_message_text_sms_code_length_min));
+            PlatformTopbarActivity.startActivity(this,ErrorFragment.class.getName(),
+                    getApplicationContext().getString(R.string.query_result),args);
             return;
         }
 
-        if(TextUtils.isEmpty(mUrlStr)){
+        if (!Utils.isNetworkAvailable(getApplicationContext())) {
+            Utils.showShortToast(getApplicationContext(), R.string.error_message_text_offline, Gravity.CENTER);
+            finish();
             return;
         }
-        String urlStr = String.format(mUrlStr, resultText);
-        LogUtil.i(TAG, "urlStr  ==" + urlStr);
-        BrowserActivity.startForResultActivity(this, urlStr);
+        if (resultText.length()==Constants.COUPON_CODE_LENGTH){//提货码
+            args.putString(CodeQueryResultFragment.CODE, resultText);
+            args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, false);
+            PlatformTopbarActivity.startActivity(this,CodeQueryResultFragment.class.getName(), getApplicationContext().getString(R.string.query_result),args);
+            return;
+        }else if (resultText.length() > Constants.COUPON_CODE_LENGTH){//券码
+            args.putString(CodeQueryResultFragment.CODE,resultText);
+            args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
+            PlatformTopbarActivity.startActivity(this,CodeQueryResultFragment.class.getName(), getApplicationContext().getString(R.string.query_result),args);
+            return;
+        }
+
+//        if(TextUtils.isEmpty(mUrlStr)){
+//            return;
+//        }
+//        String urlStr = String.format(mUrlStr, resultText);
+//        LogUtil.i(TAG, "urlStr  ==" + urlStr);
+//        BrowserActivity.startForResultActivity(this, urlStr);
         finish();
     }
 

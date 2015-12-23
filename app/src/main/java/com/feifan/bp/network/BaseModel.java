@@ -3,6 +3,8 @@ package com.feifan.bp.network;
 import android.text.TextUtils;
 
 import com.feifan.bp.Constants;
+import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 import com.feifan.bp.util.LogUtil;
 
 import org.json.JSONException;
@@ -54,6 +56,10 @@ public class BaseModel {
                 }
             } catch (JSONException e) {
                 LogUtil.w(TAG, e.getMessage());
+            }
+        } else {          // 错误
+            if(TextUtils.isEmpty(msg)) {       // 未知错误
+                msg = Utils.getString(R.string.error_message_unknown);
             }
         }
         LogUtil.i(TAG, toString());

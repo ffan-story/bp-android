@@ -41,6 +41,12 @@ public abstract class UrlFactory {
     //H5页面相对路径－店铺分析指标说明
     private static final String URL_PATH_STORE_DESCRIPTION ="/H5App/default.html#/analysis/note";
 
+    //H5页面相对路径－核销券码详情页
+    private static final String URL_PATH_CODE_COUPONE_DETAIL ="/H5App/default.html#/activity/rule/";
+
+    // H5页面相对路径－订单详情
+    private static final String URL_PATH_ORDER_DETAIL = "/H5App/index.html#/order/detail";
+
     private static final String URL_SOP_FFAN = "http://sop.ffan.com";
 
 
@@ -97,6 +103,22 @@ public abstract class UrlFactory {
      */
     public static String storeOverviewForHtml() {
         return urlForHtml(URL_PATH_STORE_OVERVIEW);
+    }
+    /**
+     * 核销券码详情
+     * @return
+     */
+    public static String getCodeCouponeDetail(String code){
+        return urlForHtml(URL_PATH_CODE_COUPONE_DETAIL+code);
+    }
+
+    /**
+     * 获取订单详情Url
+     * @param order
+     * @return
+     */
+    public static String getOrderDetailUrl(String order) {
+        return urlForHtml(URL_PATH_ORDER_DETAIL) + "&code=" + order;
     }
 
     public static String visitorsAnalysisForHtml() {
@@ -190,6 +212,14 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/message";
     }
 
+    public static String getCodeQueryResult() {
+        return EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/coupon/searchunusecoupons";
+    }
+
+    public static String getGoodsQueryResult() {
+        return EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/GoodsVerification/getOrderBySignOnApp";
+    }
+
     public static String getMessgeListStatus() {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/messagestatus";
     }
@@ -200,6 +230,16 @@ public abstract class UrlFactory {
 
     public static String getMarketingContract() {
         return EnvironmentManager.getHostFactory().getFFanApiPrefix() + "mapp/cdaservice/marketingcontract";
+    }
+
+    //券码核销
+    public static String getCheckCouponCode() {
+        return EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/coupon/checkCoupon";
+    }
+
+    //提货码核销
+    public static String getCheckGoodsCode() {
+        return  EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/GoodsVerification/useSignOnApp";
     }
 
     private static String formatRelativeUrl(String relativeUrl) {
