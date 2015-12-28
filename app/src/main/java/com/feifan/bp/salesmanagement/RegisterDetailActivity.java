@@ -1,7 +1,9 @@
 package com.feifan.bp.salesmanagement;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -14,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.feifan.bp.R;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.CustomViewPager;
 
 import java.util.ArrayList;
@@ -50,7 +54,6 @@ public class RegisterDetailActivity extends AppCompatActivity {
         initData();
     }
 
-
     private void initViews(){
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
         collapsingToolbar.setTitleEnabled(false);
@@ -63,13 +66,13 @@ public class RegisterDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.register_detail));
         toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
