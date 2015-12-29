@@ -72,6 +72,11 @@
         <item name="android:layout_marginRight">@dimen/view_spacing_15</item>
     </style>
 
+    <style name="txt_colorblue_size18" parent="commmonTxt">
+        <item name="android:textColor">@color/font_color_blue_add</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+    </style>
+
 
     <style name="SplashStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@mipmap/launch_page</item>

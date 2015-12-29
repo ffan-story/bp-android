@@ -67,7 +67,6 @@ public class HostSupplier {
             return "http://api.sit.ffan.com/mapp/".concat(VERSION).concat("/");
         }
 
-
         @Override
         public String getFFanH5Host() {
             return "http://sop.sit.ffan.com/";

@@ -14,6 +14,8 @@
     <color name="font_color_66">#666666</color>
     <color name="font_color_99">#999999</color>
     <color name="font_color_red">#e13e31</color>
+    <color name="font_color_blue_add">#1BB0ED</color>
+
 
     <!-- 背景 -->
     <color name="bg_color_blue">#3d99e9</color>
@@ -54,10 +56,12 @@
     <color name="app_background_color">#fff4f3f2</color>
 
     <color name="bg_defult_gray">#FAFAFA</color>
+    <color name="bg_text_gray">#EFEFEF</color>
 
     <color name="pinkred">#F93578</color>
     <color name="orange">#F97A35</color>
     <color name="dark_orange">#FF5A00</color>
     <!--描边-->
     <color name="color_bf">#BFBFBF</color>
+
 </resources>

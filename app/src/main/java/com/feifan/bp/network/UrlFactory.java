@@ -30,7 +30,11 @@ public abstract class UrlFactory {
 
     private static final String URL_PATH_COUPON_ADD = "H5App/default.html#/coupon/create";
 
+    //H5页面相对路径－商品管理－添加商品
     private static final String URL_PATH_COMMODITY_MANAGE = "H5App/index.html#/commodity/select_cat_menu";
+
+    //H5页面相对路径－闪购商品列表
+    private static final String URL_PATH_COMMODITY_MANAGE_list = "H5App/index.html#/commodity/list/";
 
     //H5页面相对路径－店铺分析概览
     private static final String URL_PATH_STORE_OVERVIEW = "/H5App/default.html#/analysis/overview";
@@ -97,6 +101,15 @@ public abstract class UrlFactory {
     }
 
     /**
+     * 闪购商品列表
+     * @param status
+     * @return
+     */
+    public static String getInstantsForHtml(String status){
+        return "H5App/index.html#/commodity/list/".concat(status);
+    }
+
+    /**
      * 店铺分析
      *
      * @return
@@ -152,7 +165,22 @@ public abstract class UrlFactory {
                 concat("&version=" + BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
     }
-
+/************************************/
+    public static String urlForHtmlTest(String reUrl) {
+        UserProfile userProfile = UserProfile.getInstance();
+        String paramStart = "?";
+        if (reUrl.contains(paramStart)) {
+            paramStart = "&";
+        }
+        return "http://10.1.80.126/".concat(formatRelativeUrl(reUrl)).
+                concat(paramStart).
+                concat("loginToken=").concat(userProfile.getLoginToken()).
+                concat("&uid=").concat(String.valueOf(userProfile.getUid())).
+                concat("&appType=bpMobile").
+                concat("&version=" + BuildConfig.VERSION_CODE).
+                concat("&showTabs=0");
+    }
+/************************************/
     //----for http request---//
     public static String getLoginUrl() {
         return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "login";
@@ -218,6 +246,14 @@ public abstract class UrlFactory {
 
     public static String getGoodsQueryResult() {
         return EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/GoodsVerification/getOrderBySignOnApp";
+    }
+
+    /**
+     * 获取商品管理-闪购商品状态和数量
+     * @return
+     */
+    public static String getInstantsBuyCommodity(){
+        return EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/goods_app/ajax_status_list";
     }
 
     public static String getMessgeListStatus() {

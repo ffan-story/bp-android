@@ -75,6 +75,12 @@ public class AuthSupplier {
          * @return
          */
         String getStoreAnalysisId();
+
+        /**
+         * 获取商品管理
+         * @return
+         */
+        String getCommodityManagerId();
     }
 
     /**
@@ -154,6 +160,11 @@ public class AuthSupplier {
             return "1445";
         }
 
+        @Override
+        public String getCommodityManagerId() {
+            return "1226";
+        }
+
     }
 
     static class ProductAuthFactory implements IAuthFactory {
@@ -227,6 +238,11 @@ public class AuthSupplier {
         @Override
         public String getStoreAnalysisId() {
             return "1293";
+        }
+
+        @Override
+        public String getCommodityManagerId() {
+            return "1081";
         }
     }
 

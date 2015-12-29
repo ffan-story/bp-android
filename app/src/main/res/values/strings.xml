@@ -287,5 +287,16 @@
     <string name="goods_all_select">全选</string>
 
     <string name="discount_content"><![CDATA[%1$s：<font color="#ff0000">%2$s</font>元]]></string>
+
+    <!-- 商品管理 -->
+    <string name="commodity_instants_buy">闪购商品</string>
+    <string name="commodity_brand">品牌商品</string>
+    <string name="commodity_instants_temp_save">临时保存</string>
+    <string name="commodity_instants_audit">待审核</string>
+    <string name="commodity_instants_throughed">已通过</string>
+    <string name="commodity_instants_rejected">已驳回</string>
+    <string name="commodity_instants_add">添加新商品</string>
+    <string name="commodity_brand_build">建设中</string>
+    <string name="commodity_brand_wait">请您敬请期待</string>
 </resources>
 

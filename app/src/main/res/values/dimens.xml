@@ -2,13 +2,17 @@
 
     <!-- 视图使用的间距 -->
     <dimen name="view_spacing_5_px">5px</dimen>
+    <dimen name="view_spacing_3">3dp</dimen>
     <dimen name="view_spacing_5">5dp</dimen>
     <dimen name="view_spacing_8">8dp</dimen>
     <dimen name="view_spacing_10">10dp</dimen>
+    <dimen name="view_spacing_12">12dp</dimen>
     <dimen name="view_spacing_15">15dp</dimen>
     <dimen name="view_spacing_20">20dp</dimen>
     <dimen name="view_spacing_25">25dp</dimen>
     <dimen name="view_spacing_30">30dp</dimen>
+    <dimen name="view_spacing_45">45dp</dimen>
+    <dimen name="view_spacing_60">60dp</dimen>
     <dimen name="dividerheight">0.5dp</dimen>
     <!-- 字体 -->
     <dimen name="font_size_26">26sp</dimen>
@@ -55,7 +59,9 @@
     <!--SegmentedGroup-->
     <dimen name="radio_button_conner_radius">5dp</dimen>
     <dimen name="radio_button_stroke_border">1dp</dimen>
+    <dimen name="tv_bg_radius_10">10dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="item_height">65dp</dimen>
 
 </resources>
+
