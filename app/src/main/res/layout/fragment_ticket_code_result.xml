@@ -143,7 +143,7 @@
 
     <Button
         android:id="@+id/btn_ticket_code_use"
-        style="@style/btn_margin15_round_blue_click"
+        style="@style/btn_blue_round_click"
         android:layout_alignParentBottom="true"
         android:text="@string/chargeoff_ticket_use"
         android:visibility="gone"/>

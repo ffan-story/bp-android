@@ -7,6 +7,5 @@
     android:paddingBottom="@dimen/view_spacing_10">
     <TextView
         android:id="@+id/tv_discount"
-        style="@style/txt_color33_size14"
-        android:layout_marginRight="@dimen/view_spacing_10" />
+        style="@style/txt_color33_size14" />
 </LinearLayout>

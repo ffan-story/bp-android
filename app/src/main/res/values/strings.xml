@@ -268,25 +268,30 @@
     <string name="approved">审核通过</string>
     <string name="auditrefused">审核拒绝</string>
 
+    <!--闪购活动-->
     <string name="flash_goods_amount">原价￥%1$s</string>
     <string name="flash_goods_number">剩余库存：%1$s</string>
     <string name="flash_goods_not_have_goods_tips">您还没有可报名的商品\n快去“商品管理”添加商品吧</string>
+    <string name="please_intput_vendor_discount_tips">请填写商户优惠金额</string>
     <string name="check_history">审核历史</string>
     <string name="units_yuan">元</string>
     <string name="shop_discount">商户优惠金额：</string>
-    <string name="feifan_discount">飞凡优惠金额：</string>
+    <string name="feifan_discount">飞凡优惠金额：%1$s元</string>
     <string name="discount">优惠价格</string>
     <string name="goods_number">商品数量</string>
-    <string name="current_status">当前状态：</string>
-    <string name="refuse_cause">拒绝原因：</string>
-    <string name="goods_discount">合计价格：</string>
+    <string name="current_status">当前状态</string>
+    <string name="refuse_cause">拒绝原因</string>
+    <string name="goods_discount">优惠后金额：</string>
     <string name="at_once_submit">立即提交</string>
     <string name="save_setting">保存设置</string>
     <string name="goods_understock_tips">商品数量不能大于库存数量</string>
-
-    <string name="goods_all_select">全选</string>
-
     <string name="discount_content"><![CDATA[%1$s：<font color="#ff0000">%2$s</font>元]]></string>
+    <string name="goods_all_select">全选</string>
+    <string name="vendor_discount">商户优惠金额</string>
+    <string name="flash_goods_name">%1$s：</string>
+    <string name="flash_signup_status"><![CDATA[%1$s：<font color="#e13e31">%2$s</font>]]></string>
+    <string name="flash_signup_detail_status"><![CDATA[%1$s：<font color="#0BBCBA">%2$s</font>]]></string>
+
 
     <!-- 商品管理 -->
     <string name="commodity_instants_buy">闪购商品</string>

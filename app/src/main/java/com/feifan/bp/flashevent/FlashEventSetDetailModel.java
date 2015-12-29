@@ -9,52 +9,94 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import bp.feifan.com.codescanner.decoding.Intents;
+
 /**
+ *
+ * 设置详情 model
  * Created by congjing
  */
-public class FlashEventSetDetailModel extends BaseModel {
+//public class FlashEventSetDetailModel extends BaseModel {
+public class FlashEventSetDetailModel {
 
+    public FlashEventSetDetailData mEventSetDetailData;
+    public int totalCount;
+    public String mStrStatus = "审核通过";//飞凡优惠金额
+    public ArrayList<FlashEventSetDetailData> arryFlashEventData = new ArrayList<>();
 
-    private FlashEventSetDetailData mGoodsData;
-    private int totalCount;
-    private ArrayList<FlashEventSetDetailData> arryFlashEventData;
-
-    public FlashEventSetDetailModel(JSONObject json) {
-        super(json);
+    public FlashEventSetDetailModel(long discount) {
+            mEventSetDetailData = new FlashEventSetDetailData();
         for (int i = 0; i < 3; i++) {
-            mGoodsData = new FlashEventSetDetailData();
-            mGoodsData.mStrGoodsName="绿色植物";
-            arryFlashEventData.add(mGoodsData);
+            mEventSetDetailData.mLongVendorDiscount =discount;
+            mEventSetDetailData.mLongGoodsAmount = 800;//商品原价
+            mEventSetDetailData.mIntGoodsPartakeNumber = 0;
+            mEventSetDetailData.mStrGoodsName="绿色植物";
+            mEventSetDetailData.mIntGoodsNumber=300;//库存
+            mEventSetDetailData.mLongFeifanDiscount = 10;//飞凡优惠金额
+            mEventSetDetailData.setmLongGoodsDiscount(discount);//优惠后金额
+            arryFlashEventData.add(mEventSetDetailData);
         }
     }
 
 
-    @Override
-    protected void parseData(String json) throws JSONException {
-//        arryListHelpCenterData = new ArrayList<FlashEventSetDetailData>();
-//        JSONObject jsonObject = new JSONObject(json);
+//    public FlashEventSetDetailModel(JSONObject json) {
+//        super(json);
+//    }
 //
-//        setTotalCount(jsonObject.optInt("totalCount"));
+//
+//    @Override
+//    protected void parseData(String json) throws JSONException {
+//        arryFlashEventData = new ArrayList<FlashEventSetDetailData>();
+//        JSONObject jsonObject = new JSONObject(json);
+//        totalCount = (jsonObject.optInt("totalCount"));
 //        JSONArray itemsArray = jsonObject.getJSONArray("items");
 //        for (int i = 0; i < itemsArray.length(); i++) {
-//            strHelpCenterData = new lashEventSetDetailData();
+//           mEventSetDetailData = new FlashEventSetDetailData();
 //            try {
-//                strHelpCenterData.setmStrHelpCenterTitle(itemsArray.getJSONObject(i).optString("title"));
-//                strHelpCenterData.setmStrHelpCenterId(itemsArray.getJSONObject(i).optString("id"));
+//                mEventSetDetailData.mStrGoodsName = (itemsArray.getJSONObject(i).optString("title"));
+//                mEventSetDetailData.mStrGoodsNumber = (itemsArray.getJSONObject(i).optString("id"));
 //            } catch (JSONException e) {
 //                e.printStackTrace();
 //            }
-//
-//            arryListHelpCenterData.add(strHelpCenterData);
- //       }
-    }
+//            arryFlashEventData.add(mEventSetDetailData);
+//        }
+//    }
 
 
 
     public class FlashEventSetDetailData {
         public String mStrGoodsName;
-        public String mStrGoodsNumber;
-        public String mStrGoodsAmount;
-        public String mStrGoodsPartakeNumber;
+        public int mIntGoodsNumber;
+
+        /**
+         * 商品原价
+         */
+        public long mLongGoodsAmount;
+        /**
+         * 飞凡优惠价格
+         */
+        public long mLongFeifanDiscount;
+        /**
+         * 商户优惠价格
+         */
+        public long mLongVendorDiscount;
+        /**优惠后的价格
+         *
+         */
+        private long mLongGoodsDiscount;
+
+        /**
+         * 参与活动数量
+         */
+        public int mIntGoodsPartakeNumber;
+
+
+        public long getmLongGoodsDiscount() {
+            return mLongGoodsDiscount;
+        }
+
+        public void setmLongGoodsDiscount(long discount) {
+            this.mLongGoodsDiscount = mLongGoodsAmount-mLongFeifanDiscount-discount;
+        }
     }
 }

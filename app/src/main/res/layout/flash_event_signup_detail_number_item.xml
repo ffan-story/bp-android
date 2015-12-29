@@ -32,8 +32,7 @@
 
             <TextView
                 android:id="@+id/tv_goods_number"
-                style="@style/txt_color33_size14"
-                android:text="@string/flash_goods_number" />
+                style="@style/txt_color33_size14"/>
 
             <TextView
                 android:id="@+id/tv_goods_amount"

@@ -21,17 +21,8 @@
 
     <Button
         android:id="@+id/btn_retry"
+        style="@style/btn_blue_round_click"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/blue_fillet_rect"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:singleLine="true"
-        android:text="@string/empty_view_retry"
-        android:textColor="@color/white"
-        android:textSize="@dimen/font_size_22" />
+        android:text="@string/empty_view_retry" />
 
 </LinearLayout>

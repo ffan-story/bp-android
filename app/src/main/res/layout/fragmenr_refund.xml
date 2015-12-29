@@ -48,7 +48,7 @@
 
     <Button
         android:id="@+id/btn_refund_next"
-        style="@style/btn_margin15_round_blue_click"
+        style="@style/btn_blue_round_click"
         android:layout_below="@id/index_search_input"
         android:text="@string/next" />
 

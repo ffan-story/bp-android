@@ -17,46 +17,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="@dimen/view_spacing_15">
-
+                android:padding="@dimen/view_spacing_15"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/tv"
-                    style="@style/txt_color33_size14"
-                    android:text="@string/current_status"
-                    android:layout_alignParentLeft="true"/>
-                <TextView
-                    android:layout_toRightOf="@id/tv"
                     android:id="@+id/tv_signup_detail_status"
                     style="@style/txt_color33_size14"
-                    android:textColor="@color/font_color_red"/>
+                    android:layout_alignParentLeft="true"/>
 
                 <TextView
-                    android:id="@+id/tv1"
-                    style="@style/txt_color33_size12"
-                    android:text="@string/refuse_cause"
-                    android:layout_below="@id/tv"/>
-                <TextView
-                    android:layout_below="@id/tv_signup_detail_status"
-                    android:layout_toRightOf="@id/tv1"
                     android:id="@+id/tv_signup_refuse_cause"
                     style="@style/txt_color33_size12"
-                    android:textColor="@color/font_color_red"/>
-
+                    android:layout_below="@id/tv_signup_detail_status" />
 
                 <Button
-                    android:layout_alignParentRight="true"
-                    style="@style/btn_round_blue_change_white_click"
+                    style="@style/btn_white_stroke_blue"
                     android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_margin="0dp"
-                    android:text="@string/check_history"/>
+                    android:text="@string/check_history" />
 
             </RelativeLayout>
 
             <TextView
                 style="@style/txt_color33_size14"
-                android:layout_marginLeft="@dimen/view_spacing_15"
                 android:layout_marginBottom="@dimen/view_spacing_10"
+                android:layout_marginLeft="@dimen/view_spacing_15"
                 android:layout_marginTop="@dimen/view_spacing_15"
                 android:text="@string/goods_number" />
 
@@ -77,50 +63,65 @@
 
             <TextView
                 style="@style/txt_color33_size14"
-                android:layout_marginLeft="@dimen/view_spacing_15"
                 android:layout_marginBottom="@dimen/view_spacing_10"
+                android:layout_marginLeft="@dimen/view_spacing_15"
                 android:layout_marginTop="@dimen/view_spacing_15"
                 android:text="@string/discount" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@color/white">
 
                 <TextView
+                    android:id="@+id/tv_vendor_discount_name"
                     style="@style/txt_color33_size14"
-                    android:layout_margin="@dimen/view_spacing_15"
+                    android:layout_marginLeft="@dimen/view_spacing_15"
+                    android:layout_marginRight="@dimen/view_spacing_15"
+                    android:layout_marginTop="@dimen/view_spacing_20"
                     android:text="@string/shop_discount" />
 
                 <EditText
                     android:id="@+id/ed_flash_goods_vendor_discount"
                     style="@style/ed_color33_size14"
-                    android:textColor="@color/font_color_red"/>
+
+                    android:layout_marginTop="@dimen/view_spacing_10"
+                    android:layout_toRightOf="@id/tv_vendor_discount_name"
+                    android:textColor="@color/font_color_red" />
 
                 <TextView
                     style="@style/txt_color33_size14"
-                    android:layout_marginBottom="@dimen/view_spacing_10"
-                    android:layout_marginTop="@dimen/view_spacing_10"
+                    android:layout_marginTop="@dimen/view_spacing_20"
+                    android:layout_toRightOf="@id/ed_flash_goods_vendor_discount"
                     android:text="@string/units_yuan" />
-            </LinearLayout>
+
+                <TextView
+                    android:id="@+id/flash_goods_vendor_discount_tips"
+                    style="@style/txt_color33_size12"
+                    android:textSize="@dimen/view_spacing_10"
+                    android:layout_below="@id/tv_vendor_discount_name"
+                    android:layout_marginTop="@dimen/view_spacing_10"
+                    android:layout_toRightOf="@id/tv_vendor_discount_name"
+                    android:text="@string/please_intput_vendor_discount_tips"
+                    android:textColor="@color/font_color_red" />
+            </RelativeLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/view_spacing_15"
+                android:paddingLeft="@dimen/view_spacing_15"
+                android:paddingTop="@dimen/view_spacing_10">
+                >
 
                 <TextView
+                    android:id="@+id/feifan_discount"
                     style="@style/txt_color33_size14"
-                    android:layout_margin="@dimen/view_spacing_15"
                     android:text="@string/feifan_discount" />
-
-                <TextView
-                    style="@style/txt_color33_size14"
-                    android:layout_marginBottom="@dimen/view_spacing_10"
-                    android:layout_marginTop="@dimen/view_spacing_10"
-                    android:text="10元" />
             </LinearLayout>
 
             <ImageView
@@ -176,13 +177,13 @@
 
         <Button
             android:id="@+id/bnt_flash_save_setting"
-            style="@style/btn_round_orange_click"
+            style="@style/btn_white_stroke_orange"
             android:layout_weight="1"
             android:text="@string/save_setting" />
 
         <Button
             android:id="@+id/bnt_flash_atonce_submit"
-            style="@style/btn_round_orange_click"
+            style="@style/btn_orange_round"
             android:layout_weight="1"
             android:text="@string/at_once_submit" />
     </LinearLayout>

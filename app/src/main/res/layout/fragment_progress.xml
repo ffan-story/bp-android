@@ -51,7 +51,7 @@
 
             <Button
                 android:id="@android:id/button1"
-                style="@style/btn_margin15_round_blue_click"
+                style="@style/btn_blue_round_click"
                 android:layout_width="wrap_content"
                 android:layout_below="@id/login_forget_password"
                 android:text="@string/common_retry_text" />

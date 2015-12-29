@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.flashevent.FlashEventGoodsListFragment;
 import com.feifan.bp.flashevent.FlashEventGoodsSettingDetailFragment;
 
 /**
@@ -105,7 +107,9 @@ public class ErrorFragment extends BaseFragment implements  View.OnClickListener
             switch (mIntBntType){
                 case EXTRA_KEY_ERROR_BTN_LISTENER_TO_GOODS_MANAGE://商品管理
                     getActivity().finish();
-                    PlatformTopbarActivity.startActivityForResult(getActivity(), FlashEventGoodsSettingDetailFragment.class.getName(), "设置详情");
+                    Bundle args = new Bundle();
+                    args.putString(FlashEventGoodsListFragment.EXTRA_EVENT_ID, "");
+                    PlatformTopbarActivity.startActivity(getActivity(), FlashEventGoodsListFragment.class.getName(), "设置详情",args);
                     break;
                 default:
                     break;

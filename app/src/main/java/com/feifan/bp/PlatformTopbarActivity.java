@@ -1,6 +1,7 @@
 package com.feifan.bp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -45,6 +46,18 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
         context.startActivityForResult(i, Constants.REQUEST_CODE);
     }
 
+    /**
+     *
+     * @param context
+     * @param fragmentName
+     * @param titleName
+     */
+    public static void startActivity(Context context, String fragmentName,String titleName) {
+        Intent i = new Intent(context, PlatformTopbarActivity.class);
+        i.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO,fragmentName);
+        i.putExtra(EXTRA_TITLE,titleName);
+        context.startActivity(i);
+    }
 
     /**
      * 用bundle传参
@@ -53,7 +66,7 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
      * @param titleName
      * @param args
      */
-    public static void startActivity(Activity context, String fragmentName,String titleName,Bundle args) {
+    public static void startActivity(Context context, String fragmentName,String titleName,Bundle args) {
         Intent i = new Intent(context, PlatformTopbarActivity.class);
         i.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO,fragmentName);
         i.putExtra(EXTRA_TITLE,titleName);

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/view_height_45"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_flash_goods_name"
+        style="@style/txt_color33_size14"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/view_spacing_10" />
+
+
+    <ImageView
+        android:id="@+id/img_flash_goods_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/view_spacing_10"
+        android:src="@mipmap/settings_ic_right_arrow" />
+
+    <TextView
+        android:id="@+id/tv_flash_goods_status"
+        style="@style/txt_color33_size14"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/img_flash_goods_arrow"/>
+
+    <ImageView
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_height_1"
+        android:layout_alignParentBottom="true"
+        android:background="@color/divider" />
+
+</RelativeLayout>

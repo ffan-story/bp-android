@@ -31,6 +31,6 @@
         android:id="@+id/feedback_submit"
         android:layout_below="@id/feedback_prompt"
         android:text="@string/feed_back_submit"
-        style="@style/btn_margin15_round_blue_click"/>
+        style="@style/btn_blue_round_click"/>
 
 </RelativeLayout>

@@ -69,6 +69,7 @@
         <item name="android:padding">@dimen/view_spacing_5</item>
         <item name="android:singleLine">true</item>
         <item name="android:inputType">number</item>
+        <item name="android:maxLength">9</item>
         <item name="android:layout_marginRight">@dimen/view_spacing_15</item>
     </style>
 
@@ -134,16 +135,6 @@
         <item name="android:paddingRight">5dp</item>
     </style>
 
-    <style name="btn_margin15_round_blue_click">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/view_spacing_10</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/font_size_16</item>
-        <item name="android:background">@drawable/bg_btn_round_blue</item>
-    </style>
 
     <style name="item_help_center">
         <item name="android:drawablePadding">@dimen/view_spacing_10</item>
@@ -165,18 +156,58 @@
         <item name="android:textSize">@dimen/font_size_14</item>
     </style>
 
-    <style name="btn_round_orange_click">
+
+   <!--Button 样式  蓝色圆角有点击效果-->
+    <style name="btn_blue_round_click">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/view_spacing_10</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="android:background">@drawable/bg_btn_round_blue</item>
+    </style>
+
+    <!--Button 样式  橘色圆角无点击效果-->
+    <style name="btn_orange_round">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/view_height_35</item>
         <item name="android:layout_margin">@dimen/view_spacing_10</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@drawable/button_orange_text_color</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/font_size_16</item>
-        <item name="android:background">@drawable/bg_button_orange_round</item>
+        <item name="android:background">@drawable/bg_button_orange</item>
     </style>
 
-    <style name="btn_round_blue_change_white_click">
+    <!--Button 样式  白色圆角 橘色边框  无点击效果-->
+    <style name="btn_white_stroke_orange">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/view_height_35</item>
+        <item name="android:layout_margin">@dimen/view_spacing_10</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="android:background">@drawable/bg_button_white_stroke_orange</item>
+    </style>
+
+    <!--Button 样式  白色圆角 蓝色边框  无点击效果-->
+    <style name="btn_white_stroke_blue">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/view_height_35</item>
+        <item name="android:layout_margin">@dimen/view_spacing_10</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/bg_blue_defeat</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="android:background">@drawable/bg_button_white_stroke_blue</item>
+    </style>
+
+
+    <!--Button 样式  蓝色圆角   点击效果白色蓝色描边-->
+   <!-- <style name="btn_round_blue_change_white_click">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/view_height_35</item>
         <item name="android:layout_gravity">center</item>
@@ -185,5 +216,17 @@
         <item name="android:textColor">@drawable/button_blue_text_color</item>
         <item name="android:textSize">@dimen/font_size_14</item>
         <item name="android:background">@drawable/bg_button_round_blue</item>
-    </style>
+    </style>-->
+
+    <!--Button 样式  橘色圆角   点击效果白色橘色描边-->
+    <!-- <style name="btn_round_orange_click">
+       <item name="android:layout_width">match_parent</item>
+       <item name="android:layout_height">@dimen/view_height_35</item>
+       <item name="android:layout_margin">@dimen/view_spacing_10</item>
+       <item name="android:layout_gravity">center</item>
+       <item name="android:gravity">center</item>
+       <item name="android:textColor">@drawable/button_orange_text_color</item>
+       <item name="android:textSize">@dimen/font_size_16</item>
+       <item name="android:background">@drawable/bg_button_orange_round</item>
+   </style>-->
 </resources>
