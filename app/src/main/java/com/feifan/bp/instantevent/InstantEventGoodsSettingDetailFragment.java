@@ -1,4 +1,4 @@
-package com.feifan.bp.flashevent;
+package com.feifan.bp.instantevent;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -28,14 +28,14 @@ import java.util.List;
  * 商品设置详情
  *congjing
  */
-public class FlashEventGoodsSettingDetailFragment extends ProgressFragment implements View.OnClickListener{
-    String tag = "FlashEventGoodsSettingDetailFragment";
+public class InstantEventGoodsSettingDetailFragment extends ProgressFragment implements View.OnClickListener{
+    String tag = "InstantEventGoodsSettingDetailFragment";
     public static final String EXTRA_EVENT_ID = "event_id";
     public static final String EXTRA_EVENT_IS_GOODS_SETTINGDETAIL= "is_setting_detail";
 
     private LayoutInflater mInflater;
     private ListView mLineGoodsNumber,mLineGoodsDiscount;
-    private List<FlashEventSetDetailModel.FlashEventSetDetailData> mList = new ArrayList<>();
+    private List<InstantEventSetDetailModel.InstantEventSetDetailData> mList = new ArrayList<>();
 
 //    private List<String> mList = new ArrayList<>();
     private EditText mEdVendorDiscount ;
@@ -54,13 +54,13 @@ public class FlashEventGoodsSettingDetailFragment extends ProgressFragment imple
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public FlashEventGoodsSettingDetailFragment() {
+    public InstantEventGoodsSettingDetailFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static FlashEventGoodsSettingDetailFragment newInstance() {
-        FlashEventGoodsSettingDetailFragment fragment = new FlashEventGoodsSettingDetailFragment();
+    public static InstantEventGoodsSettingDetailFragment newInstance() {
+        InstantEventGoodsSettingDetailFragment fragment = new InstantEventGoodsSettingDetailFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -75,7 +75,7 @@ public class FlashEventGoodsSettingDetailFragment extends ProgressFragment imple
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
-        stub.setLayoutResource(R.layout.fragment_flash_event_setting);
+        stub.setLayoutResource(R.layout.fragment_instant_event_setting);
         View view = stub.inflate();
         mRelSignupDetailRefuse= (RelativeLayout)view.findViewById(R.id.rel_signup_detail_refuse);
         if (!mISGoodsSettingDetail){
@@ -105,24 +105,24 @@ public class FlashEventGoodsSettingDetailFragment extends ProgressFragment imple
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s)) {
                     mTvVendorDiscountTips.setVisibility(View.VISIBLE);
-                    mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.please_intput_vendor_discount_tips));
-                    mList = new FlashEventSetDetailModel(0).arryFlashEventData;
+                    mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_intput_vendor_discount_tips));
+                    mList = new InstantEventSetDetailModel(0).arryInstantEventData;
                 } else if (!TextUtils.isEmpty(s)) {
                     myData.setmLongGoodsDiscount(Long.parseLong(s.toString()));
                     if (myData.getmLongGoodsDiscount()< 0) {
                         mTvVendorDiscountTips.setVisibility(View.VISIBLE);
                         mTvVendorDiscountTips.setText("输入优惠金额不合法");
-                        mList = new FlashEventSetDetailModel(0).arryFlashEventData;
+                        mList = new InstantEventSetDetailModel(0).arryInstantEventData;
                     } else {
                         mTvVendorDiscountTips.setVisibility(View.GONE);
-                        mList = new FlashEventSetDetailModel(Long.parseLong(s.toString())).arryFlashEventData;
+                        mList = new InstantEventSetDetailModel(Long.parseLong(s.toString())).arryInstantEventData;
                     }
                 }
                 goodsDiscountAdapter.notifyDataSetChanged();
             }
         });
-        (view.findViewById(R.id.bnt_flash_save_setting)).setOnClickListener(this);
-        (view.findViewById(R.id.bnt_flash_atonce_submit)).setOnClickListener(this);
+        (view.findViewById(R.id.bnt_instant_save_setting)).setOnClickListener(this);
+        (view.findViewById(R.id.bnt_instant_atonce_submit)).setOnClickListener(this);
 
         mLineGoodsNumber = (ListView)view.findViewById(R.id.lv_goods_number);
         mLineGoodsDiscount = (ListView)view.findViewById(R.id.lv_goods_discount);
@@ -144,15 +144,15 @@ public class FlashEventGoodsSettingDetailFragment extends ProgressFragment imple
         setContentShown(true);
     }
 
-    FlashEventSetDetailModel.FlashEventSetDetailData myData ;
+    InstantEventSetDetailModel.InstantEventSetDetailData myData ;
     private void setContViewData(){
 
-        myData =  new FlashEventSetDetailModel(30).mEventSetDetailData;
-        mList = new FlashEventSetDetailModel(30).arryFlashEventData;
-        mTvFeifanDiscount.setText(String.format(getActivity().getResources().getString(R.string.feifan_discount),myData.mLongFeifanDiscount)) ;
+        myData =  new InstantEventSetDetailModel(30).mEventSetDetailData;
+        mList = new InstantEventSetDetailModel(30).arryInstantEventData;
+        mTvFeifanDiscount.setText(String.format(getActivity().getResources().getString(R.string.instant_feifan_discount),myData.mLongFeifanDiscount)) ;
         if (!mISGoodsSettingDetail){
-            mTvSignupStatus.setText(Html.fromHtml(String.format(getResources().getString(R.string.flash_signup_status), getResources().getString(R.string.current_status),"已拒绝")));
-            mTvSignupRefuseCause.setText(Html.fromHtml(String.format(getResources().getString(R.string.flash_signup_status), getResources().getString(R.string.refuse_cause), "库存不足！！test！！！")));
+            mTvSignupStatus.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_current_status),"已拒绝")));
+            mTvSignupRefuseCause.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_refuse_cause), "库存不足！！test！！！")));
         }
     }
 
@@ -165,12 +165,12 @@ public class FlashEventGoodsSettingDetailFragment extends ProgressFragment imple
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.bnt_flash_save_setting://保存设置
+            case R.id.bnt_instant_save_setting://保存设置
                 Bundle args = new Bundle();
-                args.putString(FlashEventSignUpDetailFragment.EXTRA_EVENT_ID,"23232");
-                PlatformTopbarActivity.startActivityForResult(getActivity(), FlashEventSignUpDetailFragment.class.getName(), getString(R.string.register_detail));
+                args.putString(InstantEventSignUpDetailFragment.EXTRA_EVENT_ID,"23232");
+                PlatformTopbarActivity.startActivityForResult(getActivity(), InstantEventSignUpDetailFragment.class.getName(), getString(R.string.register_detail));
                 break;
-            case R.id.bnt_flash_atonce_submit://立即提交
+            case R.id.bnt_instant_atonce_submit://立即提交
                 break;
             default:
                 break;
@@ -219,28 +219,28 @@ public class FlashEventGoodsSettingDetailFragment extends ProgressFragment imple
             if (mList.isEmpty()){
                 return null ;
             }
-           final FlashEventSetDetailModel.FlashEventSetDetailData mGoodsDetailData = mList.get(position);
+           final InstantEventSetDetailModel.InstantEventSetDetailData mGoodsDetailData = mList.get(position);
             if (isDiscount){
                 final ViewDiscountHolder discountHolder;
                 if (convertView == null) {
-                    convertView = mInflater.inflate(R.layout.flash_event_goods_discount_item, parent, false);
+                    convertView = mInflater.inflate(R.layout.instant_event_goods_discount_item, parent, false);
                     discountHolder = ViewDiscountHolder.findViews(convertView);
                 } else {
                     discountHolder = (ViewDiscountHolder) convertView.getTag();
                 }
-                discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getActivity().getResources().getString(R.string.discount_content), mGoodsDetailData.mStrGoodsName, mGoodsDetailData.getmLongGoodsDiscount())));
+                discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getActivity().getResources().getString(R.string.instant_discount_content), mGoodsDetailData.mStrGoodsName, mGoodsDetailData.getmLongGoodsDiscount())));
             }else{
                 final ViewHolder holder;
                 if (convertView == null) {
-                    convertView = mInflater.inflate(R.layout.flash_event_goods_number_item, parent, false);
+                    convertView = mInflater.inflate(R.layout.instant_event_goods_number_item, parent, false);
                     holder = ViewHolder.findAndCacheViews(convertView);
                 } else {
                     holder = (ViewHolder) convertView.getTag();
                 }
 
-                holder.mTvGoodsName.setText(String.format(getActivity().getResources().getString(R.string.flash_goods_name),mGoodsDetailData.mStrGoodsName));
-                holder.mTvGoodsNumber.setText(String.format(getActivity().getResources().getString(R.string.flash_goods_number), String.valueOf(mGoodsDetailData.mIntGoodsNumber)));
-                holder.mTvGoodsAmount.setText(String.format(getActivity().getResources().getString(R.string.flash_goods_amount),  String.valueOf(mGoodsDetailData.mLongGoodsAmount)));
+                holder.mTvGoodsName.setText(String.format(getActivity().getResources().getString(R.string.instant_goods_name),mGoodsDetailData.mStrGoodsName));
+                holder.mTvGoodsNumber.setText(String.format(getActivity().getResources().getString(R.string.instant_goods_number), String.valueOf(mGoodsDetailData.mIntGoodsNumber)));
+                holder.mTvGoodsAmount.setText(String.format(getActivity().getResources().getString(R.string.instant_goods_amount),  String.valueOf(mGoodsDetailData.mLongGoodsAmount)));
 
                 holder.mTvGoodsPartakeNumber.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -284,7 +284,7 @@ public class FlashEventGoodsSettingDetailFragment extends ProgressFragment imple
         public static ViewHolder findAndCacheViews(View view) {
             ViewHolder holder = new ViewHolder();
             holder.mTvGoodsName = (TextView) view.findViewById(R.id.tv_goods_name);
-            holder.mTvGoodsPartakeNumber = (EditText) view.findViewById(R.id.ed_flash_goods_partake_number);
+            holder.mTvGoodsPartakeNumber = (EditText) view.findViewById(R.id.ed_instant_goods_partake_number);
             holder.mTvGoodsAmount = (TextView) view.findViewById(R.id.tv_goods_amount);
             holder.mTvGoodsNumber = (TextView) view.findViewById(R.id.tv_goods_number);
             holder.mTvGoodsTips = (TextView) view.findViewById(R.id.tv_goods_tips);

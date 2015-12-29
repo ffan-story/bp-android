@@ -23,14 +23,14 @@
                 style="@style/btn_white_stroke_blue"
                 android:layout_width="wrap_content"
                 android:layout_margin="0dp"
-                android:text="@string/check_history"/>
+                android:text="@string/instant_check_history"/>
 
         </RelativeLayout>
 
         <TextView
             style="@style/txt_color33_size14"
             android:layout_margin="@dimen/view_spacing_15"
-            android:text="@string/goods_number" />
+            android:text="@string/instant_goods_number" />
 
 
         <LinearLayout
@@ -48,7 +48,7 @@
         <TextView
             style="@style/txt_color33_size14"
             android:layout_margin="@dimen/view_spacing_15"
-            android:text="@string/discount" />
+            android:text="@string/instant_discount" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,8 +59,7 @@
             <TextView
                 android:id="@+id/tv_vendor_discount"
                 style="@style/txt_color33_size14"
-                android:layout_margin="@dimen/view_spacing_15"
-                android:text="@string/discount_content" />
+                android:layout_margin="@dimen/view_spacing_15"/>
         </LinearLayout>
 
         <LinearLayout
@@ -98,7 +97,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="@dimen/view_spacing_10"
                 android:layout_marginTop="@dimen/view_spacing_10"
-                android:text="@string/goods_discount" />
+                android:text="@string/instant_goods_discount" />
 
             <LinearLayout
                 android:id="@+id/line_goods_amount"

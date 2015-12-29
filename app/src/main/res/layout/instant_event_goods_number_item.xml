@@ -11,7 +11,7 @@
 
 
     <EditText
-        android:id="@+id/ed_flash_goods_partake_number"
+        android:id="@+id/ed_instant_goods_partake_number"
         style="@style/ed_color33_size14"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/tv_goods_name"/>
@@ -24,7 +24,7 @@
             android:layout_gravity="center_vertical"
             android:orientation="vertical"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ed_flash_goods_partake_number">
+            android:layout_toRightOf="@id/ed_instant_goods_partake_number">
 
             <TextView
                 android:id="@+id/tv_goods_number"
@@ -40,13 +40,13 @@
         <TextView
             android:id="@+id/tv_goods_tips"
             style="@style/txt_color33_size12"
-            android:text="@string/goods_understock_tips"
+            android:text="@string/instant_goods_understock_tips"
             android:textColor="@color/font_color_red"
             android:textSize="@dimen/view_spacing_10"
             android:paddingTop="@dimen/view_spacing_10"
             android:layout_toRightOf="@id/tv_goods_name"
             android:layout_marginTop="@dimen/view_spacing_5"
-            android:layout_below="@id/ed_flash_goods_partake_number"
+            android:layout_below="@id/ed_instant_goods_partake_number"
             android:visibility="invisible"/>
 
 </RelativeLayout>

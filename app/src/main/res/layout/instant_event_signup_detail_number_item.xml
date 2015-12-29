@@ -16,7 +16,7 @@
             android:text="绿色植物：" />
 
         <TextView
-            android:id="@+id/tv_flash_goods_partake_number"
+            android:id="@+id/tv_instant_goods_partake_number"
             android:layout_toRightOf="@id/tv_goods_name"
             style="@style/txt_color33_size14"
             android:layout_centerVertical="true"
@@ -37,7 +37,7 @@
             <TextView
                 android:id="@+id/tv_goods_amount"
                 style="@style/txt_color33_size14"
-                android:text="@string/flash_goods_amount" />
+                android:text="@string/instant_goods_amount" />
         </LinearLayout>
     </RelativeLayout>
 

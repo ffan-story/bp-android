@@ -1,24 +1,18 @@
-package com.feifan.bp.flashevent;
-
-import com.feifan.bp.network.BaseModel;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+package com.feifan.bp.instantevent;
 
 import java.util.ArrayList;
 
 /**
  * Created by congjing
  */
-public class FlashEventGoodsListModel {
+public class InstantEventGoodsListModel {
 
     private GoodsListData goodsListData;
     private int totalCount;
 
     public ArrayList<GoodsListData> arryListGoodsData =new ArrayList<>();
 
-    public FlashEventGoodsListModel(String name ,String status,String id) {
+    public InstantEventGoodsListModel(String name, String status, String id) {
         for (int i = 0; i < 70; i++) {
             goodsListData = new GoodsListData();
             goodsListData.mStrGoodsName =  name;
@@ -33,7 +27,7 @@ public class FlashEventGoodsListModel {
     }
 
 
-   /* public FlashEventGoodsListModel(JSONObject json) {
+   /* public InstantEventGoodsListModel(JSONObject json) {
         super(json);
     }
 

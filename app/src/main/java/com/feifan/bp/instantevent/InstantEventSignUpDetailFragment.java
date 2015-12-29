@@ -1,4 +1,4 @@
-package com.feifan.bp.flashevent;
+package com.feifan.bp.instantevent;
 
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
@@ -17,7 +17,7 @@ import com.feifan.bp.base.ProgressFragment;
  * 报名详情  审核通过
  * Created by congjing on 15-12-22.
  */
-public class FlashEventSignUpDetailFragment extends ProgressFragment {
+public class InstantEventSignUpDetailFragment extends ProgressFragment {
     public static final String EXTRA_EVENT_ID = "event_id";
     private LayoutInflater mInflater;
     private LinearLayout mLineGoodsNumber,mLineGoodsAmount;
@@ -27,13 +27,13 @@ public class FlashEventSignUpDetailFragment extends ProgressFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public FlashEventSignUpDetailFragment() {
+    public InstantEventSignUpDetailFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static FlashEventSignUpDetailFragment newInstance() {
-        FlashEventSignUpDetailFragment fragment = new FlashEventSignUpDetailFragment();
+    public static InstantEventSignUpDetailFragment newInstance() {
+        InstantEventSignUpDetailFragment fragment = new InstantEventSignUpDetailFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -48,7 +48,7 @@ public class FlashEventSignUpDetailFragment extends ProgressFragment {
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
-        stub.setLayoutResource(R.layout.fragment_flash_signup_detail);
+        stub.setLayoutResource(R.layout.fragment_instant_signup_detail);
         View view = stub.inflate();
         mLineGoodsNumber = (LinearLayout)view.findViewById(R.id.line_goods_number);
         mLineGoodsAmount = (LinearLayout)view.findViewById(R.id.line_goods_amount);
@@ -64,28 +64,28 @@ public class FlashEventSignUpDetailFragment extends ProgressFragment {
         setContentShown(true);
     }
 
-    FlashEventSetDetailModel.FlashEventSetDetailData myData ;
+    InstantEventSetDetailModel.InstantEventSetDetailData myData ;
     private void setContView(){
 
-        myData =  new FlashEventSetDetailModel(30).mEventSetDetailData;
-        mTvStatic.setText(Html.fromHtml(String.format(getResources().getString(R.string.flash_signup_detail_status), getResources().getString(R.string.current_status), new FlashEventSetDetailModel(30).mStrStatus)));
-        mTvVendorDiscount.setText(Html.fromHtml(String.format(getResources().getString(R.string.discount_content), getResources().getString(R.string.vendor_discount), String.valueOf(myData.mLongVendorDiscount))));
-        mTvFeiFanDiscount.setText(String.format(getResources().getString(R.string.feifan_discount), myData.mLongFeifanDiscount));
+        myData =  new InstantEventSetDetailModel(30).mEventSetDetailData;
+        mTvStatic.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_detail_status), getResources().getString(R.string.instant_current_status), new InstantEventSetDetailModel(30).mStrStatus)));
+        mTvVendorDiscount.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content), getResources().getString(R.string.instant_vendor_discount), String.valueOf(myData.mLongVendorDiscount))));
+        mTvFeiFanDiscount.setText(String.format(getResources().getString(R.string.instant_feifan_discount), myData.mLongFeifanDiscount));
 
         mInflater = LayoutInflater.from(getActivity());
         for (int i=0;i<3;i++){
-            View mLineGoodsNumberView = mInflater.inflate(R.layout.flash_event_signup_detail_number_item, null);
+            View mLineGoodsNumberView = mInflater.inflate(R.layout.instant_event_signup_detail_number_item, null);
             if (i ==2){
                 mLineGoodsNumberView.findViewById(R.id.line).setVisibility(View.GONE);
             }
 
-            ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_name)).setText(String.format(getString(R.string.flash_goods_name),myData.mStrGoodsName));
-            ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_number)).setText(String.format(getResources().getString(R.string.flash_goods_number),myData.mIntGoodsNumber));
-            ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_amount)).setText(String.format(getResources().getString(R.string.flash_goods_amount),myData.mLongGoodsAmount));
+            ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_name)).setText(String.format(getString(R.string.instant_goods_name),myData.mStrGoodsName));
+            ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_number)).setText(String.format(getResources().getString(R.string.instant_goods_number),myData.mIntGoodsNumber));
+            ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_amount)).setText(String.format(getResources().getString(R.string.instant_goods_amount),myData.mLongGoodsAmount));
 
             mLineGoodsNumber.addView(mLineGoodsNumberView);
-            View mLineGoodsAmountView  = mInflater.inflate(R.layout.flash_event_goods_discount_item, null);
-            ((TextView) mLineGoodsAmountView.findViewById(R.id.tv_discount)).setText(Html.fromHtml(String.format(getResources().getString(R.string.discount_content), myData.mStrGoodsName, String.valueOf(myData.getmLongGoodsDiscount()))));
+            View mLineGoodsAmountView  = mInflater.inflate(R.layout.instant_event_goods_discount_item, null);
+            ((TextView) mLineGoodsAmountView.findViewById(R.id.tv_discount)).setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content), myData.mStrGoodsName, String.valueOf(myData.getmLongGoodsDiscount()))));
             mLineGoodsAmount.addView(mLineGoodsAmountView);
         }
     }

@@ -1,4 +1,4 @@
-package com.feifan.bp.flashevent;
+package com.feifan.bp.instantevent;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,27 +19,27 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
  * 商品列表
  * Created by congjing on 15-12-22.
  */
-public class FlashEventGoodsListFragment extends ProgressFragment implements Paginate.Callbacks,SwipeRefreshLayout.OnRefreshListener {
+public class InstantEventGoodsListFragment extends ProgressFragment implements Paginate.Callbacks,SwipeRefreshLayout.OnRefreshListener {
 
     public static final String EXTRA_EVENT_ID = "event_id";
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeLayout;
     private Handler handler;
     private Paginate paginate;
-    private FlashEventGoodsListAdapter adapter;
+    private InstantEventGoodsListAdapter adapter;
 
     private int pageSize = 0;
 
 
     private String mStrEventId = "";
 
-    public FlashEventGoodsListFragment() {
+    public InstantEventGoodsListFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static FlashEventGoodsListFragment newInstance() {
-        FlashEventGoodsListFragment fragment = new FlashEventGoodsListFragment();
+    public static InstantEventGoodsListFragment newInstance() {
+        InstantEventGoodsListFragment fragment = new InstantEventGoodsListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -69,7 +69,7 @@ public class FlashEventGoodsListFragment extends ProgressFragment implements Pag
             paginate.unbind();
         }
 
-        adapter = new FlashEventGoodsListAdapter(getActivity(), new FlashEventGoodsListModel("绿色植物","1","2134").arryListGoodsData,true);
+        adapter = new InstantEventGoodsListAdapter(getActivity(), new InstantEventGoodsListModel("绿色植物","1","2134").arryListGoodsData,true);
         int layoutOrientation = OrientationHelper.VERTICAL;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), layoutOrientation, false);
         ((LinearLayoutManager) layoutManager).setReverseLayout(false);

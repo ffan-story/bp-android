@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_margin="0dp"
-                    android:text="@string/check_history" />
+                    android:text="@string/instant_check_history" />
 
             </RelativeLayout>
 
@@ -44,7 +44,7 @@
                 android:layout_marginBottom="@dimen/view_spacing_10"
                 android:layout_marginLeft="@dimen/view_spacing_15"
                 android:layout_marginTop="@dimen/view_spacing_15"
-                android:text="@string/goods_number" />
+                android:text="@string/instant_goods_number" />
 
             <ListView
                 android:id="@+id/lv_goods_number"
@@ -66,7 +66,7 @@
                 android:layout_marginBottom="@dimen/view_spacing_10"
                 android:layout_marginLeft="@dimen/view_spacing_15"
                 android:layout_marginTop="@dimen/view_spacing_15"
-                android:text="@string/discount" />
+                android:text="@string/instant_discount" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -80,7 +80,7 @@
                     android:layout_marginLeft="@dimen/view_spacing_15"
                     android:layout_marginRight="@dimen/view_spacing_15"
                     android:layout_marginTop="@dimen/view_spacing_20"
-                    android:text="@string/shop_discount" />
+                    android:text="@string/instant_shop_discount" />
 
                 <EditText
                     android:id="@+id/ed_flash_goods_vendor_discount"
@@ -103,7 +103,7 @@
                     android:layout_below="@id/tv_vendor_discount_name"
                     android:layout_marginTop="@dimen/view_spacing_10"
                     android:layout_toRightOf="@id/tv_vendor_discount_name"
-                    android:text="@string/please_intput_vendor_discount_tips"
+                    android:text="@string/instant_please_intput_vendor_discount_tips"
                     android:textColor="@color/font_color_red" />
             </RelativeLayout>
 
@@ -120,8 +120,7 @@
 
                 <TextView
                     android:id="@+id/feifan_discount"
-                    style="@style/txt_color33_size14"
-                    android:text="@string/feifan_discount" />
+                    style="@style/txt_color33_size14"/>
             </LinearLayout>
 
             <ImageView
@@ -147,7 +146,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_gravity="top"
-                    android:text="@string/goods_discount" />
+                    android:text="@string/instant_goods_discount" />
 
                 <ListView
                     android:id="@+id/lv_goods_discount"
@@ -176,16 +175,16 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/bnt_flash_save_setting"
+            android:id="@+id/bnt_instant_save_setting"
             style="@style/btn_white_stroke_orange"
             android:layout_weight="1"
-            android:text="@string/save_setting" />
+            android:text="@string/instant_save_setting" />
 
         <Button
-            android:id="@+id/bnt_flash_atonce_submit"
+            android:id="@+id/bnt_instant_atonce_submit"
             style="@style/btn_orange_round"
             android:layout_weight="1"
-            android:text="@string/at_once_submit" />
+            android:text="@string/instant_at_once_submit" />
     </LinearLayout>
 
 </RelativeLayout>

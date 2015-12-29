@@ -1,31 +1,22 @@
-package com.feifan.bp.flashevent;
-
-import com.feifan.bp.network.BaseModel;
-import com.feifan.bp.settings.helpcenter.HelpCenterModel;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+package com.feifan.bp.instantevent;
 
 import java.util.ArrayList;
-
-import bp.feifan.com.codescanner.decoding.Intents;
 
 /**
  *
  * 设置详情 model
  * Created by congjing
  */
-//public class FlashEventSetDetailModel extends BaseModel {
-public class FlashEventSetDetailModel {
+//public class InstantEventSetDetailModel extends BaseModel {
+public class InstantEventSetDetailModel {
 
-    public FlashEventSetDetailData mEventSetDetailData;
+    public InstantEventSetDetailData mEventSetDetailData;
     public int totalCount;
     public String mStrStatus = "审核通过";//飞凡优惠金额
-    public ArrayList<FlashEventSetDetailData> arryFlashEventData = new ArrayList<>();
+    public ArrayList<InstantEventSetDetailData> arryInstantEventData = new ArrayList<>();
 
-    public FlashEventSetDetailModel(long discount) {
-            mEventSetDetailData = new FlashEventSetDetailData();
+    public InstantEventSetDetailModel(long discount) {
+            mEventSetDetailData = new InstantEventSetDetailData();
         for (int i = 0; i < 3; i++) {
             mEventSetDetailData.mLongVendorDiscount =discount;
             mEventSetDetailData.mLongGoodsAmount = 800;//商品原价
@@ -34,12 +25,12 @@ public class FlashEventSetDetailModel {
             mEventSetDetailData.mIntGoodsNumber=300;//库存
             mEventSetDetailData.mLongFeifanDiscount = 10;//飞凡优惠金额
             mEventSetDetailData.setmLongGoodsDiscount(discount);//优惠后金额
-            arryFlashEventData.add(mEventSetDetailData);
+            arryInstantEventData.add(mEventSetDetailData);
         }
     }
 
 
-//    public FlashEventSetDetailModel(JSONObject json) {
+//    public InstantEventSetDetailModel(JSONObject json) {
 //        super(json);
 //    }
 //
@@ -64,7 +55,7 @@ public class FlashEventSetDetailModel {
 
 
 
-    public class FlashEventSetDetailData {
+    public class InstantEventSetDetailData {
         public String mStrGoodsName;
         public int mIntGoodsNumber;
 
