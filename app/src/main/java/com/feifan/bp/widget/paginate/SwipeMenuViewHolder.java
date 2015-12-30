@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 
 /**
  * RecylerView滑动删除
- *
+ * <p/>
  * Created by Frank on 15/12/25.
  */
 public abstract class SwipeMenuViewHolder {
@@ -115,6 +115,8 @@ public abstract class SwipeMenuViewHolder {
         protected static final int STATE_OPNE = 1;
         protected static final int STATE_CLOSE = 2;
 
+        private float downX,downY, upX, upY,dx,dy;
+
         public DragLayout(Context context) {
             super(context);
             init();
@@ -189,11 +191,13 @@ public abstract class SwipeMenuViewHolder {
                 if (releasedChild != captureView)
                     return;
                 int endX;
-                Log.d("captureView.Left", captureView.getLeft() + "");
-                Log.d("scrollSwipeMenuWidth", (int) ((float) swipeMenuWidth * scrollPercent) + "");
-                Log.d("state", state + "");
-                Log.d("mTrackingEdges", mTrackingEdges + "");
-                Log.d("startX", +startX + "");
+//                Log.d("captureView.Left", captureView.getLeft() + "");
+//                Log.d("captureView.Top", captureView.getTop() + "");
+//                Log.d("scrollSwipeMenuWidth", (int) ((float) swipeMenuWidth * scrollPercent) + "");
+//                Log.d("state", state + "");
+//                Log.d("mTrackingEdges", mTrackingEdges + "");
+//                Log.d("startX", +startX + "");
+
                 if (mTrackingEdges == EDGE_LEFT) {
                     if (captureView.getLeft() < (int) ((float) swipeMenuWidth * scrollPercent) || state == STATE_OPNE) {
                         endX = startX;
@@ -252,15 +256,39 @@ public abstract class SwipeMenuViewHolder {
             return mDragHelper.shouldInterceptTouchEvent(ev);
         }
 
+//        @Override
+//        public boolean dispatchTouchEvent(MotionEvent ev) {
+//            switch (ev.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                    downX = ev.getX();
+//                    downY = ev.getY();
+//                    break;
+//                case MotionEvent.ACTION_MOVE:
+//                    break;
+//                case MotionEvent.ACTION_UP:
+//                    upX = ev.getX();
+//                    upY = ev.getY();
+//                    break;
+//            }
+//            dx = Math.abs(downX - upX);
+//            dy = Math.abs(downY - upY);
+//            if(dx>(2*dy)){
+//                getParent().requestDisallowInterceptTouchEvent(true);
+//            }else{
+//                getParent().requestDisallowInterceptTouchEvent(false);
+//            }
+//            return super.dispatchTouchEvent(ev);
+//        }
+
         @Override
-        public boolean onTouchEvent(@NonNull MotionEvent event) {
-            mDragHelper.processTouchEvent(event);
+        public boolean onTouchEvent(@NonNull MotionEvent ev) {
+            mDragHelper.processTouchEvent(ev);
             if (state == STATE_CLOSE) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (ev.getAction() == MotionEvent.ACTION_UP) {
                     swipeMenuView.setVisibility(View.GONE);
                 }
             }
-            return true;
+           return true;
         }
 
         @Override

@@ -19,14 +19,16 @@ import com.feifan.bp.widget.paginate.Paginate;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
- * 可报名活动页面
+ * 商户活动页面
  * Created by Frank on 15/12/18.
  */
-public class RegisterEventListFragment extends ProgressFragment implements Paginate.Callbacks,SwipeRefreshLayout.OnRefreshListener,PlatformTabActivity.onPageSelectListener{
+public class EventListFragment extends ProgressFragment implements Paginate.Callbacks,SwipeRefreshLayout.OnRefreshListener,PlatformTabActivity.onPageSelectListener{
 
+    public static final String REGISTER = "register";
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeLayout;
 
+    private boolean isRegistered;//商家是否报名活动
     private boolean loading = false;
     private int page = 0;
     private Handler handler;
@@ -40,6 +42,7 @@ public class RegisterEventListFragment extends ProgressFragment implements Pagin
     protected View onCreateContentView(ViewStubCompat stub) {
         stub.setLayoutResource(R.layout.fragment_list);
         View v = stub.inflate();
+        isRegistered = getArguments().getBoolean(REGISTER);
         mSwipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.list);
         mSwipeLayout.setColorSchemeResources(R.color.accent);
@@ -66,7 +69,7 @@ public class RegisterEventListFragment extends ProgressFragment implements Pagin
             paginate.unbind();
         }
         handler.removeCallbacks(fakeCallback);
-        adapter = new EventListAdapter(getActivity(),DataProvider.getRandomData(pageSize),false);
+        adapter = new EventListAdapter(getActivity(),DataProvider.getRandomData(pageSize),isRegistered);
         loading = false;
         page = 0;
 

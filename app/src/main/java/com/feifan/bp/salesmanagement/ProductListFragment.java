@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 
 import com.feifan.bp.R;
 
@@ -25,10 +26,19 @@ import java.util.Set;
  */
 public class ProductListFragment extends Fragment implements GoodsListAdapter.onCheckChangeListener, GoodsListAdapter.onItemDeleteListener {
 
+    public static final String ENROLL_STATUS = "enrollStatus";
+    public static final int STATUS_NO_COMMIT = 1; //未提交状态
+    public static final int STATUS_AUDIT = 2;//审核中
+    public static final int STATUS_AUDIT_PASS = 3;//审核通过
+    public static final int STATUS_AUDIT_DENY = 4;//审核拒绝
+
     private CheckBox cbAllCheck;
+    private RecyclerView mProductList;
     private GoodsListAdapter mAdapter;
     private List<String> datas;
     private HashMap<Integer, Boolean> checkStatus = new HashMap<>();//商品选中状态
+    private int enrollStatus;//报名状态
+    private RelativeLayout mRlEnrollBottom;
 
     private String mItemData = "苹果 梨子 香蕉 葡萄 桃子 橘子";
 
@@ -36,27 +46,9 @@ public class ProductListFragment extends Fragment implements GoodsListAdapter.on
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_goods_list, container, false);
-
-        cbAllCheck = (CheckBox) view.findViewById(R.id.allcheck);
-        cbAllCheck.setChecked(false);
-        cbAllCheck.setOnCheckedChangeListener(checkAllListener);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(
-                R.id.fragment_list_rv);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(true);
-
-        String[] listItems = mItemData.split(" ");
-
-        datas = new ArrayList<>();
-        Collections.addAll(datas, listItems);
-
-        mAdapter = new GoodsListAdapter(getActivity(), datas, checkStatus);
-        recyclerView.setAdapter(mAdapter);
-        mAdapter.setCheckChangeListener(this);
-        mAdapter.setItemDeleteListener(this);
+        enrollStatus = getArguments().getInt(ENROLL_STATUS);
+        initViews(view);
+        initDatas();
         return view;
 
 //        ItemTouchHelper.Callback mCallBack = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,ItemTouchHelper.LEFT){
@@ -120,6 +112,38 @@ public class ProductListFragment extends Fragment implements GoodsListAdapter.on
 //        };
 //        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(mCallBack);
 //        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    private void initDatas() {
+
+        String[] listItems = mItemData.split(" ");
+        datas = new ArrayList<>();
+        Collections.addAll(datas, listItems);
+
+        if (enrollStatus == STATUS_NO_COMMIT) {
+            mAdapter = new GoodsListAdapter(getActivity(), datas, enrollStatus, checkStatus);
+            mRlEnrollBottom.setVisibility(View.VISIBLE);
+        } else {
+            mAdapter = new GoodsListAdapter(getActivity(), datas, enrollStatus);
+            mRlEnrollBottom.setVisibility(View.GONE);
+        }
+        mProductList.setAdapter(mAdapter);
+        mAdapter.setCheckChangeListener(this);
+        mAdapter.setItemDeleteListener(this);
+    }
+
+    private void initViews(View view) {
+        cbAllCheck = (CheckBox) view.findViewById(R.id.allcheck);
+        cbAllCheck.setChecked(false);
+        cbAllCheck.setOnCheckedChangeListener(checkAllListener);
+        mProductList = (RecyclerView) view.findViewById(R.id.fragment_list_rv);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+
+        mProductList.setItemAnimator(new DefaultItemAnimator());
+        mProductList.setLayoutManager(linearLayoutManager);
+        mProductList.setHasFixedSize(true);
+
+        mRlEnrollBottom = (RelativeLayout) view.findViewById(R.id.rl_enroll_bottom);
     }
 
     /**
