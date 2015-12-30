@@ -20,8 +20,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
  * Created by congjing on 15-12-22.
  */
 public class InstantEventGoodsListFragment extends ProgressFragment implements Paginate.Callbacks,SwipeRefreshLayout.OnRefreshListener {
-
-    public static final String EXTRA_EVENT_ID = "event_id";
+    public static final String EXTRA_PARTAKE_EVENT_ID = "partake_event_id";
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeLayout;
     private Handler handler;
@@ -48,7 +47,7 @@ public class InstantEventGoodsListFragment extends ProgressFragment implements P
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mStrEventId = getArguments().getString(EXTRA_EVENT_ID);
+        mStrEventId = getArguments().getString(EXTRA_PARTAKE_EVENT_ID);
     }
 
 

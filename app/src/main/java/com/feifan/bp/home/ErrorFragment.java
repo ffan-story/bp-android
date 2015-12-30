@@ -19,8 +19,6 @@ import com.feifan.bp.instantevent.InstantEventGoodsListFragment;
  */
 public class ErrorFragment extends BaseFragment implements  View.OnClickListener{
 
-    private static final String TAG = "ErrorFragment";
-
     private String mStrErrorMessage = "",mStrErrorMessageNextLine ="";
 
     /**
@@ -106,7 +104,7 @@ public class ErrorFragment extends BaseFragment implements  View.OnClickListener
                 case EXTRA_KEY_ERROR_BTN_LISTENER_TO_GOODS_MANAGE://商品管理
                     getActivity().finish();
                     Bundle args = new Bundle();
-                    args.putString(InstantEventGoodsListFragment.EXTRA_EVENT_ID, "");
+                    args.putString(InstantEventGoodsListFragment.EXTRA_PARTAKE_EVENT_ID, "");
                     PlatformTopbarActivity.startActivity(getActivity(), InstantEventGoodsListFragment.class.getName(), "设置详情",args);
                     break;
                 default:
@@ -115,54 +113,4 @@ public class ErrorFragment extends BaseFragment implements  View.OnClickListener
             }
         }
     }
-
-
-//    /**
-//     *
-//     *
-//     * bnt+图片+文字
-//     * @param errorMessage  提示信息
-//     * @param strBtnText
-//     * @param intBntListenerType
-//     * @return
-//     */
-//    public static ErrorFragment newInstance(int drawableId,String errorMessage,String strBtnText,int intBntListenerType) {
-//        Bundle args = new Bundle();
-//        args.putInt(EXTRA_KEY_ERROR_MIPMAP_ID, drawableId);
-//        args.putString(EXTRA_KEY_ERROR_MESSAGE, errorMessage);
-//        args.putString(EXTRA_KEY_ERROR_BTN_TEXT, strBtnText);
-//        args.putInt(EXTRA_KEY_ERROR_BTN_TEXT_TYPE, intBntListenerType);
-//        ErrorFragment fragment = new ErrorFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-//
-//    /**
-//     * 哭脸+提示文案（1行，字体大小多行可加/n 换行符）
-//     * @param erorMessage
-//     * @return
-//     */
-//    public static ErrorFragment newInstance(String erorMessage) {
-//        Bundle args = new Bundle();
-//        args.putString(EXTRA_KEY_ERROR_MESSAGE, erorMessage);
-//        ErrorFragment fragment = new ErrorFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-//    /**
-//     * 图片+提示文案（两行，文字大小不一样 NextLine文字小）
-//     * @param errorMessage
-//     * @return
-//     */
-//    public static ErrorFragment newInstance(int drawableId,String errorMessage,String errorMessageNextLine) {
-//        Bundle args = new Bundle();
-//        args.putInt(EXTRA_KEY_ERROR_MIPMAP_ID, drawableId);
-//        args.putString(EXTRA_KEY_ERROR_MESSAGE, errorMessage);
-//        args.putString(EXTRA_KEY_ERROR_MESSAGE_NEXT_LINE, errorMessageNextLine);
-//        ErrorFragment fragment = new ErrorFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
 }

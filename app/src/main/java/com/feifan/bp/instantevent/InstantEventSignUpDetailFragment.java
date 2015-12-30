@@ -9,8 +9,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.browser.SimpleBrowserFragment;
+import com.feifan.bp.network.UrlFactory;
+
+import java.text.DecimalFormat;
 
 /**
  *
@@ -18,7 +23,7 @@ import com.feifan.bp.base.ProgressFragment;
  * Created by congjing on 15-12-22.
  */
 public class InstantEventSignUpDetailFragment extends ProgressFragment {
-    public static final String EXTRA_EVENT_ID = "event_id";
+    public static final String EXTRA_PARTAKE_EVENT_ID = "partake_event_id";
     private LayoutInflater mInflater;
     private LinearLayout mLineGoodsNumber,mLineGoodsAmount;
     private TextView mTvVendorDiscount,mTvFeiFanDiscount,mTvStatic;
@@ -42,7 +47,7 @@ public class InstantEventSignUpDetailFragment extends ProgressFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mStrEventId = getArguments().getString(EXTRA_EVENT_ID);
+        mStrEventId = getArguments().getString(EXTRA_PARTAKE_EVENT_ID);
     }
 
 
@@ -55,6 +60,14 @@ public class InstantEventSignUpDetailFragment extends ProgressFragment {
         mTvVendorDiscount = (TextView)view.findViewById(R.id.tv_vendor_discount);
         mTvFeiFanDiscount = (TextView)view.findViewById(R.id.tv_feifan_discount);
         mTvStatic = (TextView)view.findViewById(R.id.tv_signup_detail_status);
+        view.findViewById(R.id.btn_audit_history).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle argsRule = new Bundle();
+                argsRule.putString(SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.getUrlPathHistoryAudit("1234433"));
+                PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.instant_check_history), argsRule);
+            }
+        });
         setContView();
         return view;
     }
@@ -69,8 +82,8 @@ public class InstantEventSignUpDetailFragment extends ProgressFragment {
 
         myData =  new InstantEventSetDetailModel(30).mEventSetDetailData;
         mTvStatic.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_detail_status), getResources().getString(R.string.instant_current_status), new InstantEventSetDetailModel(30).mStrStatus)));
-        mTvVendorDiscount.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content), getResources().getString(R.string.instant_vendor_discount), String.valueOf(myData.mLongVendorDiscount))));
-        mTvFeiFanDiscount.setText(String.format(getResources().getString(R.string.instant_feifan_discount), myData.mLongFeifanDiscount));
+        mTvVendorDiscount.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content), getResources().getString(R.string.instant_vendor_discount), formatAmount(myData.mDoubleVendorDiscount))));
+        mTvFeiFanDiscount.setText(String.format(getResources().getString(R.string.instant_feifan_discount), formatAmount(myData.mDoubleFeifanDiscount)));
 
         mInflater = LayoutInflater.from(getActivity());
         for (int i=0;i<3;i++){
@@ -80,12 +93,12 @@ public class InstantEventSignUpDetailFragment extends ProgressFragment {
             }
 
             ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_name)).setText(String.format(getString(R.string.instant_goods_name),myData.mStrGoodsName));
-            ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_number)).setText(String.format(getResources().getString(R.string.instant_goods_number),myData.mIntGoodsNumber));
-            ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_amount)).setText(String.format(getResources().getString(R.string.instant_goods_amount),myData.mLongGoodsAmount));
+            ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_number)).setText(String.format(getResources().getString(R.string.instant_colon),String.format(getResources().getString(R.string.instant_goods_number)), myData.mIntGoodsNumber));
+            ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_amount)).setText(String.format(getResources().getString(R.string.instant_goods_amount),formatAmount(myData.mDoubleGoodsAmount)));
 
             mLineGoodsNumber.addView(mLineGoodsNumberView);
             View mLineGoodsAmountView  = mInflater.inflate(R.layout.instant_event_goods_discount_item, null);
-            ((TextView) mLineGoodsAmountView.findViewById(R.id.tv_discount)).setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content), myData.mStrGoodsName, String.valueOf(myData.getmLongGoodsDiscount()))));
+            ((TextView) mLineGoodsAmountView.findViewById(R.id.tv_discount)).setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content), myData.mStrGoodsName, formatAmount(myData.getmDoubleGoodsDiscount()))));
             mLineGoodsAmount.addView(mLineGoodsAmountView);
         }
     }
@@ -94,5 +107,13 @@ public class InstantEventSignUpDetailFragment extends ProgressFragment {
     public boolean onMenuItemClick(MenuItem item) {
         return false;
     }
+    DecimalFormat mFormat =null;
+    public String formatAmount(double amount){
+        if (mFormat == null){
+            mFormat =new DecimalFormat("#0.00");
+        }
+        return mFormat.format(amount);
+    }
+
 }
 

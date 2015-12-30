@@ -54,7 +54,6 @@ public class InstantEventGoodsListAdapter extends RecyclerView.Adapter<InstantEv
             holder.mImgArrow.setVisibility(View.VISIBLE);
             holder.mTvGoodsStatus.setTag(GoodsListModel.mStrGoodsStatus);
         }
-
     }
 
     @Override
@@ -66,11 +65,10 @@ public class InstantEventGoodsListAdapter extends RecyclerView.Adapter<InstantEv
     public void onItemClicked(View view, int position) {
         if (!data.get(position).mStrGoodsStatus .equals("1")){
             Bundle args = new Bundle();
-            args.putString(InstantEventGoodsSettingDetailFragment.EXTRA_EVENT_ID, "12323");
+            args.putString(InstantEventGoodsSettingDetailFragment.EXTRA_PARTAKE_EVENT_ID, "12323");
             args.putBoolean(InstantEventGoodsSettingDetailFragment.EXTRA_EVENT_IS_GOODS_SETTINGDETAIL, false);
             PlatformTopbarActivity.startActivity(context, InstantEventGoodsSettingDetailFragment.class.getName(), "设置详情",args);
         }
-
     }
 
     public void add(List<InstantEventGoodsListModel.GoodsListData> items) {

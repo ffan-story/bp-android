@@ -288,9 +288,11 @@
     <string name="goods_all_select">全选</string>
     <string name="instant_vendor_discount">商户优惠金额</string>
     <string name="instant_goods_name">%1$s：</string>
+    <string name="instant_colon">%1$s：%2$s</string>
     <string name="instant_signup_status"><![CDATA[%1$s：<font color="#e13e31">%2$s</font>]]></string>
     <string name="instant_signup_detail_status"><![CDATA[%1$s：<font color="#0BBCBA">%2$s</font>]]></string>
     <string name="instant_goods_list">商品列表</string>
+    <string name="instant_setting_detail">设置详情</string>
     <string name="units_yuan">元</string>
 
     <!-- 商品管理 -->

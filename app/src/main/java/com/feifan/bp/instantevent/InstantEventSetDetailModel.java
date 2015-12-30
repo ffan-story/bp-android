@@ -15,16 +15,17 @@ public class InstantEventSetDetailModel {
     public String mStrStatus = "审核通过";//飞凡优惠金额
     public ArrayList<InstantEventSetDetailData> arryInstantEventData = new ArrayList<>();
 
-    public InstantEventSetDetailModel(long discount) {
-            mEventSetDetailData = new InstantEventSetDetailData();
+    public String[] s = {"绿色植物","风信子","绿萝"};
+    public InstantEventSetDetailModel(double discount) {
         for (int i = 0; i < 3; i++) {
-            mEventSetDetailData.mLongVendorDiscount =discount;
-            mEventSetDetailData.mLongGoodsAmount = 800;//商品原价
+            mEventSetDetailData = new InstantEventSetDetailData();
+            mEventSetDetailData.mDoubleVendorDiscount =discount;
+            mEventSetDetailData.mDoubleGoodsAmount = 800;//商品原价
             mEventSetDetailData.mIntGoodsPartakeNumber = 0;
-            mEventSetDetailData.mStrGoodsName="绿色植物";
+            mEventSetDetailData.mStrGoodsName=s[i];
             mEventSetDetailData.mIntGoodsNumber=300;//库存
-            mEventSetDetailData.mLongFeifanDiscount = 10;//飞凡优惠金额
-            mEventSetDetailData.setmLongGoodsDiscount(discount);//优惠后金额
+            mEventSetDetailData.mDoubleFeifanDiscount = 10;//飞凡优惠金额
+            mEventSetDetailData.setmDoubleGoodsDiscount(discount);//优惠后金额
             arryInstantEventData.add(mEventSetDetailData);
         }
     }
@@ -62,19 +63,19 @@ public class InstantEventSetDetailModel {
         /**
          * 商品原价
          */
-        public long mLongGoodsAmount;
+        public double mDoubleGoodsAmount;
         /**
          * 飞凡优惠价格
          */
-        public long mLongFeifanDiscount;
+        public double mDoubleFeifanDiscount;
         /**
          * 商户优惠价格
          */
-        public long mLongVendorDiscount;
+        public double mDoubleVendorDiscount;
         /**优惠后的价格
          *
          */
-        private long mLongGoodsDiscount;
+        private double mDoubleGoodsDiscount;
 
         /**
          * 参与活动数量
@@ -82,12 +83,12 @@ public class InstantEventSetDetailModel {
         public int mIntGoodsPartakeNumber;
 
 
-        public long getmLongGoodsDiscount() {
-            return mLongGoodsDiscount;
+        public double getmDoubleGoodsDiscount() {
+            return mDoubleGoodsDiscount;
         }
 
-        public void setmLongGoodsDiscount(long discount) {
-            this.mLongGoodsDiscount = mLongGoodsAmount-mLongFeifanDiscount-discount;
+        public void setmDoubleGoodsDiscount(double discount) {
+            this.mDoubleGoodsDiscount = mDoubleGoodsAmount-mDoubleFeifanDiscount-discount;
         }
     }
 }

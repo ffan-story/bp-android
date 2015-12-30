@@ -279,13 +279,13 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         switch (v.getId()){
             case R.id.ll_code_rule://规则
                 Bundle argsRule = new Bundle();
-                argsRule.putString(EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail(code));
+                argsRule.putString(SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail(code));
                 PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.action_rule), argsRule);
                 break;
             case R.id.tv_goods_order:
                 Bundle argsOrder = new Bundle();
-                argsOrder.putString(EXTRA_KEY_URL, UrlFactory.getOrderDetailUrl(orderNo));
-                PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.chargeoff_goods_order_detail), argsOrder);
+                argsOrder.putString(SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.getOrderDetailUrl(orderNo));
+                PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.instant_check_history), argsOrder);
                 break;
             case R.id.btn_goods_code_use://提货码
                 btn_code_use.setEnabled(false);

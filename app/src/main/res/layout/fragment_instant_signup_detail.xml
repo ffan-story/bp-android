@@ -19,6 +19,7 @@
                 style="@style/txt_color33_size14"
                 android:layout_centerVertical="true"/>
             <Button
+                android:id="@+id/btn_audit_history"
                 android:layout_alignParentRight="true"
                 style="@style/btn_white_stroke_blue"
                 android:layout_width="wrap_content"

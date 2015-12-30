@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
@@ -203,7 +204,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
 
 //                   Bundle args = new Bundle();
 //                    args.putInt(ErrorFragment.EXTRA_KEY_ERROR_MIPMAP_ID,R.mipmap.icon_empty);
-//                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.flash_goods_not_have_goods_tips));
+//                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.instant_goods_not_have_goods_tips));
 //                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_BTN_TEXT, "去商品管理");
 //                    args.putInt(ErrorFragment.EXTRA_KEY_ERROR_BTN_TEXT_TYPE, ErrorFragment.EXTRA_KEY_ERROR_BTN_LISTENER_TO_GOODS_MANAGE);
 //                    PlatformTopbarActivity.startActivity(getActivity(), ErrorFragment.class.getName(),

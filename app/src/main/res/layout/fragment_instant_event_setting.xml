@@ -31,6 +31,7 @@
                     android:layout_below="@id/tv_signup_detail_status" />
 
                 <Button
+                    android:id="@+id/btn_audit_history"
                     style="@style/btn_white_stroke_blue"
                     android:layout_width="wrap_content"
                     android:layout_alignParentRight="true"
@@ -85,8 +86,8 @@
                 <EditText
                     android:id="@+id/ed_flash_goods_vendor_discount"
                     style="@style/ed_color33_size14"
-
                     android:layout_marginTop="@dimen/view_spacing_10"
+                    android:inputType="numberDecimal"
                     android:layout_toRightOf="@id/tv_vendor_discount_name"
                     android:textColor="@color/font_color_red" />
 

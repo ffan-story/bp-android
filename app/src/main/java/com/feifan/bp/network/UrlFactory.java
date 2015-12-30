@@ -51,6 +51,9 @@ public abstract class UrlFactory {
     // H5页面相对路径－订单详情
     private static final String URL_PATH_ORDER_DETAIL = "/H5App/index.html#/order/detail";
 
+    //H5页面相对路径－闪购活动-审核历史
+    private static final String URL_PATH_HISTORY_AUDIT="/H5App/default.html#/lohas/audit/";
+
     private static final String URL_SOP_FFAN = "http://sop.ffan.com";
 
 
@@ -132,6 +135,14 @@ public abstract class UrlFactory {
      */
     public static String getOrderDetailUrl(String order) {
         return urlForHtml(URL_PATH_ORDER_DETAIL) + "&code=" + order;
+    }
+
+    /**
+     * 核销券码详情
+     * @return
+     */
+    public static String getUrlPathHistoryAudit(String eventId){
+        return urlForHtml(URL_PATH_HISTORY_AUDIT+eventId);
     }
 
     public static String visitorsAnalysisForHtml() {
