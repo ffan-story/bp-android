@@ -14,11 +14,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.feifan.bp.PlatformTabActivity;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.instantevent.InstantEventGoodsListFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.CustomViewPager;
 
@@ -29,7 +34,7 @@ import java.util.List;
  * 活动报名详情
  * Created by Frank on 15/12/21.
  */
-public class RegisterDetailActivity extends AppCompatActivity {
+public class RegisterDetailActivity extends AppCompatActivity implements View.OnClickListener{
 
     public static final String EXTRA_KEY_ID = "id";
 
@@ -38,6 +43,8 @@ public class RegisterDetailActivity extends AppCompatActivity {
     private CollapsingToolbarLayout collapsingToolbar;
     private CustomViewPager viewPager;
     private TabLayout tabLayout;
+    private RelativeLayout rlEventTitle;
+    private Button btnAddProduct;
 
     public static void startActivity(Context context, String activityId) {
         Intent i = new Intent(context, RegisterDetailActivity.class);
@@ -60,6 +67,10 @@ public class RegisterDetailActivity extends AppCompatActivity {
         viewPager = (CustomViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         setupViewPager(viewPager);
+        rlEventTitle = (RelativeLayout) findViewById(R.id.rl_event_title);
+        btnAddProduct = (Button) findViewById(R.id.btn_add_product);
+        rlEventTitle.setOnClickListener(this);
+        btnAddProduct.setOnClickListener(this);
     }
 
     private void setupToolbar() {
@@ -80,10 +91,10 @@ public class RegisterDetailActivity extends AppCompatActivity {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),RegisterDetailActivity.this);
 
-        adapter.addFrag(new ProductListFragment(), getString(R.string.notsubmitted),R.mipmap.icon_notsubmitted,"3");
-        adapter.addFrag(new ProductListFragment(), getString(R.string.review),R.mipmap.icon_review,"0");
-        adapter.addFrag(new ProductListFragment(), getString(R.string.approved),R.mipmap.icon_approved,"4");
-        adapter.addFrag(new ProductListFragment(), getString(R.string.auditrefused),R.mipmap.icon_auditrefused,"0");
+        adapter.addFrag(new ProductListFragment(), getString(R.string.notsubmitted),R.mipmap.icon_notsubmitted,ProductListFragment.STATUS_NO_COMMIT,"5");
+        adapter.addFrag(new ProductListFragment(), getString(R.string.review),R.mipmap.icon_review,ProductListFragment.STATUS_AUDIT,"2");
+        adapter.addFrag(new ProductListFragment(), getString(R.string.approved),R.mipmap.icon_approved,ProductListFragment.STATUS_AUDIT_PASS,"3");
+        adapter.addFrag(new ProductListFragment(), getString(R.string.auditrefused),R.mipmap.icon_auditrefused,ProductListFragment.STATUS_AUDIT_DENY,"0");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -98,6 +109,20 @@ public class RegisterDetailActivity extends AppCompatActivity {
 
     private void initData() {
         activityId = getIntent().getStringExtra(EXTRA_KEY_ID);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.rl_event_title:
+                break;
+            case R.id.btn_add_product:
+                // TODO 跳转商品添加页面
+                Bundle args = new Bundle();
+                args.putString(InstantEventGoodsListFragment.EXTRA_EVENT_ID, "");
+                PlatformTopbarActivity.startActivity(this, InstantEventGoodsListFragment.class.getName(),getString(R.string.instant_goods_list), args);
+                break;
+        }
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -139,11 +164,14 @@ public class RegisterDetailActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        public void addFrag(Fragment fragment, String title,int iconId,String count) {
+        public void addFrag(Fragment fragment, String title,int iconId,int status,String count) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
             mFragmentTabIconList.add(iconId);
             mFragmentTabCountList.add(count);
+            Bundle args = new Bundle();
+            args.putInt(ProductListFragment.ENROLL_STATUS, status);
+            fragment.setArguments(args);
         }
 
         @Override

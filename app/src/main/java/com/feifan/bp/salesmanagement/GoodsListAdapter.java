@@ -31,19 +31,20 @@ public class GoodsListAdapter extends RecyclerView.Adapter {
     private HashMap<Integer,Boolean> checkStatus;
     private onCheckChangeListener checkChangeListener;
     private onItemDeleteListener itemDeleteListener;
+    private int enrollStatus;
 
-
-
-    public GoodsListAdapter(Context context, List<String> mListData) {
+    public GoodsListAdapter(Context context, List<String> mListData,int enrollStatus) {
         this.context = context;
         this.mListData = mListData;
+        this.enrollStatus = enrollStatus;
         layoutInflater = LayoutInflater.from(context);
     }
 
-    public GoodsListAdapter(Context context, List<String> mListData,HashMap<Integer,Boolean> checkStatus) {
+    public GoodsListAdapter(Context context, List<String> mListData,int enrollStatus,HashMap<Integer,Boolean> checkStatus) {
         this.context = context;
         this.mListData = mListData;
         this.checkStatus = checkStatus;
+        this.enrollStatus = enrollStatus;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -62,24 +63,45 @@ public class GoodsListAdapter extends RecyclerView.Adapter {
         final SwipeViewHolder swipeViewHolder = (SwipeViewHolder) SwipeMenuViewHolder.getHolder(holder);
         String data = mListData.get(position);
         swipeViewHolder.tvProductName.setText(data);
-        swipeViewHolder.tvDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListData.remove(position);
-                LogUtil.i("fangke", "onItemDelete调用的位置" + position);
-                itemDeleteListener.onDelete(position);
-            }
-        });
-        //页面滚动时设置不调用onCheckedChanged导致Checkbox自动选中
-        swipeViewHolder.cbSelect.setOnCheckedChangeListener(null);
-        swipeViewHolder.cbSelect.setChecked(checkStatus.get(position)==null?false:true);
-        swipeViewHolder.cbSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                LogUtil.i("fangke","onCheckChanged调用的位置"+position);
-                checkChangeListener.getCheckData(position,isChecked);
-            }
-        });
+        switch (enrollStatus){
+            case ProductListFragment.STATUS_NO_COMMIT:
+                swipeViewHolder.tvProductStatus.setText("状态:未提交");
+                break;
+            case ProductListFragment.STATUS_AUDIT:
+                swipeViewHolder.tvProductStatus.setText("状态:审核中");
+                break;
+            case ProductListFragment.STATUS_AUDIT_PASS:
+                swipeViewHolder.tvProductStatus.setText("状态:审核通过");
+                break;
+            case ProductListFragment.STATUS_AUDIT_DENY:
+                swipeViewHolder.tvProductStatus.setText("状态:审核拒绝");
+                break;
+        }
+
+        if(enrollStatus!= ProductListFragment.STATUS_NO_COMMIT){
+            swipeViewHolder.cbSelect.setVisibility(View.GONE);
+        }else{
+            swipeViewHolder.cbSelect.setVisibility(View.VISIBLE);
+
+            swipeViewHolder.tvDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListData.remove(position);
+                    LogUtil.i("fangke", "onItemDelete调用的位置" + position);
+                    itemDeleteListener.onDelete(position);
+                }
+            });
+            //页面滚动时设置不调用onCheckedChanged导致Checkbox自动选中
+            swipeViewHolder.cbSelect.setOnCheckedChangeListener(null);
+            swipeViewHolder.cbSelect.setChecked(checkStatus.get(position)==null?false:true);
+            swipeViewHolder.cbSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    LogUtil.i("fangke", "onCheckChanged调用的位置" + position);
+                    checkChangeListener.getCheckData(position, isChecked);
+                }
+            });
+        }
     }
 
     @Override

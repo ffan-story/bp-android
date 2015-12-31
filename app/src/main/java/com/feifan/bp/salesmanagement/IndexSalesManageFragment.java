@@ -55,8 +55,10 @@ public class IndexSalesManageFragment extends BaseFragment implements View.OnCli
             case R.id.rl_activity_management:
                 // TODO 跳转到活动管理界面
                 Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
-                        .addFragment(RegisterEventListFragment.class.getName(), getString(R.string.event_register))
-                        .addFragment(RegisteredEventListFragment.class.getName(), getString(R.string.event_registered))
+                        .addFragment(EventListFragment.class.getName(), getString(R.string.event_register))
+                        .addArgument(EventListFragment.class.getName(), EventListFragment.REGISTER,false)
+                        .addFragment(EventListFragment.class.getName(), getString(R.string.event_registered))
+                        .addArgument(EventListFragment.class.getName(), EventListFragment.REGISTER, true)
                         .build();
 
                 Intent intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.event_management), fragmentArgs);

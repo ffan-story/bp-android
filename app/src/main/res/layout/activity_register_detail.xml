@@ -21,7 +21,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <include
-                layout="@layout/label_activity"
+                layout="@layout/enroll_detail_header"
                 android:layout_marginTop="80dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

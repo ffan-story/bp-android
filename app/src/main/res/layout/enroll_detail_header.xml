@@ -6,6 +6,7 @@
               android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_event_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/view_spacing_10">
@@ -34,6 +35,7 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/btn_add_product"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_gravity="center_horizontal"
