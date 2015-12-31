@@ -76,14 +76,14 @@ public class InstantEventSignUpDetailFragment extends ProgressFragment {
     protected void requestData() {
         setContentShown(true);
     }
-
+    InstantEventSetDetailModel myModele;
     InstantEventSetDetailModel.InstantEventSetDetailData myData ;
     private void setContView(){
-
-        myData =  new InstantEventSetDetailModel(30).mEventSetDetailData;
-        mTvStatic.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_detail_status), getResources().getString(R.string.instant_current_status), new InstantEventSetDetailModel(30).mStrStatus)));
-        mTvVendorDiscount.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content), getResources().getString(R.string.instant_vendor_discount), formatAmount(myData.mDoubleVendorDiscount))));
-        mTvFeiFanDiscount.setText(String.format(getResources().getString(R.string.instant_feifan_discount), formatAmount(myData.mDoubleFeifanDiscount)));
+        myModele = new InstantEventSetDetailModel();
+        myData = myModele.mEventSetDetailData;
+        mTvStatic.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_detail_status), getResources().getString(R.string.instant_current_status), myModele.mStrStatus)));
+        mTvVendorDiscount.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content), getResources().getString(R.string.instant_vendor_discount), formatAmount(myModele.mDoubleVendorDiscount))));
+        mTvFeiFanDiscount.setText(String.format(getResources().getString(R.string.instant_feifan_discount), formatAmount(myModele.mDoubleFeifanDiscount)));
 
         mInflater = LayoutInflater.from(getActivity());
         for (int i=0;i<3;i++){

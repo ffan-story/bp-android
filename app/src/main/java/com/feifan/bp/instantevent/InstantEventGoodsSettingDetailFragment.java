@@ -143,18 +143,24 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
                     isVendorDiscount = false;
                     mTvVendorDiscountTips.setVisibility(View.VISIBLE);
                     mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_intput_vendor_discount_tips));
-                    mList = new InstantEventSetDetailModel(0).arryInstantEventData;
+
+                    myModel.mDoubleVendorDiscount = 0;
+                    myData.setmDoubleGoodsDiscount();
+                    mList = myModel.arryInstantEventData;
                 } else if (!TextUtils.isEmpty(mStrInputDiscount)) {
-                    myData.setmDoubleGoodsDiscount(Double.parseDouble(mStrInputDiscount));
                     if (myData.getmDoubleGoodsDiscount()< 0) {//优惠后的金额为负数
                         isVendorDiscount = false;
                         mTvVendorDiscountTips.setVisibility(View.VISIBLE);
                         mTvVendorDiscountTips.setText("输入优惠金额不合法");
-                        mList = new InstantEventSetDetailModel(0).arryInstantEventData;
+                        myModel.mDoubleVendorDiscount = 0;
+                        myData.setmDoubleGoodsDiscount();
+                        mList = myModel.arryInstantEventData;
                     } else {
                         isVendorDiscount = true;
                         mTvVendorDiscountTips.setVisibility(View.GONE);
-                        mList = new InstantEventSetDetailModel(Double.parseDouble(mStrInputDiscount)).arryInstantEventData;
+                        myModel.mDoubleVendorDiscount = Double.parseDouble(mStrInputDiscount);
+                        myData.setmDoubleGoodsDiscount();
+                        mList = myModel.arryInstantEventData;
                     }
                 }
                 goodsDiscountAdapter.notifyDataSetChanged();
@@ -184,12 +190,13 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
         setContentShown(true);
     }
 
+    InstantEventSetDetailModel myModel;
     InstantEventSetDetailModel.InstantEventSetDetailData myData ;
     private void setContViewData(){
-
-        myData =  new InstantEventSetDetailModel(30).mEventSetDetailData;
-        mList = new InstantEventSetDetailModel(30).arryInstantEventData;
-        mTvFeifanDiscount.setText(String.format(getActivity().getResources().getString(R.string.instant_feifan_discount),formatAmount(myData.mDoubleFeifanDiscount))) ;
+        myModel=  new InstantEventSetDetailModel();
+        myData = myModel.mEventSetDetailData;
+        mList = myModel.arryInstantEventData;
+        mTvFeifanDiscount.setText(String.format(getActivity().getResources().getString(R.string.instant_feifan_discount),formatAmount(myModel.mDoubleFeifanDiscount))) ;
         if (!mISGoodsSettingDetail){//设置状态-拒绝（显示审核历史）
             mTvSignupStatus.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_current_status),"已拒绝")));
             mTvSignupRefuseCause.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_refuse_cause), "库存不足！！test！！！")));
@@ -208,8 +215,8 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
             case R.id.bnt_instant_save_setting://保存设置
             case R.id.bnt_instant_atonce_submit://立即提交
                 for (int i=0;i<mList.size();i++){//库存校验
-                    LogUtil.i("congjing","1111="+mList.get(i).mIntGoodsPartakeNumber);
-                    if(mList.get(i).mIntGoodsPartakeNumber > mList.get(i).mIntGoodsNumber){//库存不足
+                    LogUtil.i("congjing","1111="+mList.get(i).mDoubleGoodsPartakeNumber);
+                    if(mList.get(i).mDoubleGoodsPartakeNumber > mList.get(i).mIntGoodsNumber){//库存不足
                         return;
                     }
                 }
@@ -322,8 +329,8 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
                         if (TextUtils.isEmpty(s.toString())){
                             holder.mTvGoodsTips.setVisibility(View.INVISIBLE);
                         }else{
-                            mSetGoodsDetailData.mIntGoodsPartakeNumber = Integer.parseInt(s.toString());
-                            if (mSetGoodsDetailData.mIntGoodsPartakeNumber > mSetGoodsDetailData.mIntGoodsNumber){
+                            mSetGoodsDetailData.mDoubleGoodsPartakeNumber = Double.parseDouble(s.toString());
+                            if (mSetGoodsDetailData.mDoubleGoodsPartakeNumber > mSetGoodsDetailData.mIntGoodsNumber){
                                 holder.mTvGoodsTips.setVisibility(View.VISIBLE);
                             }else{
                                 holder.mTvGoodsTips.setVisibility(View.INVISIBLE);
@@ -398,6 +405,14 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
     public String formatAmount(double amount){
         if (mFormat == null){
             mFormat =new DecimalFormat("#0.00");
+        }
+        return mFormat.format(amount);
+    }
+
+    DecimalFormat mFormatNoPoint =null;
+    public String formatNoPointAmount(double amount){
+        if (mFormat == null){
+            mFormat =new DecimalFormat("#0");
         }
         return mFormat.format(amount);
     }

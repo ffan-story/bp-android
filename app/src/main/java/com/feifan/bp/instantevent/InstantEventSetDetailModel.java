@@ -16,16 +16,18 @@ public class InstantEventSetDetailModel {
     public ArrayList<InstantEventSetDetailData> arryInstantEventData = new ArrayList<>();
 
     public String[] s = {"绿色植物","风信子","绿萝"};
-    public InstantEventSetDetailModel(double discount) {
+
+    double mDoubleFeifanDiscount = 10;//飞凡优惠金额
+    double mDoubleVendorDiscount = 10;//飞凡优惠金额
+
+    public InstantEventSetDetailModel() {
         for (int i = 0; i < 3; i++) {
             mEventSetDetailData = new InstantEventSetDetailData();
-            mEventSetDetailData.mDoubleVendorDiscount =discount;
             mEventSetDetailData.mDoubleGoodsAmount = 800;//商品原价
-            mEventSetDetailData.mIntGoodsPartakeNumber = 0;
+            mEventSetDetailData.mDoubleGoodsPartakeNumber = 0;
             mEventSetDetailData.mStrGoodsName=s[i];
             mEventSetDetailData.mIntGoodsNumber=300;//库存
-            mEventSetDetailData.mDoubleFeifanDiscount = 10;//飞凡优惠金额
-            mEventSetDetailData.setmDoubleGoodsDiscount(discount);//优惠后金额
+            mEventSetDetailData.setmDoubleGoodsDiscount();//优惠后金额
             arryInstantEventData.add(mEventSetDetailData);
         }
     }
@@ -59,36 +61,32 @@ public class InstantEventSetDetailModel {
     public class InstantEventSetDetailData {
         public String mStrGoodsName;
         public int mIntGoodsNumber;
-
         /**
          * 商品原价
          */
         public double mDoubleGoodsAmount;
+
         /**
-         * 飞凡优惠价格
-         */
-        public double mDoubleFeifanDiscount;
-        /**
-         * 商户优惠价格
-         */
-        public double mDoubleVendorDiscount;
-        /**优惠后的价格
-         *
+         * 优惠后的价格
          */
         private double mDoubleGoodsDiscount;
 
         /**
          * 参与活动数量
          */
-        public int mIntGoodsPartakeNumber;
+        public double mDoubleGoodsPartakeNumber;
 
 
         public double getmDoubleGoodsDiscount() {
             return mDoubleGoodsDiscount;
         }
 
-        public void setmDoubleGoodsDiscount(double discount) {
-            this.mDoubleGoodsDiscount = mDoubleGoodsAmount-mDoubleFeifanDiscount-discount;
+        public void setmDoubleGoodsDiscount() {
+            if ( mDoubleGoodsAmount-mDoubleFeifanDiscount-mDoubleVendorDiscount <0){
+                this.mDoubleGoodsDiscount = 0;
+            }else{
+                this.mDoubleGoodsDiscount = mDoubleGoodsAmount-mDoubleFeifanDiscount-mDoubleVendorDiscount;
+            }
         }
     }
 }
