@@ -1,41 +1,60 @@
 package com.feifan.bp.home.commoditymanager;
 
-import com.feifan.bp.network.BaseModel;
-import com.feifan.bp.util.LogUtil;
+import android.util.Log;
 
-import org.json.JSONArray;
+import com.feifan.bp.network.BaseModel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
+ * 商品管理 — 闪购商品model
  * Created by konta on 2015/12/25.
  */
 public class InstantsBuyModle extends BaseModel{
     public static final String TAG = "InstantsBuyModle";
+    /**
+     * 闪购商品列表状态：
+     *      00：临时保存
+     *      01：待审核
+     *      02：已通过
+     *      04：已驳回
+     */
+    private static final String INSTANTS_STATUS_TEMPSAVE = "00";
+    private static final String INSTANTS_STATUS_AUDIT = "01";
+    private static final String INSTANTS_STATUS_THROUGHED = "02";
+    private static final String INSTANTS_STATUS_REJECTED = "03";
+
+
+    CommodityEntry commodityEntry;
+
     public InstantsBuyModle(JSONObject json) {
         super(json);
     }
-    private List<Commodity> commodities;
+
     @Override
     protected void parseData(String json) throws JSONException {
-        LogUtil.e(TAG, "we get json ===========" + json);
-        commodities = new ArrayList<Commodity>();
-        JSONArray data = new JSONObject(json).getJSONArray("data");
-        for (int i = 0;i < data.length();i++){
-            Commodity commodity  = new Commodity();
-            commodity.status = data.getJSONObject(i).optString("status");
-            commodity.totalCount = data.getJSONObject(i).optInt("totalCount");
-            commodities.add(commodity);
-        }
+        Log.e(TAG, "we got json =======" + json);
+        JSONObject data = new JSONObject(json);
+        commodityEntry = new CommodityEntry();
+        commodityEntry.tempSave = data.getInt(INSTANTS_STATUS_TEMPSAVE);
+        commodityEntry.audit = data.getInt(INSTANTS_STATUS_AUDIT);
+        commodityEntry.throughed = data.getInt(INSTANTS_STATUS_THROUGHED);
+        commodityEntry.rejected = data.getInt(INSTANTS_STATUS_REJECTED);
     }
-    public List<Commodity> getCommodities(){
-        return commodities;
+
+    public CommodityEntry getCommodityEntry(){
+        return commodityEntry;
     }
-    public class Commodity{
-        public String status;
-        public int totalCount;
+
+    /**
+     * 闪购商品
+     */
+    public class CommodityEntry {
+        public int tempSave;
+        public int audit;
+        public int throughed;
+        public int rejected;
     }
+
 }

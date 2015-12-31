@@ -108,7 +108,7 @@ public abstract class UrlFactory {
      * @param status
      * @return
      */
-    public static String getInstantsForHtml(String status){
+    public static String getInstantsForHtmlUrl(String status){
         return "H5App/index.html#/commodity/list/".concat(status);
     }
 
@@ -183,7 +183,7 @@ public abstract class UrlFactory {
         if (reUrl.contains(paramStart)) {
             paramStart = "&";
         }
-        return "http://10.1.80.126/".concat(formatRelativeUrl(reUrl)).
+        return "http://10.1.80.161/".concat(formatRelativeUrl(reUrl)).
                 concat(paramStart).
                 concat("loginToken=").concat(userProfile.getLoginToken()).
                 concat("&uid=").concat(String.valueOf(userProfile.getUid())).
@@ -264,7 +264,9 @@ public abstract class UrlFactory {
      * @return
      */
     public static String getInstantsBuyCommodity(){
-        return EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/goods_app/ajax_status_list";
+//        return EnvironmentManager.getHostFactory().getFFanApiV2Host() + "goods/v2/goodsNum";
+       return  "http://xapi.sit.ffan.com/mapp/goodsindex";
+
     }
 
     public static String getMessgeListStatus() {
