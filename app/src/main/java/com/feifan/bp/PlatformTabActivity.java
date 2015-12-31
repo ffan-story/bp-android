@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -150,10 +151,11 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
 
             ArrayList<String> orderList = args.getStringArrayList(ArgsBuilder.EXTRA_KEY_ORDER_LIST);
             for(String key : orderList) {
+                String realKey = key;
                 if(key.contains("#")) {
                     key = key.substring(0, key.indexOf("#"));
                 }
-                fragments.add(Fragment.instantiate(this, key, args.getBundle(key)));
+                fragments.add(Fragment.instantiate(this, key, args.getBundle(realKey)));
             }
 
             return new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -231,11 +233,14 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
 
             // 添加fragment
             int count = 1;
-            while(mArgs.containsKey(className)){      // 处理相同的Fragment类型
-                className = className.concat("#" + count);
+            String legalName = className;
+            while(mArgs.containsKey(legalName)){      // 处理相同的Fragment类型
+                legalName = className.concat("#" + count);
+                count++;
             }
-            mArgs.putBundle(className, fArgs);
-            mArgs.getStringArrayList(EXTRA_KEY_ORDER_LIST).add(className);
+
+            mArgs.putBundle(legalName, fArgs);
+            mArgs.getStringArrayList(EXTRA_KEY_ORDER_LIST).add(legalName);
             return this;
         }
 
@@ -251,14 +256,26 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
          * @return
          */
         public ArgsBuilder addArgument(String className, String key, Object value) {
-            Bundle fArgs = mArgs.getBundle(className);
+            //查找与className匹配的键值－取最后一个匹配的项
+            int count = 0;
+            String legalName = className;
+            while(mArgs.containsKey(legalName)) {
+                count++;
+                legalName = className.concat("#" + count);
+            }
+            count--;
+            legalName = count > 1 ? className.concat("#" + count) : className;
+
+            Bundle fArgs = mArgs.getBundle(legalName);
             if (fArgs == null) {
-                throw new IllegalArgumentException("You should add " + className + " via addFragment method first!");
+                throw new IllegalArgumentException("You should add " + legalName + " via addFragment method first!");
             } else {
                 if (value instanceof Integer) {
                     fArgs.putInt(key, (Integer) value);
                 } else if (value instanceof String) {
                     fArgs.putString(key, String.valueOf(value));
+                } else if(value instanceof Boolean) {
+                    fArgs.putBoolean(key, (Boolean)value);
                 }
             }
             return this;
