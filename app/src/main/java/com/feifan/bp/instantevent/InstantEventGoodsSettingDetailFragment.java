@@ -206,20 +206,24 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bnt_instant_save_setting://保存设置
-                Bundle args = new Bundle();
-                args.putString(InstantEventSignUpDetailFragment.EXTRA_PARTAKE_EVENT_ID,"23232");
-                PlatformTopbarActivity.startActivity(getActivity(), InstantEventSignUpDetailFragment.class.getName(), getString(R.string.register_detail), args);
-                break;
             case R.id.bnt_instant_atonce_submit://立即提交
-                if (isVendorDiscount){
-                    Utils.showShortToast(getActivity().getApplicationContext(),"请填写优惠价格！");
-                }else if (isGoodsNumber){
-                    Utils.showShortToast(getActivity().getApplicationContext(),"商品库存不足");
+                for (int i=0;i<mList.size();i++){//库存校验
+                    LogUtil.i("congjing","1111="+mList.get(i).mIntGoodsPartakeNumber);
+                    if(mList.get(i).mIntGoodsPartakeNumber > mList.get(i).mIntGoodsNumber){//库存不足
+                        return;
+                    }
                 }
 
-                for (int i=0;i<mList.size();i++){
-                    LogUtil.i("congjing","i==="+ i);
-                    LogUtil.i("congjing","number==="+ mList.get(i).mIntGoodsPartakeNumber);
+//                LogUtil.i("congjing", "myData.mDoubleVendorDiscount=" + myModel.getmDoubleVendorDiscount());
+//                if(myModel.getmDoubleVendorDiscount()<=0){//商户优惠金额必须大于0
+//                    return;
+//                }
+                if (v.getId() == R.id.bnt_instant_save_setting){//保存设置
+                    Bundle args = new Bundle();
+                    args.putString(InstantEventSignUpDetailFragment.EXTRA_PARTAKE_EVENT_ID,"23232");
+                    PlatformTopbarActivity.startActivity(getActivity(), InstantEventSignUpDetailFragment.class.getName(), getString(R.string.register_detail), args);
+                }else if (v.getId() == R.id.bnt_instant_atonce_submit){//立即提交
+
                 }
 
                 break;

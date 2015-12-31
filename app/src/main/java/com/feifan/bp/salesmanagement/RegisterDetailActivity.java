@@ -119,7 +119,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
             case R.id.btn_add_product:
                 // TODO 跳转商品添加页面
                 Bundle args = new Bundle();
-                args.putString(InstantEventGoodsListFragment.EXTRA_EVENT_ID, "");
+                args.putString(InstantEventGoodsListFragment.EXTRA_PARTAKE_EVENT_ID, "");
                 PlatformTopbarActivity.startActivity(this, InstantEventGoodsListFragment.class.getName(),getString(R.string.instant_goods_list), args);
                 break;
         }
