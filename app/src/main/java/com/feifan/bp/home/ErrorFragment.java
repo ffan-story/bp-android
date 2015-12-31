@@ -15,7 +15,7 @@ import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.instantevent.InstantEventGoodsListFragment;
 
 /**
- * 错误提示页
+ * 通用错误提示页
  */
 public class ErrorFragment extends BaseFragment implements  View.OnClickListener{
 

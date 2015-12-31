@@ -249,7 +249,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, UserInfoFragment.class.getName());
                 break;
-
             case R.id.index_history:
                 //统计埋点  验证历史
                 FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_VERIFY);

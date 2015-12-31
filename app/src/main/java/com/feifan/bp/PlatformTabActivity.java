@@ -107,7 +107,9 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
             @Override
             public void onPageSelected(int position) {
                 //当加载的Fragment是H5页面需重载刷新页面
-                mListener.onPageSelected();
+                if(mListener != null) {
+                    mListener.onPageSelected();
+                }
             }
 
             @Override
@@ -148,6 +150,9 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
 
             ArrayList<String> orderList = args.getStringArrayList(ArgsBuilder.EXTRA_KEY_ORDER_LIST);
             for(String key : orderList) {
+                if(key.contains("#")) {
+                    key = key.substring(0, key.indexOf("#"));
+                }
                 fragments.add(Fragment.instantiate(this, key, args.getBundle(key)));
             }
 
@@ -220,8 +225,15 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         }
 
         public ArgsBuilder addFragment(String className, String title) {
+            // 构造fragment参数
             Bundle fArgs = new Bundle();
             fArgs.putString(EXTRA_KEY_TITLE, title);
+
+            // 添加fragment
+            int count = 1;
+            while(mArgs.containsKey(className)){      // 处理相同的Fragment类型
+                className = className.concat("#" + count);
+            }
             mArgs.putBundle(className, fArgs);
             mArgs.getStringArrayList(EXTRA_KEY_ORDER_LIST).add(className);
             return this;
