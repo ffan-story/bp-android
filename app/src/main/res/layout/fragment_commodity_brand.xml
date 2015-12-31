@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="#F4F3F2">
+    android:background="@color/app_background_color">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,13 +15,13 @@
         android:layout_width="wrap_content"
         android:layout_marginTop="@dimen/view_spacing_15"
         android:textSize="@dimen/font_size_18"
-        android:textColor="#999999"
+        android:textColor="@color/font_color_99"
         android:text="@string/commodity_brand_build"/>
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginTop="@dimen/view_spacing_5"
         android:textSize="@dimen/font_size_14"
-        android:textColor="#999999"
+        android:textColor="@color/font_color_99"
         android:text="@string/commodity_brand_wait"/>
 </LinearLayout>

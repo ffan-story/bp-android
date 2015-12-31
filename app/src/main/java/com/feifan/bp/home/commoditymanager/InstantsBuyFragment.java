@@ -2,11 +2,9 @@ package com.feifan.bp.home.commoditymanager;
 
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
-import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -23,7 +21,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.SocketException;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -33,12 +30,13 @@ import java.util.Random;
 public class InstantsBuyFragment extends ProgressFragment implements PlatformTabActivity.onPageSelectListener, View.OnClickListener {
     private static final String TAG = "InstantsBuyFragment";
     public static final String EXTRA_KEY_URL = "url";
-    private List<InstantsBuyModle.Commodity> commodities;
+
+    private InstantsBuyModle.CommodityEntry commodityEntry;
     private String mUrl;
-    private TextView tvCMTempSave;
-    private TextView tvCMAudit;
-    private TextView tvCMThroughed;
-    private TextView tvCMRejected;
+    private TextView mTempSaveCount;
+    private TextView mAuditCount;
+    private TextView mThroughedCount;
+    private TextView mRejectedCount;
 
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
@@ -56,21 +54,18 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
         ((PlatformTabActivity) getActivity()).setOnPageSelectListener(this);
         stub.setLayoutResource(R.layout.fragment_commodity_instants_buy);
         View view = stub.inflate();
-        RelativeLayout rlCMTempSave = (RelativeLayout) view.findViewById(R.id.rl_instants_tempsave);
-        LinearLayout llCMAudit = (LinearLayout) view.findViewById(R.id.ll_instants_buy_audit);
-        LinearLayout llCMThroughed = (LinearLayout) view.findViewById(R.id.ll_instants_buy_throughed);
-        RelativeLayout llCMRejected = (RelativeLayout) view.findViewById(R.id.rl_instants_buy_rejected);
-        RelativeLayout llCMAdd = (RelativeLayout) view.findViewById(R.id.rl_instants_buy_add);
 
-        tvCMTempSave = (TextView) view.findViewById(R.id.instants_buy_tempsave);
-        tvCMAudit = (TextView) view.findViewById(R.id.instants_buy_audit);
-        tvCMThroughed = (TextView) view.findViewById(R.id.instants_buy_throughed);
-        tvCMRejected = (TextView) view.findViewById(R.id.instants_buy_rejected);
-        rlCMTempSave.setOnClickListener(this);
-        llCMAudit.setOnClickListener(this);
-        llCMThroughed.setOnClickListener(this);
-        llCMRejected.setOnClickListener(this);
-        llCMAdd.setOnClickListener(this);
+        mTempSaveCount = (TextView) view.findViewById(R.id.instants_tempsave_count);
+        mAuditCount = (TextView) view.findViewById(R.id.instants_audit_count);
+        mThroughedCount = (TextView) view.findViewById(R.id.instants_throughed_count);
+        mRejectedCount = (TextView) view.findViewById(R.id.instants_rejected_count);
+
+        view.findViewById(R.id.instants_tempsave_container).setOnClickListener(this);
+        view.findViewById(R.id.instants_audit_container).setOnClickListener(this);
+        view.findViewById(R.id.instants_throughed_container).setOnClickListener(this);
+        view.findViewById(R.id.instants_rejected_container).setOnClickListener(this);
+        view.findViewById(R.id.instants_add_container).setOnClickListener(this);
+
         return view;
     }
 
@@ -93,8 +88,8 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
                 @Override
                 public void onResponse(InstantsBuyModle instantsBuyModle) {
                     if (null != instantsBuyModle) {
-                        commodities = instantsBuyModle.getCommodities();
-                        initCommodityView(commodities);
+                        commodityEntry = instantsBuyModle.getCommodityEntry();
+                        initCommodityView(commodityEntry);
                         setContentShown(true);
                     }
                 }
@@ -108,25 +103,16 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
             });
 
         }else{
-            setContentShown(false);
+            setContentShown(true);
             setContentEmpty(true);
         }
     }
 
-    private void initCommodityView(List<InstantsBuyModle.Commodity> commodities) {
-        for (int i = 0; i < commodities.size(); i++){
-            String status = commodities.get(i).status;
-            int count = commodities.get(i).totalCount;
-            if ("00".equals(status)){//临时保存
-                tvCMTempSave.setText("" + count);
-            }else if("01".equals(status)){//待审核
-                tvCMAudit.setText("" + count);
-            }else if("02".equals(status)){//已通过
-                tvCMThroughed.setText("" + count);
-            }else if("03".equals(status)){//已驳回
-                tvCMRejected.setText("" + count);
-            }
-        }
+    private void initCommodityView(InstantsBuyModle.CommodityEntry commodityEntry) {
+        mTempSaveCount.setText(commodityEntry.tempSave + "");
+        mAuditCount.setText(commodityEntry.audit + "");
+        mThroughedCount.setText(commodityEntry.throughed + "");
+        mRejectedCount.setText(commodityEntry.rejected + "");
     }
 
 
@@ -140,13 +126,17 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
 
     @Override
     public void onClick(View v) {
-        if(null != v.getTag()){//状态条目
-        String url = UrlFactory.urlForHtmlTest(UrlFactory.getInstantsForHtml(v.getTag().toString()));
-        BrowserActivity.startActivity(getContext(), url);
-        }else if(v.getId() == R.id.rl_instants_buy_add){//添加商品
-            //http://10.1.80.126/H5App/index.html#/commodity/select_cat_menu
-            String addUrl = UrlFactory.urlForHtmlTest("H5App/index.html#/commodity/select_cat_menu?ts=".concat(new Random().nextInt() + ""));
-            BrowserActivity.startActivity(getContext(), addUrl);
+        if(Utils.isNetworkAvailable(getContext())){
+            if(null != v.getTag()){//商品列表
+                String url = UrlFactory.urlForHtmlTest(UrlFactory.getInstantsForHtmlUrl(v.getTag().toString()));
+                BrowserActivity.startActivity(getContext(), url);
+            }else if(v.getId() == R.id.instants_add_container){//添加商品
+                //http://10.1.80.126/H5App/index.html#/commodity/select_cat_menu
+                String addUrl = UrlFactory.urlForHtmlTest("H5App/index.html#/commodity/select_cat_menu?ts=".concat(new Random().nextInt() + ""));
+                BrowserActivity.startActivity(getContext(), addUrl);
+            }
+        }else{
+            Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
         }
     }
 

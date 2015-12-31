@@ -2,32 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F3F2">
+    android:background="@color/app_background_color">
     <RelativeLayout
-        android:tag="00"
-        android:id="@+id/rl_instants_tempsave"
+        android:id="@+id/instants_tempsave_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:tag="@string/commodity_instants_status_00"
         android:clickable="true"
         android:layout_marginTop="@dimen/view_spacing_10"
         android:padding="@dimen/view_spacing_12"
         android:background="@drawable/border_top_bottom_background">
         <ImageView
-            android:id="@+id/iv_temp_save"
+            android:id="@+id/instants_tempsave_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:src="@mipmap/icon_save"/>
         <TextView
-            android:id="@+id/tv_temp_save"
-            android:layout_toRightOf="@id/iv_temp_save"
+            android:id="@+id/instants_tempsave_tv"
+            android:layout_toRightOf="@id/instants_tempsave_iv"
             android:layout_marginLeft="@dimen/view_spacing_10"
             android:layout_centerVertical="true"
             style="@style/txt_color33_size16"
             android:text="@string/commodity_instants_temp_save"/>
         <TextView
-            android:id="@+id/instants_buy_tempsave"
-            android:layout_toRightOf="@id/tv_temp_save"
+            android:id="@+id/instants_tempsave_count"
+            android:layout_toRightOf="@id/instants_tempsave_tv"
             android:layout_marginLeft="@dimen/view_spacing_5"
             android:background="@drawable/tv_radius_gray"
             style="@style/txt_color33_size12"
@@ -43,13 +43,13 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:tag="01"
-        android:id="@+id/ll_instants_buy_audit"
+        android:id="@+id/instants_audit_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_spacing_45"
+        android:tag="@string/commodity_instants_status_01"
         android:clickable="true"
         android:layout_marginTop="@dimen/view_spacing_10"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
         <ImageView
@@ -65,13 +65,13 @@
             android:paddingBottom="@dimen/view_spacing_10"
             android:background="@drawable/border_bottom_background">
             <TextView
-                android:id="@+id/tv_audit"
+                android:id="@+id/instants_audit_tv"
                 android:layout_centerVertical="true"
                 style="@style/txt_color33_size16"
                 android:text="@string/commodity_instants_audit"/>
             <TextView
-                android:id="@+id/instants_buy_audit"
-                android:layout_toRightOf="@id/tv_audit"
+                android:id="@+id/instants_audit_count"
+                android:layout_toRightOf="@id/instants_audit_tv"
                 android:layout_marginLeft="@dimen/view_spacing_5"
                 android:layout_centerVertical="true"
                 android:background="@drawable/tv_radius_gray"
@@ -89,12 +89,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:tag="02"
-        android:id="@+id/ll_instants_buy_throughed"
+        android:id="@+id/instants_throughed_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_spacing_45"
+        android:tag="@string/commodity_instants_status_02"
         android:clickable="true"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
         <ImageView
@@ -110,14 +110,14 @@
             android:paddingBottom="@dimen/view_spacing_10"
             android:background="@drawable/border_bottom_background">
             <TextView
-                android:id="@+id/tv_throughed"
+                android:id="@+id/instants_throughed_tv"
                 android:layout_centerVertical="true"
                 style="@style/txt_color33_size16"
                 android:text="@string/commodity_instants_throughed"/>
             <TextView
-                android:id="@+id/instants_buy_throughed"
+                android:id="@+id/instants_throughed_count"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/tv_throughed"
+                android:layout_toRightOf="@id/instants_throughed_tv"
                 android:layout_marginLeft="@dimen/view_spacing_5"
                 android:background="@drawable/tv_radius_gray"
                 style="@style/txt_color33_size12"
@@ -133,31 +133,31 @@
 
     </LinearLayout>
     <RelativeLayout
-        android:tag="03"
-        android:id="@+id/rl_instants_buy_rejected"
+        android:id="@+id/instants_rejected_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_spacing_45"
+        android:tag="@string/commodity_instants_status_03"
         android:clickable="true"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:orientation="horizontal">
         <ImageView
-            android:id="@+id/iv_rejected"
+            android:id="@+id/instants_rejected_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/view_spacing_12"
             android:src="@mipmap/icon_rejected"/>
         <TextView
-            android:id="@+id/tv_rejected"
-            android:layout_toRightOf="@id/iv_rejected"
+            android:id="@+id/instants_rejected_tv"
+            android:layout_toRightOf="@id/instants_rejected_iv"
             android:layout_marginLeft="@dimen/view_spacing_10"
             android:layout_centerVertical="true"
             style="@style/txt_color33_size16"
             android:text="@string/commodity_instants_rejected"/>
         <TextView
-            android:id="@+id/instants_buy_rejected"
+            android:id="@+id/instants_rejected_count"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/tv_rejected"
+            android:layout_toRightOf="@id/instants_rejected_tv"
             android:layout_marginLeft="@dimen/view_spacing_5"
             android:background="@drawable/tv_radius_gray"
             style="@style/txt_color33_size12"
@@ -172,17 +172,16 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_instants_buy_add"
+        android:id="@+id/instants_add_container"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="@dimen/view_spacing_45"
         android:clickable="true"
         android:layout_marginTop="@dimen/view_spacing_10"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:gravity="center">
         <TextView
-            android:id="@+id/tv_add"
             android:layout_margin="@dimen/view_spacing_5"
-            style="@style/txt_colorblue_size18"
+            style="@style/InstantsAddButton"
             android:text="@string/commodity_instants_add"
             android:drawableLeft="@mipmap/icon_add"
             android:drawablePadding="@dimen/view_spacing_5"/>
