@@ -404,7 +404,12 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 isOnclicked = true;
                 Activity mActivity = getActivity();
                 Uri actionUri = Uri.parse(url);
+
                 String actionStrUri = UrlFactory.urlForHtml(actionUri.getAuthority() + actionUri.getEncodedPath() + "#" + actionUri.getEncodedFragment());
+
+                if (TextUtils.isEmpty(actionStrUri)){
+                    return true;
+                }
                 if(actionStrUri.contains("/goods/search_result")){//券码历史  链接符为&
                     LogUtil.i(TAG, "actionStrUri======" +  actionStrUri);
                     actionStrUri = UrlFactory.actionUrlForHtml(actionUri.getAuthority() + actionUri.getEncodedPath() + "#" + actionUri.getEncodedFragment());

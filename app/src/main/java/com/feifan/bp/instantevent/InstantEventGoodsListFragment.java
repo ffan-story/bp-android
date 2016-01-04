@@ -7,6 +7,7 @@ import android.support.v7.internal.widget.ViewStubCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -96,8 +97,7 @@ public class InstantEventGoodsListFragment extends ProgressFragment implements P
     public boolean onMenuItemClick(MenuItem item) {
         return false;
     }
-
-
+    
     @Override
     public void onLoadMore() {
 

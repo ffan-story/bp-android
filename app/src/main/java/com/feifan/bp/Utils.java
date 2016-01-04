@@ -176,7 +176,12 @@ public class Utils {
         }
     }
 
-    public static boolean isDigitAndLetter( String value)  {
+    /**
+     * 包含0-9 || A-Z || a-z 时，返回false,否则返回true
+     * @param value
+     * @return
+     */
+    public static boolean isNotDigitAndLetter(String value)  {
         Pattern p = Pattern.compile("^[A-Za-z0-9]+$");
         Matcher m = p.matcher(value);
         if (!m.matches()) {

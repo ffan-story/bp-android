@@ -1,5 +1,7 @@
 package com.feifan.bp.instantevent;
 
+import com.feifan.bp.util.LogUtil;
+
 import java.util.ArrayList;
 
 /**
@@ -15,13 +17,13 @@ public class InstantEventSetDetailModel {
     public String mStrStatus = "审核通过";//飞凡优惠金额
     public ArrayList<InstantEventSetDetailData> arryInstantEventData = new ArrayList<>();
 
-    public String[] s = {"绿色植物","风信子","绿萝"};
+    public String[] s = {"绿色植物","绿色植物"};
 
     double mDoubleFeifanDiscount = 10;//飞凡优惠金额
     double mDoubleVendorDiscount = 10;//飞凡优惠金额
 
     public InstantEventSetDetailModel() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             mEventSetDetailData = new InstantEventSetDetailData();
             mEventSetDetailData.mDoubleGoodsAmount = 800;//商品原价
             mEventSetDetailData.mDoubleGoodsPartakeNumber = 0;

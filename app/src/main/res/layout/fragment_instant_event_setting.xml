@@ -104,7 +104,7 @@
                     android:layout_below="@id/tv_vendor_discount_name"
                     android:layout_marginTop="@dimen/view_spacing_10"
                     android:layout_toRightOf="@id/tv_vendor_discount_name"
-                    android:text="@string/instant_please_intput_vendor_discount_tips"
+                    android:text="@string/instant_please_input_vendor_discount_tips"
                     android:textColor="@color/font_color_red" />
             </RelativeLayout>
 

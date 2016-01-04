@@ -73,7 +73,7 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
             return;
         }
         Bundle args = new Bundle();
-        if (Utils.isDigitAndLetter(resultText)){
+        if (Utils.isNotDigitAndLetter(resultText)){
             args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getApplicationContext().getString(R.string.error_message_text_sms_code_all_number));
             PlatformTopbarActivity.startActivity(this,ErrorFragment.class.getName(),
                     getApplicationContext().getString(R.string.query_result),args);

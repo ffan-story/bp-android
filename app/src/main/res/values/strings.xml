@@ -272,7 +272,8 @@
     <string name="instant_goods_amount">原价￥%1$s</string>
     <string name="instant_goods_remain_number">剩余库存</string>
     <string name="instant_goods_not_have_goods_tips">您还没有可报名的商品\n快去“商品管理”添加商品吧</string>
-    <string name="instant_please_intput_vendor_discount_tips">请填写商户优惠金额</string>
+    <string name="instant_please_input_vendor_discount_tips">请填写商户优惠金额</string>
+    <string name="instant_please_input_goods_number">请填写商品数量</string>
     <string name="instant_check_history">审核历史</string>
     <string name="instant_shop_discount">商户优惠金额：</string>
     <string name="instant_feifan_discount">飞凡优惠金额：%1$s元</string>

@@ -45,8 +45,12 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
     private EditText mEdVendorDiscount ;
     private TextView mTvFeifanDiscount;
     private TextView mTvVendorDiscountTips;
-    private boolean isGoodsNumber = false;
-    private boolean isVendorDiscount = false;
+
+    /**
+     * true:输入合法
+     * false：不合法
+     */
+    private boolean isVendorDiscountFlag = false;
 
     private Adapter goodsNumberAdapter ,goodsDiscountAdapter;
 
@@ -104,6 +108,7 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+
             }
 
             String mStrInputDiscount = "0.00";
@@ -111,7 +116,10 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
             public void onTextChanged(CharSequence s, int start, int before, int count) {//设置小数后显示两数
                 if (!TextUtils.isEmpty(s.toString())){
                     mStrInputDiscount = s.toString();
+                }else{
+                    mStrInputDiscount ="0";
                 }
+
                 if (s.toString().contains(".")) {
                     if (s.length() - 1 - s.toString().indexOf(".") > 2) {
                         s = s.toString().subSequence(0, s.toString().indexOf(".") + 3);
@@ -132,36 +140,43 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
                         mStrInputDiscount = s.subSequence(0, 1).toString();
                         mEdVendorDiscount.setText(mStrInputDiscount);
                         mEdVendorDiscount.setSelection(1);
-                        return;
                     }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                InstantEventSetDetailModel.InstantEventSetDetailData mSetGoodsDetailData;
                 if (TextUtils.isEmpty(mStrInputDiscount)) {
-                    isVendorDiscount = false;
+                    isVendorDiscountFlag  = false;
                     mTvVendorDiscountTips.setVisibility(View.VISIBLE);
-                    mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_intput_vendor_discount_tips));
+                    mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_input_vendor_discount_tips));
 
                     myModel.mDoubleVendorDiscount = 0;
                     myData.setmDoubleGoodsDiscount();
                     mList = myModel.arryInstantEventData;
-                } else if (!TextUtils.isEmpty(mStrInputDiscount)) {
-                    if (myData.getmDoubleGoodsDiscount()< 0) {//优惠后的金额为负数
-                        isVendorDiscount = false;
+                } else if (!TextUtils.isEmpty(mStrInputDiscount) && !mList.isEmpty()) {
+                    for (int i=0;i<mList.size();i++){
+                        mSetGoodsDetailData = mList.get(i);
+                        myModel.mDoubleVendorDiscount = Double.parseDouble(mStrInputDiscount);
+                        mSetGoodsDetailData.setmDoubleGoodsDiscount();
+                        mList = myModel.arryInstantEventData;
+                        mList.set(i,mSetGoodsDetailData);
+                    }
+
+                    if (mStrInputDiscount.equals("0")){
+                        mTvVendorDiscountTips.setVisibility(View.VISIBLE);
+                        mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_input_vendor_discount_tips));
+                        isVendorDiscountFlag  = false;
+                    }else if (myData.getmDoubleGoodsDiscount()<= 0) {//优惠后的金额为负数
                         mTvVendorDiscountTips.setVisibility(View.VISIBLE);
                         mTvVendorDiscountTips.setText("输入优惠金额不合法");
-                        myModel.mDoubleVendorDiscount = 0;
-                        myData.setmDoubleGoodsDiscount();
-                        mList = myModel.arryInstantEventData;
+                        isVendorDiscountFlag  = false;
                     } else {
-                        isVendorDiscount = true;
                         mTvVendorDiscountTips.setVisibility(View.GONE);
-                        myModel.mDoubleVendorDiscount = Double.parseDouble(mStrInputDiscount);
-                        myData.setmDoubleGoodsDiscount();
-                        mList = myModel.arryInstantEventData;
+                        isVendorDiscountFlag  = true;
                     }
+
                 }
                 goodsDiscountAdapter.notifyDataSetChanged();
             }
@@ -215,16 +230,22 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
             case R.id.bnt_instant_save_setting://保存设置
             case R.id.bnt_instant_atonce_submit://立即提交
                 for (int i=0;i<mList.size();i++){//库存校验
-                    LogUtil.i("congjing","1111="+mList.get(i).mDoubleGoodsPartakeNumber);
-                    if(mList.get(i).mDoubleGoodsPartakeNumber > mList.get(i).mIntGoodsNumber){//库存不足
+                    if (mList.get(i).mDoubleGoodsPartakeNumber == 0 ){
+                        Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_please_input_goods_number));
+                        return;
+                    }else if(mList.get(i).mDoubleGoodsPartakeNumber > mList.get(i).mIntGoodsNumber){//库存不足
+                        Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_goods_understock_tips));
                         return;
                     }
+
+                    LogUtil.i("congjing","mList.get(i).mDoubleGoodsPartakeNumber=="+mList.get(i).mDoubleGoodsPartakeNumber);
                 }
 
-//                LogUtil.i("congjing", "myData.mDoubleVendorDiscount=" + myModel.getmDoubleVendorDiscount());
-//                if(myModel.getmDoubleVendorDiscount()<=0){//商户优惠金额必须大于0
-//                    return;
-//                }
+                if (!isVendorDiscountFlag){
+                    Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_please_input_vendor_discount_tips));
+                    return;
+                }
+
                 if (v.getId() == R.id.bnt_instant_save_setting){//保存设置
                     Bundle args = new Bundle();
                     args.putString(InstantEventSignUpDetailFragment.EXTRA_PARTAKE_EVENT_ID,"23232");
@@ -325,16 +346,16 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
                     @Override
                     public void afterTextChanged(Editable s) {
                         mSetGoodsDetailData = mList.get(position);
-
                         if (TextUtils.isEmpty(s.toString())){
-                            holder.mTvGoodsTips.setVisibility(View.INVISIBLE);
+                            mSetGoodsDetailData.mDoubleGoodsPartakeNumber = 0;
                         }else{
                             mSetGoodsDetailData.mDoubleGoodsPartakeNumber = Double.parseDouble(s.toString());
-                            if (mSetGoodsDetailData.mDoubleGoodsPartakeNumber > mSetGoodsDetailData.mIntGoodsNumber){
-                                holder.mTvGoodsTips.setVisibility(View.VISIBLE);
-                            }else{
-                                holder.mTvGoodsTips.setVisibility(View.INVISIBLE);
-                            }
+                        }
+
+                        if (mSetGoodsDetailData.mDoubleGoodsPartakeNumber > mSetGoodsDetailData.mIntGoodsNumber){
+                            holder.mTvGoodsTips.setVisibility(View.VISIBLE);
+                        }else{
+                            holder.mTvGoodsTips.setVisibility(View.INVISIBLE);
                         }
                         mSetGoodsDetailData = mList.get(position);
                         mList.set(position,mSetGoodsDetailData);
@@ -408,13 +429,4 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
         }
         return mFormat.format(amount);
     }
-
-    DecimalFormat mFormatNoPoint =null;
-    public String formatNoPointAmount(double amount){
-        if (mFormat == null){
-            mFormat =new DecimalFormat("#0");
-        }
-        return mFormat.format(amount);
-    }
-
 }

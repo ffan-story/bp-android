@@ -285,7 +285,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     Utils.showShortToast(getActivity(), R.string.chargeoff_code_empty, Gravity.CENTER);
                     return;
                 }
-                if (Utils.isDigitAndLetter(code)) {
+                if (Utils.isNotDigitAndLetter(code)) {
                     args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.error_message_text_search_illegal_format));
                     args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE_NEXT_LINE, getActivity().getApplicationContext().getString(R.string.please_again_input));
                     PlatformTopbarActivity.startActivity(getActivity(),ErrorFragment.class.getName(),
@@ -334,11 +334,13 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void refreshRefund() {
-        int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
-        if (PlatformState.getInstance().getUnreadStatus(refundId)) {
-            mRefundMenu.showBadger();
-        } else {
-            mRefundMenu.hideBadger();
+        if (!TextUtils.isEmpty(EnvironmentManager.getAuthFactory().getRefundId())){
+            int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
+            if (PlatformState.getInstance().getUnreadStatus(refundId)) {
+                mRefundMenu.showBadger();
+            } else {
+                mRefundMenu.hideBadger();
+            }
         }
     }
 
