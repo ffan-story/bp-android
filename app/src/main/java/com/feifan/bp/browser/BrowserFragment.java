@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -303,7 +302,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 //统计埋点
                 FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_GOODSMANA_PUB);
 
-                url = UrlFactory.commodityManageForHtml();
+                url = UrlFactory.getCommodityManageForHtmlUrl();
                 mWebView.loadUrl(url);
                 LogUtil.i(TAG, "menu onClick() commodity url=" + url);
                 return true;

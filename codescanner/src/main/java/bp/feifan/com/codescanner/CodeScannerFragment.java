@@ -267,7 +267,7 @@ public class CodeScannerFragment extends Fragment implements Callback {
   @Override
   public void surfaceDestroyed(SurfaceHolder holder) {
     hasSurface = false;
-
+    holder.removeCallback(this);
   }
 
   public ViewfinderView getViewfinderView() {
