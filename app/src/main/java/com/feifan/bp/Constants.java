@@ -6,7 +6,9 @@ package com.feifan.bp;
 public class Constants {
     public static final String TAG = "Platform";
 
-    public static int COUPON_CODE_LENGTH = 10;
+    public static int CODE_LENGTH_TEM = 10;
+    public static int CODE_LENGTH_THIRTEEN = 13;
+    public static int CODE_LENGTH_TWENTY = 20;
 
     public static int LIST_MAX_LENGTH = 15;
     //密码长度范围

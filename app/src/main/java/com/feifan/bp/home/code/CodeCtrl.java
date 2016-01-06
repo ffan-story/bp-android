@@ -33,11 +33,18 @@ public class CodeCtrl {
      * @param listener
      */
     public static void queryCouponsResult(String code, Listener listener, ErrorListener errorListener) {
-        JsonRequest<CodeModel> request = new GetRequest.Builder<CodeModel>(UrlFactory.getCodeQueryResult())
-                .errorListener(errorListener)
+//        JsonRequest<CodeModel> request = new GetRequest.Builder<CodeModel>(UrlFactory.getCodeQueryResult())
+//                .errorListener(errorListener)
+//                .param("certificateno", code)
+//                .param("app_verification_native", String.valueOf(new Random().nextInt()))
+//                .build()
+//                .header("uid", String.valueOf(UserProfile.getInstance().getUid()))
+//                .header("loginToken", UserProfile.getInstance().getLoginToken())
+//                .header("appType", "bpMobile")
+//                .targetClass(CodeModel.class)
+//                .listener(listener);
+        JsonRequest<CodeModel> request = new PostRequest<CodeModel>(UrlFactory.getCodeQueryResult(), errorListener)
                 .param("certificateno", code)
-                .param("app_verification_native", String.valueOf(new Random().nextInt()))
-                .build()
                 .header("uid", String.valueOf(UserProfile.getInstance().getUid()))
                 .header("loginToken", UserProfile.getInstance().getLoginToken())
                 .header("appType", "bpMobile")

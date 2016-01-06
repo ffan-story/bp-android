@@ -67,47 +67,47 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
 
     @Override
     public void getScanCodeResult(String resultText, long timeStamp, String barcodeFormat) {
-        LogUtil.i(TAG, "getScanCodeResult() text=" + resultText + " time=" + timeStamp + " format=" + barcodeFormat);
-
+        LogUtil.i(TAG, "resultText=" + resultText);
         if (TextUtils.isEmpty(resultText)) {
             return;
         }
+
         Bundle args = new Bundle();
-        if (Utils.isNotDigitAndLetter(resultText)){
-            args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getApplicationContext().getString(R.string.error_message_text_sms_code_all_number));
-            PlatformTopbarActivity.startActivity(this,ErrorFragment.class.getName(),
-                    getApplicationContext().getString(R.string.query_result),args);
-            return;
-        }else if (resultText.length()<Constants.COUPON_CODE_LENGTH){
-            args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getApplicationContext().getString(R.string.error_message_text_sms_code_length_min));
-            PlatformTopbarActivity.startActivity(this,ErrorFragment.class.getName(),
-                    getApplicationContext().getString(R.string.query_result),args);
-            return;
-        }
 
-        if (!Utils.isNetworkAvailable(getApplicationContext())) {
-            Utils.showShortToast(getApplicationContext(), R.string.error_message_text_offline, Gravity.CENTER);
-            finish();
-            return;
-        }
-        if (resultText.length()==Constants.COUPON_CODE_LENGTH){//提货码
-            args.putString(CodeQueryResultFragment.CODE, resultText);
-            args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, false);
-            PlatformTopbarActivity.startActivity(this,CodeQueryResultFragment.class.getName(), getApplicationContext().getString(R.string.query_result),args);
-            return;
-        }else if (resultText.length() > Constants.COUPON_CODE_LENGTH){//券码
-            args.putString(CodeQueryResultFragment.CODE,resultText);
-            args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
-            PlatformTopbarActivity.startActivity(this,CodeQueryResultFragment.class.getName(), getApplicationContext().getString(R.string.query_result),args);
-            return;
-        }
+        int mIntCodeLength = resultText.trim().length();
+        if (TextUtils.isDigitsOnly(resultText)){
+            if (mIntCodeLength<Constants.CODE_LENGTH_TEM){
+                args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getApplicationContext().getApplicationContext().getString(R.string.error_message_text_sms_code_length_min));
+                PlatformTopbarActivity.startActivity(CodeScannerActivity.this, ErrorFragment.class.getName(),
+                        getApplicationContext().getApplicationContext().getString(R.string.query_result), args);
+            }else{
+                if (!Utils.isNetworkAvailable(getApplicationContext())) {
+                    Utils.showShortToast(getApplicationContext(), R.string.error_message_text_offline, Gravity.CENTER);
+                    return;
+                }else {
+                    if (mIntCodeLength==Constants.CODE_LENGTH_TEM){//提货吗
+                        args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, false);
+                    }else if (mIntCodeLength>Constants.CODE_LENGTH_TEM && mIntCodeLength<=Constants.CODE_LENGTH_THIRTEEN) {//券码
+                        args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
+                    }
+                    args.putString(CodeQueryResultFragment.CODE, resultText);
+                    PlatformTopbarActivity.startActivity(CodeScannerActivity.this,CodeQueryResultFragment.class.getName(),
+                            getApplicationContext().getApplicationContext().getString(R.string.query_result),args);
+                }
+            }
+        }else{
+            if (mIntCodeLength>Constants.CODE_LENGTH_TWENTY){//券码
+                args.putString(CodeQueryResultFragment.CODE, resultText);
+                args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
+                PlatformTopbarActivity.startActivity(CodeScannerActivity.this, CodeQueryResultFragment.class.getName(),
+                        getApplicationContext().getApplicationContext().getString(R.string.query_result), args);
 
-//        if(TextUtils.isEmpty(mUrlStr)){
-//            return;
-//        }
-//        String urlStr = String.format(mUrlStr, resultText);
-//        LogUtil.i(TAG, "urlStr  ==" + urlStr);
-//        BrowserActivity.startForResultActivity(this, urlStr);
+            }else{
+                args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getApplicationContext().getApplicationContext().getString(R.string.error_message_text_code_incorrect));
+                PlatformTopbarActivity.startActivity(CodeScannerActivity.this, ErrorFragment.class.getName(),
+                        getApplicationContext().getApplicationContext().getString(R.string.query_result), args);
+            }
+        }
         finish();
     }
 
@@ -116,20 +116,4 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
         return true;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK) {
-//            setResult(RESULT_OK);
-//            finish();
-//        }
-    }
-
-//    protected int getContentContainerId() {
-//        return 0;
-//    }
-//
-//    protected void retryRequestNetwork() {
-//
-//    }
 }

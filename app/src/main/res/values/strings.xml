@@ -92,6 +92,8 @@
     <string name="error_message_unknown">未知错误，请稍后重试</string>
     <string name="error_message_server_file">服务器文件错误</string>
     <string name="error_message_network">您的网络好像有点问题</string>
+    <string name="error_message_timeout">网络超时</string>
+    <string name="error_message_network_link">请检查您的网络连接</string>
 
     <string name="sd_card_exist">sd卡不存在</string>
     <string name="title_activity_browser">BrowserActivity</string>
@@ -117,7 +119,7 @@
     <string name="query_result">查询结果</string>
     <string name="coupons_name">券码</string>
     <string name="error_message_text_sms_code_length_min">验证码至少需要10位</string>
-    <string name="error_message_text_sms_code_all_number">验证码存在非法字符</string>
+    <string name="error_message_text_code_incorrect">券码不正确</string>
     <string name="action_rule">活动规则</string>
     <string name="check_success">核销成功</string>
 

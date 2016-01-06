@@ -285,39 +285,31 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     Utils.showShortToast(getActivity(), R.string.chargeoff_code_empty, Gravity.CENTER);
                     return;
                 }
-                if (Utils.isNotDigitAndLetter(code)) {
-                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.error_message_text_search_illegal_format));
-                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE_NEXT_LINE, getActivity().getApplicationContext().getString(R.string.please_again_input));
-                    PlatformTopbarActivity.startActivity(getActivity(),ErrorFragment.class.getName(),
-                            getActivity().getApplicationContext().getString(R.string.query_result),args);
-                    return;
-                } else if (code.length() < Constants.COUPON_CODE_LENGTH) {
+                int mIntCodeLength = code.trim().length();
+                if (mIntCodeLength<Constants.CODE_LENGTH_TEM) {
                     args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.error_message_text_sms_code_length_min));
-                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE_NEXT_LINE, getActivity().getApplicationContext().getString(R.string.please_again_input));
-                    PlatformTopbarActivity.startActivity(getActivity(),ErrorFragment.class.getName(),
-                            getActivity().getApplicationContext().getString(R.string.query_result),args);
-                    return;
-                }
-
-                if (!Utils.isNetworkAvailable(getActivity())) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
-                    return;
-                }
-                mCodeEditText.setText("");
-                if (code.length() == Constants.COUPON_CODE_LENGTH) {//提货吗
-                    args.putString(CodeQueryResultFragment.CODE, code);
-                    args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, false);
-                    PlatformTopbarActivity.startActivity(getActivity(), CodeQueryResultFragment.class.getName(),
+                    PlatformTopbarActivity.startActivity(getActivity(), ErrorFragment.class.getName(),
                             getActivity().getApplicationContext().getString(R.string.query_result), args);
                     return;
-                } else if (code.length() > Constants.COUPON_CODE_LENGTH) {//券码
-                    args.putString(CodeQueryResultFragment.CODE, code);
-                    args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
-                    PlatformTopbarActivity.startActivity(getActivity(), CodeQueryResultFragment.class.getName(),
-                            getActivity().getApplicationContext().getString(R.string.query_result), args);
-                    return;
+                }else{
+                    if (!Utils.isNetworkAvailable(getActivity())) {
+                        Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
+                        return;
+                    }else {
+                        if (mIntCodeLength==Constants.CODE_LENGTH_TEM){//提货吗
+                            args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, false);
+                        }else if (mIntCodeLength>Constants.CODE_LENGTH_TEM && mIntCodeLength<=Constants.CODE_LENGTH_THIRTEEN) {//券码
+                            args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
+                        }else{
+                            return;
+                        }
+                        args.putString(CodeQueryResultFragment.CODE, code);
+                        PlatformTopbarActivity.startActivity(getActivity(), CodeQueryResultFragment.class.getName(),
+                                getActivity().getApplicationContext().getString(R.string.query_result), args);
+                        mCodeEditText.setText("");
+                        return;
+                    }
                 }
-                return;
             default:
                 return;
         }

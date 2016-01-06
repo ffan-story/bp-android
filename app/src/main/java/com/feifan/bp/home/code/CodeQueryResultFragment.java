@@ -7,7 +7,9 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.base.ProgressFragment;
 
 import android.os.Bundle;
@@ -36,6 +38,7 @@ import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.material.MaterialDialog;
+import com.feifan.statlib.FmsAgent;
 
 import org.json.JSONException;
 
@@ -290,11 +293,15 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.instant_check_history), argsOrder);
                 break;
             case R.id.btn_goods_code_use://提货码
+                //统计埋点 提货码核销
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics. FB_VERIFY_VERIFY);
                 btn_code_use.setEnabled(false);
                 checkGoodsCode(code, orderNo);
                 break;
 
             case R.id.btn_ticket_code_use://券码
+                //统计埋点 券码核销
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics. FB_VERIFY_VERIFY);
                 btn_code_use.setEnabled(false);
                 checkCouponCode(code, memberId);
                 break;
@@ -388,6 +395,14 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             } else if (t instanceof IOException
                     || t instanceof SocketException) {
                 errorInfo = Utils.getString(R.string.error_message_network);
+            }
+        }
+
+        if(errorInfo == null) {
+            if(error instanceof TimeoutError) {
+                errorInfo = Utils.getString(R.string.error_message_timeout);
+            }else {
+                errorInfo = Utils.getString(R.string.error_message_network_link);
             }
         }
         mDialog.setMessage(errorInfo)
