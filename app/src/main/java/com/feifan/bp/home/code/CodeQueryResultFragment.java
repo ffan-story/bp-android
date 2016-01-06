@@ -51,8 +51,8 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     public static final String EXTRA_KEY_IS_COUPON = "isCouponCode";
     public static final String EXTRA_KEY_URL = "url";
     public static final String TAG = "CodeQueryResultFragment";
-    private String code ;
-    private Boolean isCouponCode = false ;
+    private String code;
+    private Boolean isCouponCode = false;
 
     private List<GoodsModel.ProductInfo> productInfos;
     private String orderNo;
@@ -100,7 +100,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
         View view;
-        if (isCouponCode){//券码
+        if (isCouponCode) {//券码
             stub.setLayoutResource(R.layout.fragment_ticket_code_result);
             view = stub.inflate();
             rl_ticket_code_result = (RelativeLayout) view.findViewById(R.id.rl_ticket_code_result);
@@ -113,7 +113,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             view.findViewById(R.id.ll_code_rule).setOnClickListener(this);
             btn_code_use = (Button) view.findViewById(R.id.btn_ticket_code_use);
             btn_code_use.setOnClickListener(this);
-        }else{//提货码
+        } else {//提货码
             stub.setLayoutResource(R.layout.fragment_code_goods);
             view = stub.inflate();
             ll_goods_code_result = (LinearLayout) view.findViewById(R.id.ll_goods_code_result);
@@ -145,14 +145,14 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
     @Override
     protected void requestData() {
-        if (!TextUtils.isEmpty(code)){
-            if (isCouponCode){//券码
+        if (!TextUtils.isEmpty(code)) {
+            if (isCouponCode) {//券码
                 if (Utils.isNetworkAvailable(getActivity())) {
                     setContentEmpty(false);
                     CodeCtrl.queryCouponsResult(code, new Response.Listener<CodeModel>() {
                         @Override
                         public void onResponse(CodeModel codeModel) {
-                            if(null != codeModel){
+                            if (null != codeModel.getCouponsData() && isAdded()) {
                                 memberId = codeModel.getCouponsData().getMemberId();
                                 initCouponsView(codeModel);
                                 setContentShown(true);
@@ -165,7 +165,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                         public void onErrorResponse(VolleyError volleyError) {
                             setContentShown(true);
 
-                            if(isShowDlg && isAdded()) {
+                            if (isShowDlg && isAdded()) {
                                 showError(volleyError);
                             }
                         }
@@ -173,7 +173,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                     });
                 } else {
 
-                    if(isShowDlg && isAdded()) {
+                    if (isShowDlg && isAdded()) {
                         mDialog.setMessage(getResources().getString(R.string.error_message_text_offline))
                                 .show();
                         isShowDlg = false;
@@ -181,13 +181,13 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                     setContentShown(false);
                     setContentEmpty(true);
                 }
-            }else{//提货码
+            } else {//提货码
                 if (Utils.isNetworkAvailable(getActivity())) {
                     setContentEmpty(false);
                     CodeCtrl.queryGoodsResult(code, new Response.Listener<GoodsModel>() {
                         @Override
                         public void onResponse(GoodsModel goodsModel) {
-                            if(null != goodsModel){
+                            if (null != goodsModel.getGoodsData() && isAdded()) {
                                 orderNo = goodsModel.getGoodsData().getOrderNo();
                                 initGoodsView(goodsModel);
                                 setContentShown(true);
@@ -211,14 +211,15 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
     /**
      * 填充优惠券详情页
+     *
      * @param codeModel
      */
-    private void initCouponsView(CodeModel codeModel){
+    private void initCouponsView(CodeModel codeModel) {
         rl_ticket_code_result.setVisibility(View.VISIBLE);
         tv_ticket_code.setText(codeModel.getCouponsData().getCertificateNo());
         tv_ticket_code_time.setText(codeModel.getCouponsData().getBuyTime());
         tv_ticket_code_timeout.setText(codeModel.getCouponsData().getValidEndTime());
-        switch (codeModel.getCouponsData().getStatus()){
+        switch (codeModel.getCouponsData().getStatus()) {
             case 3://未核销
                 tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_never));
                 btn_code_use.setVisibility(View.VISIBLE);
@@ -239,13 +240,14 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
     /**
      * 填充提货码详情页
+     *
      * @param goodsModel
      */
-    private void initGoodsView(GoodsModel goodsModel){
+    private void initGoodsView(GoodsModel goodsModel) {
         ll_goods_code_result.setVisibility(View.VISIBLE);
         tv_goods_order.setText(goodsModel.getGoodsData().getOrderNo());
         tv_goods_branch.setText(goodsModel.getGoodsData().getStoreName());
-        switch (goodsModel.getGoodsData().getSingnStatus()){
+        switch (goodsModel.getGoodsData().getSingnStatus()) {
             case 1://未核销
                 tv_goods_status.setText(getResources().getString(R.string.chargeoff_never));
                 btn_code_use.setVisibility(View.VISIBLE);
@@ -259,7 +261,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 btn_code_use.setVisibility(View.GONE);
                 break;
         }
-        productInfos  = goodsModel.getGoodsData().getProductList();
+        productInfos = goodsModel.getGoodsData().getProductList();
         myAdapter = new MyAdapter();
         lv_goods_info.setAdapter(myAdapter);
         lv_goods_info.setSelector(R.drawable.goods_llistview_selector);
@@ -276,7 +278,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_code_rule://规则
                 Bundle argsRule = new Bundle();
                 argsRule.putString(SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail(code));
@@ -294,32 +296,37 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
             case R.id.btn_ticket_code_use://券码
                 btn_code_use.setEnabled(false);
-                checkCouponCode(code,memberId);
+                checkCouponCode(code, memberId);
                 break;
         }
     }
 
     /**
      * 券码核销
+     *
      * @param code
      * @param memberId
      */
-    private void checkCouponCode(String code,String memberId){
+    private void checkCouponCode(String code, String memberId) {
 
         startWaiting();
         CodeCtrl.checkCouponCode(code, memberId, new Response.Listener() {
             @Override
             public void onResponse(Object o) {
-                tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_already));
-                btn_code_use.setVisibility(View.GONE);
-                stopWaiting();
-                Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getActivity().finish();
-                    }
-                }, 1000);
+                if (isAdded()) {
+                    tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_already));
+                    btn_code_use.setVisibility(View.GONE);
+                    stopWaiting();
+                    Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (null != getActivity()) {
+                                getActivity().finish();
+                            }
+                        }
+                    }, 1000);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -335,27 +342,29 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
     /**
      * 提货码核销
+     *
      * @param code
      * @param orderNo
      */
-    private void checkGoodsCode(String code,String orderNo){
+    private void checkGoodsCode(String code, String orderNo) {
         startWaiting();
         CodeCtrl.checkGoodsCode(code, orderNo, new Response.Listener() {
             @Override
             public void onResponse(Object o) {
-                tv_goods_status.setText(getResources().getString(R.string.chargeoff_already));
-                btn_code_use.setVisibility(View.GONE);
-                stopWaiting();
-                Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);
-                TimerTask task = new TimerTask() {
-                    @Override
-                    public void run() {
-                        getActivity().finish();
-                    }
-                };
-
-                Timer timer = new Timer();
-                timer.schedule(task, 1000);
+                if (isAdded()) {
+                    tv_goods_status.setText(getResources().getString(R.string.chargeoff_already));
+                    btn_code_use.setVisibility(View.GONE);
+                    stopWaiting();
+                    Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (null != getActivity()) {
+                                getActivity().finish();
+                            }
+                        }
+                    }, 1000);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -369,6 +378,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         });
 
     }
+
     private void showError(VolleyError error) {
         String errorInfo = error.getMessage();
         Throwable t = error.getCause();
@@ -385,7 +395,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         isShowDlg = false;
     }
 
-    public class MyAdapter extends BaseAdapter{
+    public class MyAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return productInfos.size();
@@ -395,13 +405,13 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             final ViewHolder holder;
-            if(convertView == null){
-                convertView = View.inflate(getContext(),R.layout.item_goods_info,null);
+            if (convertView == null) {
+                convertView = View.inflate(getContext(), R.layout.item_goods_info, null);
                 holder = ViewHolder.findAndCacheViews(convertView);
-            }else{
-                holder = (ViewHolder)convertView.getTag();
+            } else {
+                holder = (ViewHolder) convertView.getTag();
             }
-            if(productInfos != null) {
+            if (productInfos != null) {
                 holder.googsItemTitle.setText(productInfos.get(position).getTitle());
                 holder.googsItemCount.setText("x" + productInfos.get(position).getProductCount());
                 holder.googsItemPrice.setText("￥" + productInfos.get(position).getProductPrice());
@@ -422,10 +432,12 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         }
 
     }
-    public static class ViewHolder{
+
+    public static class ViewHolder {
         private TextView googsItemTitle;
         private TextView googsItemCount;
         private TextView googsItemPrice;
+
         public static ViewHolder findAndCacheViews(View view) {
             ViewHolder holder = new ViewHolder();
             holder.googsItemTitle = (TextView) view.findViewById(R.id.googs_item_title);
@@ -435,5 +447,4 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             return holder;
         }
     }
-
 }

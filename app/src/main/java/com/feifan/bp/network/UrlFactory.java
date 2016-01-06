@@ -31,10 +31,10 @@ public abstract class UrlFactory {
     private static final String URL_PATH_COUPON_ADD = "H5App/default.html#/coupon/create";
 
     //H5页面相对路径－商品管理－添加商品
-    private static final String URL_PATH_COMMODITY_MANAGE = "H5App/index.html#/commodity/select_cat_menu";
+    private static final String URL_PATH_COMMODITY_MANAGE_ADD = "H5App/index.html#/commodity/select_cat_menu";
 
     //H5页面相对路径－闪购商品列表
-    private static final String URL_PATH_COMMODITY_MANAGE_list = "H5App/index.html#/commodity/list/";
+    private static final String URL_PATH_COMMODITY_MANAGE_INSTANTS = "H5App/index.html#/commodity/list/";
 
     //H5页面相对路径－店铺分析概览
     private static final String URL_PATH_STORE_OVERVIEW = "/H5App/default.html#/analysis/overview";
@@ -99,8 +99,12 @@ public abstract class UrlFactory {
         return urlForHtml(URL_PATH_COUPON_ADD);
     }
 
-    public static String commodityManageForHtml() {
-        return urlForHtml(URL_PATH_COMMODITY_MANAGE);
+    /**
+     * 商品管理 添加商品
+     * @return
+     */
+    public static String getCommodityManageForHtmlUrl() {
+        return urlForHtml(URL_PATH_COMMODITY_MANAGE_ADD);
     }
 
     /**
@@ -109,7 +113,7 @@ public abstract class UrlFactory {
      * @return
      */
     public static String getInstantsForHtmlUrl(String status){
-        return "H5App/index.html#/commodity/list/".concat(status);
+        return urlForHtml(URL_PATH_COMMODITY_MANAGE_INSTANTS + status);
     }
 
     /**
@@ -176,22 +180,7 @@ public abstract class UrlFactory {
                 concat("&version=" + BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
     }
-/************************************/
-    public static String urlForHtmlTest(String reUrl) {
-        UserProfile userProfile = UserProfile.getInstance();
-        String paramStart = "?";
-        if (reUrl.contains(paramStart)) {
-            paramStart = "&";
-        }
-        return "http://10.1.80.161/".concat(formatRelativeUrl(reUrl)).
-                concat(paramStart).
-                concat("loginToken=").concat(userProfile.getLoginToken()).
-                concat("&uid=").concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile").
-                concat("&version=" + BuildConfig.VERSION_CODE).
-                concat("&showTabs=0");
-    }
-/************************************/
+
     //----for http request---//
     public static String getLoginUrl() {
         return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "login";

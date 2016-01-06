@@ -2,9 +2,11 @@ package com.feifan.bp.home.commoditymanager;
 
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -15,6 +17,7 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.material.MaterialDialog;
 
 import org.json.JSONException;
@@ -33,6 +36,7 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
 
     private InstantsBuyModle.CommodityEntry commodityEntry;
     private String mUrl;
+
     private TextView mTempSaveCount;
     private TextView mAuditCount;
     private TextView mThroughedCount;
@@ -84,10 +88,11 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
     @Override
     protected void requestData() {
         if (Utils.isNetworkAvailable(getContext())){
+            setContentEmpty(false);
             CommodityManagerCtrl.getCommodityInfo(new Response.Listener<InstantsBuyModle>() {
                 @Override
                 public void onResponse(InstantsBuyModle instantsBuyModle) {
-                    if (null != instantsBuyModle) {
+                    if (null != instantsBuyModle.getCommodityEntry() && isAdded()) {
                         commodityEntry = instantsBuyModle.getCommodityEntry();
                         initCommodityView(commodityEntry);
                         setContentShown(true);
@@ -96,6 +101,8 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
+                    setContentShown(true);
+                    getContentView().setVisibility(View.GONE);
                     if (isShowDlg && isAdded()) {
                         showError(volleyError);
                     }
@@ -103,7 +110,12 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
             });
 
         }else{
-            setContentShown(true);
+            if (isShowDlg && isAdded()) {
+                mDialog.setMessage(getResources().getString(R.string.error_message_text_offline))
+                        .show();
+                isShowDlg = false;
+            }
+            setContentShown(false);
             setContentEmpty(true);
         }
     }
@@ -128,11 +140,10 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
     public void onClick(View v) {
         if(Utils.isNetworkAvailable(getContext())){
             if(null != v.getTag()){//商品列表
-                String url = UrlFactory.urlForHtmlTest(UrlFactory.getInstantsForHtmlUrl(v.getTag().toString()));
+                String url = UrlFactory.getInstantsForHtmlUrl(v.getTag().toString());
                 BrowserActivity.startActivity(getContext(), url);
             }else if(v.getId() == R.id.instants_add_container){//添加商品
-                //http://10.1.80.126/H5App/index.html#/commodity/select_cat_menu
-                String addUrl = UrlFactory.urlForHtmlTest("H5App/index.html#/commodity/select_cat_menu?ts=".concat(new Random().nextInt() + ""));
+                String addUrl = UrlFactory.getCommodityManageForHtmlUrl().concat(new Random().nextInt() + "");
                 BrowserActivity.startActivity(getContext(), addUrl);
             }
         }else{
