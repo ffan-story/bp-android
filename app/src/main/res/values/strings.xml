@@ -117,7 +117,7 @@
     <string name="query_result">查询结果</string>
     <string name="coupons_name">券码</string>
     <string name="error_message_text_sms_code_length_min">验证码至少需要10位</string>
-    <string name="error_message_text_sms_code_all_number">验证码存在非法字符</string>
+    <string name="error_message_text_code_incorrect">券码不正确</string>
     <string name="action_rule">活动规则</string>
     <string name="check_success">核销成功</string>
 
