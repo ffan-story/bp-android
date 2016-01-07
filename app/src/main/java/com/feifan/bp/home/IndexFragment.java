@@ -286,7 +286,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     return;
                 }
                 int mIntCodeLength = code.trim().length();
-                if (mIntCodeLength<Constants.CODE_LENGTH_TEN) {
+                if (mIntCodeLength<Constants.CODE_LENGTH_TEM) {
                     args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.error_message_text_sms_code_length_min));
                     PlatformTopbarActivity.startActivity(getActivity(), ErrorFragment.class.getName(),
                             getActivity().getApplicationContext().getString(R.string.query_result), args);
@@ -296,9 +296,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                         Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
                         return;
                     }else {
-                        if (mIntCodeLength==Constants.CODE_LENGTH_TEN){//提货吗
+                        if (mIntCodeLength==Constants.CODE_LENGTH_TEM){//提货吗
                             args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, false);
-                        }else if (mIntCodeLength>Constants.CODE_LENGTH_TEN && mIntCodeLength<=Constants.CODE_LENGTH_THIRTEEN) {//券码
+                        }else if (mIntCodeLength>Constants.CODE_LENGTH_TEM && mIntCodeLength<=Constants.CODE_LENGTH_THIRTEEN) {//券码
                             args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
                         }else{
                             return;
