@@ -31,7 +31,7 @@
             android:layout_marginLeft="@dimen/view_spacing_5"
             android:background="@drawable/tv_radius_gray"
             style="@style/txt_color33_size12"
-            android:text="23"/>
+            android:text="0"/>
         <ImageView
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/tv_radius_gray"
                 style="@style/txt_color33_size12"
-                android:text="23"/>
+                android:text="0"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
                 android:layout_marginLeft="@dimen/view_spacing_5"
                 android:background="@drawable/tv_radius_gray"
                 style="@style/txt_color33_size12"
-                android:text="5"/>
+                android:text="0"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
             android:layout_marginLeft="@dimen/view_spacing_5"
             android:background="@drawable/tv_radius_gray"
             style="@style/txt_color33_size12"
-            android:text="1"/>
+            android:text="0"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
