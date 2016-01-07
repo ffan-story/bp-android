@@ -10,7 +10,7 @@ public class Constants {
     public static int CODE_LENGTH_THIRTEEN = 13;
     public static int CODE_LENGTH_TWENTY = 20;
 
-    public static int LIST_MAX_LENGTH = 15;
+    public static int LIST_MAX_LENGTH = 1;
     //密码长度范围
     public static int PASSWORD_MIN_LENGTH = 8;
     public static int PASSWORD_MAX_LENGTH = 20;

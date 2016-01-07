@@ -22,23 +22,24 @@ import java.text.DecimalFormat;
  * 报名详情  审核通过
  * Created by congjing on 15-12-22.
  */
-public class InstantEventSignUpDetailFragment extends ProgressFragment {
+public class InstEventSignUpDetailFragment extends ProgressFragment {
     public static final String EXTRA_PARTAKE_EVENT_ID = "partake_event_id";
+    public static final String EXTRA_PARTAKE_GOODS_CODE = "partake_goods_code";
     private LayoutInflater mInflater;
     private LinearLayout mLineGoodsNumber,mLineGoodsAmount;
     private TextView mTvVendorDiscount,mTvFeiFanDiscount,mTvStatic;
-    private String mStrEventId ;
+    private String mStrEventId ,mStrGoodsCode;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public InstantEventSignUpDetailFragment() {
+    public InstEventSignUpDetailFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static InstantEventSignUpDetailFragment newInstance() {
-        InstantEventSignUpDetailFragment fragment = new InstantEventSignUpDetailFragment();
+    public static InstEventSignUpDetailFragment newInstance() {
+        InstEventSignUpDetailFragment fragment = new InstEventSignUpDetailFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -48,6 +49,7 @@ public class InstantEventSignUpDetailFragment extends ProgressFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mStrEventId = getArguments().getString(EXTRA_PARTAKE_EVENT_ID);
+        mStrGoodsCode = getArguments().getString(EXTRA_PARTAKE_GOODS_CODE);
     }
 
 
@@ -64,7 +66,7 @@ public class InstantEventSignUpDetailFragment extends ProgressFragment {
             @Override
             public void onClick(View v) {
                 Bundle argsRule = new Bundle();
-                argsRule.putString(SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.getUrlPathHistoryAudit("1234433"));
+                argsRule.putString(SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.getUrlPathHistoryAudit(mStrEventId,mStrGoodsCode,"9052789","2077985"));
                 PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.instant_check_history), argsRule);
             }
         });
@@ -76,10 +78,10 @@ public class InstantEventSignUpDetailFragment extends ProgressFragment {
     protected void requestData() {
         setContentShown(true);
     }
-    InstantEventSetDetailModel myModele;
-    InstantEventSetDetailModel.InstantEventSetDetailData myData ;
+    InstEventSetDetailModel myModele;
+    InstEventSetDetailModel.InstantEventSetDetailData myData ;
     private void setContView(){
-        myModele = new InstantEventSetDetailModel();
+        myModele = new InstEventSetDetailModel();
         myData = myModele.mEventSetDetailData;
         mTvStatic.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_detail_status), getResources().getString(R.string.instant_current_status), myModele.mStrStatus)));
         mTvVendorDiscount.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content), getResources().getString(R.string.instant_vendor_discount), formatAmount(myModele.mDoubleVendorDiscount))));

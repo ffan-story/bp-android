@@ -142,11 +142,16 @@ public abstract class UrlFactory {
     }
 
     /**
-     * 核销券码详情
+     * /H5App/default.html#/lohas/audit?id=GP1451871058174000000&goodsCode=111&merchantId=1&storeId=1
+     * 闪购活动-审核历史
      * @return
      */
-    public static String getUrlPathHistoryAudit(String eventId){
-        return urlForHtml(URL_PATH_HISTORY_AUDIT+eventId);
+    public static String getUrlPathHistoryAudit(String eventId,String goodsCode,String merchantId,String storeId){
+        return urlForHtml(URL_PATH_HISTORY_AUDIT).
+                concat("&id=").concat(eventId).
+                concat("&goodsCode=").concat(goodsCode).
+                concat("&merchantId=").concat(merchantId).
+                concat("&storeId=").concat(storeId);
     }
 
     public static String visitorsAnalysisForHtml() {
@@ -278,6 +283,14 @@ public abstract class UrlFactory {
     //提货码核销
     public static String getCheckGoodsCode() {
         return  EnvironmentManager.getHostFactory().getFFanH5Host() + "goods/GoodsVerification/useSignOnApp";
+    }
+
+    /**
+     * EnvironmentManager.getHostFactory().getMAppApiPrefix() = http://api.sit.ffan.com/mapp/v1/
+     *  闪购活动添加商品列表
+     */
+    public static String getInstEventGoodsList() {
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix()  + "mapp/enroll/goods";
     }
 
     private static String formatRelativeUrl(String relativeUrl) {
