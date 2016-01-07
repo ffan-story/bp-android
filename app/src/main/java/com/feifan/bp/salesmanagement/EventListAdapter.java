@@ -1,6 +1,7 @@
 package com.feifan.bp.salesmanagement;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+
+import com.feifan.bp.salesmanagement.PromotionListModel.PromotionDetailModel;
 
 import java.util.List;
 
@@ -19,10 +23,10 @@ import java.util.List;
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ActivityVH> implements RecyclerOnItemClickListener {
 
     private Context context;
-    private final List<ActivityModel> data;
+    private final List<PromotionDetailModel> data;
     private Boolean isRegistered;//活动是否报名
 
-    public EventListAdapter(Context context, List<ActivityModel> data, Boolean isRegistered) {
+    public EventListAdapter(Context context, List<PromotionDetailModel> data, Boolean isRegistered) {
         this.context = context;
         this.data = data;
         this.isRegistered = isRegistered;
@@ -36,19 +40,28 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Acti
 
     @Override
     public void onBindViewHolder(ActivityVH holder, final int position) {
-        ActivityModel activityModel = data.get(position);
-        if (isRegistered) {
+        PromotionDetailModel model = data.get(position);
+        if (!isRegistered) {
             holder.tv_status_label.setText("报名状态: ");
-            holder.tv_activity_status.setText("已报名");
-            holder.tv_activity_status.setTextColor(context.getResources().getColor(R.color.accent));
+            holder.tv_activity_status.setText(model.getPromotionEnrollStatus());
+            if (model.getPromotionEnrollStatus().equals(context.getString(R.string.registerOpen))){
+                holder.tv_activity_status.setTextColor(context.getResources().getColor(R.color.red));
+            }else if(model.getPromotionEnrollStatus().equals(context.getString(R.string.registerClosed))){
+                holder.tv_activity_status.setTextColor(context.getResources().getColor(R.color.accent));
+            }
         } else {
             holder.tv_status_label.setText("已报名商家: ");
-            holder.tv_activity_status.setText("50");
+            holder.tv_activity_status.setText(model.getEnrollCount());
         }
-        holder.tv_activity_name.setText(activityModel.getActivityName());
-        holder.tv_activity_type.setText(activityModel.getActivityType());
-        holder.tv_activity_sdate.setText(activityModel.getActivityStartDate());
-        holder.tv_activity_edate.setText(activityModel.getActivityEndDate());
+        holder.tv_activity_name.setText(model.getPromotionName());
+        holder.tv_activity_type.setText(model.getPromotionType());
+        if(model.getPromotionType().equals(context.getString(R.string.flashBuyPromotion))){
+            holder.tv_activity_type.setBackgroundResource(R.drawable.pinkred_corner_rect);
+        }else if(model.getPromotionType().equals(context.getString(R.string.couponPromotion))){
+            holder.tv_activity_type.setBackgroundResource(R.drawable.orange_corner_rect);
+        }
+        holder.tv_activity_sdate.setText(model.getStartTime());
+        holder.tv_activity_edate.setText(model.getEndTime());
     }
 
     @Override
@@ -58,11 +71,14 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Acti
 
     @Override
     public void onItemClicked(View view, int position) {
-        RegisterDetailActivity.startActivity(context,String.valueOf(position));
+//        RegisterDetailActivity.startActivity(context,String.valueOf(position));
+        Bundle args = new Bundle();
+        args.putString(EventDetailFragment.EXTRA_KEY_ID, data.get(position).getPromotionCode());
+        PlatformTopbarActivity.startActivity(context,EventDetailFragment.class.getName(),context.getString(R.string.promotionDetail),args);
         Toast.makeText(view.getContext(), "Clicked position: " + position, Toast.LENGTH_SHORT).show();
     }
 
-    public void add(List<ActivityModel> items) {
+    public void add(List<PromotionDetailModel> items) {
         int previousDataSize = this.data.size();
         this.data.addAll(items);
         notifyItemRangeInserted(previousDataSize, items.size());

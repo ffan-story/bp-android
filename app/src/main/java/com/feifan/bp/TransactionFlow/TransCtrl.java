@@ -31,7 +31,7 @@ public class TransCtrl {
                 .param("endDate", endDate)
                 .param("storeId", storeId)
                 .param("action", "flashsummary")
-                //.errorListener(errorListener)
+                .errorListener(errorListener)
                 .build()
                 .targetClass(FlashSummaryModel.class)
                 .listener(listener);
@@ -62,7 +62,7 @@ public class TransCtrl {
                 .param("storeId", storeId)
                 .param("pageIndex", pageIndex)
                 .param("limit", limit)
-                //.errorListener(errorListener)
+                .errorListener(errorListener)
                 .build()
                 .targetClass(FlashListModel.class)
                 .listener(listener);
@@ -87,7 +87,7 @@ public class TransCtrl {
                 .param("type", type)
                 .param("month", month)
                 .param("storeId", storeId)
-                //.errorListener(errorListener)
+                .errorListener(errorListener)
                 .build()
                 .targetClass(CpSummaryModel.class)
                 .listener(listener);

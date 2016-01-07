@@ -1,6 +1,5 @@
 package com.feifan.bp.salesmanagement;
 
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +10,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.widget.paginate.Paginate;
+import com.feifan.bp.salesmanagement.PromotionListModel.PromotionDetailModel;
+
+import java.util.ArrayList;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
@@ -22,7 +26,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
  * 商户活动页面
  * Created by Frank on 15/12/18.
  */
-public class EventListFragment extends ProgressFragment implements Paginate.Callbacks,SwipeRefreshLayout.OnRefreshListener,PlatformTabActivity.onPageSelectListener{
+public class EventListFragment extends ProgressFragment implements Paginate.Callbacks, SwipeRefreshLayout.OnRefreshListener, PlatformTabActivity.onPageSelectListener {
 
     public static final String REGISTER = "register";
     private RecyclerView mRecyclerView;
@@ -30,32 +34,42 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
 
     private boolean isRegistered;//商家是否报名活动
     private boolean loading = false;
-    private int page = 0;
-    private Handler handler;
+    private int page = 1;
     private Paginate paginate;
 
-    private int totalPages = 3;
+    private int totalPages = 0;
     private int pageSize = 10;
     private EventListAdapter adapter;
+
+    private ArrayList<PromotionDetailModel> mPromotionList;
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
         stub.setLayoutResource(R.layout.fragment_list);
         View v = stub.inflate();
         isRegistered = getArguments().getBoolean(REGISTER);
+        initViews(v);
+        return v;
+    }
+
+    private void initViews(View v) {
         mSwipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.list);
         mSwipeLayout.setColorSchemeResources(R.color.accent);
+
+        int layoutOrientation = OrientationHelper.VERTICAL;
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), layoutOrientation, false);
+        ((LinearLayoutManager) layoutManager).setReverseLayout(false);
+
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setItemAnimator(new SlideInUpAnimator());
         mSwipeLayout.setOnRefreshListener(this);
-        ((PlatformTabActivity)getActivity()).setOnPageSelectListener(this);
-        handler = new Handler();
-        setupPagination();
-        return v;
+        ((PlatformTabActivity) getActivity()).setOnPageSelectListener(this);
     }
 
     @Override
     protected void requestData() {
-        setContentShown(true);
+        setupPagination();
     }
 
     @Override
@@ -65,28 +79,13 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
 
 
     private void setupPagination() {
+        mPromotionList = new ArrayList<>();
         if (paginate != null) {
             paginate.unbind();
         }
-        handler.removeCallbacks(fakeCallback);
-        adapter = new EventListAdapter(getActivity(),DataProvider.getRandomData(pageSize),isRegistered);
         loading = false;
-        page = 0;
-
-        int layoutOrientation = OrientationHelper.VERTICAL;
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), layoutOrientation, false);
-        ((LinearLayoutManager) layoutManager).setReverseLayout(false);
-
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setItemAnimator(new SlideInUpAnimator());
-        mRecyclerView.setAdapter(adapter);
-
-        paginate = Paginate.with(mRecyclerView, this)
-                // Set the offset from the end of the list at which the load more event needs to be triggered
-                .setLoadingTriggerThreshold(1)
-                .addLoadingListItem(true)
-                .build();
-        stopRefresh();
+        page = 1;
+        getPromotionList(false);
     }
 
     @Override
@@ -99,7 +98,8 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
     public void onLoadMore() {
         Log.d("Paginate", "onLoadMore");
         loading = true;
-        handler.postDelayed(fakeCallback, 2000);
+        page++;
+        getPromotionList(true);
     }
 
     @Override
@@ -109,19 +109,68 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
 
     @Override
     public boolean hasLoadedAllItems() {
-        return (page+1) == totalPages;
+        return page == totalPages;
     }
 
+    /**
+     * 获取商户活动列表
+     */
+    private void getPromotionList(final boolean isLoadMore) {
 
-    private Runnable fakeCallback = new Runnable() {
-        @Override
-        public void run() {
-            page++;
-            adapter.add(DataProvider.getRandomData(pageSize));
-            loading = false;
-            Toast.makeText(getActivity(),"已加载第"+(page+1)+"页",Toast.LENGTH_LONG).show();
+        if (!isAdded()) {
+            return;
         }
-    };
+        if (loading && !isLoadMore) {
+            setContentShown(false);
+        }
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                setContentShown(true);
+                setContentEmpty(true);
+            }
+        };
+        Response.Listener<PromotionListModel> responseListener = new Response.Listener<PromotionListModel>() {
+
+            @Override
+            public void onResponse(PromotionListModel model) {
+                if (!isLoadMore) {
+                    setContentShown(true);
+                }
+                if (model.promotionList != null && model.promotionList.size() != 0) {
+                    totalPages = calculatePage(model.totalSize,pageSize);
+                    mPromotionList = model.promotionList;
+                    if (isLoadMore) {
+                        if (adapter != null) {
+                            adapter.add(mPromotionList);
+                            Toast.makeText(getActivity(), "已加载第" + page + "页 , 共" + totalPages + "页", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        adapter = new EventListAdapter(getActivity(), mPromotionList, isRegistered);
+                        mRecyclerView.setAdapter(adapter);
+                        paginate = Paginate.with(mRecyclerView, EventListFragment.this)
+                                // Set the offset from the end of the list at which the load more event needs to be triggered
+                                .setLoadingTriggerThreshold(0)
+                                .addLoadingListItem(true)
+                                .build();
+                    }
+                    stopRefresh();
+                    paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
+                }
+            }
+        };
+        //测试
+        String storeId = "9052789";
+        String merchantId = "2077985";
+        String plazaId = "1000772";
+        int ifEnroll;
+        if (isRegistered) {
+            ifEnroll = 1; //活动已报名
+        } else {
+            ifEnroll = 0; //活动可报名
+        }
+        PromotionCtrl.getPromotionList(storeId, merchantId, plazaId, ifEnroll, page, pageSize, responseListener, errorListener);
+    }
 
     private void stopRefresh() {
         if (mSwipeLayout.isRefreshing()) {
@@ -132,5 +181,13 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
     @Override
     public void onPageSelected() {
 
+    }
+
+    private int calculatePage(int totalCount, int pageSize) {
+        if(totalCount<pageSize){
+            return 1;
+        }else{
+            return totalCount/pageSize;
+        }
     }
 }

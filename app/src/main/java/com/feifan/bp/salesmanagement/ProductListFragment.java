@@ -24,7 +24,7 @@ import java.util.Set;
 /**
  * Created by Frank on 15/12/21.
  */
-public class ProductListFragment extends Fragment implements GoodsListAdapter.onCheckChangeListener, GoodsListAdapter.onItemDeleteListener {
+public class ProductListFragment extends Fragment implements GoodsListSwipeAdapter.onCheckChangeListener, GoodsListSwipeAdapter.onItemDeleteListener {
 
     public static final String ENROLL_STATUS = "enrollStatus";
     public static final int STATUS_NO_COMMIT = 1; //未提交状态
@@ -34,7 +34,8 @@ public class ProductListFragment extends Fragment implements GoodsListAdapter.on
 
     private CheckBox cbAllCheck;
     private RecyclerView mProductList;
-    private GoodsListAdapter mAdapter;
+    private GoodsListSwipeAdapter mSwipeAdapter;
+    private GoodsListCommonAdapter mCommonAdapter;
     private List<String> datas;
     private HashMap<Integer, Boolean> checkStatus = new HashMap<>();//商品选中状态
     private int enrollStatus;//报名状态
@@ -121,15 +122,16 @@ public class ProductListFragment extends Fragment implements GoodsListAdapter.on
         Collections.addAll(datas, listItems);
 
         if (enrollStatus == STATUS_NO_COMMIT) {
-            mAdapter = new GoodsListAdapter(getActivity(), datas, enrollStatus, checkStatus);
+            mSwipeAdapter = new GoodsListSwipeAdapter(getActivity(), datas, enrollStatus, checkStatus);
             mRlEnrollBottom.setVisibility(View.VISIBLE);
+            mProductList.setAdapter(mSwipeAdapter);
+            mSwipeAdapter.setCheckChangeListener(this);
+            mSwipeAdapter.setItemDeleteListener(this);
         } else {
-            mAdapter = new GoodsListAdapter(getActivity(), datas, enrollStatus);
+            mCommonAdapter = new GoodsListCommonAdapter(getActivity(), datas, enrollStatus);
             mRlEnrollBottom.setVisibility(View.GONE);
+            mProductList.setAdapter(mCommonAdapter);
         }
-        mProductList.setAdapter(mAdapter);
-        mAdapter.setCheckChangeListener(this);
-        mAdapter.setItemDeleteListener(this);
     }
 
     private void initViews(View view) {
@@ -147,7 +149,7 @@ public class ProductListFragment extends Fragment implements GoodsListAdapter.on
     }
 
     /**
-     * GoodsListAdapter的回调函数,当点击item的CheckBox传递点击位置和状态
+     * GoodsListSwipeAdapter的回调函数,当点击item的CheckBox传递点击位置和状态
      *
      * @param position
      * @param isChecked
@@ -156,7 +158,7 @@ public class ProductListFragment extends Fragment implements GoodsListAdapter.on
     public void getCheckData(int position, boolean isChecked) {
         if (isChecked) {
             checkStatus.put(position, isChecked);
-            if (checkStatus.size() == mAdapter.getItemCount()) {
+            if (checkStatus.size() == mSwipeAdapter.getItemCount()) {
                 cbAllCheck.setOnCheckedChangeListener(null);
                 cbAllCheck.setChecked(true);
                 cbAllCheck.setOnCheckedChangeListener(checkAllListener);
@@ -170,7 +172,7 @@ public class ProductListFragment extends Fragment implements GoodsListAdapter.on
     }
 
     /**
-     * GoodsListAdapter的回调函数,删除item传递位置;
+     * GoodsListSwipeAdapter的回调函数,删除item传递位置;
      *
      * @param position
      */
@@ -178,23 +180,23 @@ public class ProductListFragment extends Fragment implements GoodsListAdapter.on
     public void onDelete(int position) {
         //TODO 调用删除商品API
         changeCheckStatus(position);
-        mAdapter.notifyItemRemoved(position);
-        mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount());
+        mSwipeAdapter.notifyItemRemoved(position);
+        mSwipeAdapter.notifyItemRangeChanged(position, mSwipeAdapter.getItemCount());
     }
 
     private CompoundButton.OnCheckedChangeListener checkAllListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
-                for (int i = 0; i < mAdapter.getItemCount(); i++) {
+                for (int i = 0; i < mSwipeAdapter.getItemCount(); i++) {
                     checkStatus.put(i, isChecked);
                 }
             } else {
-                for (int i = 0; i < mAdapter.getItemCount(); i++) {
+                for (int i = 0; i < mSwipeAdapter.getItemCount(); i++) {
                     checkStatus.remove(i);
                 }
             }
-            mAdapter.notifyDataSetChanged();
+            mSwipeAdapter.notifyDataSetChanged();
         }
     };
 
@@ -227,9 +229,9 @@ public class ProductListFragment extends Fragment implements GoodsListAdapter.on
             checkStatus.remove(changePosLast);
         }
         //更新全选按钮状态
-        if (mAdapter.getItemCount() == 0) {
+        if (mSwipeAdapter.getItemCount() == 0) {
 
-        } else if (checkStatus.size() == mAdapter.getItemCount()) {
+        } else if (checkStatus.size() == mSwipeAdapter.getItemCount()) {
             cbAllCheck.setOnCheckedChangeListener(null);
             cbAllCheck.setChecked(true);
             cbAllCheck.setOnCheckedChangeListener(checkAllListener);

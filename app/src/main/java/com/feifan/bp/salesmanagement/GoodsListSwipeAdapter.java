@@ -2,7 +2,7 @@ package com.feifan.bp.salesmanagement;
 
 /**
  * 报名活动商品列表适配器
- * <p>
+ * <p/>
  * Created by Frank on 15/12/21.
  */
 
@@ -22,25 +22,18 @@ import com.feifan.bp.widget.paginate.SwipeMenuViewHolder;
 import java.util.HashMap;
 import java.util.List;
 
-public class GoodsListAdapter extends RecyclerView.Adapter {
+public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
 
     private List<String> mListData;
-    private HashMap<Integer,Boolean> checkStatus;
+    private HashMap<Integer, Boolean> checkStatus;
     private onCheckChangeListener checkChangeListener;
     private onItemDeleteListener itemDeleteListener;
     private int enrollStatus;
 
-    public GoodsListAdapter(Context context, List<String> mListData,int enrollStatus) {
-        this.context = context;
-        this.mListData = mListData;
-        this.enrollStatus = enrollStatus;
-        layoutInflater = LayoutInflater.from(context);
-    }
-
-    public GoodsListAdapter(Context context, List<String> mListData,int enrollStatus,HashMap<Integer,Boolean> checkStatus) {
+    public GoodsListSwipeAdapter(Context context, List<String> mListData, int enrollStatus, HashMap<Integer, Boolean> checkStatus) {
         this.context = context;
         this.mListData = mListData;
         this.checkStatus = checkStatus;
@@ -60,48 +53,30 @@ public class GoodsListAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+
         final SwipeViewHolder swipeViewHolder = (SwipeViewHolder) SwipeMenuViewHolder.getHolder(holder);
         String data = mListData.get(position);
         swipeViewHolder.tvProductName.setText(data);
-        switch (enrollStatus){
-            case ProductListFragment.STATUS_NO_COMMIT:
-                swipeViewHolder.tvProductStatus.setText("状态:未提交");
-                break;
-            case ProductListFragment.STATUS_AUDIT:
-                swipeViewHolder.tvProductStatus.setText("状态:审核中");
-                break;
-            case ProductListFragment.STATUS_AUDIT_PASS:
-                swipeViewHolder.tvProductStatus.setText("状态:审核通过");
-                break;
-            case ProductListFragment.STATUS_AUDIT_DENY:
-                swipeViewHolder.tvProductStatus.setText("状态:审核拒绝");
-                break;
-        }
+        swipeViewHolder.tvProductStatus.setText("状态:未提交");
 
-        if(enrollStatus!= ProductListFragment.STATUS_NO_COMMIT){
-            swipeViewHolder.cbSelect.setVisibility(View.GONE);
-        }else{
-            swipeViewHolder.cbSelect.setVisibility(View.VISIBLE);
-
-            swipeViewHolder.tvDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListData.remove(position);
-                    LogUtil.i("fangke", "onItemDelete调用的位置" + position);
-                    itemDeleteListener.onDelete(position);
-                }
-            });
-            //页面滚动时设置不调用onCheckedChanged导致Checkbox自动选中
-            swipeViewHolder.cbSelect.setOnCheckedChangeListener(null);
-            swipeViewHolder.cbSelect.setChecked(checkStatus.get(position)==null?false:true);
-            swipeViewHolder.cbSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    LogUtil.i("fangke", "onCheckChanged调用的位置" + position);
-                    checkChangeListener.getCheckData(position, isChecked);
-                }
-            });
-        }
+        swipeViewHolder.tvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListData.remove(position);
+                LogUtil.i("fangke", "onItemDelete调用的位置" + position);
+                itemDeleteListener.onDelete(position);
+            }
+        });
+        //页面滚动时设置不调用onCheckedChanged导致Checkbox自动选中
+        swipeViewHolder.cbSelect.setOnCheckedChangeListener(null);
+        swipeViewHolder.cbSelect.setChecked(checkStatus.get(position) == null ? false : true);
+        swipeViewHolder.cbSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                LogUtil.i("fangke", "onCheckChanged调用的位置" + position);
+                checkChangeListener.getCheckData(position, isChecked);
+            }
+        });
     }
 
     @Override
@@ -135,15 +110,15 @@ public class GoodsListAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public interface onCheckChangeListener{
-        void getCheckData(int position,boolean isChecked);
+    public interface onCheckChangeListener {
+        void getCheckData(int position, boolean isChecked);
     }
 
     public void setCheckChangeListener(onCheckChangeListener checkChangeListener) {
         this.checkChangeListener = checkChangeListener;
     }
 
-    public interface onItemDeleteListener{
+    public interface onItemDeleteListener {
         void onDelete(int position);
     }
 

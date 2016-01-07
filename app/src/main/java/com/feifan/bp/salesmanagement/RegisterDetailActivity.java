@@ -105,6 +105,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
 
     private void initData() {
         activityId = getIntent().getStringExtra(EXTRA_KEY_ID);
+
     }
 
     @Override
