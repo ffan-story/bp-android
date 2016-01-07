@@ -296,10 +296,8 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     }else {
                         if (mIntCodeLength==Constants.CODE_LENGTH_TEN){//提货吗
                             args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, false);
-                        }else if (mIntCodeLength>Constants.CODE_LENGTH_TEN && mIntCodeLength<=Constants.CODE_LENGTH_THIRTEEN) {//券码
+                        }else if (mIntCodeLength>Constants.CODE_LENGTH_TEN) {//券码
                             args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
-                        }else{
-                            return;
                         }
                         args.putString(CodeQueryResultFragment.CODE, code);
                         PlatformTopbarActivity.startActivity(getActivity(), CodeQueryResultFragment.class.getName(),
