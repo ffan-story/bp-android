@@ -6,7 +6,7 @@ package com.feifan.bp;
 public class Constants {
     public static final String TAG = "Platform";
 
-    public static int CODE_LENGTH_TEN = 10;
+    public static int CODE_LENGTH_TEM = 10;
     public static int CODE_LENGTH_THIRTEEN = 13;
     public static int CODE_LENGTH_TWENTY = 20;
 
