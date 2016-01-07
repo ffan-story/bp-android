@@ -61,6 +61,8 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     private String orderNo;
     private String memberId;
 
+    private String plainCode; //明文券码
+
     /**
      * 错误信息
      */
@@ -157,6 +159,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                         public void onResponse(CodeModel codeModel) {
                             if(null != codeModel){
                                 memberId = codeModel.getCouponsData().getMemberId();
+                                plainCode = codeModel.getCouponsData().getCertificateNo();
                                 initCouponsView(codeModel);
                                 setContentShown(true);
                             }
@@ -282,7 +285,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         switch (v.getId()){
             case R.id.ll_code_rule://规则
                 Bundle argsRule = new Bundle();
-                argsRule.putString(EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail(code));
+                argsRule.putString(EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail(plainCode));
                 PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.action_rule), argsRule);
                 break;
             case R.id.tv_goods_order:
