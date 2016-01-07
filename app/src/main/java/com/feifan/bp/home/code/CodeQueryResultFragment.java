@@ -59,6 +59,8 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     private String orderNo;
     private String memberId;
 
+    private String plainCode; //明文券码
+
     /**
      * 错误信息
      */
@@ -155,6 +157,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                         public void onResponse(CodeModel codeModel) {
                             if (null != codeModel.getCouponsData() && isAdded()) {
                                 memberId = codeModel.getCouponsData().getMemberId();
+                                plainCode = codeModel.getCouponsData().getCertificateNo();
                                 initCouponsView(codeModel);
                                 setContentShown(true);
                             }
