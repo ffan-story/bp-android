@@ -61,7 +61,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     private String orderNo;
     private String memberId;
 
-    private String plainCode; //明文券码
+    private String plainCode;
 
     /**
      * 错误信息
@@ -101,11 +101,10 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
     }
 
-
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
         View view;
-        LogUtil.i("congjing","isCouponCode=="+isCouponCode);
+
         if (isCouponCode){//券码
             stub.setLayoutResource(R.layout.fragment_ticket_code_result);
             view = stub.inflate();
