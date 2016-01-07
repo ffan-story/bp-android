@@ -33,13 +33,14 @@ import java.util.List;
  * 商品设置详情
  *congjing
  */
-public class InstantEventGoodsSettingDetailFragment extends ProgressFragment implements View.OnClickListener{
+public class InstEventGoodsSettingDetailFragment extends ProgressFragment implements View.OnClickListener{
     public static final String EXTRA_PARTAKE_EVENT_ID = "partake_event_id";
+    public static final String EXTRA_PARTAKE_GOODS_CODE = "partake_goods_code";
     public static final String EXTRA_EVENT_IS_GOODS_SETTINGDETAIL= "is_setting_detail";
 
     private LayoutInflater mInflater;
     private ListView mLineGoodsNumber,mLineGoodsDiscount;
-    private List<InstantEventSetDetailModel.InstantEventSetDetailData> mList = new ArrayList<>();
+    private List<InstEventSetDetailModel.InstantEventSetDetailData> mList = new ArrayList<>();
 
 //    private List<String> mList = new ArrayList<>();
     private EditText mEdVendorDiscount ;
@@ -56,7 +57,7 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
 
     private RelativeLayout mRelSignupDetailRefuse;
     TextView mTvSignupStatus,mTvSignupRefuseCause;
-    private String mStrEventId ;
+    private String mStrEventId ,mStrGoodsCode;
 
     /**
      * true:商品设置页
@@ -67,13 +68,13 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public InstantEventGoodsSettingDetailFragment() {
+    public InstEventGoodsSettingDetailFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static InstantEventGoodsSettingDetailFragment newInstance() {
-        InstantEventGoodsSettingDetailFragment fragment = new InstantEventGoodsSettingDetailFragment();
+    public static InstEventGoodsSettingDetailFragment newInstance() {
+        InstEventGoodsSettingDetailFragment fragment = new InstEventGoodsSettingDetailFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -84,6 +85,7 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
         super.onCreate(savedInstanceState);
         mISGoodsSettingDetail = getArguments().getBoolean(EXTRA_EVENT_IS_GOODS_SETTINGDETAIL);
         mStrEventId = getArguments().getString(EXTRA_PARTAKE_EVENT_ID);
+        mStrGoodsCode = getArguments().getString(EXTRA_PARTAKE_GOODS_CODE);
     }
 
     @Override
@@ -146,7 +148,7 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
 
             @Override
             public void afterTextChanged(Editable s) {
-                InstantEventSetDetailModel.InstantEventSetDetailData mSetGoodsDetailData;
+                InstEventSetDetailModel.InstantEventSetDetailData mSetGoodsDetailData;
                 if (TextUtils.isEmpty(mStrInputDiscount)) {
                     isVendorDiscountFlag  = false;
                     mTvVendorDiscountTips.setVisibility(View.VISIBLE);
@@ -205,10 +207,10 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
         setContentShown(true);
     }
 
-    InstantEventSetDetailModel myModel;
-    InstantEventSetDetailModel.InstantEventSetDetailData myData ;
+    InstEventSetDetailModel myModel;
+    InstEventSetDetailModel.InstantEventSetDetailData myData ;
     private void setContViewData(){
-        myModel=  new InstantEventSetDetailModel();
+        myModel=  new InstEventSetDetailModel();
         myData = myModel.mEventSetDetailData;
         mList = myModel.arryInstantEventData;
         mTvFeifanDiscount.setText(String.format(getActivity().getResources().getString(R.string.instant_feifan_discount),formatAmount(myModel.mDoubleFeifanDiscount))) ;
@@ -248,8 +250,9 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
 
                 if (v.getId() == R.id.bnt_instant_save_setting){//保存设置
                     Bundle args = new Bundle();
-                    args.putString(InstantEventSignUpDetailFragment.EXTRA_PARTAKE_EVENT_ID,"23232");
-                    PlatformTopbarActivity.startActivity(getActivity(), InstantEventSignUpDetailFragment.class.getName(), getString(R.string.register_detail), args);
+                    args.putString(InstEventGoodsSettingDetailFragment.EXTRA_PARTAKE_GOODS_CODE, "23232");
+                    args.putString(InstEventSignUpDetailFragment.EXTRA_PARTAKE_EVENT_ID,"23232");
+                    PlatformTopbarActivity.startActivity(getActivity(), InstEventSignUpDetailFragment.class.getName(), getString(R.string.register_detail), args);
                 }else if (v.getId() == R.id.bnt_instant_atonce_submit){//立即提交
 
                 }
@@ -257,7 +260,7 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
                 break;
             case R.id.btn_audit_history://验证历史
                 Bundle argsRule = new Bundle();
-                argsRule.putString(SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.getUrlPathHistoryAudit("1234433"));
+                argsRule.putString(SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.getUrlPathHistoryAudit(mStrEventId,mStrGoodsCode,"9052789","2077985"));
                 PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.instant_check_history), argsRule);
                 break;
 
@@ -308,7 +311,7 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
             if (mList.isEmpty()){
                 return null ;
             }
-           final InstantEventSetDetailModel.InstantEventSetDetailData mGoodsDetailData = mList.get(position);
+           final InstEventSetDetailModel.InstantEventSetDetailData mGoodsDetailData = mList.get(position);
             if (isDiscount){//true  显示商品 优惠后价格
                 final ViewDiscountHolder discountHolder;
                 if (convertView == null) {
@@ -332,7 +335,7 @@ public class InstantEventGoodsSettingDetailFragment extends ProgressFragment imp
                 holder.mTvGoodsAmount.setText(String.format(getActivity().getResources().getString(R.string.instant_goods_amount), formatAmount((mGoodsDetailData.mDoubleGoodsAmount))));
 
                 holder.mTvGoodsPartakeNumber.addTextChangedListener(new TextWatcher() {
-                    InstantEventSetDetailModel.InstantEventSetDetailData mSetGoodsDetailData;
+                    InstEventSetDetailModel.InstantEventSetDetailData mSetGoodsDetailData;
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

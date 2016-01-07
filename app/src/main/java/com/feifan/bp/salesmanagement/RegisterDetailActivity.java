@@ -1,9 +1,7 @@
 package com.feifan.bp.salesmanagement;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -18,13 +16,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.feifan.bp.PlatformTabActivity;
+
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.instantevent.InstantEventGoodsListFragment;
-import com.feifan.bp.util.LogUtil;
+import com.feifan.bp.instantevent.InstEventGoodsListFragment;
 import com.feifan.bp.widget.CustomViewPager;
 
 import java.util.ArrayList;
@@ -119,8 +115,8 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
             case R.id.btn_add_product:
                 // TODO 跳转商品添加页面
                 Bundle args = new Bundle();
-                args.putString(InstantEventGoodsListFragment.EXTRA_PARTAKE_EVENT_ID, "");
-                PlatformTopbarActivity.startActivity(this, InstantEventGoodsListFragment.class.getName(),getString(R.string.instant_goods_list), args);
+                args.putString(InstEventGoodsListFragment.EXTRA_PARTAKE_EVENT_ID, "");
+                PlatformTopbarActivity.startActivity(this, InstEventGoodsListFragment.class.getName(),getString(R.string.instant_goods_list), args);
                 break;
         }
     }

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.instantevent.InstantEventGoodsListFragment;
+import com.feifan.bp.instantevent.InstEventGoodsListFragment;
 
 /**
  * 通用错误提示页
@@ -104,8 +104,8 @@ public class ErrorFragment extends BaseFragment implements  View.OnClickListener
                 case EXTRA_KEY_ERROR_BTN_LISTENER_TO_GOODS_MANAGE://商品管理
                     getActivity().finish();
                     Bundle args = new Bundle();
-                    args.putString(InstantEventGoodsListFragment.EXTRA_PARTAKE_EVENT_ID, "");
-                    PlatformTopbarActivity.startActivity(getActivity(), InstantEventGoodsListFragment.class.getName(), "设置详情",args);
+                    args.putString(InstEventGoodsListFragment.EXTRA_PARTAKE_EVENT_ID, "");
+                    PlatformTopbarActivity.startActivity(getActivity(), InstEventGoodsListFragment.class.getName(), "设置详情",args);
                     break;
                 default:
                     break;

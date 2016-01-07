@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+
 import com.feifan.bp.salesmanagement.RecyclerOnItemClickListener;
 
 import java.util.List;
@@ -20,13 +21,13 @@ import java.util.List;
  * 商品列表
  * Created by congjing on 15/12/18.
  */
-public class InstantEventGoodsListAdapter extends RecyclerView.Adapter<InstantEventGoodsListAdapter.GoodsDatas> implements RecyclerOnItemClickListener {
+public class InstEventGoodsListAdapter extends RecyclerView.Adapter<InstEventGoodsListAdapter.GoodsDatas> implements RecyclerOnItemClickListener {
 
     private Context context;
-    private final List<InstantEventGoodsListModel.GoodsListData> data;
+    private final List<InstEventGoodsListModel.GoodsListData> data;
     private Boolean isRegistered;//活动是否报名
 
-    public InstantEventGoodsListAdapter(Context context, List<InstantEventGoodsListModel.GoodsListData> data, Boolean isRegistered) {
+    public InstEventGoodsListAdapter(Context context, List<InstEventGoodsListModel.GoodsListData> data, Boolean isRegistered) {
         this.context = context;
         this.data = data;
         this.isRegistered = isRegistered;
@@ -40,15 +41,16 @@ public class InstantEventGoodsListAdapter extends RecyclerView.Adapter<InstantEv
 
     @Override
     public void onBindViewHolder(GoodsDatas holder, final int position) {
-        InstantEventGoodsListModel.GoodsListData GoodsListModel = data.get(position);
+        InstEventGoodsListModel.GoodsListData GoodsListModel = data.get(position);
         holder.mTvGoodsName.setText(GoodsListModel.mStrGoodsName);
+
+        holder.mTvGoodsStatus.setText(GoodsListModel.mStrGoodsStatusTxt);
         if (!TextUtils.isEmpty(GoodsListModel.mStrGoodsStatus) && GoodsListModel.mStrGoodsStatus.equals("1")){//已提交
-            holder.mTvGoodsStatus.setText("已提交");
+
             holder.mTvGoodsName.setTextColor(context.getResources().getColor(R.color.font_color_99));
             holder.mTvGoodsStatus.setTextColor(context.getResources().getColor(R.color.font_color_99));
             holder.mImgArrow.setVisibility(View.INVISIBLE);
         }else{//可提交
-            holder.mTvGoodsStatus.setText("可提交");
             holder.mTvGoodsName.setTextColor(context.getResources().getColor(R.color.font_color_33));
             holder.mTvGoodsStatus.setTextColor(context.getResources().getColor(R.color.font_color_33));//可提交
             holder.mImgArrow.setVisibility(View.VISIBLE);
@@ -65,13 +67,14 @@ public class InstantEventGoodsListAdapter extends RecyclerView.Adapter<InstantEv
     public void onItemClicked(View view, int position) {
         if (!data.get(position).mStrGoodsStatus .equals("1")){
             Bundle args = new Bundle();
-            args.putString(InstantEventGoodsSettingDetailFragment.EXTRA_PARTAKE_EVENT_ID, "12323");
-            args.putBoolean(InstantEventGoodsSettingDetailFragment.EXTRA_EVENT_IS_GOODS_SETTINGDETAIL, false);
-            PlatformTopbarActivity.startActivity(context, InstantEventGoodsSettingDetailFragment.class.getName(), "设置详情",args);
+            args.putString(InstEventGoodsSettingDetailFragment.EXTRA_PARTAKE_EVENT_ID, data.get(position).mStrGoodsId);
+            args.putString(InstEventGoodsSettingDetailFragment.EXTRA_PARTAKE_GOODS_CODE, data.get(position).mStrGoodsId);
+            args.putBoolean(InstEventGoodsSettingDetailFragment.EXTRA_EVENT_IS_GOODS_SETTINGDETAIL, false);
+            PlatformTopbarActivity.startActivity(context, InstEventGoodsSettingDetailFragment.class.getName(), "设置详情",args);
         }
     }
 
-    public void add(List<InstantEventGoodsListModel.GoodsListData> items) {
+    public void notifyData(List<InstEventGoodsListModel.GoodsListData> items) {
         int previousDataSize = this.data.size();
         this.data.addAll(items);
         notifyItemRangeInserted(previousDataSize, items.size());

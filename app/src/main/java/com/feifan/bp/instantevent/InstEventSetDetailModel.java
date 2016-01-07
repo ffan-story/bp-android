@@ -9,8 +9,8 @@ import java.util.ArrayList;
  * 设置详情 model
  * Created by congjing
  */
-//public class InstantEventSetDetailModel extends BaseModel {
-public class InstantEventSetDetailModel {
+//public class InstEventSetDetailModel extends BaseModel {
+public class InstEventSetDetailModel {
 
     public InstantEventSetDetailData mEventSetDetailData;
     public int totalCount;
@@ -22,7 +22,7 @@ public class InstantEventSetDetailModel {
     double mDoubleFeifanDiscount = 10;//飞凡优惠金额
     double mDoubleVendorDiscount = 10;//飞凡优惠金额
 
-    public InstantEventSetDetailModel() {
+    public InstEventSetDetailModel() {
         for (int i = 0; i < 2; i++) {
             mEventSetDetailData = new InstantEventSetDetailData();
             mEventSetDetailData.mDoubleGoodsAmount = 800;//商品原价
@@ -35,7 +35,7 @@ public class InstantEventSetDetailModel {
     }
 
 
-//    public InstantEventSetDetailModel(JSONObject json) {
+//    public InstEventSetDetailModel(JSONObject json) {
 //        super(json);
 //    }
 //
