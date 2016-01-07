@@ -293,18 +293,17 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     if (!Utils.isNetworkAvailable(getActivity())) {
                         Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
                         return;
-                    }else {
-                        if (mIntCodeLength==Constants.CODE_LENGTH_TEN){//提货吗
-                            args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, false);
-                        }else if (mIntCodeLength>Constants.CODE_LENGTH_TEN) {//券码
-                            args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
-                        }
-                        args.putString(CodeQueryResultFragment.CODE, code);
-                        PlatformTopbarActivity.startActivity(getActivity(), CodeQueryResultFragment.class.getName(),
-                                getActivity().getApplicationContext().getString(R.string.query_result), args);
-                        mCodeEditText.setText("");
-                        return;
                     }
+                    if (mIntCodeLength==Constants.CODE_LENGTH_TEN){//等于10位提货吗
+                        args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, false);
+                    }else if (mIntCodeLength>Constants.CODE_LENGTH_TEN) {//大于10位券码
+                        args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
+                    }
+                    args.putString(CodeQueryResultFragment.CODE, code);
+                    PlatformTopbarActivity.startActivity(getActivity(), CodeQueryResultFragment.class.getName(),
+                            getActivity().getApplicationContext().getString(R.string.query_result), args);
+                    mCodeEditText.setText("");
+                    return;
                 }
             default:
                 return;

@@ -105,6 +105,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
         View view;
+        LogUtil.i("congjing","isCouponCode=="+isCouponCode);
         if (isCouponCode){//券码
             stub.setLayoutResource(R.layout.fragment_ticket_code_result);
             view = stub.inflate();
