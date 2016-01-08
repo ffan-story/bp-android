@@ -75,37 +75,37 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
         Bundle args = new Bundle();
 
         int mIntCodeLength = resultText.trim().length();
-        if (TextUtils.isDigitsOnly(resultText)){
-            if (mIntCodeLength<Constants.CODE_LENGTH_TEM){
+        if (TextUtils.isDigitsOnly(resultText)){                  // 数字码
+            if (mIntCodeLength<Constants.CODE_LENGTH_TEN){        // 小于10位为无效码
                 args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getApplicationContext().getApplicationContext().getString(R.string.error_message_text_sms_code_length_min));
                 PlatformTopbarActivity.startActivity(CodeScannerActivity.this, ErrorFragment.class.getName(),
                         getApplicationContext().getApplicationContext().getString(R.string.query_result), args);
             }else{
+
                 if (!Utils.isNetworkAvailable(getApplicationContext())) {
                     Utils.showShortToast(getApplicationContext(), R.string.error_message_text_offline, Gravity.CENTER);
                     return;
-                }else {
-                    if (mIntCodeLength==Constants.CODE_LENGTH_TEM){//提货吗
-                        args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, false);
-                    }else if (mIntCodeLength>Constants.CODE_LENGTH_TEM && mIntCodeLength<=Constants.CODE_LENGTH_THIRTEEN) {//券码
-                        args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
-                    }
-                    args.putString(CodeQueryResultFragment.CODE, resultText);
-                    PlatformTopbarActivity.startActivity(CodeScannerActivity.this,CodeQueryResultFragment.class.getName(),
-                            getApplicationContext().getApplicationContext().getString(R.string.query_result),args);
                 }
+
+                if (mIntCodeLength==Constants.CODE_LENGTH_TEN){    // 10位数字为提货吗
+                    args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, false);
+                }else if (mIntCodeLength>Constants.CODE_LENGTH_TEN) { // 大于10位数字为券码
+                    args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
+                }
+                args.putString(CodeQueryResultFragment.CODE, resultText);
+                PlatformTopbarActivity.startActivity(CodeScannerActivity.this,CodeQueryResultFragment.class.getName(),
+                        getApplicationContext().getApplicationContext().getString(R.string.query_result),args);
+
             }
-        }else{
-            if (mIntCodeLength>Constants.CODE_LENGTH_TWENTY){//券码
+        }else{                                                    // 非数字码（加密后的券码）
+            if (mIntCodeLength>Constants.CODE_LENGTH_TWENTY){ // 加密后的券码大于20位
                 args.putString(CodeQueryResultFragment.CODE, resultText);
                 args.putBoolean(CodeQueryResultFragment.EXTRA_KEY_IS_COUPON, true);
                 PlatformTopbarActivity.startActivity(CodeScannerActivity.this, CodeQueryResultFragment.class.getName(),
                         getApplicationContext().getApplicationContext().getString(R.string.query_result), args);
-
             }else{
                 args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getApplicationContext().getApplicationContext().getString(R.string.error_message_text_code_incorrect));
-                PlatformTopbarActivity.startActivity(CodeScannerActivity.this, ErrorFragment.class.getName(),
-                        getApplicationContext().getApplicationContext().getString(R.string.query_result), args);
+                PlatformTopbarActivity.startActivity(CodeScannerActivity.this, ErrorFragment.class.getName(), getApplicationContext().getApplicationContext().getString(R.string.query_result), args);
             }
         }
         finish();

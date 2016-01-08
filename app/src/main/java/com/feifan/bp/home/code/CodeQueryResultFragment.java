@@ -99,11 +99,10 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
     }
 
-
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
         View view;
-        if (isCouponCode) {//券码
+        if (isCouponCode){//券码
             stub.setLayoutResource(R.layout.fragment_ticket_code_result);
             view = stub.inflate();
             rl_ticket_code_result = (RelativeLayout) view.findViewById(R.id.rl_ticket_code_result);
@@ -285,7 +284,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         switch (v.getId()) {
             case R.id.ll_code_rule://规则
                 Bundle argsRule = new Bundle();
-                argsRule.putString(SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail(code));
+                argsRule.putString(EXTRA_KEY_URL, UrlFactory.getCodeCouponeDetail(plainCode));
                 PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.action_rule), argsRule);
                 break;
             case R.id.tv_goods_order:
