@@ -53,7 +53,7 @@ public class TransFlowTabActivity extends BaseActivity{
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         List<Fragment> fragments = new ArrayList<Fragment>();
-        fragments.add(new FlashBuyFragment());
+        fragments.add(new InstantBuyFragment());
         fragments.add(new CouponsFragment());
 
         mAdapter = new TransFlowTabPagerAdapter(getSupportFragmentManager(),

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto">
+
+    <com.feifan.bp.widget.SegmentedGroup
+        android:id="@+id/segmentedGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/view_spacing_20"
+        android:layout_marginRight="@dimen/view_spacing_20"
+        android:layout_marginTop="@dimen/view_spacing_10"
+        android:orientation="horizontal"
+        segmentedgroup:sc_border_width="1dp"
+        segmentedgroup:sc_corner_radius="5dp"
+        segmentedgroup:sc_tint_color="@color/accent">
+
+        <RadioButton
+            android:id="@+id/today"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="今天"/>
+
+        <RadioButton
+            android:id="@+id/yesterday"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="昨天"/>
+
+        <RadioButton
+            android:id="@+id/other"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="自定义"/>
+
+    </com.feifan.bp.widget.SegmentedGroup>
+
+    <TextView
+        android:id="@+id/instant_query_time"
+        style="@style/txt_color66_size14"
+        android:layout_below="@id/segmentedGroup"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/view_spacing_20"
+        android:drawableLeft="@mipmap/query_time"
+        android:drawablePadding="@dimen/view_spacing_5"
+        android:text="查询时间:2016-1-7"/>
+
+    <RelativeLayout
+        android:id="@+id/trade_continer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_width_75"
+        android:layout_marginTop="@dimen/view_spacing_20"
+        android:padding="@dimen/view_spacing_10"
+        android:background="@color/white"
+        android:layout_below="@id/instant_query_time">
+
+        <TextView
+            android:id="@+id/trade_count"
+            style="@style/txt_color33_size18"
+            android:layout_marginLeft="@dimen/view_spacing_26"
+            android:text="600"/>
+        <TextView
+            android:id="@+id/trade_count_tv"
+            style="@style/txt_color33_size16"
+            android:layout_below="@id/trade_count"
+            android:layout_marginLeft="@dimen/view_spacing_26"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            android:text="@string/indicator_trade_count"/>
+        <TextView
+            android:id="@+id/trade_money"
+            style="@style/txt_color33_size16"
+            android:layout_below="@id/trade_count"
+            android:layout_toRightOf="@id/trade_count_tv"
+            android:layout_marginLeft="@dimen/view_spacing_50"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            android:text="@string/indicator_trade_money"/>
+        <TextView
+            style="@style/TransactionFlowMoney"
+            android:layout_toRightOf="@id/trade_count"
+            android:layout_alignLeft="@id/trade_money"
+            android:text="100,000,000.00" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/view_spacing_25"
+            android:src="@mipmap/detail_arrow"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/refund_continer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_width_75"
+        android:layout_marginTop="@dimen/view_spacing_5"
+        android:padding="@dimen/view_spacing_10"
+        android:background="@color/white"
+        android:layout_below="@id/trade_continer">
+
+        <TextView
+            android:id="@+id/refund_count"
+            style="@style/txt_color33_size18"
+            android:layout_marginLeft="@dimen/view_spacing_26"
+            android:text="6"/>
+        <TextView
+            android:id="@+id/refund_count_tv"
+            style="@style/txt_color33_size16"
+            android:layout_below="@id/refund_count"
+            android:layout_marginLeft="@dimen/view_spacing_26"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            android:text="@string/indicator_refund_count"/>
+        <TextView
+            android:id="@+id/refund_money"
+            style="@style/txt_color33_size16"
+            android:layout_below="@id/refund_count"
+            android:layout_toRightOf="@id/refund_count_tv"
+            android:layout_marginLeft="@dimen/view_spacing_50"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            android:text="@string/indicator_refund_money"/>
+        <TextView
+            style="@style/TransactionFlowMoney"
+            android:layout_toRightOf="@id/refund_count"
+            android:layout_alignLeft="@id/refund_money"
+            android:text="-666.00" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/view_spacing_25"
+            android:src="@mipmap/detail_arrow"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/indicator_explains"
+        android:layout_below="@id/refund_continer"
+        style="@style/txt_color66_size14"
+        android:padding="@dimen/view_spacing_15"
+        android:text="@string/indicator_title" />
+
+    <include layout="@layout/instant_indicator_details"/>
+
+
+</RelativeLayout>

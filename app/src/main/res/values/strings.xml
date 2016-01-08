@@ -191,6 +191,16 @@
     <string name="indicator_merchant_confirmation_refund">确认退款</string>
     <string name="indicator_system_automatic_refund1">确认退款笔数：用户已核销发起退款后由商户确认退款或系统自动退款的笔数；</string>
     <string name="indicator_system_automatic_refund2">确认退款金额：用户已核销发起退款后由商户确认退款或系统自动退款的金额（包括用户付款金额＋平台补贴金额）；</string>
+
+    <string name="indicator_trade_count">交易笔数</string>
+    <string name="indicator_trade_count_explain">用户该时间段内在该门店核销成功的订单笔数;</string>
+    <string name="indicator_trade_money">交易金额</string>
+    <string name="indicator_trade_money_explain">在该时间段内在该门店核销成功后应结算给该门店的金额（包括用户付款金额+平台补贴金额）;</string>
+    <string name="indicator_refund_count">退款笔数</string>
+    <string name="indicator_refund_count_explain">用户已核销发起退款后由商户确认退款或系统自动退款的笔数;</string>
+    <string name="indicator_refund_money">退款金额</string>
+    <string name="indicator_refund_money_explain">用户已核销发起退款后由商户确认退款或系统自动退款的金额（包括用户付款金额+平台补贴金额）;</string>
+
     <string name="indicator_general_vouchers">通用券指标</string>
     <string name="indicator_write_successfully">核销成功</string>
     <string name="indicator_general_certificate_success">该门店在该时间段内核销成功的通用券的笔数及金额;</string>

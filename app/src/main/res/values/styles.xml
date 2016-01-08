@@ -93,6 +93,16 @@
         <item name="android:textSize">@dimen/font_size_14</item>
     </style>
 
+    <style name="TransactionFlowMoney" parent="commmonTxt">
+        <item name="android:textColor">@color/transcation_flow_money</item>
+        <item name="android:textSize">@dimen/font_size_18</item>
+    </style>
+
+    <style name="IndicatorDetails" parent="commmonTxt">
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+    </style>
+
     <style name="LoadingDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
