@@ -97,7 +97,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             if (tab != null) {
-               tab.setCustomView(adapter.getTabView(i));
+                tab.setCustomView(adapter.getTabView(i));
             }
         }
         viewPager.setCurrentItem(0);
@@ -116,7 +116,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
             case R.id.btn_add_product:
                 // TODO 跳转商品添加页面
                 Bundle args = new Bundle();
-                args.putString(InstEventGoodsListFragment.EXTRA_PARTAKE_EVENT_ID, "");
+                args.putString(InstEventGoodsListFragment.EXTRA_PARTAKE_EVENT_ID, "GP1452134293843000000");
                 PlatformTopbarActivity.startActivity(this, InstEventGoodsListFragment.class.getName(),getString(R.string.instant_goods_list), args);
                 break;
         }

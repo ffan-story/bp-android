@@ -286,7 +286,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     return;
                 }
                 int mIntCodeLength = code.trim().length();
-                if (mIntCodeLength<Constants.CODE_LENGTH_TEM) {
+                if (mIntCodeLength<Constants.CODE_LENGTH_TEN) {
                     args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.error_message_text_sms_code_length_min));
                     PlatformTopbarActivity.startActivity(getActivity(), ErrorFragment.class.getName(),
                             getActivity().getApplicationContext().getString(R.string.query_result), args);

@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.envir.EnvironmentManager;
+import com.feifan.bp.instantevent.InstCtrl;
 
 /**
  * 商家后台Url抽象工厂
@@ -153,12 +154,12 @@ public abstract class UrlFactory {
      * 闪购活动-审核历史
      * @return
      */
-    public static String getUrlPathHistoryAudit(String eventId,String goodsCode,String merchantId,String storeId){
+    public static String getUrlPathHistoryAudit(String eventId,String goodsCode){
         return urlForHtml(URL_PATH_HISTORY_AUDIT).
                 concat("&id=").concat(eventId).
                 concat("&goodsCode=").concat(goodsCode).
-                concat("&merchantId=").concat(merchantId).
-                concat("&storeId=").concat(storeId);
+                concat("&merchantId=").concat(InstCtrl.merchantId).
+                concat("&storeId=").concat(InstCtrl.storeId);
     }
 
     public static String visitorsAnalysisForHtml() {
@@ -331,6 +332,22 @@ public abstract class UrlFactory {
      */
     public static String getInstEventGoodsList() {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix()  + "mapp/enroll/goods";
+    }
+
+    /**
+     * EnvironmentManager.getHostFactory().getMAppApiPrefix() = http://api.sit.ffan.com/mapp/v1/
+     *  闪购活动添加商品-设置详情
+     */
+    public static String getInstEventGoodsSettingDetail(String goodsCode) {
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix()  + "mapp/enroll/goods/"+goodsCode;
+    }
+
+    /**
+     * EnvironmentManager.getHostFactory().getMAppApiPrefix() = http://api.sit.ffan.com/mapp/v1/
+     *  闪购活动添加商品-提交保存
+     */
+    public static String getInstEventGoodsCommAndSave() {
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix()  + "mapp/enroll/activity";
     }
 
     private static String formatRelativeUrl(String relativeUrl) {

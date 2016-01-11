@@ -1,6 +1,6 @@
 package com.feifan.bp.instantevent;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -14,6 +14,7 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 
 import com.feifan.bp.salesmanagement.RecyclerOnItemClickListener;
+import com.feifan.bp.util.LogUtil;
 
 import java.util.List;
 
@@ -23,14 +24,14 @@ import java.util.List;
  */
 public class InstEventGoodsListAdapter extends RecyclerView.Adapter<InstEventGoodsListAdapter.GoodsDatas> implements RecyclerOnItemClickListener {
 
-    private Context context;
+    private Activity context;
     private final List<InstEventGoodsListModel.GoodsListData> data;
-    private Boolean isRegistered;//活动是否报名
+    private String mEventId;
 
-    public InstEventGoodsListAdapter(Context context, List<InstEventGoodsListModel.GoodsListData> data, Boolean isRegistered) {
+    public InstEventGoodsListAdapter(Activity context, List<InstEventGoodsListModel.GoodsListData> data,String mEventId) {
         this.context = context;
+        this.mEventId = mEventId;
         this.data = data;
-        this.isRegistered = isRegistered;
     }
 
     @Override
@@ -43,13 +44,11 @@ public class InstEventGoodsListAdapter extends RecyclerView.Adapter<InstEventGoo
     public void onBindViewHolder(GoodsDatas holder, final int position) {
         InstEventGoodsListModel.GoodsListData GoodsListModel = data.get(position);
         holder.mTvGoodsName.setText(GoodsListModel.mStrGoodsName);
-
         holder.mTvGoodsStatus.setText(GoodsListModel.mStrGoodsStatusTxt);
         if (!TextUtils.isEmpty(GoodsListModel.mStrGoodsStatus) && GoodsListModel.mStrGoodsStatus.equals("1")){//已提交
-
             holder.mTvGoodsName.setTextColor(context.getResources().getColor(R.color.font_color_99));
             holder.mTvGoodsStatus.setTextColor(context.getResources().getColor(R.color.font_color_99));
-            holder.mImgArrow.setVisibility(View.INVISIBLE);
+            holder.mImgArrow.setVisibility(View.VISIBLE);
         }else{//可提交
             holder.mTvGoodsName.setTextColor(context.getResources().getColor(R.color.font_color_33));
             holder.mTvGoodsStatus.setTextColor(context.getResources().getColor(R.color.font_color_33));//可提交
@@ -67,10 +66,10 @@ public class InstEventGoodsListAdapter extends RecyclerView.Adapter<InstEventGoo
     public void onItemClicked(View view, int position) {
         if (!data.get(position).mStrGoodsStatus .equals("1")){
             Bundle args = new Bundle();
-            args.putString(InstEventGoodsSettingDetailFragment.EXTRA_PARTAKE_EVENT_ID, data.get(position).mStrGoodsId);
-            args.putString(InstEventGoodsSettingDetailFragment.EXTRA_PARTAKE_GOODS_CODE, data.get(position).mStrGoodsId);
-            args.putBoolean(InstEventGoodsSettingDetailFragment.EXTRA_EVENT_IS_GOODS_SETTINGDETAIL, false);
-            PlatformTopbarActivity.startActivity(context, InstEventGoodsSettingDetailFragment.class.getName(), "设置详情",args);
+            args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_EVENT_ID, mEventId);
+            args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_GOODS_CODE, data.get(position).mStrGoodsId);
+            args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_IS_GOODS_SETTINGDETAIL, false);
+            PlatformTopbarActivity.startActivityForResult(context, InstEvenSkuSettFragment.class.getName(), "设置详情", args);
         }
     }
 

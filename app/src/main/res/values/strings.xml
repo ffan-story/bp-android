@@ -295,6 +295,7 @@
     <string name="instant_save_setting">保存设置</string>
     <string name="instant_goods_understock_tips">商品数量不能大于库存数量</string>
     <string name="instant_discount_content"><![CDATA[%1$s：<font color="#ff0000">%2$s</font>元]]></string>
+    <string name="instant_discount_notname_content"><![CDATA[<font color="#ff0000">%1$s</font>元]]></string>
     <string name="goods_all_select">全选</string>
     <string name="instant_vendor_discount">商户优惠金额</string>
     <string name="instant_goods_name">%1$s：</string>

@@ -11,11 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import com.feifan.bp.transactionflow.TransFlowTabActivity;
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
-import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
+import com.feifan.bp.transactionflow.TransFlowTabActivity;
 
 
 /**
@@ -34,7 +33,7 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     Bundle args;
 
     /**
-     *
+     * startActivityForResult
      * @param context
      * @param fragmentName
      * @param titleName
@@ -47,7 +46,7 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     }
 
     /**
-     *
+     *startActivity
      * @param context
      * @param fragmentName
      * @param titleName
@@ -57,6 +56,22 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
         i.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO,fragmentName);
         i.putExtra(EXTRA_TITLE,titleName);
         context.startActivity(i);
+    }
+
+    /**
+     * startActivityForResult
+     * 用bundle传参
+     * @param context
+     * @param fragmentName
+     * @param titleName
+     * @param args
+     */
+    public static void startActivityForResult(Activity context, String fragmentName,String titleName,Bundle args) {
+        Intent i = new Intent(context, PlatformTopbarActivity.class);
+        i.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO,fragmentName);
+        i.putExtra(EXTRA_TITLE,titleName);
+        i.putExtra(EXTRA_ARGS,args);
+        context.startActivityForResult(i, Constants.REQUEST_CODE);
     }
 
     /**

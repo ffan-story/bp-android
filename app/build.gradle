@@ -26,7 +26,7 @@ android {
         applicationId "com.feifan.bp"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 8
+        versionCode 9
         versionName version
     }
 

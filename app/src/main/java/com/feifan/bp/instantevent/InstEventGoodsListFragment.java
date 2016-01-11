@@ -1,7 +1,7 @@
 package com.feifan.bp.instantevent;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,12 +15,11 @@ import com.android.volley.Response;
 import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.paginate.Paginate;
-
 import java.util.ArrayList;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+
 
 /**
  * 商品列表
@@ -38,7 +37,6 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
 
     private String mStrEventId = "";
     private int pageIndex = 1;
-    private int mIntTotalCount = 4;
     private boolean loading = false;
     private Paginate paginate;
 
@@ -70,86 +68,54 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
         View view = stub.inflate();
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
-        mSwipeLayout.setColorSchemeResources(R.color.accent);
-        mSwipeLayout.setOnRefreshListener(this);
-        setupPagination();
-        return view;
-    }
-
-    private void fetchGoodsListData(int pageIndex){
-
-        mStrEventId = "GP1451008488478000000";
-        InstCtrl.getInstEventGoodsList(mStrEventId, "2077985", "9052789", pageIndex, new Response.Listener<InstEventGoodsListModel>() {
-            @Override
-            public void onResponse(InstEventGoodsListModel mModel) {
-
-                setContentShown(true);
-                mIntTotalCount = mModel.getTotalCount();
-                if (mIntTotalCount<=0 ) {
-
-                }
-                if (mModel.getArryListGoodsData()== null) {
-                    return;
-                }
-                if (arryListGoodsData == null || arryListGoodsData.size() <= 0) {
-                    arryListGoodsData = new ArrayList<>();
-                    arryListGoodsData = mModel.getArryListGoodsData();
-                    if (arryListGoodsData != null && arryListGoodsData.size() > 0 ) {
-                        //有数据
-                    } else {
-                        //无数据
-                    }
-                } else {
-                    for (int i = 0; i < mModel.getArryListGoodsData().size(); i++) {
-                        arryListGoodsData.add(mModel.getArryListGoodsData().get(i));
-                    }
-                }
-                adapter.notifyDataSetChanged();
-                loading = false;
-                mIntTotalCount = mModel.getTotalCount();
-                setContentShown(true);
-
-//                if (arryListGoodsData.isEmpty() || arryListGoodsData.size()==0){
-//                   arryListGoodsData = mModel.getArryListGoodsData();
-//               }else{
-//                   arryListGoodsData.addAll(mModel.getArryListGoodsData());
-//               }
-
-                LogUtil.i("congjing","size==="+arryListGoodsData.size());
-                adapter.notifyData(arryListGoodsData);
-            }
-        });
-    }
-
-    private void setupPagination() {
-        if (paginate != null) {
-            paginate.unbind();
-        }
-        adapter = new InstEventGoodsListAdapter(getActivity(),arryListGoodsData,true);
         int layoutOrientation = OrientationHelper.VERTICAL;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), layoutOrientation, false);
         ((LinearLayoutManager) layoutManager).setReverseLayout(false);
-
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setItemAnimator(new SlideInUpAnimator());
-        mRecyclerView.setAdapter(adapter);
-
-        paginate = Paginate.with(mRecyclerView, this)
-                // Set the offset from the end of the list at which the load more event needs to be triggered
-                .setLoadingTriggerThreshold(0)
-                .addLoadingListItem(true)
-                .build();
-
+        mSwipeLayout.setColorSchemeResources(R.color.accent);
+        mSwipeLayout.setOnRefreshListener(this);
+        return view;
     }
+
+    private void fetchGoodsListData(final int pageIndex,final boolean isLoadMore){
+
+        InstCtrl.getInstEventGoodsList(mStrEventId,pageIndex, new Response.Listener<InstEventGoodsListModel>() {
+            @Override
+            public void onResponse(InstEventGoodsListModel model) {
+                if (!isLoadMore) {
+                    setContentShown(true);
+                }
+                if (model.getArryListGoodsData() != null && model.getArryListGoodsData().size() != 0) {
+                    totalPages = calculatePage(model.getTotalCount(),Constants.LIST_MAX_LENGTH);
+                    arryListGoodsData = model.getArryListGoodsData();
+                    if (isLoadMore) {
+                        if (adapter != null) {
+                            adapter.notifyData(arryListGoodsData);
+                            Toast.makeText(getActivity(), "已加载第" + pageIndex + "页 , 共" + totalPages + "页", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        adapter = new InstEventGoodsListAdapter(getActivity(), arryListGoodsData,mStrEventId);
+                        mRecyclerView.setAdapter(adapter);
+                        paginate = Paginate.with(mRecyclerView, InstEventGoodsListFragment.this)
+                                .setLoadingTriggerThreshold(0)
+                                .addLoadingListItem(true)
+                                .build();
+                    }
+                    stopRefresh();
+                    paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
+                }
+        }
+        });
+    }
+
 
     @Override
     protected void requestData() {
         setContentShown(true);
         pageIndex = 1;
-        fetchGoodsListData(pageIndex);
+        fetchGoodsListData(pageIndex,false);
     }
-
-
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
@@ -160,8 +126,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
     public void onLoadMore() {
         loading = true;
         pageIndex++;
-        fetchGoodsListData(pageIndex);
-        Toast.makeText(getActivity(), "已加载第" + (pageIndex-1 + 1) + "页", Toast.LENGTH_LONG).show();
+        fetchGoodsListData(pageIndex, true);
     }
 
     @Override
@@ -171,19 +136,37 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
 
     @Override
     public boolean hasLoadedAllItems() {
-        return pageIndex * Constants.LIST_MAX_LENGTH >=mIntTotalCount;
+        return pageIndex == totalPages;
     }
 
     @Override
     public void onRefresh() {
         pageIndex = 1;
         arryListGoodsData = new ArrayList<>();
-        fetchGoodsListData(pageIndex);
+        fetchGoodsListData(pageIndex,false);
     }
 
     private void stopRefresh() {
         if (mSwipeLayout.isRefreshing()) {
             mSwipeLayout.setRefreshing(false);
+        }
+    }
+
+    int totalPages=0;
+    private int calculatePage(int totalCount, int pageSize) {
+        if(totalCount<pageSize){
+            return 1;
+        }else{
+            return totalCount/pageSize;
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent result) {
+        super.onActivityResult(requestCode, resultCode, result);
+        if (resultCode == getActivity().RESULT_OK) {
+           getActivity().finish();
         }
     }
 

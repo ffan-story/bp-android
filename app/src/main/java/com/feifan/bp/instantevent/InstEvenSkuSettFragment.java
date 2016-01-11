@@ -1,5 +1,6 @@
 package com.feifan.bp.instantevent;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
@@ -7,6 +8,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.JsonWriter;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
@@ -25,6 +29,9 @@ import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,16 +40,15 @@ import java.util.List;
  * 商品设置详情
  *congjing
  */
-public class InstEventGoodsSettingDetailFragment extends ProgressFragment implements View.OnClickListener{
+public class InstEvenSkuSettFragment extends ProgressFragment implements View.OnClickListener{
     public static final String EXTRA_PARTAKE_EVENT_ID = "partake_event_id";
     public static final String EXTRA_PARTAKE_GOODS_CODE = "partake_goods_code";
     public static final String EXTRA_EVENT_IS_GOODS_SETTINGDETAIL= "is_setting_detail";
+    public static final String EXTRA_EVENT_GOODS_ACTION = "goods_action";
 
-    private LayoutInflater mInflater;
     private ListView mLineGoodsNumber,mLineGoodsDiscount;
-    private List<InstEventSetDetailModel.InstantEventSetDetailData> mList = new ArrayList<>();
+    private List<InstEvenSekSettModel.InstantEventSetDetailData> mList = new ArrayList<>();
 
-//    private List<String> mList = new ArrayList<>();
     private EditText mEdVendorDiscount ;
     private TextView mTvFeifanDiscount;
     private TextView mTvVendorDiscountTips;
@@ -59,22 +65,39 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
     TextView mTvSignupStatus,mTvSignupRefuseCause;
     private String mStrEventId ,mStrGoodsCode;
 
+
     /**
-     * true:商品设置页
-     * false:设置详情-拒绝（页面需显示 - 审核历史按钮）
+     * true:添加商品，不显示商户设置库存数量，false:显示参与活动商品数量
      */
-    private boolean mISGoodsSettingDetail = false;
+    private boolean isGoosActionAdd = true;
+    /**
+     * 保存提交标示
+     * 1：提交
+     * 0：保存
+     */
+    private String  mCommitFlag = "";
+
+    /**
+     * add:新增，edit：编辑
+     */
+    private String mGoodsAction="";
+
+    /**
+     * 商家优惠金额
+     */
+    private String mStrInputDiscount = "0.00";
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public InstEventGoodsSettingDetailFragment() {
+    public InstEvenSkuSettFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static InstEventGoodsSettingDetailFragment newInstance() {
-        InstEventGoodsSettingDetailFragment fragment = new InstEventGoodsSettingDetailFragment();
+    public static InstEvenSkuSettFragment newInstance() {
+        InstEvenSkuSettFragment fragment = new InstEvenSkuSettFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -83,9 +106,10 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mISGoodsSettingDetail = getArguments().getBoolean(EXTRA_EVENT_IS_GOODS_SETTINGDETAIL);
+
         mStrEventId = getArguments().getString(EXTRA_PARTAKE_EVENT_ID);
         mStrGoodsCode = getArguments().getString(EXTRA_PARTAKE_GOODS_CODE);
+        isGoosActionAdd =  getArguments().getBoolean(EXTRA_EVENT_GOODS_ACTION, true);
     }
 
     @Override
@@ -93,7 +117,7 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
         stub.setLayoutResource(R.layout.fragment_instant_event_setting);
         View view = stub.inflate();
         mRelSignupDetailRefuse= (RelativeLayout)view.findViewById(R.id.rel_signup_detail_refuse);
-        if (!mISGoodsSettingDetail){//设置详情-拒绝 （显示审核历史）
+        if (!isGoosActionAdd){//设置详情-拒绝 （显示审核历史）
             mRelSignupDetailRefuse.setVisibility(View.VISIBLE);
             mTvSignupStatus = (TextView)mRelSignupDetailRefuse.findViewById(R.id.tv_signup_detail_status);
             mTvSignupRefuseCause = (TextView)mRelSignupDetailRefuse.findViewById(R.id.tv_signup_refuse_cause);
@@ -109,17 +133,14 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
         mEdVendorDiscount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-
             }
 
-            String mStrInputDiscount = "0.00";
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {//设置小数后显示两数
-                if (!TextUtils.isEmpty(s.toString())){
+                if (!TextUtils.isEmpty(s.toString())) {
                     mStrInputDiscount = s.toString();
-                }else{
-                    mStrInputDiscount ="0";
+                } else {
+                    mStrInputDiscount = "0";
                 }
 
                 if (s.toString().contains(".")) {
@@ -148,9 +169,9 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
 
             @Override
             public void afterTextChanged(Editable s) {
-                InstEventSetDetailModel.InstantEventSetDetailData mSetGoodsDetailData;
+                InstEvenSekSettModel.InstantEventSetDetailData mSetGoodsDetailData;
                 if (TextUtils.isEmpty(mStrInputDiscount)) {
-                    isVendorDiscountFlag  = false;
+                    isVendorDiscountFlag = false;
                     mTvVendorDiscountTips.setVisibility(View.VISIBLE);
                     mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_input_vendor_discount_tips));
 
@@ -158,27 +179,26 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
                     myData.setmDoubleGoodsDiscount();
                     mList = myModel.arryInstantEventData;
                 } else if (!TextUtils.isEmpty(mStrInputDiscount) && !mList.isEmpty()) {
-                    for (int i=0;i<mList.size();i++){
+                    for (int i = 0; i < mList.size(); i++) {
                         mSetGoodsDetailData = mList.get(i);
                         myModel.mDoubleVendorDiscount = Double.parseDouble(mStrInputDiscount);
                         mSetGoodsDetailData.setmDoubleGoodsDiscount();
                         mList = myModel.arryInstantEventData;
-                        mList.set(i,mSetGoodsDetailData);
+                        mList.set(i, mSetGoodsDetailData);
                     }
 
-                    if (mStrInputDiscount.equals("0")){
+                    if (mStrInputDiscount.equals("0")) {
                         mTvVendorDiscountTips.setVisibility(View.VISIBLE);
                         mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_input_vendor_discount_tips));
-                        isVendorDiscountFlag  = false;
-                    }else if (myData.getmDoubleGoodsDiscount()<= 0) {//优惠后的金额为负数
+                        isVendorDiscountFlag = false;
+                    } else if (myData.getmDoubleGoodsDiscount() <= 0) {//优惠后的金额为负数
                         mTvVendorDiscountTips.setVisibility(View.VISIBLE);
                         mTvVendorDiscountTips.setText("输入优惠金额不合法");
-                        isVendorDiscountFlag  = false;
+                        isVendorDiscountFlag = false;
                     } else {
                         mTvVendorDiscountTips.setVisibility(View.GONE);
-                        isVendorDiscountFlag  = true;
+                        isVendorDiscountFlag = true;
                     }
-
                 }
                 goodsDiscountAdapter.notifyDataSetChanged();
             }
@@ -189,34 +209,44 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
 
         mLineGoodsNumber = (ListView)view.findViewById(R.id.lv_goods_number);
         mLineGoodsDiscount = (ListView)view.findViewById(R.id.lv_goods_discount);
-        goodsNumberAdapter = new Adapter(getActivity(),false);
-        goodsDiscountAdapter = new Adapter(getActivity(),true);
-
-        mLineGoodsNumber.setAdapter(goodsNumberAdapter);
-        mLineGoodsDiscount.setAdapter(goodsDiscountAdapter);
-
-        setContViewData();
-        settingListViewHeight(mLineGoodsNumber);
-        settingListViewHeight(mLineGoodsDiscount);
         return view;
     }
 
     @Override
-    protected void requestData() {
-
+    protected void requestData(){
         setContentShown(true);
+        //add:新增 ；edit：编辑
+        mGoodsAction=isGoosActionAdd ? "add":"edit";
+        InstCtrl.getInstEventGoodsSetingDeta(mStrEventId, mStrGoodsCode,mGoodsAction, new Response.Listener<InstEvenSekSettModel>() {
+             @Override
+            public void onResponse(InstEvenSekSettModel detailModel) {
+                 if (detailModel!=null){
+                     setContViewData(detailModel);
+                 }
+            }
+        });
     }
 
-    InstEventSetDetailModel myModel;
-    InstEventSetDetailModel.InstantEventSetDetailData myData ;
-    private void setContViewData(){
-        myModel=  new InstEventSetDetailModel();
-        myData = myModel.mEventSetDetailData;
-        mList = myModel.arryInstantEventData;
+
+
+    InstEvenSekSettModel myModel;
+    InstEvenSekSettModel.InstantEventSetDetailData myData ;
+    private void setContViewData(InstEvenSekSettModel detailModel){
+        myModel = detailModel;
+        myData = detailModel.mEventSetDetailData;
+        mList = detailModel.arryInstantEventData;
+       // false:参与活动的商品数量
+        goodsNumberAdapter = new Adapter(getActivity(),false);
+        goodsDiscountAdapter = new Adapter(getActivity(),true);
+        mLineGoodsNumber.setAdapter(goodsNumberAdapter);
+        mLineGoodsDiscount.setAdapter(goodsDiscountAdapter);
+        settingListViewHeight(mLineGoodsNumber);
+        settingListViewHeight(mLineGoodsDiscount);
+
         mTvFeifanDiscount.setText(String.format(getActivity().getResources().getString(R.string.instant_feifan_discount),formatAmount(myModel.mDoubleFeifanDiscount))) ;
-        if (!mISGoodsSettingDetail){//设置状态-拒绝（显示审核历史）
-            mTvSignupStatus.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_current_status),"已拒绝")));
-            mTvSignupRefuseCause.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_refuse_cause), "库存不足！！test！！！")));
+        if (!isGoosActionAdd){//设置状态-拒绝（显示审核历史）
+            mTvSignupStatus.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_current_status),myModel.mStrStatus)));
+            mTvSignupRefuseCause.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_refuse_cause),myModel.mStrApproveStatus)));
         }
     }
 
@@ -235,32 +265,30 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
                     if (mList.get(i).mDoubleGoodsPartakeNumber == 0 ){
                         Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_please_input_goods_number));
                         return;
-                    }else if(mList.get(i).mDoubleGoodsPartakeNumber > mList.get(i).mIntGoodsNumber){//库存不足
+                    }else if(mList.get(i).mDoubleGoodsPartakeNumber > mList.get(i).mIntGoodsTotal){//库存不足
                         Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_goods_understock_tips));
                         return;
                     }
-
-                    LogUtil.i("congjing","mList.get(i).mDoubleGoodsPartakeNumber=="+mList.get(i).mDoubleGoodsPartakeNumber);
                 }
 
                 if (!isVendorDiscountFlag){
                     Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_please_input_vendor_discount_tips));
                     return;
                 }
-
-                if (v.getId() == R.id.bnt_instant_save_setting){//保存设置
-                    Bundle args = new Bundle();
-                    args.putString(InstEventGoodsSettingDetailFragment.EXTRA_PARTAKE_GOODS_CODE, "23232");
-                    args.putString(InstEventSignUpDetailFragment.EXTRA_PARTAKE_EVENT_ID,"23232");
-                    PlatformTopbarActivity.startActivity(getActivity(), InstEventSignUpDetailFragment.class.getName(), getString(R.string.register_detail), args);
-                }else if (v.getId() == R.id.bnt_instant_atonce_submit){//立即提交
-
+                //0:保存;1:提交
+                mCommitFlag=(v.getId() == R.id.bnt_instant_save_setting)?"0":"1";
+                //add:新增 edit：编辑
+                mGoodsAction=isGoosActionAdd ? "add":"edit";
+                try {
+                    saveAndCommGoodsDeta(mGoodsAction,mStrEventId, mCommitFlag,myModel.mStrCode,myModel.mStrGoodsSn,writeGoodsSkuListArray(mList),  mStrInputDiscount);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
                 break;
             case R.id.btn_audit_history://验证历史
                 Bundle argsRule = new Bundle();
-                argsRule.putString(SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.getUrlPathHistoryAudit(mStrEventId,mStrGoodsCode,"9052789","2077985"));
+                argsRule.putString(SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.getUrlPathHistoryAudit(mStrEventId,mStrGoodsCode));
                 PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.instant_check_history), argsRule);
                 break;
 
@@ -269,6 +297,31 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
         }
     }
 
+    /**
+     * 添加活动商品-保存或者提交-设置详情
+     * @param goodsAction add:新增，edit：编辑
+     * @param promotionCode --活动id
+     * @param commitFlag--0:保存，1:提交
+     * @param goodsCode 商品id
+     * @param goodsSn
+     * @param goodsSkuList
+     * @param merchantCutAmount－－商家补贴
+     */
+    private void saveAndCommGoodsDeta(String goodsAction,String promotionCode,  String commitFlag,String goodsCode, String goodsSn,String goodsSkuList, String merchantCutAmount){
+        InstCtrl.postInstGoodsDetaSaveAndComm(goodsAction, promotionCode, commitFlag, goodsCode, goodsSn, goodsSkuList, merchantCutAmount,
+                new Response.Listener() {
+                    @Override
+                    public void onResponse(Object o) {
+                        if (!TextUtils.isEmpty(mCommitFlag) && mCommitFlag.equals("0")){
+                            Utils.showShortToast(getActivity().getApplicationContext(),"保存成功");
+                        }else{
+                            Utils.showShortToast(getActivity().getApplicationContext(),"提交成功");
+                        }
+                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().finish();
+                    }
+                });
+    }
 
     class Adapter extends BaseAdapter {
         private final LayoutInflater mInflater;
@@ -311,7 +364,7 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
             if (mList.isEmpty()){
                 return null ;
             }
-           final InstEventSetDetailModel.InstantEventSetDetailData mGoodsDetailData = mList.get(position);
+           final InstEvenSekSettModel.InstantEventSetDetailData mGoodsDetailData = mList.get(position);
             if (isDiscount){//true  显示商品 优惠后价格
                 final ViewDiscountHolder discountHolder;
                 if (convertView == null) {
@@ -320,7 +373,15 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
                 } else {
                     discountHolder = (ViewDiscountHolder) convertView.getTag();
                 }
-                discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getActivity().getResources().getString(R.string.instant_discount_content), mGoodsDetailData.mStrGoodsName, formatAmount(mGoodsDetailData.getmDoubleGoodsDiscount()))));
+
+                //设置商品合计金额，
+                if (TextUtils.isEmpty(mGoodsDetailData.mStrGoodsName)){//无商品name
+                    discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_notname_content),
+                            formatAmount(mGoodsDetailData.getmDoubleGoodsDiscount()))));
+                }else{//有商品name
+                    discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content),
+                            mGoodsDetailData.mStrGoodsName, formatAmount(mGoodsDetailData.getmDoubleGoodsDiscount()))));
+                }
             }else{//设置商品数量列表
                 final ViewHolder holder;
                 if (convertView == null) {
@@ -330,12 +391,19 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
                     holder = (ViewHolder) convertView.getTag();
                 }
 
-                holder.mTvGoodsName.setText(String.format(getActivity().getResources().getString(R.string.instant_goods_name),mGoodsDetailData.mStrGoodsName));
-                holder.mTvGoodsNumber.setText(String.format(getActivity().getResources().getString(R.string.instant_colon), getActivity().getResources().getString(R.string.instant_goods_number),String.valueOf(mGoodsDetailData.mIntGoodsNumber)));
+                //设置商品数量
+                if (TextUtils.isEmpty(mGoodsDetailData.mStrGoodsName)){//无商品name
+                    holder.mTvGoodsName.setVisibility(View.INVISIBLE);
+                }else{//有商品name
+                    holder.mTvGoodsName.setVisibility(View.VISIBLE);
+                    holder.mTvGoodsName.setText(String.format(getActivity().getResources().getString(R.string.instant_goods_name), mGoodsDetailData.mStrGoodsName));
+                }
+
+                holder.mTvGoodsNumber.setText(String.format(getActivity().getResources().getString(R.string.instant_colon), getActivity().getResources().getString(R.string.instant_goods_number),String.valueOf(mGoodsDetailData.mIntGoodsTotal)));
                 holder.mTvGoodsAmount.setText(String.format(getActivity().getResources().getString(R.string.instant_goods_amount), formatAmount((mGoodsDetailData.mDoubleGoodsAmount))));
 
                 holder.mTvGoodsPartakeNumber.addTextChangedListener(new TextWatcher() {
-                    InstEventSetDetailModel.InstantEventSetDetailData mSetGoodsDetailData;
+                    InstEvenSekSettModel.InstantEventSetDetailData mSetGoodsDetailData;
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -352,10 +420,10 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
                         if (TextUtils.isEmpty(s.toString())){
                             mSetGoodsDetailData.mDoubleGoodsPartakeNumber = 0;
                         }else{
-                            mSetGoodsDetailData.mDoubleGoodsPartakeNumber = Double.parseDouble(s.toString());
+                            mSetGoodsDetailData.mDoubleGoodsPartakeNumber = Integer.parseInt(s.toString());
                         }
 
-                        if (mSetGoodsDetailData.mDoubleGoodsPartakeNumber > mSetGoodsDetailData.mIntGoodsNumber){
+                        if (mSetGoodsDetailData.mDoubleGoodsPartakeNumber > mSetGoodsDetailData.mIntGoodsTotal){
                             holder.mTvGoodsTips.setVisibility(View.VISIBLE);
                         }else{
                             holder.mTvGoodsTips.setVisibility(View.INVISIBLE);
@@ -432,4 +500,32 @@ public class InstEventGoodsSettingDetailFragment extends ProgressFragment implem
         }
         return mFormat.format(amount);
     }
+
+    /**
+     *
+     * @param DetailData
+     * @throws IOException
+     */
+    private String writeGoodsSkuListArray(List<InstEvenSekSettModel.InstantEventSetDetailData> DetailData) throws IOException{
+        if (DetailData!=null && DetailData.size()>0){
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            JsonWriter writer = new JsonWriter(new OutputStreamWriter(out, "UTF-8"));
+            writer.beginArray();
+            for(InstEvenSekSettModel.InstantEventSetDetailData message : DetailData) {
+                writer.beginObject();
+                writer.name("skuId").value(message.mId);
+                writer.name("skuSn").value(message.mSkuSn);
+                writer.name("subTotal").value(message.mDoubleGoodsPartakeNumber);
+                writer.endObject();
+            }
+            writer.endArray();
+            writer.close();
+            byte[] bytes = out.toByteArray();
+            return new String(bytes);
+        }else{
+            return null;
+        }
+    }
+
+
 }

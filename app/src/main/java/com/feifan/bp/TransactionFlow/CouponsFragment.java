@@ -43,6 +43,7 @@ public class CouponsFragment extends BaseFragment implements RadioGroup.OnChecke
     private String selectData;
     private Boolean mCheckFlag = false;
     private String mStoreId;
+
     private static int mIntYear;
     private static int mIntMonth;
 
