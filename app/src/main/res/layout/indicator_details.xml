@@ -26,6 +26,11 @@
             android:paddingTop="@dimen/view_spacing_10">
 
             <TextView
+                style="@style/txt_color66_size14"
+                android:text="@string/indicator_disclaimer"
+                android:layout_marginBottom="@dimen/view_spacing_10"/>
+
+            <TextView
                 style="@style/txt_color66_size16"
                 android:text="@string/indicator_payment_success"
                 android:textStyle="bold" />
