@@ -55,18 +55,15 @@ public class PromotionCtrl {
      * @param merchantId 商户ID
      * @param promotionCode 活动ID
      * @param listener
-     * @param errorListener
      */
     public static void getGoodsStatus(String storeId,String merchantId,String promotionCode,
-                                      Response.Listener<GoodsStatusModel> listener,
-                                      Response.ErrorListener errorListener){
+                                      Response.Listener<GoodsStatusModel> listener){
         JsonRequest<GoodsStatusModel> request = new GetRequest.Builder<GoodsStatusModel>(UrlFactory.getGoodsStatus())
                 .param("storeId", storeId)
                 .param("merchantId", merchantId)
                 .param("promotionCode",promotionCode)
                 .param("pageIndex", "1")
                 .param("limit", "10")
-                .errorListener(errorListener)
                 .build()
                 .targetClass(GoodsStatusModel.class)
                 .listener(listener);

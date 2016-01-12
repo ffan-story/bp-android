@@ -16,6 +16,7 @@ import com.feifan.bp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 
 /**
@@ -60,9 +61,9 @@ public class GoodsListFragment extends Fragment {
     private void getGoodsList() {
         datas = new ArrayList<>();
         //测试
-        String storeId = "9050588";
-        final String merchantId = "2075643";
-        String promotionCode = "GP1452134293843000000";
+        String storeId = UserProfile.getInstance().getAuthRangeId();
+        final String merchantId = UserProfile.getInstance().getMerchantId();
+        String promotionCode = mPromotionId;
 
         Response.Listener<GoodsListModel> listener = new Response.Listener<GoodsListModel>() {
             @Override

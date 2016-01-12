@@ -162,8 +162,9 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
         };
         //测试
         String storeId = UserProfile.getInstance().getAuthRangeId();
-        String merchantId =UserProfile.getInstance().getMerchantId();
-        String plazaId =UserProfile.getInstance().getPlazaId();
+        String merchantId = UserProfile.getInstance().getMerchantId();
+        String plazaId = UserProfile.getInstance().getPlazaId();
+
         int ifEnroll;
         if (isRegistered) {
             ifEnroll = 1; //活动已报名

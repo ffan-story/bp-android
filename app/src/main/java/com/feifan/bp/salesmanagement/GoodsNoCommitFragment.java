@@ -41,7 +41,7 @@ public class GoodsNoCommitFragment extends Fragment implements GoodsListSwipeAda
     private RelativeLayout mRlEnrollBottom;
     private Button mBtnCommit;
 
-    private String mPromotionId;
+    private String mStoreId, mMerchantId, mUid, mPromotionId;
     private UpdateStatusListener updateStatusListener;
 
     @Override
@@ -49,6 +49,9 @@ public class GoodsNoCommitFragment extends Fragment implements GoodsListSwipeAda
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_goods_list, container, false);
         mPromotionId = ((RegisterDetailActivity) getActivity()).promotionId;
+        mStoreId = UserProfile.getInstance().getAuthRangeId();
+        mMerchantId = UserProfile.getInstance().getMerchantId();
+        mUid = String.valueOf(UserProfile.getInstance().getUid());
         initViews(view);
         getGoodsList();
         return view;
@@ -148,53 +151,46 @@ public class GoodsNoCommitFragment extends Fragment implements GoodsListSwipeAda
             int key = Integer.valueOf(entry.getKey().toString());
             String goodsCode = datas.get(key).getGoodsCode();
 
-            if (goodsCode.equals("")) {
+            if (goodsCodeStr.equals("")) {
                 goodsCodeStr = goodsCode;
             } else {
                 goodsCodeStr = goodsCodeStr + "," + goodsCode;
             }
         }
-        //测试
-        String storeId = "9050588";
-        String merchantId = "2075643";
-        String promotionCode = "GP1452134293843000000";
-        String uid = UserProfile.getInstance().getUid()+"";
 
         Response.Listener<BaseModel> listener = new Response.Listener<BaseModel>() {
             @Override
             public void onResponse(BaseModel model) {
-                Toast.makeText(getActivity(),"提交成功!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "提交成功!", Toast.LENGTH_SHORT).show();
+                checkStatus.clear();
                 updateStatusListener.updateStatus();//更新角标状态
             }
         };
-        PromotionCtrl.goodsAudit(storeId,merchantId,uid,promotionCode,goodsCodeStr,listener);
+        PromotionCtrl.goodsAudit(mStoreId, mMerchantId, mUid, mPromotionId, goodsCodeStr, listener);
     }
 
     private void getGoodsList() {
         datas = new ArrayList<>();
-        //测试
-        String storeId = "9050588";
-        final String merchantId = "2075643";
-        String promotionCode = "GP1452134293843000000";
 
         Response.Listener<GoodsListModel> listener = new Response.Listener<GoodsListModel>() {
             @Override
             public void onResponse(GoodsListModel model) {
 
-                if (model.goodsList != null && model.goodsList.size() != 0) {
+                if (model.goodsList != null) {
                     datas = model.goodsList;
-
                     mSwipeAdapter = new GoodsListSwipeAdapter(getActivity(), datas, checkStatus);
-                    mRlEnrollBottom.setVisibility(View.VISIBLE);
                     mProductList.setAdapter(mSwipeAdapter);
                     mSwipeAdapter.setCheckChangeListener(GoodsNoCommitFragment.this);
                     mSwipeAdapter.setItemDeleteListener(GoodsNoCommitFragment.this);
-                }else{
-                    mRlEnrollBottom.setVisibility(View.GONE);
+                    if (model.goodsList.size() != 0) {
+                        mRlEnrollBottom.setVisibility(View.VISIBLE);
+                    } else {
+                        mRlEnrollBottom.setVisibility(View.GONE);
+                    }
                 }
             }
         };
-        PromotionCtrl.getGoodsList(storeId, merchantId, promotionCode, "0", listener);
+        PromotionCtrl.getGoodsList(mStoreId, mMerchantId, mPromotionId, "0", listener);
     }
 
 
@@ -288,11 +284,11 @@ public class GoodsNoCommitFragment extends Fragment implements GoodsListSwipeAda
         }
     }
 
-    public interface UpdateStatusListener{
+    public interface UpdateStatusListener {
         void updateStatus();
     }
 
-    public void setUpdateListener(UpdateStatusListener listener ){
+    public void setUpdateListener(UpdateStatusListener listener) {
         this.updateStatusListener = listener;
     }
 }

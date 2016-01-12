@@ -36,13 +36,14 @@ public class PromotionListModel extends BaseModel {
         for (int i = 0; i < array.length(); i++) {
             try {
                 promotionDetailModel = new PromotionDetailModel(Parcel.obtain());
-                promotionDetailModel.setPromotionType(array.getJSONObject(i).getString("promotionType"));
-                promotionDetailModel.setPromotionName(array.getJSONObject(i).getString("promotionName"));
-                promotionDetailModel.setEnrollCount(array.getJSONObject(i).getString("enrollCount"));
-                promotionDetailModel.setPromotionEnrollStatus(array.getJSONObject(i).getString("promotionEnrollStatus"));
-                promotionDetailModel.setStartTime(array.getJSONObject(i).getString("startTime"));
-                promotionDetailModel.setEndTime(array.getJSONObject(i).getString("endTime"));
-                promotionDetailModel.setPromotionCode(array.getJSONObject(i).getString("promotionCode"));
+                promotionDetailModel.setPromotionType(array.getJSONObject(i).optString("promotionType"));
+                promotionDetailModel.setPromotionTypeName(array.getJSONObject(i).optString("promotionTypeName"));
+                promotionDetailModel.setPromotionName(array.getJSONObject(i).optString("promotionName"));
+                promotionDetailModel.setEnrollCount(array.getJSONObject(i).optString("enrollCount"));
+                promotionDetailModel.setPromotionEnrollStatus(array.getJSONObject(i).optString("promotionEnrollStatus"));
+                promotionDetailModel.setStartTime(array.getJSONObject(i).optString("startTime"));
+                promotionDetailModel.setEndTime(array.getJSONObject(i).optString("endTime"));
+                promotionDetailModel.setPromotionCode(array.getJSONObject(i).optString("promotionCode"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -53,6 +54,7 @@ public class PromotionListModel extends BaseModel {
     public static class PromotionDetailModel implements Parcelable {
 
         public String promotionType;//活动类型
+        public String promotionTypeName;//活动类型名称
         public String promotionName;//活动名称
         public String enrollCount;//已报名商家数量
         public String promotionEnrollStatus;//报名状态
@@ -62,6 +64,7 @@ public class PromotionListModel extends BaseModel {
 
         protected PromotionDetailModel(Parcel in) {
             promotionType = in.readString();
+            promotionTypeName = in.readString();
             promotionName = in.readString();
             enrollCount = in.readString();
             promotionEnrollStatus = in.readString();
@@ -88,6 +91,14 @@ public class PromotionListModel extends BaseModel {
 
         public void setPromotionType(String promotionType) {
             this.promotionType = promotionType;
+        }
+
+        public String getPromotionTypeName() {
+            return promotionTypeName;
+        }
+
+        public void setPromotionTypeName(String promotionTypeName) {
+            this.promotionTypeName = promotionTypeName;
         }
 
         public String getPromotionName() {
@@ -146,6 +157,7 @@ public class PromotionListModel extends BaseModel {
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(promotionType);
+            dest.writeString(promotionTypeName);
             dest.writeString(promotionName);
             dest.writeString(enrollCount);
             dest.writeString(promotionEnrollStatus);

@@ -41,7 +41,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Acti
     @Override
     public void onBindViewHolder(ActivityVH holder, final int position) {
         PromotionDetailModel model = data.get(position);
-        if (!isRegistered) {
+        if (isRegistered) {
             holder.tv_status_label.setText("报名状态: ");
             holder.tv_activity_status.setText(model.getPromotionEnrollStatus());
             if (model.getPromotionEnrollStatus().equals(context.getString(R.string.registerOpen))){
@@ -54,10 +54,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Acti
             holder.tv_activity_status.setText(model.getEnrollCount());
         }
         holder.tv_activity_name.setText(model.getPromotionName());
-        holder.tv_activity_type.setText(model.getPromotionType());
-        if(model.getPromotionType().equals(context.getString(R.string.flashBuyPromotion))){
+        holder.tv_activity_type.setText(model.getPromotionTypeName());
+        if(model.getPromotionType().equals("0")){
             holder.tv_activity_type.setBackgroundResource(R.drawable.pinkred_corner_rect);
-        }else if(model.getPromotionType().equals(context.getString(R.string.couponPromotion))){
+        }else if(model.getPromotionType().equals("1")){
             holder.tv_activity_type.setBackgroundResource(R.drawable.orange_corner_rect);
         }
         holder.tv_activity_sdate.setText(model.getStartTime());

@@ -34,9 +34,9 @@ public class GoodsListModel extends BaseModel {
         for (int i = 0; i < array.length(); i++){
             try {
                 mGoodsModel = new GoodsDetailModel(Parcel.obtain());
-                mGoodsModel.setApproveStatus(array.getJSONObject(i).getString("approveStatus"));
-                mGoodsModel.setGoodsName(array.getJSONObject(i).getString("goodsName"));
-                mGoodsModel.setGoodsCode(array.getJSONObject(i).getString("goodsCode"));
+                mGoodsModel.setApproveStatus(array.getJSONObject(i).optString("approveStatus"));
+                mGoodsModel.setGoodsName(array.getJSONObject(i).optString("goodsName"));
+                mGoodsModel.setGoodsCode(array.getJSONObject(i).optString("goodsCode"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

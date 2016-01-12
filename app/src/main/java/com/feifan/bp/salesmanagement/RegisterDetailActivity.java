@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.instantevent.InstEventGoodsListFragment;
 import com.feifan.bp.widget.CustomViewPager;
 
@@ -99,15 +100,10 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
 
     private void getGoodsStatus() {
         //测试
-        String storeId = "9050588";
-        final String merchantId = "2075643";
-        String promotionCode = "GP1452134293843000000";
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+        String storeId = UserProfile.getInstance().getAuthRangeId();
+        final String merchantId = UserProfile.getInstance().getMerchantId();
+        String promotionCode = promotionId;
 
-            }
-        };
         Response.Listener<GoodsStatusModel> listener = new Response.Listener<GoodsStatusModel>() {
             @Override
             public void onResponse(GoodsStatusModel model) {
@@ -127,7 +123,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
                 }
             }
         };
-        PromotionCtrl.getGoodsStatus(storeId, merchantId, promotionCode, listener, errorListener);
+        PromotionCtrl.getGoodsStatus(storeId, merchantId, promotionCode, listener);
     }
 
 
@@ -161,7 +157,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
             case R.id.btn_add_product:
                 // TODO 跳转商品添加页面
                 Bundle args = new Bundle();
-                args.putString(InstEventGoodsListFragment.EXTRA_PARTAKE_EVENT_ID, "GP1452134293843000000");
+                args.putString(InstEventGoodsListFragment.EXTRA_PARTAKE_EVENT_ID, promotionId);
                 PlatformTopbarActivity.startActivity(this, InstEventGoodsListFragment.class.getName(),getString(R.string.instant_goods_list), args);
                 break;
         }
@@ -172,7 +168,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
      */
     @Override
     public void updateStatus() {
-        getGoodsStatus();//更新角标
+        getGoodsStatus();//刷新页面
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
