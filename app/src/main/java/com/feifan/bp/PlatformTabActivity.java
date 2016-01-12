@@ -264,7 +264,7 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
                 legalName = className.concat("#" + count);
             }
             count--;
-            legalName = count > 1 ? className.concat("#" + count) : className;
+            legalName = count > 0 ? className.concat("#" + count) : className;
 
             Bundle fArgs = mArgs.getBundle(legalName);
             if (fArgs == null) {
