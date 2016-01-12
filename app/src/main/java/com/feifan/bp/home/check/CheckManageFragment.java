@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
+import com.feifan.bp.transactionflow.FlashBuyFragment;
+import com.feifan.bp.transactionflow.InstantBuyFragment;
 import com.feifan.bp.transactionflow.TransFlowTabActivity;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;

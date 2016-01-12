@@ -29,8 +29,6 @@ import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
 import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
-import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
 import com.feifan.bp.home.check.IndicatorFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.TimeUtil;
@@ -97,9 +95,9 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_flash_buy, null);
+        View v = inflater.inflate(R.layout.fragment_swipe_load, null);
         View header = inflater.inflate(R.layout.header_fragment_flash_buy, null);
-        mFlowList = (LoadingMoreListView) v.findViewById(R.id.rv_detail);
+        mFlowList = (LoadingMoreListView) v.findViewById(R.id.load);
         mFlowList.addHeaderView(header);
         mFlowList.setOnLoadingMoreListener(this);
         mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe);

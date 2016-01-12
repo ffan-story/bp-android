@@ -2,6 +2,7 @@ package com.feifan.bp.transactionflow;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.feifan.bp.network.BaseModel;
 
@@ -24,8 +25,8 @@ public class FlashSummaryModel extends BaseModel {
     @Override
     protected void parseData(String json) throws JSONException {
         super.parseData(json);
+        Log.e(TAG, "summary----" + json);
         JSONObject data = new JSONObject(json);
-
         flashSummaryList = new ArrayList<>();
         JSONArray array = data.getJSONArray("flash");
         for (int i = 0; i < array.length(); i++) {

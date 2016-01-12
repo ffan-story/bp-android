@@ -6,7 +6,7 @@
     xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto">
 
     <com.feifan.bp.widget.SegmentedGroup
-        android:id="@+id/segmentedGroup"
+        android:id="@+id/instant_segmentedGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/view_spacing_20"
@@ -18,35 +18,35 @@
         segmentedgroup:sc_tint_color="@color/accent">
 
         <RadioButton
-            android:id="@+id/today"
+            android:id="@+id/instant_today"
             style="@style/RadioButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="今天"/>
+            android:text="@string/today"/>
 
         <RadioButton
-            android:id="@+id/yesterday"
+            android:id="@+id/instant_yesterday"
             style="@style/RadioButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="昨天"/>
+            android:text="@string/yesterday"/>
 
         <RadioButton
-            android:id="@+id/other"
+            android:id="@+id/instant_other"
             style="@style/RadioButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="自定义"/>
+            android:text="@string/custom"/>
 
     </com.feifan.bp.widget.SegmentedGroup>
 
     <TextView
         android:id="@+id/instant_query_time"
         style="@style/txt_color66_size14"
-        android:layout_below="@id/segmentedGroup"
+        android:layout_below="@id/instant_segmentedGroup"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/view_spacing_20"
         android:drawableLeft="@mipmap/query_time"
@@ -59,6 +59,7 @@
         android:layout_height="@dimen/view_width_75"
         android:layout_marginTop="@dimen/view_spacing_20"
         android:padding="@dimen/view_spacing_10"
+        android:clickable="true"
         android:background="@color/white"
         android:layout_below="@id/instant_query_time">
 
@@ -75,7 +76,7 @@
             android:layout_marginTop="@dimen/view_spacing_10"
             android:text="@string/indicator_trade_count"/>
         <TextView
-            android:id="@+id/trade_money"
+            android:id="@+id/trade_money_tv"
             style="@style/txt_color33_size16"
             android:layout_below="@id/trade_count"
             android:layout_toRightOf="@id/trade_count_tv"
@@ -83,9 +84,10 @@
             android:layout_marginTop="@dimen/view_spacing_10"
             android:text="@string/indicator_trade_money"/>
         <TextView
+            android:id="@+id/trade_money"
             style="@style/TransactionFlowMoney"
             android:layout_toRightOf="@id/trade_count"
-            android:layout_alignLeft="@id/trade_money"
+            android:layout_alignLeft="@id/trade_money_tv"
             android:text="100,000,000.00" />
 
         <ImageView
@@ -103,6 +105,7 @@
         android:layout_height="@dimen/view_width_75"
         android:layout_marginTop="@dimen/view_spacing_5"
         android:padding="@dimen/view_spacing_10"
+        android:clickable="true"
         android:background="@color/white"
         android:layout_below="@id/trade_continer">
 
@@ -119,7 +122,7 @@
             android:layout_marginTop="@dimen/view_spacing_10"
             android:text="@string/indicator_refund_count"/>
         <TextView
-            android:id="@+id/refund_money"
+            android:id="@+id/refund_money_tv"
             style="@style/txt_color33_size16"
             android:layout_below="@id/refund_count"
             android:layout_toRightOf="@id/refund_count_tv"
@@ -127,9 +130,10 @@
             android:layout_marginTop="@dimen/view_spacing_10"
             android:text="@string/indicator_refund_money"/>
         <TextView
+            android:id="@+id/refund_money"
             style="@style/TransactionFlowMoney"
             android:layout_toRightOf="@id/refund_count"
-            android:layout_alignLeft="@id/refund_money"
+            android:layout_alignLeft="@id/refund_money_tv"
             android:text="-666.00" />
 
         <ImageView

@@ -44,6 +44,7 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
 
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
+    private boolean isResume = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
         setHasOptionsMenu(true);
         mUrl = getArguments().getString(EXTRA_KEY_URL);
         initDialog();
+        isResume = false;
     }
 
     @Override
@@ -162,6 +164,9 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
                 errorInfo = Utils.getString(R.string.error_message_network);
             }
         }
+        if("message".equals(errorInfo)){
+            errorInfo = Utils.getString(R.string.error_message_server_file);
+        }
         mDialog.setMessage(errorInfo)
                 .show();
         isShowDlg = false;
@@ -170,6 +175,9 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
     @Override
     public void onResume() {
         super.onResume();
-        requestData();
+        if(isResume){
+            requestData();
+        }
+        isResume = true;
     }
 }

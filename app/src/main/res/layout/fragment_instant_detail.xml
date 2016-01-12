@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/detail_query_time"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_height_45"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/view_spacing_15"
+        android:drawableLeft="@mipmap/query_time"
+        android:drawablePadding="@dimen/view_spacing_5"
+        android:textSize="@dimen/font_size_14"
+        android:textColor="@color/font_color_33"
+        android:text="查询时间:2016-1-7至2016-1-12"/>
+
+    <TextView
+        android:id="@+id/detail_tv"
+        style="@style/txt_color99_size14"
+        android:layout_below="@id/detail_query_time"
+        android:layout_margin="@dimen/view_spacing_15"
+        android:text="@string/instant_detail"/>
+
+    <com.feifan.bp.widget.LoadingMoreListView
+        android:layout_below="@id/detail_tv"
+        android:id="@+id/detail_loading_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.feifan.bp.widget.LoadingMoreListView>
+
+</RelativeLayout>

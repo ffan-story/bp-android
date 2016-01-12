@@ -12,6 +12,7 @@
     <dimen name="view_spacing_25">25dp</dimen>
     <dimen name="view_spacing_26">26dp</dimen>
     <dimen name="view_spacing_30">30dp</dimen>
+    <dimen name="view_spacing_40">40dp</dimen>
     <dimen name="view_spacing_45">45dp</dimen>
     <dimen name="view_spacing_50">50dp</dimen>
     <dimen name="view_spacing_60">60dp</dimen>
@@ -42,6 +43,9 @@
 
     <!-- 标题栏 -->
     <dimen name="title_logo_border_width">3dp</dimen>
+
+    <!--通用券详情list-->
+    <dimen name="coupon_detail_list_heigh">125dp</dimen>
 
     <!--悬浮按钮-->
     <dimen name="fab_size_normal">56dp</dimen>

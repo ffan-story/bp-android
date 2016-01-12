@@ -23,7 +23,7 @@ public class InstantsBuyModle extends BaseModel{
     private static final String INSTANTS_STATUS_TEMPSAVE = "00";
     private static final String INSTANTS_STATUS_AUDIT = "01";
     private static final String INSTANTS_STATUS_THROUGHED = "02";
-    private static final String INSTANTS_STATUS_REJECTED = "03";
+    private static final String INSTANTS_STATUS_REJECTED = "04";
 
 
     CommodityEntry commodityEntry;

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseActivity;
@@ -54,7 +56,7 @@ public class TransFlowTabActivity extends BaseActivity{
 
         List<Fragment> fragments = new ArrayList<Fragment>();
         fragments.add(new InstantBuyFragment());
-        fragments.add(new CouponsFragment());
+        fragments.add(new CouponFragment());
 
         mAdapter = new TransFlowTabPagerAdapter(getSupportFragmentManager(),
                 fragments,new String[]{getString(R.string.falsh_buy),getString(R.string.coupons)});
@@ -67,4 +69,5 @@ public class TransFlowTabActivity extends BaseActivity{
     protected boolean isShowToolbar() {
         return true;
     }
+
 }
