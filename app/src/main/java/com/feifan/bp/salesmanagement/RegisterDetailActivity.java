@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
@@ -47,6 +48,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     private CustomViewPager viewPager;
     private TabLayout tabLayout;
     private RelativeLayout rlEventTitle;
+    private View registerDetailHeader;
     private Button btnAddProduct;
     private TextView tvEnrollHeader;
     private List<String> mFragmentTabCountList = new ArrayList<>();
@@ -79,7 +81,9 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
         rlEventTitle = (RelativeLayout) findViewById(R.id.rl_event_title);
         btnAddProduct = (Button) findViewById(R.id.btn_add_product);
         tvEnrollHeader = (TextView) findViewById(R.id.tv_enroll_detail_header);
+        registerDetailHeader = findViewById(R.id.register_detail_header);
         tvEnrollHeader.setText(promotionName);
+        registerDetailHeader.setOnClickListener(this);
         rlEventTitle.setOnClickListener(this);
         btnAddProduct.setOnClickListener(this);
     }
@@ -99,7 +103,8 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     }
 
     private void getGoodsStatus() {
-        //测试
+        mFragmentTabCountList.clear();
+
         String storeId = UserProfile.getInstance().getAuthRangeId();
         final String merchantId = UserProfile.getInstance().getMerchantId();
         String promotionCode = promotionId;
@@ -152,13 +157,17 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.rl_event_title:
+            case R.id.register_detail_header:
+                Bundle args1 = new Bundle();
+                args1.putString(EventDetailFragment.EXTRA_KEY_ID, promotionId);
+                args1.putString(EventDetailFragment.EXTRA_KEY_NAME, promotionName);
+                args1.putBoolean(EventDetailFragment.EXTRA_KEY_FLAG,false);
+                PlatformTopbarActivity.startActivity(RegisterDetailActivity.this,EventDetailFragment.class.getName(),getString(R.string.promotionDetail),args1);
                 break;
             case R.id.btn_add_product:
-                // TODO 跳转商品添加页面
                 Bundle args = new Bundle();
                 args.putString(InstEventGoodsListFragment.EXTRA_PARTAKE_EVENT_ID, promotionId);
-                PlatformTopbarActivity.startActivity(this, InstEventGoodsListFragment.class.getName(),getString(R.string.instant_goods_list), args);
+                PlatformTopbarActivity.startActivityForResult(this, InstEventGoodsListFragment.class.getName(), getString(R.string.instant_goods_list), args);
                 break;
         }
     }
@@ -169,6 +178,14 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     @Override
     public void updateStatus() {
         getGoodsStatus();//刷新页面
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            getGoodsStatus();
+        }
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {

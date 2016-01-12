@@ -178,7 +178,7 @@ public class GoodsNoCommitFragment extends Fragment implements GoodsListSwipeAda
 
                 if (model.goodsList != null) {
                     datas = model.goodsList;
-                    mSwipeAdapter = new GoodsListSwipeAdapter(getActivity(), datas, checkStatus);
+                    mSwipeAdapter = new GoodsListSwipeAdapter(getActivity(), datas, checkStatus,mPromotionId);
                     mProductList.setAdapter(mSwipeAdapter);
                     mSwipeAdapter.setCheckChangeListener(GoodsNoCommitFragment.this);
                     mSwipeAdapter.setItemDeleteListener(GoodsNoCommitFragment.this);

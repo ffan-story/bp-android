@@ -17,6 +17,7 @@
         android:focusable="false"/>
 
     <RelativeLayout
+        android:id="@+id/rl_goods"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/check"

@@ -161,16 +161,5 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
             return totalCount/pageSize;
         }
     }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent result) {
-        super.onActivityResult(requestCode, resultCode, result);
-        if (resultCode == Constants.RESULT_COMM_OK || resultCode == Constants.RESULT_COMM_OK) {
-            getActivity().setResult(resultCode);
-            getActivity().finish();
-        }
-    }
-
 }
 

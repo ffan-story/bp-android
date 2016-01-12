@@ -21,6 +21,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <include
+                android:id="@+id/register_detail_header"
                 layout="@layout/enroll_detail_header"
                 android:layout_marginTop="80dp"
                 android:layout_width="match_parent"
