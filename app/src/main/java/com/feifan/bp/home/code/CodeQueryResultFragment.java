@@ -59,8 +59,6 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     private String orderNo;
     private String memberId;
 
-    private String plainCode; //明文券码
-
     /**
      * 错误信息
      */
@@ -86,6 +84,8 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
     private MyAdapter myAdapter;
+
+    private String plainCode;
 
 
     @Override
