@@ -4,6 +4,10 @@ buildscript {
         mavenCentral()
     }
 
+//    dependencies {
+//        classpath 'org.quanqi:pgyer:0.1.2'
+//    }
+
 }
 
 apply plugin: 'com.android.application'
@@ -17,6 +21,8 @@ def commitCount = Integer.parseInt('git rev-list master --count'.execute([], pro
 def gitCurrentTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
 
 def version = "1.6.0"
+
+def uploadApk
 
 android {
     compileSdkVersion 23
@@ -86,18 +92,34 @@ android {
             }
             def apkName = "${appName}-${output.baseName}-${variant.versionName}.apk"
             output.outputFile = new File("${output.outputFile.parent}/output", apkName)
+            uploadApk = output.outputFile.getAbsolutePath();
         }
     }
 
 
     lintOptions {
         disable 'InvalidPackage'
+        abortOnError false
     }
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 
 }
+
+// 上传到蒲公英
+//apply plugin: 'org.quanqi.pgyer'
+//
+//pgyer {
+//    _api_key = ""
+//    uKey = ""
+//}
+//
+//apks {
+//    release {
+//        sourceFile = file(uploadApk)
+//    }
+//}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
