@@ -64,11 +64,11 @@ public class InstEventGoodsListAdapter extends RecyclerView.Adapter<InstEventGoo
 
     @Override
     public void onItemClicked(View view, int position) {
-        if (!data.get(position).mStrGoodsStatus .equals("1")){
+        if (!data.get(position).mStrGoodsStatus.equals("1")) {
             Bundle args = new Bundle();
             args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_EVENT_ID, mEventId);
             args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_GOODS_CODE, data.get(position).mStrGoodsId);
-            args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_IS_GOODS_SETTINGDETAIL, false);
+            args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_IS_GOODS_SETTINGDETAIL, true);
             PlatformTopbarActivity.startActivityForResult(context, InstEvenSkuSettFragment.class.getName(), "设置详情", args);
         }
     }

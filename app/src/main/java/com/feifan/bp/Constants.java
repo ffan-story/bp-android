@@ -61,4 +61,15 @@ public class Constants {
      */
     public static int REQUEST_CODE = 1000;
 
+    /**
+     * 闪购商品保存成功
+     */
+    public static int RESULT_SAVE_OK = 1001;
+
+    /**
+     * 闪购商品提交成功
+     */
+    public static int RESULT_COMM_OK = 1002;
+
+
 }

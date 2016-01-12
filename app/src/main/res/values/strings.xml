@@ -281,8 +281,8 @@
     <string name="instant_goods_amount">原价￥%1$s</string>
     <string name="instant_goods_remain_number">剩余库存</string>
     <string name="instant_goods_not_have_goods_tips">您还没有可报名的商品\n快去“商品管理”添加商品吧</string>
-    <string name="instant_please_input_vendor_discount_tips">请填写商户优惠金额</string>
-    <string name="instant_please_input_goods_number">请填写商品数量</string>
+    <string name="instant_please_input_vendor_discount_tips">请填写商户补贴金额</string>
+    <string name="instant_please_input_goods_number">请至少填写一个正确的商品报名库存</string>
     <string name="instant_check_history">审核历史</string>
     <string name="instant_shop_discount">商户优惠金额：</string>
     <string name="instant_feifan_discount">飞凡优惠金额：%1$s元</string>
@@ -294,6 +294,7 @@
     <string name="instant_at_once_submit">立即提交</string>
     <string name="instant_save_setting">保存设置</string>
     <string name="instant_goods_understock_tips">商品数量不能大于库存数量</string>
+    <string name="instant_goods_understock_tips1">请填写商品数量</string>
     <string name="instant_discount_content"><![CDATA[%1$s：<font color="#ff0000">%2$s</font>元]]></string>
     <string name="instant_discount_notname_content"><![CDATA[<font color="#ff0000">%1$s</font>元]]></string>
     <string name="goods_all_select">全选</string>

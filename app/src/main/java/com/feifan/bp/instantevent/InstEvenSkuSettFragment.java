@@ -67,7 +67,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
 
 
     /**
-     * true:添加商品，不显示商户设置库存数量，false:显示参与活动商品数量
+     * true:从商品列表-添加报名商品，false:从未提交/审核拒绝-商品详情页
      */
     private boolean isGoosActionAdd = true;
     /**
@@ -78,7 +78,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
     private String  mCommitFlag = "";
 
     /**
-     * add:新增，edit：编辑
+     * add:新增（商品列表-添加报名商品），edit：编辑（未提交/审核拒绝-商品详情页）
      */
     private String mGoodsAction="";
 
@@ -106,7 +106,6 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mStrEventId = getArguments().getString(EXTRA_PARTAKE_EVENT_ID);
         mStrGoodsCode = getArguments().getString(EXTRA_PARTAKE_GOODS_CODE);
         isGoosActionAdd =  getArguments().getBoolean(EXTRA_EVENT_GOODS_ACTION, true);
@@ -117,13 +116,14 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
         stub.setLayoutResource(R.layout.fragment_instant_event_setting);
         View view = stub.inflate();
         mRelSignupDetailRefuse= (RelativeLayout)view.findViewById(R.id.rel_signup_detail_refuse);
-        if (!isGoosActionAdd){//设置详情-拒绝 （显示审核历史）
+        if (isGoosActionAdd){//设置详情-拒绝 （显示审核历史）
+            mRelSignupDetailRefuse.setVisibility(View.GONE);
+        }else{//设置商品详情
             mRelSignupDetailRefuse.setVisibility(View.VISIBLE);
             mTvSignupStatus = (TextView)mRelSignupDetailRefuse.findViewById(R.id.tv_signup_detail_status);
             mTvSignupRefuseCause = (TextView)mRelSignupDetailRefuse.findViewById(R.id.tv_signup_refuse_cause);
             mRelSignupDetailRefuse.findViewById(R.id.btn_audit_history).setOnClickListener(this);
-        }else{//设置商品详情
-            mRelSignupDetailRefuse.setVisibility(View.GONE);
+
         }
 
         mEdVendorDiscount = (EditText)view.findViewById(R.id.ed_flash_goods_vendor_discount);
@@ -263,7 +263,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
             case R.id.bnt_instant_atonce_submit://立即提交
                 for (int i=0;i<mList.size();i++){//库存校验
                     if (mList.get(i).mDoubleGoodsPartakeNumber == 0 ){
-                        Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_please_input_goods_number));
+                        Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_goods_understock_tips1));
                         return;
                     }else if(mList.get(i).mDoubleGoodsPartakeNumber > mList.get(i).mIntGoodsTotal){//库存不足
                         Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_goods_understock_tips));
@@ -314,10 +314,11 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                     public void onResponse(Object o) {
                         if (!TextUtils.isEmpty(mCommitFlag) && mCommitFlag.equals("0")){
                             Utils.showShortToast(getActivity().getApplicationContext(),"保存成功");
+                            getActivity().setResult(Constants.RESULT_SAVE_OK);
                         }else{
                             Utils.showShortToast(getActivity().getApplicationContext(),"提交成功");
+                            getActivity().setResult(Constants.RESULT_COMM_OK);
                         }
-                        getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
                     }
                 });
@@ -423,8 +424,12 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                             mSetGoodsDetailData.mDoubleGoodsPartakeNumber = Integer.parseInt(s.toString());
                         }
 
-                        if (mSetGoodsDetailData.mDoubleGoodsPartakeNumber > mSetGoodsDetailData.mIntGoodsTotal){
+                        if (mSetGoodsDetailData.mDoubleGoodsPartakeNumber == 0){//
                             holder.mTvGoodsTips.setVisibility(View.VISIBLE);
+                            holder.mTvGoodsTips.setText(getActivity().getResources().getString(R.string.instant_goods_understock_tips1));
+                        }else if (mSetGoodsDetailData.mDoubleGoodsPartakeNumber > mSetGoodsDetailData.mIntGoodsTotal){
+                            holder.mTvGoodsTips.setVisibility(View.VISIBLE);
+                            holder.mTvGoodsTips.setText(getActivity().getResources().getString(R.string.instant_goods_understock_tips));
                         }else{
                             holder.mTvGoodsTips.setVisibility(View.INVISIBLE);
                         }

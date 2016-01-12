@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.widget.paginate.Paginate;
 import com.feifan.bp.salesmanagement.PromotionListModel.PromotionDetailModel;
@@ -160,9 +161,9 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
             }
         };
         //测试
-        String storeId = "9052789";
-        String merchantId = "2077985";
-        String plazaId = "1000772";
+        String storeId = UserProfile.getInstance().getAuthRangeId();
+        String merchantId =UserProfile.getInstance().getMerchantId();
+        String plazaId =UserProfile.getInstance().getPlazaId();
         int ifEnroll;
         if (isRegistered) {
             ifEnroll = 1; //活动已报名

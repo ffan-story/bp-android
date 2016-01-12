@@ -3,6 +3,7 @@ package com.feifan.bp.instantevent;
 import com.android.volley.Response.Listener;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
@@ -14,11 +15,10 @@ import com.feifan.bp.network.UrlFactory;
  * Created by congjing on 16/1/6.
  */
 public class InstCtrl {
-    public static String merchantId= "2075643";
-    public static String storeId= "9050588";
+    public static String merchantId= UserProfile.getInstance().getMerchantId();
+    public static String storeId= UserProfile.getInstance().getAuthRangeId();
 
     /**
-     * "2077985", "9052789"
      * 添加活动商品列表
      * @param promotionCode
      * @param pageIndex
@@ -29,7 +29,6 @@ public class InstCtrl {
                 .param("promotionCode", promotionCode)
                 .param("merchantId", merchantId)
                 .param("storeId", storeId)
-                .param("enrollStatus", "0")
                 .param("pageIndex", String.valueOf(pageIndex))
                 .param("limit",String.valueOf(Constants.LIST_MAX_LENGTH))
                 .build()

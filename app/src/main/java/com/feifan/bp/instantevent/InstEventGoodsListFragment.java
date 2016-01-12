@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 import java.util.ArrayList;
 
@@ -165,8 +166,9 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent result) {
         super.onActivityResult(requestCode, resultCode, result);
-        if (resultCode == getActivity().RESULT_OK) {
-           getActivity().finish();
+        if (resultCode == Constants.RESULT_COMM_OK || resultCode == Constants.RESULT_COMM_OK) {
+            getActivity().setResult(resultCode);
+            getActivity().finish();
         }
     }
 
