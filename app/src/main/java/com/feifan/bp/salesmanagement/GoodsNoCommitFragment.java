@@ -8,48 +8,49 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.feifan.bp.R;
+import com.feifan.bp.UserProfile;
+import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * Created by Frank on 15/12/21.
  */
-public class ProductListFragment extends Fragment implements GoodsListSwipeAdapter.onCheckChangeListener, GoodsListSwipeAdapter.onItemDeleteListener {
-
-    public static final String ENROLL_STATUS = "enrollStatus";
-    public static final int STATUS_NO_COMMIT = 1; //未提交状态
-    public static final int STATUS_AUDIT = 2;//审核中
-    public static final int STATUS_AUDIT_PASS = 3;//审核通过
-    public static final int STATUS_AUDIT_DENY = 4;//审核拒绝
+public class GoodsNoCommitFragment extends Fragment implements GoodsListSwipeAdapter.onCheckChangeListener, GoodsListSwipeAdapter.onItemDeleteListener {
 
     private CheckBox cbAllCheck;
     private RecyclerView mProductList;
     private GoodsListSwipeAdapter mSwipeAdapter;
-    private GoodsListCommonAdapter mCommonAdapter;
-    private List<String> datas;
+    private List<GoodsDetailModel> datas;
     private HashMap<Integer, Boolean> checkStatus = new HashMap<>();//商品选中状态
-    private int enrollStatus;//报名状态
     private RelativeLayout mRlEnrollBottom;
+    private Button mBtnCommit;
 
-    private String mItemData = "苹果 梨子 香蕉 葡萄 桃子 橘子";
+    private String mPromotionId;
+    private UpdateStatusListener updateStatusListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_goods_list, container, false);
-        enrollStatus = getArguments().getInt(ENROLL_STATUS);
+        mPromotionId = ((RegisterDetailActivity) getActivity()).promotionId;
         initViews(view);
-        initDatas();
+        getGoodsList();
         return view;
 
 //        ItemTouchHelper.Callback mCallBack = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,ItemTouchHelper.LEFT){
@@ -115,25 +116,6 @@ public class ProductListFragment extends Fragment implements GoodsListSwipeAdapt
 //        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    private void initDatas() {
-
-        String[] listItems = mItemData.split(" ");
-        datas = new ArrayList<>();
-        Collections.addAll(datas, listItems);
-
-        if (enrollStatus == STATUS_NO_COMMIT) {
-            mSwipeAdapter = new GoodsListSwipeAdapter(getActivity(), datas, enrollStatus, checkStatus);
-            mRlEnrollBottom.setVisibility(View.VISIBLE);
-            mProductList.setAdapter(mSwipeAdapter);
-            mSwipeAdapter.setCheckChangeListener(this);
-            mSwipeAdapter.setItemDeleteListener(this);
-        } else {
-            mCommonAdapter = new GoodsListCommonAdapter(getActivity(), datas, enrollStatus);
-            mRlEnrollBottom.setVisibility(View.GONE);
-            mProductList.setAdapter(mCommonAdapter);
-        }
-    }
-
     private void initViews(View view) {
         cbAllCheck = (CheckBox) view.findViewById(R.id.allcheck);
         cbAllCheck.setChecked(false);
@@ -146,7 +128,75 @@ public class ProductListFragment extends Fragment implements GoodsListSwipeAdapt
         mProductList.setHasFixedSize(true);
 
         mRlEnrollBottom = (RelativeLayout) view.findViewById(R.id.rl_enroll_bottom);
+        mBtnCommit = (Button) view.findViewById(R.id.btn_commit);
+        mBtnCommit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkStatus != null && checkStatus.size() != 0) {
+                    commitGoods();
+                }
+            }
+        });
     }
+
+    private void commitGoods() {
+
+        String goodsCodeStr = "";
+        Iterator it = checkStatus.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            int key = Integer.valueOf(entry.getKey().toString());
+            String goodsCode = datas.get(key).getGoodsCode();
+
+            if (goodsCode.equals("")) {
+                goodsCodeStr = goodsCode;
+            } else {
+                goodsCodeStr = goodsCodeStr + "," + goodsCode;
+            }
+        }
+        //测试
+        String storeId = "9050588";
+        String merchantId = "2075643";
+        String promotionCode = "GP1452134293843000000";
+        String uid = UserProfile.getInstance().getUid()+"";
+
+        Response.Listener<BaseModel> listener = new Response.Listener<BaseModel>() {
+            @Override
+            public void onResponse(BaseModel model) {
+                Toast.makeText(getActivity(),"提交成功!",Toast.LENGTH_SHORT).show();
+                updateStatusListener.updateStatus();//更新角标状态
+            }
+        };
+        PromotionCtrl.goodsAudit(storeId,merchantId,uid,promotionCode,goodsCodeStr,listener);
+    }
+
+    private void getGoodsList() {
+        datas = new ArrayList<>();
+        //测试
+        String storeId = "9050588";
+        final String merchantId = "2075643";
+        String promotionCode = "GP1452134293843000000";
+
+        Response.Listener<GoodsListModel> listener = new Response.Listener<GoodsListModel>() {
+            @Override
+            public void onResponse(GoodsListModel model) {
+
+                if (model.goodsList != null && model.goodsList.size() != 0) {
+                    datas = model.goodsList;
+
+                    mSwipeAdapter = new GoodsListSwipeAdapter(getActivity(), datas, checkStatus);
+                    mRlEnrollBottom.setVisibility(View.VISIBLE);
+                    mProductList.setAdapter(mSwipeAdapter);
+                    mSwipeAdapter.setCheckChangeListener(GoodsNoCommitFragment.this);
+                    mSwipeAdapter.setItemDeleteListener(GoodsNoCommitFragment.this);
+                }else{
+                    mRlEnrollBottom.setVisibility(View.GONE);
+                }
+            }
+        };
+        PromotionCtrl.getGoodsList(storeId, merchantId, promotionCode, "0", listener);
+    }
+
 
     /**
      * GoodsListSwipeAdapter的回调函数,当点击item的CheckBox传递点击位置和状态
@@ -236,5 +286,13 @@ public class ProductListFragment extends Fragment implements GoodsListSwipeAdapt
             cbAllCheck.setChecked(true);
             cbAllCheck.setOnCheckedChangeListener(checkAllListener);
         }
+    }
+
+    public interface UpdateStatusListener{
+        void updateStatus();
+    }
+
+    public void setUpdateListener(UpdateStatusListener listener ){
+        this.updateStatusListener = listener;
     }
 }

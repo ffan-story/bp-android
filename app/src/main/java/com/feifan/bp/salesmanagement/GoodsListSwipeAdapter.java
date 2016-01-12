@@ -21,23 +21,22 @@ import com.feifan.bp.widget.paginate.SwipeMenuViewHolder;
 
 import java.util.HashMap;
 import java.util.List;
+import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 
 public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
 
-    private List<String> mListData;
+    private List<GoodsDetailModel> mListData;
     private HashMap<Integer, Boolean> checkStatus;
     private onCheckChangeListener checkChangeListener;
     private onItemDeleteListener itemDeleteListener;
-    private int enrollStatus;
 
-    public GoodsListSwipeAdapter(Context context, List<String> mListData, int enrollStatus, HashMap<Integer, Boolean> checkStatus) {
+    public GoodsListSwipeAdapter(Context context, List<GoodsDetailModel> mListData, HashMap<Integer, Boolean> checkStatus) {
         this.context = context;
         this.mListData = mListData;
         this.checkStatus = checkStatus;
-        this.enrollStatus = enrollStatus;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -55,8 +54,8 @@ public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         final SwipeViewHolder swipeViewHolder = (SwipeViewHolder) SwipeMenuViewHolder.getHolder(holder);
-        String data = mListData.get(position);
-        swipeViewHolder.tvProductName.setText(data);
+        GoodsDetailModel model = mListData.get(position);
+        swipeViewHolder.tvProductName.setText(model.getGoodsName());
         swipeViewHolder.tvProductStatus.setText("状态:未提交");
 
         swipeViewHolder.tvDelete.setOnClickListener(new View.OnClickListener() {

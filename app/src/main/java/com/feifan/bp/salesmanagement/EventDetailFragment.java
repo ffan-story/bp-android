@@ -29,8 +29,9 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
 
     private static final String TAG = "EventDetailFragment";
     public static final String EXTRA_KEY_ID = "id";
+    public static final String EXTRA_KEY_NAME= "name";
 
-    private String mPromotionId;
+    private String mPromotionId,mPromotionName;
     private String mUrl;
     private WebView mWebView;
     private Button mBtnRegister;
@@ -42,9 +43,10 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
         return new EventDetailFragment();
     }
 
-    public static EventDetailFragment newInstance(String eventId) {
+    public static EventDetailFragment newInstance(String id,String name) {
         Bundle args = new Bundle();
-        args.putString(EXTRA_KEY_ID, eventId);
+        args.putString(EXTRA_KEY_ID, id);
+        args.putString(EXTRA_KEY_NAME, name);
         EventDetailFragment fragment = new EventDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -54,6 +56,7 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPromotionId = getArguments().getString(EXTRA_KEY_ID);
+        mPromotionName = getArguments().getString(EXTRA_KEY_NAME);
     }
 
     @Override
@@ -73,7 +76,7 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
         if (mPromotionId != null) {
             if (Utils.isNetworkAvailable(getActivity())) {
                 setContentEmpty(false);
-                mUrl = UrlFactory.promotionDetailForHtml("GP1451871058174000000");
+                mUrl = UrlFactory.promotionDetailForHtml(mPromotionId);
                 mWebView.loadUrl(mUrl);
                 PlatformState.getInstance().setLastUrl(mUrl);
                 LogUtil.i(TAG, "mUrl==" + mUrl);
@@ -115,7 +118,7 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
         switch (v.getId()) {
             case R.id.btn_register:
                 EventDetailFragment.this.getActivity().finish();
-                RegisterDetailActivity.startActivity(getActivity(), mPromotionId);
+                RegisterDetailActivity.startActivity(getActivity(), mPromotionId,mPromotionName);
                 break;
         }
     }

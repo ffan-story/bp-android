@@ -74,6 +74,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Acti
 //        RegisterDetailActivity.startActivity(context,String.valueOf(position));
         Bundle args = new Bundle();
         args.putString(EventDetailFragment.EXTRA_KEY_ID, data.get(position).getPromotionCode());
+        args.putString(EventDetailFragment.EXTRA_KEY_NAME,data.get(position).getPromotionName());
         PlatformTopbarActivity.startActivity(context,EventDetailFragment.class.getName(),context.getString(R.string.promotionDetail),args);
         Toast.makeText(view.getContext(), "Clicked position: " + position, Toast.LENGTH_SHORT).show();
     }

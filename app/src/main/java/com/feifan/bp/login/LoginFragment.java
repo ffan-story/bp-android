@@ -97,6 +97,8 @@ public class LoginFragment extends BaseFragment {
                             profile.setAuthRangeType(userModel.authRangeType);
                             profile.setAgId(userModel.agId);
                             profile.setLoginToken(userModel.loginToken);
+                            profile.setMerchantId(userModel.merchantId);
+                            profile.setPlazaId(userModel.plazaId);
                             JsonRequest.updateRedundantParams(profile);
                             Statistics.updateClientData(profile);
 

@@ -12,6 +12,7 @@
         android:layout_marginTop="@dimen/view_spacing_10">
 
         <TextView
+            android:id="@+id/tv_enroll_detail_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

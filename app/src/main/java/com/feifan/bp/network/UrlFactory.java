@@ -268,6 +268,18 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/transactionspecificcpsummary";
     }
 
+    public static String getGoodsStatus(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/enroll/goodsstatus";
+    }
+
+    public static String getGoodsList(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/enroll/goodsbystatus";
+    }
+
+    public static String auditGoodsUrl(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/enroll/goods/audit";
+    }
+
     //add by tianjun 2015.10.29
     public static String submitFeedBack() {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/feedback";

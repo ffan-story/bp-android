@@ -12,24 +12,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.feifan.bp.R;
-import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.widget.paginate.SwipeMenuViewHolder;
 
-import java.util.HashMap;
 import java.util.List;
+import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 
 public class GoodsListCommonAdapter extends RecyclerView.Adapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private List<String> mListData;
+    private List<GoodsDetailModel> mListData;
     private int enrollStatus;
 
-    public GoodsListCommonAdapter(Context context, List<String> mListData, int enrollStatus) {
+    public GoodsListCommonAdapter(Context context, List<GoodsDetailModel> mListData, int enrollStatus) {
         this.context = context;
         this.mListData = mListData;
         this.enrollStatus = enrollStatus;
@@ -47,17 +44,17 @@ public class GoodsListCommonAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         final CommonViewHolder commonViewHolder = (CommonViewHolder)holder;
-        String data = mListData.get(position);
-        commonViewHolder.tvProductName.setText(data);
+        GoodsDetailModel model = mListData.get(position);
+        commonViewHolder.tvProductName.setText(model.getGoodsName());
         commonViewHolder.cbSelect.setVisibility(View.GONE);
         switch (enrollStatus) {
-            case ProductListFragment.STATUS_AUDIT:
+            case GoodsListFragment.STATUS_AUDIT:
                 commonViewHolder.tvProductStatus.setText("状态:审核中");
                 break;
-            case ProductListFragment.STATUS_AUDIT_PASS:
+            case GoodsListFragment.STATUS_AUDIT_PASS:
                 commonViewHolder.tvProductStatus.setText("状态:审核通过");
                 break;
-            case ProductListFragment.STATUS_AUDIT_DENY:
+            case GoodsListFragment.STATUS_AUDIT_DENY:
                 commonViewHolder.tvProductStatus.setText("状态:审核拒绝");
                 break;
         }

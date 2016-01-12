@@ -8,8 +8,7 @@
         android:id="@+id/fragment_list_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rl_enroll_bottom"
-        tools:listitem="@layout/item_product"/>
+        android:layout_above="@+id/rl_enroll_bottom"/>
 
     <RelativeLayout
         android:id="@+id/rl_enroll_bottom"
@@ -36,6 +35,7 @@
             android:focusable="false"/>
 
         <Button
+            android:id="@+id/btn_commit"
             style="@style/btn_orange_round"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
