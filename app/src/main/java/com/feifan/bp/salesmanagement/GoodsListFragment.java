@@ -71,7 +71,7 @@ public class GoodsListFragment extends Fragment {
 
                 if (model.goodsList != null) {
                     datas = model.goodsList;
-                    mCommonAdapter = new GoodsListCommonAdapter(getActivity(), datas, enrollStatus);
+                    mCommonAdapter = new GoodsListCommonAdapter(getActivity(), datas, enrollStatus,mPromotionId);
                     mProductList.setAdapter(mCommonAdapter);
                 }
             }

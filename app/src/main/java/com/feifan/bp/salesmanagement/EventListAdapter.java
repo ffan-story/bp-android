@@ -71,12 +71,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Acti
 
     @Override
     public void onItemClicked(View view, int position) {
-//        RegisterDetailActivity.startActivity(context,String.valueOf(position));
         Bundle args = new Bundle();
         args.putString(EventDetailFragment.EXTRA_KEY_ID, data.get(position).getPromotionCode());
         args.putString(EventDetailFragment.EXTRA_KEY_NAME,data.get(position).getPromotionName());
-        PlatformTopbarActivity.startActivity(context,EventDetailFragment.class.getName(),context.getString(R.string.promotionDetail),args);
-        Toast.makeText(view.getContext(), "Clicked position: " + position, Toast.LENGTH_SHORT).show();
+        args.putBoolean(EventDetailFragment.EXTRA_KEY_FLAG,true);
+        PlatformTopbarActivity.startActivity(context, EventDetailFragment.class.getName(), context.getString(R.string.promotionDetail), args);
     }
 
     public void add(List<PromotionDetailModel> items) {
