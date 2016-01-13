@@ -34,6 +34,7 @@ public class GoodsListFragment extends Fragment {
     private GoodsListCommonAdapter mCommonAdapter;
     private List<GoodsDetailModel> datas;
     private int enrollStatus;//报名状态
+    private boolean isCutOff;//报名活动是否截止
 
     private String mPromotionId;
 
@@ -43,6 +44,7 @@ public class GoodsListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_common_list, container, false);
         enrollStatus = getArguments().getInt(ENROLL_STATUS);
         mPromotionId = ((RegisterDetailActivity) getActivity()).promotionId;
+        isCutOff = ((RegisterDetailActivity) getActivity()).isCutOff;
         initViews(view);
         getGoodsList();
         return view;
@@ -71,7 +73,7 @@ public class GoodsListFragment extends Fragment {
 
                 if (model.goodsList != null) {
                     datas = model.goodsList;
-                    mCommonAdapter = new GoodsListCommonAdapter(getActivity(), datas, enrollStatus,mPromotionId);
+                    mCommonAdapter = new GoodsListCommonAdapter(getActivity(), datas, enrollStatus,mPromotionId,isCutOff);
                     mProductList.setAdapter(mCommonAdapter);
                 }
             }

@@ -32,12 +32,14 @@ public class GoodsListCommonAdapter extends RecyclerView.Adapter {
     private List<GoodsDetailModel> mListData;
     private int enrollStatus;
     private String promotionId;
+    private boolean isCutOff;
 
-    public GoodsListCommonAdapter(Context context, List<GoodsDetailModel> mListData, int enrollStatus,String promotionId) {
+    public GoodsListCommonAdapter(Context context, List<GoodsDetailModel> mListData, int enrollStatus,String promotionId,boolean isCutOff) {
         this.context = context;
         this.mListData = mListData;
         this.enrollStatus = enrollStatus;
         this.promotionId = promotionId;
+        this.isCutOff = isCutOff;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -56,6 +58,9 @@ public class GoodsListCommonAdapter extends RecyclerView.Adapter {
         commonViewHolder.tvProductName.setText(model.getGoodsName());
         commonViewHolder.cbSelect.setVisibility(View.GONE);
         switch (enrollStatus) {
+            case GoodsListFragment.STATUS_NO_COMMIT:
+                commonViewHolder.tvProductStatus.setText("状态:未提交");
+                break;
             case GoodsListFragment.STATUS_AUDIT:
                 commonViewHolder.tvProductStatus.setText("状态:审核中");
                 break;
@@ -69,7 +74,7 @@ public class GoodsListCommonAdapter extends RecyclerView.Adapter {
         commonViewHolder.rlGoods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(enrollStatus == GoodsListFragment.STATUS_AUDIT_DENY){
+                if(enrollStatus == GoodsListFragment.STATUS_AUDIT_DENY && !isCutOff){
                     Bundle args = new Bundle();
                     args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_EVENT_ID, promotionId);
                     args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_GOODS_CODE, mListData.get(position).getGoodsCode());

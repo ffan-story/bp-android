@@ -40,7 +40,7 @@ public class PromotionListModel extends BaseModel {
                 promotionDetailModel.setPromotionTypeName(array.getJSONObject(i).optString("promotionTypeName"));
                 promotionDetailModel.setPromotionName(array.getJSONObject(i).optString("promotionName"));
                 promotionDetailModel.setEnrollCount(array.getJSONObject(i).optString("enrollCount"));
-                promotionDetailModel.setPromotionEnrollStatus(array.getJSONObject(i).optString("promotionEnrollStatus"));
+                promotionDetailModel.setPromotionEnrollStatus(array.getJSONObject(i).optInt("promotionEnrollStatus"));
                 promotionDetailModel.setPromotionEnrollStatusName(array.getJSONObject(i).optString("promotionEnrollStatusName"));
                 promotionDetailModel.setStartTime(array.getJSONObject(i).optString("startTime"));
                 promotionDetailModel.setEndTime(array.getJSONObject(i).optString("endTime"));
@@ -58,7 +58,7 @@ public class PromotionListModel extends BaseModel {
         public String promotionTypeName;//活动类型名称
         public String promotionName;//活动名称
         public String enrollCount;//已报名商家数量
-        public String promotionEnrollStatus;//报名状态
+        public int promotionEnrollStatus;//报名状态
         public String promotionEnrollStatusName;//报名状态名称
         public String startTime;//活动开始时间
         public String endTime;//活动结束时间
@@ -69,7 +69,7 @@ public class PromotionListModel extends BaseModel {
             promotionTypeName = in.readString();
             promotionName = in.readString();
             enrollCount = in.readString();
-            promotionEnrollStatus = in.readString();
+            promotionEnrollStatus = in.readInt();
             promotionEnrollStatusName = in.readString();
             startTime = in.readString();
             endTime = in.readString();
@@ -120,11 +120,11 @@ public class PromotionListModel extends BaseModel {
             this.enrollCount = enrollCount;
         }
 
-        public String getPromotionEnrollStatus() {
+        public int getPromotionEnrollStatus() {
             return promotionEnrollStatus;
         }
 
-        public void setPromotionEnrollStatus(String promotionEnrollStatus) {
+        public void setPromotionEnrollStatus(int promotionEnrollStatus) {
             this.promotionEnrollStatus = promotionEnrollStatus;
         }
 
@@ -171,7 +171,7 @@ public class PromotionListModel extends BaseModel {
             dest.writeString(promotionTypeName);
             dest.writeString(promotionName);
             dest.writeString(enrollCount);
-            dest.writeString(promotionEnrollStatus);
+            dest.writeInt(promotionEnrollStatus);
             dest.writeString(promotionEnrollStatusName);
             dest.writeString(startTime);
             dest.writeString(endTime);

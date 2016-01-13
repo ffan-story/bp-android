@@ -44,7 +44,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
 
     public String promotionId;
     private String promotionName;
-    private Boolean isCutOff;
+    public Boolean isCutOff;
 
     private CollapsingToolbarLayout collapsingToolbar;
     private CustomViewPager viewPager;
