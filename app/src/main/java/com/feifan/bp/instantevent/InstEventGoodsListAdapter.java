@@ -12,10 +12,7 @@ import android.widget.TextView;
 
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-
-import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.salesmanagement.RecyclerOnItemClickListener;
-import com.feifan.bp.util.LogUtil;
 
 import java.util.List;
 

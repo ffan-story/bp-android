@@ -10,14 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.feifan.bp.R;
+import com.feifan.bp.UserProfile;
+import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.feifan.bp.UserProfile;
-import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 
 /**
  * Created by Frank on 15/12/21.

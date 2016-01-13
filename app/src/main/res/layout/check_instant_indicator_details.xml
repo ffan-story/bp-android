@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/indicator_explains">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,13 +28,13 @@
             android:layout_marginTop="@dimen/view_spacing_20"
             android:drawableLeft="@drawable/vertical_blue_line"
             android:drawablePadding="@dimen/view_spacing_3"
-            android:text="@string/indicator_trade_money"
+            android:text="@string/indicator_trade_amount"
             android:textStyle="bold" />
 
         <TextView
             style="@style/txt_color66_size14"
             android:layout_marginTop="@dimen/view_spacing_10"
-            android:text="@string/indicator_trade_money_explain" />
+            android:text="@string/indicator_trade_amount_explain" />
 
         <TextView
             style="@style/IndicatorDetails"
@@ -55,14 +54,14 @@
             android:layout_marginTop="@dimen/view_spacing_20"
             android:drawableLeft="@drawable/vertical_blue_line"
             android:drawablePadding="@dimen/view_spacing_3"
-            android:text="@string/indicator_refund_money"
+            android:text="@string/indicator_refund_amount"
             android:textStyle="bold" />
 
         <TextView
             style="@style/txt_color66_size14"
             android:layout_marginTop="@dimen/view_spacing_10"
             android:layout_marginBottom="@dimen/view_spacing_25"
-            android:text="@string/indicator_refund_money_explain" />
+            android:text="@string/indicator_refund_amount_explain" />
 
     </LinearLayout>
 

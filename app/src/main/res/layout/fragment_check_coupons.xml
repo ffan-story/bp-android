@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:background="@color/bg_color_grey">
 
     <com.feifan.bp.widget.SegmentedGroup
@@ -84,7 +84,7 @@
             android:layout_marginLeft="@dimen/view_spacing_50"
             android:layout_marginTop="@dimen/view_spacing_5"
             android:layout_marginBottom="@dimen/view_spacing_5"
-            android:text="@string/coupon_award_money"/>
+            android:text="@string/coupon_award_amount"/>
 
         <TextView
             android:id="@+id/award_money_count"
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/relative_down"
             android:layout_toRightOf="@id/link_relative"
-            android:layout_alignTop="@id/link_relative"
+            android:layout_alignBottom="@id/link_relative"
             android:layout_marginLeft="@dimen/view_spacing_5"/>
 
     </RelativeLayout>>
@@ -113,7 +113,8 @@
     <RelativeLayout
         android:id="@+id/detail_count"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_spacing_40"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/view_spacing_8"
         android:background="@color/white"
         android:layout_marginTop="@dimen/view_spacing_5"
         android:layout_below="@id/chargeoff_continer">
@@ -132,12 +133,11 @@
             android:text="(共6条)"/>
 
     </RelativeLayout>
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/detail_list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/detail_count">-->
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/detail_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_count">
-
-    </android.support.v7.widget.RecyclerView>
+    <!--</android.support.v7.widget.RecyclerView>-->
 </RelativeLayout>

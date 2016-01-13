@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
 import com.feifan.bp.R;
+import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
 
 import java.util.ArrayList;
 

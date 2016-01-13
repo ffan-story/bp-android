@@ -67,8 +67,8 @@
     </style>
 
     <style name="ed_color33_size14" parent="txt_color33_size14">
-        <item name="android:layout_width">@dimen/view_width_75</item>
-        <item name="android:layout_height">@dimen/view_height_35</item>
+        <item name="android:layout_width">@dimen/view_size_75</item>
+        <item name="android:layout_height">@dimen/view_size_35</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:background">@drawable/bg_round_stroke_white</item>
         <item name="android:padding">@dimen/view_spacing_5</item>
@@ -196,7 +196,7 @@
     <!--Button 样式  橘色圆角无点击效果-->
     <style name="btn_orange_round">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/view_height_35</item>
+        <item name="android:layout_height">@dimen/view_size_35</item>
         <item name="android:layout_margin">@dimen/view_spacing_10</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
@@ -208,7 +208,7 @@
     <!--Button 样式  白色圆角 橘色边框  无点击效果-->
     <style name="btn_white_stroke_orange">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/view_height_35</item>
+        <item name="android:layout_height">@dimen/view_size_35</item>
         <item name="android:layout_margin">@dimen/view_spacing_10</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
@@ -220,7 +220,7 @@
     <!--Button 样式  白色圆角 蓝色边框  无点击效果-->
     <style name="btn_white_stroke_blue">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/view_height_35</item>
+        <item name="android:layout_height">@dimen/view_size_35</item>
         <item name="android:layout_margin">@dimen/view_spacing_10</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>

@@ -2,8 +2,7 @@ package com.feifan.bp.transactionflow;
 
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -14,32 +13,37 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.widget.LoadingMoreListView;
+import com.feifan.bp.widget.OnLoadingMoreListener;
 import com.feifan.material.MaterialDialog;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by konta on 2016/1/12.
+ * Created by konta on 2016/1/14.
  */
-public class InstantDetailListFragment extends ProgressFragment{
-
-    private TextView mQueryTime;
-    private RecyclerView mDetailList;
-
-    private Bundle args;
+public class InstantOrderDetailFragment extends ProgressFragment implements OnLoadingMoreListener {
+    private LoadingMoreListView mLoadDetailList;
+    private TextView mQueryTime,mTotalCount,orderTitle;
 
     private String startDate;
     private String endDate;
     private String mQueryDate;
     private int pageIndex = 1;
-    private int limit = 20;
+    private int limit = 10;
+    private String googsId;
 
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
+
+    private List<InstantOrderDetailModel.OrderDetail> orders;
+    private InstantOrderDetailAdapter mOrderDetailAdapter;
+    private static final String TAG = "OrderDetailFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,28 +53,33 @@ public class InstantDetailListFragment extends ProgressFragment{
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
-        stub.setLayoutResource(R.layout.fragment_check_instant_detail);
+        stub.setLayoutResource(R.layout.fragment_check_instant_order_detail);
         View v = stub.inflate();
 
         mQueryTime = (TextView) v.findViewById(R.id.detail_query_time);
-        mDetailList = (RecyclerView) v.findViewById(R.id.detail_list);
-        mDetailList.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        orderTitle = (TextView) v.findViewById(R.id.order_title);
+        mTotalCount = (TextView) v.findViewById(R.id.order_total_count);
+        mLoadDetailList = (LoadingMoreListView) v.findViewById(R.id.detail_loading_more);
+        mLoadDetailList.setOnLoadingMoreListener(this);
         initData();
 
         return v;
     }
 
     private void initData() {
-        args = getActivity().getIntent().getBundleExtra(PlatformTopbarActivity.EXTRA_ARGS);
-        startDate = args.getString("startDate");
-        endDate = args.getString("endDate");
+        Bundle args = getActivity().getIntent().getBundleExtra(PlatformTopbarActivity.EXTRA_ARGS);
+        String ordertitle = args.getString(InstantDetailListAdapter.GOODSNAME);
+        googsId = args.getString(InstantDetailListAdapter.GOODSID);
+        startDate = args.getString(InstantBuyFragment.STARTDATE);
+        endDate = args.getString(InstantBuyFragment.ENDDATE);
+
         if(startDate.equals(endDate)){
             mQueryDate = startDate;
         }else{
             mQueryDate = startDate + "至" + endDate;
         }
         mQueryTime.setText(getResources().getString(R.string.query_time, mQueryDate));
+        orderTitle.setText(ordertitle);
 
     }
 
@@ -78,12 +87,14 @@ public class InstantDetailListFragment extends ProgressFragment{
     protected void requestData() {
         if(Utils.isNetworkAvailable(getActivity())){
             setContentEmpty(false);
-            TransFlowCtrl.getInstantDetailList(startDate, endDate, pageIndex, limit, new Response.Listener<InstantDetailModel>() {
+            TransFlowCtrl.getInstantOrderDetailList(startDate, endDate,
+                    pageIndex, limit, googsId,
+                    new Response.Listener<InstantOrderDetailModel>() {
                 @Override
-                public void onResponse(InstantDetailModel modle) {
-                    if (modle != null && isAdded()) {
-                        initInstantDetailListView(modle);
+                public void onResponse(InstantOrderDetailModel model) {
+                    if(null != model && isAdded()){
                         setContentShown(true);
+                        initOrderDetailView(model);
                     }
                 }
             }, new Response.ErrorListener() {
@@ -101,18 +112,28 @@ public class InstantDetailListFragment extends ProgressFragment{
                         .show();
                 isShowDlg = false;
             }
-            setContentShown(false);
-            setContentEmpty(true);
+            setContentShown(true);
+            setContentEmpty(false);
         }
     }
 
-    private void initInstantDetailListView(InstantDetailModel model) {
-        List<InstantDetailModel.InstantDetail> details = model.getInstantDetailList();
-        if(null != details){
-            mDetailList.setAdapter(new InstantDetailListAdapter(getActivity(),details,args));
+    @Override
+    public void onLoadingMore() {
+        requestData();
+    }
+
+    private void initOrderDetailView(InstantOrderDetailModel model) {
+        orders = new ArrayList<>();
+        if(null != model.getOrderList()){
+            orders.addAll(model.getOrderList());
+            Log.e(TAG,"orders" + orders.size());
+            mTotalCount.setText("总条数 : " + orders.get(1).totalCount);
+            mOrderDetailAdapter = new InstantOrderDetailAdapter(getActivity(),orders);
+            mLoadDetailList.setAdapter(new InstantOrderDetailAdapter(getContext(), orders));
         }
     }
 
+    // FIXME: 2016/1/13 以后统一处理
     private void initDialog() {
         mDialog = new MaterialDialog(getActivity())
                 .setNegativeButton(R.string.common_confirm, new View.OnClickListener() {
@@ -125,7 +146,6 @@ public class InstantDetailListFragment extends ProgressFragment{
                 });
     }
 
-    // FIXME: 2016/1/13 以后统一处理
     private void showError(VolleyError error) {
         String errorInfo = error.getMessage();
         Throwable t = error.getCause();
@@ -146,4 +166,5 @@ public class InstantDetailListFragment extends ProgressFragment{
     public boolean onMenuItemClick(MenuItem item) {
         return false;
     }
+
 }

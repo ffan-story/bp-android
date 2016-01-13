@@ -56,9 +56,9 @@
     <RelativeLayout
         android:id="@+id/trade_continer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_width_75"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/view_spacing_20"
-        android:padding="@dimen/view_spacing_10"
+        android:padding="@dimen/view_spacing_15"
         android:clickable="true"
         android:background="@color/white"
         android:layout_below="@id/instant_query_time">
@@ -82,7 +82,7 @@
             android:layout_toRightOf="@id/trade_count_tv"
             android:layout_marginLeft="@dimen/view_spacing_50"
             android:layout_marginTop="@dimen/view_spacing_10"
-            android:text="@string/indicator_trade_money"/>
+            android:text="@string/indicator_trade_amount"/>
         <TextView
             android:id="@+id/trade_money"
             style="@style/TransactionFlowMoney"
@@ -102,9 +102,10 @@
     <RelativeLayout
         android:id="@+id/refund_continer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_width_75"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginTop="@dimen/view_spacing_5"
-        android:padding="@dimen/view_spacing_10"
+        android:padding="@dimen/view_spacing_15"
         android:clickable="true"
         android:background="@color/white"
         android:layout_below="@id/trade_continer">
@@ -128,7 +129,7 @@
             android:layout_toRightOf="@id/refund_count_tv"
             android:layout_marginLeft="@dimen/view_spacing_50"
             android:layout_marginTop="@dimen/view_spacing_10"
-            android:text="@string/indicator_refund_money"/>
+            android:text="@string/indicator_refund_amount"/>
         <TextView
             android:id="@+id/refund_money"
             style="@style/TransactionFlowMoney"
@@ -152,7 +153,10 @@
         android:padding="@dimen/view_spacing_15"
         android:text="@string/indicator_title" />
 
-    <include layout="@layout/instant_indicator_details"/>
+    <include layout="@layout/check_instant_indicator_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/indicator_explains"/>
 
 
 </RelativeLayout>

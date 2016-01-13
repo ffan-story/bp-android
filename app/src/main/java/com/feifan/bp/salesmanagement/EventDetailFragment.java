@@ -11,11 +11,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.R;
 
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.network.UrlFactory;

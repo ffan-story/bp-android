@@ -259,6 +259,15 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/transactionspecific";
     }
 
+    //对账管理二期
+    public static String getInstantSummary() {
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/transactionspecificflsummary";
+    }
+
+    public static String getInstantDetailList() {
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/transactiongroup";
+    }
+
     //闪购报名
     public static String getPromotionListUrl() {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/enroll";

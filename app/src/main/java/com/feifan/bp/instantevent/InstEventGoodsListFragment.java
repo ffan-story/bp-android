@@ -15,7 +15,6 @@ import com.android.volley.Response;
 import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 import java.util.ArrayList;
 

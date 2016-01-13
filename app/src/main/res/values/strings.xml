@@ -195,12 +195,12 @@
 
     <string name="indicator_trade_count">交易笔数</string>
     <string name="indicator_trade_count_explain">用户该时间段内在该门店核销成功的订单笔数;</string>
-    <string name="indicator_trade_money">交易金额</string>
-    <string name="indicator_trade_money_explain">在该时间段内在该门店核销成功后应结算给该门店的金额（包括用户付款金额+平台补贴金额）;</string>
+    <string name="indicator_trade_amount">交易金额</string>
+    <string name="indicator_trade_amount_explain">在该时间段内在该门店核销成功后应结算给该门店的金额（包括用户付款金额+平台补贴金额）;</string>
     <string name="indicator_refund_count">退款笔数</string>
     <string name="indicator_refund_count_explain">用户已核销发起退款后由商户确认退款或系统自动退款的笔数;</string>
-    <string name="indicator_refund_money">退款金额</string>
-    <string name="indicator_refund_money_explain">用户已核销发起退款后由商户确认退款或系统自动退款的金额（包括用户付款金额+平台补贴金额）;</string>
+    <string name="indicator_refund_amount">退款金额</string>
+    <string name="indicator_refund_amount_explain">用户已核销发起退款后由商户确认退款或系统自动退款的金额（包括用户付款金额+平台补贴金额）;</string>
 
     <string name="indicator_general_vouchers">通用券指标</string>
     <string name="indicator_write_successfully">核销成功</string>
@@ -208,16 +208,28 @@
     <string name="indicator_more_trading_flow">更多交易流水单明细,请至sop.ffan.com查看</string>
     <string name="indicator_disclaimer">【今天】数据即时生成中仅供参考，往日数据可供查询</string>
 
+    <string name="query_time">查询时间 : %s</string>
+    <string name="order_number">订单号</string>
+    <string name="order_trade_amount">交易金额</string>
+    <string name="order_trade_count">交易笔数</string>
+    <string name="order_trade_time">交易时间</string>
+    <string name="order_success_time">交易成功时间</string>
+    <string name="order_refund_time">退款时间</string>
+    <string name="order_refund_amount">退款金额</string>
+    <string name="order_refund_count">退款笔数</string>
+
     <!--通用券list-->
     <string name="coupon_code">券编码</string>
     <string name="coupon_name">券名称</string>
     <string name="chargeoff_time">核销时间</string>
 
     <string name="coupon_chargeoff_count">核销总笔数</string>
-    <string name="coupon_award_money">奖励金额</string>
+    <string name="coupon_award_amount">奖励金额</string>
 
     <string name="detail">明细</string>
     <string name="instant_detail">商品明细</string>
+    <string name="instant_summary">商品汇总</string>
+    <string name="instant_order_detail">订单明细</string>
 
     <!--SegmentedGroup 选项-->
     <string name="today">今天</string>

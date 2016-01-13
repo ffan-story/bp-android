@@ -16,6 +16,7 @@
     <dimen name="view_spacing_45">45dp</dimen>
     <dimen name="view_spacing_50">50dp</dimen>
     <dimen name="view_spacing_60">60dp</dimen>
+    <dimen name="view_spacing_120">120dp</dimen>
     <dimen name="dividerheight">0.5dp</dimen>
     <!-- 字体 -->
     <dimen name="font_size_26">26sp</dimen>
@@ -55,13 +56,15 @@
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_elevation_lollipop">8dp</dimen>
 
-    <dimen name="view_height_1">1dp</dimen>
-    <dimen name="view_height_35">35dp</dimen>
-    <dimen name="view_height_45">45dp</dimen>
-    <dimen name="view_height_50">50dp</dimen>
-    <dimen name="view_height_180">180dp</dimen>
-    <dimen name="view_height_60">60dp</dimen>
-    <dimen name="view_width_75">75dp</dimen>
+    <!-- 控件size -->
+    <dimen name="view_size_1">1dp</dimen>
+    <dimen name="view_size_3">3dp</dimen>
+    <dimen name="view_size_35">35dp</dimen>
+    <dimen name="view_size_45">45dp</dimen>
+    <dimen name="view_size_50">50dp</dimen>
+    <dimen name="view_size_60">60dp</dimen>
+    <dimen name="view_size_75">75dp</dimen>
+    <dimen name="view_size_180">180dp</dimen>
 
     <!--SegmentedGroup-->
     <dimen name="radio_button_conner_radius">5dp</dimen>

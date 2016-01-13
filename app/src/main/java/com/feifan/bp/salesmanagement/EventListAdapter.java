@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.feifan.bp.PlatformTopbarActivity;
-import com.feifan.bp.R;
 
+import com.feifan.bp.R;
 import com.feifan.bp.salesmanagement.PromotionListModel.PromotionDetailModel;
 
 import java.util.List;

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/view_spacing_8">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/view_spacing_15"
+        android:paddingBottom="@dimen/view_spacing_15"
+        android:background="@color/white">
+
+        <TextView
+            style="@style/txt_color99_size14"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:text="@string/order_number"/>
+
+        <TextView
+            android:id="@+id/order_code"
+            style="@style/txt_color33_size16"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/view_spacing_25"
+            android:text="00000001"/>
+
+        <TextView
+            style="@style/txt_color99_size14"
+            android:layout_below="@id/order_code"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="@string/order_trade_amount"/>
+
+        <TextView
+            android:id="@+id/order_trade_money"
+            style="@style/txt_color33_size16"
+            android:layout_below="@id/order_code"
+            android:layout_alignParentRight="true"
+            android:maxLines="2"
+            android:maxEms="13"
+            android:ellipsize="end"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:layout_marginRight="@dimen/view_spacing_25"
+            android:text="￥88.88"/>
+
+        <TextView
+            style="@style/txt_color99_size14"
+            android:layout_below="@id/order_trade_money"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="@string/order_trade_time"/>
+
+        <TextView
+            android:id="@+id/order_trade_date"
+            style="@style/txt_color33_size16"
+            android:layout_below="@id/order_trade_money"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/view_spacing_25"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="2016-1-1 10:00:00"/>
+
+        <TextView
+            style="@style/txt_color99_size14"
+            android:layout_below="@id/order_trade_date"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="@string/order_success_time"/>
+
+        <TextView
+            android:id="@+id/order_trade_succ_date"
+            style="@style/txt_color33_size16"
+            android:layout_below="@id/order_trade_date"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/view_spacing_25"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="2016-1-1 10:00:00"/>
+
+        <TextView
+            style="@style/txt_color99_size14"
+            android:layout_below="@id/order_trade_succ_date"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="@string/order_refund_time"/>
+
+        <TextView
+            android:id="@+id/order_refund_date"
+            style="@style/txt_color33_size16"
+            android:layout_below="@id/order_trade_succ_date"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/view_spacing_25"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="2016-1-1 10:00:00"/>
+
+        <TextView
+            style="@style/txt_color99_size14"
+            android:layout_below="@id/order_refund_date"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="@string/order_refund_time"/>
+
+        <TextView
+            android:id="@+id/order_refund_money"
+            style="@style/InstantDetailMoney"
+            android:layout_below="@id/order_refund_date"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/view_spacing_25"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="￥22.22"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

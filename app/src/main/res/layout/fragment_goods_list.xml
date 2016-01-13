@@ -6,7 +6,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_height_1"
+        android:layout_height="@dimen/view_size_1"
         android:background="@drawable/list_divider"/>
 
     <android.support.v7.widget.RecyclerView

@@ -3,13 +3,11 @@ package com.feifan.bp.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.ViewTreeObserver;
 import android.widget.RadioButton;
 
-import com.feifan.bp.BuildConfig;
 import com.feifan.bp.R;
 import com.feifan.bp.util.VersionUtil;
 

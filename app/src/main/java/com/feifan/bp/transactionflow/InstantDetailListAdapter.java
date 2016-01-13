@@ -1,65 +1,92 @@
 package com.feifan.bp.transactionflow;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+
+import java.util.List;
 
 
 /**
  * Created by konta on 2016/1/12.
  */
-public class InstantDetailListAdapter extends BaseAdapter{
+public class InstantDetailListAdapter extends RecyclerView.Adapter<InstantDetailListAdapter.MyViewHolder>{
 
-    private Context mContext;
+    public static final String GOODSID = "goodsId";
+    public static final String GOODSNAME = "goodsName";
 
-    public InstantDetailListAdapter(Context context){
-        this.mContext = context;
+    private Context context;
+    private Bundle args;
+    private List<InstantDetailModel.InstantDetail> details;
+    /**
+     * 是否只包含退款
+     */
+    private boolean onlyRefund;
+
+    public InstantDetailListAdapter(Context context,
+                                    List<InstantDetailModel.InstantDetail> details,
+                                    Bundle args){
+        this.context = context;
+        this.details = details;
+        this.args = args;
     }
+
     @Override
-    public int getCount() {
-        return 5;
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        onlyRefund = args.getBoolean("onlyRefund");
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.check_instant_detail_list,parent,false);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public Object getItem(int position) {
-        return position;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if(convertView == null){
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_instant_detail,parent,false);
-            holder = new ViewHolder();
-            holder.mTitle = (TextView) convertView.findViewById(R.id.detail_title);
-            holder.mTradeMoney = (TextView) convertView.findViewById(R.id.detail_trade_money);
-            holder.mTradeCount = (TextView) convertView.findViewById(R.id.detail_trade_count);
-            convertView.setTag(holder);
-        }else {
-            holder = (ViewHolder)convertView.getTag();
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        holder.mTitle.setText(details.get(position).goodsName);
+        if(onlyRefund){
+            holder.tvDetailMoney.setText(context.getString(R.string.order_refund_amount));
+            holder.tvDetailCount.setText(context.getString(R.string.order_refund_count));
+            holder.mTradeMoney.setText(details.get(position).refundAmount);
+            holder.mTradeCount.setText(details.get(position).refundCount);
+        }else{
+            holder.tvDetailMoney.setText(context.getString(R.string.order_trade_amount));
+            holder.tvDetailCount.setText(context.getString(R.string.order_trade_count));
+            holder.mTradeMoney.setText("+" + details.get(position).payAmount);
+            holder.mTradeCount.setText(details.get(position).payCount);
         }
 
-        holder.mTitle.setText("我的老家，就住在这个屯，我是这个屯里土生土长的人");
-        holder.mTradeMoney.setText("+100,000,000.00");
-        holder.mTradeCount.setText("1000");
-
-        return convertView;
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                args.putString(GOODSID,details.get(position).googsId);
+                args.putString(GOODSNAME,details.get(position).goodsName + position);
+                PlatformTopbarActivity.startActivity(context, InstantOrderDetailFragment.class.getName(),
+                        context.getString(R.string.instant_order_detail), args);
+            }
+        });
     }
 
-    public static class ViewHolder{
-        public TextView mTitle;
-        public TextView mTradeMoney;
-        public TextView mTradeCount;
+    @Override
+    public int getItemCount() {
+        return details.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+        public TextView mTitle,mTradeMoney,mTradeCount;
+        public TextView tvDetailMoney, tvDetailCount;
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            mTitle = (TextView)itemView.findViewById(R.id.detail_title);
+            mTradeMoney = (TextView)itemView.findViewById(R.id.detail_trade_money);
+            mTradeCount= (TextView)itemView.findViewById(R.id.detail_trade_count);
+            tvDetailMoney = (TextView)itemView.findViewById(R.id.detail_money_tv);
+            tvDetailCount = (TextView)itemView.findViewById(R.id.detail_count_tv);
+        }
     }
 
 }

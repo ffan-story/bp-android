@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
+
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
+import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
+
 import java.util.ArrayList;
 
 /**

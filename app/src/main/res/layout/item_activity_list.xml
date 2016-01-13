@@ -77,7 +77,7 @@
 
             <ImageView
                 android:layout_width="@dimen/view_spacing_5"
-                android:layout_height="@dimen/view_height_1"
+                android:layout_height="@dimen/view_size_1"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/view_spacing_5"
                 android:layout_marginRight="@dimen/view_spacing_5"

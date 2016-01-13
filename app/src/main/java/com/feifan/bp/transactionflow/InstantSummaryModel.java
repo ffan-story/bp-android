@@ -1,5 +1,7 @@
 package com.feifan.bp.transactionflow;
 
+import android.util.Log;
+
 import com.feifan.bp.network.BaseModel;
 
 import org.json.JSONArray;
@@ -9,25 +11,25 @@ import org.json.JSONObject;
 /**
  * Created by konta on 2016/1/12.
  */
-public class InstantSummaryModle extends BaseModel{
+public class InstantSummaryModel extends BaseModel{
 
     InstantSummary instantSummary;
 
-    public InstantSummaryModle(JSONObject json) {
+    public InstantSummaryModel(JSONObject json) {
         super(json);
     }
 
     @Override
     protected void parseData(String json) throws JSONException {
         super.parseData(json);
-
+        Log.e(TAG,"InstantSummaryModel------" + json);
         JSONArray array = new JSONObject(json).getJSONArray("flash");
 
         instantSummary = new InstantSummary();
-        instantSummary.tradeMoney = array.getJSONObject(1).getString("amountValue");
-        instantSummary.tradeCount = array.getJSONObject(1).getString("countValue");
-        instantSummary.refundMoney = array.getJSONObject(3).getString("amountValue");
-        instantSummary.refundCount = array.getJSONObject(3).getString("countValue");
+        instantSummary.tradeMoney = array.getJSONObject(4).getString("amountValue");
+        instantSummary.tradeCount = array.getJSONObject(4).getString("countValue");
+        instantSummary.refundMoney = array.getJSONObject(5).getString("amountValue");
+        instantSummary.refundCount = array.getJSONObject(5).getString("countValue");
     }
 
     public InstantSummary getInstantSummary(){

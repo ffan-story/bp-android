@@ -22,7 +22,7 @@
         android:singleLine="true"
         android:text="@string/please_again_input"
         android:layout_below="@id/tv_error_text"
-        android:layout_marginTop="@dimen/view_height_1"
+        android:layout_marginTop="@dimen/view_size_1"
         android:gravity="center_horizontal"
         android:visibility="gone"/>
 

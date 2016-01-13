@@ -25,11 +25,11 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
-import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
-import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.home.check.IndicatorFragment;
+import com.feifan.bp.transactionflow.FlashListModel.FlashDetailModel;
+import com.feifan.bp.transactionflow.FlashSummaryModel.FlashSummaryDetailModel;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
@@ -268,7 +268,7 @@ public class FlashBuyFragment extends BaseFragment implements RadioGroup.OnCheck
                 stopRefresh();
             }
         };
-        TransCtrl.getFlashList(startDate, endDate, mStoreId, String.valueOf(mPageNum), Integer.toString(Constants.LIST_MAX_LENGTH),responseListener, errorListener);
+        TransCtrl.getFlashList(startDate, endDate, mStoreId, String.valueOf(mPageNum), Integer.toString(Constants.LIST_MAX_LENGTH), responseListener, errorListener);
     }
 
     @Override

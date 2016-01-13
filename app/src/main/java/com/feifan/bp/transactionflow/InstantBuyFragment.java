@@ -1,14 +1,11 @@
 package com.feifan.bp.transactionflow;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.v7.internal.widget.ViewStubCompat;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -17,23 +14,17 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.home.code.CodeQueryResultFragment;
-import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
+import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.MaterialDialog;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
-import com.feifan.statlib.NetworkUtil;
 
-import org.apache.http.protocol.RequestDate;
 import org.json.JSONException;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -42,16 +33,23 @@ import java.util.Calendar;
 /**
  * Created by konta on 2016/1/7.
  */
-public class InstantBuyFragment extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, DatePickerDialog.OnDateSetListener {
+public class InstantBuyFragment extends ProgressFragment implements View.OnClickListener,
+        DatePickerDialog.OnDateSetListener,
+        SegmentedGroup.OnCheckedChangeListener{
 
     private static final String TAG = "InstantBuyFragment";
+    public static final String STARTDATE = "startDate";
+    public static final String ENDDATE = "endDate";
     private RadioButton mToday, mYesterday, mOther;
     private TextView mTradeCount,mTradeMoney,mRefundCount,mRefundMoney,mQueryTime;
-    RelativeLayout mRefundContiner;
-    SwipeRefreshLayout mSwipe;
+    private RelativeLayout mRefundContiner;
+    private SegmentedGroup mSegment;
+    private SwipeRefreshLayout mSwipe;
 
     private String startDate;
     private String endDate;
+
+    private String trdeCount;
 
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
@@ -64,22 +62,18 @@ public class InstantBuyFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_instant_swip_rerefresh,null);
+    protected View onCreateContentView(ViewStubCompat stub) {
+        stub.setLayoutResource(R.layout.fragment_check_instant_home);
+        View v = stub.inflate();
 
+        mSegment = (SegmentedGroup) v.findViewById(R.id.instant_segmentedGroup);
         mSwipe = (SwipeRefreshLayout) v.findViewById(R.id.instant_swipe);
 
-        SegmentedGroup mSegmentedGroup = (SegmentedGroup)v.findViewById(R.id.instant_segmentedGroup);
         mToday = (RadioButton) v.findViewById(R.id.instant_today);
         mYesterday = (RadioButton) v.findViewById(R.id.instant_yesterday);
         mOther = (RadioButton) v.findViewById(R.id.instant_other);
 
-        mOther.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectDate();
-            }
-        });
+        mOther.setOnClickListener(this);
 
         mQueryTime = (TextView) v.findViewById(R.id.instant_query_time);
         mTradeCount = (TextView) v.findViewById(R.id.trade_count);
@@ -91,37 +85,91 @@ public class InstantBuyFragment extends BaseFragment implements View.OnClickList
 
         v.findViewById(R.id.trade_continer).setOnClickListener(this);
         v.findViewById(R.id.refund_continer).setOnClickListener(this);
-        mSegmentedGroup.setOnCheckedChangeListener(this);
 
         mSwipe.setColorSchemeResources(R.color.accent);
         mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getInstantSummary();
+                requestData();
             }
         });
 
         mToday.setChecked(true);
         tabIndex = R.id.instant_today;
+        startDate = endDate = TimeUtil.getToday();
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSegment.setOnCheckedChangeListener(this);
+    }
+
+    @Override
+    protected void requestData() {
+        if(Utils.isNetworkAvailable(getActivity())){
+            setContentEmpty(false);
+            mSwipe.setRefreshing(true);
+            TransFlowCtrl.getInstantSummary(startDate, endDate, new Response.Listener<InstantSummaryModel>() {
+                @Override
+                public void onResponse(InstantSummaryModel modle) {
+                    if(modle != null && isAdded()){
+                        initInstantSummaryView(modle);
+                        stopRefresh();
+                        setContentShown(true);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    setContentShown(true);
+                    if(isShowDlg && isAdded()){
+                        showError(volleyError);
+                        stopRefresh();
+                    }
+                }
+            });
+        }else{
+            if (isShowDlg && isAdded()) {
+                mDialog.setMessage(getResources().getString(R.string.error_message_text_offline))
+                        .show();
+                isShowDlg = false;
+            }
+            setContentShown(false);
+            setContentEmpty(true);
+        }
+
     }
 
     @Override
     public void onClick(View v) {
         Bundle args = new Bundle();
         switch (v.getId()){
+            case R.id.instant_other:
+                Utils.showShortToast(getContext(),"other");
+                selectDate();
+                break;
             case R.id.trade_continer:
-                Utils.showShortToast(getContext(), "交易明细");
-                args.putString("startDate", startDate);
-                args.putString("endDate", endDate);
-
+                if("0".equals(trdeCount)){
+                    Utils.showShortToast(getActivity(),"暂无数据");
+                    return;
+                }
+                args.putString(STARTDATE, startDate);
+                args.putString(ENDDATE, endDate);
+                args.putBoolean("onlyRefund", false);
+                PlatformTopbarActivity.startActivity(getActivity(), InstantDetailListFragment.class.getName(),
+                        getString(R.string.instant_summary), args);
                 break;
             case R.id.refund_continer:
-                Utils.showShortToast(getContext(), "退款明细");
+                args.putString(STARTDATE, startDate);
+                args.putString(ENDDATE, endDate);
+                args.putBoolean("onlyRefund", true);
+                PlatformTopbarActivity.startActivity(getActivity(), InstantDetailListFragment.class.getName(),
+                        getString(R.string.instant_summary), args);
                 break;
         }
-        PlatformTopbarActivity.startActivity(getActivity(), InstantDetailListFragment.class.getName(),
-                "商品明细", args);
+
     }
 
     @Override
@@ -130,17 +178,90 @@ public class InstantBuyFragment extends BaseFragment implements View.OnClickList
             case R.id.instant_today:
                 tabIndex = R.id.instant_today;
                 startDate = endDate = TimeUtil.getToday();
-                getInstantSummary();
+                requestData();
                 break;
             case R.id.instant_yesterday:
                 tabIndex = R.id.instant_yesterday;
                 startDate = endDate = TimeUtil.getYesterday();
-                getInstantSummary();
+                requestData();
                 break;
             case R.id.instant_other:
-//                selectDate();
                 break;
         }
+    }
+    
+    private void stopRefresh() {
+        if (mSwipe.isRefreshing()) {
+            mSwipe.setRefreshing(false);
+        }
+    }
+
+    private void initInstantSummaryView(InstantSummaryModel modle) {
+        String queryTime;
+        if(startDate.equals(endDate)){
+            queryTime = startDate;
+        }else{
+            queryTime = startDate + "至" + endDate;
+        }
+        mQueryTime.setText(getResources().getString(R.string.query_time,queryTime));
+        trdeCount = modle.getInstantSummary().tradeCount;
+        mTradeCount.setText(modle.getInstantSummary().tradeCount);
+        mTradeMoney.setText(modle.getInstantSummary().tradeMoney);
+
+        if("0".equals(modle.getInstantSummary().refundCount)){
+            mRefundContiner.setVisibility(View.GONE);
+        }else{
+            mRefundContiner.setVisibility(View.VISIBLE);
+            mRefundCount.setText(modle.getInstantSummary().refundCount);
+            mRefundMoney.setText(modle.getInstantSummary().refundMoney);
+        }
+    }
+
+    /**
+     * 设置Tab高亮显示
+     * @param tabIndex
+     */
+    private void setTabFocus(int tabIndex) {
+        switch (tabIndex){
+            case R.id.instant_today:
+                mToday.setChecked(true);
+                break ;
+            case R.id.instant_yesterday:
+                mYesterday.setChecked(true);
+                break ;
+            case R.id.instant_other:
+                mOther.setChecked(true);
+                break;
+        }
+    }
+
+    private void initDialog() {
+        mDialog = new MaterialDialog(getActivity())
+                .setNegativeButton(R.string.common_confirm, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        isShowDlg = true;
+                        getActivity().finish();
+                    }
+                });
+    }
+
+    // FIXME: 2016/1/13 以后统一处理
+    private void showError(VolleyError error) {
+        String errorInfo = error.getMessage();
+        Throwable t = error.getCause();
+        if (t != null) {
+            if (t instanceof JSONException) {
+                errorInfo = Utils.getString(R.string.error_message_unknown);
+            } else if (t instanceof IOException
+                    || t instanceof SocketException) {
+                errorInfo = Utils.getString(R.string.error_message_network);
+            }
+        }
+        mDialog.setMessage(errorInfo)
+                .show();
+        isShowDlg = false;
     }
 
     private void selectDate() {
@@ -165,134 +286,6 @@ public class InstantBuyFragment extends BaseFragment implements View.OnClickList
         });
     }
 
-    private void getInstantSummary() {
-        if(Utils.isNetworkAvailable(getActivity())){
-            showProgressBar(true);
-            TransFlowCtrl.getInstantSummary(startDate, endDate, new Response.Listener<InstantSummaryModle>() {
-                @Override
-                public void onResponse(InstantSummaryModle modle) {
-                    if(modle != null && isAdded()){
-                        initInstantSummaryView(modle);
-                        stopRefresh();
-                        hideProgressBar();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    if(isShowDlg && isAdded()){
-                        showError(volleyError);
-                        stopRefresh();
-                        hideProgressBar();
-                    }
-                }
-            });
-        }else {
-            if (isShowDlg && isAdded()) {
-                mDialog.setMessage(getResources().getString(R.string.error_message_text_offline))
-                        .show();
-                isShowDlg = false;
-            }
-        }
-
-    }
-
-    private void stopRefresh() {
-        if (mSwipe.isRefreshing()) {
-            mSwipe.setRefreshing(false);
-        }
-    }
-
-    private void initInstantSummaryView(InstantSummaryModle modle) {
-        String queryTime;
-        if(startDate == endDate){
-            queryTime = startDate;
-        }else{
-            queryTime = startDate + "至" + endDate;
-        }
-        mQueryTime.setText("查询时间:" + queryTime);
-        mTradeCount.setText(modle.getInstantSummary().tradeCount);
-        mTradeMoney.setText(modle.getInstantSummary().tradeMoney);
-
-        mRefundCount.setText(modle.getInstantSummary().refundCount);
-        mRefundMoney.setText(modle.getInstantSummary().refundMoney);
-
-//        if("0".equals(modle.getInstantSummary().refundCount)){
-//            mRefundContiner.setVisibility(View.GONE);
-//        }else{
-//            mRefundCount.setText(modle.getInstantSummary().refundCount);
-//            mRefundMoney.setText(modle.getInstantSummary().refundMoney);
-//        }
-    }
-
-    /**
-     * 设置Tab高亮显示
-     * @param tabIndex
-     */
-    private void setTabFocus(int tabIndex) {
-        switch (tabIndex){
-            case R.id.instant_today:
-                mToday.setChecked(true);
-                break ;
-            case R.id.instant_yesterday:
-                mYesterday.setChecked(true);
-                break ;
-            case R.id.instant_other:
-                mOther.setChecked(true);
-                break;
-        }
-    }
-
-    @Override
-    protected void setupToolbar(Toolbar toolbar) {
-//        super.setupToolbar(toolbar);
-        toolbar.setTitle(R.string.transaction_flow);
-        toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.showShortToast(getContext(), "点击一下");
-            }
-        });
-    }
-
-    private void initDialog() {
-        mDialog = new MaterialDialog(getActivity())
-                .setNegativeButton(R.string.common_confirm, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                        isShowDlg = true;
-                        getActivity().finish();
-                    }
-                });
-    }
-
-    private void showError(VolleyError error) {
-        String errorInfo = error.getMessage();
-        Throwable t = error.getCause();
-        if (t != null) {
-            if (t instanceof JSONException) {
-                errorInfo = Utils.getString(R.string.error_message_unknown);
-            } else if (t instanceof IOException
-                    || t instanceof SocketException) {
-                errorInfo = Utils.getString(R.string.error_message_network);
-            }
-        }
-        if("message".equals(errorInfo)){
-            errorInfo = Utils.getString(R.string.error_message_server_file);
-        }
-        mDialog.setMessage(errorInfo)
-                .show();
-        isShowDlg = false;
-    }
-
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
         tabIndex = R.id.instant_other;
         setTabFocus(tabIndex);
@@ -312,8 +305,7 @@ public class InstantBuyFragment extends BaseFragment implements View.OnClickList
         } else {
             startDate = FromDate;
             endDate = ToDate;
-
-            getInstantSummary();
+            requestData();
         }
     }
 
@@ -324,5 +316,11 @@ public class InstantBuyFragment extends BaseFragment implements View.OnClickList
             return String.valueOf(data);
         }
     }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
+    }
+
 
 }

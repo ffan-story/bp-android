@@ -21,6 +21,7 @@
     <!-- 背景 -->
     <color name="bg_color_blue">#3d99e9</color>
     <color name="bg_color_grey">#e6e6e6</color>
+    <color name="bg_color_gray_f3">#f3f3f3</color>
 
     <!-- Progress bar background -->
     <color name="progress_bar_bg">#cc000000</color>

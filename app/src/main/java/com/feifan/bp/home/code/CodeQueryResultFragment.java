@@ -2,13 +2,12 @@ package com.feifan.bp.home.code;
 
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.List;
 
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.feifan.bp.R;
 import com.feifan.bp.base.ProgressFragment;
 
 import android.os.Bundle;
@@ -16,13 +15,11 @@ import android.os.Handler;
 import android.support.v7.internal.widget.ViewStubCompat;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -30,18 +27,13 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.feifan.bp.PlatformTopbarActivity;
-import com.feifan.bp.R;
 
 import com.feifan.bp.Utils;
 import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.material.MaterialDialog;
 
 import org.json.JSONException;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
