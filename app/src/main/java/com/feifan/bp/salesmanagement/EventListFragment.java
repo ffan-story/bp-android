@@ -41,6 +41,7 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
     private int totalPages = 0;
     private int pageSize = 10;
     private EventListAdapter adapter;
+    private boolean updateFlag = false;
 
     private ArrayList<PromotionDetailModel> mPromotionList;
 
@@ -66,6 +67,16 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
         mRecyclerView.setItemAnimator(new SlideInUpAnimator());
         mSwipeLayout.setOnRefreshListener(this);
         ((PlatformTabActivity) getActivity()).setOnPageSelectListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (updateFlag) {
+            setupPagination();
+        } else {
+            updateFlag = true;
+        }
     }
 
     @Override
@@ -139,29 +150,24 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
                     setContentShown(true);
                 }
                 if (model.promotionList != null) {
-                    if (model.promotionList.size() == 0) {
-                        Toast.makeText(getActivity(), "无活动数据...", Toast.LENGTH_SHORT).show();
-                    } else {
-                        totalPages = calculatePage(model.totalSize, pageSize);
-                        mPromotionList = model.promotionList;
-                        if (isLoadMore) {
-                            if (adapter != null) {
-                                adapter.add(mPromotionList);
-                                Toast.makeText(getActivity(), "已加载第" + page + "页 , 共" + totalPages + "页", Toast.LENGTH_LONG).show();
-                            }
-                        } else {
-                            adapter = new EventListAdapter(getActivity(), mPromotionList, isRegistered);
-                            mRecyclerView.setAdapter(adapter);
-                            paginate = Paginate.with(mRecyclerView, EventListFragment.this)
-                                    // Set the offset from the end of the list at which the load more event needs to be triggered
-                                    .setLoadingTriggerThreshold(0)
-                                    .addLoadingListItem(true)
-                                    .build();
+                    totalPages = calculatePage(model.totalSize, pageSize);
+                    mPromotionList = model.promotionList;
+                    if (isLoadMore) {
+                        if (adapter != null) {
+                            adapter.add(mPromotionList);
+                            Toast.makeText(getActivity(), "已加载第" + page + "页 , 共" + totalPages + "页", Toast.LENGTH_LONG).show();
                         }
-                        paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
+                    } else {
+                        adapter = new EventListAdapter(getActivity(), mPromotionList, isRegistered);
+                        mRecyclerView.setAdapter(adapter);
+                        paginate = Paginate.with(mRecyclerView, EventListFragment.this)
+                                // Set the offset from the end of the list at which the load more event needs to be triggered
+                                .setLoadingTriggerThreshold(0)
+                                .addLoadingListItem(true)
+                                .build();
                     }
+                    paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
                     stopRefresh();
-
                 }
             }
         };
