@@ -43,10 +43,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Acti
         PromotionDetailModel model = data.get(position);
         if (isRegistered) {
             holder.tv_status_label.setText("报名状态: ");
-            holder.tv_activity_status.setText(model.getPromotionEnrollStatus());
-            if (model.getPromotionEnrollStatus().equals(context.getString(R.string.registerOpen))){
+            holder.tv_activity_status.setText(model.getPromotionEnrollStatusName());
+            if (model.getPromotionEnrollStatus().equals("0")) {
                 holder.tv_activity_status.setTextColor(context.getResources().getColor(R.color.red));
-            }else if(model.getPromotionEnrollStatus().equals(context.getString(R.string.registerClosed))){
+            } else if (model.getPromotionEnrollStatus().equals("1")) {
                 holder.tv_activity_status.setTextColor(context.getResources().getColor(R.color.accent));
             }
         } else {
@@ -55,9 +55,9 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Acti
         }
         holder.tv_activity_name.setText(model.getPromotionName());
         holder.tv_activity_type.setText(model.getPromotionTypeName());
-        if(model.getPromotionType().equals("0")){
+        if (model.getPromotionType().equals("0")) {
             holder.tv_activity_type.setBackgroundResource(R.drawable.pinkred_corner_rect);
-        }else if(model.getPromotionType().equals("1")){
+        } else if (model.getPromotionType().equals("1")) {
             holder.tv_activity_type.setBackgroundResource(R.drawable.orange_corner_rect);
         }
         holder.tv_activity_sdate.setText(model.getStartTime());
@@ -71,11 +71,19 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Acti
 
     @Override
     public void onItemClicked(View view, int position) {
-        Bundle args = new Bundle();
-        args.putString(EventDetailFragment.EXTRA_KEY_ID, data.get(position).getPromotionCode());
-        args.putString(EventDetailFragment.EXTRA_KEY_NAME,data.get(position).getPromotionName());
-        args.putBoolean(EventDetailFragment.EXTRA_KEY_FLAG,true);
-        PlatformTopbarActivity.startActivity(context, EventDetailFragment.class.getName(), context.getString(R.string.promotionDetail), args);
+        if (isRegistered) {//已报名活动
+            if(data.get(position).getPromotionEnrollStatus().equals("0")){
+                RegisterDetailActivity.startActivity(context, data.get(position).getPromotionCode(), data.get(position).getPromotionName(),false);
+            }else{
+                RegisterDetailActivity.startActivity(context, data.get(position).getPromotionCode(), data.get(position).getPromotionName(),true);
+            }
+        } else {//可报名活动
+            Bundle args = new Bundle();
+            args.putString(EventDetailFragment.EXTRA_KEY_ID, data.get(position).getPromotionCode());
+            args.putString(EventDetailFragment.EXTRA_KEY_NAME, data.get(position).getPromotionName());
+            args.putBoolean(EventDetailFragment.EXTRA_KEY_FLAG, true);
+            PlatformTopbarActivity.startActivity(context, EventDetailFragment.class.getName(), context.getString(R.string.promotionDetail), args);
+        }
     }
 
     public void add(List<PromotionDetailModel> items) {

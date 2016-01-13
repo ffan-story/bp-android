@@ -41,6 +41,7 @@ public class PromotionListModel extends BaseModel {
                 promotionDetailModel.setPromotionName(array.getJSONObject(i).optString("promotionName"));
                 promotionDetailModel.setEnrollCount(array.getJSONObject(i).optString("enrollCount"));
                 promotionDetailModel.setPromotionEnrollStatus(array.getJSONObject(i).optString("promotionEnrollStatus"));
+                promotionDetailModel.setPromotionEnrollStatusName(array.getJSONObject(i).optString("promotionEnrollStatusName"));
                 promotionDetailModel.setStartTime(array.getJSONObject(i).optString("startTime"));
                 promotionDetailModel.setEndTime(array.getJSONObject(i).optString("endTime"));
                 promotionDetailModel.setPromotionCode(array.getJSONObject(i).optString("promotionCode"));
@@ -58,6 +59,7 @@ public class PromotionListModel extends BaseModel {
         public String promotionName;//活动名称
         public String enrollCount;//已报名商家数量
         public String promotionEnrollStatus;//报名状态
+        public String promotionEnrollStatusName;//报名状态名称
         public String startTime;//活动开始时间
         public String endTime;//活动结束时间
         public String promotionCode;//活动ID
@@ -68,6 +70,7 @@ public class PromotionListModel extends BaseModel {
             promotionName = in.readString();
             enrollCount = in.readString();
             promotionEnrollStatus = in.readString();
+            promotionEnrollStatusName = in.readString();
             startTime = in.readString();
             endTime = in.readString();
             promotionCode = in.readString();
@@ -149,6 +152,14 @@ public class PromotionListModel extends BaseModel {
             this.promotionCode = promotionCode;
         }
 
+        public String getPromotionEnrollStatusName() {
+            return promotionEnrollStatusName;
+        }
+
+        public void setPromotionEnrollStatusName(String promotionEnrollStatusName) {
+            this.promotionEnrollStatusName = promotionEnrollStatusName;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -161,6 +172,7 @@ public class PromotionListModel extends BaseModel {
             dest.writeString(promotionName);
             dest.writeString(enrollCount);
             dest.writeString(promotionEnrollStatus);
+            dest.writeString(promotionEnrollStatusName);
             dest.writeString(startTime);
             dest.writeString(endTime);
             dest.writeString(promotionCode);

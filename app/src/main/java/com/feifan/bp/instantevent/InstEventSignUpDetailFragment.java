@@ -97,7 +97,7 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
          myData = detailModel.mEventSetDetailData;
          mList = detailModel.arryInstantEventData;
 
-        mTvStatic.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_detail_status), getResources().getString(R.string.instant_current_status), detailModel.mStrStatus)));
+        mTvStatic.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_detail_status), getResources().getString(R.string.instant_current_status), detailModel.mStrApproveStatus)));
         mTvVendorDiscount.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content), getResources().getString(R.string.instant_vendor_discount), formatAmount(detailModel.mDoubleVendorDiscount))));
         mTvFeiFanDiscount.setText(String.format(getResources().getString(R.string.instant_feifan_discount), formatAmount(detailModel.mDoubleFeifanDiscount)));
 

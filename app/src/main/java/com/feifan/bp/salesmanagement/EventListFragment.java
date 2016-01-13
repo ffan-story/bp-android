@@ -138,25 +138,30 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
                 if (!isLoadMore) {
                     setContentShown(true);
                 }
-                if (model.promotionList != null && model.promotionList.size() != 0) {
-                    totalPages = calculatePage(model.totalSize,pageSize);
-                    mPromotionList = model.promotionList;
-                    if (isLoadMore) {
-                        if (adapter != null) {
-                            adapter.add(mPromotionList);
-                            Toast.makeText(getActivity(), "已加载第" + page + "页 , 共" + totalPages + "页", Toast.LENGTH_LONG).show();
-                        }
+                if (model.promotionList != null) {
+                    if (model.promotionList.size() == 0) {
+                        Toast.makeText(getActivity(), "无活动数据...", Toast.LENGTH_SHORT).show();
                     } else {
-                        adapter = new EventListAdapter(getActivity(), mPromotionList, isRegistered);
-                        mRecyclerView.setAdapter(adapter);
-                        paginate = Paginate.with(mRecyclerView, EventListFragment.this)
-                                // Set the offset from the end of the list at which the load more event needs to be triggered
-                                .setLoadingTriggerThreshold(0)
-                                .addLoadingListItem(true)
-                                .build();
+                        totalPages = calculatePage(model.totalSize, pageSize);
+                        mPromotionList = model.promotionList;
+                        if (isLoadMore) {
+                            if (adapter != null) {
+                                adapter.add(mPromotionList);
+                                Toast.makeText(getActivity(), "已加载第" + page + "页 , 共" + totalPages + "页", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            adapter = new EventListAdapter(getActivity(), mPromotionList, isRegistered);
+                            mRecyclerView.setAdapter(adapter);
+                            paginate = Paginate.with(mRecyclerView, EventListFragment.this)
+                                    // Set the offset from the end of the list at which the load more event needs to be triggered
+                                    .setLoadingTriggerThreshold(0)
+                                    .addLoadingListItem(true)
+                                    .build();
+                        }
+                        paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
                     }
                     stopRefresh();
-                    paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
+
                 }
             }
         };
@@ -186,10 +191,10 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
     }
 
     private int calculatePage(int totalCount, int pageSize) {
-        if(totalCount<pageSize){
+        if (totalCount < pageSize) {
             return 1;
-        }else{
-            return totalCount/pageSize;
+        } else {
+            return totalCount / pageSize;
         }
     }
 }
