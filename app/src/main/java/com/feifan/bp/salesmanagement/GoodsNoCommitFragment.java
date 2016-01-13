@@ -223,11 +223,19 @@ public class GoodsNoCommitFragment extends Fragment implements GoodsListSwipeAda
      * @param position
      */
     @Override
-    public void onDelete(int position) {
-        //TODO 调用删除商品API
-        changeCheckStatus(position);
-        mSwipeAdapter.notifyItemRemoved(position);
-        mSwipeAdapter.notifyItemRangeChanged(position, mSwipeAdapter.getItemCount());
+    public void onDelete(final int position) {
+        Response.Listener<BaseModel> listener = new Response.Listener<BaseModel>() {
+            @Override
+            public void onResponse(BaseModel model) {
+                Toast.makeText(getActivity(), "删除成功!", Toast.LENGTH_SHORT).show();
+                updateStatusListener.updateStatus();//更新角标状态
+                //更新选中状态
+                changeCheckStatus(position);
+                mSwipeAdapter.notifyItemRemoved(position);
+                mSwipeAdapter.notifyItemRangeChanged(position, mSwipeAdapter.getItemCount());
+            }
+        };
+        PromotionCtrl.goodsDelete(mStoreId, mMerchantId, mUid, mPromotionId, datas.get(position).getGoodsCode(), listener);
     }
 
     private CompoundButton.OnCheckedChangeListener checkAllListener = new CompoundButton.OnCheckedChangeListener() {

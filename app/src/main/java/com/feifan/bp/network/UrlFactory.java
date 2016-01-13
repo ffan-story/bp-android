@@ -280,6 +280,10 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/enroll/goods/audit";
     }
 
+    public static String deleteGoodsUrl(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/enroll/goods/disabled";
+    }
+
     //add by tianjun 2015.10.29
     public static String submitFeedBack() {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/feedback";

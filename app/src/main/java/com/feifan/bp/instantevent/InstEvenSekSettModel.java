@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class InstEvenSekSettModel extends BaseModel {
     public InstantEventSetDetailData mEventSetDetailData;
-    public String mStrStatus = "审核通过";//飞凡优惠金额
+//    public String mStrStatus = "审核通过";//飞凡优惠金额
     public ArrayList<InstantEventSetDetailData> arryInstantEventData ;
 
     public String mStrCode;

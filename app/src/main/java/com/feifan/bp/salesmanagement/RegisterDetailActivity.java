@@ -36,13 +36,15 @@ import java.util.Map;
  * 活动报名详情
  * Created by Frank on 15/12/21.
  */
-public class RegisterDetailActivity extends AppCompatActivity implements View.OnClickListener,GoodsNoCommitFragment.UpdateStatusListener {
+public class RegisterDetailActivity extends AppCompatActivity implements View.OnClickListener, GoodsNoCommitFragment.UpdateStatusListener {
 
     public static final String EXTRA_KEY_ID = "id";
     public static final String EXTRA_KEY_TITLE = "title";
+    public static final String EXTRA_KEY_FLAG = "isCutOff";
 
     public String promotionId;
     private String promotionName;
+    private Boolean isCutOff;
 
     private CollapsingToolbarLayout collapsingToolbar;
     private CustomViewPager viewPager;
@@ -54,10 +56,11 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     private List<String> mFragmentTabCountList = new ArrayList<>();
     private GoodsNoCommitFragment goodsNoCommitFragment;
 
-    public static void startActivity(Context context, String id,String title) {
+    public static void startActivity(Context context, String id, String title, boolean isCutOff) {
         Intent i = new Intent(context, RegisterDetailActivity.class);
         i.putExtra(EXTRA_KEY_ID, id);
         i.putExtra(EXTRA_KEY_TITLE, title);
+        i.putExtra(EXTRA_KEY_FLAG, isCutOff);
         context.startActivity(i);
     }
 
@@ -67,6 +70,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_register_detail);
         promotionId = getIntent().getStringExtra(EXTRA_KEY_ID);
         promotionName = getIntent().getStringExtra(EXTRA_KEY_TITLE);
+        isCutOff = getIntent().getBooleanExtra(EXTRA_KEY_FLAG, false);
         initViews();
         setupToolbar();
         getGoodsStatus();
@@ -86,6 +90,9 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
         registerDetailHeader.setOnClickListener(this);
         rlEventTitle.setOnClickListener(this);
         btnAddProduct.setOnClickListener(this);
+        if (isCutOff) {
+            btnAddProduct.setVisibility(View.GONE);
+        }
     }
 
     private void setupToolbar() {
@@ -114,12 +121,12 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
             public void onResponse(GoodsStatusModel model) {
 
                 if (model.mGoodsStatus != null && model.mGoodsStatus.size() != 0) {
-                    for (int i = 0;i<model.mGoodsStatus.size();i++){
+                    for (int i = 0; i < model.mGoodsStatus.size(); i++) {
                         Iterator it = model.mGoodsStatus.entrySet().iterator();
                         while (it.hasNext()) {
                             Map.Entry entry = (Map.Entry) it.next();
                             String key = entry.getKey().toString();
-                            if(key.equals(String.valueOf(i))){
+                            if (key.equals(String.valueOf(i))) {
                                 mFragmentTabCountList.add(entry.getValue().toString());
                             }
                         }
@@ -135,10 +142,13 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     private void setupViewPager(CustomViewPager viewPager) {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), RegisterDetailActivity.this);
-        goodsNoCommitFragment = new GoodsNoCommitFragment();
-        goodsNoCommitFragment.setUpdateListener(this);
-
-        adapter.addFrag(goodsNoCommitFragment, getString(R.string.notsubmitted), R.mipmap.icon_notsubmitted, GoodsListFragment.STATUS_NO_COMMIT);
+        if (isCutOff) {
+            adapter.addFrag(new GoodsListFragment(), getString(R.string.notsubmitted), R.mipmap.icon_notsubmitted, GoodsListFragment.STATUS_NO_COMMIT);
+        } else {
+            goodsNoCommitFragment = new GoodsNoCommitFragment();
+            goodsNoCommitFragment.setUpdateListener(this);
+            adapter.addFrag(goodsNoCommitFragment, getString(R.string.notsubmitted), R.mipmap.icon_notsubmitted, GoodsListFragment.STATUS_NO_COMMIT);
+        }
         adapter.addFrag(new GoodsListFragment(), getString(R.string.review), R.mipmap.icon_review, GoodsListFragment.STATUS_AUDIT);
         adapter.addFrag(new GoodsListFragment(), getString(R.string.approved), R.mipmap.icon_approved, GoodsListFragment.STATUS_AUDIT_PASS);
         adapter.addFrag(new GoodsListFragment(), getString(R.string.auditrefused), R.mipmap.icon_auditrefused, GoodsListFragment.STATUS_AUDIT_DENY);
@@ -161,8 +171,8 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
                 Bundle args1 = new Bundle();
                 args1.putString(EventDetailFragment.EXTRA_KEY_ID, promotionId);
                 args1.putString(EventDetailFragment.EXTRA_KEY_NAME, promotionName);
-                args1.putBoolean(EventDetailFragment.EXTRA_KEY_FLAG,false);
-                PlatformTopbarActivity.startActivity(RegisterDetailActivity.this,EventDetailFragment.class.getName(),getString(R.string.promotionDetail),args1);
+                args1.putBoolean(EventDetailFragment.EXTRA_KEY_FLAG, false);
+                PlatformTopbarActivity.startActivity(RegisterDetailActivity.this, EventDetailFragment.class.getName(), getString(R.string.promotionDetail), args1);
                 break;
             case R.id.btn_add_product:
                 Bundle args = new Bundle();

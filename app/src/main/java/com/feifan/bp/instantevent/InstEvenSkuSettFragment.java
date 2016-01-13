@@ -9,6 +9,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.JsonWriter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -254,8 +255,8 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
 
         mTvFeifanDiscount.setText(String.format(getActivity().getResources().getString(R.string.instant_feifan_discount), formatAmount(myModel.mDoubleFeifanDiscount)));
         if (isShowHistory) {//设置状态-拒绝（显示审核历史）
-            mTvSignupStatus.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_current_status), myModel.mStrStatus)));
-            mTvSignupRefuseCause.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_refuse_cause), myModel.mStrApproveStatus)));
+            mTvSignupStatus.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_current_status), myModel.mStrApproveStatus)));
+            mTvSignupRefuseCause.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_refuse_cause), myModel.mStrApproveDes)));
         }
     }
 
