@@ -323,12 +323,14 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void refreshRefund() {
-        if (!TextUtils.isEmpty(EnvironmentManager.getAuthFactory().getRefundId())){
-            int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
-            if (PlatformState.getInstance().getUnreadStatus(refundId)) {
-                mRefundMenu.showBadger();
-            } else {
-                mRefundMenu.hideBadger();
+        if(mRefundMenu != null) {
+            if (!TextUtils.isEmpty(EnvironmentManager.getAuthFactory().getRefundId())){
+                int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
+                if (PlatformState.getInstance().getUnreadStatus(refundId)) {
+                    mRefundMenu.showBadger();
+                } else {
+                    mRefundMenu.hideBadger();
+                }
             }
         }
     }
