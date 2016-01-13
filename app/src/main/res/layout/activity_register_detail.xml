@@ -21,11 +21,10 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <include
-                android:id="@+id/register_detail_header"
                 layout="@layout/enroll_detail_header"
-                android:layout_marginTop="80dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_marginTop="80dp"/>
 
             <com.feifan.bp.widget.CustomToolbar
                 android:id="@+id/toolbar"
@@ -44,6 +43,12 @@
                     android:layout_gravity="center_horizontal"/>
 
             </com.feifan.bp.widget.CustomToolbar>
+
+            <View
+                android:id="@+id/register_detail_header"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="90dp"/>
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"
