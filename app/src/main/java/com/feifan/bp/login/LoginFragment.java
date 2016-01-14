@@ -116,32 +116,6 @@ public class LoginFragment extends BaseFragment {
                             });
                         }
                     });
-//                    UserCtrl.login(getActivity(), accountStr, passwordStr,
-//                            new BaseRequestProcessListener<UserModel>(getActivity()) {
-//                        @Override
-//                        public void onResponse(final UserModel userModel) {
-//                            LogUtil.i(TAG, userModel.toString());
-//                            UserCtrl.checkPermission(getActivity(), userModel.uid+"",
-//                                    new BaseRequestProcessListener<PermissionModel>(getActivity(), false) {
-//                                @Override
-//                                public void onResponse(PermissionModel permissionModel) {
-//                                    UserProfile manager = UserProfile.getInstance();
-//                                    manager.setUid(userModel.uid);
-//                                    manager.setUser(userModel.user);
-//                                    manager.setAuthRangeId(userModel.authRangeId);
-//                                    manager.setAuthRangeType(userModel.authRangeType);
-//                                    manager.setAgId(userModel.agId);
-//                                    manager.setLoginToken(userModel.loginToken);
-//                                    manager.setPermissionList(permissionModel.getPermissionList());
-//                                    manager.setPermissionUrlMap(permissionModel.getUrlMap());
-//                                    // 通知界面跳转
-//                                    Bundle args = new Bundle();
-//                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
-//                                    mListener.onFragmentInteraction(args);
-//                                }
-//                            });
-//                        }
-//                    });
                 } catch (Throwable throwable) {
                     Utils.showShortToast(getActivity(), R.string.error_message_text_phone_number_illegal, Gravity.CENTER);
                 }

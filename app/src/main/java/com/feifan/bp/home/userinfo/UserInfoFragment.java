@@ -58,7 +58,7 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                     if (userInfoModel.status == Constants.RESPONSE_CODE_SUCCESS) {
                         hideEmptyView();
                         setLoginInfo(rootView, userInfoModel);
-                        UserProfile.getInstance().setCityId(userInfoModel.getCityId());
+                        UserProfile.getInstance().setCityId(userInfoModel.cityId);
                         Statistics.updateClientData(UserProfile.getInstance());
                     } else {
                         showEmptyView();
@@ -70,25 +70,21 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void setLoginInfo(View rootView, UserInfoModel userInfoModel) {
-        ((TextView) rootView.findViewById(R.id.login_info_name)).setText(userInfoModel.getName());
-        ((TextView) rootView.findViewById(R.id.login_info_phone)).setText(userInfoModel.getPhone());
-        ((TextView) rootView.findViewById(R.id.login_info_identity)).setText(userInfoModel.getIdentity());
-        if (userInfoModel.getAuthRangeType().equals("store")) {// store：门店，merchant：商户）
+        ((TextView) rootView.findViewById(R.id.login_info_name)).setText(userInfoModel.name);
+        ((TextView) rootView.findViewById(R.id.login_info_phone)).setText(userInfoModel.phone);
+        ((TextView) rootView.findViewById(R.id.login_info_identity)).setText(userInfoModel.identity);
+        if (userInfoModel.authRangeType.equals("store")) {// store：门店，merchant：商户）
             mLoginInfoStore.setVisibility(View.VISIBLE);
             mLoginInfoMerchant.setVisibility(View.GONE);
             ((TextView) rootView.findViewById(R.id.login_info_belongs_store)).setText(userInfoModel
-                    .getStoreViewName());
-            if (userInfoModel.getPlazaName().equals("null")) {
-                ((TextView) rootView.findViewById(R.id.login_info_belongs_square)).setText(getString(R.string.login_info_empty));
-            } else {
-                ((TextView) rootView.findViewById(R.id.login_info_belongs_square)).setText(userInfoModel
-                        .getPlazaName());
-            }
-        } else if (userInfoModel.getAuthRangeType().equals("merchant")) {
+                    .storeViewName);
+            ((TextView) rootView.findViewById(R.id.login_info_belongs_square)).setText(userInfoModel
+                    .plazaName);
+        } else if (userInfoModel.authRangeType.equals("merchant")) {
             mLoginInfoMerchant.setVisibility(View.VISIBLE);
             mLoginInfoStore.setVisibility(View.GONE);
             ((TextView) rootView.findViewById(R.id.login_info_belongs_merchant)).setText(userInfoModel
-                    .getMerchantName());
+                    .merchantName);
         }
     }
 

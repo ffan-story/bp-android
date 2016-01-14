@@ -35,6 +35,7 @@ class EventManager {
 
             StringBuffer paramsBuffer = new StringBuffer();
             String params = paramsBuffer.append("type=20").append("&")
+                                        .append("split=1").append("&")
                                         .append("content=" + jsonnArray.toString())
                                         .toString();
             String result = NetworkUtil.Post(FmsConstants.urlPrefix + EVENT_URL, params);

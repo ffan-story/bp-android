@@ -8,64 +8,66 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
+ * 登录者信息数据模型
+ *
  * Created by tianjun on 2015-10-30.
  */
 public class UserInfoModel extends BaseModel {
     /**
      * 商户ID
      */
-    private String uid;
+    public String uid;
     /**
      * 商户名称
      */
-    private String name;
+    public String name;
     /**
      * 手机号
      */
-    private String phone;
+    public String phone;
 
     /**
      * 所属商户类型ID，门店或商户ID
      */
-    private String authRangeId;
+    public String authRangeId;
 
     /**
      * 所属商户类型名称（store：门店，merchant：商户）
      */
-    private String authRangeType;
+    public String authRangeType;
 
     /**
      * 登录权限ID，当类型为门店时，用于标示是店长或店员，198为店员，其他为店长
      */
-    private String agid;
+    public String agid;
     /**
      * "技术导入(禁止修改)" －－ 所属商户名称
      */
-    private String merchantName;
+    public String merchantName;
     /**
      * "哆啦A梦" －－所属门店名称
      */
-    private String storeName;
+    public String storeName;
     /**
      * "哆啦A梦（南昌红谷滩店）" －－ 所属门店名称
      */
-    private String storeViewName;
+    public String storeViewName;
     /**
      * "南昌红谷滩万达广场" －－所属广场名称
      */
-    public String plazaName;
+    public String plazaName = "无";
     /**
      * 省份ID
      */
-    private String provinceId;
+    public String provinceId;
     /**
      * 城市ID
      */
-    private int cityId;
+    public int cityId;
     /**
      * "店长" －－商户身份 店长、店员或商户
      */
-    private String identity;
+    public String identity;
 
     public UserInfoModel(JSONObject json) {
         super(json);
@@ -108,58 +110,6 @@ public class UserInfoModel extends BaseModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getAuthRangeId() {
-        return authRangeId;
-    }
-
-    public String getAuthRangeType() {
-        return authRangeType;
-    }
-
-    public String getAgid() {
-        return agid;
-    }
-
-    public String getMerchantName() {
-        return merchantName;
-    }
-
-    public String getStoreName() {
-        return storeName;
-    }
-
-    public String getStoreViewName() {
-        return storeViewName;
-    }
-
-    public String getPlazaName() {
-        return plazaName;
-    }
-
-    public String getProvinceId() {
-        return provinceId;
-    }
-
-    public int getCityId() {
-        return cityId;
-    }
-
-    public String getIdentity() {
-        return identity;
     }
 
     @Override
