@@ -158,8 +158,8 @@ public abstract class UrlFactory {
         return urlForHtml(URL_PATH_HISTORY_AUDIT).
                 concat("&id=").concat(eventId).
                 concat("&goodsCode=").concat(goodsCode).
-                concat("&merchantId=").concat(InstCtrl.merchantId).
-                concat("&storeId=").concat(InstCtrl.storeId);
+                concat("&merchantId=").concat(UserProfile.getInstance().getMerchantId()).
+                concat("&storeId=").concat(UserProfile.getInstance().getAuthRangeId());
     }
 
     public static String visitorsAnalysisForHtml() {
