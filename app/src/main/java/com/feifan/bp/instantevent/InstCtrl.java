@@ -15,9 +15,6 @@ import com.feifan.bp.network.UrlFactory;
  * Created by congjing on 16/1/6.
  */
 public class InstCtrl {
-    public static String merchantId= UserProfile.getInstance().getMerchantId();
-    public static String storeId= UserProfile.getInstance().getAuthRangeId();
-
     /**
      * 添加活动商品列表
      * @param promotionCode
@@ -27,8 +24,8 @@ public class InstCtrl {
     public static void getInstEventGoodsList(String promotionCode,int pageIndex, Listener listener) {
         JsonRequest<InstEventGoodsListModel> request = new GetRequest.Builder<InstEventGoodsListModel>(UrlFactory.getInstEventGoodsList())
                 .param("promotionCode", promotionCode)
-                .param("merchantId", merchantId)
-                .param("storeId", storeId)
+                .param("merchantId", UserProfile.getInstance().getMerchantId())
+                .param("storeId", UserProfile.getInstance().getAuthRangeId())
                 .param("pageIndex", String.valueOf(pageIndex))
                 .param("limit",String.valueOf(Constants.LIST_MAX_LENGTH))
                 .build()
@@ -74,8 +71,8 @@ public class InstCtrl {
         JsonRequest<InstEvenSekSettModel> request = new PostRequest<InstEvenSekSettModel>(UrlFactory.getInstEventGoodsCommAndSave(), new DefaultErrorListener())
                 .param("goods_action", goodsAction)
                 .param("promotionCode", promotionCode)
-                .param("merchantId", merchantId)
-                .param("storeId", storeId)
+                .param("merchantId", UserProfile.getInstance().getMerchantId())
+                .param("storeId", UserProfile.getInstance().getAuthRangeId())
                 .param("commitFlag", commitFlag)
                 .param("goodsCode", goodsCode)
                 .param("goodsSn", goodsSn)
