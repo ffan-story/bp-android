@@ -115,7 +115,7 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
 
             }
 
-             ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_number)).setText(String.format(getResources().getString(R.string.instant_colon),String.format(getResources().getString(R.string.instant_goods_number)), mList.get(i).mIntGoodsTotal));
+             ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_number)).setText(String.format(getResources().getString(R.string.instant_colon),String.format(getResources().getString(R.string.instant_goods_remain_number)), mList.get(i).mIntGoodsTotal));
             ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_amount)).setText(String.format(getResources().getString(R.string.instant_goods_amount),formatAmount(myData.mDoubleGoodsAmount)));
 
             mLineGoodsNumber.addView(mLineGoodsNumberView);

@@ -20,6 +20,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.network.BaseModel;
 import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
+import com.feifan.bp.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -235,7 +236,8 @@ public class GoodsNoCommitFragment extends Fragment implements GoodsListSwipeAda
                 mSwipeAdapter.notifyItemRangeChanged(position, mSwipeAdapter.getItemCount());
             }
         };
-        PromotionCtrl.goodsDelete(mStoreId, mMerchantId, mUid, mPromotionId, datas.get(position).getGoodsCode(), listener);
+        String goodsCode = datas.get(position).getGoodsCode();
+        PromotionCtrl.goodsDelete(mStoreId, mMerchantId, mUid, mPromotionId, goodsCode, listener);
     }
 
     private CompoundButton.OnCheckedChangeListener checkAllListener = new CompoundButton.OnCheckedChangeListener() {

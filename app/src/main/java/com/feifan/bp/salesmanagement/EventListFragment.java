@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.widget.paginate.Paginate;
 import com.feifan.bp.salesmanagement.PromotionListModel.PromotionDetailModel;
+import com.feifan.material.MaterialDialog;
 
 import java.util.ArrayList;
 
@@ -81,7 +83,21 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
 
     @Override
     protected void requestData() {
-        setupPagination();
+        if (UserProfile.getInstance().getPlazaId() == null && UserProfile.getInstance().getPlazaId().equals("")) {
+            MaterialDialog mDialog = new MaterialDialog(getActivity());
+            mDialog.setCanceledOnTouchOutside(false)
+                    .setTitle(getString(R.string.common_title))
+                    .setMessage(getString(R.string.info_store_no_plaza))
+                    .setNegativeButton(getString(R.string.common_confirm), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getActivity().onBackPressed();
+                        }
+                    })
+                    .show();
+        } else {
+            setupPagination();
+        }
     }
 
     @Override

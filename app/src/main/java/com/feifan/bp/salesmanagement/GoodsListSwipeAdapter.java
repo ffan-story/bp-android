@@ -67,7 +67,6 @@ public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
         swipeViewHolder.tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListData.remove(position);
                 LogUtil.i("fangke", "onItemDelete调用的位置" + position);
                 itemDeleteListener.onDelete(position);
             }
