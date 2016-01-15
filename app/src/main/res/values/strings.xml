@@ -149,7 +149,7 @@
     <string name="login_info">登录信息</string>
     <string name="login_info_name">姓名:</string>
     <string name="login_info_mobile_number">手机号:</string>
-    <string name="login_info_identity">登陆身份:</string>
+    <string name="login_info_identity">登录身份:</string>
     <string name="login_info_belongs_store">所属门店:</string>
     <string name="login_info_belongs_square">所属广场:</string>
     <string name="login_info_belongs_merchant">所属商户:</string>
