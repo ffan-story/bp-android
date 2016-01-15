@@ -129,6 +129,7 @@
     </string>
 
     <!-- common -->
+    <string name="common_title">提示信息</string>
     <string name="common_confirm">确定</string>
     <string name="common_cancel">取消</string>
     <string name="dialog_phone">从相册选择</string>
@@ -336,6 +337,7 @@
     <string name="units_yuan">元</string>
 
     <!-- 商品管理 -->
+    <string name="info_store_no_plaza">您的门店没有归属广场，无法查看可以报名活动。</string>
     <string name="commodity_instants_buy">闪购商品</string>
     <string name="commodity_brand">品牌商品</string>
     <string name="commodity_instants_temp_save">临时保存</string>

@@ -409,7 +409,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                     holder.mTvGoodsName.setText(String.format(getActivity().getResources().getString(R.string.instant_goods_name), mGoodsDetailData.mStrGoodsName));
                 }
 
-                holder.mTvGoodsNumber.setText(String.format(getActivity().getResources().getString(R.string.instant_colon), getActivity().getResources().getString(R.string.instant_goods_number), String.valueOf(mGoodsDetailData.mIntGoodsTotal)));
+                holder.mTvGoodsNumber.setText(String.format(getActivity().getResources().getString(R.string.instant_colon), getActivity().getResources().getString(R.string.instant_goods_remain_number), String.valueOf(mGoodsDetailData.mIntGoodsTotal)));
                 holder.mTvGoodsAmount.setText(String.format(getActivity().getResources().getString(R.string.instant_goods_amount), formatAmount((mGoodsDetailData.mDoubleGoodsAmount))));
                 if (!isGoosActionAdd) {
                     holder.mTvGoodsPartakeNumber.setText(String.valueOf(mGoodsDetailData.mDoubleGoodsPartakeNumber));

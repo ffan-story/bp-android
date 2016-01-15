@@ -68,4 +68,40 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_enroll_bottom"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:background="@color/white">-->
+
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/divider"/>-->
+
+        <!--<CheckBox-->
+            <!--android:id="@+id/allcheck"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="@dimen/view_spacing_20"-->
+            <!--android:drawableLeft="@drawable/bg_cb_product"-->
+            <!--android:text="@string/goods_all_select"-->
+            <!--android:drawablePadding="@dimen/view_spacing_5"-->
+            <!--android:button="@null"-->
+            <!--android:checked="false"-->
+            <!--android:focusable="false"/>-->
+
+        <!--<Button-->
+            <!--android:id="@+id/btn_commit"-->
+            <!--style="@style/btn_orange_round"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="@dimen/view_spacing_10"-->
+            <!--android:text="@string/feed_back_submit"/>-->
+
+    <!--</RelativeLayout>-->
+
 </android.support.design.widget.CoordinatorLayout>

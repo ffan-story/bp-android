@@ -1,13 +1,18 @@
 package com.feifan.bp.salesmanagement;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
@@ -50,7 +55,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Acti
                 holder.tv_activity_status.setTextColor(context.getResources().getColor(R.color.accent));
             }
         } else {
-            holder.tv_status_label.setText("已报名商家: ");
+            holder.tv_status_label.setText("已报名: ");
             holder.tv_activity_status.setText(model.getEnrollCount());
         }
         holder.tv_activity_name.setText(model.getPromotionName());
@@ -60,8 +65,17 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Acti
         } else if (model.getPromotionType().equals("1")) {
             holder.tv_activity_type.setBackgroundResource(R.drawable.orange_corner_rect);
         }
-        holder.tv_activity_sdate.setText(model.getStartTime());
-        holder.tv_activity_edate.setText(model.getEndTime());
+
+        holder.tv_activity_sdate.setText(formatDate(model.getStartTime()));
+        holder.tv_activity_edate.setText(formatDate(model.getEndTime()));
+    }
+
+    private SpannableString formatDate(String date){
+        SpannableString formatDate = new SpannableString(date);
+        formatDate.setSpan(new StyleSpan(Typeface.BOLD),0,10, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        formatDate.setSpan(new RelativeSizeSpan(1.1f),0,10, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        formatDate.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.font_color_33)),0,10, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        return formatDate;
     }
 
     @Override
