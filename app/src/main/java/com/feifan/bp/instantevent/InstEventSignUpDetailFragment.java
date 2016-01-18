@@ -33,7 +33,7 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
     private LinearLayout mLineGoodsNumber,mLineGoodsAmount;
     private TextView mTvVendorDiscount,mTvFeiFanDiscount,mTvStatic;
     private String mStrEventId ,mStrGoodsCode;
-    private List<InstEvenSekSettModel.InstantEventSetDetailData> mList = new ArrayList<>();
+    private List<InstEvenSkuSettModel.InstantEventSetDetailData> mList = new ArrayList<>();
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -81,9 +81,9 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
     protected void requestData(){
         setContentShown(true);
         String mgoodsAction ="edit";
-        InstCtrl.getInstEventGoodsSetingDeta(mStrEventId, mStrGoodsCode,mgoodsAction, new Response.Listener<InstEvenSekSettModel>() {
+        InstCtrl.getInstEventGoodsSetingDeta(mStrEventId, mStrGoodsCode,mgoodsAction, new Response.Listener<InstEvenSkuSettModel>() {
             @Override
-            public void onResponse(InstEvenSekSettModel detailModel) {
+            public void onResponse(InstEvenSkuSettModel detailModel) {
                 if (detailModel!=null){
                     setContViewData(detailModel);
                 }
@@ -92,8 +92,8 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
     }
 
 
-    InstEvenSekSettModel.InstantEventSetDetailData myData ;
-    private void setContViewData(InstEvenSekSettModel detailModel){
+    InstEvenSkuSettModel.InstantEventSetDetailData myData ;
+    private void setContViewData(InstEvenSkuSettModel detailModel){
          myData = detailModel.mEventSetDetailData;
          mList = detailModel.arryInstantEventData;
 
@@ -111,7 +111,7 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
                 (mLineGoodsNumberView.findViewById(R.id.tv_goods_name)).setVisibility(View.INVISIBLE);
             }else{
                 (mLineGoodsNumberView.findViewById(R.id.tv_goods_name)).setVisibility(View.VISIBLE);
-                ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_name)).setText(String.format(getString(R.string.instant_goods_name), mList.get(i).mStrGoodsName));
+                ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_name)).setText(String.format(getString(R.string.instant_colon), mList.get(i).mStrGoodsName,mList.get(i).mIntGoodsPartakeNumber));
 
             }
 

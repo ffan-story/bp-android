@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * 设置详情 model
  * Created by congjing
  */
-public class InstEvenSekSettModel extends BaseModel {
+public class InstEvenSkuSettModel extends BaseModel {
     public InstantEventSetDetailData mEventSetDetailData;
 //    public String mStrStatus = "审核通过";//飞凡优惠金额
     public ArrayList<InstantEventSetDetailData> arryInstantEventData ;
@@ -25,7 +25,7 @@ public class InstEvenSekSettModel extends BaseModel {
     public String mStrApproveDes;
     public String mStrApproveStatus;
 
-    public InstEvenSekSettModel(JSONObject json) {
+    public InstEvenSkuSettModel(JSONObject json) {
         super(json);
     }
 
@@ -51,7 +51,7 @@ public class InstEvenSekSettModel extends BaseModel {
                 mEventSetDetailData.mId = itemsArray.getJSONObject(i).optString("skuId");
                 mEventSetDetailData.mStrGoodsName = itemsArray.getJSONObject(i).isNull("alias")?"":itemsArray.getJSONObject(i).optString("alias");
                 mEventSetDetailData.mIntGoodsTotal = itemsArray.getJSONObject(i).optInt("stockNum");//剩余总库存
-                mEventSetDetailData.mDoubleGoodsPartakeNumber = itemsArray.getJSONObject(i).optInt("subTotal");//参与活动商品 数量
+                mEventSetDetailData.mIntGoodsPartakeNumber = itemsArray.getJSONObject(i).optInt("subTotal");//参与活动商品 数量
                 mEventSetDetailData.mDoubleGoodsAmount = Double.valueOf(itemsArray.getJSONObject(i).optString("price"));
                 mEventSetDetailData.mSkuSn = itemsArray.getJSONObject(i).optString("skuSn");
                 mEventSetDetailData.mStrEventId  = itemsArray.getJSONObject(i).optString("skuCode");
@@ -86,7 +86,7 @@ public class InstEvenSekSettModel extends BaseModel {
         /**
          * 参与活动数量
          */
-        public int mDoubleGoodsPartakeNumber;
+        public int mIntGoodsPartakeNumber;
 
 
         public double getmDoubleGoodsDiscount() {

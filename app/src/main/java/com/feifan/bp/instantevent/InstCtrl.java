@@ -42,12 +42,12 @@ public class InstCtrl {
      * @param goodsAction  回显商户参与活动商品数量传：edit
      */
     public static void getInstEventGoodsSetingDeta(String promotionCode,String goodsCode,String goodsAction, Listener listener) {
-        JsonRequest<InstEvenSekSettModel> request = new GetRequest.Builder<InstEvenSekSettModel>(UrlFactory.getInstEventGoodsSettingDetail(goodsCode))
+        JsonRequest<InstEvenSkuSettModel> request = new GetRequest.Builder<InstEvenSkuSettModel>(UrlFactory.getInstEventGoodsSettingDetail(goodsCode))
                 .param("promotionCode", promotionCode)
                 .param("goodsCode", goodsCode)
                 .param("goods_action",goodsAction)
                 .build()
-                .targetClass(InstEvenSekSettModel.class)
+                .targetClass(InstEvenSkuSettModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }
@@ -68,7 +68,7 @@ public class InstCtrl {
                                                    String goodsSn,String goodsSkuList,
                                                    String merchantCutAmount,
                                                    Listener listener) {
-        JsonRequest<InstEvenSekSettModel> request = new PostRequest<InstEvenSekSettModel>(UrlFactory.getInstEventGoodsCommAndSave(), new DefaultErrorListener())
+        JsonRequest<InstEvenSkuSettModel> request = new PostRequest<InstEvenSkuSettModel>(UrlFactory.getInstEventGoodsCommAndSave(), new DefaultErrorListener())
                 .param("goods_action", goodsAction)
                 .param("promotionCode", promotionCode)
                 .param("merchantId", UserProfile.getInstance().getMerchantId())
@@ -78,7 +78,7 @@ public class InstCtrl {
                 .param("goodsSn", goodsSn)
                 .param("goodsSkuList", goodsSkuList)
                 .param("merchantCutAmount", merchantCutAmount)
-                .targetClass(InstEvenSekSettModel.class)
+                .targetClass(InstEvenSkuSettModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }

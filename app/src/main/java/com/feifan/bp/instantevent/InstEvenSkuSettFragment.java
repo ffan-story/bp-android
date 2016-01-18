@@ -45,7 +45,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
     public static final String EXTRA_EVENT_GOODS_ACTION = "goods_action";
 
     private ListView mLineGoodsNumber, mLineGoodsDiscount;
-    private List<InstEvenSekSettModel.InstantEventSetDetailData> mList = new ArrayList<>();
+    private List<InstEvenSkuSettModel.InstantEventSetDetailData> mList = new ArrayList<>();
 
     private EditText mEdVendorDiscount;
     private TextView mTvFeifanDiscount;
@@ -173,10 +173,10 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
 
             @Override
             public void afterTextChanged(Editable s) {
-                InstEvenSekSettModel.InstantEventSetDetailData mSetGoodsDetailData;
+                InstEvenSkuSettModel.InstantEventSetDetailData mSetGoodsDetailData;
                 if (TextUtils.isEmpty(mStrInputDiscount)) {
                     isVendorDiscountFlag = false;
-                    mTvVendorDiscountTips.setVisibility(View.VISIBLE);
+                    mTvVendorDiscountTips.setVisibility(View.INVISIBLE);
                     mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_input_vendor_discount_tips));
 
                     myModel.mDoubleVendorDiscount = 0;
@@ -192,7 +192,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                     }
 
                     if (mStrInputDiscount.equals("0")) {
-                        mTvVendorDiscountTips.setVisibility(View.VISIBLE);
+                        mTvVendorDiscountTips.setVisibility(View.INVISIBLE);
                         mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_input_vendor_discount_tips));
                         isVendorDiscountFlag = false;
                     } else if (myData.getmDoubleGoodsDiscount() <= 0) {//优惠后的金额为负数
@@ -221,9 +221,9 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
         setContentShown(true);
         //add:新增 ；edit：编辑
         mGoodsAction = isGoosActionAdd ? "add" : "edit";
-        InstCtrl.getInstEventGoodsSetingDeta(mStrEventId, mStrGoodsCode, mGoodsAction, new Response.Listener<InstEvenSekSettModel>() {
+        InstCtrl.getInstEventGoodsSetingDeta(mStrEventId, mStrGoodsCode, mGoodsAction, new Response.Listener<InstEvenSkuSettModel>() {
             @Override
-            public void onResponse(InstEvenSekSettModel detailModel) {
+            public void onResponse(InstEvenSkuSettModel detailModel) {
                 if (detailModel != null) {
                     setContViewData(detailModel);
                     if (!isGoosActionAdd) {
@@ -235,10 +235,10 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
     }
 
 
-    InstEvenSekSettModel myModel;
-    InstEvenSekSettModel.InstantEventSetDetailData myData;
+    InstEvenSkuSettModel myModel;
+    InstEvenSkuSettModel.InstantEventSetDetailData myData;
 
-    private void setContViewData(InstEvenSekSettModel detailModel) {
+    private void setContViewData(InstEvenSkuSettModel detailModel) {
         myModel = detailModel;
         myData = detailModel.mEventSetDetailData;
         mList = detailModel.arryInstantEventData;
@@ -269,10 +269,10 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
             case R.id.bnt_instant_save_setting://保存设置
             case R.id.bnt_instant_atonce_submit://立即提交
                 for (int i = 0; i < mList.size(); i++) {//库存校验
-                    if (mList.get(i).mDoubleGoodsPartakeNumber == 0) {
+                    if (mList.get(i).mIntGoodsPartakeNumber == 0) {
                         Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_goods_understock_tips1));
                         return;
-                    } else if (mList.get(i).mDoubleGoodsPartakeNumber > mList.get(i).mIntGoodsTotal) {//库存不足
+                    } else if (mList.get(i).mIntGoodsPartakeNumber > mList.get(i).mIntGoodsTotal) {//库存不足
                         Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_goods_understock_tips));
                         return;
                     }
@@ -371,7 +371,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
             if (mList.isEmpty()) {
                 return null;
             }
-            final InstEvenSekSettModel.InstantEventSetDetailData mGoodsDetailData = mList.get(position);
+            final InstEvenSkuSettModel.InstantEventSetDetailData mGoodsDetailData = mList.get(position);
             if (isDiscount) {//true  显示商品 优惠后价格
                 final ViewDiscountHolder discountHolder;
                 if (convertView == null) {
@@ -409,10 +409,10 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                 holder.mTvGoodsNumber.setText(String.format(getActivity().getResources().getString(R.string.instant_colon), getActivity().getResources().getString(R.string.instant_goods_remain_number), String.valueOf(mGoodsDetailData.mIntGoodsTotal)));
                 holder.mTvGoodsAmount.setText(String.format(getActivity().getResources().getString(R.string.instant_goods_amount), formatAmount((mGoodsDetailData.mDoubleGoodsAmount))));
                 if (!isGoosActionAdd) {
-                    holder.mTvGoodsPartakeNumber.setText(String.valueOf(mGoodsDetailData.mDoubleGoodsPartakeNumber));
+                    holder.mTvGoodsPartakeNumber.setText(String.valueOf(mGoodsDetailData.mIntGoodsPartakeNumber));
                 }
                 holder.mTvGoodsPartakeNumber.addTextChangedListener(new TextWatcher() {
-                    InstEvenSekSettModel.InstantEventSetDetailData mSetGoodsDetailData;
+                    InstEvenSkuSettModel.InstantEventSetDetailData mSetGoodsDetailData;
 
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -428,15 +428,15 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                     public void afterTextChanged(Editable s) {
                         mSetGoodsDetailData = mList.get(position);
                         if (TextUtils.isEmpty(s.toString())) {
-                            mSetGoodsDetailData.mDoubleGoodsPartakeNumber = 0;
+                            mSetGoodsDetailData.mIntGoodsPartakeNumber = 0;
                         } else {
-                            mSetGoodsDetailData.mDoubleGoodsPartakeNumber = Integer.parseInt(s.toString());
+                            mSetGoodsDetailData.mIntGoodsPartakeNumber = Integer.parseInt(s.toString());
                         }
 
-                        if (mSetGoodsDetailData.mDoubleGoodsPartakeNumber == 0) {//
+                        if (mSetGoodsDetailData.mIntGoodsPartakeNumber == 0) {//
                             holder.mTvGoodsTips.setVisibility(View.VISIBLE);
                             holder.mTvGoodsTips.setText(getActivity().getResources().getString(R.string.instant_goods_understock_tips1));
-                        } else if (mSetGoodsDetailData.mDoubleGoodsPartakeNumber > mSetGoodsDetailData.mIntGoodsTotal) {
+                        } else if (mSetGoodsDetailData.mIntGoodsPartakeNumber > mSetGoodsDetailData.mIntGoodsTotal) {
                             holder.mTvGoodsTips.setVisibility(View.VISIBLE);
                             holder.mTvGoodsTips.setText(getActivity().getResources().getString(R.string.instant_goods_understock_tips));
                         } else {
@@ -523,16 +523,16 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
      * @param DetailData
      * @throws IOException
      */
-    private String writeGoodsSkuListArray(List<InstEvenSekSettModel.InstantEventSetDetailData> DetailData) throws IOException {
+    private String writeGoodsSkuListArray(List<InstEvenSkuSettModel.InstantEventSetDetailData> DetailData) throws IOException {
         if (DetailData != null && DetailData.size() > 0) {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             JsonWriter writer = new JsonWriter(new OutputStreamWriter(out, "UTF-8"));
             writer.beginArray();
-            for (InstEvenSekSettModel.InstantEventSetDetailData message : DetailData) {
+            for (InstEvenSkuSettModel.InstantEventSetDetailData message : DetailData) {
                 writer.beginObject();
                 writer.name("skuId").value(message.mId);
                 writer.name("skuSn").value(message.mSkuSn);
-                writer.name("subTotal").value(message.mDoubleGoodsPartakeNumber);
+                writer.name("subTotal").value(message.mIntGoodsPartakeNumber);
                 writer.endObject();
             }
             writer.endArray();

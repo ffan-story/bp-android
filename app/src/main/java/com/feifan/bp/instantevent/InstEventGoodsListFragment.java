@@ -1,5 +1,6 @@
 package com.feifan.bp.instantevent;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,12 +10,17 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.feifan.bp.Constants;
+import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.home.commoditymanager.BrandFragment;
+import com.feifan.bp.home.commoditymanager.InstantsBuyFragment;
+import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.widget.paginate.Paginate;
 import java.util.ArrayList;
 
@@ -29,7 +35,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
     public static final String EXTRA_PARTAKE_EVENT_ID = "partake_event_id";
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeLayout;
-
+    private  RelativeLayout mRelEmpty;
     private InstEventGoodsListAdapter adapter;
 
 
@@ -64,8 +70,24 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
-        stub.setLayoutResource(R.layout.fragment_list);
+        stub.setLayoutResource(R.layout.fragment_add_goods_list);
         View view = stub.inflate();
+        mRelEmpty = (RelativeLayout)view.findViewById(R.id.rel_empty);
+        mRelEmpty.findViewById(R.id.btn_empty).setOnClickListener(new View.OnClickListener() {//去商品管理
+            @Override
+            public void onClick(View v) {
+                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
+                        .addFragment(InstantsBuyFragment.class.getName(), getString(R.string.commodity_instants_buy))
+                        .addArgument(InstantsBuyFragment.class.getName(), InstantsBuyFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
+                        .addFragment(BrandFragment.class.getName(), getString(R.string.commodity_brand))
+                        .addArgument(BrandFragment.class.getName(), BrandFragment.EXTRA_KEY_URL,UrlFactory.visitorsAnalysisForHtml())
+                        .build();
+                Intent intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.index_commodity_text), fragmentArgs);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
         int layoutOrientation = OrientationHelper.VERTICAL;
@@ -80,14 +102,16 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
 
     private void fetchGoodsListData(final int pageIndex,final boolean isLoadMore){
 
-        InstCtrl.getInstEventGoodsList(mStrEventId,pageIndex, new Response.Listener<InstEventGoodsListModel>() {
+        InstCtrl.getInstEventGoodsList(mStrEventId, pageIndex, new Response.Listener<InstEventGoodsListModel>() {
             @Override
             public void onResponse(InstEventGoodsListModel model) {
                 if (!isLoadMore) {
                     setContentShown(true);
                 }
                 if (model.getArryListGoodsData() != null && model.getArryListGoodsData().size() != 0) {
-                    totalPages = calculatePage(model.getTotalCount(),Constants.LIST_MAX_LENGTH);
+                    mRelEmpty.setVisibility(View.GONE);
+                    mSwipeLayout.setVisibility(View.VISIBLE);
+                    totalPages = calculatePage(model.getTotalCount(), Constants.LIST_MAX_LENGTH);
                     arryListGoodsData = model.getArryListGoodsData();
                     if (isLoadMore) {
                         if (adapter != null) {
@@ -95,7 +119,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
                             Toast.makeText(getActivity(), "已加载第" + pageIndex + "页 , 共" + totalPages + "页", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        adapter = new InstEventGoodsListAdapter(getActivity(), arryListGoodsData,mStrEventId);
+                        adapter = new InstEventGoodsListAdapter(getActivity(), arryListGoodsData, mStrEventId);
                         mRecyclerView.setAdapter(adapter);
                         paginate = Paginate.with(mRecyclerView, InstEventGoodsListFragment.this)
                                 .setLoadingTriggerThreshold(0)
@@ -104,8 +128,11 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
                     }
                     stopRefresh();
                     paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
+                }else{
+                    mRelEmpty.setVisibility(View.VISIBLE);
+                    mSwipeLayout.setVisibility(View.GONE);
                 }
-        }
+            }
         });
     }
 

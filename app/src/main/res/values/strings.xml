@@ -347,6 +347,8 @@
     <string name="instant_goods_list">商品列表</string>
     <string name="instant_setting_detail">设置详情</string>
     <string name="units_yuan">元</string>
+    <string name="goto_commodity_text">去商品管理</string>
+
 
     <!-- 商品管理 -->
     <string name="info_store_no_plaza">您的门店没有归属广场，无法查看可以报名活动。</string>
