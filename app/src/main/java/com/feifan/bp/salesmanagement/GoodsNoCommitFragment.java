@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
+import com.feifan.bp.base.LazyLoadFragment;
 import com.feifan.bp.network.BaseModel;
 import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 import com.feifan.bp.util.LogUtil;
@@ -31,7 +32,7 @@ import java.util.Set;
 /**
  * Created by Frank on 15/12/21.
  */
-public class GoodsNoCommitFragment extends Fragment implements GoodsListSwipeAdapter.onCheckChangeListener, GoodsListSwipeAdapter.onItemDeleteListener {
+public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsListSwipeAdapter.onCheckChangeListener, GoodsListSwipeAdapter.onItemDeleteListener {
 
     private CheckBox cbAllCheck;
     private RecyclerView mProductList;
@@ -178,7 +179,7 @@ public class GoodsNoCommitFragment extends Fragment implements GoodsListSwipeAda
 
                 if (model.goodsList != null) {
                     datas = model.goodsList;
-                    mSwipeAdapter = new GoodsListSwipeAdapter(getActivity(), datas, checkStatus,mPromotionId);
+                    mSwipeAdapter = new GoodsListSwipeAdapter(getActivity(), datas, checkStatus, mPromotionId);
                     mProductList.setAdapter(mSwipeAdapter);
                     mSwipeAdapter.setCheckChangeListener(GoodsNoCommitFragment.this);
                     mSwipeAdapter.setItemDeleteListener(GoodsNoCommitFragment.this);
@@ -290,6 +291,13 @@ public class GoodsNoCommitFragment extends Fragment implements GoodsListSwipeAda
             cbAllCheck.setOnCheckedChangeListener(null);
             cbAllCheck.setChecked(true);
             cbAllCheck.setOnCheckedChangeListener(checkAllListener);
+        }
+    }
+
+    @Override
+    protected void lazyLoad() {
+        if (!isVisible) {
+            return;
         }
     }
 

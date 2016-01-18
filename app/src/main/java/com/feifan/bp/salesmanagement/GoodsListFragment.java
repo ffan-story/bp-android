@@ -1,7 +1,6 @@
 package com.feifan.bp.salesmanagement;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +11,7 @@ import android.view.ViewGroup;
 import com.android.volley.Response;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
+import com.feifan.bp.base.LazyLoadFragment;
 import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by Frank on 15/12/21.
  */
-public class GoodsListFragment extends Fragment {
+public class GoodsListFragment extends LazyLoadFragment {
 
     public static final String ENROLL_STATUS = "enrollStatus";
     public static final int STATUS_NO_COMMIT = 0; //未提交状态
@@ -44,7 +44,7 @@ public class GoodsListFragment extends Fragment {
         mPromotionId = ((RegisterDetailActivity) getActivity()).promotionId;
         isCutOff = ((RegisterDetailActivity) getActivity()).isCutOff;
         initViews(view);
-        getGoodsList();
+        lazyLoad();
         return view;
     }
 
@@ -77,5 +77,13 @@ public class GoodsListFragment extends Fragment {
             }
         };
         PromotionCtrl.getGoodsList(storeId, merchantId, promotionCode, String.valueOf(enrollStatus), listener);
+    }
+
+    @Override
+    protected void lazyLoad() {
+        if (!isVisible) {//取消viewpager的预加载
+            return;
+        }
+        getGoodsList();
     }
 }
