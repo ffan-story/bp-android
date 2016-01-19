@@ -157,9 +157,10 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
         String title = null;
         if(args != null) {
             title = args.getString(Constants.EXTRA_KEY_TITLE);
+            mCenterTitle.setText(title);
+            mToolbar.setVisibility(title == null ? View.GONE : View.VISIBLE);
         }
-        mCenterTitle.setText(title);
-        mToolbar.setVisibility(title == null ? View.GONE : View.VISIBLE);
+
     }
 
     @Override
