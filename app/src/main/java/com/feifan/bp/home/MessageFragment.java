@@ -2,7 +2,6 @@ package com.feifan.bp.home;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.envir.EnvironmentManager;
@@ -51,6 +51,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     public static MessageFragment newInstance() {
         MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
+        args.putString(Constants.EXTRA_KEY_TITLE, Utils.getString(R.string.home_message_title_text));
         fragment.setArguments(args);
         return fragment;
     }
@@ -175,21 +176,12 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         });
     }
 
-
-    @Override
-    protected void setupToolbar(Toolbar toolbar) {
-        super.setupToolbar(toolbar);
-        toolbar.setTitle(R.string.home_message_title_text);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View contentView = inflater.inflate(R.layout.refresh_listview, null);
         mPtrFrame = (PtrClassicFrameLayout) contentView.findViewById(R.id.rotate_header_list_view_frame);
         mListView = (LoadingMoreListView) mPtrFrame.findViewById(R.id.rotate_header_list_view);
         mPtrFrameEmpty = (PtrClassicFrameLayout) contentView.findViewById(R.id.ptr_empty);
-
-
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -36,10 +36,6 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
      * 参数键值－fragments
      */
     public static final String EXTRA_KEY_FRAGMENTS = "fragments";
-    /**
-     * 参数键值－title
-     */
-    public static final String EXTRA_KEY_TITLE = "title";
 
     /**
      * 固定模式时最大显示的Tab数，超过这个数字后使用滚动模式
@@ -73,7 +69,7 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         if (fragments != null) {
             intent.putExtra(EXTRA_KEY_FRAGMENTS, fragments);
         }
-        intent.putExtra(EXTRA_KEY_TITLE, title);
+        intent.putExtra(Constants.EXTRA_KEY_TITLE, title);
         return intent;
     }
 
@@ -87,7 +83,7 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         // 初始化标题栏
         mToolbar = (Toolbar) findViewById(R.id.tab_header);
         mCenterTitle = (TextView) mToolbar.findViewById(R.id.header_center_title);
-        mCenterTitle.setText(getIntent().getStringExtra(EXTRA_KEY_TITLE));
+        mCenterTitle.setText(getIntent().getStringExtra(Constants.EXTRA_KEY_TITLE));
         setSupportActionBar(mToolbar);//作为ActionBar使用，支持加载Menu
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         initHeader(mToolbar);

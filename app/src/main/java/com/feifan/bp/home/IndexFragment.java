@@ -96,7 +96,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
-        getToolbar().setVisibility(View.GONE);
+//        getToolbar().setVisibility(View.GONE);
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }

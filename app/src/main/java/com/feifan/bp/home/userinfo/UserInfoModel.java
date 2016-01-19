@@ -55,7 +55,7 @@ public class UserInfoModel extends BaseModel {
     /**
      * "南昌红谷滩万达广场" －－所属广场名称
      */
-    public String plazaName = "无";
+    public String plazaName;
     /**
      * 省份ID
      */
@@ -86,27 +86,16 @@ public class UserInfoModel extends BaseModel {
         agid = data.optString("agid");
         try {
             JSONObject rangNameJSONObject = data.getJSONObject("rangeName");
-            if (!TextUtils.isEmpty(rangNameJSONObject.optString("merchantName"))) {
-                merchantName = rangNameJSONObject.optString("merchantName");
-            }
-            if (!TextUtils.isEmpty(rangNameJSONObject.optString("storeName"))) {
-                storeName = rangNameJSONObject.optString("storeName");
-            }
-            if (!TextUtils.isEmpty(rangNameJSONObject.optString("storeViewName"))) {
-                storeViewName = rangNameJSONObject.optString("storeViewName");
-            }
-            if (!TextUtils.isEmpty(rangNameJSONObject.optString("plazaName"))) {
-                plazaName = rangNameJSONObject.optString("plazaName");
-            }
-            if (!TextUtils.isEmpty(rangNameJSONObject.optString("provinceId"))) {
-                provinceId = rangNameJSONObject.optString("provinceId");
-            }
-            if (!TextUtils.isEmpty(rangNameJSONObject.optString("cityId"))) {
-                cityId = rangNameJSONObject.optInt("cityId");
-            }
-            if (!TextUtils.isEmpty(rangNameJSONObject.optString("identity"))) {
-                identity = rangNameJSONObject.optString("identity");
-            }
+            merchantName = rangNameJSONObject.optString("merchantName");
+            storeName = rangNameJSONObject.optString("storeName");
+            storeViewName = rangNameJSONObject.optString("storeViewName");
+            plazaName = rangNameJSONObject.optString("plazaName");
+            plazaName = (plazaName == null ? "无":plazaName);
+
+            provinceId = rangNameJSONObject.optString("provinceId");
+            cityId = rangNameJSONObject.optInt("cityId");
+            identity = rangNameJSONObject.optString("identity");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

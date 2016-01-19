@@ -2,6 +2,7 @@ package com.feifan.bp.home;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.feifan.bp.BuildConfig;
+import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.settings.feedback.FeedBackFragment;
@@ -49,9 +51,11 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
      *
      * @return A new instance of fragment UserCenterFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static SettingsFragment newInstance() {
         SettingsFragment fragment = new SettingsFragment();
+        Bundle args = new Bundle();
+        args.putString(Constants.EXTRA_KEY_TITLE, Utils.getString(R.string.home_settings_text));
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -80,18 +84,12 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    protected void setupToolbar(Toolbar toolbar) {
-        super.setupToolbar(toolbar);
-        toolbar.setTitle(R.string.home_settings_text);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }

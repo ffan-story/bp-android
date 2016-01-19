@@ -53,8 +53,6 @@ public class Constants {
     // 字符串长度
     public static int FEED_BACK_MAX_lENGTH = 300;
 
-    /** 当前运行环境 */
-//    public static Environment CURRENT_ENVIRONMENT = Environment.PRODUCT_PRE;
     /**
      * 员工管理
      *
@@ -62,14 +60,8 @@ public class Constants {
     public static int REQUEST_CODE = 1000;
 
     /**
-     * 闪购商品保存成功
+     * 通用参数键值－title
      */
-    public static int RESULT_SAVE_OK = 1001;
-
-    /**
-     * 闪购商品提交成功
-     */
-    public static int RESULT_COMM_OK = 1002;
-
+    public static final String EXTRA_KEY_TITLE = "title";
 
 }

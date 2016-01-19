@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.android.volley.Response.Listener;
+import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
@@ -37,6 +38,9 @@ public class LoginFragment extends BaseFragment {
      */
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
+        Bundle args = new Bundle();
+        args.putString(Constants.EXTRA_KEY_TITLE, Utils.getString(R.string.login_login_text));
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -122,13 +126,6 @@ public class LoginFragment extends BaseFragment {
             }
         });
         return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
     }
 
     @Override

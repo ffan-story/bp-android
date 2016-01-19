@@ -28,9 +28,10 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
     private LinearLayout mLoginInfoStore;
     private LinearLayout mLoginInfoMerchant;
 
-    public static UserInfoFragment newInstance() {
-        UserInfoFragment fragment = new UserInfoFragment();
-        return fragment;
+    public UserInfoFragment() {
+        Bundle args = new Bundle();
+        args.putString(Constants.EXTRA_KEY_TITLE, Utils.getString(R.string.login_info));
+        setArguments(args);
     }
 
     @Override

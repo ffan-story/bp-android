@@ -10,9 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.android.volley.Response;
-import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.envir.EnvironmentManager;
@@ -22,14 +23,11 @@ import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.home.SettingsFragment;
 import com.feifan.bp.home.check.CheckManageFragment;
-import com.feifan.bp.home.check.IndicatorFragment;
-import com.feifan.bp.home.code.CodeQueryResultFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.password.ForgetPasswordFragment;
-import com.feifan.bp.password.ResetPasswordFragment;
 import com.feifan.bp.settings.feedback.FeedBackFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
 import com.feifan.bp.widget.BadgerRadioButton;
@@ -41,17 +39,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class LaunchActivity extends BaseActivity implements OnFragmentInteractionListener {
+public class LaunchActivity extends PlatformBaseActivity implements OnFragmentInteractionListener {
 
+    private Toolbar mToolbar;
+    private TextView mCenterTitle;
     private TabBar mBottomBar;
     private List<Fragment> mFragments = new ArrayList<>();
     private Fragment mCurrentFragment;
 
     // badger
-    public static final String STORE_TYPE = "store";
-    public static final String MERCHANTID = "merchant";
     public static final String USER_TYPE = "1";
-    public static final String MESSAGE_ZERO = "0";
     public static final int MESSAGE_POSITION = 1;
     private String storeId = "";
     private String merchantId = "";
@@ -76,6 +73,11 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         mFragments.add(MessageFragment.newInstance());
         mFragments.add(SettingsFragment.newInstance());
 
+        // 加载标题栏
+        mToolbar = (Toolbar)findViewById(R.id.head_bar);
+        mCenterTitle = (TextView)mToolbar.findViewById(R.id.header_center_title);
+        initHeader(mToolbar);
+
         // 初始化视图
         mBottomBar = (TabBar) findViewById(R.id.bottom_bar);
         mBottomBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -83,18 +85,18 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 //统计埋点 首页home、消息、设置
-              switch (checkedId){
-                  case 0:
-                      FmsAgent.onEvent(getApplicationContext(),Statistics.FB_HOME_HOME);
-                      break;
-                  case 1:
-                      FmsAgent.onEvent(getApplicationContext(),Statistics.FB_HOME_MESSAGE);
-                      break;
-                  case 2:
-                      FmsAgent.onEvent(getApplicationContext(),Statistics.FB_HOME_SETTING);
-                      break;
+                switch (checkedId) {
+                    case 0:
+                        FmsAgent.onEvent(getApplicationContext(), Statistics.FB_HOME_HOME);
+                        break;
+                    case 1:
+                        FmsAgent.onEvent(getApplicationContext(), Statistics.FB_HOME_MESSAGE);
+                        break;
+                    case 2:
+                        FmsAgent.onEvent(getApplicationContext(), Statistics.FB_HOME_SETTING);
+                        break;
 
-              }
+                }
                 switchFragment(mFragments.get(checkedId));
             }
         });
@@ -148,9 +150,14 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         FmsAgent.onEvent(getApplicationContext(), Statistics.CLOSE_APP);
     }
 
-    @Override
-    protected boolean isShowToolbar() {
-        return true;
+    private void initHeader(Toolbar header) {
+        header.setNavigationIcon(R.mipmap.ic_left_arrow);
+        header.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -163,11 +170,6 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         if(mCurrentFragment instanceof MessageFragment){
             ((MessageFragment)mCurrentFragment).updateData();
         }
-    }
-
-    @Override
-    protected void setupToolbar(Toolbar toolbar) {
-        super.setupToolbar(toolbar);
     }
 
     @Override
@@ -190,27 +192,23 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
             if (to.equals(LaunchActivity.class.getName())) {
                startActivity(buildIntent(this));
             }else{
-                Intent intent = new Intent(this, PlatformTopbarActivity.class);
-                intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_FROM,from);
-                intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, to);
-                intent.putExtra(PlatformTopbarActivity.EXTRA_TITLE,title);
-                startActivity(intent);
+                PlatformTopbarActivity.startActivity(this, to);
             }
         } else if (from.equals(ForgetPasswordFragment.class.getName())) {
-            showForgetPassword();
+            PlatformTopbarActivity.startActivity(this, ForgetPasswordFragment.class.getName());
         } else if (from.equals(IndexFragment.class.getName())) {
             if (to.equals(CodeScannerActivity.class.getName())) {
                 String mUrlStr = UrlFactory.searchCodeForHtml();
                 CodeScannerActivity.startActivityForResult(this, mUrlStr);
                 //add by tianjun 2015.10.27
             } else if (to.equals(UserInfoFragment.class.getName())) {
-                if (Utils.isNetworkAvailable(this)) {//Utils.isCurrentNetworkAvailable(this)
-                    showLoginInfo();
+                if (Utils.isNetworkAvailable(this)) {
+                    PlatformTopbarActivity.startActivity(this, to);
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
             }else if(to.equals(CheckManageFragment.class.getName())){
-                if (Utils.isNetworkAvailable(this)) { //Utils.isCurrentNetworkAvailable(this)
+                if (Utils.isNetworkAvailable(this)) {
                     Intent intent = new Intent(this, PlatformTopbarActivity.class);
                     intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, CheckManageFragment.class.getName());
                     startActivity(intent);
@@ -225,16 +223,9 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
-            }else if (to.equals(IndicatorFragment.class.getName())) {
-                showIndicatorInfo();
-            } else if (to.equals(BrowserTabActivity.class.getName())) {
+            }else if (to.equals(BrowserTabActivity.class.getName())) {
                 openTabBrowser(args);
-            }
-//            else if(to.equals(PlatformTopbarActivity.class.getName())){
-//                //提货码核销
-//                PlatformTopbarActivity.startActivityForResult(this, CodeQueryResultFragment.class.getName(), "查询结果");
-//            }
-            else{
+            } else{
                 openBrowser(args.getString(BrowserActivity.EXTRA_KEY_URL));
             }
         } else if (from.equals(UserInfoFragment.class.getName())) {
@@ -257,7 +248,6 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         } else {
             mMessageTab.hideBadger();
         }
-
     }
 
     /**
@@ -271,6 +261,15 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         transaction.replace(R.id.content_container, fragment);
         transaction.commitAllowingStateLoss();
         mCurrentFragment = fragment;
+
+        // 改变标题
+        Bundle args = fragment.getArguments();
+        String title = null;
+        if(args != null) {
+            title = args.getString(Constants.EXTRA_KEY_TITLE);
+        }
+        mCenterTitle.setText(title);
+        mToolbar.setVisibility(title == null ? View.GONE : View.VISIBLE);
     }
 
     // 初始化界面内容
@@ -291,12 +290,6 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         switchFragment(mFragments.get(mBottomBar.getCheckedRadioButtonId()));
     }
 
-    // 显示忘记密码
-    private void showForgetPassword() {
-        mBottomBar.setVisibility(View.GONE);
-        switchFragment(ForgetPasswordFragment.newInstance());
-    }
-
     // 显示登录界面
     private void showLogin() {
         mBottomBar.setVisibility(View.GONE);
@@ -308,16 +301,6 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
         if (UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
             showLogin();
         }
-    }
-
-    private void showLoginInfo() {
-        mBottomBar.setVisibility(View.GONE);
-        switchFragment(UserInfoFragment.newInstance());
-    }
-
-    private void showIndicatorInfo(){
-        mBottomBar.setVisibility(View.GONE);
-        switchFragment(IndicatorFragment.newInstance());
     }
 
     // 打开TAB浏览器
@@ -347,15 +330,11 @@ public class LaunchActivity extends BaseActivity implements OnFragmentInteractio
 
     @Override
     public void onBackPressed() {
-        if (mCurrentFragment != null && mCurrentFragment instanceof ForgetPasswordFragment) {
-            showLogin();
-        } else if (mCurrentFragment != null
-                && mCurrentFragment instanceof ResetPasswordFragment
-                || mCurrentFragment instanceof UserInfoFragment
-                || mCurrentFragment instanceof FeedBackFragment
+        if (mCurrentFragment != null
+                && mCurrentFragment instanceof FeedBackFragment
                 || mCurrentFragment instanceof HelpCenterFragment) {
             showHome(false);
-        }  else {
+        } else {
             super.onBackPressed();
         }
     }
