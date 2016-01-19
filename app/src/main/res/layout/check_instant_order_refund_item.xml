@@ -33,7 +33,7 @@
 
         <TextView
             android:id="@+id/order_trade_money"
-            style="@style/InstantDetailMoney"
+            style="@style/txt_color33_size16"
             android:layout_below="@id/order_code"
             android:layout_alignParentRight="true"
             android:maxLines="2"
@@ -48,12 +48,44 @@
             android:layout_below="@id/order_trade_money"
             android:layout_marginLeft="@dimen/view_spacing_15"
             android:layout_marginTop="@dimen/view_spacing_5"
-            android:text="@string/order_trade_time"/>
+            android:text="@string/order_success_time"/>
 
         <TextView
-            android:id="@+id/order_trade_date"
+            android:id="@+id/order_trade_succ_date"
             style="@style/txt_color33_size16"
             android:layout_below="@id/order_trade_money"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/view_spacing_25"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="0"/>
+
+        <TextView
+            style="@style/txt_color99_size14"
+            android:layout_below="@id/order_trade_succ_date"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="@string/order_refund_time"/>
+
+        <TextView
+            android:id="@+id/order_refund_date"
+            style="@style/txt_color33_size16"
+            android:layout_below="@id/order_trade_succ_date"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/view_spacing_25"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="0"/>
+
+        <TextView
+            style="@style/txt_color99_size14"
+            android:layout_below="@id/order_refund_date"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="@string/order_refund_amount"/>
+
+        <TextView
+            android:id="@+id/order_refund_money"
+            style="@style/InstantDetailMoney"
+            android:layout_below="@id/order_refund_date"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/view_spacing_25"
             android:layout_marginTop="@dimen/view_spacing_5"

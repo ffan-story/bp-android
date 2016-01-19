@@ -27,19 +27,7 @@ public class InstantDetailModel extends BaseModel {
     protected void parseData(String json) throws JSONException {
         super.parseData(json);
         Log.e("InstantDetailModel","InstantDetailModel-----" + json);
-        /**
-         * [
-             {
-             "goodsId": "20616",
-             "goodsName": "99朵玫瑰=1个※不要问",
-             "payAmt": 15.6,
-             "payCount": 2,
-             "refundAmt": -7.8,
-             "refundCount": 1
-             }
-         ]
-         */
-        JSONArray detailList = new JSONArray(json);
+        JSONArray detailList = new JSONObject(json).getJSONArray("list");
         details = new ArrayList<>();
         for(int i = 0; i < detailList.length(); i++){
             InstantDetail detail = new InstantDetail();

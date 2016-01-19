@@ -11,6 +11,13 @@
         android:paddingLeft="@dimen/view_spacing_15">
 
         <TextView
+            android:id="@+id/indicator_explains_below"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            android:text="@string/indicator_disclaimer"/>
+
+        <TextView
             style="@style/IndicatorDetails"
             android:drawableLeft="@drawable/vertical_blue_line"
             android:drawablePadding="@dimen/view_spacing_3"

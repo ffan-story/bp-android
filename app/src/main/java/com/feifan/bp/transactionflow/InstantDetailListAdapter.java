@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.util.NumberUtil;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class InstantDetailListAdapter extends RecyclerView.Adapter<InstantDetail
     /**
      * 是否只包含退款
      */
-    private boolean onlyRefund;
+    private String onlyRefund;
 
     public InstantDetailListAdapter(Context context,
                                     List<InstantDetailModel.InstantDetail> details,
@@ -40,7 +41,7 @@ public class InstantDetailListAdapter extends RecyclerView.Adapter<InstantDetail
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        onlyRefund = args.getBoolean("onlyRefund");
+        onlyRefund = args.getString("onlyRefund");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.check_instant_detail_list,parent,false);
         return new MyViewHolder(view);
     }
@@ -48,15 +49,15 @@ public class InstantDetailListAdapter extends RecyclerView.Adapter<InstantDetail
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.mTitle.setText(details.get(position).goodsName);
-        if(onlyRefund){
+        if(onlyRefund.equals("1")){//退款汇总
             holder.tvDetailMoney.setText(context.getString(R.string.order_refund_amount));
             holder.tvDetailCount.setText(context.getString(R.string.order_refund_count));
-            holder.mTradeMoney.setText(details.get(position).refundAmount);
+            holder.mTradeMoney.setText(NumberUtil.moneyFormat(details.get(position).refundAmount,2));
             holder.mTradeCount.setText(details.get(position).refundCount);
-        }else{
+        }else{//全部汇总
             holder.tvDetailMoney.setText(context.getString(R.string.order_trade_amount));
             holder.tvDetailCount.setText(context.getString(R.string.order_trade_count));
-            holder.mTradeMoney.setText("+" + details.get(position).payAmount);
+            holder.mTradeMoney.setText("+" + NumberUtil.moneyFormat(details.get(position).payAmount,2));
             holder.mTradeCount.setText(details.get(position).payCount);
         }
 

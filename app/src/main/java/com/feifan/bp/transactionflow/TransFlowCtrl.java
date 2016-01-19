@@ -56,7 +56,7 @@ public class TransFlowCtrl {
                 .param("pageIndex", pageIndex + "")
                 .param("limit",limit+"")
                 .param("merchantId","")
-                .param("storeId", "9053027")
+                .param("storeId", UserProfile.getInstance().getAuthRangeId())
                 .build()
                 .targetClass(InstantDetailModel.class)
                 .listener(listener);
@@ -65,6 +65,7 @@ public class TransFlowCtrl {
 
     /**
      * 获取订单明细列表
+     * @param isOnlyRefund
      * @param startDate 开始时间
      * @param endDate   截止时间
      * @param pageIndex 页码
@@ -73,24 +74,23 @@ public class TransFlowCtrl {
      * @param listener
      * @param errorListener
      */
-    public static void getInstantOrderDetailList(String startDate,
-                                            String endDate,
-                                            int pageIndex,
-                                            int limit,
-                                            String goodsId,
-                                            Response.Listener listener,
-                                            Response.ErrorListener errorListener){
+    public static void getInstantOrderDetailList(String isOnlyRefund, String startDate,
+                                                 String endDate,
+                                                 int pageIndex,
+                                                 int limit,
+                                                 String goodsId,
+                                                 Response.Listener listener,
+                                                 Response.ErrorListener errorListener){
         JsonRequest<InstantOrderDetailModel> request = new GetRequest.Builder<InstantOrderDetailModel>(UrlFactory.getFlashBuyUrl())
                 .errorListener(errorListener)
                 .param("startDate", startDate)
                 .param("endDate", endDate)
                 .param("goodsId",goodsId)
                 .param("pageIndex", pageIndex + "")
-                .param("limit",limit+"")
-                .param("includeRefundTime","true")
-                .param("includeRefundAuditTime","true")
+                .param("onlyrefund",isOnlyRefund)
+                .param("limit", limit + "")
                 .param("merchantId","")
-                .param("storeId", "9053027")
+                .param("storeId", UserProfile.getInstance().getAuthRangeId())
                 .build()
                 .targetClass(InstantOrderDetailModel.class)
                 .listener(listener);
@@ -104,19 +104,18 @@ public class TransFlowCtrl {
      * @param listener
      * @param errorListener
      */
-    public static void getCouponSummary(String type,
-                                        String month,
+    public static void getCouponSummary(String month,
                                         int pageIndex,
                                         int limit,
                                          Response.Listener listener,
                                          Response.ErrorListener errorListener){
         JsonRequest<CouponSummaryModel> request = new GetRequest.Builder<CouponSummaryModel>(UrlFactory.getCouponsUrl())
                 .errorListener(errorListener)
-                .param("type", type)
+                .param("type", "1")
                 .param("month",month)
                 .param("pageIndex", pageIndex + "")
                 .param("limit",limit+"")
-                .param("storeId", "9053027")
+                .param("storeId", UserProfile.getInstance().getAuthRangeId())
                 .build()
                 .targetClass(CouponSummaryModel.class)
                 .listener(listener);

@@ -1,46 +1,58 @@
 package com.feifan.bp.transactionflow;
 
 import android.content.Context;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.feifan.bp.R;
+import com.feifan.bp.util.NumberUtil;
+
+import java.util.List;
 
 /**
  * Created by konta on 2016/1/15.
  */
-public class CouponListAdapter extends BaseAdapter {
-    private final String TAG = "CouponListAdapter";
-    private Context mContext;
+public class CouponListAdapter extends RecyclerView.Adapter<CouponListAdapter.CouponAdapter> {
 
-    public CouponListAdapter(Context context){
-        Log.e(TAG,"here ? CouponListAdapter");
+    List<CouponSummaryModel.CouponDetail> mCouponList;
+    Context mContext;
+
+    public CouponListAdapter(Context context, List<CouponSummaryModel.CouponDetail> couponList) {
         mContext = context;
+        mCouponList = couponList;
     }
 
     @Override
-    public int getCount() {
-        return 5;
+    public CouponAdapter onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.check_coupon_detail_item, parent, false);
+        return new CouponAdapter(view, this);
     }
 
     @Override
-    public Object getItem(int position) {
-        return position;
+    public void onBindViewHolder(CouponAdapter holder, int position) {
+        holder.mCouponCode.setText(mCouponList.get(position).CPCode);
+        holder.mCouponName.setText(mCouponList.get(position).CPName);
+        holder.mAwardMoney.setText(mContext.getString(R.string.money,NumberUtil.moneyFormat(mCouponList.get(position).awardMoney,2)));
+        holder.mChargeOffTime.setText(mCouponList.get(position).chargeoffTime);
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public int getItemCount() {
+        return mCouponList.size();
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null){
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.check_coupon_detail_item,null);
+    public static class CouponAdapter extends RecyclerView.ViewHolder{
+        public TextView mCouponCode,mCouponName,mAwardMoney,mChargeOffTime;
+        public CouponAdapter(View itemView, CouponListAdapter couponListAdapter) {
+            super(itemView);
+            mCouponCode = (TextView)itemView.findViewById(R.id.coupon_code);
+            mCouponName = (TextView)itemView.findViewById(R.id.coupon_name);
+            mAwardMoney = (TextView)itemView.findViewById(R.id.coupon_award_money);
+            mChargeOffTime = (TextView)itemView.findViewById(R.id.chargeoff_time);
         }
-        return convertView;
     }
+
 }

@@ -19,6 +19,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.util.LogUtil;
+import com.feifan.bp.util.NumberUtil;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.MaterialDialog;
@@ -49,7 +50,7 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
     private String startDate;
     private String endDate;
 
-    private String trdeCount;
+    private String tradeCount;
 
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
@@ -76,6 +77,7 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
         mOther.setOnClickListener(this);
 
         mQueryTime = (TextView) v.findViewById(R.id.instant_query_time);
+
         mTradeCount = (TextView) v.findViewById(R.id.trade_count);
         mTradeMoney = (TextView) v.findViewById(R.id.trade_money);
         mRefundContiner = (RelativeLayout) v.findViewById(R.id.refund_continer);
@@ -97,6 +99,7 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
         mToday.setChecked(true);
         tabIndex = R.id.instant_today;
         startDate = endDate = TimeUtil.getToday();
+        mQueryTime.setText(getString(R.string.query_time,startDate));
         return v;
     }
 
@@ -147,24 +150,23 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
         Bundle args = new Bundle();
         switch (v.getId()){
             case R.id.instant_other:
-                Utils.showShortToast(getContext(),"other");
                 selectDate();
                 break;
             case R.id.trade_continer:
-                if("0".equals(trdeCount)){
-                    Utils.showShortToast(getActivity(),"暂无数据");
+                if("0".equals(tradeCount)){
+                    Utils.showShortToast(getActivity(),getString(R.string.no_data));
                     return;
                 }
                 args.putString(STARTDATE, startDate);
                 args.putString(ENDDATE, endDate);
-                args.putBoolean("onlyRefund", false);
+                args.putString("onlyRefund", "0");
                 PlatformTopbarActivity.startActivity(getActivity(), InstantDetailListFragment.class.getName(),
                         getString(R.string.instant_summary), args);
                 break;
             case R.id.refund_continer:
                 args.putString(STARTDATE, startDate);
                 args.putString(ENDDATE, endDate);
-                args.putBoolean("onlyRefund", true);
+                args.putString("onlyRefund", "1");
                 PlatformTopbarActivity.startActivity(getActivity(), InstantDetailListFragment.class.getName(),
                         getString(R.string.instant_summary), args);
                 break;
@@ -201,19 +203,19 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
         if(startDate.equals(endDate)){
             queryTime = startDate;
         }else{
-            queryTime = startDate + "至" + endDate;
+            queryTime = getResources().getString(R.string.query_interval_time,startDate,endDate);
         }
         mQueryTime.setText(getResources().getString(R.string.query_time,queryTime));
-        trdeCount = modle.getInstantSummary().tradeCount;
+        tradeCount = modle.getInstantSummary().tradeCount;
         mTradeCount.setText(modle.getInstantSummary().tradeCount);
-        mTradeMoney.setText(modle.getInstantSummary().tradeMoney);
+        mTradeMoney.setText(NumberUtil.moneyFormat(modle.getInstantSummary().tradeMoney,2));
 
-        if("0".equals(modle.getInstantSummary().refundCount)){
+        if("0".equals(modle.getInstantSummary().refundCount)){//没有退款
             mRefundContiner.setVisibility(View.GONE);
         }else{
             mRefundContiner.setVisibility(View.VISIBLE);
             mRefundCount.setText(modle.getInstantSummary().refundCount);
-            mRefundMoney.setText(modle.getInstantSummary().refundMoney);
+            mRefundMoney.setText(NumberUtil.moneyFormat(modle.getInstantSummary().refundMoney,2));
         }
     }
 

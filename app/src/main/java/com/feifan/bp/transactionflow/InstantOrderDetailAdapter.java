@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.feifan.bp.R;
+import com.feifan.bp.util.NumberUtil;
 
 import java.util.List;
 
@@ -15,11 +16,14 @@ import java.util.List;
  */
 public class InstantOrderDetailAdapter extends BaseAdapter {
 
-    Context mContext;
-    List<InstantOrderDetailModel.OrderDetail> mOrderList;
-    public InstantOrderDetailAdapter(Context context, List<InstantOrderDetailModel.OrderDetail> orders) {
+    private Context mContext;
+    private List<InstantOrderDetailModel.OrderDetail> mOrderList;
+    private String mIsOnlyRefund;
+
+    public InstantOrderDetailAdapter(Context context, List<InstantOrderDetailModel.OrderDetail> orders, String isOnlyRefund) {
         mContext = context;
         mOrderList = orders;
+        mIsOnlyRefund = isOnlyRefund;
     }
 
     @Override
@@ -41,18 +45,28 @@ public class InstantOrderDetailAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if(null == convertView){
-            convertView = View.inflate(mContext, R.layout.check_instant_order_detail_item,null);
+            if(mIsOnlyRefund.equals("1")){//退款单列表
+                convertView = View.inflate(mContext, R.layout.check_instant_order_refund_item,null);
+            }else{//全部订单列表
+                convertView = View.inflate(mContext, R.layout.check_instant_order_detail_item,null);
+            }
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder)convertView.getTag();
         }
-        holder.mOrderCode.setText(mOrderList.get(position).orderNumber);
-        holder.mTradeMoney.setText("￥" + mOrderList.get(position).trdeMoney);
-        holder.mTradeDate.setText(mOrderList.get(position).tradeTime);
-        holder.mTradeSuccDate.setText(mOrderList.get(position).tradeTime);
-        holder.mRefundDate.setText(mOrderList.get(position).refundTime);
-        holder.mRefundMoney.setText("-" + mOrderList.get(position).trdeMoney);
+
+        if(mIsOnlyRefund.equals("1")){//退款单明细
+            holder.mOrderCode.setText(mOrderList.get(position).orderNumber);
+            holder.mTradeMoney.setText(mContext.getString(R.string.money,NumberUtil.moneyFormat(mOrderList.get(position).tradeMoney,2)));
+            holder.mTradeSuccDate.setText(mOrderList.get(position).tradeTime);
+            holder.mRefundDate.setText(mOrderList.get(position).refundTime);
+            holder.mRefundMoney.setText("-" + NumberUtil.moneyFormat(mOrderList.get(position).tradeMoney,2));
+        }else{//全部订单明细
+            holder.mOrderCode.setText(mOrderList.get(position).orderNumber);
+            holder.mTradeMoney.setText(mContext.getString(R.string.money,NumberUtil.moneyFormat(mOrderList.get(position).tradeMoney,2)));
+            holder.mTradeDate.setText(mOrderList.get(position).tradeTime);
+        }
 
         return convertView;
     }

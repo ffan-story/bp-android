@@ -2,7 +2,6 @@ package com.feifan.bp.transactionflow;
 
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -31,12 +30,17 @@ public class InstantOrderDetailFragment extends ProgressFragment implements OnLo
     private LoadingMoreListView mLoadDetailList;
     private TextView mQueryTime,mTotalCount,orderTitle;
 
-    private String startDate;
-    private String endDate;
+    private String mStartDate;
+    private String mEndDate;
     private String mQueryDate;
-    private int pageIndex = 1;
-    private int limit = 10;
-    private String googsId;
+
+    private String isOnlyRefund;
+
+    private int mPageIndex = 1;
+    private int mLimit = 10;
+    private int totalCount;
+
+    private String mGoogsId;
 
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
@@ -69,17 +73,22 @@ public class InstantOrderDetailFragment extends ProgressFragment implements OnLo
     private void initData() {
         Bundle args = getActivity().getIntent().getBundleExtra(PlatformTopbarActivity.EXTRA_ARGS);
         String ordertitle = args.getString(InstantDetailListAdapter.GOODSNAME);
-        googsId = args.getString(InstantDetailListAdapter.GOODSID);
-        startDate = args.getString(InstantBuyFragment.STARTDATE);
-        endDate = args.getString(InstantBuyFragment.ENDDATE);
 
-        if(startDate.equals(endDate)){
-            mQueryDate = startDate;
+        isOnlyRefund = args.getString("onlyRefund");
+
+        mGoogsId = args.getString(InstantDetailListAdapter.GOODSID);
+        mStartDate = args.getString(InstantBuyFragment.STARTDATE);
+        mEndDate = args.getString(InstantBuyFragment.ENDDATE);
+
+        if(mStartDate.equals(mEndDate)){
+            mQueryDate = mStartDate;
         }else{
-            mQueryDate = startDate + "至" + endDate;
+            mQueryDate = getResources().getString(R.string.query_interval_time,mStartDate,mEndDate);
         }
         mQueryTime.setText(getResources().getString(R.string.query_time, mQueryDate));
         orderTitle.setText(ordertitle);
+
+        orders = new ArrayList<>();
 
     }
 
@@ -87,25 +96,37 @@ public class InstantOrderDetailFragment extends ProgressFragment implements OnLo
     protected void requestData() {
         if(Utils.isNetworkAvailable(getActivity())){
             setContentEmpty(false);
-            TransFlowCtrl.getInstantOrderDetailList(startDate, endDate,
-                    pageIndex, limit, googsId,
-                    new Response.Listener<InstantOrderDetailModel>() {
-                @Override
-                public void onResponse(InstantOrderDetailModel model) {
-                    if(null != model && isAdded()){
+            TransFlowCtrl.getInstantOrderDetailList(isOnlyRefund,mStartDate, mEndDate,
+                mPageIndex, mLimit, mGoogsId,
+                new Response.Listener<InstantOrderDetailModel>() {
+                    @Override
+                    public void onResponse(InstantOrderDetailModel model) {
+                        if (null != model && isAdded()) {
+                            setContentShown(true);
+                            mLoadDetailList.hideFooterView();
+                            if(mPageIndex == 1){
+                                initOrderDetailView(model, false);
+                            }else{
+                                initOrderDetailView(model, true);
+                            }
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
                         setContentShown(true);
-                        initOrderDetailView(model);
+                        mLoadDetailList.hideFooterView();
+                        if(mPageIndex == 1){
+                            return;
+                        }else{
+                            mPageIndex--;
+                        }
+                        if (isShowDlg && isAdded()) {
+                            showError(volleyError);
+                        }
                     }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    setContentShown(true);
-                    if (isShowDlg && isAdded()) {
-                        showError(volleyError);
-                    }
-                }
-            });
+                });
         }else{
             if (isShowDlg && isAdded()) {
                 mDialog.setMessage(getResources().getString(R.string.error_message_text_offline))
@@ -119,17 +140,28 @@ public class InstantOrderDetailFragment extends ProgressFragment implements OnLo
 
     @Override
     public void onLoadingMore() {
-        requestData();
+        if(orders.size() >= totalCount && isAdded()){
+            Utils.showShortToast(getActivity(),getString(R.string.error_no_more_data));
+            mLoadDetailList.hideFooterView();
+        }else{
+            mPageIndex++;
+            requestData();
+        }
     }
 
-    private void initOrderDetailView(InstantOrderDetailModel model) {
-        orders = new ArrayList<>();
+    private void initOrderDetailView(InstantOrderDetailModel model, boolean isLoadMore) {
         if(null != model.getOrderList()){
-            orders.addAll(model.getOrderList());
-            Log.e(TAG,"orders" + orders.size());
-            mTotalCount.setText("总条数 : " + orders.get(1).totalCount);
-            mOrderDetailAdapter = new InstantOrderDetailAdapter(getActivity(),orders);
-            mLoadDetailList.setAdapter(new InstantOrderDetailAdapter(getContext(), orders));
+            totalCount = model.getOrderList().get(0).totalCount;
+            mTotalCount.setText(getString(R.string.total_acount,totalCount));
+            if(isLoadMore){
+                orders.addAll(model.getOrderList());
+                mLoadDetailList.setSelection(orders.size());
+            }else{
+                orders = model.getOrderList();
+                mOrderDetailAdapter = new InstantOrderDetailAdapter(getActivity(),orders,isOnlyRefund);
+                mLoadDetailList.setAdapter(mOrderDetailAdapter);
+            }
+            mOrderDetailAdapter.notifyDataSetChanged();
         }
     }
 
