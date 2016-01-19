@@ -34,6 +34,12 @@ public class FeedBackFragment extends BaseFragment implements View.OnClickListen
     private EditText mEtFeedBack;
     private TextView mFeedBackPrompt;
 
+    public FeedBackFragment() {
+        Bundle args = new Bundle();
+        args.putString(Constants.EXTRA_KEY_TITLE, Utils.getString(R.string.feed_back));
+        setArguments(args);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_feedback, container, false);

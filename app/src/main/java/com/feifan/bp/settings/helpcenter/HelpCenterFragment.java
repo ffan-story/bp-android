@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
@@ -43,11 +45,10 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
     private int pageIndex = 1;
     private int totalCount = 0;
 
-    public static HelpCenterFragment newInstance() {
-        HelpCenterFragment fragment = new HelpCenterFragment();
+    public HelpCenterFragment() {
         Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        args.putString(Constants.EXTRA_KEY_TITLE, Utils.getString(R.string.help_center_title));
+        setArguments(args);
     }
 
     @Override
