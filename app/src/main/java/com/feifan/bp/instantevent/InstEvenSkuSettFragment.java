@@ -2,6 +2,7 @@ package com.feifan.bp.instantevent;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.text.Editable;
@@ -20,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
+import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
@@ -327,12 +329,16 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                 new Response.Listener() {
                     @Override
                     public void onResponse(Object o) {
+                        Intent intent = new Intent();
                         if (!TextUtils.isEmpty(mCommitFlag) && mCommitFlag.equals("0")) {
                             Utils.showShortToast(getActivity().getApplicationContext(), "保存成功");
+                            intent.putExtra(Constants.RETURN_STATUS, Constants.RETURN_SAVE);
                         } else {
                             Utils.showShortToast(getActivity().getApplicationContext(), "提交成功");
+                            intent.putExtra(Constants.RETURN_STATUS, Constants.RETURN_COMMIT);
+
                         }
-                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().setResult(Activity.RESULT_OK,intent);
                         getActivity().finish();
                     }
                 });
@@ -479,7 +485,6 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
         }
     }
 
-
     /**
      * 合计价格商品列表 holder
      */
@@ -493,7 +498,6 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
             return holder;
         }
     }
-
 
     /**
      * setting listview height

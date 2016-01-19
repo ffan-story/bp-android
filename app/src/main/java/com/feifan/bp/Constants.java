@@ -60,6 +60,24 @@ public class Constants {
     public static int REQUEST_CODE = 1000;
 
     /**
+     * 闪购活动-商品-返回值
+     */
+    public static String RETURN_STATUS ="ReturnStatus";
+
+    /**
+     * 闪购活动-商品-提交返回
+     *
+     */
+    public static int RETURN_COMMIT = 1002;
+
+    /**
+     * 闪购活动-商品-保存返回
+     *
+     */
+    public static int RETURN_SAVE = 1003;
+
+
+    /**
      * 通用参数键值－title
      */
     public static final String EXTRA_KEY_TITLE = "title";
