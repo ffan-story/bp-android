@@ -8,7 +8,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.android.volley.Response;
@@ -54,7 +57,10 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     private Button btnAddProduct;
     private TextView tvEnrollHeader;
     private List<String> mFragmentTabCountList = new ArrayList<>();
+    private List<String> mFragmentTitleList = new ArrayList<>();
+    private List<Integer> mFragmentTabIconList = new ArrayList<>();
     private GoodsNoCommitFragment goodsNoCommitFragment;
+    private ViewPagerAdapter adapter;
 
     public static void startActivity(Context context, String id, String title, boolean isCutOff) {
         Intent i = new Intent(context, RegisterDetailActivity.class);
@@ -73,7 +79,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
         isCutOff = getIntent().getBooleanExtra(EXTRA_KEY_FLAG, false);
         initViews();
         setupToolbar();
-        getGoodsStatus();
+        getGoodsStatus(true);
     }
 
     private void initViews() {
@@ -109,7 +115,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void getGoodsStatus() {
+    private void getGoodsStatus(final boolean isSetupViewPager) {
         mFragmentTabCountList.clear();
 
         String storeId = UserProfile.getInstance().getAuthRangeId();
@@ -131,7 +137,23 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
                             }
                         }
                     }
-                    setupViewPager(viewPager);
+                    if(isSetupViewPager){
+                        setupViewPager(viewPager);
+                    }else{
+                        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+                            TabLayout.Tab tab = tabLayout.getTabAt(i);
+                            if (tab != null) {
+                                final View customView = tab.getCustomView();
+                                TextView badgerView = (TextView) customView.findViewById(R.id.badger);
+                                if (mFragmentTabCountList.get(i).equals("0")) {
+                                    badgerView.setVisibility(View.GONE);
+                                } else {
+                                    badgerView.setVisibility(View.VISIBLE);
+                                    badgerView.setText(mFragmentTabCountList.get(i));
+                                }
+                            }
+                        }
+                    }
                 }
             }
         };
@@ -141,7 +163,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
 
     private void setupViewPager(CustomViewPager viewPager) {
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), RegisterDetailActivity.this);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), RegisterDetailActivity.this);
         if (isCutOff) {
             adapter.addFrag(new GoodsListFragment(), getString(R.string.notsubmitted), R.mipmap.icon_notsubmitted, GoodsListFragment.STATUS_NO_COMMIT);
         } else {
@@ -158,9 +180,26 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             if (tab != null) {
-                tab.setCustomView(adapter.getTabView(i));
+                tab.setCustomView(getTabView(i));
             }
         }
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                getGoodsStatus(false);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         viewPager.setCurrentItem(0);
     }
 
@@ -187,15 +226,31 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
      */
     @Override
     public void updateStatus() {
-        getGoodsStatus();//刷新页面
+        getGoodsStatus(true);//刷新页面
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            getGoodsStatus();
+            getGoodsStatus(true);
         }
+    }
+
+    public View getTabView(int position) {
+        View v = LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        TextView tv = (TextView) v.findViewById(R.id.textView);
+        tv.setText(mFragmentTitleList.get(position));
+        ImageView img = (ImageView) v.findViewById(R.id.imageView);
+        img.setImageResource(mFragmentTabIconList.get(position));
+        TextView badgerView = (TextView) v.findViewById(R.id.badger);
+        if (mFragmentTabCountList.get(position).equals("0")) {
+            badgerView.setVisibility(View.GONE);
+        } else {
+
+            badgerView.setText(mFragmentTabCountList.get(position));
+        }
+        return v;
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -203,27 +258,10 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
         private Context context;
 
         private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-        private final List<Integer> mFragmentTabIconList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager, Context context) {
             super(manager);
             this.context = context;
-        }
-
-        public View getTabView(int position) {
-            View v = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
-            TextView tv = (TextView) v.findViewById(R.id.textView);
-            tv.setText(mFragmentTitleList.get(position));
-            ImageView img = (ImageView) v.findViewById(R.id.imageView);
-            img.setImageResource(mFragmentTabIconList.get(position));
-            TextView badgerView = (TextView) v.findViewById(R.id.badger);
-            if (mFragmentTabCountList.get(position).equals("0")) {
-                badgerView.setVisibility(View.GONE);
-            } else {
-                badgerView.setText(mFragmentTabCountList.get(position));
-            }
-            return v;
         }
 
         @Override

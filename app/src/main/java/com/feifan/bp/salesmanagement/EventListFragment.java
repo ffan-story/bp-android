@@ -93,8 +93,7 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
                         public void onClick(View v) {
                             getActivity().onBackPressed();
                         }
-                    })
-                    .show();
+                    }).show();
         } else {
             setupPagination();
         }

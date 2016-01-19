@@ -120,7 +120,6 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         });
         tabLayout.setTabMode(pager.getAdapter().getCount() > MAX_TAB_COUNT ? TabLayout.MODE_SCROLLABLE : TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(pager);
-
     }
 
     /**
