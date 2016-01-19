@@ -209,6 +209,10 @@
     <string name="indicator_disclaimer">【今天】数据即时生成中仅供参考，往日数据可供查询</string>
 
     <string name="query_time">查询时间 : %s</string>
+    <string name="query_interval_time">%1$s至%2$s</string>
+    <string name="total_acount">总条数 : (%s条)</string>
+    <string name="coupon_total_acount">(共%s条)</string>
+    <string name="no_data">暂无数据</string>
     <string name="order_number">订单号</string>
     <string name="order_trade_amount">交易金额</string>
     <string name="order_trade_count">交易笔数</string>
@@ -225,6 +229,8 @@
 
     <string name="coupon_chargeoff_count">核销总笔数</string>
     <string name="coupon_award_amount">奖励金额</string>
+    <string name="coupon_link_relative">(环比 %s )</string>
+    <string name="money">￥%s</string>
 
     <string name="detail">明细</string>
     <string name="instant_detail">商品明细</string>

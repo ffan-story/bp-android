@@ -67,7 +67,7 @@
             android:id="@+id/trade_count"
             style="@style/txt_color33_size18"
             android:layout_marginLeft="@dimen/view_spacing_26"
-            android:text="600"/>
+            android:text="0"/>
         <TextView
             android:id="@+id/trade_count_tv"
             style="@style/txt_color33_size16"
@@ -88,7 +88,7 @@
             style="@style/TransactionFlowMoney"
             android:layout_toRightOf="@id/trade_count"
             android:layout_alignLeft="@id/trade_money_tv"
-            android:text="100,000,000.00" />
+            android:text="0.00" />
 
         <ImageView
             android:layout_width="wrap_content"

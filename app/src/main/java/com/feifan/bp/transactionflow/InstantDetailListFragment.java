@@ -68,7 +68,7 @@ public class InstantDetailListFragment extends ProgressFragment{
         if(startDate.equals(endDate)){
             mQueryDate = startDate;
         }else{
-            mQueryDate = startDate + "至" + endDate;
+            mQueryDate = getString(R.string.query_interval_time,startDate,endDate);
         }
         mQueryTime.setText(getResources().getString(R.string.query_time, mQueryDate));
 

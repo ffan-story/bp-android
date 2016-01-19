@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,19 +28,20 @@ public class CouponSummaryModel extends BaseModel {
     protected void parseData(String json) throws JSONException {
         super.parseData(json);
         Log.e(TAG, "CouponSummaryModel----" + json);
-        JSONObject data = new JSONObject(json).getJSONObject("data");
+        JSONObject data = new JSONObject(json);
         JSONArray couponList = data.getJSONArray("list");
 
         couponSummary = new CouponSummary();
-        couponSummary.totalCount = data.getInt("totalCount");
-        couponSummary.awardAmount = data.getInt("totalAmount");
-        couponSummary.linkRelative = data.getString("circleDiff");
+        couponSummary.totalCount = data.optInt("totalCount");
+        couponSummary.awardAmount = data.optInt("settleAllAmount");
+        couponSummary.linkRelative = data.optString("circleDiff");
+        couponSummary.couponDetailList = new ArrayList<>();
         for(int i = 0; i < couponList.length(); i++){
             CouponDetail couponDetail = new CouponDetail();
-            couponDetail.CPCode = couponList.getJSONObject(i).optString("settleNo");
+            couponDetail.CPCode = couponList.getJSONObject(i).optString("productNo");
             couponDetail.CPName = couponList.getJSONObject(i).optString("title");
-            couponDetail.awardMoney = (float)couponList.getJSONObject(i).opt("settleNo");
-            couponDetail.chargeoffTime = (float)couponList.getJSONObject(i).opt("settleNo");
+            couponDetail.awardMoney = couponList.getJSONObject(i).optString("couponSettleAmount");
+            couponDetail.chargeoffTime = couponList.getJSONObject(i).optString("settleTime");
             couponSummary.couponDetailList.add(couponDetail);
         }
 
@@ -49,7 +51,7 @@ public class CouponSummaryModel extends BaseModel {
         return couponSummary;
     }
 
-    public class CouponSummary{
+    public static class CouponSummary{
         /**
          * 核销总笔数
          */
@@ -57,7 +59,7 @@ public class CouponSummaryModel extends BaseModel {
         /**
          * 奖励金额
          */
-        public float awardAmount;
+        public int awardAmount;
         /**
          * 环比
          */
@@ -68,7 +70,7 @@ public class CouponSummaryModel extends BaseModel {
         public List<CouponDetail> couponDetailList;
     }
 
-    public class CouponDetail {
+    public static class CouponDetail {
         /**
          * 券编码
          */
@@ -80,10 +82,10 @@ public class CouponSummaryModel extends BaseModel {
         /**
          * 奖励金额
          */
-        public float awardMoney;
+        public String awardMoney;
         /**
          * 核销时间
          */
-        public float chargeoffTime;
+        public String chargeoffTime;
     }
 }

@@ -11,6 +11,7 @@ import java.util.Date;
 public class TimeUtil {
 
     private static final SimpleDateFormat DATE_FORMAT_DATE = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat DATE_FORMAT_DATE_MONTH = new SimpleDateFormat("yyyy-MM");
     private TimeUtil() {
     }
 
@@ -29,6 +30,26 @@ public class TimeUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE,-1);
         return DATE_FORMAT_DATE.format(calendar.getTime());
+    }
+
+    /**
+     * 获取上个月份
+     * @return
+     */
+    public static String getLastMonth(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH,-1);
+        return DATE_FORMAT_DATE_MONTH.format(calendar.getTime());
+    }
+
+    /**
+     * 获取上上个月份
+     * @return
+     */
+    public static String getLast2Month(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH,-2);
+        return DATE_FORMAT_DATE_MONTH.format(calendar.getTime());
     }
 
     /**

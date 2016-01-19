@@ -16,7 +16,7 @@ import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.transactionflow.CouponFragment;
+import com.feifan.bp.transactionflow.CouponListViewFragment;
 import com.feifan.bp.transactionflow.InstantBuyFragment;
 import com.feifan.bp.util.LogUtil;
 
@@ -60,8 +60,8 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
                 Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
                         .addFragment(InstantBuyFragment.class.getName(), getString(R.string.falsh_buy))
                         .addArgument(InstantBuyFragment.class.getName(), "", "")
-                        .addFragment(CouponFragment.class.getName(), getString(R.string.coupons))
-                        .addArgument(CouponFragment.class.getName(), "","")
+                        .addFragment(CouponListViewFragment.class.getName(), getString(R.string.coupons))
+                        .addArgument(CouponListViewFragment.class.getName(), "","")
                         .build();
                 Intent intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.reconciliation_management_transaction_flow), fragmentArgs);
                 startActivity(intent);
