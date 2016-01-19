@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -215,7 +214,7 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
         if (totalCount < pageSize) {
             return 1;
         } else {
-            return totalCount / pageSize;
+            return (totalCount / pageSize) + 1;
         }
     }
 }
