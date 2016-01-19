@@ -146,7 +146,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                 if (!TextUtils.isEmpty(s.toString())) {
                     mStrInputDiscount = s.toString();
                 } else {
-                    mStrInputDiscount = "0";
+                    mStrInputDiscount = "";
                 }
 
                 if (s.toString().contains(".")) {
@@ -193,7 +193,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                         mList.set(i, mSetGoodsDetailData);
                     }
 
-                    if (mStrInputDiscount.equals("0")) {
+                    if (TextUtils.isEmpty(mStrInputDiscount)) {
                         mTvVendorDiscountTips.setVisibility(View.VISIBLE);
                         mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_input_vendor_discount_tips));
                         isVendorDiscountEmptyFlag = true;

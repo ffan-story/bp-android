@@ -108,9 +108,9 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
                 mLineGoodsNumberView.findViewById(R.id.line).setVisibility(View.GONE);
             }
             if (TextUtils.isEmpty(mList.get(i).mStrGoodsName)){
-                (mLineGoodsNumberView.findViewById(R.id.tv_goods_name)).setVisibility(View.INVISIBLE);
+                ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_name)).setText(String.valueOf(mList.get(i).mIntGoodsPartakeNumber));
+
             }else{
-                (mLineGoodsNumberView.findViewById(R.id.tv_goods_name)).setVisibility(View.VISIBLE);
                 ((TextView) mLineGoodsNumberView.findViewById(R.id.tv_goods_name)).setText(String.format(getString(R.string.instant_colon), mList.get(i).mStrGoodsName,mList.get(i).mIntGoodsPartakeNumber));
 
             }
