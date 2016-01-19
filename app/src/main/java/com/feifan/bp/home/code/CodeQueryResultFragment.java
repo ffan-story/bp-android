@@ -16,6 +16,7 @@ import android.support.v7.internal.widget.ViewStubCompat;
 
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View.OnClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -39,7 +40,7 @@ import org.json.JSONException;
 /**
  * Created by konta on 2015/12/17.
  */
-public class CodeQueryResultFragment extends ProgressFragment implements View.OnClickListener {
+public class CodeQueryResultFragment extends ProgressFragment implements OnClickListener {
     public static final String CODE = "code";
     public static final String EXTRA_KEY_IS_COUPON = "isCouponCode";
     public static final String EXTRA_KEY_URL = "url";
@@ -50,6 +51,11 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     private List<GoodsModel.ProductInfo> productInfos;
     private String orderNo;
     private String memberId;
+
+    // 白名单相关-提货码
+    private boolean isWhite;
+    private String notice;
+    private MaterialDialog noticeDlg;
 
     /**
      * 错误信息
@@ -72,7 +78,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
     private TextView tv_goods_actual_money;
     private ListView lv_goods_info;
 
-    // dialog
+    // Dialog
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
     private MyAdapter myAdapter;
@@ -87,7 +93,11 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
         isCouponCode = getArguments().getBoolean(EXTRA_KEY_IS_COUPON);
         code = getArguments().getString(CODE);
-        initDialog();
+        mDialog = new MaterialDialog(getActivity())
+                      .setNegativeButton(R.string.common_confirm, getDialogListener(R.string.common_confirm));
+        noticeDlg = new MaterialDialog(getActivity())
+                        .setNegativeButton(R.string.common_cancel, getDialogListener(R.string.common_cancel))
+                        .setPositiveButton(R.string.chargeoff_dialog_button_continue, getDialogListener(R.string.chargeoff_dialog_button_continue));
 
     }
 
@@ -125,18 +135,6 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
         return view;
     }
 
-    private void initDialog() {
-        mDialog = new MaterialDialog(getActivity())
-                .setNegativeButton(R.string.common_confirm, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                        isShowDlg = true;
-                        getActivity().finish();
-                    }
-                });
-    }
-
     @Override
     protected void requestData() {
         if (!TextUtils.isEmpty(code)) {
@@ -167,7 +165,6 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
 
                     });
                 } else {
-
                     if (isShowDlg && isAdded()) {
                         mDialog.setMessage(getResources().getString(R.string.error_message_text_offline))
                                 .show();
@@ -182,14 +179,14 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                     CodeCtrl.queryGoodsResult(code, new Response.Listener<GoodsModel>() {
                         @Override
                         public void onResponse(GoodsModel goodsModel) {
-                            if (null != goodsModel.getGoodsData() && isAdded()) {
-                                orderNo = goodsModel.getGoodsData().getOrderNo();
+                            if (null != goodsModel.baseInfo && isAdded()) {
+                                orderNo = goodsModel.baseInfo.orderNo;
+                                isWhite = goodsModel.baseInfo.userIsWhite;
+                                notice = goodsModel.baseInfo.noticeMsg;
                                 initGoodsView(goodsModel);
                                 setContentShown(true);
                             }
-
                         }
-
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
@@ -240,9 +237,9 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
      */
     private void initGoodsView(GoodsModel goodsModel) {
         ll_goods_code_result.setVisibility(View.VISIBLE);
-        tv_goods_order.setText(goodsModel.getGoodsData().getOrderNo());
-        tv_goods_branch.setText(goodsModel.getGoodsData().getStoreName());
-        switch (goodsModel.getGoodsData().getSingnStatus()) {
+        tv_goods_order.setText(goodsModel.baseInfo.orderNo);
+        tv_goods_branch.setText(goodsModel.baseInfo.storeName);
+        switch (goodsModel.baseInfo.singnStatus) {
             case 1://未核销
                 tv_goods_status.setText(getResources().getString(R.string.chargeoff_never));
                 btn_code_use.setVisibility(View.VISIBLE);
@@ -256,13 +253,13 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 btn_code_use.setVisibility(View.GONE);
                 break;
         }
-        productInfos = goodsModel.getGoodsData().getProductList();
+        productInfos = goodsModel.baseInfo.productList;
         myAdapter = new MyAdapter();
         lv_goods_info.setAdapter(myAdapter);
         lv_goods_info.setSelector(R.drawable.goods_llistview_selector);
-        tv_goods_total_money.setText(getString(R.string.chargeoff_goods_price_format, goodsModel.getGoodsData().getOrderAmt()));
-        tv_goods_integrate_money.setText(getString(R.string.chargeoff_goods_price_format, goodsModel.getGoodsData().getUsePointDiscount()));
-        tv_goods_actual_money.setText(getString(R.string.chargeoff_goods_price_format, goodsModel.getGoodsData().getRealPayAmt()));
+        tv_goods_total_money.setText(getString(R.string.chargeoff_goods_price_format, goodsModel.baseInfo.orderAmt));
+        tv_goods_integrate_money.setText(getString(R.string.chargeoff_goods_price_format, goodsModel.baseInfo.usePointDiscount));
+        tv_goods_actual_money.setText(getString(R.string.chargeoff_goods_price_format, goodsModel.baseInfo.realPayAmt));
 
     }
 
@@ -285,8 +282,12 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 PlatformTopbarActivity.startActivity(getActivity(), SimpleBrowserFragment.class.getName(), getString(R.string.instant_check_history), argsOrder);
                 break;
             case R.id.btn_goods_code_use://提货码
-                btn_code_use.setEnabled(false);
-                checkGoodsCode(code, orderNo);
+                if(isWhite) {
+                    noticeDlg.setMessage(notice).show();
+                }else{
+                    btn_code_use.setEnabled(false);
+                    checkGoodsCode(code, orderNo);
+                }
                 break;
 
             case R.id.btn_ticket_code_use://券码
@@ -394,7 +395,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             }
         }
         mDialog.setMessage(errorInfo)
-                .show();
+               .show();
         isShowDlg = false;
     }
 
@@ -415,9 +416,9 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
                 holder = (ViewHolder) convertView.getTag();
             }
             if (productInfos != null) {
-                holder.googsItemTitle.setText(productInfos.get(position).getTitle());
-                holder.googsItemCount.setText("x" + productInfos.get(position).getProductCount());
-                holder.googsItemPrice.setText("￥" + productInfos.get(position).getProductPrice());
+                holder.googsItemTitle.setText(productInfos.get(position).title);
+                holder.googsItemCount.setText("x" + productInfos.get(position).productCount);
+                holder.googsItemPrice.setText("￥" + productInfos.get(position).productPrice);
             }
             return convertView;
         }
@@ -449,5 +450,51 @@ public class CodeQueryResultFragment extends ProgressFragment implements View.On
             view.setTag(holder);
             return holder;
         }
+    }
+
+    // Dialog Listener
+    private OnClickListener mConfirmListener;    // 确定
+    private OnClickListener mCancelListener;     // 取消
+    private OnClickListener mContinueListener;   // 继续使用
+    private OnClickListener getDialogListener(int resId) {
+        switch (resId) {
+            case R.string.common_confirm:
+                if (mConfirmListener == null) {
+                    mConfirmListener = new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                            isShowDlg = true;
+                            getActivity().finish();
+                        }
+                    };
+                }
+                return mConfirmListener;
+            case R.string.common_cancel:
+                if(mCancelListener == null) {
+                    mCancelListener = new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                        }
+                    };
+                }
+                return mConfirmListener;
+            case R.string.chargeoff_dialog_button_continue:
+                if(mContinueListener == null) {
+                    mContinueListener = new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                            btn_code_use.setEnabled(false);
+                            checkGoodsCode(code, orderNo);
+                        }
+                    };
+                }
+                return mContinueListener;
+            default:
+                return null;
+        }
+
     }
 }

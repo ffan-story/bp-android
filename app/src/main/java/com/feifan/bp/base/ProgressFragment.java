@@ -326,7 +326,7 @@ public abstract class ProgressFragment extends PlatformFragment {
             throw new RuntimeException("Your content must have a ViewGroup whose id attribute is 'R.id.content_container'");
         }
         mEmptyView = root.findViewById(android.R.id.extractArea);
-        ((View)root.findViewById(android.R.id.button1)).setOnClickListener(new View.OnClickListener() {
+        root.findViewById(android.R.id.button1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setContentShown(false);

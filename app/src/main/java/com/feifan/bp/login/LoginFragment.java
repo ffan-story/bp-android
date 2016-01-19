@@ -90,9 +90,11 @@ public class LoginFragment extends BaseFragment {
 
                 try {
                     Utils.checkPhoneNumber(getActivity(), accountStr);
+                    showProgressBar(true);
                     UserCtrl.login(accountStr, passwordStr, new Listener<UserModel>() {
                         @Override
                         public void onResponse(UserModel userModel) {
+                            hideProgressBar();
                             final UserProfile profile = UserProfile.getInstance();
                             profile.setUid(userModel.uid);
                             profile.setUser(userModel.user);

@@ -305,6 +305,7 @@
     <string name="chargeoff_goods_order_detail">订单详情</string>
 
     <string name="chargeoff_goods_price_format">￥%1$s</string>
+    <string name="chargeoff_dialog_button_continue">继续使用</string>
 
     <!--sales management-->
     <string name="sales_management">营销管理</string>
