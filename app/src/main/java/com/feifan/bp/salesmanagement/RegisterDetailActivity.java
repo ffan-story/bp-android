@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +17,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
@@ -44,6 +41,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     public static final String EXTRA_KEY_ID = "id";
     public static final String EXTRA_KEY_TITLE = "title";
     public static final String EXTRA_KEY_FLAG = "isCutOff";
+    public static final String EXTRA_KEY_INDEX = "index";
 
     public String promotionId;
     private String promotionName;
@@ -61,6 +59,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     private List<Integer> mFragmentTabIconList = new ArrayList<>();
     private GoodsNoCommitFragment goodsNoCommitFragment;
     private ViewPagerAdapter adapter;
+    private int CurrentItemIndex = 0;
 
     public static void startActivity(Context context, String id, String title, boolean isCutOff) {
         Intent i = new Intent(context, RegisterDetailActivity.class);
@@ -137,9 +136,9 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
                             }
                         }
                     }
-                    if(isSetupViewPager){
+                    if (isSetupViewPager) {
                         setupViewPager(viewPager);
-                    }else{
+                    } else {
                         for (int i = 0; i < tabLayout.getTabCount(); i++) {
                             TabLayout.Tab tab = tabLayout.getTabAt(i);
                             if (tab != null) {
@@ -165,24 +164,32 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), RegisterDetailActivity.this);
         if (isCutOff) {
-            adapter.addFrag(new GoodsListFragment(), getString(R.string.notsubmitted), R.mipmap.icon_notsubmitted, GoodsListFragment.STATUS_NO_COMMIT);
+            adapter.addFrag(new GoodsListFragment(), getString(R.string.notsubmitted), R.mipmap.icon_notsubmitted,
+                    GoodsListFragment.STATUS_NO_COMMIT, mFragmentTabCountList.get(0));
         } else {
             goodsNoCommitFragment = new GoodsNoCommitFragment();
             goodsNoCommitFragment.setUpdateListener(this);
-            adapter.addFrag(goodsNoCommitFragment, getString(R.string.notsubmitted), R.mipmap.icon_notsubmitted, GoodsListFragment.STATUS_NO_COMMIT);
+            adapter.addFrag(goodsNoCommitFragment, getString(R.string.notsubmitted), R.mipmap.icon_notsubmitted,
+                    GoodsListFragment.STATUS_NO_COMMIT, mFragmentTabCountList.get(0));
         }
-        adapter.addFrag(new GoodsListFragment(), getString(R.string.review), R.mipmap.icon_review, GoodsListFragment.STATUS_AUDIT);
-        adapter.addFrag(new GoodsListFragment(), getString(R.string.approved), R.mipmap.icon_approved, GoodsListFragment.STATUS_AUDIT_PASS);
-        adapter.addFrag(new GoodsListFragment(), getString(R.string.auditrefused), R.mipmap.icon_auditrefused, GoodsListFragment.STATUS_AUDIT_DENY);
+        adapter.addFrag(new GoodsListFragment(), getString(R.string.review), R.mipmap.icon_review,
+                GoodsListFragment.STATUS_AUDIT, mFragmentTabCountList.get(1));
+        adapter.addFrag(new GoodsListFragment(), getString(R.string.approved), R.mipmap.icon_approved,
+                GoodsListFragment.STATUS_AUDIT_PASS, mFragmentTabCountList.get(2));
+        adapter.addFrag(new GoodsListFragment(), getString(R.string.auditrefused), R.mipmap.icon_auditrefused,
+                GoodsListFragment.STATUS_AUDIT_DENY, mFragmentTabCountList.get(3));
 
+        viewPager.setCurrentItem(CurrentItemIndex);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             if (tab != null) {
-                tab.setCustomView(getTabView(i));
+                tab.setCustomView(adapter.getTabView(i));
             }
         }
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -200,7 +207,6 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
 
             }
         });
-        viewPager.setCurrentItem(0);
     }
 
     @Override
@@ -226,6 +232,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
      */
     @Override
     public void updateStatus() {
+        CurrentItemIndex = 0;
         getGoodsStatus(true);//刷新页面
     }
 
@@ -233,31 +240,33 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+            CurrentItemIndex = data.getBundleExtra(EXTRA_KEY_INDEX).getInt(Constants.RETURN_STATUS);
             getGoodsStatus(true);
         }
-    }
-
-    public View getTabView(int position) {
-        View v = LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        TextView tv = (TextView) v.findViewById(R.id.textView);
-        tv.setText(mFragmentTitleList.get(position));
-        ImageView img = (ImageView) v.findViewById(R.id.imageView);
-        img.setImageResource(mFragmentTabIconList.get(position));
-        TextView badgerView = (TextView) v.findViewById(R.id.badger);
-        if (mFragmentTabCountList.get(position).equals("0")) {
-            badgerView.setVisibility(View.GONE);
-        } else {
-
-            badgerView.setText(mFragmentTabCountList.get(position));
-        }
-        return v;
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private Context context;
 
-        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private List<Fragment> mFragmentList = new ArrayList<>();
+        private List<String> mCountList = new ArrayList<>();
+
+        public View getTabView(int position) {
+            View v = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
+            TextView tv = (TextView) v.findViewById(R.id.textView);
+            tv.setText(mFragmentTitleList.get(position));
+            ImageView img = (ImageView) v.findViewById(R.id.imageView);
+            img.setImageResource(mFragmentTabIconList.get(position));
+            TextView badgerView = (TextView) v.findViewById(R.id.badger);
+            if (mCountList.get(position).equals("0")) {
+                badgerView.setVisibility(View.GONE);
+            } else {
+                badgerView.setVisibility(View.VISIBLE);
+                badgerView.setText(mCountList.get(position));
+            }
+            return v;
+        }
 
         public ViewPagerAdapter(FragmentManager manager, Context context) {
             super(manager);
@@ -274,10 +283,11 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
             return mFragmentList.size();
         }
 
-        public void addFrag(Fragment fragment, String title, int iconId, int status) {
+        public void addFrag(Fragment fragment, String title, int iconId, int status, String count) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
             mFragmentTabIconList.add(iconId);
+            mCountList.add(count);
             Bundle args = new Bundle();
             args.putInt(GoodsListFragment.ENROLL_STATUS, status);
             fragment.setArguments(args);

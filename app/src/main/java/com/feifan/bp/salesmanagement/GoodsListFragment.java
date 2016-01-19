@@ -40,9 +40,6 @@ public class GoodsListFragment extends LazyLoadFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_common_list, container, false);
-        enrollStatus = getArguments().getInt(ENROLL_STATUS);
-        mPromotionId = ((RegisterDetailActivity) getActivity()).promotionId;
-        isCutOff = ((RegisterDetailActivity) getActivity()).isCutOff;
         initViews(view);
         lazyLoad();
         return view;
@@ -60,6 +57,9 @@ public class GoodsListFragment extends LazyLoadFragment {
 
     private void getGoodsList() {
         datas = new ArrayList<>();
+        enrollStatus = getArguments().getInt(ENROLL_STATUS);
+        mPromotionId = ((RegisterDetailActivity) getActivity()).promotionId;
+        isCutOff = ((RegisterDetailActivity) getActivity()).isCutOff;
         //测试
         String storeId = UserProfile.getInstance().getAuthRangeId();
         final String merchantId = UserProfile.getInstance().getMerchantId();

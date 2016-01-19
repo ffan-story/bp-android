@@ -55,7 +55,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Acti
                 holder.tv_activity_status.setTextColor(context.getResources().getColor(R.color.accent));
             }
         } else {
-            holder.tv_status_label.setText("已报名: ");
+            holder.tv_status_label.setText("已报名商家: ");
             holder.tv_activity_status.setText(model.getEnrollCount());
         }
         holder.tv_activity_name.setText(model.getPromotionName());

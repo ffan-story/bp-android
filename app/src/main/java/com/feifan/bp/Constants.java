@@ -68,13 +68,13 @@ public class Constants {
      * 闪购活动-商品-提交返回
      *
      */
-    public static int RETURN_COMMIT = 1002;
+    public static int RETURN_COMMIT = 1;
 
     /**
      * 闪购活动-商品-保存返回
      *
      */
-    public static int RETURN_SAVE = 1003;
+    public static int RETURN_SAVE = 0;
 
 
     /**

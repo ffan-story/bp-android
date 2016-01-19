@@ -49,12 +49,7 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_goods_list, container, false);
-        mPromotionId = ((RegisterDetailActivity) getActivity()).promotionId;
-        mStoreId = UserProfile.getInstance().getAuthRangeId();
-        mMerchantId = UserProfile.getInstance().getMerchantId();
-        mUid = String.valueOf(UserProfile.getInstance().getUid());
         initViews(view);
-        getGoodsList();
         return view;
 
 //        ItemTouchHelper.Callback mCallBack = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,ItemTouchHelper.LEFT){
@@ -172,6 +167,10 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
 
     private void getGoodsList() {
         datas = new ArrayList<>();
+        mPromotionId = ((RegisterDetailActivity) getActivity()).promotionId;
+        mStoreId = UserProfile.getInstance().getAuthRangeId();
+        mMerchantId = UserProfile.getInstance().getMerchantId();
+        mUid = String.valueOf(UserProfile.getInstance().getUid());
 
         Response.Listener<GoodsListModel> listener = new Response.Listener<GoodsListModel>() {
             @Override
@@ -183,10 +182,17 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
                     mProductList.setAdapter(mSwipeAdapter);
                     mSwipeAdapter.setCheckChangeListener(GoodsNoCommitFragment.this);
                     mSwipeAdapter.setItemDeleteListener(GoodsNoCommitFragment.this);
-                    if (model.goodsList.size() != 0) {
-                        mRlEnrollBottom.setVisibility(View.VISIBLE);
+                    if (model.goodsList.size() == 0) {
+                        cbAllCheck.setClickable(false);
+                        if (cbAllCheck.isChecked()){
+                            cbAllCheck.setChecked(false);
+                        }
+                        mBtnCommit.setClickable(false);
+                        mBtnCommit.setBackgroundResource(R.drawable.bg_button_grey);
                     } else {
-                        mRlEnrollBottom.setVisibility(View.GONE);
+                        cbAllCheck.setClickable(true);
+                        mBtnCommit.setClickable(true);
+                        mBtnCommit.setBackgroundResource(R.drawable.bg_button_orange);
                     }
                 }
             }
@@ -299,6 +305,7 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
         if (!isVisible) {
             return;
         }
+        getGoodsList();
     }
 
     public interface UpdateStatusListener {

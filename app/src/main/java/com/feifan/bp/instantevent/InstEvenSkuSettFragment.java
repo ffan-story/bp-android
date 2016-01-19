@@ -28,6 +28,7 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.salesmanagement.RegisterDetailActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
      * true:输入合法
      * false：不合法
      */
-    private boolean isVendorDiscountFlag = false,isVendorDiscountEmptyFlag = false;
+    private boolean isVendorDiscountFlag = false, isVendorDiscountEmptyFlag = false;
 
     private Adapter goodsNumberAdapter, goodsDiscountAdapter;
 
@@ -277,7 +278,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                     }
                 }
 
-                if (isVendorDiscountEmptyFlag){
+                if (isVendorDiscountEmptyFlag) {
                     Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_please_input_vendor_discount_tips));
                     return;
                 }
@@ -325,15 +326,17 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                     @Override
                     public void onResponse(Object o) {
                         Intent intent = new Intent();
+                        Bundle bundle = new Bundle();
                         if (!TextUtils.isEmpty(mCommitFlag) && mCommitFlag.equals("0")) {
                             Utils.showShortToast(getActivity().getApplicationContext(), "保存成功");
-                            intent.putExtra(Constants.RETURN_STATUS, Constants.RETURN_SAVE);
+                            bundle.putInt(Constants.RETURN_STATUS, Constants.RETURN_SAVE);
                         } else {
                             Utils.showShortToast(getActivity().getApplicationContext(), "提交成功");
-                            intent.putExtra(Constants.RETURN_STATUS, Constants.RETURN_COMMIT);
+                            bundle.putInt(Constants.RETURN_STATUS, Constants.RETURN_COMMIT);
 
                         }
-                        getActivity().setResult(Activity.RESULT_OK,intent);
+                        intent.putExtra(RegisterDetailActivity.EXTRA_KEY_INDEX, bundle);
+                        getActivity().setResult(Activity.RESULT_OK, intent);
                         getActivity().finish();
                     }
                 });
@@ -391,10 +394,10 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
 
                 //设置商品合计金额，
                 if (TextUtils.isEmpty(mGoodsDetailData.mStrGoodsName)) {//无商品name
-                        discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_notname_content), formatAmount(mGoodsDetailData.getmDoubleGoodsDiscount()))));
-                    } else {//有商品name
-                        discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content),
-                                    mGoodsDetailData.mStrGoodsName, formatAmount(mGoodsDetailData.getmDoubleGoodsDiscount()))));
+                    discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_notname_content), formatAmount(mGoodsDetailData.getmDoubleGoodsDiscount()))));
+                } else {//有商品name
+                    discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content),
+                            mGoodsDetailData.mStrGoodsName, formatAmount(mGoodsDetailData.getmDoubleGoodsDiscount()))));
                 }
             } else {//设置商品数量列表
                 final ViewHolder holder;
