@@ -8,6 +8,7 @@ import android.support.v7.internal.widget.ViewStubCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -107,6 +108,8 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
         if (!isAdded()) {
             return;
         }
+        LogUtil.i("congjing","loading=="+loading);
+        LogUtil.i("congjing","isLoadMore=="+isLoadMore);
         if (loading && !isLoadMore) {
             setContentShown(false);
         }
@@ -136,6 +139,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
                                 .build();
                     }
                     stopRefresh();
+                    loading = hasLoadedAllItems();
                     paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
                 }else{
                     mRelEmpty.setVisibility(View.VISIBLE);
@@ -177,6 +181,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
 
     @Override
     public void onRefresh() {
+        loading = false;
         pageIndex = 1;
         arryListGoodsData = new ArrayList<>();
         fetchGoodsListData(pageIndex,false);

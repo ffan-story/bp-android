@@ -106,7 +106,8 @@
                     android:layout_marginTop="@dimen/view_spacing_10"
                     android:layout_toRightOf="@id/tv_vendor_discount_name"
                     android:textColor="@color/font_color_red"
-                    android:textSize="@dimen/view_spacing_10"/>
+                    android:textSize="@dimen/view_spacing_10"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
 

@@ -282,6 +282,31 @@ public abstract class ProgressFragment extends PlatformFragment {
     }
 
     /**
+     * 控制空视图与内容视图的显示和隐藏，调用此方法时，内容视图不能为空
+     * {@link #setContentView(View)}.
+     *
+     * @param isEmpty true显示空视图，否则显示内容视图
+     * @see #isContentEmpty()
+     */
+    public void setContentEmpty(boolean isEmpty,String strText) {
+        if (!isAdded()){
+            return;
+        }
+        ensureContent();
+        if (mContentView == null) {
+            throw new IllegalStateException("Content view must be initialized before");
+        }
+        if (isEmpty) {
+            mEmptyView.setVisibility(View.VISIBLE);
+            mContentView.setVisibility(View.GONE);
+        } else {
+            mEmptyView.setVisibility(View.GONE);
+            mContentView.setVisibility(View.VISIBLE);
+        }
+        mIsContentEmpty = isEmpty;
+    }
+
+    /**
      * 初始化视图.
      */
     private void ensureContent() {

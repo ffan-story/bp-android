@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.widget.paginate.Paginate;
 import com.feifan.bp.salesmanagement.PromotionListModel.PromotionDetailModel;
@@ -147,7 +148,8 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 setContentShown(true);
-               setContentEmpty(true);
+                Utils.showShortToast(getActivity(), volleyError.getMessage());
+                stopRefresh();
             }
         };
         Response.Listener<PromotionListModel> responseListener = new Response.Listener<PromotionListModel>() {

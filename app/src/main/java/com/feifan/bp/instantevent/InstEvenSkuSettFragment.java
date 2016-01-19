@@ -177,8 +177,9 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
             public void afterTextChanged(Editable s) {
                 InstEvenSkuSettModel.InstantEventSetDetailData mSetGoodsDetailData;
                 if (TextUtils.isEmpty(mStrInputDiscount)) {
+                    isVendorDiscountEmptyFlag = true;
                     isVendorDiscountFlag = false;
-                    mTvVendorDiscountTips.setVisibility(View.INVISIBLE);
+                    mTvVendorDiscountTips.setVisibility(View.VISIBLE);
                     mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_input_vendor_discount_tips));
 
                     myModel.mDoubleVendorDiscount = 0;
@@ -192,13 +193,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                         mList = myModel.arryInstantEventData;
                         mList.set(i, mSetGoodsDetailData);
                     }
-
-                    if (TextUtils.isEmpty(mStrInputDiscount)) {
-                        mTvVendorDiscountTips.setVisibility(View.VISIBLE);
-                        mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_input_vendor_discount_tips));
-                        isVendorDiscountEmptyFlag = true;
-                        isVendorDiscountFlag = true;
-                    } else if (myData.getmDoubleGoodsDiscount() <0) {//优惠后的金额为负数
+                    if (myData.getmDoubleGoodsDiscount() <0) {//优惠后的金额为负数
                         mTvVendorDiscountTips.setVisibility(View.VISIBLE);
                         mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_input_vendor_tips));
                         isVendorDiscountEmptyFlag = false;

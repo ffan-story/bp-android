@@ -243,14 +243,14 @@
      </style>-->
 
     <!--Button 样式  橘色圆角   点击效果白色橘色描边-->
-    <!-- <style name="btn_round_orange_click">
-       <item name="android:layout_width">match_parent</item>
-       <item name="android:layout_height">@dimen/view_height_35</item>
-       <item name="android:layout_margin">@dimen/view_spacing_10</item>
-       <item name="android:layout_gravity">center</item>
-       <item name="android:gravity">center</item>
-       <item name="android:textColor">@drawable/button_orange_text_color</item>
-       <item name="android:textSize">@dimen/font_size_16</item>
-       <item name="android:background">@drawable/bg_button_orange_round</item>
-   </style>-->
+     <!--<style name="btn_round_orange_click">-->
+       <!--<item name="android:layout_width">match_parent</item>-->
+       <!--<item name="android:layout_height">@dimen/view_size_35</item>-->
+       <!--<item name="android:layout_margin">@dimen/view_spacing_10</item>-->
+       <!--<item name="android:layout_gravity">center</item>-->
+       <!--<item name="android:gravity">center</item>-->
+       <!--<item name="android:textColor">@drawable/button_orange_text_color</item>-->
+       <!--<item name="android:textSize">@dimen/font_size_16</item>-->
+       <!--<item name="android:background">@drawable/bg_button_orange_round</item>-->
+   <!--</style>-->
 </resources>
