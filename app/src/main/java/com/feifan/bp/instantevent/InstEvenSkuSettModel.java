@@ -95,7 +95,7 @@ public class InstEvenSkuSettModel extends BaseModel {
 
         public void setmDoubleGoodsDiscount() {
             if ( mDoubleGoodsAmount-mDoubleFeifanDiscount-mDoubleVendorDiscount <0){
-                this.mDoubleGoodsDiscount = 0;
+                this.mDoubleGoodsDiscount = -1;
             }else{
                 this.mDoubleGoodsDiscount = mDoubleGoodsAmount-mDoubleFeifanDiscount-mDoubleVendorDiscount;
             }

@@ -98,12 +98,6 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
         }
     }
 
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        return false;
-    }
-
-
     private void setupPagination() {
         mPromotionList = new ArrayList<>();
         if (paginate != null) {
@@ -153,7 +147,7 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 setContentShown(true);
-                setContentEmpty(true);
+               setContentEmpty(true);
             }
         };
         Response.Listener<PromotionListModel> responseListener = new Response.Listener<PromotionListModel>() {
@@ -216,5 +210,10 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
         } else {
             return (totalCount / pageSize) + 1;
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
     }
 }

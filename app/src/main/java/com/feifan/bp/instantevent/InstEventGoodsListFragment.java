@@ -21,6 +21,7 @@ import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.home.commoditymanager.BrandFragment;
 import com.feifan.bp.home.commoditymanager.InstantsBuyFragment;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 import java.util.ArrayList;
 
@@ -37,9 +38,6 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
     private SwipeRefreshLayout mSwipeLayout;
     private  RelativeLayout mRelEmpty;
     private InstEventGoodsListAdapter adapter;
-
-
-
 
     private String mStrEventId = "";
     private int pageIndex = 1;
@@ -100,7 +98,18 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
         return view;
     }
 
+    /**
+     *
+     * @param pageIndex
+     * @param isLoadMore
+     */
     private void fetchGoodsListData(final int pageIndex,final boolean isLoadMore){
+        if (!isAdded()) {
+            return;
+        }
+        if (loading && !isLoadMore) {
+            setContentShown(false);
+        }
 
         InstCtrl.getInstEventGoodsList(mStrEventId, pageIndex, new Response.Listener<InstEventGoodsListModel>() {
             @Override
@@ -116,7 +125,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
                     if (isLoadMore) {
                         if (adapter != null) {
                             adapter.notifyData(arryListGoodsData);
-                            Toast.makeText(getActivity(), "已加载第" + pageIndex + "页 , 共" + totalPages + "页", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), String.format(getActivity().getString(R.string.instant_loading_page),pageIndex,totalPages), Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         adapter = new InstEventGoodsListAdapter(getActivity(), arryListGoodsData, mStrEventId);
@@ -141,7 +150,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
     protected void requestData() {
         setContentShown(true);
         pageIndex = 1;
-        fetchGoodsListData(pageIndex,false);
+        fetchGoodsListData(pageIndex, false);
     }
 
     @Override
@@ -184,8 +193,11 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
         if(totalCount<pageSize){
             return 1;
         }else{
-            return totalCount/pageSize;
+            if (totalCount%pageSize !=0){
+                return totalCount/pageSize+1;
+            }else{
+                return totalCount/pageSize;
+            }
         }
     }
 }
-

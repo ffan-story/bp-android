@@ -336,6 +336,7 @@
     <string name="instant_save_setting">保存设置</string>
     <string name="instant_goods_understock_tips">商品数量不能大于库存数量</string>
     <string name="instant_goods_understock_tips1">请填写商品数量</string>
+    <string name="instant_input_vendor_tips">商品优惠后金额最小为0元，请修改商户优惠金额</string>
     <string name="instant_discount_content"><![CDATA[%1$s：<font color="#ff0000">%2$s</font>元]]></string>
     <string name="instant_discount_notname_content"><![CDATA[<font color="#ff0000">%1$s</font>元]]></string>
     <string name="goods_all_select">全选</string>
@@ -348,7 +349,7 @@
     <string name="instant_setting_detail">设置详情</string>
     <string name="units_yuan">元</string>
     <string name="goto_commodity_text">去商品管理</string>
-
+    <string name="instant_loading_page">已加载第%1$s页 , 共%2$s页</string>
 
     <!-- 商品管理 -->
     <string name="info_store_no_plaza">您的门店没有归属广场，无法查看可以报名活动。</string>

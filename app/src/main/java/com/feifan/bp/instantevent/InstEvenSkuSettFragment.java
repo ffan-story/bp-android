@@ -55,7 +55,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
      * true:输入合法
      * false：不合法
      */
-    private boolean isVendorDiscountFlag = false;
+    private boolean isVendorDiscountFlag = false,isVendorDiscountEmptyFlag = false;
 
     private Adapter goodsNumberAdapter, goodsDiscountAdapter;
 
@@ -192,15 +192,18 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                     }
 
                     if (mStrInputDiscount.equals("0")) {
-                        mTvVendorDiscountTips.setVisibility(View.INVISIBLE);
-                        mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_input_vendor_discount_tips));
-                        isVendorDiscountFlag = false;
-                    } else if (myData.getmDoubleGoodsDiscount() <= 0) {//优惠后的金额为负数
                         mTvVendorDiscountTips.setVisibility(View.VISIBLE);
-                        mTvVendorDiscountTips.setText("输入优惠金额不合法");
+                        mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_please_input_vendor_discount_tips));
+                        isVendorDiscountEmptyFlag = true;
+                        isVendorDiscountFlag = true;
+                    } else if (myData.getmDoubleGoodsDiscount() <0) {//优惠后的金额为负数
+                        mTvVendorDiscountTips.setVisibility(View.VISIBLE);
+                        mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_input_vendor_tips));
+                        isVendorDiscountEmptyFlag = false;
                         isVendorDiscountFlag = false;
                     } else {
                         mTvVendorDiscountTips.setVisibility(View.GONE);
+                        isVendorDiscountEmptyFlag = false;
                         isVendorDiscountFlag = true;
                     }
                 }
@@ -233,7 +236,6 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
             }
         });
     }
-
 
     InstEvenSkuSettModel myModel;
     InstEvenSkuSettModel.InstantEventSetDetailData myData;
@@ -278,10 +280,15 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                     }
                 }
 
-                if (!isVendorDiscountFlag) {
+                if (isVendorDiscountEmptyFlag){
                     Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_please_input_vendor_discount_tips));
                     return;
                 }
+                if (!isVendorDiscountFlag) {
+                    Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_input_vendor_tips));
+                    return;
+                }
+
                 //0:保存;1:提交
                 mCommitFlag = (v.getId() == R.id.bnt_instant_save_setting) ? "0" : "1";
                 //add:新增 edit：编辑
@@ -383,11 +390,10 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
 
                 //设置商品合计金额，
                 if (TextUtils.isEmpty(mGoodsDetailData.mStrGoodsName)) {//无商品name
-                    discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_notname_content),
-                            formatAmount(mGoodsDetailData.getmDoubleGoodsDiscount()))));
-                } else {//有商品name
-                    discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content),
-                            mGoodsDetailData.mStrGoodsName, formatAmount(mGoodsDetailData.getmDoubleGoodsDiscount()))));
+                        discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_notname_content), formatAmount(mGoodsDetailData.getmDoubleGoodsDiscount()))));
+                    } else {//有商品name
+                        discountHolder.mTvGoodsDisCountContent.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content),
+                                    mGoodsDetailData.mStrGoodsName, formatAmount(mGoodsDetailData.getmDoubleGoodsDiscount()))));
                 }
             } else {//设置商品数量列表
                 final ViewHolder holder;
