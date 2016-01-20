@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -88,6 +87,8 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         initHeader(mToolbar);
 
+        setupToolBar(mToolbar);
+
         // 初始化Tab
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_bar);
         CustomViewPager pager = (CustomViewPager) findViewById(R.id.tab_pager);
@@ -116,6 +117,10 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         });
         tabLayout.setTabMode(pager.getAdapter().getCount() > MAX_TAB_COUNT ? TabLayout.MODE_SCROLLABLE : TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(pager);
+    }
+
+    private void setupToolBar(Toolbar mToolbar) {
+        mToolbar.setOnClickListener(null);
     }
 
     /**
@@ -280,4 +285,9 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
             return mArgs;
         }
     }
+
+    public Toolbar getToolbar(){
+        return mToolbar;
+    }
+
 }

@@ -6,6 +6,10 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.transactionflow.model.CouponSummaryModel;
+import com.feifan.bp.transactionflow.model.InstantDetailModel;
+import com.feifan.bp.transactionflow.model.InstantOrderDetailModel;
+import com.feifan.bp.transactionflow.model.InstantSummaryModel;
 
 /**
  * 对账管理界面控制类

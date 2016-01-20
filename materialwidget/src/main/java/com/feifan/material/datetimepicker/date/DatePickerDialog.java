@@ -421,7 +421,7 @@ public class DatePickerDialog extends DialogFragment implements
             }
         });
         cancelButton.setTypeface(TypefaceHelper.get(activity, "Roboto-Medium"));
-        cancelButton.setVisibility(isCancelable() ? View.VISIBLE : View.GONE);
+//        cancelButton.setVisibility(isCancelable() ? View.VISIBLE : View.GONE);
 
         //If an accent color has not been set manually, try and get it from the context
         if (mAccentColor == -1) {

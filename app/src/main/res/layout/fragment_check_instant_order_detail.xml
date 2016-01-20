@@ -21,14 +21,14 @@
         style="@style/txt_color33_size14"
         android:layout_below="@id/detail_query_time"
         android:layout_margin="@dimen/view_spacing_15"
-        android:text="总条数 : (0条)"/>
+        android:text="总条数 : (--条)"/>
 
     <RelativeLayout
         android:id="@+id/title_continer"
         android:padding="@dimen/view_spacing_15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/border_bottom_background"
         android:layout_below="@id/order_total_count">
 
         <TextView
@@ -36,23 +36,19 @@
             style="@style/InstantDetailItemTile"
             android:maxEms="13"
             android:ellipsize="end"
-            android:text="你的益达，你的益达，你的益达，你的益达，你的益达"/>
+            android:text=""/>
 
     </RelativeLayout>
-
-
 
     <com.feifan.bp.widget.LoadingMoreListView
         android:layout_below="@id/title_continer"
         android:id="@+id/detail_loading_more"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/view_spacing_5"
+        android:divider="@color/bg_color_gray_f3"
+        android:dividerHeight="@dimen/view_spacing_5">
 
     </com.feifan.bp.widget.LoadingMoreListView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text=""/>
 
 </RelativeLayout>
