@@ -179,8 +179,8 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
         adapter.addFrag(new GoodsListFragment(), getString(R.string.auditrefused), R.mipmap.icon_auditrefused,
                 GoodsListFragment.STATUS_AUDIT_DENY, mFragmentTabCountList.get(3));
 
-        viewPager.setCurrentItem(CurrentItemIndex);
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(CurrentItemIndex);
         tabLayout.setupWithViewPager(viewPager);
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {

@@ -5,6 +5,7 @@ import android.support.v7.internal.widget.ViewStubCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,7 +84,7 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
 
     @Override
     protected void requestData() {
-        if (UserProfile.getInstance().getPlazaId() == null && UserProfile.getInstance().getPlazaId().equals("")) {
+        if (TextUtils.isEmpty(UserProfile.getInstance().getPlazaId())) {
             MaterialDialog mDialog = new MaterialDialog(getActivity());
             mDialog.setCanceledOnTouchOutside(false)
                     .setTitle(getString(R.string.common_title))
