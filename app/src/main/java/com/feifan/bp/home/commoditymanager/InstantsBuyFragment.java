@@ -11,18 +11,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.material.MaterialDialog;
+import com.feifan.statlib.FmsAgent;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.SocketException;
-import java.util.Random;
-
 /**
  * 商品管理 — 闪购商品列表
  * Created by konta on 2015/12/22.
@@ -142,7 +142,9 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
                 String url = UrlFactory.getInstantsForHtmlUrl(v.getTag().toString());
                 BrowserActivity.startActivity(getContext(), url);
             }else if(v.getId() == R.id.instants_add_container){//添加商品
-                String addUrl = UrlFactory.getCommodityManageForHtmlUrl().concat(new Random().nextInt() + "");
+                //统计埋点
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_GOODSMANA_PUB);
+                String addUrl = UrlFactory.getCommodityManageForHtmlUrl();
                 BrowserActivity.startActivity(getContext(), addUrl);
             }
         }else{

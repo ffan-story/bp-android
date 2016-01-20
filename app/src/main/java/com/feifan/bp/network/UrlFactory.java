@@ -8,7 +8,8 @@ import android.text.TextUtils;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.envir.EnvironmentManager;
-import com.feifan.bp.instantevent.InstCtrl;
+
+import java.util.Random;
 
 /**
  * 商家后台Url抽象工厂
@@ -108,7 +109,7 @@ public abstract class UrlFactory {
      * @return
      */
     public static String getCommodityManageForHtmlUrl() {
-        return urlForHtml(URL_PATH_COMMODITY_MANAGE_ADD);
+        return urlForHtml(URL_PATH_COMMODITY_MANAGE_ADD) + "&ts=" + new Random().nextInt();
     }
 
     /**

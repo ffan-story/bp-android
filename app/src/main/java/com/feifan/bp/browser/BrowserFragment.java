@@ -299,15 +299,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 fetchMarketingData(UserProfile.getInstance().getAuthRangeId(),url);
                 return true;
 
-            case R.id.menu_commodity_add://发布商品
-                //统计埋点
-                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_GOODSMANA_PUB);
-
-                url = UrlFactory.getCommodityManageForHtmlUrl();
-                mWebView.loadUrl(url);
-                LogUtil.i(TAG, "menu onClick() commodity url=" + url);
-                return true;
-
             case R.id.menu_picture_add:
                 initLeaveWordsDialog();
                 return true;
