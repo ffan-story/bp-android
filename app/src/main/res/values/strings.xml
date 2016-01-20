@@ -298,7 +298,8 @@
 
     <string name="chargeoff_goods_order_number">订单号:</string>
     <string name="chargeoff_goods_status">核销状态:</string>
-    <string name="chargeoff_goods_info">商品信息</string>
+    <string name="chargeoff_goods_info_white"><![CDATA[商品信息<font color="#ff0000">(白名单商品，仅为测试使用)</font>]]></string>
+    <string name="chargeoff_goods_info_normal">商品信息</string>
     <string name="chargeoff_goods_orderamt">总金额:</string>
     <string name="chargeoff_goods_point">积分支付:</string>
     <string name="chargeoff_goods_realamt">实付金额:</string>

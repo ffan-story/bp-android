@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.internal.widget.ViewStubCompat;
 
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
@@ -45,6 +46,17 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
     public static final String EXTRA_KEY_IS_COUPON = "isCouponCode";
     public static final String EXTRA_KEY_URL = "url";
     public static final String TAG = "CodeQueryResultFragment";
+
+    // 券状态常量
+    private static final int COUPON_STATUS_UNUSED = 3;     // 未核销
+    private static final int COUPON_STATUS_USED = 4;       // 已核销
+    private static final int COUPON_STATUS_EXPIRED = 6;    // 过期
+
+    // 提货码状态常量
+    private static final int GOODS_STATUS_UNUSED = 1;      // 未核销
+    private static final int GOODS_STATUS_USED = 2;        // 已核销
+    private static final int GOODS_STATUS_EXPIRED = 3;     // 过期
+
     private String code;
     private Boolean isCouponCode = false;
 
@@ -77,6 +89,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
     private TextView tv_goods_integrate_money;
     private TextView tv_goods_actual_money;
     private ListView lv_goods_info;
+    private TextView goodsTitle;
 
     // Dialog
     private MaterialDialog mDialog;
@@ -131,6 +144,8 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
             tv_goods_actual_money = (TextView) view.findViewById(R.id.tv_goods_actual_money);
             btn_code_use = (Button) view.findViewById(R.id.btn_goods_code_use);
             btn_code_use.setOnClickListener(this);
+
+            goodsTitle = (TextView)view.findViewById(R.id.chargeoff_goods_info_title);
         }
         return view;
     }
@@ -212,15 +227,15 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
         tv_ticket_code_time.setText(codeModel.getCouponsData().getBuyTime());
         tv_ticket_code_timeout.setText(codeModel.getCouponsData().getValidEndTime());
         switch (codeModel.getCouponsData().getStatus()) {
-            case 3://未核销
+            case COUPON_STATUS_UNUSED://未核销
                 tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_never));
                 btn_code_use.setVisibility(View.VISIBLE);
                 break;
-            case 4://已核销
+            case COUPON_STATUS_USED://已核销
                 tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_already));
                 btn_code_use.setVisibility(View.GONE);
                 break;
-            case 6://已过期
+            case COUPON_STATUS_EXPIRED://已过期
                 tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_timeout));
                 btn_code_use.setVisibility(View.GONE);
                 break;
@@ -240,15 +255,15 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
         tv_goods_order.setText(goodsModel.baseInfo.orderNo);
         tv_goods_branch.setText(goodsModel.baseInfo.storeName);
         switch (goodsModel.baseInfo.singnStatus) {
-            case 1://未核销
+            case GOODS_STATUS_UNUSED://未核销
                 tv_goods_status.setText(getResources().getString(R.string.chargeoff_never));
                 btn_code_use.setVisibility(View.VISIBLE);
                 break;
-            case 2://已核销
+            case GOODS_STATUS_USED://已核销
                 tv_goods_status.setText(getResources().getString(R.string.chargeoff_already));
                 btn_code_use.setVisibility(View.GONE);
                 break;
-            case 3://已过期
+            case GOODS_STATUS_EXPIRED://已过期
                 tv_goods_status.setText(getResources().getString(R.string.chargeoff_timeout));
                 btn_code_use.setVisibility(View.GONE);
                 break;
@@ -260,7 +275,11 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
         tv_goods_total_money.setText(getString(R.string.chargeoff_goods_price_format, goodsModel.baseInfo.orderAmt));
         tv_goods_integrate_money.setText(getString(R.string.chargeoff_goods_price_format, goodsModel.baseInfo.usePointDiscount));
         tv_goods_actual_money.setText(getString(R.string.chargeoff_goods_price_format, goodsModel.baseInfo.realPayAmt));
-
+        if(isWhite) {
+            goodsTitle.setText(Html.fromHtml(getString(R.string.chargeoff_goods_info_white)));
+        }else {
+            goodsTitle.setText(R.string.chargeoff_goods_info_normal);
+        }
     }
 
     @Override
@@ -475,17 +494,17 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
                     mCancelListener = new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mDialog.dismiss();
+                            noticeDlg.dismiss();
                         }
                     };
                 }
-                return mConfirmListener;
+                return mCancelListener;
             case R.string.chargeoff_dialog_button_continue:
                 if(mContinueListener == null) {
                     mContinueListener = new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mDialog.dismiss();
+                            noticeDlg.dismiss();
                             btn_code_use.setEnabled(false);
                             checkGoodsCode(code, orderNo);
                         }
