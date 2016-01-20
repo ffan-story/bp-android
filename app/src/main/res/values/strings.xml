@@ -358,6 +358,7 @@
     <string name="units_yuan">元</string>
     <string name="goto_commodity_text">去商品管理</string>
     <string name="instant_loading_page">已加载第%1$s页 , 共%2$s页</string>
+    <string name="goods_delete_confirm">确认删除该商品?</string>
 
     <!-- 商品管理 -->
     <string name="info_store_no_plaza">您的门店没有归属广场，无法查看可以报名活动。</string>

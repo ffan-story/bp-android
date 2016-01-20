@@ -129,7 +129,7 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_register:
-                EventDetailFragment.this.getActivity().finish();
+//                EventDetailFragment.this.getActivity().finish();
                 RegisterDetailActivity.startActivity(getActivity(), mPromotionId, mPromotionName,false);
                 break;
         }

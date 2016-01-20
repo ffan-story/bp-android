@@ -1,7 +1,6 @@
 package com.feifan.bp.salesmanagement;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +19,7 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.LazyLoadFragment;
 import com.feifan.bp.network.BaseModel;
 import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
-import com.feifan.bp.util.LogUtil;
+import com.feifan.material.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,8 +116,8 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
 
     private void initViews(View view) {
         cbAllCheck = (CheckBox) view.findViewById(R.id.allcheck);
-        cbAllCheck.setChecked(false);
         cbAllCheck.setOnCheckedChangeListener(checkAllListener);
+        cbAllCheck.setChecked(false);
         mProductList = (RecyclerView) view.findViewById(R.id.fragment_list_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -128,6 +127,7 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
 
         mRlEnrollBottom = (RelativeLayout) view.findViewById(R.id.rl_enroll_bottom);
         mBtnCommit = (Button) view.findViewById(R.id.btn_commit);
+        commitBtnStatus(false);
         mBtnCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,15 +184,11 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
                     mSwipeAdapter.setItemDeleteListener(GoodsNoCommitFragment.this);
                     if (model.goodsList.size() == 0) {
                         cbAllCheck.setClickable(false);
-                        if (cbAllCheck.isChecked()){
+                        if (cbAllCheck.isChecked()) {
                             cbAllCheck.setChecked(false);
                         }
-                        mBtnCommit.setClickable(false);
-                        mBtnCommit.setBackgroundResource(R.drawable.bg_button_grey);
                     } else {
                         cbAllCheck.setClickable(true);
-                        mBtnCommit.setClickable(true);
-                        mBtnCommit.setBackgroundResource(R.drawable.bg_button_orange);
                     }
                 }
             }
@@ -216,11 +212,15 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
                 cbAllCheck.setChecked(true);
                 cbAllCheck.setOnCheckedChangeListener(checkAllListener);
             }
+            commitBtnStatus(true);
         } else {
             checkStatus.remove(position);
             cbAllCheck.setOnCheckedChangeListener(null);
             cbAllCheck.setChecked(false);
             cbAllCheck.setOnCheckedChangeListener(checkAllListener);
+            if(checkStatus.size()==0){
+                commitBtnStatus(false);
+            }
         }
     }
 
@@ -231,19 +231,36 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
      */
     @Override
     public void onDelete(final int position) {
-        Response.Listener<BaseModel> listener = new Response.Listener<BaseModel>() {
-            @Override
-            public void onResponse(BaseModel model) {
-                Toast.makeText(getActivity(), "删除成功!", Toast.LENGTH_SHORT).show();
-                updateStatusListener.updateStatus();//更新角标状态
-                //更新选中状态
-                changeCheckStatus(position);
-                mSwipeAdapter.notifyItemRemoved(position);
-                mSwipeAdapter.notifyItemRangeChanged(position, mSwipeAdapter.getItemCount());
-            }
-        };
-        String goodsCode = datas.get(position).getGoodsCode();
-        PromotionCtrl.goodsDelete(mStoreId, mMerchantId, mUid, mPromotionId, goodsCode, listener);
+
+        final MaterialDialog materialDialog = new MaterialDialog(getActivity());
+        materialDialog.setCanceledOnTouchOutside(false)
+                .setTitle(getString(R.string.common_title))
+                .setMessage(getString(R.string.goods_delete_confirm))
+                .setNegativeButton(getString(R.string.common_cancel), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        materialDialog.dismiss();
+                    }
+                })
+                .setPositiveButton(getString(R.string.common_confirm), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        materialDialog.dismiss();
+                        Response.Listener<BaseModel> listener = new Response.Listener<BaseModel>() {
+                            @Override
+                            public void onResponse(BaseModel model) {
+                                Toast.makeText(getActivity(), "删除成功!", Toast.LENGTH_SHORT).show();
+                                updateStatusListener.updateStatus();//更新角标状态
+                                //更新选中状态
+                                changeCheckStatus(position);
+                                mSwipeAdapter.notifyItemRemoved(position);
+                                mSwipeAdapter.notifyItemRangeChanged(position, mSwipeAdapter.getItemCount());
+                            }
+                        };
+                        String goodsCode = datas.get(position).getGoodsCode();
+                        PromotionCtrl.goodsDelete(mStoreId, mMerchantId, mUid, mPromotionId, goodsCode, listener);
+                    }
+                }).show();
     }
 
     private CompoundButton.OnCheckedChangeListener checkAllListener = new CompoundButton.OnCheckedChangeListener() {
@@ -253,14 +270,30 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
                 for (int i = 0; i < mSwipeAdapter.getItemCount(); i++) {
                     checkStatus.put(i, isChecked);
                 }
+                commitBtnStatus(true);
             } else {
                 for (int i = 0; i < mSwipeAdapter.getItemCount(); i++) {
                     checkStatus.remove(i);
                 }
+                commitBtnStatus(false);
             }
             mSwipeAdapter.notifyDataSetChanged();
         }
     };
+
+    /**
+     * 提交按钮是否置灰不可点击
+     * @param canCommit true->正常 false->不可点
+     */
+    private void commitBtnStatus(boolean canCommit) {
+        if (canCommit) {
+            mBtnCommit.setClickable(true);
+            mBtnCommit.setBackgroundResource(R.drawable.bg_button_orange);
+        } else {
+            mBtnCommit.setClickable(false);
+            mBtnCommit.setBackgroundResource(R.drawable.bg_button_grey);
+        }
+    }
 
     /**
      * 更新checkStatus状态
@@ -292,7 +325,7 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
         }
         //更新全选按钮状态
         if (mSwipeAdapter.getItemCount() == 0) {
-
+            commitBtnStatus(false);
         } else if (checkStatus.size() == mSwipeAdapter.getItemCount()) {
             cbAllCheck.setOnCheckedChangeListener(null);
             cbAllCheck.setChecked(true);
