@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.instantevent.InstEvenSkuSettFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.paginate.SwipeMenuViewHolder;
 

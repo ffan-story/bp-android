@@ -1,4 +1,4 @@
-package com.feifan.bp.instantevent;
+package com.feifan.bp.salesmanagement;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,8 +28,6 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.salesmanagement.RegisterDetailActivity;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -222,7 +220,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
         setContentShown(true);
         //add:新增 ；edit：编辑
         mGoodsAction = isGoosActionAdd ? "add" : "edit";
-        InstCtrl.getInstEventGoodsSetingDeta(mStrEventId, mStrGoodsCode, mGoodsAction, new Response.Listener<InstEvenSkuSettModel>() {
+        com.feifan.bp.salesmanagement.InstCtrl.getInstEventGoodsSetingDeta(mStrEventId, mStrGoodsCode, mGoodsAction, new Response.Listener<InstEvenSkuSettModel>() {
             @Override
             public void onResponse(InstEvenSkuSettModel detailModel) {
                 if (detailModel != null) {

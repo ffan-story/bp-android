@@ -1,6 +1,5 @@
-package com.feifan.bp.instantevent;
+package com.feifan.bp.salesmanagement;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,7 +7,6 @@ import android.support.v7.internal.widget.ViewStubCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -128,7 +126,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
                     if (isLoadMore) {
                         if (adapter != null) {
                             adapter.notifyData(arryListGoodsData);
-                            Toast.makeText(getActivity(), String.format(getActivity().getString(R.string.instant_loading_page),pageIndex,totalPages), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), String.format(getActivity().getString(R.string.instant_loading_page), pageIndex, totalPages), Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         adapter = new InstEventGoodsListAdapter(getActivity(), arryListGoodsData, mStrEventId);
@@ -141,7 +139,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
                     stopRefresh();
                     loading = hasLoadedAllItems();
                     paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
-                }else{
+                } else {
                     mRelEmpty.setVisibility(View.VISIBLE);
                     mSwipeLayout.setVisibility(View.GONE);
                 }

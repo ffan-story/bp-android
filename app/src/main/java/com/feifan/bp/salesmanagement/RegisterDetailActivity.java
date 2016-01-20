@@ -24,7 +24,6 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
-import com.feifan.bp.instantevent.InstEventGoodsListFragment;
 import com.feifan.bp.widget.CustomViewPager;
 
 import java.util.ArrayList;

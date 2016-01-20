@@ -1,4 +1,4 @@
-package com.feifan.bp.instantevent;
+package com.feifan.bp.salesmanagement;
 
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
@@ -33,7 +33,7 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
     private LinearLayout mLineGoodsNumber,mLineGoodsAmount;
     private TextView mTvVendorDiscount,mTvFeiFanDiscount,mTvStatic;
     private String mStrEventId ,mStrGoodsCode;
-    private List<InstEvenSkuSettModel.InstantEventSetDetailData> mList = new ArrayList<>();
+    private List<com.feifan.bp.salesmanagement.InstEvenSkuSettModel.InstantEventSetDetailData> mList = new ArrayList<>();
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -81,10 +81,10 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
     protected void requestData(){
         setContentShown(true);
         String mgoodsAction ="edit";
-        InstCtrl.getInstEventGoodsSetingDeta(mStrEventId, mStrGoodsCode,mgoodsAction, new Response.Listener<InstEvenSkuSettModel>() {
+        com.feifan.bp.salesmanagement.InstCtrl.getInstEventGoodsSetingDeta(mStrEventId, mStrGoodsCode, mgoodsAction, new Response.Listener<com.feifan.bp.salesmanagement.InstEvenSkuSettModel>() {
             @Override
-            public void onResponse(InstEvenSkuSettModel detailModel) {
-                if (detailModel!=null){
+            public void onResponse(com.feifan.bp.salesmanagement.InstEvenSkuSettModel detailModel) {
+                if (detailModel != null) {
                     setContViewData(detailModel);
                 }
             }
@@ -92,8 +92,8 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
     }
 
 
-    InstEvenSkuSettModel.InstantEventSetDetailData myData ;
-    private void setContViewData(InstEvenSkuSettModel detailModel){
+    com.feifan.bp.salesmanagement.InstEvenSkuSettModel.InstantEventSetDetailData myData ;
+    private void setContViewData(com.feifan.bp.salesmanagement.InstEvenSkuSettModel detailModel){
          myData = detailModel.mEventSetDetailData;
          mList = detailModel.arryInstantEventData;
 

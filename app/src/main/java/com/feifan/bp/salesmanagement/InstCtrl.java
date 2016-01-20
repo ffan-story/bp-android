@@ -1,4 +1,4 @@
-package com.feifan.bp.instantevent;
+package com.feifan.bp.salesmanagement;
 
 import com.android.volley.Response.Listener;
 import com.feifan.bp.Constants;
@@ -22,14 +22,14 @@ public class InstCtrl {
      * @param listener
      */
     public static void getInstEventGoodsList(String promotionCode,int pageIndex, Listener listener) {
-        JsonRequest<InstEventGoodsListModel> request = new GetRequest.Builder<InstEventGoodsListModel>(UrlFactory.getInstEventGoodsList())
+        JsonRequest<com.feifan.bp.salesmanagement.InstEventGoodsListModel> request = new GetRequest.Builder<com.feifan.bp.salesmanagement.InstEventGoodsListModel>(UrlFactory.getInstEventGoodsList())
                 .param("promotionCode", promotionCode)
                 .param("merchantId", UserProfile.getInstance().getMerchantId())
                 .param("storeId", UserProfile.getInstance().getAuthRangeId())
                 .param("pageIndex", String.valueOf(pageIndex))
                 .param("limit",String.valueOf(Constants.LIST_MAX_LENGTH))
                 .build()
-                .targetClass(InstEventGoodsListModel.class)
+                .targetClass(com.feifan.bp.salesmanagement.InstEventGoodsListModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }
@@ -42,12 +42,12 @@ public class InstCtrl {
      * @param goodsAction  回显商户参与活动商品数量传：edit
      */
     public static void getInstEventGoodsSetingDeta(String promotionCode,String goodsCode,String goodsAction, Listener listener) {
-        JsonRequest<InstEvenSkuSettModel> request = new GetRequest.Builder<InstEvenSkuSettModel>(UrlFactory.getInstEventGoodsSettingDetail(goodsCode))
+        JsonRequest<com.feifan.bp.salesmanagement.InstEvenSkuSettModel> request = new GetRequest.Builder<com.feifan.bp.salesmanagement.InstEvenSkuSettModel>(UrlFactory.getInstEventGoodsSettingDetail(goodsCode))
                 .param("promotionCode", promotionCode)
                 .param("goodsCode", goodsCode)
                 .param("goods_action",goodsAction)
                 .build()
-                .targetClass(InstEvenSkuSettModel.class)
+                .targetClass(com.feifan.bp.salesmanagement.InstEvenSkuSettModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }
@@ -68,7 +68,7 @@ public class InstCtrl {
                                                    String goodsSn,String goodsSkuList,
                                                    String merchantCutAmount,
                                                    Listener listener) {
-        JsonRequest<InstEvenSkuSettModel> request = new PostRequest<InstEvenSkuSettModel>(UrlFactory.getInstEventGoodsCommAndSave(), new DefaultErrorListener())
+        JsonRequest<com.feifan.bp.salesmanagement.InstEvenSkuSettModel> request = new PostRequest<com.feifan.bp.salesmanagement.InstEvenSkuSettModel>(UrlFactory.getInstEventGoodsCommAndSave(), new DefaultErrorListener())
                 .param("goods_action", goodsAction)
                 .param("promotionCode", promotionCode)
                 .param("merchantId", UserProfile.getInstance().getMerchantId())
@@ -78,7 +78,7 @@ public class InstCtrl {
                 .param("goodsSn", goodsSn)
                 .param("goodsSkuList", goodsSkuList)
                 .param("merchantCutAmount", merchantCutAmount)
-                .targetClass(InstEvenSkuSettModel.class)
+                .targetClass(com.feifan.bp.salesmanagement.InstEvenSkuSettModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }

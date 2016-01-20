@@ -1,4 +1,4 @@
-package com.feifan.bp.instantevent;
+package com.feifan.bp.salesmanagement;
 
 
 import com.feifan.bp.network.BaseModel;

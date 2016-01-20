@@ -1,4 +1,4 @@
-package com.feifan.bp.instantevent;
+package com.feifan.bp.salesmanagement;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.salesmanagement.RecyclerOnItemClickListener;
 
 import java.util.List;
 
@@ -23,10 +22,10 @@ import java.util.List;
 public class InstEventGoodsListAdapter extends RecyclerView.Adapter<InstEventGoodsListAdapter.GoodsDatas> implements RecyclerOnItemClickListener {
 
     private Activity context;
-    private final List<InstEventGoodsListModel.GoodsListData> data;
+    private final List<com.feifan.bp.salesmanagement.InstEventGoodsListModel.GoodsListData> data;
     private String mEventId;
 
-    public InstEventGoodsListAdapter(Activity context, List<InstEventGoodsListModel.GoodsListData> data,String mEventId) {
+    public InstEventGoodsListAdapter(Activity context, List<com.feifan.bp.salesmanagement.InstEventGoodsListModel.GoodsListData> data,String mEventId) {
         this.context = context;
         this.mEventId = mEventId;
         this.data = data;
@@ -40,7 +39,7 @@ public class InstEventGoodsListAdapter extends RecyclerView.Adapter<InstEventGoo
 
     @Override
     public void onBindViewHolder(GoodsDatas holder, final int position) {
-        InstEventGoodsListModel.GoodsListData GoodsListModel = data.get(position);
+        com.feifan.bp.salesmanagement.InstEventGoodsListModel.GoodsListData GoodsListModel = data.get(position);
         holder.mTvGoodsName.setText(GoodsListModel.mStrGoodsName);
         holder.mTvGoodsStatus.setText(GoodsListModel.mStrGoodsStatusTxt);
         if (!TextUtils.isEmpty(GoodsListModel.mStrGoodsStatus) && GoodsListModel.mStrGoodsStatus.equals("1")){//已提交
@@ -65,14 +64,14 @@ public class InstEventGoodsListAdapter extends RecyclerView.Adapter<InstEventGoo
         if (!data.get(position).mStrGoodsStatus.equals("1")) {
 //            context.finish();
             Bundle args = new Bundle();
-            args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_EVENT_ID, mEventId);
-            args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_GOODS_CODE, data.get(position).mStrGoodsId);
-            args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_GOODS_ACTION, true);
-            PlatformTopbarActivity.startActivityForResult(context, InstEvenSkuSettFragment.class.getName(), context.getString(R.string.instant_setting_detail), args);
+            args.putString(com.feifan.bp.salesmanagement.InstEvenSkuSettFragment.EXTRA_PARTAKE_EVENT_ID, mEventId);
+            args.putString(com.feifan.bp.salesmanagement.InstEvenSkuSettFragment.EXTRA_PARTAKE_GOODS_CODE, data.get(position).mStrGoodsId);
+            args.putBoolean(com.feifan.bp.salesmanagement.InstEvenSkuSettFragment.EXTRA_EVENT_GOODS_ACTION, true);
+            PlatformTopbarActivity.startActivityForResult(context, com.feifan.bp.salesmanagement.InstEvenSkuSettFragment.class.getName(), context.getString(R.string.instant_setting_detail), args);
         }
     }
 
-    public void notifyData(List<InstEventGoodsListModel.GoodsListData> items) {
+    public void notifyData(List<com.feifan.bp.salesmanagement.InstEventGoodsListModel.GoodsListData> items) {
         int previousDataSize = this.data.size();
         this.data.addAll(items);
         notifyItemRangeInserted(previousDataSize, items.size());

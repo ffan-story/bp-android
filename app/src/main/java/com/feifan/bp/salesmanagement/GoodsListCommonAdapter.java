@@ -22,10 +22,6 @@ import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 
 import java.util.List;
 
-import com.feifan.bp.instantevent.InstEvenSkuSettFragment;
-import com.feifan.bp.instantevent.InstEventSignUpDetailFragment;
-import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
-
 public class GoodsListCommonAdapter extends RecyclerView.Adapter {
 
     private Context context;
