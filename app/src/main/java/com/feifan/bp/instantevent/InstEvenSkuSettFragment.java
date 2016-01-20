@@ -194,7 +194,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                         mList = myModel.arryInstantEventData;
                         mList.set(i, mSetGoodsDetailData);
                     }
-                    if (myData.getmDoubleGoodsDiscount() <0) {//优惠后的金额为负数
+                    if (myData.getmDoubleGoodsDiscount() < 0) {//优惠后的金额为负数
                         mTvVendorDiscountTips.setVisibility(View.VISIBLE);
                         mTvVendorDiscountTips.setText(getActivity().getResources().getString(R.string.instant_input_vendor_tips));
                         isVendorDiscountEmptyFlag = false;
@@ -263,22 +263,39 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
         return false;
     }
 
+    /**
+     * 是否添加了sku数量
+     * true：添加合法sku数量
+     * false：没有添加
+     */
+    private boolean isSetEvenGoodsNumb = false;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bnt_instant_save_setting://保存设置
             case R.id.bnt_instant_atonce_submit://立即提交
                 for (int i = 0; i < mList.size(); i++) {//库存校验
-                    if (mList.get(i).mIntGoodsPartakeNumber == 0) {
-                        Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_goods_understock_tips1));
-                        return;
-                    } else if (mList.get(i).mIntGoodsPartakeNumber > mList.get(i).mIntGoodsTotal) {//库存不足
+                    if (mList.get(i).mIntGoodsPartakeNumber != 0 && mList.get(i).mIntGoodsPartakeNumber < mList.get(i).mIntGoodsTotal) {
+                        isSetEvenGoodsNumb = true;
+                    }
+
+                    if (mList.get(i).mIntGoodsPartakeNumber > mList.get(i).mIntGoodsTotal) {//库存不足
                         Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_goods_understock_tips));
                         return;
                     }
                 }
 
-                if (isVendorDiscountEmptyFlag) {
+                if (!isSetEvenGoodsNumb){
+                    for (int i = 0; i < mList.size(); i++) {//库存校验
+                        if (mList.get(i).mIntGoodsPartakeNumber == 0) {
+                            Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_goods_understock_tips1));
+                            return;
+                        }
+                     }
+                }
+
+                if (isVendorDiscountEmptyFlag){
                     Utils.showShortToast(getActivity(), getActivity().getString(R.string.instant_please_input_vendor_discount_tips));
                     return;
                 }
@@ -443,10 +460,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                             mSetGoodsDetailData.mIntGoodsPartakeNumber = Integer.parseInt(s.toString());
                         }
 
-                        if (mSetGoodsDetailData.mIntGoodsPartakeNumber == 0) {//
-                            holder.mTvGoodsTips.setVisibility(View.VISIBLE);
-                            holder.mTvGoodsTips.setText(getActivity().getResources().getString(R.string.instant_goods_understock_tips1));
-                        } else if (mSetGoodsDetailData.mIntGoodsPartakeNumber > mSetGoodsDetailData.mIntGoodsTotal) {
+                        if (mSetGoodsDetailData.mIntGoodsPartakeNumber > mSetGoodsDetailData.mIntGoodsTotal) {
                             holder.mTvGoodsTips.setVisibility(View.VISIBLE);
                             holder.mTvGoodsTips.setText(getActivity().getResources().getString(R.string.instant_goods_understock_tips));
                         } else {

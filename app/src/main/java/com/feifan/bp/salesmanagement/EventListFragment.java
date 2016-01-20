@@ -148,8 +148,10 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 setContentShown(true);
-                Utils.showShortToast(getActivity(), volleyError.getMessage());
-                stopRefresh();
+                if (isAdded()){
+                    Utils.showShortToast(getActivity(), volleyError.getMessage());
+                    stopRefresh();
+                }
             }
         };
         Response.Listener<PromotionListModel> responseListener = new Response.Listener<PromotionListModel>() {
