@@ -343,16 +343,13 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
                     @Override
                     public void onResponse(Object o) {
                         Intent intent = new Intent();
-                        Bundle bundle = new Bundle();
                         if (!TextUtils.isEmpty(mCommitFlag) && mCommitFlag.equals("0")) {
                             Utils.showShortToast(getActivity().getApplicationContext(), "保存成功");
-                            bundle.putInt(Constants.RETURN_STATUS, Constants.RETURN_SAVE);
+                            intent.putExtra(Constants.RETURN_STATUS, Constants.RETURN_SAVE);
                         } else {
                             Utils.showShortToast(getActivity().getApplicationContext(), "提交成功");
-                            bundle.putInt(Constants.RETURN_STATUS, Constants.RETURN_COMMIT);
-
+                            intent.putExtra(Constants.RETURN_STATUS, Constants.RETURN_COMMIT);
                         }
-                        intent.putExtra(RegisterDetailActivity.EXTRA_KEY_INDEX, bundle);
                         getActivity().setResult(Activity.RESULT_OK, intent);
                         getActivity().finish();
                     }

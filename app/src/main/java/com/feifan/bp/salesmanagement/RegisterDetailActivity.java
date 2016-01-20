@@ -239,8 +239,8 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            CurrentItemIndex = data.getBundleExtra(EXTRA_KEY_INDEX).getInt(Constants.RETURN_STATUS);
+        if (resultCode == RESULT_OK && data!=null) {
+            CurrentItemIndex = data.getIntExtra(Constants.RETURN_STATUS,0);
             getGoodsStatus(true);
         }
     }

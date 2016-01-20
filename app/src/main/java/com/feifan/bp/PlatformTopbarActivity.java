@@ -192,7 +192,11 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode ==RESULT_OK && requestCode == Constants.REQUEST_CODE){
-            setResult(RESULT_OK);
+            if (data !=null){
+                setResult(RESULT_OK,data);
+            }else{
+                setResult(RESULT_OK);
+            }
             finish();
         }
     }
