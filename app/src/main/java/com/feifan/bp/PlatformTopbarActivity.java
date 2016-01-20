@@ -200,4 +200,8 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
             finish();
         }
     }
+
+    public Toolbar getToolbar(){
+        return mToolbar;
+    }
 }

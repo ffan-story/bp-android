@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.transactionflow.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -18,6 +18,8 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.transactionflow.model.InstantSummaryModel;
+import com.feifan.bp.transactionflow.TransFlowCtrl;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.NumberUtil;
 import com.feifan.bp.util.TimeUtil;
@@ -117,7 +119,7 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
             TransFlowCtrl.getInstantSummary(startDate, endDate, new Response.Listener<InstantSummaryModel>() {
                 @Override
                 public void onResponse(InstantSummaryModel modle) {
-                    if(modle != null && isAdded()){
+                    if (modle != null && isAdded()) {
                         initInstantSummaryView(modle);
                         stopRefresh();
                         setContentShown(true);
@@ -127,7 +129,7 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     setContentShown(true);
-                    if(isShowDlg && isAdded()){
+                    if (isShowDlg && isAdded()) {
                         showError(volleyError);
                         stopRefresh();
                     }
@@ -286,6 +288,7 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
                 setTabFocus(tabIndex);
             }
         });
+        dpd.setCancelable(false);
     }
 
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {

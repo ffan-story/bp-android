@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.transactionflow.model;
 
 import android.util.Log;
 

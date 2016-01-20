@@ -1,7 +1,9 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.transactionflow.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -12,6 +14,10 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.transactionflow.adapter.InstantDetailListAdapter;
+import com.feifan.bp.transactionflow.adapter.InstantOrderDetailAdapter;
+import com.feifan.bp.transactionflow.model.InstantOrderDetailModel;
+import com.feifan.bp.transactionflow.TransFlowCtrl;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 import com.feifan.material.MaterialDialog;
@@ -24,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 交易明细
  * Created by konta on 2016/1/14.
  */
 public class InstantOrderDetailFragment extends ProgressFragment implements OnLoadingMoreListener {
@@ -90,43 +97,47 @@ public class InstantOrderDetailFragment extends ProgressFragment implements OnLo
 
         orders = new ArrayList<>();
 
+        getToolbar().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLoadDetailList.setSelection(0);
+            }
+        });
     }
 
     @Override
     protected void requestData() {
         if(Utils.isNetworkAvailable(getActivity())){
             setContentEmpty(false);
-            TransFlowCtrl.getInstantOrderDetailList(isOnlyRefund,mStartDate, mEndDate,
-                mPageIndex, mLimit, mGoogsId,
-                new Response.Listener<InstantOrderDetailModel>() {
-                    @Override
-                    public void onResponse(InstantOrderDetailModel model) {
-                        if (null != model && isAdded()) {
+            TransFlowCtrl.getInstantOrderDetailList(isOnlyRefund, mStartDate, mEndDate,
+                    mPageIndex, mLimit, mGoogsId,
+                    new Response.Listener<InstantOrderDetailModel>() {
+                        @Override
+                        public void onResponse(InstantOrderDetailModel model) {
+                            if (null != model && isAdded()) {
+                                setContentShown(true);
+                                mLoadDetailList.hideFooterView();
+                                if (mPageIndex == 1) {
+                                    initOrderDetailView(model, false);
+                                } else {
+                                    initOrderDetailView(model, true);
+                                }
+
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
                             setContentShown(true);
                             mLoadDetailList.hideFooterView();
-                            if(mPageIndex == 1){
-                                initOrderDetailView(model, false);
-                            }else{
-                                initOrderDetailView(model, true);
+                            if (mPageIndex > 1) {
+                                mPageIndex--;
                             }
-
+                            if (isShowDlg && isAdded()) {
+                                showError(volleyError);
+                            }
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        setContentShown(true);
-                        mLoadDetailList.hideFooterView();
-                        if(mPageIndex == 1){
-                            return;
-                        }else{
-                            mPageIndex--;
-                        }
-                        if (isShowDlg && isAdded()) {
-                            showError(volleyError);
-                        }
-                    }
-                });
+                    });
         }else{
             if (isShowDlg && isAdded()) {
                 mDialog.setMessage(getResources().getString(R.string.error_message_text_offline))
@@ -141,7 +152,7 @@ public class InstantOrderDetailFragment extends ProgressFragment implements OnLo
     @Override
     public void onLoadingMore() {
         if(orders.size() >= totalCount && isAdded()){
-            Utils.showShortToast(getActivity(),getString(R.string.error_no_more_data));
+            Utils.showShortToast(getActivity(), getString(R.string.error_no_more_data));
             mLoadDetailList.hideFooterView();
         }else{
             mPageIndex++;
@@ -197,6 +208,14 @@ public class InstantOrderDetailFragment extends ProgressFragment implements OnLo
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;
+    }
+
+    protected Toolbar getToolbar() {
+        Activity a = getActivity();
+        if (a instanceof PlatformTopbarActivity) {
+            return ((PlatformTopbarActivity) a).getToolbar();
+        }
+        return null;
     }
 
 }

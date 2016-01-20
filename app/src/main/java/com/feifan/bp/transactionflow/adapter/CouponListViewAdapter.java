@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.transactionflow.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.feifan.bp.R;
+import com.feifan.bp.transactionflow.model.CouponSummaryModel;
 import com.feifan.bp.util.NumberUtil;
 
 import java.util.List;
@@ -50,6 +51,7 @@ public class CouponListViewAdapter extends BaseAdapter {
         }else{
             holder = (ViewHolder)convertView.getTag();
         }
+
         holder.mCouponCode.setText(couponDetails.get(position).CPCode);
         holder.mCouponName.setText(couponDetails.get(position).CPName);
         holder.mAwardMoney.setText(mContext.getString(R.string.money, NumberUtil.moneyFormat(couponDetails.get(position).awardMoney, 2)));

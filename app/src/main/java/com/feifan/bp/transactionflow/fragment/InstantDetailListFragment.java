@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.transactionflow.fragment;
 
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
@@ -14,6 +14,10 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.transactionflow.adapter.InstantDetailListAdapter;
+import com.feifan.bp.transactionflow.model.InstantDetailModel;
+import com.feifan.bp.transactionflow.TransFlowCtrl;
+import com.feifan.bp.widget.SpacesItemDecoration;
 import com.feifan.material.MaterialDialog;
 
 import org.json.JSONException;
@@ -56,6 +60,8 @@ public class InstantDetailListFragment extends ProgressFragment{
         mDetailList = (RecyclerView) v.findViewById(R.id.detail_list);
         mDetailList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        SpacesItemDecoration space = new SpacesItemDecoration(8);
+        mDetailList.addItemDecoration(space);
         initData();
 
         return v;

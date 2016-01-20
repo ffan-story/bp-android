@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.transactionflow.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.feifan.bp.R;
+import com.feifan.bp.transactionflow.model.InstantOrderDetailModel;
 import com.feifan.bp.util.NumberUtil;
 
 import java.util.List;

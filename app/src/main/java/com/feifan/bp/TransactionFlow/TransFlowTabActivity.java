@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.transactionflow.fragment.CouponFragment;
+import com.feifan.bp.transactionflow.fragment.InstantBuyFragment;
 
 import java.util.ArrayList;
 import java.util.List;

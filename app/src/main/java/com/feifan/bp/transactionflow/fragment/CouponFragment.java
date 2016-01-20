@@ -1,29 +1,29 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.transactionflow.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.util.NumberUtil;
+import com.feifan.bp.transactionflow.adapter.CouponListAdapter;
+import com.feifan.bp.transactionflow.model.CouponSummaryModel;
+import com.feifan.bp.transactionflow.TransFlowCtrl;
 import com.feifan.bp.util.TimeUtil;
-import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.MonPicker;
-import com.feifan.bp.widget.OnLoadingMoreListener;
-import com.feifan.bp.widget.SegmentedGroup;
+import com.feifan.bp.widget.paginate.Paginate;
 import com.feifan.material.MaterialDialog;
 
 import org.json.JSONException;
@@ -32,39 +32,39 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.util.List;
 
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+
 /**
  * 通用券
- * Created by kontar on 16/1/19.
+ * Created by Frank on 15/11/6.
  */
-public class CouponListViewFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener,
-        SwipeRefreshLayout.OnRefreshListener, OnLoadingMoreListener {
+public class CouponFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener,
+        SwipeRefreshLayout.OnRefreshListener,Paginate.Callbacks {
 
     private static final String TAG = "CouponFragment";
 
-    private SegmentedGroup mSegmentGroup;
-    private RadioButton mLast1,mLast2, mOther;
-    private TextView mChargeoffTotal,mAwardAmount,mLinkRelative,mDetailTotalCount;
-    private ImageView relativeArrow;
+//    private SegmentedGroup mSegmentGroup;
+//    private RadioButton mLast1,mLast2, mOther;
+//    private TextView mChargeoffTotal,mAwardAmount,mLinkRelative;
     private int tabIndex;
 
     private MaterialDialog mDialog;
     private MonPicker picker;
     private String selectData;
     private boolean isShowDlg;
-    private CouponListViewAdapter adapter;
+    private CouponListAdapter adapter;
+    private MaterialDialog mErrorDialog;
     private SwipeRefreshLayout mSwipeLayout;
+    private RecyclerView mRecyclerView;
     private List<CouponSummaryModel.CouponDetail> couponList;
 
-    private TextView mQueryTime;
+//    private TextView mQueryTime;
 
     private static int mIntYear;
     private static int mIntMonth;
-    private int mPageIndex = 1,mLimit = 10;
-    /**
-     * 总条数
-     */
-    private int mDetailCount;
-    private LoadingMoreListView load;
+    private int mPageIndex = 1,mLimit = 10,mTotalCount;
+    private boolean loading = false;
+    private Paginate paginate;
 
 
     @Override
@@ -76,96 +76,97 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
 
-        stub.setLayoutResource(R.layout.fragment_check_coupon_list);
+        stub.setLayoutResource(R.layout.fragment_check_coupon_summary);
         View v = stub.inflate();
 
-        load = (LoadingMoreListView) v.findViewById(R.id.load_coupon_list);
-
-        View header = View.inflate(getActivity(),R.layout.fragment_check_coupons,null);
-
-        load.addHeaderView(header);
-        load.setOnLoadingMoreListener(this);
-
-        initView(v, header);
+        initView(v);
         initData();
+
         return v;
     }
 
-    private void initView(View v, View header) {
-        mSwipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_coupon_list);
-        mSwipeLayout.setColorSchemeResources(R.color.accent);
+    private void initView(View v) {
 
+        mSwipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.coupon_swipe);
+        mSwipeLayout.setColorSchemeResources(R.color.accent);
         mSwipeLayout.setOnRefreshListener(this);
 
-        mSegmentGroup = (SegmentedGroup) header.findViewById(R.id.coupon_segmentedGroup);
-        mLast1 = (RadioButton) header.findViewById(R.id.coupon_last1);
-        mLast2 = (RadioButton) header.findViewById(R.id.coupon_last2);
-        mOther = (RadioButton) header.findViewById(R.id.coupon_other);
-        mOther.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectDate(mIntYear, mIntMonth);
-            }
-        });
-        mQueryTime = (TextView) header.findViewById(R.id.coupon_query_time);
-        mChargeoffTotal = (TextView)header.findViewById(R.id.chargeoff_count);
-        mAwardAmount = (TextView)header.findViewById(R.id.award_money_count);
-        mLinkRelative = (TextView)header.findViewById(R.id.link_relative);
-        mDetailTotalCount = (TextView) header.findViewById(R.id.coupon_total_count);
-        relativeArrow = (ImageView) header.findViewById(R.id.coupon_relative_arrow);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.coupon_recyler);
+        int layoutOrientation = OrientationHelper.VERTICAL;
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), layoutOrientation, false);
+        ((LinearLayoutManager) layoutManager).setReverseLayout(false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setItemAnimator(new SlideInUpAnimator());
+
+//        mSegmentGroup = (SegmentedGroup) v.findViewById(R.id.coupon_segmentedGroup);
+//        mLast1 = (RadioButton) v.findViewById(R.id.coupon_last1);
+//        mLast2 = (RadioButton) v.findViewById(R.id.coupon_last2);
+//        mOther = (RadioButton) v.findViewById(R.id.coupon_other);
+//        mOther.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                selectDate(mIntYear, mIntMonth);
+//            }
+//        });
+//        mQueryTime = (TextView) v.findViewById(R.id.coupon_query_time);
+//        mChargeoffTotal = (TextView)v.findViewById(R.id.chargeoff_count);
+//        mAwardAmount = (TextView)v.findViewById(R.id.award_money_count);
+//        mLinkRelative = (TextView)v.findViewById(R.id.link_relative);
 
     }
 
     private void initData() {
         tabIndex = R.id.last1;
-        mLast1.setChecked(true);
+//        mLast1.setChecked(true);
         selectData = TimeUtil.getLastMonth();
-        mQueryTime.setText(getString(R.string.query_time, selectData));
+//        mQueryTime.setText(getString(R.string.query_time, selectData));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mSegmentGroup.setOnCheckedChangeListener(this);
+//        mSegmentGroup.setOnCheckedChangeListener(this);
     }
 
     @Override
     protected void requestData() {
+        setupPagination();
+    }
+
+    private void setupPagination() {
+        if(paginate != null){
+            paginate.unbind();
+        }
+
+        getCouponsDatas();
+    }
+
+    private void getCouponsDatas() {
         if(Utils.isNetworkAvailable(getActivity())){
             setContentEmpty(false);
             mSwipeLayout.setRefreshing(true);
-            TransFlowCtrl.getCouponSummary(selectData,mPageIndex,mLimit, new Response.Listener<CouponSummaryModel>() {
+            TransFlowCtrl.getCouponSummary(selectData, mPageIndex, mLimit, new Response.Listener<CouponSummaryModel>() {
                 @Override
                 public void onResponse(CouponSummaryModel model) {
-                    if(null != model && isAdded()){
-                        if(mPageIndex == 1){
-                            initCouponView(model, false);
-                        }else{
-                            initCouponView(model, true);
-                        }
-                        load.hideFooterView();
-                        stopRefresh();
+                    if (null != model && isAdded()) {
+                        initCouponView(model, false);
+                        mSwipeLayout.setRefreshing(false);
                         setContentShown(true);
                     }
-
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
+                    stopRefresh();
                     setContentShown(true);
-                    load.hideFooterView();
-                    if(mPageIndex == 1){
-                        return;
-                    }else{
-                        mPageIndex--;
-                    }
-                    if(isShowDlg && isAdded()){
+                    if (isShowDlg && isAdded()) {
                         showError(volleyError);
-                        stopRefresh();
+                        mSwipeLayout.setRefreshing(false);
                     }
                 }
             });
         }else{
+            Log.e(TAG, "网络不可用");
             if (isShowDlg && isAdded()) {
                 mDialog.setMessage(getResources().getString(R.string.error_message_text_offline))
                         .show();
@@ -177,32 +178,33 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
     }
 
     private void initCouponView(CouponSummaryModel model,Boolean isLoadMore) {
-        mQueryTime.setText(getResources().getString(R.string.query_time,selectData ));
+//        mQueryTime.setText(getResources().getString(R.string.query_time, selectData));
         if(null != model.getCouponSummary()){
-            mChargeoffTotal.setText(model.getCouponSummary().totalCount + "");
-            mAwardAmount.setText(NumberUtil.moneyFormat(model.getCouponSummary().awardAmount + "", 2));
-            String linkNum = model.getCouponSummary().linkRelative;
-            if(linkNum.contains("-")){
-                mLinkRelative.setText(getString(R.string.coupon_link_relative, linkNum));
-                relativeArrow.setImageResource(R.mipmap.relative_down);
-            }else{
-                mLinkRelative.setText(getString(R.string.coupon_link_relative, "+" + linkNum));
-                relativeArrow.setImageResource(R.mipmap.relative_up);
-            }
-
-            mDetailCount = model.getCouponSummary().totalCount;
-            mDetailTotalCount.setText(getString(R.string.coupon_total_acount, mDetailCount + ""));
-
+//            mChargeoffTotal.setText(model.getCouponSummary().totalCount + "");
+//            mAwardAmount.setText(NumberUtil.moneyFormat(model.getCouponSummary().awardAmount+"",2));
+//            mLinkRelative.setText(getString(R.string.coupon_link_relative, model.getCouponSummary().linkRelative));
+            mTotalCount = model.getCouponSummary().totalCount;
+            couponList = model.getCouponSummary().couponDetailList;
             if(isLoadMore){
                 couponList.addAll(model.getCouponSummary().couponDetailList);
+                adapter.notifyDataSetChanged();
             }else{
-                couponList = model.getCouponSummary().couponDetailList;
-                adapter = new CouponListViewAdapter(getActivity(),couponList);
-                load.setAdapter(adapter);
+                adapter = new CouponListAdapter(getActivity(),couponList);
+                mRecyclerView.setAdapter(adapter);
+                paginate = Paginate.with(mRecyclerView,CouponFragment.this)
+                        .setLoadingTriggerThreshold(0)
+                        .addLoadingListItem(true)
+                        .build();
             }
-            adapter.notifyDataSetChanged();
+            paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
         }
 
+    }
+
+    @Override
+    public void onRefresh() {
+        Utils.showShortToast(getActivity(),"refreshing...");
+        requestData();
     }
 
     private void stopRefresh() {
@@ -212,19 +214,23 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
     }
 
     @Override
-    public void onRefresh() {
-        requestData();
+    public void onLoadMore() {
+        Log.e(TAG,"onLoadMore----------");
+        loading = true;
+        mPageIndex++;
+        getCouponsDatas();
     }
 
     @Override
-    public void onLoadingMore() {
-        if(couponList.size() >= mDetailCount && isAdded()){
-            Utils.showShortToast(getActivity(),getString(R.string.error_no_more_data));
-            load.hideFooterView();
-        }else{
-            mPageIndex++;
-            requestData();
-        }
+    public boolean isLoading() {
+        Log.e(TAG, "isLoading----------");
+        return loading;
+    }
+
+    @Override
+    public boolean hasLoadedAllItems() {
+        Log.e(TAG, "hasLoadedAllItems----------"+ mTotalCount + "====" + couponList.size());
+        return true;
     }
 
     @Override
@@ -232,18 +238,16 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
         switch (checkedId){
             case R.id.coupon_last1://上期
                 tabIndex = R.id.coupon_last1;
-                mPageIndex = 1;
                 selectData = TimeUtil.getLastMonth();
                 requestData();
                 break;
             case R.id.coupon_last2://上上期
                 tabIndex = R.id.coupon_last2;
-                mPageIndex = 1;
                 selectData = TimeUtil.getLast2Month();
                 requestData();
                 break;
             case R.id.coupon_other:
-                mPageIndex = 1;
+
                 break;
         }
     }
@@ -284,13 +288,13 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
     private void setTabFocus(int tabIndex) {
         switch (tabIndex){
             case R.id.coupon_last1:
-                mLast1.setChecked(true);
+//                mLast1.setChecked(true);
                 break;
             case R.id.coupon_last2:
-                mLast2.setChecked(true);
+//                mLast2.setChecked(true);
                 break;
             case R.id.coupon_other:
-                mOther.setChecked(true);
+//                mOther.setChecked(true);
                 selectDate(0,0);
                 break;
         }
@@ -307,7 +311,7 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
 
     // FIXME: 2016/1/13 以后统一处理
     private void initDialog() {
-        mDialog = new MaterialDialog(getActivity())
+        mErrorDialog = new MaterialDialog(getActivity())
                 .setNegativeButton(R.string.common_confirm, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
