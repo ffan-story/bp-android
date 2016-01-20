@@ -26,7 +26,6 @@ public class InstantDetailModel extends BaseModel {
     @Override
     protected void parseData(String json) throws JSONException {
         super.parseData(json);
-        Log.e("InstantDetailModel","InstantDetailModel-----" + json);
         JSONArray detailList = new JSONObject(json).getJSONArray("list");
         details = new ArrayList<>();
         for(int i = 0; i < detailList.length(); i++){

@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.android.volley.Response;
 import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
@@ -19,6 +21,7 @@ import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.password.ForgetPasswordFragment;
 
@@ -120,8 +123,15 @@ public class LoginFragment extends BaseFragment {
                                 }
                             });
                         }
+                    }, new DefaultErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            hideProgressBar();
+                            super.onErrorResponse(volleyError);
+                        }
                     });
                 } catch (Throwable throwable) {
+                    hideProgressBar();
                     Utils.showShortToast(getActivity(), R.string.error_message_text_phone_number_illegal, Gravity.CENTER);
                 }
 
