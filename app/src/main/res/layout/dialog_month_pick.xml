@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/view_spacing_10"
-        android:text="@string/date_self_define_account_period"
+        android:text="@string/date_self_define_time"
         android:textColor="@color/font_color_66"
         android:textSize="@dimen/font_size_22"
         android:textStyle="bold"/>

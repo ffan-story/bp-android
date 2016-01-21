@@ -161,7 +161,7 @@ public class InstantOrderDetailFragment extends ProgressFragment implements OnLo
     }
 
     private void initOrderDetailView(InstantOrderDetailModel model, boolean isLoadMore) {
-        if(null != model.getOrderList()){
+        if(null != model.getOrderList() && model.getOrderList().size() > 0){
             totalCount = model.getOrderList().get(0).totalCount;
             mTotalCount.setText(getString(R.string.total_acount,totalCount));
             if(isLoadMore){

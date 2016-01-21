@@ -113,6 +113,9 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
 
     @Override
     protected void requestData() {
+        if(null == getActivity()){
+            return;
+        }
         if(Utils.isNetworkAvailable(getActivity())){
             setContentEmpty(false);
             mSwipe.setRefreshing(true);
