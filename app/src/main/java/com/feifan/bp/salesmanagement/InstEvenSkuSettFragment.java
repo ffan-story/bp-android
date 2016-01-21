@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -123,13 +124,13 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
         stub.setLayoutResource(R.layout.fragment_instant_event_setting);
         View view = stub.inflate();
         mRelSignupDetailRefuse = (RelativeLayout) view.findViewById(R.id.rel_signup_detail_refuse);
-        if (isShowHistory) {//设置详情-拒绝 （显示审核历史）
+        if (isGoosActionAdd) {//添加新商品商品
+            mRelSignupDetailRefuse.setVisibility(View.GONE);
+        } else {//编辑商品
             mRelSignupDetailRefuse.setVisibility(View.VISIBLE);
             mTvSignupStatus = (TextView) mRelSignupDetailRefuse.findViewById(R.id.tv_signup_detail_status);
             mTvSignupRefuseCause = (TextView) mRelSignupDetailRefuse.findViewById(R.id.tv_signup_refuse_cause);
             mRelSignupDetailRefuse.findViewById(R.id.btn_audit_history).setOnClickListener(this);
-        } else {//设置商品详情
-            mRelSignupDetailRefuse.setVisibility(View.GONE);
         }
 
         mEdVendorDiscount = (EditText) view.findViewById(R.id.ed_flash_goods_vendor_discount);
@@ -207,6 +208,9 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
             }
         });
 
+        if (isShowHistory){
+            ((Button)view.findViewById(R.id.bnt_instant_atonce_submit)).setText(getActivity().getString(R.string.instant_signup_reset_comm));
+        }
         (view.findViewById(R.id.bnt_instant_save_setting)).setOnClickListener(this);
         (view.findViewById(R.id.bnt_instant_atonce_submit)).setOnClickListener(this);
 
@@ -249,12 +253,16 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
         settingListViewHeight(mLineGoodsDiscount);
 
         mTvFeifanDiscount.setText(String.format(getActivity().getResources().getString(R.string.instant_feifan_discount), formatAmount(myModel.mDoubleFeifanDiscount)));
-        if (isShowHistory) {//设置状态-拒绝（显示审核历史）
+       if (!isGoosActionAdd){//设置状态-拒绝（显示审核历史）
             mTvSignupStatus.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_current_status), myModel.mStrApproveStatus)));
-            mTvSignupRefuseCause.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_refuse_cause), myModel.mStrApproveDes)));
+            if (TextUtils.isEmpty(myModel.mStrApproveDes) || !isShowHistory){
+                mTvSignupRefuseCause.setVisibility(View.GONE);
+            }else {
+                mTvSignupRefuseCause.setVisibility(View.VISIBLE);
+                mTvSignupRefuseCause.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_refuse_cause), myModel.mStrApproveDes)));
+            }
         }
     }
-
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
