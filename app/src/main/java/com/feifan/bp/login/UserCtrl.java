@@ -1,12 +1,13 @@
 package com.feifan.bp.login;
 
+import com.android.volley.Response;
 import com.android.volley.Response.Listener;
+import com.android.volley.Response.ErrorListener;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.PostRequest;
@@ -37,8 +38,8 @@ public class UserCtrl {
      * @param password    密码
      * @param listener    响应回调
      */
-    public static void login(String account, String password, Listener<UserModel> listener) {
-        JsonRequest<UserModel> request = new PostRequest<UserModel>(UrlFactory.getLoginUrl(), new DefaultErrorListener())
+    public static void login(String account, String password, Listener<UserModel> listener, ErrorListener errorListener) {
+        JsonRequest<UserModel> request = new PostRequest<UserModel>(UrlFactory.getLoginUrl(),errorListener)
                 .param("userName", account)
                 .param("password", password)
                 .param("authRangeType", "store,merchant")

@@ -6,8 +6,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.R;
+import com.feifan.bp.util.LogUtil;
 
 /**
  * Created by maning on 15/7/9.

@@ -129,6 +129,7 @@
     </string>
 
     <!-- common -->
+    <string name="common_title">提示信息</string>
     <string name="common_confirm">确定</string>
     <string name="common_cancel">取消</string>
     <string name="dialog_phone">从相册选择</string>
@@ -148,7 +149,7 @@
     <string name="login_info">登录信息</string>
     <string name="login_info_name">姓名:</string>
     <string name="login_info_mobile_number">手机号:</string>
-    <string name="login_info_identity">登陆身份:</string>
+    <string name="login_info_identity">登录身份:</string>
     <string name="login_info_belongs_store">所属门店:</string>
     <string name="login_info_belongs_square">所属广场:</string>
     <string name="login_info_belongs_merchant">所属商户:</string>
@@ -191,11 +192,57 @@
     <string name="indicator_merchant_confirmation_refund">确认退款</string>
     <string name="indicator_system_automatic_refund1">确认退款笔数：用户已核销发起退款后由商户确认退款或系统自动退款的笔数；</string>
     <string name="indicator_system_automatic_refund2">确认退款金额：用户已核销发起退款后由商户确认退款或系统自动退款的金额（包括用户付款金额＋平台补贴金额）；</string>
+
+    <string name="indicator_trade_count">交易笔数</string>
+    <string name="indicator_trade_count_explain">用户该时间段内在该门店核销成功的订单笔数;</string>
+    <string name="indicator_trade_amount">交易金额</string>
+    <string name="indicator_trade_amount_explain">在该时间段内在该门店核销成功后应结算给该门店的金额（包括用户付款金额+平台补贴金额）;</string>
+    <string name="indicator_refund_count">退款笔数</string>
+    <string name="indicator_refund_count_explain">用户已核销发起退款后由商户确认退款或系统自动退款的笔数;</string>
+    <string name="indicator_refund_amount">退款金额</string>
+    <string name="indicator_refund_amount_explain">用户已核销发起退款后由商户确认退款或系统自动退款的金额（包括用户付款金额+平台补贴金额）;</string>
+
     <string name="indicator_general_vouchers">通用券指标</string>
     <string name="indicator_write_successfully">核销成功</string>
     <string name="indicator_general_certificate_success">该门店在该时间段内核销成功的通用券的笔数及金额;</string>
     <string name="indicator_more_trading_flow">更多交易流水单明细,请至sop.ffan.com查看</string>
     <string name="indicator_disclaimer">【今天】数据即时生成中仅供参考，往日数据可供查询</string>
+
+    <string name="query_time">查询时间 : %s</string>
+    <string name="query_interval_time">%1$s至%2$s</string>
+    <string name="total_acount">总条数 : (%s条)</string>
+    <string name="coupon_total_acount">(共%s条)</string>
+    <string name="no_data">暂无数据</string>
+    <string name="order_number">订单号</string>
+    <string name="order_trade_amount">交易金额</string>
+    <string name="order_trade_count">交易笔数</string>
+    <string name="order_trade_time">交易时间</string>
+    <string name="order_success_time">交易成功时间</string>
+    <string name="order_refund_time">退款时间</string>
+    <string name="order_refund_amount">退款金额</string>
+    <string name="order_refund_count">退款笔数</string>
+
+    <!--通用券list-->
+    <string name="coupon_code">券编码</string>
+    <string name="coupon_name">券名称</string>
+    <string name="chargeoff_time">核销时间</string>
+
+    <string name="coupon_chargeoff_count">核销总笔数</string>
+    <string name="coupon_award_amount">奖励金额</string>
+    <string name="coupon_link_relative">(环比 %s )</string>
+    <string name="money">￥%s</string>
+
+    <string name="detail">明细</string>
+    <string name="instant_detail">商品明细</string>
+    <string name="instant_summary">商品汇总</string>
+    <string name="instant_order_detail">交易明细</string>
+
+    <!--SegmentedGroup 选项-->
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
+    <string name="last1">上期</string>
+    <string name="last2">上上期</string>
+    <string name="custom">自定义</string>
 
     <!--交易流水-->
     <string name="transaction_flow">交易流水</string>
@@ -251,13 +298,15 @@
 
     <string name="chargeoff_goods_order_number">订单号:</string>
     <string name="chargeoff_goods_status">核销状态:</string>
-    <string name="chargeoff_goods_info">商品信息</string>
+    <string name="chargeoff_goods_info_white"><![CDATA[商品信息<font color="#ff0000">(白名单商品，仅为测试使用)</font>]]></string>
+    <string name="chargeoff_goods_info_normal">商品信息</string>
     <string name="chargeoff_goods_orderamt">总金额:</string>
     <string name="chargeoff_goods_point">积分支付:</string>
     <string name="chargeoff_goods_realamt">实付金额:</string>
     <string name="chargeoff_goods_order_detail">订单详情</string>
 
     <string name="chargeoff_goods_price_format">￥%1$s</string>
+    <string name="chargeoff_dialog_button_continue">继续使用</string>
 
     <!--sales management-->
     <string name="sales_management">营销管理</string>
@@ -281,8 +330,8 @@
     <string name="instant_goods_amount">原价￥%1$s</string>
     <string name="instant_goods_remain_number">剩余库存</string>
     <string name="instant_goods_not_have_goods_tips">您还没有可报名的商品\n快去“商品管理”添加商品吧</string>
-    <string name="instant_please_input_vendor_discount_tips">请填写商户优惠金额</string>
-    <string name="instant_please_input_goods_number">请填写商品数量</string>
+    <string name="instant_please_input_vendor_discount_tips">请填写商户补贴金额</string>
+    <string name="instant_please_input_goods_number">请至少填写一个正确的商品报名库存</string>
     <string name="instant_check_history">审核历史</string>
     <string name="instant_shop_discount">商户优惠金额：</string>
     <string name="instant_feifan_discount">飞凡优惠金额：%1$s元</string>
@@ -294,6 +343,8 @@
     <string name="instant_at_once_submit">立即提交</string>
     <string name="instant_save_setting">保存设置</string>
     <string name="instant_goods_understock_tips">商品数量不能大于库存数量</string>
+    <string name="instant_goods_understock_tips1">请填写商品数量</string>
+    <string name="instant_input_vendor_tips">商品优惠后金额最小为0元，请修改商户优惠金额</string>
     <string name="instant_discount_content"><![CDATA[%1$s：<font color="#ff0000">%2$s</font>元]]></string>
     <string name="instant_discount_notname_content"><![CDATA[<font color="#ff0000">%1$s</font>元]]></string>
     <string name="goods_all_select">全选</string>
@@ -305,8 +356,15 @@
     <string name="instant_goods_list">商品列表</string>
     <string name="instant_setting_detail">设置详情</string>
     <string name="units_yuan">元</string>
+    <string name="goto_commodity_text">去商品管理</string>
+    <string name="instant_loading_page">已加载第%1$s页 , 共%2$s页</string>
+    <string name="goods_delete_confirm">确认删除该商品?</string>
+    <string name="instant_signup_reset_comm">重新提交</string>
+
+
 
     <!-- 商品管理 -->
+    <string name="info_store_no_plaza">您的门店没有归属广场，无法查看可以报名活动。</string>
     <string name="commodity_instants_buy">闪购商品</string>
     <string name="commodity_brand">品牌商品</string>
     <string name="commodity_instants_temp_save">临时保存</string>
@@ -319,7 +377,7 @@
     <string name="commodity_instants_status_00">00</string>
     <string name="commodity_instants_status_01">01</string>
     <string name="commodity_instants_status_02">02</string>
-    <string name="commodity_instants_status_03">03</string>
+    <string name="commodity_instants_status_04">04</string>
 
 </resources>
 

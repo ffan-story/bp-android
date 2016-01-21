@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.VersionModel;
 import com.feifan.bp.login.AuthListModel;
@@ -17,9 +18,11 @@ import com.feifan.bp.util.LogUtil;
 import com.feifan.statlib.FmsAgent;
 
 /**
+ * 欢迎界面
+ *
  * Created by maning on 15/7/29.
  */
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends PlatformBaseActivity {
 
     private static final String TAG = "SplashActivity";
 
@@ -32,11 +35,6 @@ public class SplashActivity extends BaseActivity {
 
         //统计埋点----用户启动APP
         FmsAgent.onEvent(getApplicationContext(), Statistics.USER_OPEN_APP);
-    }
-
-    @Override
-    protected boolean isShowToolbar() {
-        return false;
     }
 
     private void checkVersion() {

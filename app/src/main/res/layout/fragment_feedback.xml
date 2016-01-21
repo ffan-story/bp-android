@@ -6,7 +6,7 @@
 
     <EditText
         android:id="@+id/feedback_content"
-        android:layout_height="@dimen/view_height_180"
+        android:layout_height="@dimen/view_size_180"
         android:background="@drawable/border_top_bottom_background"
         android:layout_marginTop="@dimen/view_spacing_15"
         android:paddingRight="@dimen/view_spacing_10"

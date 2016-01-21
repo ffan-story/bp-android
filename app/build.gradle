@@ -2,12 +2,19 @@ buildscript {
     //支持java 依赖库管理（maven/ivy）,用于项目的依赖。
     repositories {
         mavenCentral()
+
+        // FIXME 自定义插件放在本地库中
+        maven {
+            url uri('../repo')
+        }
     }
 
-//    dependencies {
-//        classpath 'org.quanqi:pgyer:0.1.2'
-//    }
-
+    dependencies {
+        // 上传插件
+        classpath group: 'com.muzzyhorse.plugin',
+                name: 'liannuplugin',
+                version: '1.0-SNAPSHOT'
+    }
 }
 
 apply plugin: 'com.android.application'
@@ -47,7 +54,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../app/proguard-rules.pro'
             signingConfig signingConfigs.releaseConfig
@@ -90,9 +97,9 @@ android {
             } else {
                 appName = parent.name
             }
-            def apkName = "${appName}-${output.baseName}-${variant.versionName}.apk"
-            output.outputFile = new File("${output.outputFile.parent}/output", apkName)
-            uploadApk = output.outputFile.getAbsolutePath();
+//            def apkName = "${appName}-${output.baseName}-${variant.versionName}.apk"
+            def apkName = "${appName}.apk"
+            output.outputFile = new File("${output.outputFile.parent}", apkName)
         }
     }
 
@@ -140,5 +147,26 @@ dependencies {
     compile project(':refresh')
     compile project(':materialwidget')
     compile project(':statlib')
+//    compile 'junit:junit:4.10'
+//    compile 'org.mockito:mockito-core:1.+'
+//    compile 'org.robolectric:robolectric:3.0'
 }
 
+apply plugin: 'liannu'
+
+shootline {
+    // 蒲公英渠道
+    pgyer {
+        uKey= 'b4d3d5d5080a979372b3e209dd3bc028'
+        _api_key= '1b004c68ffb3663ff9954e502c428770'
+        fileName= "${project.buildDir.absolutePath}/outputs/apk/${project.parent.name}.apk"
+    }
+
+    // 应用宝渠道
+    myapp {
+        fileName = '/Users/xuchunlei/Projects/myapp.apk'
+    }
+}
+
+
+shoot.dependsOn 'assembleSitRelease'

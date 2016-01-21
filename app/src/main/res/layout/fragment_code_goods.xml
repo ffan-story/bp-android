@@ -79,7 +79,7 @@
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/view_height_1"
+            android:layout_height="@dimen/view_size_1"
             android:background="@color/bg_color_grey"/>
         <ImageView
             android:layout_width="match_parent"
@@ -87,9 +87,10 @@
             android:background="@color/bg_defult_gray" />
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/view_height_1"
+            android:layout_height="@dimen/view_size_1"
             android:background="@color/bg_color_grey"/>
         <TextView
+            android:id="@+id/chargeoff_goods_info_title"
             style="@style/txt_color99_size14"
             android:layout_width="match_parent"
             android:layout_alignParentRight="true"
@@ -98,8 +99,7 @@
             android:layout_marginTop="@dimen/view_spacing_15"
             android:background="@color/white"
             android:ellipsize="end"
-            android:singleLine="true"
-            android:text="@string/chargeoff_goods_info" />
+            android:singleLine="true" />
 
         <ListView
             android:padding="@dimen/view_spacing_5"
@@ -110,7 +110,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/view_height_1"
+            android:layout_height="@dimen/view_size_1"
             android:background="@color/bg_color_grey"/>
 
         <RelativeLayout
@@ -179,7 +179,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/view_height_1"
+            android:layout_height="@dimen/view_size_1"
             android:background="@color/bg_color_grey"/>
 
     </LinearLayout>

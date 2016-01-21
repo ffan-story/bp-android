@@ -15,7 +15,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_height_1"
+        android:layout_height="@dimen/view_size_1"
         android:background="@color/divider"/>
 
 
@@ -30,7 +30,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_height_1"
+        android:layout_height="@dimen/view_size_1"
         android:background="@color/divider"/>
 
 </LinearLayout>

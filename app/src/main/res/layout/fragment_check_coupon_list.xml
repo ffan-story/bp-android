@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_coupon_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.feifan.bp.widget.LoadingMoreListView
+            android:id="@+id/load_coupon_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:dividerHeight="@dimen/view_spacing_5">
+
+        </com.feifan.bp.widget.LoadingMoreListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

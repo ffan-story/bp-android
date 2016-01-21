@@ -1,10 +1,7 @@
 package com.feifan.bp.password;
 
-import android.app.Activity;
 import android.os.Bundle;
 
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
@@ -18,18 +15,12 @@ import android.widget.EditText;
 
 import com.android.volley.Response;
 import com.feifan.bp.Constants;
-import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ResetPasswordFragment} interface
- * to handle interaction events.
- * Use the {@link ResetPasswordFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * 重置密码
  */
 public class ResetPasswordFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = "ResetPasswordFragment";
@@ -37,22 +28,12 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
     private EditText mNewPwd;
     private EditText mConfirmPwd;
     private Button mConfirmBtn;
-    private OnFragmentInteractionListener mListener;
     private boolean mIsConfirmEnable = true;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment ResetPasswordFragment.
-     */
-    public static ResetPasswordFragment newInstance() {
-        ResetPasswordFragment fragment = new ResetPasswordFragment();
-        return fragment;
-    }
-
     public ResetPasswordFragment() {
-        // Required empty public constructor
+        Bundle args = new Bundle();
+        args.putString(Constants.EXTRA_KEY_TITLE, Utils.getString(R.string.settings_change_password_text));
+        setArguments(args);
     }
 
     @Override
@@ -118,43 +99,6 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
     };
 
     @Override
-    protected void setupToolbar(Toolbar toolbar) {
-        super.setupToolbar(toolbar);
-        toolbar.setTitle(R.string.settings_change_password_text);
-        toolbar.setNavigationIcon(R.mipmap.ic_left_arrow);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //notify activity here.
-                if (mListener != null) {
-                    Bundle b = new Bundle();
-                    b.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, ResetPasswordFragment.class.getName());
-                    b.putInt(OnFragmentInteractionListener.INTERATION_KEY_TYPE, OnFragmentInteractionListener.TYPE_NAVI_CLICK);
-                    mListener.onFragmentInteraction(b);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
-    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_confirm:
@@ -191,20 +135,6 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                         Utils.showShortToast(getActivity(), getString(R.string.reset_pwd_suc));
                     }
                 });
-//                PasswordCtrl.resetPassword(getActivity(), oldPwd, newPwd,
-//                        new BaseRequestProcessListener<PasswordModel>(getActivity()) {
-//                            @Override
-//                            public void onResponse(PasswordModel passwordModel2) {
-//                                getActivity().onBackPressed();
-//                                Utils.showShortToast(getActivity(), getString(R.string.reset_pwd_suc));
-//                            }
-//
-//                            @Override
-//                            public void onFinish() {
-//                                super.onFinish();
-//                                mIsConfirmEnable = true;
-//                            }
-//                        });
 
                 break;
         }

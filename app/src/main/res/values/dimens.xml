@@ -10,9 +10,13 @@
     <dimen name="view_spacing_15">15dp</dimen>
     <dimen name="view_spacing_20">20dp</dimen>
     <dimen name="view_spacing_25">25dp</dimen>
+    <dimen name="view_spacing_26">26dp</dimen>
     <dimen name="view_spacing_30">30dp</dimen>
+    <dimen name="view_spacing_40">40dp</dimen>
     <dimen name="view_spacing_45">45dp</dimen>
+    <dimen name="view_spacing_50">50dp</dimen>
     <dimen name="view_spacing_60">60dp</dimen>
+    <dimen name="view_spacing_120">120dp</dimen>
     <dimen name="dividerheight">0.5dp</dimen>
     <!-- 字体 -->
     <dimen name="font_size_26">26sp</dimen>
@@ -41,6 +45,9 @@
     <!-- 标题栏 -->
     <dimen name="title_logo_border_width">3dp</dimen>
 
+    <!--通用券详情list-->
+    <dimen name="coupon_detail_list_heigh">125dp</dimen>
+
     <!--悬浮按钮-->
     <dimen name="fab_size_normal">56dp</dimen>
     <dimen name="fab_size_mini">40dp</dimen>
@@ -49,13 +56,17 @@
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_elevation_lollipop">8dp</dimen>
 
-    <dimen name="view_height_1">1dp</dimen>
-    <dimen name="view_height_35">35dp</dimen>
-    <dimen name="view_height_45">45dp</dimen>
-    <dimen name="view_height_50">50dp</dimen>
-    <dimen name="view_height_180">180dp</dimen>
-    <dimen name="view_height_60">60dp</dimen>
-    <dimen name="view_width_75">75dp</dimen>
+    <!-- 控件size -->
+    <dimen name="view_size_1">1dp</dimen>
+    <dimen name="view_size_3">3dp</dimen>
+    <dimen name="view_size_5">5dp</dimen>
+    <dimen name="view_size_10">10dp</dimen>
+    <dimen name="view_size_35">35dp</dimen>
+    <dimen name="view_size_45">45dp</dimen>
+    <dimen name="view_size_50">50dp</dimen>
+    <dimen name="view_size_60">60dp</dimen>
+    <dimen name="view_size_75">75dp</dimen>
+    <dimen name="view_size_180">180dp</dimen>
 
     <!--SegmentedGroup-->
     <dimen name="radio_button_conner_radius">5dp</dimen>

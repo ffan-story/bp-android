@@ -1,6 +1,7 @@
 package com.feifan.bp.home.check;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -11,10 +12,12 @@ import android.widget.Toast;
 
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.transactionflow.TransFlowTabActivity;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.transactionflow.fragment.CouponListViewFragment;
+import com.feifan.bp.transactionflow.fragment.InstantBuyFragment;
 import com.feifan.bp.util.LogUtil;
 
 /**
@@ -54,8 +57,14 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
             case R.id.check_manager_transaction_flow_rl:
                 // TODO 跳转到流水对账界面
                 LogUtil.i(Constants.TAG, "From CheckManageFragment to ----Fragment");
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, TransFlowTabActivity.class.getName());
-                mListener.onFragmentInteraction(args);
+                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
+                        .addFragment(InstantBuyFragment.class.getName(), getString(R.string.falsh_buy))
+                        .addArgument(InstantBuyFragment.class.getName(), "", "")
+                        .addFragment(CouponListViewFragment.class.getName(), getString(R.string.coupons))
+                        .addArgument(CouponListViewFragment.class.getName(), "","")
+                        .build();
+                Intent intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.reconciliation_management_transaction_flow), fragmentArgs);
+                startActivity(intent);
                 break;
             case R.id.check_manager_financial_reconciliation_rl:
                 Utils.showToast(getActivity(), R.string.check_manage_system_construction, Toast.LENGTH_SHORT);

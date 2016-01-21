@@ -53,12 +53,33 @@ public class Constants {
     // 字符串长度
     public static int FEED_BACK_MAX_lENGTH = 300;
 
-    /** 当前运行环境 */
-//    public static Environment CURRENT_ENVIRONMENT = Environment.PRODUCT_PRE;
     /**
      * 员工管理
      *
      */
     public static int REQUEST_CODE = 1000;
+
+    /**
+     * 闪购活动-商品-返回值
+     */
+    public static String RETURN_STATUS ="ReturnStatus";
+
+    /**
+     * 闪购活动-商品-提交返回
+     *
+     */
+    public static int RETURN_COMMIT = 1;
+
+    /**
+     * 闪购活动-商品-保存返回
+     *
+     */
+    public static int RETURN_SAVE = 0;
+
+
+    /**
+     * 通用参数键值－title
+     */
+    public static final String EXTRA_KEY_TITLE = "title";
 
 }

@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.transactionflow.fragment.CouponFragment;
+import com.feifan.bp.transactionflow.fragment.InstantBuyFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +55,8 @@ public class TransFlowTabActivity extends BaseActivity{
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         List<Fragment> fragments = new ArrayList<Fragment>();
-        fragments.add(new FlashBuyFragment());
-        fragments.add(new CouponsFragment());
+        fragments.add(new InstantBuyFragment());
+        fragments.add(new CouponFragment());
 
         mAdapter = new TransFlowTabPagerAdapter(getSupportFragmentManager(),
                 fragments,new String[]{getString(R.string.falsh_buy),getString(R.string.coupons)});
@@ -67,4 +69,5 @@ public class TransFlowTabActivity extends BaseActivity{
     protected boolean isShowToolbar() {
         return true;
     }
+
 }

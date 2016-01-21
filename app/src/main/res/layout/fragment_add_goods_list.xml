@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_color_grey"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rel_empty"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/tv_error_text"
+            style="@style/txt_color99_size14"
+            android:layout_centerHorizontal="true"
+            android:drawableTop="@mipmap/icon_empty"
+            android:drawablePadding="@dimen/view_spacing_10"
+            android:ellipsize="end"
+            android:layout_marginTop="@dimen/index_divider_height"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="1.5dp"
+            android:text="@string/instant_goods_not_have_goods_tips"/>
+        <Button
+            android:id="@+id/btn_empty"
+            android:layout_below="@id/tv_error_text"
+            style="@style/btn_blue_round_click"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            android:text="@string/goto_commodity_text"/>
+    </RelativeLayout>
+</FrameLayout>

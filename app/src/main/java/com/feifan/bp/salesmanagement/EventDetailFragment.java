@@ -11,10 +11,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.R;
 
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
+import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.network.UrlFactory;
@@ -29,11 +30,15 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
 
     private static final String TAG = "EventDetailFragment";
     public static final String EXTRA_KEY_ID = "id";
+    public static final String EXTRA_KEY_NAME = "name";
+    public static final String EXTRA_KEY_FLAG = "flag";
 
-    private String mPromotionId;
+    private String mPromotionId, mPromotionName;
     private String mUrl;
     private WebView mWebView;
     private Button mBtnRegister;
+    private RelativeLayout mRlBottom;
+    private Boolean isShowCommit;
 
     public EventDetailFragment() {
     }
@@ -42,9 +47,11 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
         return new EventDetailFragment();
     }
 
-    public static EventDetailFragment newInstance(String eventId) {
+    public static EventDetailFragment newInstance(String id, String name, boolean flag) {
         Bundle args = new Bundle();
-        args.putString(EXTRA_KEY_ID, eventId);
+        args.putString(EXTRA_KEY_ID, id);
+        args.putString(EXTRA_KEY_NAME, name);
+        args.putBoolean(EXTRA_KEY_FLAG, flag);
         EventDetailFragment fragment = new EventDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -54,6 +61,8 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPromotionId = getArguments().getString(EXTRA_KEY_ID);
+        mPromotionName = getArguments().getString(EXTRA_KEY_NAME);
+        isShowCommit = getArguments().getBoolean(EXTRA_KEY_FLAG);
     }
 
     @Override
@@ -62,6 +71,12 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
         View v = stub.inflate();
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         mBtnRegister = (Button) v.findViewById(R.id.btn_register);
+        mRlBottom = (RelativeLayout) v.findViewById(R.id.rl_bottom);
+        if(isShowCommit){
+            mRlBottom.setVisibility(View.VISIBLE);
+        }else{
+            mRlBottom.setVisibility(View.GONE);
+        }
         mBtnRegister.setOnClickListener(this);
         initWeb(mWebView);
         return v;
@@ -73,7 +88,7 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
         if (mPromotionId != null) {
             if (Utils.isNetworkAvailable(getActivity())) {
                 setContentEmpty(false);
-                mUrl = UrlFactory.promotionDetailForHtml("GP1451871058174000000");
+                mUrl = UrlFactory.promotionDetailForHtml(mPromotionId);
                 mWebView.loadUrl(mUrl);
                 PlatformState.getInstance().setLastUrl(mUrl);
                 LogUtil.i(TAG, "mUrl==" + mUrl);
@@ -114,8 +129,8 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_register:
-                EventDetailFragment.this.getActivity().finish();
-                RegisterDetailActivity.startActivity(getActivity(), mPromotionId);
+//                EventDetailFragment.this.getActivity().finish();
+                RegisterDetailActivity.startActivity(getActivity(), mPromotionId, mPromotionName,false);
                 break;
         }
     }

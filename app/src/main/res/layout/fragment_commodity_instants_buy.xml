@@ -136,7 +136,7 @@
         android:id="@+id/instants_rejected_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_spacing_45"
-        android:tag="@string/commodity_instants_status_03"
+        android:tag="@string/commodity_instants_status_04"
         android:clickable="true"
         android:background="@color/white"
         android:orientation="horizontal">

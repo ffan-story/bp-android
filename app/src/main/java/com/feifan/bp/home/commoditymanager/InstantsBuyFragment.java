@@ -2,30 +2,27 @@ package com.feifan.bp.home.commoditymanager;
 
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.material.MaterialDialog;
+import com.feifan.statlib.FmsAgent;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.SocketException;
-import java.util.Random;
-
 /**
  * 商品管理 — 闪购商品列表
  * Created by konta on 2015/12/22.
@@ -44,6 +41,7 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
 
     private MaterialDialog mDialog;
     private transient boolean isShowDlg = true;
+    private boolean isResume = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +49,7 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
         setHasOptionsMenu(true);
         mUrl = getArguments().getString(EXTRA_KEY_URL);
         initDialog();
+        isResume = false;
     }
 
     @Override
@@ -143,7 +142,9 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
                 String url = UrlFactory.getInstantsForHtmlUrl(v.getTag().toString());
                 BrowserActivity.startActivity(getContext(), url);
             }else if(v.getId() == R.id.instants_add_container){//添加商品
-                String addUrl = UrlFactory.getCommodityManageForHtmlUrl().concat(new Random().nextInt() + "");
+                //统计埋点
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_GOODSMANA_PUB);
+                String addUrl = UrlFactory.getCommodityManageForHtmlUrl();
                 BrowserActivity.startActivity(getContext(), addUrl);
             }
         }else{
@@ -162,6 +163,9 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
                 errorInfo = Utils.getString(R.string.error_message_network);
             }
         }
+        if("message".equals(errorInfo)){
+            errorInfo = Utils.getString(R.string.error_message_server_file);
+        }
         mDialog.setMessage(errorInfo)
                 .show();
         isShowDlg = false;
@@ -170,6 +174,9 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
     @Override
     public void onResume() {
         super.onResume();
-        requestData();
+        if(isResume){
+            requestData();
+        }
+        isResume = true;
     }
 }

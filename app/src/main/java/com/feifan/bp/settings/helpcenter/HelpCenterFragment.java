@@ -2,21 +2,21 @@ package com.feifan.bp.settings.helpcenter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
@@ -45,11 +45,10 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
     private int pageIndex = 1;
     private int totalCount = 0;
 
-    public static HelpCenterFragment newInstance() {
-        HelpCenterFragment fragment = new HelpCenterFragment();
+    public HelpCenterFragment() {
         Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        args.putString(Constants.EXTRA_KEY_TITLE, Utils.getString(R.string.help_center_title));
+        setArguments(args);
     }
 
     @Override

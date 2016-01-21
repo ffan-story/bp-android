@@ -40,7 +40,6 @@
         <TextView
             android:id="@+id/tv_goods_tips"
             style="@style/txt_color33_size12"
-            android:text="@string/instant_goods_understock_tips"
             android:textColor="@color/font_color_red"
             android:textSize="@dimen/view_spacing_10"
             android:paddingTop="@dimen/view_spacing_10"

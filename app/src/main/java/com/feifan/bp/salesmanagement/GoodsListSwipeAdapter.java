@@ -7,37 +7,41 @@ package com.feifan.bp.salesmanagement;
  */
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.paginate.SwipeMenuViewHolder;
 
 import java.util.HashMap;
 import java.util.List;
+import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 
 public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
 
-    private List<String> mListData;
+    private List<GoodsDetailModel> mListData;
     private HashMap<Integer, Boolean> checkStatus;
+    private String promotionId;
     private onCheckChangeListener checkChangeListener;
     private onItemDeleteListener itemDeleteListener;
-    private int enrollStatus;
 
-    public GoodsListSwipeAdapter(Context context, List<String> mListData, int enrollStatus, HashMap<Integer, Boolean> checkStatus) {
+    public GoodsListSwipeAdapter(Context context, List<GoodsDetailModel> mListData, HashMap<Integer, Boolean> checkStatus,String promotionId) {
         this.context = context;
         this.mListData = mListData;
         this.checkStatus = checkStatus;
-        this.enrollStatus = enrollStatus;
+        this.promotionId = promotionId;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -55,14 +59,13 @@ public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         final SwipeViewHolder swipeViewHolder = (SwipeViewHolder) SwipeMenuViewHolder.getHolder(holder);
-        String data = mListData.get(position);
-        swipeViewHolder.tvProductName.setText(data);
+        GoodsDetailModel model = mListData.get(position);
+        swipeViewHolder.tvProductName.setText(model.getGoodsName());
         swipeViewHolder.tvProductStatus.setText("状态:未提交");
 
         swipeViewHolder.tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListData.remove(position);
                 LogUtil.i("fangke", "onItemDelete调用的位置" + position);
                 itemDeleteListener.onDelete(position);
             }
@@ -77,6 +80,17 @@ public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
                 checkChangeListener.getCheckData(position, isChecked);
             }
         });
+        swipeViewHolder.rlGoods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_EVENT_ID, promotionId);
+                args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_GOODS_CODE, mListData.get(position).getGoodsCode());
+                args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_GOODS_ACTION, false);
+                args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_IS_SHOW_HISTORY, false);
+                PlatformTopbarActivity.startActivityForResult((RegisterDetailActivity)context, InstEvenSkuSettFragment.class.getName(), "设置详情", args);
+            }
+        });
     }
 
     @Override
@@ -84,12 +98,13 @@ public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
         return mListData == null ? 0 : mListData.size();
     }
 
-    class SwipeViewHolder extends SwipeMenuViewHolder implements View.OnClickListener {
+    class SwipeViewHolder extends SwipeMenuViewHolder {
 
         private TextView tvProductName;
         private TextView tvProductStatus;
         private TextView tvDelete;
         private CheckBox cbSelect;
+        private RelativeLayout rlGoods;
 
         public SwipeViewHolder(Context context, View swipeMenuView, View captureView, int mTrackingEdges) {
             super(context, swipeMenuView, captureView, mTrackingEdges);
@@ -102,11 +117,7 @@ public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
             tvProductStatus = (TextView) itemView.findViewById(R.id.tv_product_status);
             tvDelete = (TextView) itemView.findViewById(R.id.tv_delete);
             cbSelect = (CheckBox) itemView.findViewById(R.id.check);
-        }
-
-        @Override
-        public void onClick(View v) {
-
+            rlGoods = (RelativeLayout) itemView.findViewById(R.id.rl_goods);
         }
     }
 

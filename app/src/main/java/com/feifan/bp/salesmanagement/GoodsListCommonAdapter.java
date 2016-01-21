@@ -7,32 +7,36 @@ package com.feifan.bp.salesmanagement;
  */
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.widget.paginate.SwipeMenuViewHolder;
+import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class GoodsListCommonAdapter extends RecyclerView.Adapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private List<String> mListData;
+    private List<GoodsDetailModel> mListData;
     private int enrollStatus;
+    private String promotionId;
+    private boolean isCutOff;
 
-    public GoodsListCommonAdapter(Context context, List<String> mListData, int enrollStatus) {
+    public GoodsListCommonAdapter(Context context, List<GoodsDetailModel> mListData, int enrollStatus,String promotionId,boolean isCutOff) {
         this.context = context;
         this.mListData = mListData;
         this.enrollStatus = enrollStatus;
+        this.promotionId = promotionId;
+        this.isCutOff = isCutOff;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -47,20 +51,41 @@ public class GoodsListCommonAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         final CommonViewHolder commonViewHolder = (CommonViewHolder)holder;
-        String data = mListData.get(position);
-        commonViewHolder.tvProductName.setText(data);
+        GoodsDetailModel model = mListData.get(position);
+        commonViewHolder.tvProductName.setText(model.getGoodsName());
         commonViewHolder.cbSelect.setVisibility(View.GONE);
         switch (enrollStatus) {
-            case ProductListFragment.STATUS_AUDIT:
+            case GoodsListFragment.STATUS_NO_COMMIT:
+                commonViewHolder.tvProductStatus.setText("状态:未提交");
+                break;
+            case GoodsListFragment.STATUS_AUDIT:
                 commonViewHolder.tvProductStatus.setText("状态:审核中");
                 break;
-            case ProductListFragment.STATUS_AUDIT_PASS:
+            case GoodsListFragment.STATUS_AUDIT_PASS:
                 commonViewHolder.tvProductStatus.setText("状态:审核通过");
                 break;
-            case ProductListFragment.STATUS_AUDIT_DENY:
+            case GoodsListFragment.STATUS_AUDIT_DENY:
                 commonViewHolder.tvProductStatus.setText("状态:审核拒绝");
                 break;
         }
+        commonViewHolder.rlGoods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(enrollStatus == GoodsListFragment.STATUS_AUDIT_DENY && !isCutOff){
+                    Bundle args = new Bundle();
+                    args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_EVENT_ID, promotionId);
+                    args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_GOODS_CODE, mListData.get(position).getGoodsCode());
+                    args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_GOODS_ACTION, false);
+                    args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_IS_SHOW_HISTORY, true);
+                    PlatformTopbarActivity.startActivityForResult((RegisterDetailActivity) context, InstEvenSkuSettFragment.class.getName(), "设置详情", args);
+                }else {
+                    Bundle args = new Bundle();
+                    args.putString(InstEventSignUpDetailFragment.EXTRA_PARTAKE_EVENT_ID,promotionId);
+                    args.putString(InstEventSignUpDetailFragment.EXTRA_PARTAKE_GOODS_CODE, mListData.get(position).getGoodsCode());
+                    PlatformTopbarActivity.startActivityForResult((RegisterDetailActivity) context, InstEventSignUpDetailFragment.class.getName(),"设置详情", args);
+                }
+            }
+        });
     }
 
     @Override
@@ -73,12 +98,14 @@ public class GoodsListCommonAdapter extends RecyclerView.Adapter {
         private TextView tvProductName;
         private TextView tvProductStatus;
         private CheckBox cbSelect;
+        private RelativeLayout rlGoods;
 
         public CommonViewHolder(View itemView) {
             super(itemView);
             tvProductName = (TextView) itemView.findViewById(R.id.tv_product_name);
             tvProductStatus = (TextView) itemView.findViewById(R.id.tv_product_status);
             cbSelect = (CheckBox) itemView.findViewById(R.id.check);
+            rlGoods = (RelativeLayout) itemView.findViewById(R.id.rl_goods);
         }
 
         @Override

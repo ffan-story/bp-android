@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/view_height_50"
+        android:layout_marginBottom="@dimen/view_size_50"
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"

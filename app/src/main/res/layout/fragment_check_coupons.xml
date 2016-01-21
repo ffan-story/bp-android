@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/bg_color_gray_f3">
+
+    <com.feifan.bp.widget.SegmentedGroup
+        android:id="@+id/coupon_segmentedGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/view_spacing_20"
+        android:layout_marginRight="@dimen/view_spacing_20"
+        android:layout_marginTop="@dimen/view_spacing_10"
+        android:orientation="horizontal"
+        segmentedgroup:sc_border_width="1dp"
+        segmentedgroup:sc_corner_radius="5dp"
+        segmentedgroup:sc_tint_color="@color/accent">
+
+        <RadioButton
+            android:id="@+id/coupon_last1"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/last1"/>
+
+        <RadioButton
+            android:id="@+id/coupon_last2"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/last2"/>
+
+        <RadioButton
+            android:id="@+id/coupon_other"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/custom"/>
+
+    </com.feifan.bp.widget.SegmentedGroup>
+
+    <TextView
+        android:id="@+id/coupon_query_time"
+        style="@style/txt_color66_size14"
+        android:layout_below="@id/coupon_segmentedGroup"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/view_spacing_20"
+        android:drawableLeft="@mipmap/query_time"
+        android:drawablePadding="@dimen/view_spacing_5"
+        android:text="查询时间:2016-1-7"/>
+
+    <RelativeLayout
+        android:id="@+id/chargeoff_continer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/index_divider_height"
+        android:layout_below="@id/coupon_query_time"
+        android:layout_marginTop="@dimen/view_spacing_20"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/chargeoff"
+            style="@style/txt_color33_size16"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/view_spacing_26"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="@string/coupon_chargeoff_count"/>
+
+        <TextView
+            android:id="@+id/chargeoff_count"
+            style="@style/txt_color33_size18"
+            android:layout_above="@id/chargeoff"
+            android:layout_alignLeft="@id/chargeoff"
+            android:text="--"/>
+
+        <ImageView
+            android:id="@+id/image_center"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/award_money"
+            style="@style/txt_color33_size16"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/image_center"
+            android:layout_marginLeft="@dimen/view_spacing_10"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:layout_marginBottom="@dimen/view_spacing_5"
+            android:text="@string/coupon_award_amount"/>
+
+        <TextView
+            android:id="@+id/award_money_count"
+            style="@style/TransactionFlowMoney"
+            android:layout_above="@id/award_money"
+            android:layout_alignLeft="@id/award_money"
+            android:text="--"/>
+
+        <TextView
+            android:id="@+id/link_relative"
+            style="@style/txt_color99_size12"
+            android:layout_below="@id/award_money"
+            android:layout_alignLeft="@id/award_money"
+            android:text="(环比 0)"/>
+
+        <ImageView
+            android:id="@+id/coupon_relative_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/relative_down"
+            android:layout_toRightOf="@id/link_relative"
+            android:layout_alignBottom="@id/link_relative"
+            android:layout_marginLeft="@dimen/view_spacing_5"/>
+
+    </RelativeLayout>>
+
+    <RelativeLayout
+        android:id="@+id/detail_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/view_spacing_8"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/view_spacing_5"
+        android:layout_below="@id/chargeoff_continer">
+
+        <TextView
+            android:id="@+id/detail"
+            style="@style/txt_color33_size18"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_centerVertical="true"
+            android:text="@string/detail"/>
+        <TextView
+            android:id="@+id/coupon_total_count"
+            style="@style/txt_color99_size16"
+            android:layout_marginLeft="@dimen/view_spacing_3"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/detail"
+            android:text="(共0条)"/>
+
+    </RelativeLayout>
+</RelativeLayout>

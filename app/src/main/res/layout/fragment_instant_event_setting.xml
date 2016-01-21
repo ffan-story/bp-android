@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,8 +17,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="@dimen/view_spacing_15"
-                android:visibility="gone">
+                android:padding="@dimen/view_spacing_15">
 
                 <TextView
                     android:id="@+id/tv_signup_detail_status"
@@ -28,7 +27,7 @@
                 <TextView
                     android:id="@+id/tv_signup_refuse_cause"
                     style="@style/txt_color33_size12"
-                    android:layout_below="@id/tv_signup_detail_status" />
+                    android:layout_below="@id/tv_signup_detail_status"/>
 
                 <Button
                     android:id="@+id/btn_audit_history"
@@ -36,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_margin="0dp"
-                    android:text="@string/instant_check_history" />
+                    android:text="@string/instant_check_history"/>
 
             </RelativeLayout>
 
@@ -45,7 +44,7 @@
                 android:layout_marginBottom="@dimen/view_spacing_10"
                 android:layout_marginLeft="@dimen/view_spacing_15"
                 android:layout_marginTop="@dimen/view_spacing_15"
-                android:text="@string/instant_goods_number" />
+                android:text="@string/instant_goods_number"/>
 
             <ListView
                 android:id="@+id/lv_goods_number"
@@ -59,7 +58,7 @@
                 android:headerDividersEnabled="false"
                 android:paddingLeft="@dimen/view_spacing_15"
                 android:paddingRight="@dimen/view_spacing_15"
-                android:scrollbars="none" />
+                android:scrollbars="none"/>
 
 
             <TextView
@@ -67,13 +66,15 @@
                 android:layout_marginBottom="@dimen/view_spacing_10"
                 android:layout_marginLeft="@dimen/view_spacing_15"
                 android:layout_marginTop="@dimen/view_spacing_15"
-                android:text="@string/instant_discount" />
+                android:text="@string/instant_discount"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
 
                 <TextView
                     android:id="@+id/tv_vendor_discount_name"
@@ -81,31 +82,31 @@
                     android:layout_marginLeft="@dimen/view_spacing_15"
                     android:layout_marginRight="@dimen/view_spacing_15"
                     android:layout_marginTop="@dimen/view_spacing_20"
-                    android:text="@string/instant_shop_discount" />
+                    android:text="@string/instant_shop_discount"/>
 
                 <EditText
                     android:id="@+id/ed_flash_goods_vendor_discount"
                     style="@style/ed_color33_size14"
                     android:layout_marginTop="@dimen/view_spacing_10"
-                    android:inputType="numberDecimal"
                     android:layout_toRightOf="@id/tv_vendor_discount_name"
-                    android:textColor="@color/font_color_red" />
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/font_color_red"/>
 
                 <TextView
                     style="@style/txt_color33_size14"
                     android:layout_marginTop="@dimen/view_spacing_20"
                     android:layout_toRightOf="@id/ed_flash_goods_vendor_discount"
-                    android:text="@string/units_yuan" />
+                    android:text="@string/units_yuan"/>
 
                 <TextView
                     android:id="@+id/flash_goods_vendor_discount_tips"
                     style="@style/txt_color33_size12"
-                    android:textSize="@dimen/view_spacing_10"
                     android:layout_below="@id/tv_vendor_discount_name"
                     android:layout_marginTop="@dimen/view_spacing_10"
                     android:layout_toRightOf="@id/tv_vendor_discount_name"
-                    android:text="@string/instant_please_input_vendor_discount_tips"
-                    android:textColor="@color/font_color_red" />
+                    android:textColor="@color/font_color_red"
+                    android:textSize="@dimen/view_spacing_10"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
 
@@ -130,12 +131,12 @@
                 android:layout_height="@dimen/dividerheight"
                 android:layout_marginLeft="@dimen/view_spacing_15"
                 android:layout_marginRight="@dimen/view_spacing_15"
-                android:background="@color/divider" />
+                android:background="@color/divider"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/view_height_60"
+                android:layout_marginBottom="@dimen/view_size_60"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/view_spacing_15"
@@ -147,7 +148,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_gravity="top"
-                    android:text="@string/instant_goods_discount" />
+                    android:text="@string/instant_goods_discount"/>
 
                 <ListView
                     android:id="@+id/lv_goods_discount"
@@ -160,7 +161,7 @@
                     android:dividerHeight="0dp"
                     android:gravity="right"
                     android:scrollbarStyle="outsideOverlay"
-                    android:scrollbars="none" />
+                    android:scrollbars="none"/>
 
             </LinearLayout>
 
@@ -179,13 +180,13 @@
             android:id="@+id/bnt_instant_save_setting"
             style="@style/btn_white_stroke_orange"
             android:layout_weight="1"
-            android:text="@string/instant_save_setting" />
+            android:text="@string/instant_save_setting"/>
 
         <Button
             android:id="@+id/bnt_instant_atonce_submit"
             style="@style/btn_orange_round"
             android:layout_weight="1"
-            android:text="@string/instant_at_once_submit" />
+            android:text="@string/instant_at_once_submit"/>
     </LinearLayout>
 
 </RelativeLayout>

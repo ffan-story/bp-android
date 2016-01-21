@@ -12,15 +12,7 @@
         <TextView
             android:id="@+id/tv_goods_name"
             style="@style/txt_color33_size14"
-            android:layout_centerVertical="true"
-            android:text="绿色植物：" />
-
-        <TextView
-            android:id="@+id/tv_instant_goods_partake_number"
-            android:layout_toRightOf="@id/tv_goods_name"
-            style="@style/txt_color33_size14"
-            android:layout_centerVertical="true"
-            android:text="30" />
+            android:layout_centerVertical="true" />
 
         <LinearLayout
             android:layout_width="wrap_content"

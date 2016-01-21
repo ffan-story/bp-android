@@ -15,11 +15,13 @@
     <color name="font_color_99">#999999</color>
     <color name="font_color_red">#e13e31</color>
     <color name="font_color_blue_add">#1BB0ED</color>
+    <color name="transcation_flow_money">#E11212</color>
 
 
     <!-- 背景 -->
     <color name="bg_color_blue">#3d99e9</color>
     <color name="bg_color_grey">#e6e6e6</color>
+    <color name="bg_color_gray_f3">#f3f3f3</color>
 
     <!-- Progress bar background -->
     <color name="progress_bar_bg">#cc000000</color>

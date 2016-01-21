@@ -8,7 +8,8 @@ import android.text.TextUtils;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.envir.EnvironmentManager;
-import com.feifan.bp.instantevent.InstCtrl;
+
+import java.util.Random;
 
 /**
  * 商家后台Url抽象工厂
@@ -108,7 +109,7 @@ public abstract class UrlFactory {
      * @return
      */
     public static String getCommodityManageForHtmlUrl() {
-        return urlForHtml(URL_PATH_COMMODITY_MANAGE_ADD);
+        return urlForHtml(URL_PATH_COMMODITY_MANAGE_ADD) + "&ts=" + new Random().nextInt();
     }
 
     /**
@@ -158,8 +159,8 @@ public abstract class UrlFactory {
         return urlForHtml(URL_PATH_HISTORY_AUDIT).
                 concat("&id=").concat(eventId).
                 concat("&goodsCode=").concat(goodsCode).
-                concat("&merchantId=").concat(InstCtrl.merchantId).
-                concat("&storeId=").concat(InstCtrl.storeId);
+                concat("&merchantId=").concat(UserProfile.getInstance().getMerchantId()).
+                concat("&storeId=").concat(UserProfile.getInstance().getAuthRangeId());
     }
 
     public static String visitorsAnalysisForHtml() {
@@ -259,6 +260,15 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/transactionspecific";
     }
 
+    //对账管理二期
+    public static String getInstantSummary() {
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/transactionspecificflsummary";
+    }
+
+    public static String getInstantDetailList() {
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/transactiongroup";
+    }
+
     //闪购报名
     public static String getPromotionListUrl() {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/enroll";
@@ -266,6 +276,22 @@ public abstract class UrlFactory {
 
     public static String getCouponsUrl() {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/transactionspecificcpsummary";
+    }
+
+    public static String getGoodsStatus(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/enroll/goodsstatus";
+    }
+
+    public static String getGoodsList(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/enroll/goodsbystatus";
+    }
+
+    public static String auditGoodsUrl(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/enroll/goods/audit";
+    }
+
+    public static String deleteGoodsUrl(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/enroll/goods/disabled";
     }
 
     //add by tianjun 2015.10.29

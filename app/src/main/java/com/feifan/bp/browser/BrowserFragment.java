@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -296,15 +297,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             case R.id.menu_coupon_add:
                 url = UrlFactory.couponAddForHtml();
                 fetchMarketingData(UserProfile.getInstance().getAuthRangeId(),url);
-                return true;
-
-            case R.id.menu_commodity_add://发布商品
-                //统计埋点
-                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_GOODSMANA_PUB);
-
-                url = UrlFactory.getCommodityManageForHtmlUrl();
-                mWebView.loadUrl(url);
-                LogUtil.i(TAG, "menu onClick() commodity url=" + url);
                 return true;
 
             case R.id.menu_picture_add:

@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_size_1"
+        android:background="@color/divider"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_list_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rl_enroll_bottom"
-        tools:listitem="@layout/item_product"/>
+        android:layout_below="@+id/line"
+        android:layout_above="@+id/rl_enroll_bottom"/>
 
     <RelativeLayout
         android:id="@+id/rl_enroll_bottom"
@@ -28,14 +33,15 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/view_spacing_20"
-            android:drawableLeft="@drawable/bg_cb_product"
-            android:text="@string/goods_all_select"
-            android:drawablePadding="@dimen/view_spacing_5"
             android:button="@null"
             android:checked="false"
-            android:focusable="false"/>
+            android:drawableLeft="@drawable/bg_cb_product"
+            android:drawablePadding="@dimen/view_spacing_5"
+            android:focusable="false"
+            android:text="@string/goods_all_select"/>
 
         <Button
+            android:id="@+id/btn_commit"
             style="@style/btn_orange_round"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

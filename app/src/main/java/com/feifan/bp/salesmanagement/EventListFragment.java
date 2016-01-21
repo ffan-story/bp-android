@@ -5,6 +5,7 @@ import android.support.v7.internal.widget.ViewStubCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +15,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.UserProfile;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.widget.paginate.Paginate;
 import com.feifan.bp.salesmanagement.PromotionListModel.PromotionDetailModel;
+import com.feifan.material.MaterialDialog;
 
 import java.util.ArrayList;
 
@@ -40,6 +44,7 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
     private int totalPages = 0;
     private int pageSize = 10;
     private EventListAdapter adapter;
+    private boolean updateFlag = false;
 
     private ArrayList<PromotionDetailModel> mPromotionList;
 
@@ -68,15 +73,32 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
     }
 
     @Override
-    protected void requestData() {
-        setupPagination();
+    public void onResume() {
+        super.onResume();
+        if (updateFlag) {
+            setupPagination();
+        } else {
+            updateFlag = true;
+        }
     }
 
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        return false;
+    protected void requestData() {
+        if (TextUtils.isEmpty(UserProfile.getInstance().getPlazaId())) {
+            MaterialDialog mDialog = new MaterialDialog(getActivity());
+            mDialog.setCanceledOnTouchOutside(false)
+                    .setTitle(getString(R.string.common_title))
+                    .setMessage(getString(R.string.info_store_no_plaza))
+                    .setNegativeButton(getString(R.string.common_confirm), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getActivity().onBackPressed();
+                        }
+                    }).show();
+        } else {
+            setupPagination();
+        }
     }
-
 
     private void setupPagination() {
         mPromotionList = new ArrayList<>();
@@ -127,7 +149,10 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 setContentShown(true);
-                setContentEmpty(true);
+                if (isAdded()){
+                    Utils.showShortToast(getActivity(), volleyError.getMessage());
+                    stopRefresh();
+                }
             }
         };
         Response.Listener<PromotionListModel> responseListener = new Response.Listener<PromotionListModel>() {
@@ -137,8 +162,8 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
                 if (!isLoadMore) {
                     setContentShown(true);
                 }
-                if (model.promotionList != null && model.promotionList.size() != 0) {
-                    totalPages = calculatePage(model.totalSize,pageSize);
+                if (model.promotionList != null) {
+                    totalPages = calculatePage(model.totalSize, pageSize);
                     mPromotionList = model.promotionList;
                     if (isLoadMore) {
                         if (adapter != null) {
@@ -154,15 +179,16 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
                                 .addLoadingListItem(true)
                                 .build();
                     }
-                    stopRefresh();
                     paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
+                    stopRefresh();
                 }
             }
         };
         //测试
-        String storeId = "9052789";
-        String merchantId = "2077985";
-        String plazaId = "1000772";
+        String storeId = UserProfile.getInstance().getAuthRangeId();
+        String merchantId = UserProfile.getInstance().getMerchantId();
+        String plazaId = UserProfile.getInstance().getPlazaId();
+
         int ifEnroll;
         if (isRegistered) {
             ifEnroll = 1; //活动已报名
@@ -184,10 +210,15 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
     }
 
     private int calculatePage(int totalCount, int pageSize) {
-        if(totalCount<pageSize){
+        if (totalCount < pageSize) {
             return 1;
-        }else{
-            return totalCount/pageSize;
+        } else {
+            return (totalCount / pageSize) + 1;
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
     }
 }
