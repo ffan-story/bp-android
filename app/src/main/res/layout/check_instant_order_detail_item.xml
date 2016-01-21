@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="@dimen/view_size_10">
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/view_size_5">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/view_spacing_15"
-        android:paddingBottom="@dimen/view_spacing_15"
-        android:background="@color/white">
+        android:paddingBottom="@dimen/view_spacing_15">
 
         <TextView
             style="@style/txt_color99_size14"

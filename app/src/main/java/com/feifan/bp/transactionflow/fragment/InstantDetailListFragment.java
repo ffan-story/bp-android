@@ -60,7 +60,7 @@ public class InstantDetailListFragment extends ProgressFragment{
         mDetailList = (RecyclerView) v.findViewById(R.id.detail_list);
         mDetailList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        SpacesItemDecoration space = new SpacesItemDecoration(8);
+        SpacesItemDecoration space = new SpacesItemDecoration(20);
         mDetailList.addItemDecoration(space);
         initData();
 

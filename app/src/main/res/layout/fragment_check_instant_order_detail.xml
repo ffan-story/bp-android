@@ -45,9 +45,9 @@
         android:id="@+id/detail_loading_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/view_spacing_5"
+        android:layout_margin="@dimen/view_spacing_10"
         android:divider="@color/bg_color_gray_f3"
-        android:dividerHeight="@dimen/view_spacing_5">
+        android:dividerHeight="@dimen/view_spacing_10">
 
     </com.feifan.bp.widget.LoadingMoreListView>
 

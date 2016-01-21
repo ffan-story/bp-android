@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.instantevent.InstEventGoodsListFragment;
+import com.feifan.bp.salesmanagement.InstEventGoodsListFragment;
 
 /**
  * 通用错误提示页

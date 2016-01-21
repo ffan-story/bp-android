@@ -67,7 +67,7 @@ public class InstantDetailListAdapter extends RecyclerView.Adapter<InstantDetail
             @Override
             public void onClick(View v) {
                 args.putString(GOODSID,details.get(position).googsId);
-                args.putString(GOODSNAME,details.get(position).goodsName + position);
+                args.putString(GOODSNAME,details.get(position).goodsName);
                 PlatformTopbarActivity.startActivity(context, InstantOrderDetailFragment.class.getName(),
                         context.getString(R.string.instant_order_detail), args);
             }

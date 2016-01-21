@@ -1,7 +1,5 @@
 package com.feifan.bp.transactionflow.model;
 
-import android.util.Log;
-
 import com.feifan.bp.network.BaseModel;
 
 import org.json.JSONArray;

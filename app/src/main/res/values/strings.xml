@@ -235,7 +235,7 @@
     <string name="detail">明细</string>
     <string name="instant_detail">商品明细</string>
     <string name="instant_summary">商品汇总</string>
-    <string name="instant_order_detail">订单明细</string>
+    <string name="instant_order_detail">交易明细</string>
 
     <!--SegmentedGroup 选项-->
     <string name="today">今天</string>

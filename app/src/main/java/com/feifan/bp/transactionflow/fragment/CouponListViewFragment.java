@@ -42,7 +42,7 @@ import java.util.List;
  * Created by kontar on 16/1/19.
  */
 public class CouponListViewFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener,
-        SwipeRefreshLayout.OnRefreshListener, OnLoadingMoreListener {
+        SwipeRefreshLayout.OnRefreshListener, OnLoadingMoreListener, PlatformTabActivity.onPageSelectListener{
 
     private static final String TAG = "CouponFragment";
 
@@ -57,6 +57,7 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
     private MonPicker picker;
     private String selectData;
     private boolean isShowDlg;
+    private boolean shouldRequest = false;
     private CouponListViewAdapter adapter;
     private SwipeRefreshLayout mSwipeLayout;
     private List<CouponSummaryModel.CouponDetail> couponList;
@@ -80,6 +81,7 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
+        ((PlatformTabActivity) getActivity()).setOnPageSelectListener(this);
         stub.setLayoutResource(R.layout.fragment_check_coupon_list);
         View v = stub.inflate();
 
@@ -142,45 +144,50 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
 
     @Override
     protected void requestData() {
-        if(Utils.isNetworkAvailable(getActivity())){
-            setContentEmpty(false);
-            mSwipeLayout.setRefreshing(true);
-            TransFlowCtrl.getCouponSummary(selectData, mPageIndex, mLimit, new Response.Listener<CouponSummaryModel>() {
-                @Override
-                public void onResponse(CouponSummaryModel model) {
-                    if (null != model && isAdded()) {
-                        if (mPageIndex == 1) {
-                            initCouponView(model, false);
-                        } else {
-                            initCouponView(model, true);
+        if(shouldRequest){
+            isShowDlg = true;
+            if(Utils.isNetworkAvailable(getActivity())){
+                setContentEmpty(false);
+                mSwipeLayout.setRefreshing(true);
+                TransFlowCtrl.getCouponSummary(selectData, mPageIndex, mLimit, new Response.Listener<CouponSummaryModel>() {
+                    @Override
+                    public void onResponse(CouponSummaryModel model) {
+                        if (null != model && isAdded()) {
+                            if (mPageIndex == 1) {
+                                initCouponView(model, false);
+                            } else {
+                                initCouponView(model, true);
+                            }
+                            load.hideFooterView();
+                            stopRefresh();
+                            setContentShown(true);
                         }
-                        load.hideFooterView();
-                        stopRefresh();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
                         setContentShown(true);
+                        load.hideFooterView();
+                        load.setAdapter(null);
+                        if (mPageIndex > 1) {
+                            mPageIndex--;
+                        }
+                        if (isShowDlg && isAdded()) {
+                            showError(volleyError);
+                            stopRefresh();
+                        }
                     }
+                });
+            }else{
+                if (isShowDlg && isAdded()) {
+                    mErrorDialog.setMessage(getResources().getString(R.string.error_message_text_offline))
+                            .show();
+                    isShowDlg = false;
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    setContentShown(true);
-                    load.hideFooterView();
-                    if (mPageIndex > 1) {
-                        mPageIndex--;
-                    }
-                    if (isShowDlg && isAdded()) {
-                        showError(volleyError);
-                        stopRefresh();
-                    }
-                }
-            });
-        }else{
-            if (isShowDlg && isAdded()) {
-                mErrorDialog.setMessage(getResources().getString(R.string.error_message_text_offline))
-                        .show();
-                isShowDlg = false;
+                setContentShown(false);
+                setContentEmpty(true);
             }
-            setContentShown(false);
-            setContentEmpty(true);
+
         }
     }
 
@@ -352,5 +359,11 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
             return ((PlatformTabActivity) a).getToolbar();
         }
         return null;
+    }
+
+    @Override
+    public void onPageSelected() {
+        shouldRequest = !shouldRequest;
+        requestData();
     }
 }
