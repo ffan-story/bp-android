@@ -16,6 +16,7 @@
     <dimen name="view_spacing_45">45dp</dimen>
     <dimen name="view_spacing_50">50dp</dimen>
     <dimen name="view_spacing_60">60dp</dimen>
+    <dimen name="view_spacing_100">100dp</dimen>
     <dimen name="view_spacing_120">120dp</dimen>
     <dimen name="dividerheight">0.5dp</dimen>
     <!-- 字体 -->

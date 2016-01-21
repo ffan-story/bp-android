@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -51,7 +50,7 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
     private RadioButton mLast1,mLast2, mOther;
     private TextView mChargeoffTotal,mAwardAmount,mLinkRelative,mDetailTotalCount;
     private ImageView relativeArrow;
-    private RelativeLayout mEmptyView;
+    private TextView mEmptyView;
     private int tabIndex;
 
     private MaterialDialog mErrorDialog;
@@ -111,7 +110,7 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
         mOther.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectDate(mIntYear, mIntMonth);
+                selectDate(0, 0);
             }
         });
         mQueryTime = (TextView) header.findViewById(R.id.coupon_query_time);
@@ -120,7 +119,7 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
         mLinkRelative = (TextView)header.findViewById(R.id.link_relative);
         mDetailTotalCount = (TextView) header.findViewById(R.id.coupon_total_count);
         relativeArrow = (ImageView) header.findViewById(R.id.coupon_relative_arrow);
-        mEmptyView = (RelativeLayout) header.findViewById(R.id.coupon_empty_view);
+        mEmptyView = (TextView) header.findViewById(R.id.no_data_view);
 
         getToolbar().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,12 +198,18 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
         if(null != model.getCouponSummary()){
             mChargeoffTotal.setText(model.getCouponSummary().totalCount + "");
             mAwardAmount.setText(NumberUtil.moneyFormat(model.getCouponSummary().awardAmount + "", 2));
+
             String linkNum = model.getCouponSummary().linkRelative;
             if(linkNum.contains("-")){
-                mLinkRelative.setText(getString(R.string.coupon_link_relative, linkNum));
+                mLinkRelative.setText(getString(R.string.coupon_link_relative, NumberUtil.moneyFormat(linkNum, 2)));
+                relativeArrow.setVisibility(View.VISIBLE);
                 relativeArrow.setImageResource(R.mipmap.relative_down);
+            }else if("0".equals(linkNum)){
+                mLinkRelative.setText(getString(R.string.coupon_link_relative, NumberUtil.moneyFormat(linkNum, 2)));
+                relativeArrow.setVisibility(View.GONE);
             }else{
-                mLinkRelative.setText(getString(R.string.coupon_link_relative, "+" + linkNum));
+                mLinkRelative.setText(getString(R.string.coupon_link_relative, "+" + NumberUtil.moneyFormat(linkNum, 2)));
+                relativeArrow.setVisibility(View.VISIBLE);
                 relativeArrow.setImageResource(R.mipmap.relative_up);
             }
 
@@ -242,7 +247,9 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
     @Override
     public void onLoadingMore() {
         if(couponList.size() >= mDetailCount && isAdded()){
-            Utils.showShortToast(getActivity(),getString(R.string.error_no_more_data));
+            if(couponList.size() != 0){
+                Utils.showShortToast(getActivity(),getString(R.string.error_no_more_data));
+            }
             load.hideFooterView();
         }else{
             mPageIndex++;
@@ -272,6 +279,7 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
     }
 
     private void selectDate(final int year , final int month) {
+        mPageIndex =1;
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.dialog_month_pick, null);
         picker = (MonPicker) view.findViewById(R.id.month_picker);
