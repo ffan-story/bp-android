@@ -213,6 +213,7 @@
     <string name="total_acount">总条数 : (%s条)</string>
     <string name="coupon_total_acount">(共%s条)</string>
     <string name="no_data">暂无数据</string>
+    <string name="no_detail_data">暂时无明细数据</string>
     <string name="order_number">订单号</string>
     <string name="order_trade_amount">交易金额</string>
     <string name="order_trade_count">交易笔数</string>

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -50,6 +51,7 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
     private RadioButton mLast1,mLast2, mOther;
     private TextView mChargeoffTotal,mAwardAmount,mLinkRelative,mDetailTotalCount;
     private ImageView relativeArrow;
+    private RelativeLayout mEmptyView;
     private int tabIndex;
 
     private MaterialDialog mErrorDialog;
@@ -118,6 +120,7 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
         mLinkRelative = (TextView)header.findViewById(R.id.link_relative);
         mDetailTotalCount = (TextView) header.findViewById(R.id.coupon_total_count);
         relativeArrow = (ImageView) header.findViewById(R.id.coupon_relative_arrow);
+        mEmptyView = (RelativeLayout) header.findViewById(R.id.coupon_empty_view);
 
         getToolbar().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,6 +209,11 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
             }
 
             mDetailCount = model.getCouponSummary().totalCount;
+            if(mDetailCount == 0){//无数据
+                mEmptyView.setVisibility(View.VISIBLE);
+            }else{
+                mEmptyView.setVisibility(View.GONE);
+            }
             mDetailTotalCount.setText(getString(R.string.coupon_total_acount, mDetailCount + ""));
 
             if(isLoadMore){

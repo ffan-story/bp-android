@@ -141,4 +141,18 @@
             android:text="(共0条)"/>
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/coupon_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@id/detail_count">
+
+        <TextView
+            style="@style/txt_color99_size16"
+            android:layout_centerInParent="true"
+            android:text="@string/no_detail_data"/>
+
+    </RelativeLayout>
 </RelativeLayout>
