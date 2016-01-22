@@ -82,6 +82,11 @@ public class GoodsListCommonAdapter extends RecyclerView.Adapter {
                     Bundle args = new Bundle();
                     args.putString(InstEventSignUpDetailFragment.EXTRA_PARTAKE_EVENT_ID,promotionId);
                     args.putString(InstEventSignUpDetailFragment.EXTRA_PARTAKE_GOODS_CODE, mListData.get(position).getGoodsCode());
+                    if (enrollStatus == GoodsListFragment.STATUS_AUDIT_DENY){
+                        args.putBoolean(InstEventSignUpDetailFragment.EXTRA_PARTAKE_GOODS_IS_REFUSE, true);
+                    }else{
+                        args.putBoolean(InstEventSignUpDetailFragment.EXTRA_PARTAKE_GOODS_IS_REFUSE, false);
+                    }
                     PlatformTopbarActivity.startActivityForResult((RegisterDetailActivity) context, InstEventSignUpDetailFragment.class.getName(),"设置详情", args);
                 }
             }
