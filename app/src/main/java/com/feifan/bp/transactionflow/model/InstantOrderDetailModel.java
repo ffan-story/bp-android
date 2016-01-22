@@ -33,7 +33,7 @@ public class InstantOrderDetailModel extends BaseModel {
         refundDetails = new ArrayList<>();
         for (int i = 0; i < orders.length(); i++){
             OrderDetail orderDetail = new OrderDetail();
-            orderDetail.totalCount = (int)new JSONObject(json).opt("totalCount");
+            orderDetail.totalCount = new JSONObject(json).optString("totalCount");
             orderDetail.orderNumber = orders.getJSONObject(i).optString("orderNo");
             orderDetail.tradeMoney = orders.getJSONObject(i).optString("paySuccessAmt");
             orderDetail.tradeTime = orders.getJSONObject(i).optString("orderTradeSuccessTime");
@@ -57,7 +57,7 @@ public class InstantOrderDetailModel extends BaseModel {
         /**
          * 总条数
          */
-        public int totalCount;
+        public String totalCount;
         /**
          * 订单号
          */

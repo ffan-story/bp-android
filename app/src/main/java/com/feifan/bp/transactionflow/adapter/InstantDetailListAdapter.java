@@ -14,6 +14,7 @@ import com.feifan.bp.transactionflow.fragment.InstantOrderDetailFragment;
 import com.feifan.bp.transactionflow.model.InstantDetailModel;
 import com.feifan.bp.util.NumberUtil;
 
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -25,58 +26,79 @@ public class InstantDetailListAdapter extends RecyclerView.Adapter<InstantDetail
     public static final String GOODSID = "goodsId";
     public static final String GOODSNAME = "goodsName";
 
-    private Context context;
-    private Bundle args;
-    private List<InstantDetailModel.InstantDetail> details;
+    private Context mContext;
+    private Bundle mArgs;
+    private List<InstantDetailModel.InstantDetail> mDetails;
     /**
      * 是否只包含退款
      */
     private String onlyRefund;
+    private static final String TAG = "DetailListAdapter";
 
     public InstantDetailListAdapter(Context context,
                                     List<InstantDetailModel.InstantDetail> details,
                                     Bundle args){
-        this.context = context;
-        this.details = details;
-        this.args = args;
+        mContext = context;
+        initData(details, args);
+    }
+
+    private void initData(List<InstantDetailModel.InstantDetail> details, Bundle args) {
+        mDetails = details;
+        mArgs = args;
+        onlyRefund = mArgs.getString("onlyRefund");
+        //筛选
+        Iterator iterator = mDetails.iterator();
+        while(iterator.hasNext()){
+            InstantDetailModel.InstantDetail detail = (InstantDetailModel.InstantDetail) iterator.next();
+            if("0".equals(onlyRefund)){
+                if("0".equals(detail.payCount)){
+                    iterator.remove();
+                }
+            }else{
+                if("0".equals(detail.refundCount)){
+                    iterator.remove();
+                }
+            }
+
+        }
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        onlyRefund = args.getString("onlyRefund");
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.check_instant_detail_list,parent,false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.mTitle.setText(details.get(position).goodsName);
-        if(onlyRefund.equals("1")){//退款汇总
-            holder.tvDetailMoney.setText(context.getString(R.string.order_refund_amount));
-            holder.tvDetailCount.setText(context.getString(R.string.order_refund_count));
-            holder.mTradeMoney.setText(NumberUtil.moneyFormat(details.get(position).refundAmount,2));
-            holder.mTradeCount.setText(details.get(position).refundCount);
+        holder.mTitle.setText(mDetails.get(position).goodsName);
+        if("1".equals(onlyRefund)){//退款汇总
+            holder.tvDetailMoney.setText(mContext.getString(R.string.order_refund_amount));
+            holder.tvDetailCount.setText(mContext.getString(R.string.order_refund_count));
+            holder.mTradeMoney.setText(NumberUtil.moneyFormat(mDetails.get(position).refundAmount,2));
+            holder.mTradeCount.setText(mDetails.get(position).refundCount);
         }else{//全部汇总
-            holder.tvDetailMoney.setText(context.getString(R.string.order_trade_amount));
-            holder.tvDetailCount.setText(context.getString(R.string.order_trade_count));
-            holder.mTradeMoney.setText("+" + NumberUtil.moneyFormat(details.get(position).payAmount,2));
-            holder.mTradeCount.setText(details.get(position).payCount);
+            holder.tvDetailMoney.setText(mContext.getString(R.string.order_trade_amount));
+            holder.tvDetailCount.setText(mContext.getString(R.string.order_trade_count));
+            holder.mTradeMoney.setText("+" + NumberUtil.moneyFormat(mDetails.get(position).payAmount,2));
+            holder.mTradeCount.setText(mDetails.get(position).payCount);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                args.putString(GOODSID,details.get(position).googsId);
-                args.putString(GOODSNAME,details.get(position).goodsName);
-                PlatformTopbarActivity.startActivity(context, InstantOrderDetailFragment.class.getName(),
-                        context.getString(R.string.instant_order_detail), args);
+                mArgs.putString(GOODSID, mDetails.get(position).googsId);
+                mArgs.putString(GOODSNAME, mDetails.get(position).goodsName);
+                PlatformTopbarActivity.startActivity(mContext, InstantOrderDetailFragment.class.getName(),
+                        mContext.getString(R.string.instant_order_detail), mArgs);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return details.size();
+        return mDetails.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
