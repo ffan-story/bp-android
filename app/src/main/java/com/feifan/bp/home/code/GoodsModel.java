@@ -33,7 +33,6 @@ public class GoodsModel extends BaseModel {
         baseInfo.singnStatus = jsonObject.optInt("signStatus");
         baseInfo.userIsWhite = jsonObject.optBoolean("userIsWhite");
         baseInfo.noticeMsg = jsonObject.optString("noticeMsg");
-        Log.e("GoodsModel", "userIsWhite------>" + baseInfo.userIsWhite);
 
         JSONArray productArray = jsonObject.getJSONObject("orderInfo").getJSONArray("productList");
         productInfos = new ArrayList<>();
