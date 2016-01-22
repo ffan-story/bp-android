@@ -56,6 +56,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     private GoodsNoCommitFragment goodsNoCommitFragment;
     private ViewPagerAdapter adapter;
     private int CurrentItemIndex = 0;
+    private ViewPager.OnPageChangeListener onPageChangeListener;
 
     public static void startActivity(Context context, String id, String title, boolean isCutOff) {
         Intent i = new Intent(context, RegisterDetailActivity.class);
@@ -172,7 +173,6 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
                 GoodsListFragment.STATUS_AUDIT_DENY, mFragmentTabCountList.get(3));
 
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(CurrentItemIndex);
         tabLayout.setupWithViewPager(viewPager);
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
@@ -181,8 +181,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
                 tab.setCustomView(adapter.getTabView(i));
             }
         }
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        onPageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -198,7 +197,10 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        };
+        viewPager.addOnPageChangeListener(onPageChangeListener);
+        viewPager.setCurrentItem(CurrentItemIndex);
+        onPageChangeListener.onPageSelected(CurrentItemIndex);
     }
 
     @Override
