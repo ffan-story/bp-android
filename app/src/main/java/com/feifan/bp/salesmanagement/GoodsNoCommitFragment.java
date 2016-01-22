@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +44,7 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
 
     private String mStoreId, mMerchantId, mUid, mPromotionId;
     private UpdateStatusListener updateStatusListener;
+    private int itemCount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,74 +52,10 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
         View view = inflater.inflate(R.layout.fragment_goods_list, container, false);
         initViews(view);
         return view;
-
-//        ItemTouchHelper.Callback mCallBack = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,ItemTouchHelper.LEFT){
-//
-//            /**
-//             * @param recyclerView
-//             * @param viewHolder 拖动的ViewHolder
-//             * @param target 目标位置的ViewHolder
-//             * @return
-//             */
-//            @Override
-//            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-//                int fromPosition = viewHolder.getAdapterPosition();//得到拖动ViewHolder的position
-//                int toPosition = target.getAdapterPosition();//得到目标ViewHolder的position
-//                if (fromPosition < toPosition) {
-//                    //分别把中间所有的item的位置重新交换
-//                    for (int i = fromPosition; i < toPosition; i++) {
-//                        Collections.swap(datas, i, i + 1);
-//                    }
-//                } else {
-//                    for (int i = fromPosition; i > toPosition; i--) {
-//                        Collections.swap(datas, i, i - 1);
-//                    }
-//                }
-//                mAdapter.notifyItemMoved(fromPosition, toPosition);
-//                //返回true表示执行拖动
-//                return true;
-//            }
-//
-//            @Override
-//            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-//                int position = viewHolder.getAdapterPosition();
-//                datas.remove(position);
-//                mAdapter.notifyItemRemoved(position);
-//            }
-//
-//            @Override
-//            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-//                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-//                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-//                    //左右滑动时改变Item的透明度
-//                    final float alpha = 1 - Math.abs(dX) / (float)viewHolder.itemView.getWidth();
-//                    viewHolder.itemView.setAlpha(alpha);
-//                    viewHolder.itemView.setTranslationX(dX);
-//                }
-//            }
-//
-//            @Override
-//            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-//                super.onSelectedChanged(viewHolder, actionState);
-//                //当选中Item时候会调用该方法，重写此方法可以实现选中时候的一些动画逻辑
-//                Log.v("fangke", "onSelectedChanged");
-//            }
-//
-//            @Override
-//            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-//                super.clearView(recyclerView, viewHolder);
-//                //当动画已经结束的时候调用该方法，重写此方法可以实现恢复Item的初始状态
-//                Log.v("fangke", "clearView");
-//            }
-//        };
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(mCallBack);
-//        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     private void initViews(View view) {
         cbAllCheck = (CheckBox) view.findViewById(R.id.allcheck);
-        cbAllCheck.setOnCheckedChangeListener(checkAllListener);
-        cbAllCheck.setChecked(false);
         mProductList = (RecyclerView) view.findViewById(R.id.fragment_list_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -179,18 +115,27 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
             public void onResponse(GoodsListModel model) {
 
                 if (model.goodsList != null) {
+                    LogUtil.i("checkStatus", "getGoodList------------->" + checkStatus.toString());
                     datas = model.goodsList;
                     mSwipeAdapter = new GoodsListSwipeAdapter(getActivity(), datas, checkStatus, mPromotionId);
                     mProductList.setAdapter(mSwipeAdapter);
+                    itemCount = mSwipeAdapter.getItemCount();
                     mSwipeAdapter.setCheckChangeListener(GoodsNoCommitFragment.this);
                     mSwipeAdapter.setItemDeleteListener(GoodsNoCommitFragment.this);
                     if (model.goodsList.size() == 0) {
                         cbAllCheck.setClickable(false);
-                        if (cbAllCheck.isChecked()) {
-                            cbAllCheck.setChecked(false);
-                        }
                     } else {
                         cbAllCheck.setClickable(true);
+                    }
+                    if (itemCount != 0 && itemCount == checkStatus.size()) {
+                        updateCheckAllListener(true);
+                    } else {
+                        updateCheckAllListener(false);
+                    }
+                    if (checkStatus.size() == 0) {
+                        commitBtnStatus(false);
+                    } else {
+                        commitBtnStatus(true);
                     }
                 }
             }
@@ -209,18 +154,14 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
     public void getCheckData(int position, boolean isChecked) {
         if (isChecked) {
             checkStatus.put(position, isChecked);
-            if (checkStatus.size() == mSwipeAdapter.getItemCount()) {
-                cbAllCheck.setOnCheckedChangeListener(null);
-                cbAllCheck.setChecked(true);
-                cbAllCheck.setOnCheckedChangeListener(checkAllListener);
+            if (checkStatus.size() == itemCount) {
+                updateCheckAllListener(true);
             }
             commitBtnStatus(true);
         } else {
             checkStatus.remove(position);
-            cbAllCheck.setOnCheckedChangeListener(null);
-            cbAllCheck.setChecked(false);
-            cbAllCheck.setOnCheckedChangeListener(checkAllListener);
-            if(checkStatus.size()==0){
+            updateCheckAllListener(false);
+            if (checkStatus.size() == 0) {
                 commitBtnStatus(false);
             }
         }
@@ -252,11 +193,8 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
                             @Override
                             public void onResponse(BaseModel model) {
                                 Toast.makeText(getActivity(), "删除成功!", Toast.LENGTH_SHORT).show();
+                                changeCheckStatus(position);//更新选中状态
                                 updateStatusListener.updateStatus();//更新角标状态
-                                //更新选中状态
-                                changeCheckStatus(position);
-                                mSwipeAdapter.notifyItemRemoved(position);
-                                mSwipeAdapter.notifyItemRangeChanged(position, mSwipeAdapter.getItemCount());
                             }
                         };
                         String goodsCode = datas.get(position).getGoodsCode();
@@ -269,12 +207,12 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
-                for (int i = 0; i < mSwipeAdapter.getItemCount(); i++) {
+                for (int i = 0; i < itemCount; i++) {
                     checkStatus.put(i, isChecked);
                 }
                 commitBtnStatus(true);
             } else {
-                for (int i = 0; i < mSwipeAdapter.getItemCount(); i++) {
+                for (int i = 0; i < itemCount; i++) {
                     checkStatus.remove(i);
                 }
                 commitBtnStatus(false);
@@ -285,6 +223,7 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
 
     /**
      * 提交按钮是否置灰不可点击
+     *
      * @param canCommit true->正常 false->不可点
      */
     private void commitBtnStatus(boolean canCommit) {
@@ -294,6 +233,23 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
         } else {
             mBtnCommit.setClickable(false);
             mBtnCommit.setBackgroundResource(R.drawable.bg_button_grey);
+        }
+    }
+
+    /**
+     * 更新全选按钮监听
+     *
+     * @param isCheckAll true->选中 false->未选中
+     */
+    private void updateCheckAllListener(boolean isCheckAll) {
+        if (isCheckAll) {
+            cbAllCheck.setOnCheckedChangeListener(null);
+            cbAllCheck.setChecked(true);
+            cbAllCheck.setOnCheckedChangeListener(checkAllListener);
+        } else {
+            cbAllCheck.setOnCheckedChangeListener(null);
+            cbAllCheck.setChecked(false);
+            cbAllCheck.setOnCheckedChangeListener(checkAllListener);
         }
     }
 
@@ -325,13 +281,9 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
             //删除checkStatus最后一个元素
             checkStatus.remove(changePosLast);
         }
-        //更新全选按钮状态
-        if (mSwipeAdapter.getItemCount() == 0) {
-            commitBtnStatus(false);
-        } else if (checkStatus.size() == mSwipeAdapter.getItemCount()) {
-            cbAllCheck.setOnCheckedChangeListener(null);
-            cbAllCheck.setChecked(true);
-            cbAllCheck.setOnCheckedChangeListener(checkAllListener);
+        LogUtil.i("checkStatus", "changeCheckStatus------------->" + checkStatus.toString());
+        if (itemCount != 0) {
+            itemCount--;
         }
     }
 
