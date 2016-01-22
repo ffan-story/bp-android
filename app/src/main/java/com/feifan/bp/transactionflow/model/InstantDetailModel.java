@@ -1,5 +1,7 @@
 package com.feifan.bp.transactionflow.model;
 
+import android.util.Log;
+
 import com.feifan.bp.network.BaseModel;
 
 import org.json.JSONArray;
@@ -24,6 +26,7 @@ public class InstantDetailModel extends BaseModel {
     @Override
     protected void parseData(String json) throws JSONException {
         super.parseData(json);
+        Log.e(TAG,"we got json --------- " + json);
         JSONArray detailList = new JSONObject(json).getJSONArray("list");
         details = new ArrayList<>();
         for(int i = 0; i < detailList.length(); i++){
