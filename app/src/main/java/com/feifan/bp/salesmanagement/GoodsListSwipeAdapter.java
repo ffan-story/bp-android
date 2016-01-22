@@ -87,7 +87,7 @@ public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
                 args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_EVENT_ID, promotionId);
                 args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_GOODS_CODE, mListData.get(position).getGoodsCode());
                 args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_GOODS_ACTION, false);
-                args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_IS_SHOW_HISTORY, false);
+                args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_IS_STATUS_REFUSE, false);
                 PlatformTopbarActivity.startActivityForResult((RegisterDetailActivity)context, InstEvenSkuSettFragment.class.getName(), "设置详情", args);
             }
         });

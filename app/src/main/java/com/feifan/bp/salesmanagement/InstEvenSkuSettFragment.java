@@ -43,7 +43,7 @@ import java.util.List;
 public class InstEvenSkuSettFragment extends ProgressFragment implements View.OnClickListener {
     public static final String EXTRA_PARTAKE_EVENT_ID = "partake_event_id";
     public static final String EXTRA_PARTAKE_GOODS_CODE = "partake_goods_code";
-    public static final String EXTRA_EVENT_IS_SHOW_HISTORY = "is_show_history";
+    public static final String EXTRA_EVENT_IS_STATUS_REFUSE = "is_status_refuse";
     public static final String EXTRA_EVENT_GOODS_ACTION = "goods_action";
 
     private ListView mLineGoodsNumber, mLineGoodsDiscount;
@@ -54,10 +54,17 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
     private TextView mTvVendorDiscountTips;
 
     /**
+     * 商户优惠金额输入是否合法
      * true:输入合法
      * false：不合法
      */
-    private boolean isVendorDiscountFlag = false, isVendorDiscountEmptyFlag = false;
+    private boolean isVendorDiscountFlag = false;
+
+    /**
+     * true： 未输入商户优惠金额
+     *
+     */
+    private boolean isVendorDiscountEmptyFlag = true;
 
     private Adapter goodsNumberAdapter, goodsDiscountAdapter;
 
@@ -74,7 +81,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
     /**
      * true:审核拒绝-设置详情页面，false:从商品列表/未提交-设置详情页面
      */
-    private boolean isShowHistory = false;
+    private boolean isStatusRefuse = false;
     /**
      * 保存提交标示
      * 1：提交
@@ -115,7 +122,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
         mStrGoodsCode = getArguments().getString(EXTRA_PARTAKE_GOODS_CODE);
         isGoosActionAdd = getArguments().getBoolean(EXTRA_EVENT_GOODS_ACTION, true);
         if (!isGoosActionAdd) {
-            isShowHistory = getArguments().getBoolean(EXTRA_EVENT_IS_SHOW_HISTORY, false);
+            isStatusRefuse = getArguments().getBoolean(EXTRA_EVENT_IS_STATUS_REFUSE, false);
         }
     }
 
@@ -208,7 +215,7 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
             }
         });
 
-        if (isShowHistory){
+        if (isStatusRefuse){
             ((Button)view.findViewById(R.id.bnt_instant_atonce_submit)).setText(getActivity().getString(R.string.instant_signup_reset_comm));
         }
         (view.findViewById(R.id.bnt_instant_save_setting)).setOnClickListener(this);
@@ -254,8 +261,12 @@ public class InstEvenSkuSettFragment extends ProgressFragment implements View.On
 
         mTvFeifanDiscount.setText(String.format(getActivity().getResources().getString(R.string.instant_feifan_discount), formatAmount(myModel.mDoubleFeifanDiscount)));
        if (!isGoosActionAdd){//设置状态-拒绝（显示审核历史）
-            mTvSignupStatus.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_current_status), myModel.mStrApproveStatus)));
-            if (TextUtils.isEmpty(myModel.mStrApproveDes) || !isShowHistory){
+           if (!isStatusRefuse){
+               mTvSignupStatus.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_detail_status), getResources().getString(R.string.instant_current_status), myModel.mStrApproveStatus)));
+           }else{
+               mTvSignupStatus.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_current_status), myModel.mStrApproveStatus)));
+           }
+            if (TextUtils.isEmpty(myModel.mStrApproveDes) || !isStatusRefuse){
                 mTvSignupRefuseCause.setVisibility(View.GONE);
             }else {
                 mTvSignupRefuseCause.setVisibility(View.VISIBLE);
