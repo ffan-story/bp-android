@@ -29,10 +29,12 @@ import java.util.List;
 public class InstEventSignUpDetailFragment extends ProgressFragment {
     public static final String EXTRA_PARTAKE_EVENT_ID = "partake_event_id";
     public static final String EXTRA_PARTAKE_GOODS_CODE = "partake_goods_code";
+    public static final String EXTRA_PARTAKE_GOODS_IS_REFUSE= "partake_goods_is_refuse";
     private LayoutInflater mInflater;
     private LinearLayout mLineGoodsNumber,mLineGoodsAmount;
     private TextView mTvVendorDiscount,mTvFeiFanDiscount,mTvStatic;
     private String mStrEventId ,mStrGoodsCode;
+    private boolean isRefuse = false;
     private List<com.feifan.bp.salesmanagement.InstEvenSkuSettModel.InstantEventSetDetailData> mList = new ArrayList<>();
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -55,6 +57,7 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
         super.onCreate(savedInstanceState);
         mStrEventId = getArguments().getString(EXTRA_PARTAKE_EVENT_ID);
         mStrGoodsCode = getArguments().getString(EXTRA_PARTAKE_GOODS_CODE);
+        isRefuse = getArguments().getBoolean(EXTRA_PARTAKE_GOODS_IS_REFUSE);
     }
 
     @Override
@@ -66,6 +69,7 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
         mTvVendorDiscount = (TextView)view.findViewById(R.id.tv_vendor_discount);
         mTvFeiFanDiscount = (TextView)view.findViewById(R.id.tv_feifan_discount);
         mTvStatic = (TextView)view.findViewById(R.id.tv_signup_detail_status);
+
         view.findViewById(R.id.btn_audit_history).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,13 +95,16 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
         });
     }
 
-
     com.feifan.bp.salesmanagement.InstEvenSkuSettModel.InstantEventSetDetailData myData ;
     private void setContViewData(com.feifan.bp.salesmanagement.InstEvenSkuSettModel detailModel){
          myData = detailModel.mEventSetDetailData;
          mList = detailModel.arryInstantEventData;
 
-        mTvStatic.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_detail_status), getResources().getString(R.string.instant_current_status), detailModel.mStrApproveStatus)));
+        if (isRefuse){
+            mTvStatic.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_status), getResources().getString(R.string.instant_current_status), detailModel.mStrApproveStatus)));
+        }else{
+            mTvStatic.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_signup_detail_status), getResources().getString(R.string.instant_current_status), detailModel.mStrApproveStatus)));
+        }
         mTvVendorDiscount.setText(Html.fromHtml(String.format(getResources().getString(R.string.instant_discount_content), getResources().getString(R.string.instant_vendor_discount), formatAmount(detailModel.mDoubleVendorDiscount))));
         mTvFeiFanDiscount.setText(String.format(getResources().getString(R.string.instant_feifan_discount), formatAmount(detailModel.mDoubleFeifanDiscount)));
 
