@@ -3,7 +3,6 @@ package com.feifan.bp.salesmanagement;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -46,11 +45,9 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     private String promotionName;
     public Boolean isCutOff;
 
-    private CollapsingToolbarLayout collapsingToolbar;
     private CustomViewPager viewPager;
     private TabLayout tabLayout;
     private RelativeLayout rlEventTitle;
-    private View registerDetailHeader;
     private Button btnAddProduct;
     private TextView tvEnrollHeader;
     private List<String> mFragmentTabCountList = new ArrayList<>();
@@ -71,7 +68,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_detail);
+        setContentView(R.layout.activity_goods_register_detail);
         promotionId = getIntent().getStringExtra(EXTRA_KEY_ID);
         promotionName = getIntent().getStringExtra(EXTRA_KEY_TITLE);
         isCutOff = getIntent().getBooleanExtra(EXTRA_KEY_FLAG, false);
@@ -81,17 +78,13 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     }
 
     private void initViews() {
-        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
-        collapsingToolbar.setTitleEnabled(false);
         viewPager = (CustomViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         rlEventTitle = (RelativeLayout) findViewById(R.id.rl_event_title);
         btnAddProduct = (Button) findViewById(R.id.btn_add_product);
         tvEnrollHeader = (TextView) findViewById(R.id.tv_enroll_detail_header);
-        registerDetailHeader = findViewById(R.id.register_detail_header);
         tvEnrollHeader.setText(promotionName);
-        registerDetailHeader.setOnClickListener(this);
         rlEventTitle.setOnClickListener(this);
         btnAddProduct.setOnClickListener(this);
         if (isCutOff) {
@@ -211,7 +204,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.register_detail_header:
+            case R.id.rl_event_title:
                 Bundle args1 = new Bundle();
                 args1.putString(EventDetailFragment.EXTRA_KEY_ID, promotionId);
                 args1.putString(EventDetailFragment.EXTRA_KEY_NAME, promotionName);
@@ -238,8 +231,8 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data!=null) {
-            CurrentItemIndex = data.getIntExtra(Constants.RETURN_STATUS,0);
+        if (resultCode == RESULT_OK && data != null) {
+            CurrentItemIndex = data.getIntExtra(Constants.RETURN_STATUS, 0);
             getGoodsStatus(true);
         }
     }

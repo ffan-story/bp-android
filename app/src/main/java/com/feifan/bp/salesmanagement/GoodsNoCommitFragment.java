@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.LazyLoadFragment;
 import com.feifan.bp.network.BaseModel;
 import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.material.MaterialDialog;
 
 import java.util.ArrayList;
