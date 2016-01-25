@@ -41,10 +41,13 @@ import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.SplashActivity;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
+import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.base.SimpleProgressFragment;
 import com.feifan.bp.network.UploadHttpClient;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.refund.RefundFragment;
@@ -52,6 +55,9 @@ import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.DialogPhoneLayout;
+import com.feifan.bp.widget.SegmentedGroup;
+import com.feifan.bp.widget.SelectPopWindow;
+import com.feifan.bp.widget.SpacesItemDecoration;
 import com.feifan.croplib.Crop;
 import com.feifan.material.MaterialDialog;
 import com.feifan.statlib.FmsAgent;
@@ -173,6 +179,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mUrl = getArguments().getString(EXTRA_KEY_URL);
+
     }
 
     @Override
@@ -475,7 +482,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }
             }
             String type = paramMap.get("type");
-            LogUtil.i(TAG, "Image pick type=" + type);
             if (!TextUtils.isEmpty(type)) {
                 mImgPickType = Integer.parseInt(type);
             }
@@ -504,6 +510,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     }
 
     public void beginCrop(Uri source) {
+        if (!isAdded()){
+            Utils.showShortToast(PlatformState.getApplicationContext(),"对不起，此机型不支持拍照功能，请从相册选择图片");
+            return;
+        }
         Uri outputUri = Uri.fromFile(new File(getActivity().getCacheDir(), "cropped"));
 
         switch (mImgPickType) {
@@ -652,6 +662,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 if (null != phoneDialog) {
                     phoneDialog.dismiss();
                 }
+                break;
+            case R.string.common_confirm:
                 break;
 
             default:
