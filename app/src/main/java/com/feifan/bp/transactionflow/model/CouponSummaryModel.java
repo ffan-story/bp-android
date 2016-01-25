@@ -33,7 +33,7 @@ public class CouponSummaryModel extends BaseModel {
 
         couponSummary = new CouponSummary();
         couponSummary.totalCount = data.optInt("totalCount");
-        couponSummary.awardAmount = data.optInt("settleAllAmount");
+        couponSummary.awardAmount = data.optString("settleAllAmount");
         couponSummary.linkRelative = data.optString("circleDiff");
         couponSummary.couponDetailList = new ArrayList<>();
         for(int i = 0; i < couponList.length(); i++){
@@ -59,7 +59,7 @@ public class CouponSummaryModel extends BaseModel {
         /**
          * 奖励金额
          */
-        public int awardAmount;
+        public String awardAmount;
         /**
          * 环比
          */

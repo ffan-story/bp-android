@@ -22,7 +22,7 @@
         style="@style/txt_color33_size14"
         android:layout_below="@id/detail_query_time"
         android:layout_margin="@dimen/view_spacing_15"
-        android:text="总条数 : (0条)"/>
+        android:text="总条数 : 0条"/>
 
     <RelativeLayout
         android:id="@+id/title_continer"

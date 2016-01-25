@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -271,7 +270,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     public void goBack(){
         if(canGoBack()){
-            mWebView.goBack();
+            if(mUrl.contains("/00?") && getString(R.string.commodity_instants_details).equals(getToolbar().getTitle().toString())){//若是从临时保存详情页返回，返回临时保存列表
+                String url = UrlFactory.getInstantsForHtmlUrl("00");
+                getActivity().finish();
+                BrowserActivity.startActivity(getContext(), url);
+            }else{
+                mWebView.goBack();
+            }
         }else{
             getActivity().setResult(Activity.RESULT_CANCELED);
             getActivity().finish();

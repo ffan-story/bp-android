@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.transactionflow.TransFlowCtrl;
@@ -30,6 +32,7 @@ import com.feifan.bp.widget.MonPicker;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.MaterialDialog;
+import com.feifan.statlib.FmsAgent;
 
 import org.json.JSONException;
 
@@ -78,6 +81,15 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDialog();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            //统计埋点 对账管理 通用券
+            FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_FINA_GENCOUPON);
+        }
     }
 
     @Override
@@ -197,7 +209,8 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
         mQueryTime.setText(getResources().getString(R.string.query_time,selectData ));
         if(null != model.getCouponSummary()){
             mChargeoffTotal.setText(model.getCouponSummary().totalCount + "");
-            mAwardAmount.setText(NumberUtil.moneyFormat(model.getCouponSummary().awardAmount + "", 2));
+            Log.e(TAG,"awardAmount----" + model.getCouponSummary().awardAmount);
+            mAwardAmount.setText(NumberUtil.moneyFormat(model.getCouponSummary().awardAmount, 2));
 
             String linkNum = model.getCouponSummary().linkRelative;
             if(linkNum.contains("-")){

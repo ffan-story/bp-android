@@ -210,7 +210,7 @@
 
     <string name="query_time">查询时间 : %s</string>
     <string name="query_interval_time">%1$s至%2$s</string>
-    <string name="total_acount">总条数 : (%s条)</string>
+    <string name="total_acount">总条数 : %s条</string>
     <string name="coupon_total_acount">(共%s条)</string>
     <string name="no_data">暂无数据</string>
     <string name="no_detail_data">暂时无明细数据</string>
@@ -369,6 +369,7 @@
     <string name="commodity_instants_buy">闪购商品</string>
     <string name="commodity_brand">品牌商品</string>
     <string name="commodity_instants_temp_save">临时保存</string>
+    <string name="commodity_instants_details">商品详情</string>
     <string name="commodity_instants_audit">待审核</string>
     <string name="commodity_instants_throughed">已通过</string>
     <string name="commodity_instants_rejected">已驳回</string>

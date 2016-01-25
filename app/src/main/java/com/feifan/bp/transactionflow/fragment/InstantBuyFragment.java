@@ -16,16 +16,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.transactionflow.model.InstantSummaryModel;
 import com.feifan.bp.transactionflow.TransFlowCtrl;
+import com.feifan.bp.transactionflow.model.InstantSummaryModel;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.NumberUtil;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.MaterialDialog;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
+import com.feifan.statlib.FmsAgent;
 
 import org.json.JSONException;
 
@@ -62,6 +64,15 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDialog();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            //统计埋点 对账管理 闪购
+            FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_FINA_FLASHBUY);
+        }
     }
 
     @Override

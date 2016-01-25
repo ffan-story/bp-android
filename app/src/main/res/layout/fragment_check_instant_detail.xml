@@ -22,7 +22,7 @@
         style="@style/txt_color99_size14"
         android:layout_below="@id/detail_query_time"
         android:layout_margin="@dimen/view_spacing_15"
-        android:text="@string/instant_detail"/>
+        android:text="@string/instant_summary"/>
 
     <ImageView
         android:id="@+id/line_write"
