@@ -4,8 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 
-
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,7 +29,7 @@ public class ImageUtil {
         int width = img.getWidth();
         int height = img.getHeight();
         if(width > dstWidth || height > dstHeight) {
-            if(width == height){
+            if(Math.abs(width - height) < 10){
                 img = Bitmap.createScaledBitmap(img, dstHeight, dstHeight, true);
             }else{
                 img = Bitmap.createScaledBitmap(img, dstWidth, dstHeight, true);
