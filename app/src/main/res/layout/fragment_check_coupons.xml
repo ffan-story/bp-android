@@ -147,10 +147,10 @@
         android:id="@+id/no_data_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/detail_count"
-        android:layout_marginTop="@dimen/view_spacing_100"
         android:textColor="@color/font_color_99"
-        android:textSize="@dimen/font_size_26"
+        android:paddingLeft="@dimen/view_spacing_8"
+        android:layout_marginLeft="@dimen/view_spacing_15"
+        android:textSize="@dimen/font_size_16"
         android:text="@string/no_detail_data"/>
 </RelativeLayout>

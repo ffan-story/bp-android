@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -68,9 +69,11 @@ public class InstantOrderDetailFragment extends ProgressFragment implements OnLo
         View v = stub.inflate();
 
         mQueryTime = (TextView) v.findViewById(R.id.detail_query_time);
-        orderTitle = (TextView) v.findViewById(R.id.order_title);
-        mTotalCount = (TextView) v.findViewById(R.id.order_total_count);
+        View header = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_check_instant_order_header,null);
+        orderTitle = (TextView) header.findViewById(R.id.order_title);
+        mTotalCount = (TextView) header.findViewById(R.id.order_total_count);
         mLoadDetailList = (LoadingMoreListView) v.findViewById(R.id.detail_loading_more);
+        mLoadDetailList.addHeaderView(header);
         mLoadDetailList.setOnLoadingMoreListener(this);
         initData();
 

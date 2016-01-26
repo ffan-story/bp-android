@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -209,7 +208,6 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
         mQueryTime.setText(getResources().getString(R.string.query_time,selectData ));
         if(null != model.getCouponSummary()){
             mChargeoffTotal.setText(model.getCouponSummary().totalCount + "");
-            Log.e(TAG,"awardAmount----" + model.getCouponSummary().awardAmount);
             mAwardAmount.setText(NumberUtil.moneyFormat(model.getCouponSummary().awardAmount, 2));
 
             String linkNum = model.getCouponSummary().linkRelative;
