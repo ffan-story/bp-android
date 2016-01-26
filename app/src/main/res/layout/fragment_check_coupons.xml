@@ -125,7 +125,8 @@
         android:padding="@dimen/view_spacing_8"
         android:background="@color/white"
         android:layout_marginTop="@dimen/view_spacing_5"
-        android:layout_below="@id/chargeoff_continer">
+        android:layout_below="@id/chargeoff_continer"
+        >
 
         <TextView
             android:id="@+id/detail"

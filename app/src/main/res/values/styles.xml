@@ -51,6 +51,11 @@
         <item name="android:textSize">@dimen/font_size_14</item>
     </style>
 
+    <style name="txt_color_blue_size14" parent="commmonTxt">
+        <item name="android:textColor">@color/font_color_blue_add</item>
+        <item name="android:textSize">@dimen/font_size_14</item>
+    </style>
+
     <style name="txt_color99_size16" parent="commmonTxt">
         <item name="android:textColor">@color/font_color_99</item>
         <item name="android:textSize">@dimen/font_size_16</item>

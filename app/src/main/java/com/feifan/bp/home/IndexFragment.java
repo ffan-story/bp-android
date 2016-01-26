@@ -46,6 +46,7 @@ import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.salesanalysis.SaleAlysFrag;
 import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerTextView;
@@ -429,9 +430,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                 else if(item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getCommodityManagerId())){//TODO 跳转到商品管理页面
                                     Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
                                             .addFragment(InstantsBuyFragment.class.getName(), getString(R.string.commodity_instants_buy))
-                                            .addArgument(InstantsBuyFragment.class.getName(), InstantsBuyFragment.EXTRA_KEY_URL,UrlFactory.storeOverviewForHtml())
+                                            .addArgument(InstantsBuyFragment.class.getName(), InstantsBuyFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
                                             .addFragment(BrandFragment.class.getName(), getString(R.string.commodity_brand))
-                                            .addArgument(BrandFragment.class.getName(), BrandFragment.EXTRA_KEY_URL,UrlFactory.visitorsAnalysisForHtml())
+                                            .addArgument(BrandFragment.class.getName(), BrandFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
                                             .build();
                                     Intent intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.index_commodity_text), fragmentArgs);
                                     startActivity(intent);
@@ -439,6 +440,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                 else if (item.id == 1227) {
                                     Bundle args = new Bundle();
                                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
+                                    //args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, SaleAlysFrag.class.getName());
                                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, IndexSalesManageFragment.class.getName());
                                     mListener.onFragmentInteraction(args);
                                 } else {

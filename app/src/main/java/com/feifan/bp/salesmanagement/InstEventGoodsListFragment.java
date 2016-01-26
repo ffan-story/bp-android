@@ -34,10 +34,6 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeLayout;
     private InstEventGoodsListAdapter adapter;
-
-
-
-
     private String mStrEventId = "";
     private int pageIndex = 1;
     private boolean loading = false;

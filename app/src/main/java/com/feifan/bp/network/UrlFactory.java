@@ -353,6 +353,22 @@ public abstract class UrlFactory {
     }
 
     /**
+     * 红包分类汇总 列表
+     * @return
+     */
+    public static String getAnalysisRedList() {
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix()  + "cashgift?action=collect";
+    }
+
+    /**
+     * 红包核销详情
+     * @return
+     */
+    public static String getAnalysisRedListDetail() {
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix()  + "cashgift?action=check";
+    }
+
+    /**
      * EnvironmentManager.getHostFactory().getMAppApiPrefix() = http://api.sit.ffan.com/mapp/v1/
      *  闪购活动添加商品列表
      */

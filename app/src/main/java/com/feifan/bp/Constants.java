@@ -8,7 +8,7 @@ public class Constants {
 
     public static int CODE_LENGTH_TEN = 10;
     public static int CODE_LENGTH_TWENTY = 20;
-
+    public static String LIST_LIMIT = "10";
     public static int LIST_MAX_LENGTH = 15;
     //密码长度范围
     public static int PASSWORD_MIN_LENGTH = 8;

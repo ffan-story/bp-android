@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.feifan.bp.widget.SegmentedGroup
+        android:id="@+id/red_segmentedGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/view_spacing_20"
+        android:layout_marginRight="@dimen/view_spacing_20"
+        android:layout_marginTop="@dimen/view_spacing_10"
+        android:orientation="horizontal"
+        segmentedgroup:sc_border_width="1dp"
+        segmentedgroup:sc_corner_radius="5dp"
+        segmentedgroup:sc_tint_color="@color/accent">
+
+        <RadioButton
+            android:id="@+id/red_rdb_today"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/today" />
+
+        <RadioButton
+            android:id="@+id/red_rdb_yesterday"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/yesterday" />
+
+        <RadioButton
+            android:id="@+id/red_rdb_custom"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/custom" />
+
+    </com.feifan.bp.widget.SegmentedGroup>
+
+    <TextView
+        android:id="@+id/red_tv_query_time"
+        style="@style/txt_color_blue_size14"
+        android:layout_below="@id/red_segmentedGroup"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/view_spacing_10"
+        android:layout_marginTop="@dimen/view_spacing_10"
+        android:drawableLeft="@mipmap/icon_time_bulue"
+        android:drawablePadding="@dimen/view_spacing_5"
+        android:text="查询时间:2016-1-7" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_coupon_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.feifan.bp.widget.LoadingMoreListView
+            android:id="@+id/more_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+        </com.feifan.bp.widget.LoadingMoreListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/tv_no_data"
+        style="@style/txt_color33_size14"
+        android:layout_margin="@dimen/view_spacing_10"
+        android:text="暂无数据~" />
+
+</LinearLayout>

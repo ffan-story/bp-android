@@ -209,6 +209,7 @@
     <string name="indicator_disclaimer">【今天】数据即时生成中仅供参考，往日数据可供查询</string>
 
     <string name="query_time">查询时间 : %s</string>
+    <string name="query_when_time">查询时间 : %1$s至%2$s</string>
     <string name="query_interval_time">%1$s至%2$s</string>
     <string name="total_acount">总条数 : %s条</string>
     <string name="coupon_total_acount">(共%s条)</string>
@@ -381,5 +382,28 @@
     <string name="commodity_instants_status_02">02</string>
     <string name="commodity_instants_status_04">04</string>
 
+    <!--营销分析-红包-->
+
+    <string name="sale_anal">营销分析</string>
+    <string name="anal_red_pack">红包</string>
+    <string name="anal_red_charge_off_total">红包核销总数</string>
+    <string name="anal_red_charge_off_detail">红包核销明细</string>
+    <string name="anal_charge_off_total">核销总笔数</string>
+    <string name="anal_subsidy_money_ff">飞凡补贴金额（元）</string>
+    <string name="anal_subsidy_money_third">第三方补贴金额（元）</string>
+    <string name="anal_subsidy_money_vendor">商户补贴金额（元）</string>
+    <string name="anal_red_sub_total">红包分类汇总</string>
+    <string name="anal_charge_off_count">核销笔数</string>
+    <string name="anal_red_coupon_code">券码</string>
+    <string name="anal_subsidy_item_money_ff">飞凡补贴</string>
+    <string name="anal_subsidy_item_money_third">第三方补贴</string>
+    <string name="anal_subsidy_item_money_vendor">商户补贴</string>
+    <string name="anal_subsidy_get_time">领券时间</string>
+    <string name="anal_subsidy_end_time">有效期至</string>
+    <string name="anal_subsidy_use_time">核销时间</string>
+    <string name="two_line"> %1$s\n%2$s</string>
+    <string name="two_row_33_99"><![CDATA[<font color="#333333">%1$s</font><br><font color="#999999">%2$s</font>]]></string>
+    <string name="two_row_red_99"><![CDATA[<font color="#E11212">%1$s</font><br><font color="#999999">%2$s</font>]]></string>
+    <string name="anal_remote">摇一摇</string>
 </resources>
 
