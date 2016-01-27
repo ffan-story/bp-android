@@ -35,9 +35,6 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
     private SwipeRefreshLayout mSwipeLayout;
     private InstEventGoodsListAdapter adapter;
 
-
-
-
     private String mStrEventId = "";
     private int pageIndex = 1;
     private boolean loading = false;
@@ -63,7 +60,6 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
         super.onCreate(savedInstanceState);
         mStrEventId = getArguments().getString(EXTRA_PARTAKE_EVENT_ID);
     }
-
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
@@ -93,6 +89,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
         InstCtrl.getInstEventGoodsList(mStrEventId, pageIndex, new Response.Listener<InstEventGoodsListModel>() {
             @Override
             public void onResponse(InstEventGoodsListModel model) {
+                loading = false;
                 if (!isLoadMore) {
                     setContentShown(true);
                 }
@@ -167,6 +164,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
     @Override
     public void onRefresh() {
         pageIndex = 1;
+        loading = true;
         arryListGoodsData = new ArrayList<>();
         fetchGoodsListData(pageIndex,false);
     }
@@ -179,12 +177,11 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
 
     int totalPages=0;
     private int calculatePage(int totalCount, int pageSize) {
-        if(totalCount<pageSize){
+        if (totalCount < pageSize) {
             return 1;
-        }else{
-            return totalCount/pageSize;
+        } else {
+            return (totalCount / pageSize) + 1;
         }
     }
-
 }
 
