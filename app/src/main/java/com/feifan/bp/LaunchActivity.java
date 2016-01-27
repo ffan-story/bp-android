@@ -77,7 +77,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         // 加载标题栏
         mToolbar = (Toolbar)findViewById(R.id.head_bar);
         mCenterTitle = (TextView)mToolbar.findViewById(R.id.header_center_title);
-        initHeader(mToolbar);
+//        initHeader(mToolbar);
 
         // 初始化视图
         mBottomBar = (TabBar) findViewById(R.id.bottom_bar);
@@ -151,15 +151,15 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         FmsAgent.onEvent(getApplicationContext(), Statistics.CLOSE_APP);
     }
 
-    private void initHeader(Toolbar header) {
-        header.setNavigationIcon(R.mipmap.ic_left_arrow);
-        header.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
+//    private void initHeader(Toolbar header) {
+//        header.setNavigationIcon(R.mipmap.ic_left_arrow);
+//        header.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
+//    }
 
     @Override
     public int getContentContainerId() {
@@ -199,8 +199,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
             PlatformTopbarActivity.startActivity(this, ForgetPasswordFragment.class.getName());
         } else if (from.equals(IndexFragment.class.getName())) {
             if (to.equals(CodeScannerActivity.class.getName())) {
-                String mUrlStr = UrlFactory.searchCodeForHtml();
-                CodeScannerActivity.startActivityForResult(this, mUrlStr);
+                CodeScannerActivity.startActivityForResult(this, null);
                 //add by tianjun 2015.10.27
             } else if (to.equals(UserInfoFragment.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) {

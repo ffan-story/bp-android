@@ -243,9 +243,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     Toast.makeText(getActivity().getApplicationContext(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String urlStr = UrlFactory.searchCodeForHtml();
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
-                args.putString(CodeScannerActivity.INTERATION_KEY_URL, urlStr);
                 break;
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, UserInfoFragment.class.getName());
