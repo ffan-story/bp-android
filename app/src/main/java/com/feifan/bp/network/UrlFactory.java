@@ -69,14 +69,6 @@ public abstract class UrlFactory {
                 concat("&merchantId=").concat(userProfile.getAuthRangeId());
     }
 
-
-    public static String searchCodeForHtml() {
-        UserProfile userProfile = UserProfile.getInstance();
-        return urlForHtml(URL_PATH_SEARCH).
-                concat("&merchantId=").concat(userProfile.getAuthRangeId()).
-                concat("&signNo=").concat("%s");
-    }
-
     /**
      * 退款查询
      *

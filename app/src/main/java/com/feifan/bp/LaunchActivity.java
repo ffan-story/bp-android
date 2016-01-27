@@ -198,8 +198,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
             PlatformTopbarActivity.startActivity(this, ForgetPasswordFragment.class.getName());
         } else if (from.equals(IndexFragment.class.getName())) {
             if (to.equals(CodeScannerActivity.class.getName())) {
-                String mUrlStr = UrlFactory.searchCodeForHtml();
-                CodeScannerActivity.startActivityForResult(this, mUrlStr);
+                CodeScannerActivity.startActivityForResult(this, null);
                 //add by tianjun 2015.10.27
             } else if (to.equals(UserInfoFragment.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) {
