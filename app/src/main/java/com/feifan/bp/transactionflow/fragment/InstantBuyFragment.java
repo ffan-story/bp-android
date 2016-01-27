@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
@@ -275,6 +276,13 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
             } else if (t instanceof IOException
                     || t instanceof SocketException) {
                 errorInfo = Utils.getString(R.string.error_message_network);
+            }
+        }
+        if(errorInfo == null) {
+            if(error instanceof TimeoutError) {
+                errorInfo = Utils.getString(R.string.error_message_timeout);
+            }else {
+                errorInfo = Utils.getString(R.string.error_message_network_link);
             }
         }
         mDialog.setMessage(errorInfo)
