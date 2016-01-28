@@ -82,12 +82,19 @@ public class AuthSupplier {
          */
         String getCommodityManagerId();
 
+        /**
+         * 红包统计
+         * @return
+         */
         String getGraphChartId();
+
         /**
          * 获取营销管理ID
          * @return
          */
         String getMarketingManageId();
+
+        String getReportId();
     }
 
     /**
@@ -154,32 +161,25 @@ public class AuthSupplier {
         }
 
         @Override
-        public String getRefundId() {
-            return "1162";
-        }
+        public String getRefundId() { return "1162"; }
 
         @Override
-        public String getRefundRightId() {
-            return "1419";
-        }
+        public String getRefundRightId() { return "1419"; }
 
         @Override
-        public String getStoreAnalysisId() {
-            return "1445";
-        }
+        public String getStoreAnalysisId() { return "1445"; }
 
         @Override
-        public String getCommodityManagerId() {
-            return "1226";
-        }
+        public String getCommodityManagerId() { return "1226"; }
 
         @Override
         public String getGraphChartId() { return "1673"; }
 
         @Override
-        public String getMarketingManageId() {
-            return "1227";
-        }
+        public String getMarketingManageId() { return "1227"; }
+
+        @Override
+        public String getReportId() {  return "1333"; }
 
     }
 
@@ -196,7 +196,7 @@ public class AuthSupplier {
             mFilter.put(1082, R.mipmap.index_ic_marketing);// 营销管理
             mFilter.put(1145, R.mipmap.index_ic_report);   // 对账管理
             mFilter.put(1293, R.mipmap.index_ic_analysis); // 店铺分析
-            mFilter.put(1673, R.mipmap.index_ic_graphchart); // 营销分析
+            mFilter.put(1673, R.mipmap.index_ic_graphchart); //营销分析
         }
 
         @Override
@@ -269,6 +269,9 @@ public class AuthSupplier {
         public String getMarketingManageId() {
             return "1082";
         }
+        @Override
+        public String getReportId() {  return "1333"; }
+
     }
 
 }
