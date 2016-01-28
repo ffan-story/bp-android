@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * 红包分类汇总
  */
-//public class AlysisRedSubTotalListModel {
     public class AlysisRedSubTotalListModel extends BaseModel {
 
     public List<RedListModel> redList;

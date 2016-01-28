@@ -7,7 +7,6 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.LogUtil;
 
 /**
  * 闪购添加商品
