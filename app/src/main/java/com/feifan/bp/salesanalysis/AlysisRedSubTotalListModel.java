@@ -48,6 +48,7 @@ import java.util.List;
                 mRedModel.mStrRedFeifan = array.getJSONObject(i).optString("ffanAmount");
                 mRedModel.mStrRedThird = array.getJSONObject(i).optString("thirdAmount");
                 mRedModel.mStrRedVendor = array.getJSONObject(i).optString("merchantAmount");
+                mRedModel.mStride2ndRow = mStride2ndRow;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -62,5 +63,6 @@ import java.util.List;
         public String mStrRedFeifan;
         public String mStrRedThird;
         public String mStrRedVendor;
+        public String mStride2ndRow;
     }
 }

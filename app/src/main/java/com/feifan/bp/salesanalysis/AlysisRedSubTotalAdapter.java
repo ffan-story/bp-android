@@ -1,6 +1,7 @@
 package com.feifan.bp.salesanalysis;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,12 +60,20 @@ public class AlysisRedSubTotalAdapter extends BaseAdapter {
         holder.mTvSubsidyMoneyFf.setText(String.format(mContext.getString(R.string.instant_colon),
                 mContext.getString(R.string.anal_subsidy_item_money_ff),
                 Utils.formatMoney(mListSubTotal.get(position).mStrRedFeifan,2)));
-        holder.mTvSubsidyMoneyVendor.setText(String.format(mContext.getString(R.string.instant_colon),
-                mContext.getString(R.string.anal_subsidy_item_money_vendor),
-                Utils.formatMoney(mListSubTotal.get(position).mStrRedVendor,2)));
-        holder.mTvSubsidyMoneyThird.setText(String.format(mContext.getString(R.string.instant_colon),
-                mContext.getString(R.string.anal_subsidy_item_money_third),
-                Utils.formatMoney(mListSubTotal.get(position).mStrRedThird,2)));
+        if (!TextUtils.isEmpty(mListSubTotal.get(position).mStride2ndRow) && mListSubTotal.get(position).mStride2ndRow.equals("0")){
+            holder.mTvSubsidyMoneyThird.setVisibility(View.GONE);
+            holder.mTvSubsidyMoneyVendor.setVisibility(View.GONE);
+        }else{
+            holder.mTvSubsidyMoneyThird.setVisibility(View.VISIBLE);
+            holder.mTvSubsidyMoneyVendor.setVisibility(View.VISIBLE);
+            holder.mTvSubsidyMoneyVendor.setText(String.format(mContext.getString(R.string.instant_colon),
+                    mContext.getString(R.string.anal_subsidy_item_money_vendor),
+                    Utils.formatMoney(mListSubTotal.get(position).mStrRedVendor, 2)));
+            holder.mTvSubsidyMoneyThird.setText(String.format(mContext.getString(R.string.instant_colon),
+                    mContext.getString(R.string.anal_subsidy_item_money_third),
+                    Utils.formatMoney(mListSubTotal.get(position).mStrRedThird, 2)));
+        }
+
         return convertView;
     }
 

@@ -133,6 +133,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
 
     @Override
     protected void requestData() {
+
         setContentShown(true);
         pageIndex = 1;
         fetchGoodsListData(pageIndex,false);

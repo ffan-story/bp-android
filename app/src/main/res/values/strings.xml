@@ -401,9 +401,12 @@
     <string name="anal_subsidy_get_time">领券时间</string>
     <string name="anal_subsidy_end_time">有效期至</string>
     <string name="anal_subsidy_use_time">核销时间</string>
+    <string name="anal_subsidy_no_data">暂时没有红包数据</string>
+    <string name="anal_subsidy_no_detail_data">系统暂无数据，请返回修改查询条件后重试</string>
+
     <string name="two_line"> %1$s\n%2$s</string>
-    <string name="two_row_33_99"><![CDATA[<font color="#333333">%1$s</font><br><font color="#999999">%2$s</font>]]></string>
-    <string name="two_row_red_99"><![CDATA[<font color="#E11212">%1$s</font><br><font color="#999999">%2$s</font>]]></string>
+    <string name="two_row_33_99"><![CDATA[<font color="#333333">%1$s</font><br><small><font color="#999999" size=12sp>%2$s</font></small>]]></string>
+    <string name="two_row_red_99"><![CDATA[<font color="#E11212">%1$s</font><br><small><font color="#999999" size=12sp>%2$s</font></small>]]></string>
     <string name="anal_remote">摇一摇</string>
 </resources>
 

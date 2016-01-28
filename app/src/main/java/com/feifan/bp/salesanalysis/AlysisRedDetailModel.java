@@ -12,8 +12,7 @@ import java.util.List;
 /**
  * 红包核销明细
  */
-//public class AlysisRedDetailModel{
-   public class AlysisRedDetailModel extends BaseModel {
+public class AlysisRedDetailModel extends BaseModel {
 
     public List<RedDetailModel> redDetailList;
     public String mStrRedTitle;

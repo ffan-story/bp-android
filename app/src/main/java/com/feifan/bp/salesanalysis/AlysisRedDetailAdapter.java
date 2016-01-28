@@ -34,6 +34,12 @@ public class AlysisRedDetailAdapter extends RecyclerView.Adapter<AlysisRedDetail
         return new ViewHolder(view);
     }
 
+    public void notifyData(List<AlysisRedDetailModel.RedDetailModel> items) {
+        int previousDataSize = this.mRedDetailsData.size();
+        this.mRedDetailsData.addAll(items);
+        notifyItemRangeInserted(previousDataSize, items.size());
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         AlysisRedDetailModel.RedDetailModel redDetailsData = mRedDetailsData.get(position);

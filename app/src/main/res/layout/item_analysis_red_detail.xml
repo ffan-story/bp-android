@@ -18,7 +18,7 @@
 
         <TextView
             android:id="@+id/tv_anal_red_status"
-            style="@style/txt_color33_size14"
+            style="@style/txt_color99_size14"
             android:layout_alignParentRight="true" />
 
         <TextView

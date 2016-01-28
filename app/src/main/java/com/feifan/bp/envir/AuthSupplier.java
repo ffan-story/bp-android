@@ -81,6 +81,8 @@ public class AuthSupplier {
          * @return
          */
         String getCommodityManagerId();
+
+        String getGraphChartId();
     }
 
     /**
@@ -99,6 +101,7 @@ public class AuthSupplier {
             mFilter.put(1227, R.mipmap.index_ic_marketing);// 营销管理
             mFilter.put(1333, R.mipmap.index_ic_report);   // 对账管理
             mFilter.put(1445, R.mipmap.index_ic_analysis); // 店铺分析
+            mFilter.put(1673, R.mipmap.index_ic_graphchart); // 营销分析
         }
 
         @Override
@@ -165,6 +168,9 @@ public class AuthSupplier {
             return "1226";
         }
 
+        @Override
+        public String getGraphChartId() { return "1673"; }
+
     }
 
     static class ProductAuthFactory implements IAuthFactory {
@@ -180,6 +186,7 @@ public class AuthSupplier {
             mFilter.put(1082, R.mipmap.index_ic_marketing);// 营销管理
             mFilter.put(1145, R.mipmap.index_ic_report);   // 对账管理
             mFilter.put(1293, R.mipmap.index_ic_analysis); // 店铺分析
+            mFilter.put(1673, R.mipmap.index_ic_graphchart); // 营销分析
         }
 
         @Override
@@ -244,6 +251,9 @@ public class AuthSupplier {
         public String getCommodityManagerId() {
             return "1081";
         }
+
+        @Override
+        public String getGraphChartId() { return "1673"; }
     }
 
 }

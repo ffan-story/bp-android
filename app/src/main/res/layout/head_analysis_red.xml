@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        style="@style/txt_color33_size14"
+        style="@style/txt_color33_size16"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/view_spacing_10"
         android:background="@color/white"
@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/anal_tv_charge_off_total"
-            style="@style/txt_color33_size14"
+            style="@style/txt_color33_size18"
             android:layout_marginLeft="@dimen/view_spacing_10"
             android:lineSpacingExtra="@dimen/view_size_5"
             android:layout_centerVertical="true"/>
@@ -45,7 +45,7 @@
 
         <TextView
             android:id="@+id/anal_tv_subsidy_money_ff"
-            style="@style/txt_color33_size14"
+            style="@style/txt_color33_size18"
             android:layout_marginLeft="@dimen/view_spacing_10"
             android:layout_toRightOf="@id/line1"
             android:lineSpacingExtra="@dimen/view_size_5"
@@ -69,7 +69,7 @@
 
         <TextView
             android:id="@+id/anal_tv_subsidy_money_third"
-            style="@style/txt_color33_size14"
+            style="@style/txt_color33_size18"
             android:layout_marginLeft="@dimen/view_spacing_10"
             android:lineSpacingExtra="@dimen/view_size_5"
             android:layout_centerVertical="true"/>
@@ -86,7 +86,7 @@
 
         <TextView
             android:id="@+id/anal_tv_subsidy_money_vendor"
-            style="@style/txt_color33_size14"
+            style="@style/txt_color33_size18"
             android:layout_marginLeft="@dimen/view_spacing_10"
             android:layout_toRightOf="@id/line"
             android:lineSpacingExtra="@dimen/view_size_5"
@@ -101,10 +101,18 @@
         android:focusable="false" />
 
     <TextView
-        style="@style/txt_color33_size14"
+        style="@style/txt_color33_size16"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/view_spacing_10"
         android:background="@color/white"
         android:padding="@dimen/view_spacing_10"
         android:text="@string/anal_red_sub_total" />
+
+
+    <TextView
+        android:id="@+id/no_data_view"
+        style="@style/txt_color99_size16"
+        android:paddingLeft="@dimen/view_spacing_8"
+        android:layout_margin="@dimen/view_spacing_10"
+        android:text="@string/anal_subsidy_no_data"/>
 </LinearLayout>

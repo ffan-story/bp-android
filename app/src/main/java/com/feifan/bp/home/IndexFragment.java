@@ -405,6 +405,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                     case 1445:
                                         FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STOREANA);
                                         break;// 店铺分析
+                                    case 1673:
+                                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_PROMTION_ANA);
+                                        break;// 统计分析
                                 }
                                 if (EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id) != -1 && EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id) != -1) {
                                     String titleName = "";
@@ -434,11 +437,14 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                             .build();
                                     Intent intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.index_commodity_text), fragmentArgs);
                                     startActivity(intent);
-                                }
-                                else if (item.id == 1227) {
+                                } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getGraphChartId())) {
                                     Bundle args = new Bundle();
                                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-                                    //args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, SaleAlysFrag.class.getName());
+                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, SaleAlysFrag.class.getName());
+                                    mListener.onFragmentInteraction(args);
+                                }else if (item.id == 1227) {
+                                    Bundle args = new Bundle();
+                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
                                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, IndexSalesManageFragment.class.getName());
                                     mListener.onFragmentInteraction(args);
                                 } else {

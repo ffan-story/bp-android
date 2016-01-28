@@ -163,7 +163,7 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
                 errorInfo = Utils.getString(R.string.error_message_network);
             }
         }
-        if("message".equals(errorInfo)){
+        if("message".equals(errorInfo.trim())){
             errorInfo = Utils.getString(R.string.error_message_server_file);
         }
         mDialog.setMessage(errorInfo)

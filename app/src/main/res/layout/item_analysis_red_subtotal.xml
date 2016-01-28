@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/tv_anal_charge_off_count"
-                style="@style/txt_color33_size14"
+                style="@style/txt_color33_size12"
                 android:layout_width="match_parent"
                 android:paddingBottom="@dimen/view_spacing_10"
                 android:paddingLeft="@dimen/view_spacing_10" />
@@ -43,6 +43,7 @@
             <TextView
                 android:id="@+id/tv_anal_subsidy_money_vendor"
                 style="@style/txt_color_blue_size14"
+                android:textSize="@dimen/font_size_12"
                 android:layout_width="match_parent"
                 android:paddingBottom="@dimen/view_spacing_10"
                 android:paddingLeft="@dimen/view_spacing_10" />
@@ -59,14 +60,16 @@
                 style="@style/txt_color_blue_size14"
                 android:layout_width="match_parent"
                 android:paddingBottom="@dimen/view_spacing_10"
-                android:paddingLeft="@dimen/view_spacing_10" />
+                android:paddingLeft="@dimen/view_spacing_10"
+                android:textSize="@dimen/font_size_12"/>
 
             <TextView
                 android:id="@+id/tv_anal_subsidy_money_third"
                 style="@style/txt_color_blue_size14"
                 android:layout_width="match_parent"
                 android:paddingBottom="@dimen/view_spacing_10"
-                android:paddingLeft="@dimen/view_spacing_10"/>
+                android:paddingLeft="@dimen/view_spacing_10"
+                android:textSize="@dimen/font_size_12"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

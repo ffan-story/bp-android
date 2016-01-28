@@ -20,11 +20,12 @@ public class AlysisCtrl {
      * @param edate
      * @param listener
      * ?action=collect
+     * "10007505"
      *  UserProfile.getInstance().getAuthRangeId()
      */
     public static void getRedTypeList(String sdate, String edate, Listener listener) {
         JsonRequest<AlysisRedSubTotalListModel> request = new GetRequest.Builder<AlysisRedSubTotalListModel>(UrlFactory.getAnalysisRedList())
-                .param("storeId","10007505")
+                .param("storeId",UserProfile.getInstance().getAuthRangeId())
                 .param("sdate", sdate)
                 .param("edate", edate)
                 .build()
@@ -44,9 +45,8 @@ public class AlysisCtrl {
      * UserProfile.getInstance().getAuthRangeId()
      */
      public static void getRedTypeListDetail(String couponId,String sdate, String edate, String beginKey,Listener listener) {
-         LogUtil.i("congjing","couponId===="+couponId);
         JsonRequest<AlysisRedDetailModel> request = new GetRequest.Builder<AlysisRedDetailModel>(UrlFactory.getAnalysisRedListDetail())
-                .param("storeId", "10007505")
+                .param("storeId",UserProfile.getInstance().getAuthRangeId())
                 .param("sdate", sdate)
                 .param("edate",edate)
                 .param("limit",Constants.LIST_LIMIT)

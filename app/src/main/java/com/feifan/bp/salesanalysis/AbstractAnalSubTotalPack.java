@@ -1,23 +1,24 @@
 package com.feifan.bp.salesanalysis;
 
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.feifan.bp.PlatformTabActivity;
-import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.util.TimeUtil;
-import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
 import java.util.Calendar;
@@ -27,13 +28,14 @@ import java.util.Calendar;
  * Created by apple on 16-1-21.
  */
 public abstract class AbstractAnalSubTotalPack extends ProgressFragment implements RadioGroup.OnCheckedChangeListener
+        , SwipeRefreshLayout.OnRefreshListener
         , MenuItem.OnMenuItemClickListener
         , PlatformTabActivity.onPageSelectListener
         , DatePickerDialog.OnDateSetListener{
 
     public  TextView mTvNoData;
     public SwipeRefreshLayout mSRL;
-    public LoadingMoreListView load;
+    public ListView mLvSubTotal;
     public SegmentedGroup segmentedGroup;
 
     private RadioButton  mRdbToday,mRdbYesterday,mRdbCustom;
@@ -41,8 +43,10 @@ public abstract class AbstractAnalSubTotalPack extends ProgressFragment implemen
     private int tabIndex;
     public RelativeLayout mRel2Row;
     public TextView mTvChargeOffTotal,mTvSubsidyMoneyFf,mTvSubsidyMoneyThird,mTvSubsidyMoneyVendor;
-    private String mStrFromDate;
-    private String mStrToDate;
+    private String mStrStarDate;
+    private String mStrEndDate;
+
+    public LinearLayout noNet ;
 
     public abstract void myRequestData(String sDate, String eDate);
     public abstract void mItemClick(int position);
@@ -61,20 +65,29 @@ public abstract class AbstractAnalSubTotalPack extends ProgressFragment implemen
                 initDialog();
             }
         });
-        mTvNoData =(TextView) v.findViewById(R.id.tv_no_data);
+
         mSRL = (SwipeRefreshLayout)v.findViewById(R.id.swipe_coupon_list);
-        load = (LoadingMoreListView) v.findViewById(R.id.more_list);
+        mLvSubTotal = (ListView) v.findViewById(R.id.more_list);
         mRedTvQueryTime = (TextView)v.findViewById(R.id.red_tv_query_time);
+        mSRL.setOnRefreshListener(this);
+        noNet = (LinearLayout)v.findViewById(R.id.no_net);
+        noNet.findViewById(R.id.btn_retry).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestData();
+            }
+        });
 
         View header = View.inflate(getActivity(),R.layout.head_analysis_red,null);
         mTvChargeOffTotal= (TextView)header.findViewById(R.id.anal_tv_charge_off_total);
         mTvSubsidyMoneyFf=  (TextView)header.findViewById(R.id.anal_tv_subsidy_money_ff);
+        mTvNoData =(TextView) header.findViewById(R.id.no_data_view);
         mRel2Row = (RelativeLayout)header.findViewById(R.id.rel_2row);
         mTvSubsidyMoneyThird = (TextView)mRel2Row.findViewById(R.id.anal_tv_subsidy_money_third);
         mTvSubsidyMoneyVendor = (TextView)mRel2Row.findViewById(R.id.anal_tv_subsidy_money_vendor);
-        load.addHeaderView(header);
+        mLvSubTotal.addHeaderView(header);
         initData();
-        load.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mLvSubTotal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mItemClick(position);
@@ -92,8 +105,24 @@ public abstract class AbstractAnalSubTotalPack extends ProgressFragment implemen
 
     @Override
     protected void requestData() {
+        if (!isAdded()){
+            return;
+        }
+
         setContentShown(true);
-        myRequestData(TimeUtil.getToday(), TimeUtil.getYesterday());
+        if (Utils.isNetworkAvailable(getActivity())){
+            noNet.setVisibility(View.GONE);
+            mTvNoData.setVisibility(View.GONE);
+            mSRL.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(mStrStarDate) && !TextUtils.isEmpty(mStrEndDate)){
+                myRequestData(mStrStarDate, mStrEndDate);
+            }
+        } else{
+            mSRL.setVisibility(View.GONE);
+            noNet.setVisibility(View.VISIBLE);
+            mTvNoData.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -106,11 +135,15 @@ public abstract class AbstractAnalSubTotalPack extends ProgressFragment implemen
         switch (checkedId){
             case R.id.red_rdb_today://今天
                 tabIndex = R.id.red_rdb_today;
-                myRequestData(TimeUtil.getToday(),TimeUtil.getTomorrowday());
+                mStrStarDate =TimeUtil.getToday();
+                mStrEndDate = TimeUtil.getTomorrowday();
+                myRequestData(mStrStarDate, mStrEndDate);
                 break;
             case R.id.red_rdb_yesterday://昨天
                 tabIndex = R.id.red_rdb_yesterday;
-                myRequestData(TimeUtil.getYesterday(), TimeUtil.getToday());
+                mStrStarDate =TimeUtil.getYesterday();
+                mStrEndDate = TimeUtil.getToday();
+                myRequestData(mStrStarDate, mStrEndDate);
                 break;
             case R.id.red_rdb_custom://自定义
                 tabIndex = R.id.red_rdb_custom;
@@ -143,12 +176,9 @@ public abstract class AbstractAnalSubTotalPack extends ProgressFragment implemen
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
-
-        mStrFromDate = year + "-" + DataFormat(monthOfYear + 1) + "-" + DataFormat(dayOfMonth);
-
-        mStrToDate = yearEnd + "-" + DataFormat(monthOfYearEnd + 1) + "-" + DataFormat(dayOfMonthEnd);
-
-        myRequestData(mStrFromDate,TimeUtil.getAddOneDay(mStrToDate));
+        mStrStarDate = year + "-" + DataFormat(monthOfYear + 1) + "-" + DataFormat(dayOfMonth);
+        mStrEndDate = TimeUtil.getAddOneDay(yearEnd + "-" + DataFormat(monthOfYearEnd + 1) + "-" + DataFormat(dayOfMonthEnd));
+        myRequestData(mStrStarDate, mStrEndDate);
     }
 
     private void setTabFocus(int tabIndex) {

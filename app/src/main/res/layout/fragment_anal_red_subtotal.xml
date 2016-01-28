@@ -3,7 +3,8 @@
     xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/bg_color_gray_f3">
 
     <com.feifan.bp.widget.SegmentedGroup
         android:id="@+id/red_segmentedGroup"
@@ -58,22 +59,16 @@
         android:id="@+id/swipe_coupon_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
-        <com.feifan.bp.widget.LoadingMoreListView
+        <ListView
             android:id="@+id/more_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none">
-
-        </com.feifan.bp.widget.LoadingMoreListView>
-
+            android:dividerHeight="@dimen/dividerheight"
+            android:headerDividersEnabled="false"
+            android:divider="@color/divider"
+            android:scrollbars="none"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <TextView
-        android:id="@+id/tv_no_data"
-        style="@style/txt_color33_size14"
-        android:layout_margin="@dimen/view_spacing_10"
-        android:text="暂无数据~" />
+    <include layout="@layout/layout_no_net" android:id="@+id/no_net"/>
 
 </LinearLayout>

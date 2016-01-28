@@ -11,14 +11,19 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
-import com.feifan.bp.PlatformTabActivity;
+import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.widget.paginate.Paginate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
@@ -30,22 +35,32 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
     public static final String EXTRA_CHARGE_OFF_ID="charge_off_id";
     public static final String EXTRA_CHARGE_OFF_START_TIME="charge_off_start_time";
     public static final String EXTRA_CHARGE_OFF_END_TIME="charge_off_end_time";
+    public static final String EXTRA_CHARGE_OFF_END_NAME="red_name";
+    public static final String EXTRA_CHARGE_OFF_END_COUNT="red_count";
 
     SwipeRefreshLayout mSwipeLayout;
     RecyclerView mRecyclerView;
     private TextView mTvRedName,mTvRedChargeOffTotal;
+    private TextView mTvNoData;
     private AlysisRedDetailAdapter mRedDetaAdap;
     private String mCouponId;
     private String mSDate,mEDate;
+    private Paginate paginate;
+    private String mSRedName,mERedCount;
 
     private String mBeginKey = "";
-
+    private boolean loading = false;
+    public List<AlysisRedDetailModel.RedDetailModel> mListRedDetail;
+    private int mRequestDataSize = 0;
+    private LinearLayout lineNoNet;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCouponId = getArguments().getString(EXTRA_CHARGE_OFF_ID);
         mSDate = getArguments().getString(EXTRA_CHARGE_OFF_START_TIME);
         mEDate = getArguments().getString(EXTRA_CHARGE_OFF_END_TIME);
+        mSRedName = getArguments().getString(EXTRA_CHARGE_OFF_END_NAME);
+        mERedCount = getArguments().getString(EXTRA_CHARGE_OFF_END_COUNT);
     }
 
     @Override
@@ -61,9 +76,22 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         mRecyclerView.setItemAnimator(new SlideInUpAnimator());
         mSwipeLayout.setColorSchemeResources(R.color.accent);
         mSwipeLayout.setOnRefreshListener(this);
-
         mTvRedName = (TextView)v.findViewById(R.id.tv_name);
         mTvRedChargeOffTotal = (TextView)v.findViewById(R.id.tv_charge_off_count);
+        if (!TextUtils.isEmpty(mSRedName)){
+            mTvRedName.setText(mSRedName);
+        }
+        if (!TextUtils.isEmpty(mERedCount)){
+            mTvRedChargeOffTotal.setText(mERedCount);
+        }
+        mTvNoData = (TextView)v.findViewById(R.id.anal_tv_detail_no_data);
+        lineNoNet = (LinearLayout) v.findViewById(R.id.no_net);
+        lineNoNet.findViewById(R.id.btn_retry).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestData();
+            }
+        });
 
         getToolbar().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,31 +99,92 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
                 requestData();
             }
         });
-
         return v;
     }
 
     @Override
     protected void requestData() {
+        if (!isAdded()){
+            return;
+        }
         setContentShown(true);
+        if (Utils.isNetworkAvailable(getActivity())){
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mSwipeLayout.setVisibility(View.VISIBLE);
+            mTvNoData.setVisibility(View.GONE);
+            lineNoNet.setVisibility(View.GONE);
+            fetchData(false);
+        }else{
+            mRecyclerView.setVisibility(View.GONE);
+            mTvNoData.setVisibility(View.GONE);
+            mSwipeLayout.setVisibility(View.GONE);
+            lineNoNet.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 获取网络数据
+     * @param isLoadMore
+     */
+    private void fetchData(final boolean isLoadMore){
+        setContentShown(true);
+        if (!isAdded()) {
+            return;
+        }
+
+        if (loading && !isLoadMore) {
+            setContentShown(false);
+        }
+
         AlysisCtrl.getRedTypeListDetail(mCouponId, mSDate, mEDate,mBeginKey, new Response.Listener<AlysisRedDetailModel>() {
             @Override
             public void onResponse(AlysisRedDetailModel redDetailModel) {
-                setPageData(redDetailModel);
+                loading = false;
+                setPageData(redDetailModel,isLoadMore);
             }
         });
     }
 
-    public void setPageData(AlysisRedDetailModel redDetailModel){
+    /**
+     * UI设置数据
+     * @param redDetailModel
+     * @param isLoadMore
+     */
+    public void setPageData(AlysisRedDetailModel redDetailModel,boolean isLoadMore){
+        mListRedDetail =redDetailModel.redDetailList;
+        mRequestDataSize = mListRedDetail.size();
+        mBeginKey = redDetailModel.mStrBeginKey;
         mTvRedName.setText(redDetailModel.mStrRedTitle);
         mTvRedChargeOffTotal.setText(redDetailModel.mStrRedTotal);
-        mBeginKey = redDetailModel.mStrBeginKey;
 
-        if (null != redDetailModel.redDetailList && redDetailModel.redDetailList.size()>0){
-            mRedDetaAdap = new AlysisRedDetailAdapter(getActivity(), redDetailModel.redDetailList);
-            mRecyclerView.setAdapter(mRedDetaAdap);
+        if (null == redDetailModel.redDetailList || redDetailModel.redDetailList.size()<=0){
+            mSwipeLayout.setVisibility(View.GONE);
+            mTvNoData.setVisibility(View.VISIBLE);
+            return;
+        }else{
+            mSwipeLayout.setVisibility(View.VISIBLE);
+            mTvNoData.setVisibility(View.GONE);
         }
+        if (!isLoadMore) {
+            setContentShown(true);
+        }
+
+        if (isLoadMore) {
+            if (mRedDetaAdap != null) {
+                mRedDetaAdap.notifyData(mListRedDetail);
+            }
+        } else {
+            mRedDetaAdap =  new AlysisRedDetailAdapter(getActivity(), mListRedDetail);
+            mRecyclerView.setAdapter(mRedDetaAdap);
+            paginate = Paginate.with(mRecyclerView, AnalRedDetailFrag.this)
+                    .setLoadingTriggerThreshold(0)
+                    .addLoadingListItem(true)
+                    .build();
+        }
+        stopRefresh();
+        paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
     }
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;
@@ -103,22 +192,30 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
 
     @Override
     public void onLoadMore() {
-
+        loading = true;
+        fetchData(true);
     }
 
     @Override
     public boolean isLoading() {
-        return false;
+        return loading;
     }
 
     @Override
     public boolean hasLoadedAllItems() {
-        return !TextUtils.isEmpty(mBeginKey);
+        return !(mRequestDataSize== Integer.parseInt(Constants.LIST_LIMIT));
     }
 
     @Override
     public void onRefresh() {
+        mListRedDetail = new ArrayList<>();
+        requestData();
+    }
 
+    private void stopRefresh() {
+        if (mSwipeLayout.isRefreshing()) {
+            mSwipeLayout.setRefreshing(false);
+        }
     }
 
     protected Toolbar getToolbar() {
