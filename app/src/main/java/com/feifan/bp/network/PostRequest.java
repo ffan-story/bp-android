@@ -13,7 +13,7 @@ import java.util.Map;
  * POST请求
  * Created by xuchunlei on 15/10/26.
  */
-public class PostRequest<T extends BaseModel> extends JsonRequest<T> {
+    public class PostRequest<T extends BaseModel> extends JsonRequest<T> {
 
     private Map<String, String> mParams = new HashMap<>();
 

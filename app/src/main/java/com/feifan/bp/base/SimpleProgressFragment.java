@@ -1,6 +1,5 @@
 package com.feifan.bp.base;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.view.MenuItem;

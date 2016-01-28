@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
+import android.webkit.WebView;
 
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.statlib.FmsConstants;
@@ -34,6 +36,11 @@ public class PlatformApplication extends Application {
         UserProfile.getInstance().initialize(this);
         JsonRequest.updateRedundantParams(UserProfile.getInstance());
         Statistics.updateClientData(UserProfile.getInstance());
+
+        // 允许WebView进行调试
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
     }
 
     @Override

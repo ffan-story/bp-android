@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:background="@color/white">
+
+    <CheckBox
+        android:id="@+id/check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/view_spacing_20"
+        android:button="@null"
+        android:checked="false"
+        android:background="@drawable/bg_cb_product"
+        android:drawablePadding="@dimen/view_spacing_5"
+        android:focusable="false"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_goods"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/check"
+        android:layout_marginLeft="@dimen/view_spacing_15">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="哈密瓜顿4存蛋糕蓝莓味"
+                android:textColor="@color/font_color_33"
+                android:textSize="@dimen/font_size_16"/>
+
+            <TextView
+                android:id="@+id/tv_product_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_spacing_10"
+                android:text="状态:未提交"
+                android:textColor="@color/font_color_99"
+                android:textSize="@dimen/font_size_12"/>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@mipmap/icon_bcome"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/divider"/>
+
+    </RelativeLayout>
+</RelativeLayout>

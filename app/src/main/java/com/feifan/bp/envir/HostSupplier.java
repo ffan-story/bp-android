@@ -67,7 +67,6 @@ public class HostSupplier {
             return "http://api.sit.ffan.com/mapp/".concat(VERSION).concat("/");
         }
 
-
         @Override
         public String getFFanH5Host() {
             return "http://sop.sit.ffan.com/";
@@ -86,17 +85,17 @@ public class HostSupplier {
 
         @Override
         public String getXadminApiPrefix() {
-            return null;
+            return "http://api.pre.ffan.com/xadmin/";
         }
 
         @Override
         public String getFFanApiPrefix() {
-            return null;
+            return "http://api.pre.ffan.com/ffan/".concat(VERSION).concat("/");
         }
 
         @Override
         public String getMAppApiPrefix() {
-            return null;
+            return "http://api.pre.ffan.com/mapp/".concat(VERSION).concat("/");
         }
 
         @Override
@@ -106,7 +105,7 @@ public class HostSupplier {
 
         @Override
         public String getFFanApiV1Host() {
-            return "https://api.ffan.com/";
+            return "https://api.pre.ffan.com/v1/";
         }
     }
 

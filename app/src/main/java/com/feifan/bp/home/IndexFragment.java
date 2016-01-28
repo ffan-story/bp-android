@@ -38,12 +38,15 @@ import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.home.code.CodeQueryResultFragment;
 import com.feifan.bp.browser.SimpleBrowserFragment;
+import com.feifan.bp.home.commoditymanager.BrandFragment;
+import com.feifan.bp.home.commoditymanager.InstantsBuyFragment;
 import com.feifan.bp.home.storeanalysis.visitorsAnalysisFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerTextView;
 import com.feifan.statlib.FmsAgent;
@@ -93,7 +96,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
-        getToolbar().setVisibility(View.GONE);
+//        getToolbar().setVisibility(View.GONE);
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
@@ -239,14 +242,11 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     Toast.makeText(getActivity().getApplicationContext(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String urlStr = UrlFactory.searchCodeForHtml();
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CodeScannerActivity.class.getName());
-                args.putString(CodeScannerActivity.INTERATION_KEY_URL, urlStr);
                 break;
             case R.id.login_info_icon:
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, UserInfoFragment.class.getName());
                 break;
-
             case R.id.index_history:
                 //统计埋点  验证历史
                 FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_VERIFY);
@@ -321,11 +321,15 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void refreshRefund() {
-        int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
-        if (PlatformState.getInstance().getUnreadStatus(refundId)) {
-            mRefundMenu.showBadger();
-        } else {
-            mRefundMenu.hideBadger();
+        if(mRefundMenu != null) {
+            if (!TextUtils.isEmpty(EnvironmentManager.getAuthFactory().getRefundId())){
+                int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
+                if (PlatformState.getInstance().getUnreadStatus(refundId)) {
+                    mRefundMenu.showBadger();
+                } else {
+                    mRefundMenu.hideBadger();
+                }
+            }
         }
     }
 
@@ -378,7 +382,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                             String url = UrlFactory.urlForHtml(item.url);
                             if (Utils.isNetworkAvailable(getContext())) {
                                 //统计埋点
-                                switch (item.id){
+                                switch (item.id) {
                                     case 1142:
                                         FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_ORDERMANA);
                                         break;// 订单管理
@@ -417,9 +421,24 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                             .addFragment(visitorsAnalysisFragment.class.getName(), "访客分析")
                                             .addArgument(visitorsAnalysisFragment.class.getName(), visitorsAnalysisFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
                                             .build();
-
                                     Intent intent = PlatformTabActivity.buildIntent(getContext(), "店铺分析", fragmentArgs);
                                     startActivity(intent);
+                                }
+                                else if(item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getCommodityManagerId())){//TODO 跳转到商品管理页面
+                                    Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
+                                            .addFragment(InstantsBuyFragment.class.getName(), getString(R.string.commodity_instants_buy))
+                                            .addArgument(InstantsBuyFragment.class.getName(), InstantsBuyFragment.EXTRA_KEY_URL,UrlFactory.storeOverviewForHtml())
+                                            .addFragment(BrandFragment.class.getName(), getString(R.string.commodity_brand))
+                                            .addArgument(BrandFragment.class.getName(), BrandFragment.EXTRA_KEY_URL,UrlFactory.visitorsAnalysisForHtml())
+                                            .build();
+                                    Intent intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.index_commodity_text), fragmentArgs);
+                                    startActivity(intent);
+                                }
+                                else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getMarketingManageId())) {
+                                    Bundle args = new Bundle();
+                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
+                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, IndexSalesManageFragment.class.getName());
+                                    mListener.onFragmentInteraction(args);
                                 } else {
                                     BrowserActivity.startActivity(getContext(), url);
                                 }

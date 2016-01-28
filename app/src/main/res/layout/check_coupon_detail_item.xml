@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_color_gray_f3"
+    android:paddingTop="@dimen/view_spacing_15"
+    android:paddingLeft="@dimen/view_spacing_10"
+    android:paddingRight="@dimen/view_spacing_10">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/view_size_5"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/view_spacing_15"
+            android:paddingBottom="@dimen/view_spacing_15">
+
+            <RelativeLayout
+                android:id="@+id/coupon_code_continer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/txt_color99_size14"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/view_spacing_15"
+                    android:text="@string/coupon_code"/>
+
+                <TextView
+                    android:id="@+id/coupon_code"
+                    style="@style/txt_color33_size16"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/view_spacing_25"
+                    android:text="--"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/coupon_name_continer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_spacing_5"
+                android:layout_below="@id/coupon_code_continer">
+
+                <TextView
+                    style="@style/txt_color99_size14"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/view_spacing_15"
+                    android:text="@string/coupon_name"/>
+
+                <TextView
+                    android:id="@+id/coupon_name"
+                    style="@style/txt_color33_size16"
+                    android:layout_alignParentRight="true"
+                    android:maxLines="2"
+                    android:maxEms="13"
+                    android:ellipsize="end"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/view_spacing_25"
+                    android:text="--"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/coupon_award_money_continer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_spacing_5"
+                android:layout_below="@id/coupon_name_continer">
+
+                <TextView
+                    style="@style/txt_color99_size14"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/view_spacing_15"
+                    android:text="@string/coupon_award_amount"/>
+
+                <TextView
+                    android:id="@+id/coupon_award_money"
+                    style="@style/TransactionFlowMoney"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/font_size_16"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/view_spacing_25"
+                    android:text="--"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/coupon_award_time_continer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_spacing_5"
+                android:layout_below="@id/coupon_award_money_continer">
+
+                <TextView
+                    style="@style/txt_color99_size14"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/view_spacing_15"
+                    android:text="@string/chargeoff_time"/>
+
+                <TextView
+                    android:id="@+id/chargeoff_time"
+                    style="@style/txt_color33_size16"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/view_spacing_25"
+                    android:text="--"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

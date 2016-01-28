@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
     package="com.feifan.bp"
-    android:versionCode="8"
-    android:versionName="1.5.2">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="9"
+    android:versionName="1.6.0">
 
     <uses-sdk
         android:minSdkVersion="15"
-        android:targetSdkVersion="22" />
+        android:targetSdkVersion="22"/>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
 
     <application
@@ -35,8 +36,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/SplashStyle">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -66,13 +67,14 @@
 
         <activity
             android:name="com.feifan.croplib.CropImageActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".PlatformTopbarActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".PlatformTabActivity"
+        <activity
+            android:name=".PlatformTabActivity"
             android:screenOrientation="portrait"/>
 
         <activity
@@ -81,8 +83,18 @@
             android:screenOrientation="portrait">
         </activity>
 
-        <meta-data android:name="UMENG_APPKEY" android:value="${UMENG_APPKEY_VALUE}" />
-        <meta-data android:name="UMENG_CHANNEL" android:value="pgyer" />
+        <activity
+            android:name=".salesmanagement.RegisterDetailActivity"
+            android:label=" "
+            android:screenOrientation="portrait">
+        </activity>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="${UMENG_APPKEY_VALUE}"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="pgyer"/>
     </application>
 
 </manifest>

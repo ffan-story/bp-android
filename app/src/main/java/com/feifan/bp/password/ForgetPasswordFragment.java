@@ -1,8 +1,6 @@
 package com.feifan.bp.password;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -13,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.Response.Listener;
-import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
@@ -22,17 +20,11 @@ import com.feifan.bp.util.SecureUtil;
 import com.feifan.bp.widget.CountDownButton;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ForgetPasswordFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * 忘记密码界面
+ *
  */
 public class ForgetPasswordFragment extends BaseFragment implements View.OnClickListener {
 
-
-    private OnFragmentInteractionListener mListener;
     private EditText mPhoneNum;
     private EditText mSmsCode;
     private CountDownButton mCountDownButton;
@@ -41,19 +33,10 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
     String mKeyCode;
     String mRadomSmsCode = "";
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment ForgetPasswordFragment.
-     */
-    public static ForgetPasswordFragment newInstance() {
-        ForgetPasswordFragment fragment = new ForgetPasswordFragment();
-        return fragment;
-    }
-
     public ForgetPasswordFragment() {
-
+        Bundle args = new Bundle();
+        args.putString(Constants.EXTRA_KEY_TITLE, Utils.getString(R.string.reset_password));
+        setArguments(args);
     }
 
     @Override
@@ -88,24 +71,6 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
-    @Override
     public void onClick(View view) {
         final String phone = mPhoneNum.getText().toString();
         String smsCode = mSmsCode.getText().toString();
@@ -137,8 +102,10 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                 PasswordCtrl.forgetPassword(newPhone, mAuthCode, mKeyCode, new Listener() {
                     @Override
                     public void onResponse(Object o) {
-                        Utils.showShortToast(getActivity().getApplicationContext(), getString(R.string.new_password_sended));
-                        getActivity().onBackPressed();
+                        if (isAdded()) {
+                            Utils.showShortToast(getActivity(), getString(R.string.new_password_sended));
+                            getActivity().finish();
+                        }
                     }
                 });
                 break;

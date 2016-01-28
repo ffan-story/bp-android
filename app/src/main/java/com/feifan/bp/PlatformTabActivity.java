@@ -9,14 +9,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.browser.BrowserFragment;
-import com.feifan.bp.widget.WebViewPager;
+import com.feifan.bp.widget.CustomViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +35,6 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
      * 参数键值－fragments
      */
     public static final String EXTRA_KEY_FRAGMENTS = "fragments";
-    /**
-     * 参数键值－title
-     */
-    public static final String EXTRA_KEY_TITLE = "title";
 
     /**
      * 固定模式时最大显示的Tab数，超过这个数字后使用滚动模式
@@ -74,7 +68,7 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         if (fragments != null) {
             intent.putExtra(EXTRA_KEY_FRAGMENTS, fragments);
         }
-        intent.putExtra(EXTRA_KEY_TITLE, title);
+        intent.putExtra(Constants.EXTRA_KEY_TITLE, title);
         return intent;
     }
 
@@ -88,14 +82,16 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         // 初始化标题栏
         mToolbar = (Toolbar) findViewById(R.id.tab_header);
         mCenterTitle = (TextView) mToolbar.findViewById(R.id.header_center_title);
-        mCenterTitle.setText(getIntent().getStringExtra(EXTRA_KEY_TITLE));
+        mCenterTitle.setText(getIntent().getStringExtra(Constants.EXTRA_KEY_TITLE));
         setSupportActionBar(mToolbar);//作为ActionBar使用，支持加载Menu
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         initHeader(mToolbar);
 
+        setupToolBar(mToolbar);
+
         // 初始化Tab
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_bar);
-        WebViewPager pager = (WebViewPager) findViewById(R.id.tab_pager);
+        CustomViewPager pager = (CustomViewPager) findViewById(R.id.tab_pager);
         pager.setOffscreenPageLimit(1);
         mAdapter = createAdapter(args);
         pager.setAdapter(mAdapter);
@@ -108,7 +104,10 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
 
             @Override
             public void onPageSelected(int position) {
-                mListener.onPageSelected();
+                //当加载的Fragment是H5页面需重载刷新页面
+                if(mListener != null) {
+                    mListener.onPageSelected();
+                }
             }
 
             @Override
@@ -118,7 +117,10 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         });
         tabLayout.setTabMode(pager.getAdapter().getCount() > MAX_TAB_COUNT ? TabLayout.MODE_SCROLLABLE : TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(pager);
+    }
 
+    private void setupToolBar(Toolbar mToolbar) {
+        mToolbar.setOnClickListener(null);
     }
 
     /**
@@ -149,7 +151,11 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
 
             ArrayList<String> orderList = args.getStringArrayList(ArgsBuilder.EXTRA_KEY_ORDER_LIST);
             for(String key : orderList) {
-                fragments.add(Fragment.instantiate(this, key, args.getBundle(key)));
+                String realKey = key;
+                if(key.contains("#")) {
+                    key = key.substring(0, key.indexOf("#"));
+                }
+                fragments.add(Fragment.instantiate(this, key, args.getBundle(realKey)));
             }
 
             return new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -221,10 +227,20 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         }
 
         public ArgsBuilder addFragment(String className, String title) {
+            // 构造fragment参数
             Bundle fArgs = new Bundle();
             fArgs.putString(EXTRA_KEY_TITLE, title);
-            mArgs.putBundle(className, fArgs);
-            mArgs.getStringArrayList(EXTRA_KEY_ORDER_LIST).add(className);
+
+            // 添加fragment
+            int count = 1;
+            String legalName = className;
+            while(mArgs.containsKey(legalName)){      // 处理相同的Fragment类型
+                legalName = className.concat("#" + count);
+                count++;
+            }
+
+            mArgs.putBundle(legalName, fArgs);
+            mArgs.getStringArrayList(EXTRA_KEY_ORDER_LIST).add(legalName);
             return this;
         }
 
@@ -240,14 +256,26 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
          * @return
          */
         public ArgsBuilder addArgument(String className, String key, Object value) {
-            Bundle fArgs = mArgs.getBundle(className);
+            //查找与className匹配的键值－取最后一个匹配的项
+            int count = 0;
+            String legalName = className;
+            while(mArgs.containsKey(legalName)) {
+                count++;
+                legalName = className.concat("#" + count);
+            }
+            count--;
+            legalName = count > 0 ? className.concat("#" + count) : className;
+
+            Bundle fArgs = mArgs.getBundle(legalName);
             if (fArgs == null) {
-                throw new IllegalArgumentException("You should add " + className + " via addFragment method first!");
+                throw new IllegalArgumentException("You should add " + legalName + " via addFragment method first!");
             } else {
                 if (value instanceof Integer) {
                     fArgs.putInt(key, (Integer) value);
                 } else if (value instanceof String) {
                     fArgs.putString(key, String.valueOf(value));
+                } else if(value instanceof Boolean) {
+                    fArgs.putBoolean(key, (Boolean)value);
                 }
             }
             return this;
@@ -257,4 +285,9 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
             return mArgs;
         }
     }
+
+    public Toolbar getToolbar(){
+        return mToolbar;
+    }
+
 }

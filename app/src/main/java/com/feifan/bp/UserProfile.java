@@ -44,6 +44,10 @@ public class UserProfile {
     private static final String PREFERENCE_KEY_USER_AUTH = "permission";
     // 偏好项键值－城市ID
     private static final String PREFERENCE_KEY_CITY_ID = "cityId";
+    // 偏好项键值－商户ID
+    private static final String PREFERENCE_KEY_MERCHANT_ID = "marchantId";
+    // 偏好项键值－广场ID
+    private static final String PREFERENCE_KEY_PLAZA_ID = "plazaId";
 
     //偏好项键值－商户门店列表
     private static final String PREFERENCE_KEY_STORE_ID = "storeId";
@@ -197,6 +201,22 @@ public class UserProfile {
 
     public int getCityId() {
         return getInt(PREFERENCE_KEY_CITY_ID);
+    }
+
+    public void setPlazaId(String plazaId){
+        putString(PREFERENCE_KEY_PLAZA_ID, plazaId);
+    }
+
+    public String getPlazaId(){
+        return getString(PREFERENCE_KEY_PLAZA_ID);
+    }
+
+    public void setMerchantId(String merchantId){
+        putString(PREFERENCE_KEY_MERCHANT_ID, merchantId);
+    }
+
+    public String getMerchantId(){
+        return getString(PREFERENCE_KEY_MERCHANT_ID);
     }
 
     public void clear() {

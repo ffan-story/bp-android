@@ -172,6 +172,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mUrl = getArguments().getString(EXTRA_KEY_URL);
+
     }
 
     @Override
@@ -270,7 +271,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     public void goBack(){
         if(canGoBack()){
-            mWebView.goBack();
+            if(mUrl.contains("/00?") && getString(R.string.commodity_instants_details).equals(getToolbar().getTitle().toString())){//若是从临时保存详情页返回，返回临时保存列表
+                String url = UrlFactory.getInstantsForHtmlUrl("00");
+                getActivity().finish();
+                BrowserActivity.startActivity(getContext(), url);
+            }else{
+                mWebView.goBack();
+            }
         }else{
             getActivity().setResult(Activity.RESULT_CANCELED);
             getActivity().finish();
@@ -296,15 +303,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             case R.id.menu_coupon_add:
                 url = UrlFactory.couponAddForHtml();
                 fetchMarketingData(UserProfile.getInstance().getAuthRangeId(),url);
-                return true;
-
-            case R.id.menu_commodity_add://发布商品
-                //统计埋点
-                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_GOODSMANA_PUB);
-
-                url = UrlFactory.commodityManageForHtml();
-                mWebView.loadUrl(url);
-                LogUtil.i(TAG, "menu onClick() commodity url=" + url);
                 return true;
 
             case R.id.menu_picture_add:
@@ -403,7 +401,12 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 isOnclicked = true;
                 Activity mActivity = getActivity();
                 Uri actionUri = Uri.parse(url);
+
                 String actionStrUri = UrlFactory.urlForHtml(actionUri.getAuthority() + actionUri.getEncodedPath() + "#" + actionUri.getEncodedFragment());
+
+                if (TextUtils.isEmpty(actionStrUri)){
+                    return true;
+                }
                 if(actionStrUri.contains("/goods/search_result")){//券码历史  链接符为&
                     LogUtil.i(TAG, "actionStrUri======" +  actionStrUri);
                     actionStrUri = UrlFactory.actionUrlForHtml(actionUri.getAuthority() + actionUri.getEncodedPath() + "#" + actionUri.getEncodedFragment());
@@ -478,7 +481,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }
             }
             String type = paramMap.get("type");
-            LogUtil.i(TAG, "Image pick type=" + type);
             if (!TextUtils.isEmpty(type)) {
                 mImgPickType = Integer.parseInt(type);
             }
@@ -507,6 +509,10 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     }
 
     public void beginCrop(Uri source) {
+        if (!isAdded()){
+            Utils.showShortToast(PlatformState.getApplicationContext(),"对不起，此机型不支持拍照功能，请从相册选择图片");
+            return;
+        }
         Uri outputUri = Uri.fromFile(new File(getActivity().getCacheDir(), "cropped"));
 
         switch (mImgPickType) {
@@ -655,6 +661,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 if (null != phoneDialog) {
                     phoneDialog.dismiss();
                 }
+                break;
+            case R.string.common_confirm:
                 break;
 
             default:

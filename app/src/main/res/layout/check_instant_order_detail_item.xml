@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/view_spacing_10"
+    android:paddingTop="@dimen/view_spacing_15"
+    android:paddingRight="@dimen/view_spacing_10">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/view_size_5"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/view_spacing_15"
+            android:paddingBottom="@dimen/view_spacing_15">
+
+            <TextView
+                style="@style/txt_color99_size14"
+                android:layout_marginLeft="@dimen/view_spacing_15"
+                android:text="@string/order_number"/>
+
+            <TextView
+                android:id="@+id/order_code"
+                style="@style/txt_color33_size16"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/view_spacing_25"
+                android:text="0"/>
+
+            <TextView
+                style="@style/txt_color99_size14"
+                android:layout_below="@id/order_code"
+                android:layout_marginLeft="@dimen/view_spacing_15"
+                android:layout_marginTop="@dimen/view_spacing_5"
+                android:text="@string/order_trade_amount"/>
+
+            <TextView
+                android:id="@+id/order_trade_money"
+                style="@style/InstantDetailMoney"
+                android:layout_below="@id/order_code"
+                android:layout_alignParentRight="true"
+                android:maxLines="2"
+                android:maxEms="13"
+                android:ellipsize="end"
+                android:layout_marginTop="@dimen/view_spacing_5"
+                android:layout_marginRight="@dimen/view_spacing_25"
+                android:text="0"/>
+
+            <TextView
+                style="@style/txt_color99_size14"
+                android:layout_below="@id/order_trade_money"
+                android:layout_marginLeft="@dimen/view_spacing_15"
+                android:layout_marginTop="@dimen/view_spacing_5"
+                android:text="@string/order_trade_time"/>
+
+            <TextView
+                android:id="@+id/order_trade_date"
+                style="@style/txt_color33_size16"
+                android:layout_below="@id/order_trade_money"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/view_spacing_25"
+                android:layout_marginTop="@dimen/view_spacing_5"
+                android:text="0"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</FrameLayout>

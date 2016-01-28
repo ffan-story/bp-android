@@ -1,24 +1,28 @@
 package com.feifan.bp.login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.android.volley.Response;
 import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.password.ForgetPasswordFragment;
 
@@ -38,6 +42,9 @@ public class LoginFragment extends BaseFragment {
      */
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
+        Bundle args = new Bundle();
+        args.putString(Constants.EXTRA_KEY_TITLE, Utils.getString(R.string.login_login_text));
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -87,9 +94,11 @@ public class LoginFragment extends BaseFragment {
 
                 try {
                     Utils.checkPhoneNumber(getActivity(), accountStr);
+                    showProgressBar(true);
                     UserCtrl.login(accountStr, passwordStr, new Listener<UserModel>() {
                         @Override
                         public void onResponse(UserModel userModel) {
+                            hideProgressBar();
                             final UserProfile profile = UserProfile.getInstance();
                             profile.setUid(userModel.uid);
                             profile.setUser(userModel.user);
@@ -97,6 +106,8 @@ public class LoginFragment extends BaseFragment {
                             profile.setAuthRangeType(userModel.authRangeType);
                             profile.setAgId(userModel.agId);
                             profile.setLoginToken(userModel.loginToken);
+                            profile.setMerchantId(userModel.merchantId);
+                            profile.setPlazaId(userModel.plazaId);
                             JsonRequest.updateRedundantParams(profile);
                             Statistics.updateClientData(profile);
 
@@ -113,47 +124,21 @@ public class LoginFragment extends BaseFragment {
                                 }
                             });
                         }
+                    }, new DefaultErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            hideProgressBar();
+                            super.onErrorResponse(volleyError);
+                        }
                     });
-//                    UserCtrl.login(getActivity(), accountStr, passwordStr,
-//                            new BaseRequestProcessListener<UserModel>(getActivity()) {
-//                        @Override
-//                        public void onResponse(final UserModel userModel) {
-//                            LogUtil.i(TAG, userModel.toString());
-//                            UserCtrl.checkPermission(getActivity(), userModel.uid+"",
-//                                    new BaseRequestProcessListener<PermissionModel>(getActivity(), false) {
-//                                @Override
-//                                public void onResponse(PermissionModel permissionModel) {
-//                                    UserProfile manager = UserProfile.getInstance();
-//                                    manager.setUid(userModel.uid);
-//                                    manager.setUser(userModel.user);
-//                                    manager.setAuthRangeId(userModel.authRangeId);
-//                                    manager.setAuthRangeType(userModel.authRangeType);
-//                                    manager.setAgId(userModel.agId);
-//                                    manager.setLoginToken(userModel.loginToken);
-//                                    manager.setPermissionList(permissionModel.getPermissionList());
-//                                    manager.setPermissionUrlMap(permissionModel.getUrlMap());
-//                                    // 通知界面跳转
-//                                    Bundle args = new Bundle();
-//                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
-//                                    mListener.onFragmentInteraction(args);
-//                                }
-//                            });
-//                        }
-//                    });
                 } catch (Throwable throwable) {
+                    hideProgressBar();
                     Utils.showShortToast(getActivity(), R.string.error_message_text_phone_number_illegal, Gravity.CENTER);
                 }
 
             }
         });
         return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
     }
 
     @Override
@@ -163,12 +148,12 @@ public class LoginFragment extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context Context) {
+        super.onAttach(Context);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener) Context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(Context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }

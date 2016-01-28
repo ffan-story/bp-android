@@ -18,7 +18,6 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.UrlFactory;
 
 /**

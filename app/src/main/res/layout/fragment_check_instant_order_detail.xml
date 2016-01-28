@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color_gray_f3">
+
+    <TextView
+        android:id="@+id/detail_query_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="@dimen/view_spacing_15"
+        android:drawableLeft="@mipmap/query_time"
+        android:drawablePadding="@dimen/view_spacing_5"
+        android:textSize="@dimen/font_size_14"
+        android:textColor="@color/font_color_33"
+        android:text="查询时间:2016-1-7至2016-1-12"/>
+
+
+
+    <com.feifan.bp.widget.LoadingMoreListView
+        android:layout_below="@id/detail_query_time"
+        android:id="@+id/detail_loading_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/bg_color_gray_f3">
+
+    </com.feifan.bp.widget.LoadingMoreListView>
+
+</RelativeLayout>

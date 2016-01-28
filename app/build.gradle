@@ -2,8 +2,19 @@ buildscript {
     //支持java 依赖库管理（maven/ivy）,用于项目的依赖。
     repositories {
         mavenCentral()
+
+        // FIXME 自定义插件放在本地库中
+        maven {
+            url uri('../repo')
+        }
     }
 
+    dependencies {
+        // 上传插件
+        classpath group: 'com.muzzyhorse.plugin',
+                name: 'liannuplugin',
+                version: '1.0-SNAPSHOT'
+    }
 }
 
 apply plugin: 'com.android.application'
@@ -11,22 +22,22 @@ apply plugin: 'com.android.application'
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 
 // Auto-incrementing commit count based on counting commits to master (Build #543)
-def commitCount = Integer.parseInt('git rev-list master --count'.execute([], project.rootDir).text.trim())
+//def commitCount = Integer.parseInt('git rev-list master --count'.execute([], project.rootDir).text.trim())
 
 // I want to use git tags as my version names (1.2.2)
-def gitCurrentTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
+//def gitCurrentTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
 
-def version = "1.5.2"
+def version = "1.6.0"
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.feifan.bp"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 8
+        versionCode 9
         versionName version
     }
 
@@ -41,7 +52,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../app/proguard-rules.pro'
             signingConfig signingConfigs.releaseConfig
@@ -51,8 +62,8 @@ android {
     productFlavors{
         sit{
             println gitSha
-            println commitCount
-            println gitCurrentTag
+//            println commitCount
+//            println gitCurrentTag
 
             applicationId "com.feifan.bp.test"
             versionName version + "-" + gitSha
@@ -84,14 +95,16 @@ android {
             } else {
                 appName = parent.name
             }
-            def apkName = "${appName}-${output.baseName}-${variant.versionName}.apk"
-            output.outputFile = new File("${output.outputFile.parent}/output", apkName)
+//            def apkName = "${appName}-${output.baseName}-${variant.versionName}.apk"
+            def apkName = "${appName}.apk"
+            output.outputFile = new File("${output.outputFile.parent}", apkName)
         }
     }
 
 
     lintOptions {
         disable 'InvalidPackage'
+        abortOnError false
     }
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
@@ -99,11 +112,26 @@ android {
 
 }
 
+// 上传到蒲公英
+//apply plugin: 'org.quanqi.pgyer'
+//
+//pgyer {
+//    _api_key = ""
+//    uKey = ""
+//}
+//
+//apks {
+//    release {
+//        sourceFile = file(uploadApk)
+//    }
+//}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('/libs/volley.jar')
     compile 'com.android.support:design:23.0.1'
     compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile 'com.android.support:cardview-v7:23.0.1'
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile 'com.umeng.analytics:analytics:latest.integration'
@@ -111,11 +139,34 @@ dependencies {
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile 'com.loopj.android:android-async-http:1.4.8'
     compile 'me.relex:circleindicator:1.1.5@aar'
-    compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
+    compile 'jp.wasabeef:recyclerview-animators:1.3.0'
     compile project(':codescanner')
     compile project(':croplib')
     compile project(':refresh')
     compile project(':materialwidget')
     compile project(':statlib')
+//    compile 'junit:junit:4.10'
+//    compile 'org.mockito:mockito-core:1.+'
+//    compile 'org.robolectric:robolectric:3.0'
 }
 
+apply plugin: 'liannu'
+
+shootline {
+    // 蒲公英渠道
+    pgyer {
+//        uKey= 'b4d3d5d5080a979372b3e209dd3bc028'
+//        _api_key= '1b004c68ffb3663ff9954e502c428770'
+        uKey='523d8a1f42d5455d01525913fae356cc'
+        _api_key='048ad38bdf6822f1a3ed36981cb85bb2'
+        fileName= "${project.buildDir.absolutePath}/outputs/apk/${project.parent.name}.apk"
+    }
+
+    // 应用宝渠道
+    myapp {
+        fileName = '/Users/xuchunlei/Projects/myapp.apk'
+    }
+}
+
+
+shoot.dependsOn 'assembleSitRelease'

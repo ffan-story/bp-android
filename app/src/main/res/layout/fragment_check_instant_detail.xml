@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color_gray_f3">
+
+    <TextView
+        android:id="@+id/detail_query_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="@dimen/view_spacing_15"
+        android:drawableLeft="@mipmap/query_time"
+        android:drawablePadding="@dimen/view_spacing_5"
+        android:textSize="@dimen/font_size_14"
+        android:textColor="@color/font_color_33"
+        android:text="查询时间:2016-1-7至2016-1-12"/>
+
+    <TextView
+        android:id="@+id/detail_tv"
+        style="@style/txt_color99_size14"
+        android:layout_below="@id/detail_query_time"
+        android:layout_margin="@dimen/view_spacing_15"
+        android:text="@string/instant_summary"/>
+
+    <ImageView
+        android:id="@+id/line_write"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_size_1"
+        android:layout_below="@id/detail_tv"
+        android:background="@color/divider"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/detail_list"
+        android:layout_below="@id/line_write"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

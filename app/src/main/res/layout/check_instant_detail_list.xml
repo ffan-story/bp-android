@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/view_size_5"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/view_spacing_15"
+        android:paddingBottom="@dimen/view_spacing_20">
+
+        <TextView
+            android:id="@+id/detail_title"
+            style="@style/InstantDetailItemTile"
+            android:maxLines="2"
+            android:maxEms="15"
+            android:ellipsize="end"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:text="我们是社会主义接班人，红星闪闪放光明"/>
+
+        <TextView
+            android:id="@+id/detail_trade_money"
+            style="@style/InstantDetailMoney"
+            android:layout_below="@id/detail_title"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            android:text="--"/>
+
+        <TextView
+            android:id="@+id/detail_money_tv"
+            style="@style/txt_color99_size14"
+            android:layout_below="@id/detail_trade_money"
+            android:layout_marginLeft="@dimen/view_spacing_15"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="@string/indicator_trade_amount"/>
+
+        <ImageView
+            android:id="@+id/vertical_line"
+            android:layout_width="@dimen/view_size_1"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/detail_trade_money"
+            android:layout_marginLeft="@dimen/view_spacing_30"
+            android:layout_centerHorizontal="true"
+            android:layout_alignBottom="@id/detail_money_tv"
+            android:layout_marginTop="@dimen/view_spacing_3"
+            android:background="@drawable/gray_line"/>
+
+        <TextView
+            android:id="@+id/detail_trade_count"
+            style="@style/txt_color99_size16"
+            android:layout_toRightOf="@id/vertical_line"
+            android:layout_alignTop="@id/detail_trade_money"
+            android:layout_marginLeft="@dimen/view_spacing_20"
+            android:text="--"/>
+
+        <TextView
+            android:id="@+id/detail_count_tv"
+            style="@style/txt_color99_size14"
+            android:layout_below="@id/detail_trade_count"
+            android:layout_alignLeft="@id/detail_trade_count"
+            android:layout_marginTop="@dimen/view_spacing_5"
+            android:text="@string/indicator_trade_count"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/detail_arrow"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/view_spacing_15"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

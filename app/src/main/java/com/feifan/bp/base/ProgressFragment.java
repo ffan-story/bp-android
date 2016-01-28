@@ -1,14 +1,17 @@
 package com.feifan.bp.base;
 
 import android.app.Dialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.TextView;
+
 import com.feifan.bp.R;
-import com.feifan.bp.util.LogUtil;
 
 /**
  *
@@ -282,6 +285,73 @@ public abstract class ProgressFragment extends PlatformFragment {
     }
 
     /**
+     * 控制空视图与内容视图的显示和隐藏，调用此方法时，内容视图不能为空
+     * @param isEmpty true显示空视图，否则显示内容视图
+     * @param strTipTxt  提示文案
+     * @param strBtnTxt 按钮文案
+     * @param mIntDrawable 提示图片
+     * @param onClickListener 按钮事件
+     */
+    public void setContentEmpty(boolean isEmpty,String strTipTxt,String strBtnTxt, int mIntDrawable,View.OnClickListener onClickListener) {
+        if (!isAdded()){
+            return;
+        }
+        ensureContent();
+        if (mContentView == null) {
+            throw new IllegalStateException("Content view must be initialized before");
+        }
+        if (isEmpty) {
+            mEmptyView.setVisibility(View.VISIBLE);
+            mTvTipsAndIc.setText(strTipTxt);
+            Drawable drawable=this.getResources().getDrawable(mIntDrawable);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            mTvTipsAndIc.setCompoundDrawables(null,drawable,null,null);
+            mBtn.setText(strBtnTxt);
+            mBtn.setOnClickListener(onClickListener);
+            mContentView.setVisibility(View.GONE);
+        } else {
+            mEmptyView.setVisibility(View.GONE);
+            mContentView.setVisibility(View.VISIBLE);
+        }
+        mIsContentEmpty = isEmpty;
+    }
+
+
+    /**
+     *
+     * 控制空视图与内容视图的显示和隐藏，调用此方法时，内容视图不能为空
+     * 提示图片+文案
+     * @param isEmpty true显示空视图，否则显示内容视图
+     * @param strTipTxt
+     * @param mIntDrawable
+     */
+    public void setContentEmpty(boolean isEmpty,String strTipTxt,int mIntDrawable) {
+        if (!isAdded()){
+            return;
+        }
+        ensureContent();
+        if (mContentView == null) {
+            throw new IllegalStateException("Content view must be initialized before");
+        }
+        if (isEmpty) {
+            mEmptyView.setVisibility(View.VISIBLE);
+            mTvTipsAndIc.setText(strTipTxt);
+            Drawable drawable=this.getResources().getDrawable(mIntDrawable);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            mTvTipsAndIc.setCompoundDrawables(null,drawable,null,null);
+            mBtn.setVisibility(View.GONE);
+            mContentView.setVisibility(View.GONE);
+        } else {
+            mEmptyView.setVisibility(View.GONE);
+            mContentView.setVisibility(View.VISIBLE);
+        }
+        mIsContentEmpty = isEmpty;
+    }
+
+
+    private TextView mTvTipsAndIc;
+    private Button mBtn;
+    /**
      * 初始化视图.
      */
     private void ensureContent() {
@@ -301,7 +371,10 @@ public abstract class ProgressFragment extends PlatformFragment {
             throw new RuntimeException("Your content must have a ViewGroup whose id attribute is 'R.id.content_container'");
         }
         mEmptyView = root.findViewById(android.R.id.extractArea);
-        ((View)root.findViewById(android.R.id.button1)).setOnClickListener(new View.OnClickListener() {
+        mTvTipsAndIc = (TextView)mEmptyView.findViewById(R.id.progress_tv_tips_and_ic);
+        mBtn = (Button)mEmptyView.findViewById(android.R.id.button1);
+
+        mBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setContentShown(false);

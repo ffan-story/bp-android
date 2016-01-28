@@ -64,6 +64,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
         REDUNDANT_PARAMS.put("version", String.valueOf(BuildConfig.VERSION_CODE));
 //            mParams.put("clientAgent", )
         REDUNDANT_PARAMS.put("uid", String.valueOf(UserProfile.getInstance().getUid()));
+        REDUNDANT_PARAMS.put("applicant", String.valueOf(UserProfile.getInstance().getUid()));//2016-1-11加操作者id
         REDUNDANT_PARAMS.put("agid", UserProfile.getInstance().getAuthRangeId());
         REDUNDANT_PARAMS.put("loginToken", UserProfile.getInstance().getLoginToken());
     }
@@ -123,7 +124,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
                 if(t.status == Constants.RESPONSE_CODE_SUCCESS) {
                     return Response.success(t, HttpHeaderParser.parseCacheHeaders(response));
                 }else {
-                    return Response.error(new VolleyError(t.msg));
+                    return Response.error(new StatusError(t.status, t.msg));
                 }
             } else {
                 throw new IllegalArgumentException("Please provide target class for your request!");
@@ -131,6 +132,26 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
         } catch (Exception e) {
             LogUtil.e(TAG, "Fatal error:Parsing response to json model failed!");
             return Response.error(new ParseError(e));
+        }
+    }
+
+    /**
+     * 带有状态码的错误类
+     *
+     * <pre>
+     *     可以根据错误码进行处理
+     * </pre>
+     */
+    public static class StatusError extends VolleyError {
+        private final int mStatus;
+
+        public StatusError(int status, String message) {
+            super(message);
+            mStatus = status;
+        }
+
+        public int getStatus() {
+            return mStatus;
         }
     }
 }
