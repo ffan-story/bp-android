@@ -434,7 +434,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                     Intent intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.index_commodity_text), fragmentArgs);
                                     startActivity(intent);
                                 }
-                                else if (item.id == 1227) {
+                                else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getMarketingManageId())) {
                                     Bundle args = new Bundle();
                                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
                                     args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, IndexSalesManageFragment.class.getName());

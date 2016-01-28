@@ -317,8 +317,8 @@ public abstract class UrlFactory {
      * @return
      */
     public static String getInstantsBuyCommodity() {
-//        return EnvironmentManager.getHostFactory().getFFanApiV2Host() + "goods/v2/goodsNum";
-        return "http://xapi.sit.ffan.com/mapp/goodsindex";
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "mapp/goodsindex";
+//        return "http://xapi.sit.ffan.com/mapp/goodsindex";
 
     }
 

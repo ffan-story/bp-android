@@ -24,8 +24,8 @@ public class EnvironmentManager {
                 sAuthFactory = new SitAuthFactory();
                 break;
             case PRODUCT_PRE:
-                sHostFactory = new ProductPreFactory();
-//                sHostFactory = new ProductFactory();
+//                sHostFactory = new ProductPreFactory();
+                sHostFactory = new ProductFactory();
                 sAuthFactory = new ProductAuthFactory();
                 break;
             case PRODUCT:
