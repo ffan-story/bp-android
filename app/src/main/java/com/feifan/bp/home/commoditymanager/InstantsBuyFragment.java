@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
@@ -163,8 +164,12 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
                 errorInfo = Utils.getString(R.string.error_message_network);
             }
         }
-        if("message".equals(errorInfo.trim())){
-            errorInfo = Utils.getString(R.string.error_message_server_file);
+        if(errorInfo == null) {
+            if(error instanceof TimeoutError) {
+                errorInfo = Utils.getString(R.string.error_message_timeout);
+            }else {
+                errorInfo = Utils.getString(R.string.error_message_network_link);
+            }
         }
         mDialog.setMessage(errorInfo)
                 .show();

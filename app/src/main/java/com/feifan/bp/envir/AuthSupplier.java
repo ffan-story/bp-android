@@ -83,6 +83,11 @@ public class AuthSupplier {
         String getCommodityManagerId();
 
         String getGraphChartId();
+        /**
+         * 获取营销管理ID
+         * @return
+         */
+        String getMarketingManageId();
     }
 
     /**
@@ -171,6 +176,11 @@ public class AuthSupplier {
         @Override
         public String getGraphChartId() { return "1673"; }
 
+        @Override
+        public String getMarketingManageId() {
+            return "1227";
+        }
+
     }
 
     static class ProductAuthFactory implements IAuthFactory {
@@ -254,6 +264,11 @@ public class AuthSupplier {
 
         @Override
         public String getGraphChartId() { return "1673"; }
+
+        @Override
+        public String getMarketingManageId() {
+            return "1082";
+        }
     }
 
 }
