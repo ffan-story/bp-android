@@ -26,9 +26,8 @@ import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
-import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.password.ForgetPasswordFragment;
-import com.feifan.bp.salesanalysis.SaleAlysFrag;
+import com.feifan.bp.marketinganalysis.MarketingAlysFrag;
 import com.feifan.bp.settings.feedback.FeedBackFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
 import com.feifan.bp.widget.BadgerRadioButton;
@@ -223,10 +222,10 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
-            }else if(to.equals(SaleAlysFrag.class.getName())){//营销分析
+            }else if(to.equals(MarketingAlysFrag.class.getName())){//营销分析
                 if (Utils.isNetworkAvailable(this)) {
                     Intent intent = new Intent(this, PlatformTopbarActivity.class);
-                    intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, SaleAlysFrag.class.getName());
+                    intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingAlysFrag.class.getName());
                     intent.putExtra(Constants.EXTRA_KEY_TITLE,getString(R.string.sale_anal));
                     startActivity(intent);
                 } else {

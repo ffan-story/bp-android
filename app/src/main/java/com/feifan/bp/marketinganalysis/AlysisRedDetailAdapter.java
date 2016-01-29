@@ -1,4 +1,4 @@
-package com.feifan.bp.salesanalysis;
+package com.feifan.bp.marketinganalysis;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

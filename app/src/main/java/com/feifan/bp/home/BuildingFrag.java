@@ -9,8 +9,8 @@ import com.feifan.bp.R;
 import com.feifan.bp.base.ProgressFragment;
 
 /**
- * 商品管理 — 品牌商品
- * Created by kontar on 2015/12/22.
+ * 建设中。。。。。
+ * Created by congjing on 2016/1/22.
  */
 public class BuildingFrag extends ProgressFragment{
 

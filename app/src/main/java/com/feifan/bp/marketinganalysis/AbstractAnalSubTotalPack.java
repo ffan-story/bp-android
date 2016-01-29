@@ -1,4 +1,4 @@
-package com.feifan.bp.salesanalysis;
+package com.feifan.bp.marketinganalysis;
 
 import android.content.DialogInterface;
 import android.support.v4.widget.SwipeRefreshLayout;

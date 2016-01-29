@@ -1,4 +1,4 @@
-package com.feifan.bp.salesanalysis;
+package com.feifan.bp.marketinganalysis;
 
 import android.os.Bundle;
 import android.text.Html;
@@ -85,7 +85,7 @@ public class AnalRelSubTotalFrag extends AbstractAnalSubTotalPack {
 
     @Override
     public void mItemClick(int position) {
-        if (!redList.isEmpty()){
+        if (!redList.isEmpty() && position-1>=0){
             Bundle mBundle = new Bundle();
             mBundle.putString(AnalRedDetailFrag.EXTRA_CHARGE_OFF_END_NAME,redList.get(position-1).mStrRedCouponName);
             mBundle.putString(AnalRedDetailFrag.EXTRA_CHARGE_OFF_END_COUNT,redList.get(position-1).mStrChargeOffCount);

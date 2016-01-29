@@ -1,4 +1,4 @@
-package com.feifan.bp.salesanalysis;
+package com.feifan.bp.marketinganalysis;
 
 import com.feifan.bp.network.BaseModel;
 

@@ -1,4 +1,4 @@
-package com.feifan.bp.salesanalysis;
+package com.feifan.bp.marketinganalysis;
 
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.view.MenuItem;
@@ -10,10 +10,10 @@ import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.home.BuildingFrag;
 
 /**
- * 建设中的样式
+ * 营销分析 首页
  * congjing
  */
-public class SaleAlysFrag extends ProgressFragment implements View.OnClickListener {
+public class MarketingAlysFrag extends ProgressFragment implements View.OnClickListener {
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
         stub.setLayoutResource(R.layout.fragment_anal_main);

@@ -46,7 +46,7 @@ import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.salesanalysis.SaleAlysFrag;
+import com.feifan.bp.marketinganalysis.MarketingAlysFrag;
 import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerTextView;
@@ -459,15 +459,15 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                         .build();
                                 Intent intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.index_commodity_text), fragmentArgs);
                                 startActivity(intent);
-                            } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getGraphChartId())) {//TODO 跳转到红包统计
+                            } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getGraphChartId())) {//TODO 跳转到营销分析
                                 /**
-                                 * 统计埋点   红包统计
+                                 * 统计埋点  营销分析
                                  */
                                 FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_PROMTION_ANA);
 
                                 Bundle args = new Bundle();
                                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, SaleAlysFrag.class.getName());
+                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingAlysFrag.class.getName());
                                 mListener.onFragmentInteraction(args);
                             } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getMarketingManageId())) {//TODO 跳转到营销管理
                                 /**
