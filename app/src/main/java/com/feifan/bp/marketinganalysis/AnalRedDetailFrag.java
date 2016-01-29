@@ -163,14 +163,7 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
             mTvRedChargeOffTotal.setText(redDetailModel.mStrRedTotal);
         }
 
-        if (null == redDetailModel.redDetailList || redDetailModel.redDetailList.size()<=0){
-            mSwipeLayout.setVisibility(View.GONE);
-            mTvNoData.setVisibility(View.VISIBLE);
-            return;
-        }else{
-            mSwipeLayout.setVisibility(View.VISIBLE);
-            mTvNoData.setVisibility(View.GONE);
-        }
+
         if (!isLoadMore) {
             setContentShown(true);
         }
@@ -178,11 +171,21 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         if (isLoadMore) {
             if (mRedDetaAdap != null) {
                 mRedDetaAdap.notifyData(mListRedDetail);
-                if (!mListRedDetail.isEmpty() && mListRedDetail.size()<10){
+                if (mListRedDetail.isEmpty() || mListRedDetail.size()<10){
                     Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_LONG).show();
                 }
             }
         } else {
+
+            if (null == redDetailModel.redDetailList || redDetailModel.redDetailList.size()<=0){
+                mSwipeLayout.setVisibility(View.GONE);
+                mTvNoData.setVisibility(View.VISIBLE);
+                return;
+            }else{
+                mSwipeLayout.setVisibility(View.VISIBLE);
+                mTvNoData.setVisibility(View.GONE);
+            }
+
             mRedDetaAdap =  new AlysisRedDetailAdapter(getActivity(), mListRedDetail);
             mRecyclerView.setAdapter(mRedDetaAdap);
             paginate = Paginate.with(mRecyclerView, AnalRedDetailFrag.this)
