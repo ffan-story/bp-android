@@ -141,10 +141,10 @@ apply plugin: 'liannu'
 shootline {
     // 蒲公英渠道
     pgyer {
-        uKey= 'b4d3d5d5080a979372b3e209dd3bc028'
-        _api_key= '1b004c68ffb3663ff9954e502c428770'
-//        uKey='523d8a1f42d5455d01525913fae356cc'
-//        _api_key='048ad38bdf6822f1a3ed36981cb85bb2'
+//        uKey= 'b4d3d5d5080a979372b3e209dd3bc028'
+//        _api_key= '1b004c68ffb3663ff9954e502c428770'
+        uKey='523d8a1f42d5455d01525913fae356cc'
+        _api_key='048ad38bdf6822f1a3ed36981cb85bb2'
         fileName= "${project.buildDir.absolutePath}/outputs/apk/${project.parent.name}.apk"
     }
 
