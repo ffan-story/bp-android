@@ -74,7 +74,7 @@
         android:id="@+id/anal_tv_detail_no_data"
         style="@style/txt_color99_size16"
         android:text="@string/anal_subsidy_no_detail_data"
-        android:layout_marginTop="@dimen/view_spacing_10"/>
+        android:layout_margin="@dimen/view_spacing_10"/>
 
 
     <include layout="@layout/layout_no_net" android:id="@+id/no_net" />

@@ -221,4 +221,6 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
     public boolean onMenuItemClick(MenuItem item) {
         return false;
     }
+
+
 }

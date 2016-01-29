@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.feifan.bp.Constants;
@@ -20,6 +21,7 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 
 import java.util.ArrayList;
@@ -96,6 +98,7 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         getToolbar().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mBeginKey = "";
                 requestData();
             }
         });
@@ -136,11 +139,11 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
             setContentShown(false);
         }
 
-        AlysisCtrl.getRedTypeListDetail(mCouponId, mSDate, mEDate,mBeginKey, new Response.Listener<AlysisRedDetailModel>() {
+        AlysisCtrl.getRedTypeListDetail(mCouponId, mSDate, mEDate, mBeginKey, new Response.Listener<AlysisRedDetailModel>() {
             @Override
             public void onResponse(AlysisRedDetailModel redDetailModel) {
                 loading = false;
-                setPageData(redDetailModel,isLoadMore);
+                setPageData(redDetailModel, isLoadMore);
             }
         });
     }
@@ -154,8 +157,11 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         mListRedDetail =redDetailModel.redDetailList;
         mRequestDataSize = mListRedDetail.size();
         mBeginKey = redDetailModel.mStrBeginKey;
-        mTvRedName.setText(redDetailModel.mStrRedTitle);
-        mTvRedChargeOffTotal.setText(redDetailModel.mStrRedTotal);
+
+        if (!mListRedDetail.isEmpty() && mListRedDetail.size()>0){
+            mTvRedName.setText(redDetailModel.mStrRedTitle);
+            mTvRedChargeOffTotal.setText(redDetailModel.mStrRedTotal);
+        }
 
         if (null == redDetailModel.redDetailList || redDetailModel.redDetailList.size()<=0){
             mSwipeLayout.setVisibility(View.GONE);
@@ -172,6 +178,9 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         if (isLoadMore) {
             if (mRedDetaAdap != null) {
                 mRedDetaAdap.notifyData(mListRedDetail);
+                if (!mListRedDetail.isEmpty() && mListRedDetail.size()<10){
+                    Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_LONG).show();
+                }
             }
         } else {
             mRedDetaAdap =  new AlysisRedDetailAdapter(getActivity(), mListRedDetail);
@@ -208,6 +217,7 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
 
     @Override
     public void onRefresh() {
+        mBeginKey = "";
         mListRedDetail = new ArrayList<>();
         requestData();
     }
@@ -225,4 +235,5 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         }
         return null;
     }
+
 }
