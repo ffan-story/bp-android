@@ -146,7 +146,7 @@ public abstract class AbstractAnalSubTotalPack extends ProgressFragment implemen
                 myRequestData(mStrStarDate, mStrEndDate);
                 break;
             case R.id.red_rdb_custom://自定义
-                tabIndex = R.id.red_rdb_custom;
+                //tabIndex = R.id.red_rdb_custom;
                 break;
         }
     }
@@ -177,8 +177,17 @@ public abstract class AbstractAnalSubTotalPack extends ProgressFragment implemen
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
         mStrStarDate = year + "-" + DataFormat(monthOfYear + 1) + "-" + DataFormat(dayOfMonth);
-        mStrEndDate = TimeUtil.getAddOneDay(yearEnd + "-" + DataFormat(monthOfYearEnd + 1) + "-" + DataFormat(dayOfMonthEnd));
-        myRequestData(mStrStarDate, mStrEndDate);
+        String endDate = yearEnd + "-" + DataFormat(monthOfYearEnd + 1) + "-" + DataFormat(dayOfMonthEnd);
+        mStrEndDate = TimeUtil.getAddOneDay(endDate);
+        if(TimeUtil.compare_date(mStrStarDate,TimeUtil.getToday()) || TimeUtil.compare_date(endDate,TimeUtil.getToday())){//开始时间大于今天 || 结束时间大于今天
+            Utils.showShortToast(getActivity(),getString(R.string.date_error_8));
+        }else  if (TimeUtil.compare_date(mStrStarDate,endDate)){//开始时间大于结束时间
+           Utils.showShortToast(getActivity(),getString(R.string.date_error_3));
+       }else{
+            tabIndex = R.id.red_rdb_custom;
+            myRequestData(mStrStarDate, mStrEndDate);
+       }
+        setTabFocus(tabIndex);
     }
 
     private void setTabFocus(int tabIndex) {
