@@ -27,7 +27,7 @@ def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim
 // I want to use git tags as my version names (1.2.2)
 //def gitCurrentTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
 
-def version = "1.6.0"
+def version = "1.6.1"
 
 android {
     compileSdkVersion 23
@@ -112,20 +112,6 @@ android {
 
 }
 
-// 上传到蒲公英
-//apply plugin: 'org.quanqi.pgyer'
-//
-//pgyer {
-//    _api_key = ""
-//    uKey = ""
-//}
-//
-//apks {
-//    release {
-//        sourceFile = file(uploadApk)
-//    }
-//}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('/libs/volley.jar')
@@ -155,10 +141,10 @@ apply plugin: 'liannu'
 shootline {
     // 蒲公英渠道
     pgyer {
-//        uKey= 'b4d3d5d5080a979372b3e209dd3bc028'
-//        _api_key= '1b004c68ffb3663ff9954e502c428770'
-        uKey='523d8a1f42d5455d01525913fae356cc'
-        _api_key='048ad38bdf6822f1a3ed36981cb85bb2'
+        uKey= 'b4d3d5d5080a979372b3e209dd3bc028'
+        _api_key= '1b004c68ffb3663ff9954e502c428770'
+//        uKey='523d8a1f42d5455d01525913fae356cc'
+//        _api_key='048ad38bdf6822f1a3ed36981cb85bb2'
         fileName= "${project.buildDir.absolutePath}/outputs/apk/${project.parent.name}.apk"
     }
 
