@@ -158,12 +158,6 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         mRequestDataSize = mListRedDetail.size();
         mBeginKey = redDetailModel.mStrBeginKey;
 
-        if (!mListRedDetail.isEmpty() && mListRedDetail.size()>0){
-            mTvRedName.setText(redDetailModel.mStrRedTitle);
-            mTvRedChargeOffTotal.setText(redDetailModel.mStrRedTotal);
-        }
-
-
         if (!isLoadMore) {
             setContentShown(true);
         }
@@ -177,7 +171,7 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
             }
         } else {
 
-            if (null == redDetailModel.redDetailList || redDetailModel.redDetailList.size()<=0){
+            if (null == redDetailModel.redDetailList || redDetailModel.redDetailList.size()<=0){//为空
                 mSwipeLayout.setVisibility(View.GONE);
                 mTvNoData.setVisibility(View.VISIBLE);
                 return;
