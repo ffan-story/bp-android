@@ -85,27 +85,32 @@ public class HostSupplier {
 
         @Override
         public String getXadminApiPrefix() {
-            return "http://api.pre.ffan.com/xadmin/";
+//            return "http://api.pre.ffan.com/xadmin/";
+            return "http://api.ffan.com/xadmin/";
         }
 
         @Override
         public String getFFanApiPrefix() {
-            return "http://api.pre.ffan.com/ffan/".concat(VERSION).concat("/");
+//            return "http://api.pre.ffan.com/ffan/".concat(VERSION).concat("/");
+            return "http://api.ffan.com/ffan/".concat(VERSION).concat("/");
         }
 
         @Override
         public String getMAppApiPrefix() {
-            return "http://api.pre.ffan.com/mapp/".concat(VERSION).concat("/");
+//            return "http://api.pre.ffan.com/mapp/".concat(VERSION).concat("/");
+            return "http://api.ffan.com/mapp/".concat(VERSION).concat("/");
         }
 
         @Override
         public String getFFanH5Host() {
-            return "http://sop.pre.ffan.com/";
+//            return "http://sop.pre.ffan.com/";
+            return "http://sop.ffan.com/";
         }
 
         @Override
         public String getFFanApiV1Host() {
-            return "https://api.pre.ffan.com/v1/";
+//            return "https://api.pre.ffan.com/v1/";
+            return "http://api.ffan.com/v1/";
         }
     }
 
