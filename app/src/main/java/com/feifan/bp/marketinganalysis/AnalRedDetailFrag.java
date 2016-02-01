@@ -9,6 +9,7 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -21,7 +22,6 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 
 import java.util.ArrayList;
@@ -55,6 +55,7 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
     public List<AlysisRedDetailModel.RedDetailModel> mListRedDetail;
     private int mRequestDataSize = 0;
     private LinearLayout lineNoNet;
+    private boolean isNotMore = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,7 +158,7 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         mListRedDetail =redDetailModel.redDetailList;
         mRequestDataSize = mListRedDetail.size();
         mBeginKey = redDetailModel.mStrBeginKey;
-
+        isNotMore = false;
         if (!isLoadMore) {
             setContentShown(true);
         }
@@ -165,12 +166,12 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         if (isLoadMore) {
             if (mRedDetaAdap != null) {
                 mRedDetaAdap.notifyData(mListRedDetail);
-                if (mListRedDetail.isEmpty() || mListRedDetail.size()<10){
-                    Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_LONG).show();
-                }
+            }
+            if (mListRedDetail.isEmpty() || mListRedDetail.size()<10){
+                isNotMore = true;
+//               Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
             }
         } else {
-
             if (null == redDetailModel.redDetailList || redDetailModel.redDetailList.size()<=0){//为空
                 mSwipeLayout.setVisibility(View.GONE);
                 mTvNoData.setVisibility(View.VISIBLE);
@@ -188,28 +189,47 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
                     .build();
         }
         stopRefresh();
+
         paginate.setHasMoreDataToLoad(!hasLoadedAllItems());
+
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;
     }
+    Toast mToast;
 
     @Override
     public void onLoadMore() {
+        if (isNotMore){
+            if(mToast == null) {
+                mToast = Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT);
+                isNotMore = false;
+            } else {
+                mToast.setText("已经没有更多数据了");
+                mToast.setDuration(Toast.LENGTH_SHORT);
+                isNotMore = false;
+            }
+            mToast.show();
+            return;
+        }
+
         loading = true;
         fetchData(true);
     }
 
     @Override
     public boolean isLoading() {
+        Log.e("congjing", "public boolean isLoading() ------------->");
         return loading;
     }
-
+//    private Toast mToast;
     @Override
     public boolean hasLoadedAllItems() {
-        return !(mRequestDataSize== Integer.parseInt(Constants.LIST_LIMIT));
+
+       //return !(mRequestDataSize== Integer.parseInt(Constants.LIST_LIMIT));
+        return false;
     }
 
     @Override

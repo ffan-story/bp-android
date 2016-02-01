@@ -192,15 +192,6 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
                     }
                     String strUri = UrlFactory.urlForHtml(mList.get(position).getmStrDetailUrl());
                     BrowserActivity.startActivity(getActivity(), strUri);
-
-//                   Bundle args = new Bundle();
-//                    args.putInt(ErrorFragment.EXTRA_KEY_ERROR_MIPMAP_ID,R.mipmap.icon_empty);
-//                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_MESSAGE, getActivity().getApplicationContext().getString(R.string.instant_goods_not_have_goods_tips));
-//                    args.putString(ErrorFragment.EXTRA_KEY_ERROR_BTN_TEXT, "去商品管理");
-//                    args.putInt(ErrorFragment.EXTRA_KEY_ERROR_BTN_TEXT_TYPE, ErrorFragment.EXTRA_KEY_ERROR_BTN_LISTENER_TO_GOODS_MANAGE);
-//                    PlatformTopbarActivity.startActivity(getActivity(), ErrorFragment.class.getName(),
-//                            getActivity().getApplicationContext().getString(R.string.query_result), args);
-
                 }
             }
         });

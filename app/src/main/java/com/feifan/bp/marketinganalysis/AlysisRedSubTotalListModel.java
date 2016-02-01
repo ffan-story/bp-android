@@ -32,26 +32,30 @@ import java.util.List;
         super.parseData(json);
         JSONObject data = new JSONObject(json);
         redList = new ArrayList<>();
+
         JSONArray array = data.optJSONArray("list");
         mStrRedAllTotal = data.optString("verifyNum");
         mStrRedAllFeifan = data.optString("ffanAmount");
         mStrRedAllThird = data.optString("thirdAmount");
         mStrRedAllVendor = data.optString("merchantAmount");
         mStride2ndRow = data.optString("hideOtherSubsidy");
-        for (int i = 0; i < array.length(); i++){
-            try {
-                mRedModel = new RedListModel();
-                mRedModel.mStrCouponId = array.getJSONObject(i).optString("couponId");
-                mRedModel.mStrRedCouponName = array.getJSONObject(i).optString("couponName");
-                mRedModel.mStrChargeOffCount = array.getJSONObject(i).optString("verifyNum");
-                mRedModel.mStrRedFeifan = array.getJSONObject(i).optString("ffanAmount");
-                mRedModel.mStrRedThird = array.getJSONObject(i).optString("thirdAmount");
-                mRedModel.mStrRedVendor = array.getJSONObject(i).optString("merchantAmount");
-                mRedModel.mStride2ndRow = mStride2ndRow;
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+        if (array != null && array.length()>0){
+            for (int i = 0; i < array.length(); i++){
+                try {
+                    mRedModel = new RedListModel();
+                    mRedModel.mStrCouponId = array.getJSONObject(i).optString("couponId");
+                    mRedModel.mStrRedCouponName = array.getJSONObject(i).optString("couponName");
+                    mRedModel.mStrChargeOffCount = array.getJSONObject(i).optString("verifyNum");
+                    mRedModel.mStrRedFeifan = array.getJSONObject(i).optString("ffanAmount");
+                    mRedModel.mStrRedThird = array.getJSONObject(i).optString("thirdAmount");
+                    mRedModel.mStrRedVendor = array.getJSONObject(i).optString("merchantAmount");
+                    mRedModel.mStride2ndRow = mStride2ndRow;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                redList.add(mRedModel);
             }
-            redList.add(mRedModel);
         }
     }
 

@@ -55,7 +55,7 @@ public class AnalRelSubTotalFrag extends AbstractAnalSubTotalPack {
                                 Utils.formatMoney(mSubTotalModel.mStrRedAllFeifan, 2),
                                 getActivity().getString(R.string.anal_subsidy_money_ff))));
 
-                        if (mSubTotalModel.mStride2ndRow.equals("0")){
+                        if (mSubTotalModel.mStride2ndRow.trim().equals("1")){
                             mRel2Row.setVisibility(View.GONE);
                         }else{
                             mRel2Row.setVisibility(View.VISIBLE);

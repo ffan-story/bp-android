@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 
 public final class RecyclerPaginate extends Paginate {
@@ -94,6 +95,7 @@ public final class RecyclerPaginate extends Paginate {
         // Check if end of the list is reached (counting threshold) or if there is no items at all
         if ((totalItemCount - visibleItemCount) <= (firstVisibleItemPosition + loadingTriggerThreshold)
                 || totalItemCount == 0) {
+            LogUtil.i("congjing","11111111111111111111");
             // Call load more only if loading is not currently in progress and if there is more items to load
             if (!callbacks.isLoading() && !callbacks.hasLoadedAllItems()) {
                 callbacks.onLoadMore();

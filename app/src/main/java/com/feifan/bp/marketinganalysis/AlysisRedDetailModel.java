@@ -1,5 +1,7 @@
 package com.feifan.bp.marketinganalysis;
 
+import android.text.TextUtils;
+
 import com.feifan.bp.network.BaseModel;
 
 import org.json.JSONArray;
@@ -36,22 +38,30 @@ public class AlysisRedDetailModel extends BaseModel {
         mStrRedTotal = data.optString("count");
         mStrBeginKey = data.optString("beginKey");
         mStride2ndRow = data.optString("hideOtherSubsidy");
-        for (int i = 0; i < array.length(); i++){
-            try {
-                mRedDetailModel = new RedDetailModel();
-                mRedDetailModel.mStrCouponId = array.getJSONObject(i).optString("couponId");
-                mRedDetailModel.mStrFeifan = array.getJSONObject(i).optString("ffanAmount");
-                mRedDetailModel.mStrThird = array.getJSONObject(i).optString("thirdAmount");
-                mRedDetailModel.mStrVendor = array.getJSONObject(i).optString("merchantAmount");
-                mRedDetailModel.mStrStatus = array.getJSONObject(i).optString("couponStatus");
-                mRedDetailModel.mStrGetTime = array.getJSONObject(i).optString("acquireTime");
-                mRedDetailModel.mStrValidTime = array.getJSONObject(i).optString("dueTime");
-                mRedDetailModel.mStrUseTime = array.getJSONObject(i).optString("verifyTime");
-                mRedDetailModel.mStride2ndRow = mStride2ndRow;
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if (array != null && array.length()>0) {
+            for (int i = 0; i < array.length(); i++) {
+                try {
+                    mRedDetailModel = new RedDetailModel();
+                    mRedDetailModel.mStrCouponId = array.getJSONObject(i).optString("couponId");
+                    mRedDetailModel.mStrFeifan = array.getJSONObject(i).optString("ffanAmount");
+                    mRedDetailModel.mStrThird = array.getJSONObject(i).optString("thirdAmount");
+                    mRedDetailModel.mStrVendor = array.getJSONObject(i).optString("merchantAmount");
+                    mRedDetailModel.mStrStatus = array.getJSONObject(i).optString("couponStatus");
+                    mRedDetailModel.mStrGetTime = array.getJSONObject(i).optString("acquireTime");
+                    if (TextUtils.isEmpty(array.getJSONObject(i).optString("dueTime")) ||
+                            array.getJSONObject(i).optString("dueTime").trim().equals("null")) {
+                        mRedDetailModel.mStrValidTime = "";
+                    } else {
+                        mRedDetailModel.mStrValidTime = array.getJSONObject(i).optString("dueTime");
+                    }
+
+                    mRedDetailModel.mStrUseTime = array.getJSONObject(i).optString("verifyTime");
+                    mRedDetailModel.mStride2ndRow = mStride2ndRow;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                redDetailList.add(mRedDetailModel);
             }
-            redDetailList.add(mRedDetailModel);
         }
     }
 
