@@ -94,6 +94,10 @@ public class AuthSupplier {
          */
         String getMarketingManageId();
 
+        /**
+         * 获取队长管理ID
+         * @return
+         */
         String getReportId();
     }
 
@@ -269,8 +273,9 @@ public class AuthSupplier {
         public String getMarketingManageId() {
             return "1082";
         }
+
         @Override
-        public String getReportId() {  return "1333"; }
+        public String getReportId() {  return "1145"; }
 
     }
 
