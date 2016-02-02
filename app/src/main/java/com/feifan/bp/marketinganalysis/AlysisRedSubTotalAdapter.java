@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 
@@ -60,7 +61,7 @@ public class AlysisRedSubTotalAdapter extends BaseAdapter {
         holder.mTvSubsidyMoneyFf.setText(String.format(mContext.getString(R.string.instant_colon),
                 mContext.getString(R.string.anal_subsidy_item_money_ff),
                 Utils.formatMoney(mListSubTotal.get(position).mStrRedFeifan,2)));
-        if (!TextUtils.isEmpty(mListSubTotal.get(position).mStride2ndRow) && mListSubTotal.get(position).mStride2ndRow.equals("0")){
+        if (!TextUtils.isEmpty(mListSubTotal.get(position).mStride2ndRow) && mListSubTotal.get(position).mStride2ndRow.equals(Constants.MARKETING_HIDE_OTHER_SUBSIDY)){
             holder.mTvSubsidyMoneyThird.setVisibility(View.GONE);
             holder.mTvSubsidyMoneyVendor.setVisibility(View.GONE);
         }else{

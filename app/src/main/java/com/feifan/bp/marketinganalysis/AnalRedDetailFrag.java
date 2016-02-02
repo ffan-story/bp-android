@@ -52,7 +52,7 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
 
     private String mBeginKey = "";
     private boolean loading = false;
-    public List<AlysisRedDetailModel.RedDetailModel> mListRedDetail;
+    private List<AlysisRedDetailModel.RedDetailModel> mListRedDetail;
     private int mRequestDataSize = 0;
     private LinearLayout lineNoNet;
 
@@ -155,8 +155,8 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
      * @param redDetailModel
      * @param isLoadMore
      */
-    public void setPageData(AlysisRedDetailModel redDetailModel, boolean isLoadMore) {
-        mListRedDetail = redDetailModel.redDetailList;
+    private void setPageData(AlysisRedDetailModel redDetailModel,boolean isLoadMore){
+        mListRedDetail =redDetailModel.redDetailList;
         mRequestDataSize = mListRedDetail.size();
         mBeginKey = redDetailModel.mStrBeginKey;
         if (!isLoadMore) {
@@ -166,10 +166,10 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         if (isLoadMore) {
             if (mRedDetaAdap != null) {
                 mRedDetaAdap.notifyData(mListRedDetail);
-                if (mListRedDetail.isEmpty() || mListRedDetail.size() < 10) {
-                    ToastUtil.showToast(getActivity(),"已经没有更多数据了");
-                }
             }
+//            if (mListRedDetail.isEmpty() || mListRedDetail.size()<Integer.valueOf(Constants.LIST_LIMIT)){
+//               Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
+//            }
         } else {
             if (null == redDetailModel.redDetailList || redDetailModel.redDetailList.size() <= 0) {//为空
                 mSwipeLayout.setVisibility(View.GONE);

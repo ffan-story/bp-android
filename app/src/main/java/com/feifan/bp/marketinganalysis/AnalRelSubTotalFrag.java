@@ -5,6 +5,7 @@ import android.text.Html;
 import android.view.View;
 
 import com.android.volley.Response;
+import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
@@ -55,7 +56,7 @@ public class AnalRelSubTotalFrag extends AbstractAnalSubTotalPack {
                                 Utils.formatMoney(mSubTotalModel.mStrRedAllFeifan, 2),
                                 getActivity().getString(R.string.anal_subsidy_money_ff))));
 
-                        if (mSubTotalModel.mStride2ndRow.trim().equals("1")){
+                        if (mSubTotalModel.mStride2ndRow.trim().equals(Constants.MARKETING_HIDE_OTHER_SUBSIDY)){
                             mRel2Row.setVisibility(View.GONE);
                         }else{
                             mRel2Row.setVisibility(View.VISIBLE);

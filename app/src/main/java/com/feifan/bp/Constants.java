@@ -82,4 +82,9 @@ public class Constants {
      */
     public static final String EXTRA_KEY_TITLE = "title";
 
+    /**
+     * 隐藏其它补贴金额  1:隐藏 0:显示
+     */
+    public  static final String MARKETING_HIDE_OTHER_SUBSIDY = "1";
+
 }

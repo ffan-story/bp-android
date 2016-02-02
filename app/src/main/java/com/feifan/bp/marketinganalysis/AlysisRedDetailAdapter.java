@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 
@@ -49,7 +50,7 @@ public class AlysisRedDetailAdapter extends RecyclerView.Adapter<AlysisRedDetail
 
         holder.mTvSubsidyMoneyFf.setText(String.format(mContext.getString(R.string.instant_colon),
                 mContext.getString(R.string.anal_subsidy_item_money_ff),Utils.formatMoney(redDetailsData.mStrFeifan, 2)));
-        if (!TextUtils.isEmpty(redDetailsData.mStride2ndRow) && redDetailsData.mStride2ndRow.equals("0")){
+        if (!TextUtils.isEmpty(redDetailsData.mStride2ndRow) && redDetailsData.mStride2ndRow.equals(Constants.MARKETING_HIDE_OTHER_SUBSIDY)){
             holder.mTvSubsidyMoneyThird.setVisibility(View.GONE);
             holder.mTvSubsidyMoneyVendor.setVisibility(View.GONE);
         }else{
