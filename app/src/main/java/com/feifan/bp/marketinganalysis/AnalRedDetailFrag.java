@@ -21,6 +21,7 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 
 import java.util.ArrayList;
@@ -166,7 +167,7 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
             if (mRedDetaAdap != null) {
                 mRedDetaAdap.notifyData(mListRedDetail);
                 if (mListRedDetail.isEmpty() || mListRedDetail.size() < 10) {
-                    Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(getActivity(),"已经没有更多数据了");
                 }
             }
         } else {
@@ -205,7 +206,7 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
 
     @Override
     public void hasLoadMore() {
-        Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
+        ToastUtil.showToast(getActivity(), "已经没有更多数据了");
     }
 
     @Override

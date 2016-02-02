@@ -19,6 +19,7 @@ import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.home.commoditymanager.BrandFragment;
 import com.feifan.bp.home.commoditymanager.InstantsBuyFragment;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 import java.util.ArrayList;
 
@@ -98,7 +99,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
                     if (isLoadMore) {
                         if (adapter != null) {
                             adapter.notifyData(arryListGoodsData);
-                            Toast.makeText(getActivity(), "已加载第" + pageIndex + "页 , 共" + totalPages + "页", Toast.LENGTH_LONG).show();
+                            ToastUtil.showToast(getActivity(), "已加载第" + pageIndex + "页 , 共" + totalPages + "页");
                         }
                     } else {
                         adapter = new InstEventGoodsListAdapter(getActivity(), arryListGoodsData, mStrEventId);
@@ -153,7 +154,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
 
     @Override
     public void hasLoadMore() {
-        Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
+        ToastUtil.showToast(getActivity(), "已经没有更多数据了");
     }
 
     @Override

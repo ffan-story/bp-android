@@ -18,6 +18,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 import com.feifan.bp.salesmanagement.PromotionListModel.PromotionDetailModel;
 import com.feifan.material.MaterialDialog;
@@ -126,7 +127,7 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
 
     @Override
     public void hasLoadMore() {
-        Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
+        ToastUtil.showToast(getActivity(), "已经没有更多数据了");
     }
 
     @Override
@@ -173,7 +174,7 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
                     if (isLoadMore) {
                         if (adapter != null) {
                             adapter.add(mPromotionList);
-                            Toast.makeText(getActivity(), "已加载第" + page + "页 , 共" + totalPages + "页", Toast.LENGTH_LONG).show();
+                            ToastUtil.showToast(getActivity(), "已加载第" + page + "页 , 共" + totalPages + "页");
                         }
                     } else {
                         adapter = new EventListAdapter(getActivity(), mPromotionList, isRegistered);
