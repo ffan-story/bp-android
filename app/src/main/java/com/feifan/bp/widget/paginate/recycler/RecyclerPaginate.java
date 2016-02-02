@@ -115,7 +115,7 @@ public final class RecyclerPaginate extends Paginate {
     private final RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            if(dy>0){
+            if(dy > loadingTriggerThreshold){ //防止触摸抖动，超过该阀值时认为是有效滑动
                 checkEndOffset(); // Each time when list is scrolled check if end of the list is reached
             }
         }
