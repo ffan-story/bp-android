@@ -4,7 +4,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 
 public final class RecyclerPaginate extends Paginate {
@@ -14,6 +16,8 @@ public final class RecyclerPaginate extends Paginate {
     private final int loadingTriggerThreshold;
     private WrapperAdapter wrapperAdapter;
     private WrapperSpanSizeLookup wrapperSpanSizeLookup;
+
+    private final int VALID_MOVE_THRESHOLD = 10;//有效移动的阀值
 
     RecyclerPaginate(RecyclerView recyclerView,
                      Paginate.Callbacks callbacks,
@@ -95,8 +99,12 @@ public final class RecyclerPaginate extends Paginate {
         if ((totalItemCount - visibleItemCount) <= (firstVisibleItemPosition + loadingTriggerThreshold)
                 || totalItemCount == 0) {
             // Call load more only if loading is not currently in progress and if there is more items to load
-            if (!callbacks.isLoading() && !callbacks.hasLoadedAllItems()) {
-                callbacks.onLoadMore();
+            if(!callbacks.isLoading()){
+                if(!callbacks.hasLoadedAllItems()){
+                    callbacks.onLoadMore();
+                }else{
+                    callbacks.hasLoadMore();
+                }
             }
         }
     }
@@ -109,7 +117,9 @@ public final class RecyclerPaginate extends Paginate {
     private final RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            checkEndOffset(); // Each time when list is scrolled check if end of the list is reached
+            if(dy > VALID_MOVE_THRESHOLD){ //防止触摸抖动，超过该阀值时认为是有效滑动
+                checkEndOffset(); // Each time when list is scrolled check if end of the list is reached
+            }
         }
     };
 

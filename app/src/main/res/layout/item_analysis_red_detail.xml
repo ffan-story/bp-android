@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color_gray_f3"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:padding="@dimen/view_spacing_10"
+        android:layout_marginTop="@dimen/view_spacing_10">
+
+        <TextView
+            android:id="@+id/tv_anal_red_code"
+            style="@style/txt_color33_size14" />
+
+        <TextView
+            android:id="@+id/tv_anal_red_status"
+            style="@style/txt_color99_size14"
+            android:layout_alignParentRight="true" />
+
+        <TextView
+            android:id="@+id/tv_anal_subsidy_money_ff"
+            style="@style/txt_color_blue_size14"
+            android:textSize="@dimen/font_size_12"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/tv_anal_red_code"
+            android:layout_marginBottom="@dimen/view_size_5"
+            android:layout_marginTop="@dimen/view_size_5"/>
+
+        <TextView
+            android:id="@+id/tv_anal_subsidy_money_third"
+            style="@style/txt_color_blue_size14"
+            android:textSize="@dimen/font_size_12"
+            android:layout_below="@id/tv_anal_red_code"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/view_size_5"
+            android:layout_marginTop="@dimen/view_size_5"/>
+
+        <TextView
+            android:id="@+id/tv_anal_subsidy_money_vendor"
+            style="@style/txt_color_blue_size14"
+            android:textSize="@dimen/font_size_12"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_anal_red_code"
+            android:layout_marginBottom="@dimen/view_size_5"
+            android:layout_marginTop="@dimen/view_size_5"/>
+
+        <TextView
+            android:id="@+id/tv_anal_get_time"
+            style="@style/txt_color99_size12"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/tv_anal_subsidy_money_ff" />
+
+        <TextView
+            android:id="@+id/tv_anal_end_time"
+            style="@style/txt_color99_size12"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/tv_anal_get_time" />
+
+        <TextView
+            android:id="@+id/tv_anal_use_time"
+            style="@style/txt_color99_size12"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/tv_anal_end_time" />
+
+    </RelativeLayout>
+</RelativeLayout>

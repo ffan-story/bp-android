@@ -43,7 +43,12 @@ public class GetRequest<T extends BaseModel> extends JsonRequest<T> {
 
         public GetRequest<T> build(){
             if(!mParams.isEmpty()) {
-                mUrl = mUrl.concat("?");
+                if (!mUrl.contains("?")){
+                    mUrl = mUrl.concat("?");
+                }else{
+                    mUrl = mUrl.concat("&");
+                }
+
                 for(Map.Entry<String, String> entry : mParams.entrySet()){
                     if(entry.getValue() != null) {
                         mUrl = mUrl.concat(entry.getKey()).concat("=").concat(entry.getValue()).concat("&");

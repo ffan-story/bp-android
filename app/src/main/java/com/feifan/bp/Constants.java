@@ -8,7 +8,7 @@ public class Constants {
 
     public static int CODE_LENGTH_TEN = 10;
     public static int CODE_LENGTH_TWENTY = 20;
-
+    public static String LIST_LIMIT = "10";
     public static int LIST_MAX_LENGTH = 15;
     //密码长度范围
     public static int PASSWORD_MIN_LENGTH = 8;
@@ -81,5 +81,10 @@ public class Constants {
      * 通用参数键值－title
      */
     public static final String EXTRA_KEY_TITLE = "title";
+
+    /**
+     * 隐藏其它补贴金额  1:隐藏 0:显示
+     */
+    public  static final String MARKETING_HIDE_OTHER_SUBSIDY = "1";
 
 }

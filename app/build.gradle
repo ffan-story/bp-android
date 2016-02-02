@@ -27,7 +27,7 @@ def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim
 // I want to use git tags as my version names (1.2.2)
 //def gitCurrentTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
 
-def version = "1.6.0"
+def version = "1.6.1"
 
 android {
     compileSdkVersion 23
@@ -37,7 +37,7 @@ android {
         applicationId "com.feifan.bp"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 9
+        versionCode 10
         versionName version
     }
 
@@ -73,7 +73,7 @@ android {
         }
         productpre{
             applicationId "com.feifan.bp.pre"
-            versionName version + "-pre"
+            versionName version + ".pre-" + gitSha
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT_PRE"
 
             manifestPlaceholders = [UMENG_APPKEY_VALUE : "55ffc7ffe0f55afc2d0016ee"]
@@ -111,20 +111,6 @@ android {
     }
 
 }
-
-// 上传到蒲公英
-//apply plugin: 'org.quanqi.pgyer'
-//
-//pgyer {
-//    _api_key = ""
-//    uKey = ""
-//}
-//
-//apks {
-//    release {
-//        sourceFile = file(uploadApk)
-//    }
-//}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

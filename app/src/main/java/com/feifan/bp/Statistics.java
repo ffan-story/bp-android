@@ -38,6 +38,8 @@ public class Statistics {
     public final static String FB_FINA_FLASHBUY         = "FB_FINA_FLASHBUY";       //  交易流水页面	闪购
     public final static String FB_FINA_GENCOUPON        = "FB_FINA_GENCOUPON";      //  交易流水页面	通用券
 
+    public final static String FB_PROMTION_ANA        = "FB_PROMTION_ANA";      //  营销分析
+
     /**
      * 更新客户端数据
      * 发送统计日志时作为业务相关的客户端参数数据

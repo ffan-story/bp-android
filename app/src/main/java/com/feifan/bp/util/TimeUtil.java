@@ -33,6 +33,16 @@ public class TimeUtil {
     }
 
     /**
+     * 获得明天日期
+     */
+    public static String getTomorrowday(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,+1);
+        return DATE_FORMAT_DATE.format(calendar.getTime());
+    }
+
+
+    /**
      * 获取上个月份
      * @return
      */
@@ -76,6 +86,48 @@ public class TimeUtil {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * 减一天
+     * @param date
+     * @return
+     */
+    public static String getSUBOneDay(String date) {
+        String addData = "";
+        if (null == date) {
+            return date;
+        }
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(DATE_FORMAT_DATE.parse(date));   //设置当前日期
+            c.add(Calendar.DATE, -1); //日期加1天
+            addData =dateToStr("yyyy-MM-dd",c.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return addData;
+    }
+
+    /**
+     * 加一天
+     * @param date
+     * @return
+     */
+    public static String getAddOneDay(String date) {
+        String addData = "";
+        if (null == date) {
+            return date;
+        }
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(DATE_FORMAT_DATE.parse(date));   //设置当前日期
+            c.add(Calendar.DATE, 1); //日期加1天
+            addData =dateToStr("yyyy-MM-dd",c.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return addData;
     }
 
     /**

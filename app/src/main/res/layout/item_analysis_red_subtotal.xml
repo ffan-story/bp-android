@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_sub_total_coupon_name"
+        style="@style/txt_color33_size14"
+        android:layout_width="match_parent"
+        android:padding="@dimen/view_spacing_10"/>
+
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@mipmap/settings_ic_right_arrow"
+        android:layout_margin="@dimen/view_spacing_10"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/arrow"
+        android:layout_below="@id/tv_sub_total_coupon_name"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_anal_charge_off_count"
+                style="@style/txt_color33_size12"
+                android:layout_width="match_parent"
+                android:paddingBottom="@dimen/view_spacing_10"
+                android:paddingLeft="@dimen/view_spacing_10" />
+
+            <TextView
+                android:id="@+id/tv_anal_subsidy_money_vendor"
+                style="@style/txt_color_blue_size14"
+                android:textSize="@dimen/font_size_12"
+                android:layout_width="match_parent"
+                android:paddingBottom="@dimen/view_spacing_10"
+                android:paddingLeft="@dimen/view_spacing_10" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_anal_subsidy_money_ff"
+                style="@style/txt_color_blue_size14"
+                android:layout_width="match_parent"
+                android:paddingBottom="@dimen/view_spacing_10"
+                android:paddingLeft="@dimen/view_spacing_10"
+                android:textSize="@dimen/font_size_12"/>
+
+            <TextView
+                android:id="@+id/tv_anal_subsidy_money_third"
+                style="@style/txt_color_blue_size14"
+                android:layout_width="match_parent"
+                android:paddingBottom="@dimen/view_spacing_10"
+                android:paddingLeft="@dimen/view_spacing_10"
+                android:textSize="@dimen/font_size_12"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

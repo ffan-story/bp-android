@@ -83,6 +83,9 @@ public class InstEventSignUpDetailFragment extends ProgressFragment {
 
     @Override
     protected void requestData(){
+        if (!isAdded()){
+            return;
+        }
         setContentShown(true);
         String mgoodsAction ="edit";
         com.feifan.bp.salesmanagement.InstCtrl.getInstEventGoodsSetingDeta(mStrEventId, mStrGoodsCode, mgoodsAction, new Response.Listener<com.feifan.bp.salesmanagement.InstEvenSkuSettModel>() {
