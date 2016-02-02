@@ -55,7 +55,7 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
     public List<AlysisRedDetailModel.RedDetailModel> mListRedDetail;
     private int mRequestDataSize = 0;
     private LinearLayout lineNoNet;
-    private boolean isNotMore = false;
+//    private boolean isNotMore = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,7 +158,7 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         mListRedDetail =redDetailModel.redDetailList;
         mRequestDataSize = mListRedDetail.size();
         mBeginKey = redDetailModel.mStrBeginKey;
-        isNotMore = false;
+//        isNotMore = false;
         if (!isLoadMore) {
             setContentShown(true);
         }
@@ -168,8 +168,8 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
                 mRedDetaAdap.notifyData(mListRedDetail);
             }
             if (mListRedDetail.isEmpty() || mListRedDetail.size()<10){
-                isNotMore = true;
-//               Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
+//                isNotMore = true;
+               Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
             }
         } else {
             if (null == redDetailModel.redDetailList || redDetailModel.redDetailList.size()<=0){//为空
@@ -202,18 +202,18 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
 
     @Override
     public void onLoadMore() {
-        if (isNotMore){
-            if(mToast == null) {
-                mToast = Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT);
-                isNotMore = false;
-            } else {
-                mToast.setText("已经没有更多数据了");
-                mToast.setDuration(Toast.LENGTH_SHORT);
-                isNotMore = false;
-            }
-            mToast.show();
-            return;
-        }
+//        if (isNotMore){
+//            if(mToast == null) {
+//                mToast = Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT);
+//                isNotMore = false;
+//            } else {
+//                mToast.setText("已经没有更多数据了");
+//                mToast.setDuration(Toast.LENGTH_SHORT);
+//                isNotMore = false;
+//            }
+//            mToast.show();
+//            return;
+//        }
 
         loading = true;
         fetchData(true);
@@ -221,15 +221,14 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
 
     @Override
     public boolean isLoading() {
-        Log.e("congjing", "public boolean isLoading() ------------->");
         return loading;
     }
 //    private Toast mToast;
     @Override
     public boolean hasLoadedAllItems() {
 
-       //return !(mRequestDataSize== Integer.parseInt(Constants.LIST_LIMIT));
-        return false;
+       return !(mRequestDataSize== Integer.parseInt(Constants.LIST_LIMIT));
+//        return false;
     }
 
     @Override

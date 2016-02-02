@@ -73,7 +73,7 @@ android {
         }
         productpre{
             applicationId "com.feifan.bp.pre"
-            versionName version + "-pre"
+            versionName version + ".pre-" + gitSha
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT_PRE"
 
             manifestPlaceholders = [UMENG_APPKEY_VALUE : "55ffc7ffe0f55afc2d0016ee"]
