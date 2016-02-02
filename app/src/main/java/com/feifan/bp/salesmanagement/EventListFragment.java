@@ -125,6 +125,11 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
     }
 
     @Override
+    public void hasLoadMore() {
+        Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public boolean isLoading() {
         return loading;
     }

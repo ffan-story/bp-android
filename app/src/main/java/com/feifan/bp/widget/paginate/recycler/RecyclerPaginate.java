@@ -4,6 +4,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.paginate.Paginate;
@@ -96,8 +97,12 @@ public final class RecyclerPaginate extends Paginate {
         if ((totalItemCount - visibleItemCount) <= (firstVisibleItemPosition + loadingTriggerThreshold)
                 || totalItemCount == 0) {
             // Call load more only if loading is not currently in progress and if there is more items to load
-            if (!callbacks.isLoading() && !callbacks.hasLoadedAllItems()) {
-                callbacks.onLoadMore();
+            if(!callbacks.isLoading()){
+                if(!callbacks.hasLoadedAllItems()){
+                    callbacks.onLoadMore();
+                }else{
+                    callbacks.hasLoadMore();
+                }
             }
         }
     }
@@ -110,7 +115,9 @@ public final class RecyclerPaginate extends Paginate {
     private final RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            checkEndOffset(); // Each time when list is scrolled check if end of the list is reached
+            if(dy>0){
+                checkEndOffset(); // Each time when list is scrolled check if end of the list is reached
+            }
         }
     };
 

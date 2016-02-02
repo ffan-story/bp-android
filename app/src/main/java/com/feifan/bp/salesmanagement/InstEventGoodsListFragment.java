@@ -136,7 +136,7 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
 
         setContentShown(true);
         pageIndex = 1;
-        fetchGoodsListData(pageIndex,false);
+        fetchGoodsListData(pageIndex, false);
     }
 
     @Override
@@ -149,6 +149,11 @@ public class InstEventGoodsListFragment extends ProgressFragment implements Pagi
         loading = true;
         pageIndex++;
         fetchGoodsListData(pageIndex, true);
+    }
+
+    @Override
+    public void hasLoadMore() {
+        Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
     }
 
     @Override

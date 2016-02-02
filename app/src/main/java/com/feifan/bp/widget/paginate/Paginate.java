@@ -11,7 +11,8 @@ public abstract class Paginate {
     public interface Callbacks {
         /** Called when next page of data needs to be loaded. */
         void onLoadMore();
-
+        /** Called when data has to be loaded all. */
+        void hasLoadMore();
         /**
          * Called to check if loading of the next page is currently in progress. While loading is in progress
          * {@link com.feifan.bp.widget.paginate.Paginate.Callbacks#onLoadMore} won't be called.

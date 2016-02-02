@@ -9,7 +9,6 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -33,29 +32,29 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
  * 红包核销明细
  * Created by apple on 16-1-21.
  */
-public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Callbacks,SwipeRefreshLayout.OnRefreshListener {
-    public static final String EXTRA_CHARGE_OFF_ID="charge_off_id";
-    public static final String EXTRA_CHARGE_OFF_START_TIME="charge_off_start_time";
-    public static final String EXTRA_CHARGE_OFF_END_TIME="charge_off_end_time";
-    public static final String EXTRA_CHARGE_OFF_END_NAME="red_name";
-    public static final String EXTRA_CHARGE_OFF_END_COUNT="red_count";
+public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Callbacks, SwipeRefreshLayout.OnRefreshListener {
+    public static final String EXTRA_CHARGE_OFF_ID = "charge_off_id";
+    public static final String EXTRA_CHARGE_OFF_START_TIME = "charge_off_start_time";
+    public static final String EXTRA_CHARGE_OFF_END_TIME = "charge_off_end_time";
+    public static final String EXTRA_CHARGE_OFF_END_NAME = "red_name";
+    public static final String EXTRA_CHARGE_OFF_END_COUNT = "red_count";
 
     SwipeRefreshLayout mSwipeLayout;
     RecyclerView mRecyclerView;
-    private TextView mTvRedName,mTvRedChargeOffTotal;
+    private TextView mTvRedName, mTvRedChargeOffTotal;
     private TextView mTvNoData;
     private AlysisRedDetailAdapter mRedDetaAdap;
     private String mCouponId;
-    private String mSDate,mEDate;
+    private String mSDate, mEDate;
     private Paginate paginate;
-    private String mSRedName,mERedCount;
+    private String mSRedName, mERedCount;
 
     private String mBeginKey = "";
     private boolean loading = false;
     public List<AlysisRedDetailModel.RedDetailModel> mListRedDetail;
     private int mRequestDataSize = 0;
     private LinearLayout lineNoNet;
-//    private boolean isNotMore = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,15 +78,15 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         mRecyclerView.setItemAnimator(new SlideInUpAnimator());
         mSwipeLayout.setColorSchemeResources(R.color.accent);
         mSwipeLayout.setOnRefreshListener(this);
-        mTvRedName = (TextView)v.findViewById(R.id.tv_name);
-        mTvRedChargeOffTotal = (TextView)v.findViewById(R.id.tv_charge_off_count);
-        if (!TextUtils.isEmpty(mSRedName)){
+        mTvRedName = (TextView) v.findViewById(R.id.tv_name);
+        mTvRedChargeOffTotal = (TextView) v.findViewById(R.id.tv_charge_off_count);
+        if (!TextUtils.isEmpty(mSRedName)) {
             mTvRedName.setText(mSRedName);
         }
-        if (!TextUtils.isEmpty(mERedCount)){
+        if (!TextUtils.isEmpty(mERedCount)) {
             mTvRedChargeOffTotal.setText(mERedCount);
         }
-        mTvNoData = (TextView)v.findViewById(R.id.anal_tv_detail_no_data);
+        mTvNoData = (TextView) v.findViewById(R.id.anal_tv_detail_no_data);
         lineNoNet = (LinearLayout) v.findViewById(R.id.no_net);
         lineNoNet.findViewById(R.id.btn_retry).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,17 +107,17 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
 
     @Override
     protected void requestData() {
-        if (!isAdded()){
+        if (!isAdded()) {
             return;
         }
         setContentShown(true);
-        if (Utils.isNetworkAvailable(getActivity())){
+        if (Utils.isNetworkAvailable(getActivity())) {
             mRecyclerView.setVisibility(View.VISIBLE);
             mSwipeLayout.setVisibility(View.VISIBLE);
             mTvNoData.setVisibility(View.GONE);
             lineNoNet.setVisibility(View.GONE);
             fetchData(false);
-        }else{
+        } else {
             mRecyclerView.setVisibility(View.GONE);
             mTvNoData.setVisibility(View.GONE);
             mSwipeLayout.setVisibility(View.GONE);
@@ -128,14 +127,14 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
 
     /**
      * 获取网络数据
+     *
      * @param isLoadMore
      */
-    private void fetchData(final boolean isLoadMore){
+    private void fetchData(final boolean isLoadMore) {
         setContentShown(true);
         if (!isAdded()) {
             return;
         }
-
         if (loading && !isLoadMore) {
             setContentShown(false);
         }
@@ -151,14 +150,14 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
 
     /**
      * UI设置数据
+     *
      * @param redDetailModel
      * @param isLoadMore
      */
-    public void setPageData(AlysisRedDetailModel redDetailModel,boolean isLoadMore){
-        mListRedDetail =redDetailModel.redDetailList;
+    public void setPageData(AlysisRedDetailModel redDetailModel, boolean isLoadMore) {
+        mListRedDetail = redDetailModel.redDetailList;
         mRequestDataSize = mListRedDetail.size();
         mBeginKey = redDetailModel.mStrBeginKey;
-//        isNotMore = false;
         if (!isLoadMore) {
             setContentShown(true);
         }
@@ -166,22 +165,21 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         if (isLoadMore) {
             if (mRedDetaAdap != null) {
                 mRedDetaAdap.notifyData(mListRedDetail);
-            }
-            if (mListRedDetail.isEmpty() || mListRedDetail.size()<10){
-//                isNotMore = true;
-               Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
+                if (mListRedDetail.isEmpty() || mListRedDetail.size() < 10) {
+                    Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
+                }
             }
         } else {
-            if (null == redDetailModel.redDetailList || redDetailModel.redDetailList.size()<=0){//为空
+            if (null == redDetailModel.redDetailList || redDetailModel.redDetailList.size() <= 0) {//为空
                 mSwipeLayout.setVisibility(View.GONE);
                 mTvNoData.setVisibility(View.VISIBLE);
                 return;
-            }else{
+            } else {
                 mSwipeLayout.setVisibility(View.VISIBLE);
                 mTvNoData.setVisibility(View.GONE);
             }
 
-            mRedDetaAdap =  new AlysisRedDetailAdapter(getActivity(), mListRedDetail);
+            mRedDetaAdap = new AlysisRedDetailAdapter(getActivity(), mListRedDetail);
             mRecyclerView.setAdapter(mRedDetaAdap);
             paginate = Paginate.with(mRecyclerView, AnalRedDetailFrag.this)
                     .setLoadingTriggerThreshold(0)
@@ -198,37 +196,26 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
     public boolean onMenuItemClick(MenuItem item) {
         return false;
     }
-    Toast mToast;
 
     @Override
     public void onLoadMore() {
-//        if (isNotMore){
-//            if(mToast == null) {
-//                mToast = Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT);
-//                isNotMore = false;
-//            } else {
-//                mToast.setText("已经没有更多数据了");
-//                mToast.setDuration(Toast.LENGTH_SHORT);
-//                isNotMore = false;
-//            }
-//            mToast.show();
-//            return;
-//        }
-
         loading = true;
         fetchData(true);
+    }
+
+    @Override
+    public void hasLoadMore() {
+        Toast.makeText(getActivity(), "已经没有更多数据了", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public boolean isLoading() {
         return loading;
     }
-//    private Toast mToast;
+
     @Override
     public boolean hasLoadedAllItems() {
-
-       return !(mRequestDataSize== Integer.parseInt(Constants.LIST_LIMIT));
-//        return false;
+        return !(mRequestDataSize == Integer.parseInt(Constants.LIST_LIMIT));
     }
 
     @Override
@@ -251,5 +238,4 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         }
         return null;
     }
-
 }
