@@ -83,9 +83,9 @@ public class AlysisRedSubTotalAdapter extends BaseAdapter {
         public ViewHolder(View itemView){
             mTvChargeOffCount= (TextView)itemView.findViewById(R.id.tv_anal_charge_off_count);
             mTvCouponName= (TextView)itemView.findViewById(R.id.tv_sub_total_coupon_name);
-            mTvSubsidyMoneyFf = (TextView)itemView.findViewById(R.id.tv_anal_subsidy_money_ff);
-            mTvSubsidyMoneyVendor = (TextView)itemView.findViewById(R.id.tv_anal_subsidy_money_vendor);
-            mTvSubsidyMoneyThird = (TextView)itemView.findViewById(R.id.tv_anal_subsidy_money_third);
+            mTvSubsidyMoneyFf = (TextView)itemView.findViewById(R.id.subsidy_feifan);
+            mTvSubsidyMoneyVendor = (TextView)itemView.findViewById(R.id.subsidy_merchant);
+            mTvSubsidyMoneyThird = (TextView)itemView.findViewById(R.id.subsidy_third);
         }
     }
 }

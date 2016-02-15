@@ -21,7 +21,7 @@
             android:paddingRight="@dimen/view_spacing_10">
 
             <TextView
-                android:id="@+id/tv_charge_off_count"
+                android:id="@+id/detail_total_count"
                 style="@style/txt_color33_size14"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -54,28 +54,11 @@
 
     </RelativeLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-       >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/view_spacing_10" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:divider="#ffff0000"
-            android:dividerHeight="10dp"
-            />
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-    <TextView
-        android:id="@+id/anal_tv_detail_no_data"
-        style="@style/txt_color99_size16"
-        android:text="@string/anal_subsidy_no_detail_data"
-        android:layout_margin="@dimen/view_spacing_10"/>
-
-
-    <include layout="@layout/layout_no_net" android:id="@+id/no_net" />
+    <include layout="@layout/fragment_marketing_no_net" android:id="@+id/detail_no_net" />
 </LinearLayout>

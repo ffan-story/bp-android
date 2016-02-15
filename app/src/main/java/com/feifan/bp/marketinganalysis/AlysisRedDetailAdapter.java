@@ -79,14 +79,14 @@ public class AlysisRedDetailAdapter extends RecyclerView.Adapter<AlysisRedDetail
         public TextView mTvEndTime,mTvGetTime,mTvUseTime,mTvSubsidyMoneyFf,mTvSubsidyMoneyVendor,mTvSubsidyMoneyThird,mTvRdeCode,mTvRedStatus;
         public ViewHolder(View itemView) {
             super(itemView);
-            mTvEndTime = (TextView)itemView.findViewById(R.id.tv_anal_end_time);
-            mTvGetTime = (TextView)itemView.findViewById(R.id.tv_anal_get_time);
-            mTvUseTime = (TextView)itemView.findViewById(R.id.tv_anal_use_time);
-            mTvSubsidyMoneyFf = (TextView)itemView.findViewById(R.id.tv_anal_subsidy_money_ff);
-            mTvSubsidyMoneyVendor = (TextView)itemView.findViewById(R.id.tv_anal_subsidy_money_vendor);
-            mTvSubsidyMoneyThird = (TextView)itemView.findViewById(R.id.tv_anal_subsidy_money_third);
+            mTvEndTime = (TextView)itemView.findViewById(R.id.end_useful_time);
+            mTvGetTime = (TextView)itemView.findViewById(R.id.get_coupon_time);
+            mTvUseTime = (TextView)itemView.findViewById(R.id.charge_off_time);
+            mTvSubsidyMoneyFf = (TextView)itemView.findViewById(R.id.subsidy_feifan);
+            mTvSubsidyMoneyVendor = (TextView)itemView.findViewById(R.id.subsidy_merchant);
+            mTvSubsidyMoneyThird = (TextView)itemView.findViewById(R.id.subsidy_third);
             mTvRdeCode= (TextView)itemView.findViewById(R.id.tv_anal_red_code);
-            mTvRedStatus= (TextView)itemView.findViewById(R.id.tv_anal_red_status);
+            mTvRedStatus= (TextView)itemView.findViewById(R.id.detail_coupon_status);
         }
     }
 

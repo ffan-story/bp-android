@@ -1,0 +1,65 @@
+TASK com.feifan.bp.test id=22
+  ACTIVITY com.feifan.bp.test/com.feifan.bp.LaunchActivity 5350f808 pid=17642
+    Local FragmentActivity 534a1798 State:
+      mCreated=truemResumed=true mStopped=false mReallyStopped=false
+      mLoadersStarted=true
+    Active Fragments in 534a18dc:
+      #0: IndexFragment{5347f7b0 #0 id=0x7f0f0073}
+        mFragmentId=#7f0f0073 mContainerId=#7f0f0073 mTag=null
+        mState=5 mIndex=0 mWho=android:fragment:0 mBackStackNesting=0
+        mAdded=true mRemoving=false mResumed=true mFromLayout=false mInLayout=false
+        mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+        mRetainInstance=false mRetaining=false mUserVisibleHint=true
+        mFragmentManager=FragmentManager{534a18dc in HostCallbacks{534a18c0}}
+        mHost=android.support.v4.app.FragmentActivity$HostCallbacks@534a18c0
+        mContainer=android.widget.FrameLayout@5349eda8
+        mView=android.widget.RelativeLayout@53490cf0
+        mInnerView=android.widget.RelativeLayout@53490cf0
+        Child FragmentManager{5345c140 in IndexFragment{5347f7b0}}:
+          FragmentManager misc state:
+            mHost=android.support.v4.app.FragmentActivity$HostCallbacks@534a18c0
+            mContainer=android.support.v4.app.Fragment$1@534698e0
+            mParent=IndexFragment{5347f7b0 #0 id=0x7f0f0073}
+            mCurState=5 mStateSaved=false mDestroyed=false
+    Added Fragments:
+      #0: IndexFragment{5347f7b0 #0 id=0x7f0f0073}
+    FragmentManager misc state:
+      mHost=android.support.v4.app.FragmentActivity$HostCallbacks@534a18c0
+      mContainer=android.support.v4.app.FragmentActivity$HostCallbacks@534a18c0
+      mCurState=5 mStateSaved=false mDestroyed=false
+    View Hierarchy:
+      com.android.internal.policy.impl.PhoneWindow$DecorView{534a1dfc V.E..... ... 0,0-480,752}
+        android.widget.LinearLayout{534a2198 V.E..... ... 0,0-480,752}
+          android.view.ViewStub{534a26ec G.E..... ... 0,0-0,0 #1020314}
+          android.widget.FrameLayout{534a27e0 V.E..... ... 0,25-480,752}
+            android.support.v7.internal.widget.FitWindowsLinearLayout{534a5b1c V.E..... ... 0,0-480,727 #7f0f005a app:id/action_bar_root}
+              android.support.v7.internal.widget.ViewStubCompat{534a5cd0 G.E..... ... 0,0-0,0 #7f0f005b app:id/action_mode_bar_stub}
+              android.support.v7.internal.widget.ContentFrameLayout{534a5ec0 V.ED.... ... 0,0-480,727 #1020002 android:id/content}
+                android.widget.RelativeLayout{534a6350 V.E..... ... 0,0-480,727}
+                  android.support.v7.widget.Toolbar{536bb6f4 G.E..... ... 0,0-0,0 #7f0f0079 app:id/head_bar}
+                    android.support.v7.widget.AppCompatTextView{534506f0 V.ED.... ... 0,0-0,0 #7f0f0200 app:id/header_center_title}
+                  com.feifan.bp.widget.TabBar{53482474 V.E..... ... 0,666-480,727 #7f0f007a app:id/bottom_bar}
+                    com.feifan.bp.widget.BadgerRadioButton{53451e7c V.ED..C. ... 5,5-161,56 #0}
+                    com.feifan.bp.widget.BadgerRadioButton{53450a04 V.ED..C. ... 161,5-318,56 #1}
+                    com.feifan.bp.widget.BadgerRadioButton{534949f8 V.ED..C. ... 318,5-475,56 #2}
+                  android.widget.FrameLayout{5349eda8 V.E..... ... 0,0-480,666 #7f0f0073 app:id/content_container}
+                    android.widget.RelativeLayout{53490cf0 V.E..... ... 0,0-480,666}
+                      android.widget.RelativeLayout{53490df4 V.E..... ... 0,0-480,223 #7f0f012c app:id/index_top_container}
+                        android.support.v7.widget.AppCompatTextView{5349131c V.ED.... ... 204,0-276,56 #7f0f004b app:id/title}
+                        android.widget.ImageView{53490868 V.ED..C. ... 440,0-460,56 #7f0f012d app:id/login_info_icon}
+                        android.widget.RelativeLayout{53491460 V.E..... ... 10,66-470,116 #7f0f00b3 app:id/index_search_input}
+                          android.widget.ImageView{5345505c V.ED..C. ... 390,0-439,49 #7f0f012e app:id/index_search_btn}
+                          android.support.v7.widget.AppCompatEditText{534aacb8 VFED..CL F.. 15,12-390,37 #7f0f012f app:id/et_code_edit}
+                        android.view.View{5347f8d0 V.ED.... ... 239,116-240,117 #7f0f0130 app:id/index_splitter}
+                        android.widget.LinearLayout{536bb00c V.E..... ... 0,116-480,223}
+                          android.support.v7.widget.AppCompatTextView{534a3df8 V.ED..C. ... 0,5-240,107 #7f0f0131 app:id/index_scan}
+                          android.support.v7.widget.AppCompatTextView{534ab2d4 V.ED..C. ... 240,0-480,107 #7f0f0132 app:id/index_history}
+                      android.support.v7.widget.RecyclerView{53490070 VFED.... ... 0,223-480,666 #7f0f0133 app:id/index_function_container}
+                        com.feifan.bp.widget.BadgerTextView{536be704 V.ED..C. ... 10,10-163,102}
+                        com.feifan.bp.widget.BadgerTextView{536beec4 V.ED..C. ... 163,10-316,102}
+                        com.feifan.bp.widget.BadgerTextView{536c16ec V.ED..C. ... 316,10-469,102}
+                        com.feifan.bp.widget.BadgerTextView{5348d0c0 V.ED..C. ... 10,102-163,194}
+                        com.feifan.bp.widget.BadgerTextView{534cb3f0 V.ED..C. ... 163,102-316,194}
+                        com.feifan.bp.widget.BadgerTextView{534cb684 V.ED..C. ... 316,102-469,194}
+                        com.feifan.bp.widget.BadgerTextView{534cb918 V.ED..C. ... 10,194-163,286}
+                        com.feifan.bp.widget.BadgerTextView{534cbbac V.ED..C. ... 163,194-316,286}

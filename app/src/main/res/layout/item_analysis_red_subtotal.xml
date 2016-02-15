@@ -41,7 +41,7 @@
                 android:paddingLeft="@dimen/view_spacing_10" />
 
             <TextView
-                android:id="@+id/tv_anal_subsidy_money_vendor"
+                android:id="@+id/subsidy_merchant"
                 style="@style/txt_color_blue_size14"
                 android:textSize="@dimen/font_size_12"
                 android:layout_width="match_parent"
@@ -56,7 +56,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_anal_subsidy_money_ff"
+                android:id="@+id/subsidy_feifan"
                 style="@style/txt_color_blue_size14"
                 android:layout_width="match_parent"
                 android:paddingBottom="@dimen/view_spacing_10"
@@ -64,7 +64,7 @@
                 android:textSize="@dimen/font_size_12"/>
 
             <TextView
-                android:id="@+id/tv_anal_subsidy_money_third"
+                android:id="@+id/subsidy_third"
                 style="@style/txt_color_blue_size14"
                 android:layout_width="match_parent"
                 android:paddingBottom="@dimen/view_spacing_10"

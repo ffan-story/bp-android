@@ -36,6 +36,7 @@ public class SegmentedGroup extends RadioGroup {
         mMarginDp = (int) getResources().getDimension(R.dimen.radio_button_stroke_border);
         mCornerRadius = getResources().getDimension(R.dimen.radio_button_conner_radius);
         mLayoutSelector = new LayoutSelector(mCornerRadius);
+
     }
 
     /* Reads the attributes from the layout */

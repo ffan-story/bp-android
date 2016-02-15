@@ -409,5 +409,18 @@
     <string name="two_row_33_99"><![CDATA[<font color="#333333">%1$s</font><br><small><font color="#999999" size=12sp>%2$s</font></small>]]></string>
     <string name="two_row_red_99"><![CDATA[<font color="#E11212">%1$s</font><br><small><font color="#999999" size=12sp>%2$s</font></small>]]></string>
     <string name="anal_remote">摇一摇</string>
+    <string name="anal_general_coupons">通用券</string>
+    <string name="anal_general_detail">明细</string>
+    <string name="anal_coupons">优惠券</string>
+    <string name="anal_charge_summary_total_title">总计</string>
+    <string name="anal_charge_total_count">券核销总笔数 : %1$s</string>
+    <string name="anal_charge_count">核销笔数 : %1$s</string>
+    <string name="anal_charge_no_data">暂时没有数据</string>
+    <string name="anal_marketing_no_net">系统网络异常，请重试！</string>
+    <string name="reload">重新加载</string>
+    <string name="anal_award_money">奖励金额(元)</string>
+    <string name="anal_coupons_summary_title">券分类汇总</string>
+    <string name="anal_award_summary_title">奖品分类汇总</string>
+
 </resources>
 

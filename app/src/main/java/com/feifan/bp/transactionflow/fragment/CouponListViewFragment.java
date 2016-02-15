@@ -131,7 +131,7 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
         mLinkRelative = (TextView)header.findViewById(R.id.link_relative);
         mDetailTotalCount = (TextView) header.findViewById(R.id.coupon_total_count);
         relativeArrow = (ImageView) header.findViewById(R.id.coupon_relative_arrow);
-        mEmptyView = (TextView) header.findViewById(R.id.no_data_view);
+        mEmptyView = (TextView) header.findViewById(R.id.no_net_view);
 
         getToolbar().setOnClickListener(new View.OnClickListener() {
             @Override

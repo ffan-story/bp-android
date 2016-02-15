@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.feifan.bp.Constants;
@@ -79,9 +78,9 @@ public class AnalRedDetailFrag extends ProgressFragment implements Paginate.Call
         mRecyclerView.setItemAnimator(new SlideInUpAnimator());
         mSwipeLayout.setColorSchemeResources(R.color.accent);
         mSwipeLayout.setOnRefreshListener(this);
-        mTvRedName = (TextView) v.findViewById(R.id.tv_name);
-        mTvRedChargeOffTotal = (TextView) v.findViewById(R.id.tv_charge_off_count);
-        if (!TextUtils.isEmpty(mSRedName)) {
+        mTvRedName = (TextView)v.findViewById(R.id.detail_title);
+        mTvRedChargeOffTotal = (TextView)v.findViewById(R.id.tv_charge_off_count);
+        if (!TextUtils.isEmpty(mSRedName)){
             mTvRedName.setText(mSRedName);
         }
         if (!TextUtils.isEmpty(mERedCount)) {
