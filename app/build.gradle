@@ -146,6 +146,7 @@ shootline {
         uKey='523d8a1f42d5455d01525913fae356cc'
         _api_key='048ad38bdf6822f1a3ed36981cb85bb2'
         fileName= "${project.buildDir.absolutePath}/outputs/apk/${project.parent.name}.apk"
+        password='bp123'
     }
 
     // 应用宝渠道

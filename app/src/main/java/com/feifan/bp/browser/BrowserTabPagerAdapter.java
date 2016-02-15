@@ -44,7 +44,6 @@ public class BrowserTabPagerAdapter extends FragmentPagerAdapter {
             fragment.setmTitleName(contextTitle);
             mFragments.add(fragment);
         }
-        Log.e("xuchunlei", "BrowserTabPager---->" + url);
     }
 
     @Override
