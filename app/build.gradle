@@ -154,6 +154,3 @@ shootline {
         fileName = '/Users/xuchunlei/Projects/myapp.apk'
     }
 }
-
-
-shoot.dependsOn 'assembleSitRelease'
