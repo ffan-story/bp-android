@@ -76,9 +76,6 @@ public class LoginFragment extends BaseFragment {
         v.findViewById(R.id.login_go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // for baidu mtc测试
-                account.setText("18612696318");
-                password.setText("123456789");
 
                 if (TextUtils.isEmpty(account.getText()) && TextUtils.isEmpty(password.getText())) {
                     Utils.showShortToast(getActivity(), R.string.error_message_text_login_empty, Gravity.CENTER);
