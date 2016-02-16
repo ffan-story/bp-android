@@ -110,7 +110,7 @@
 
 
     <TextView
-        android:id="@+id/no_data_view"
+        android:id="@+id/no_net_view"
         style="@style/txt_color99_size16"
         android:paddingLeft="@dimen/view_spacing_8"
         android:layout_margin="@dimen/view_spacing_10"

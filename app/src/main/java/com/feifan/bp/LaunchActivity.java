@@ -28,10 +28,11 @@ import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.marketinganalysis.MarketingAlysFrag;
+import com.feifan.bp.marketinganalysis.MarketingHomeFragment;
+import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.settings.feedback.FeedBackFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
 import com.feifan.bp.widget.BadgerRadioButton;
-import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.widget.TabBar;
 import com.feifan.statlib.FmsAgent;
 
@@ -231,7 +232,16 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
-            }else if (to.equals(BrowserTabActivity.class.getName())) {
+            }else if (to.equals(MarketingHomeFragment.class.getName())){//营销分析 二期
+                if (Utils.isNetworkAvailable(this)) {
+                    Intent intent = new Intent(this, PlatformTopbarActivity.class);
+                    intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingHomeFragment.class.getName());
+                    intent.putExtra(Constants.EXTRA_KEY_TITLE,getString(R.string.sale_anal));
+                    startActivity(intent);
+                } else {
+                    Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
+                }
+            } else if (to.equals(BrowserTabActivity.class.getName())) {
                 openTabBrowser(args);
             } else{
                 openBrowser(args.getString(BrowserActivity.EXTRA_KEY_URL));

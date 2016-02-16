@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:paddingLeft="@dimen/view_spacing_10"
+             android:paddingTop="@dimen/view_spacing_15"
+             android:paddingRight="@dimen/view_spacing_10">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/view_size_5"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/marketing_item_title"
+                style="@style/txt_color33_size14"
+                android:layout_width="match_parent"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="一条大河向东流路见不平一声吼啊啊啊"
+                android:padding="@dimen/view_spacing_15"/>
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/settings_ic_right_arrow"
+                android:layout_margin="@dimen/view_spacing_10"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/arrow"
+                android:layout_below="@id/marketing_item_title"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/summary_charge_count"
+                        style="@style/txt_color33_size12"
+                        android:layout_width="match_parent"
+                        android:paddingBottom="@dimen/view_spacing_8"
+                        android:paddingLeft="@dimen/view_spacing_15"
+                        android:text="核销笔数 : --"/>
+
+                    <TextView
+                        android:id="@+id/summary_merchant_subsidy"
+                        style="@style/txt_color_blue_size14"
+                        android:textSize="@dimen/font_size_12"
+                        android:layout_width="match_parent"
+                        android:paddingBottom="@dimen/view_spacing_10"
+                        android:paddingLeft="@dimen/view_spacing_15"
+                        android:text="商户补贴 : --"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/summary_feifan_subsidy"
+                        style="@style/txt_color_blue_size14"
+                        android:layout_width="match_parent"
+                        android:paddingBottom="@dimen/view_spacing_8"
+                        android:paddingLeft="@dimen/view_spacing_10"
+                        android:textSize="@dimen/font_size_12"
+                        android:text="飞凡补贴 : --"/>
+
+                    <TextView
+                        android:id="@+id/summary_third_subsidy"
+                        style="@style/txt_color_blue_size14"
+                        android:layout_width="match_parent"
+                        android:paddingBottom="@dimen/view_spacing_10"
+                        android:paddingLeft="@dimen/view_spacing_10"
+                        android:textSize="@dimen/font_size_12"
+                        android:text="第三方补贴 : --"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

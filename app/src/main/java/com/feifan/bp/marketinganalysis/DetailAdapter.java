@@ -20,11 +20,11 @@ import java.util.List;
  * 红包核销明细  adapter
  * Created by congjing on 2016/1/21.
  */
-public class AlysisRedDetailAdapter extends RecyclerView.Adapter<AlysisRedDetailAdapter.ViewHolder>  {
+public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder>  {
     private Context mContext;
-    private List<AlysisRedDetailModel.RedDetailModel> mRedDetailsData = new ArrayList<>();
+    private List<DetailModel.RedDetailModel> mRedDetailsData = new ArrayList<>();
 
-    public AlysisRedDetailAdapter(Context context, List<AlysisRedDetailModel.RedDetailModel> redDetailsData){
+    public DetailAdapter(Context context, List<DetailModel.RedDetailModel> redDetailsData){
         mContext = context;
         this.mRedDetailsData = redDetailsData;
     }
@@ -35,7 +35,7 @@ public class AlysisRedDetailAdapter extends RecyclerView.Adapter<AlysisRedDetail
         return new ViewHolder(view);
     }
 
-    public void notifyData(List<AlysisRedDetailModel.RedDetailModel> items) {
+    public void notifyData(List<DetailModel.RedDetailModel> items) {
         int previousDataSize = this.mRedDetailsData.size();
         this.mRedDetailsData.addAll(items);
         notifyItemRangeInserted(previousDataSize, items.size());
@@ -43,7 +43,7 @@ public class AlysisRedDetailAdapter extends RecyclerView.Adapter<AlysisRedDetail
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        AlysisRedDetailModel.RedDetailModel redDetailsData = mRedDetailsData.get(position);
+        DetailModel.RedDetailModel redDetailsData = mRedDetailsData.get(position);
         holder.mTvRdeCode.setText(String.format(mContext.getString(R.string.instant_colon),
                 mContext.getString(R.string.anal_red_coupon_code),redDetailsData.mStrCouponId));
         holder.mTvRedStatus.setText(redDetailsData.mStrStatus);
@@ -79,14 +79,14 @@ public class AlysisRedDetailAdapter extends RecyclerView.Adapter<AlysisRedDetail
         public TextView mTvEndTime,mTvGetTime,mTvUseTime,mTvSubsidyMoneyFf,mTvSubsidyMoneyVendor,mTvSubsidyMoneyThird,mTvRdeCode,mTvRedStatus;
         public ViewHolder(View itemView) {
             super(itemView);
-            mTvEndTime = (TextView)itemView.findViewById(R.id.tv_anal_end_time);
-            mTvGetTime = (TextView)itemView.findViewById(R.id.tv_anal_get_time);
-            mTvUseTime = (TextView)itemView.findViewById(R.id.tv_anal_use_time);
-            mTvSubsidyMoneyFf = (TextView)itemView.findViewById(R.id.tv_anal_subsidy_money_ff);
-            mTvSubsidyMoneyVendor = (TextView)itemView.findViewById(R.id.tv_anal_subsidy_money_vendor);
-            mTvSubsidyMoneyThird = (TextView)itemView.findViewById(R.id.tv_anal_subsidy_money_third);
+            mTvEndTime = (TextView)itemView.findViewById(R.id.end_useful_time);
+            mTvGetTime = (TextView)itemView.findViewById(R.id.get_coupon_time);
+            mTvUseTime = (TextView)itemView.findViewById(R.id.charge_off_time);
+            mTvSubsidyMoneyFf = (TextView)itemView.findViewById(R.id.subsidy_feifan);
+            mTvSubsidyMoneyVendor = (TextView)itemView.findViewById(R.id.subsidy_merchant);
+            mTvSubsidyMoneyThird = (TextView)itemView.findViewById(R.id.subsidy_third);
             mTvRdeCode= (TextView)itemView.findViewById(R.id.tv_anal_red_code);
-            mTvRedStatus= (TextView)itemView.findViewById(R.id.tv_anal_red_status);
+            mTvRedStatus= (TextView)itemView.findViewById(R.id.detail_coupon_status);
         }
     }
 

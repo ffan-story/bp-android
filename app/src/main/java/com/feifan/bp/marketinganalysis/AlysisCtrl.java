@@ -27,6 +27,7 @@ public class AlysisCtrl {
                 .param("storeId",UserProfile.getInstance().getAuthRangeId())
                 .param("sdate", sdate)
                 .param("edate", edate)
+                .param("type","redbag")
                 .build()
                 .targetClass(AlysisRedSubTotalListModel.class)
                 .listener(listener);
@@ -44,7 +45,7 @@ public class AlysisCtrl {
      * UserProfile.getInstance().getAuthRangeId()
      */
      public static void getRedTypeListDetail(String couponId,String sdate, String edate, String beginKey,Listener listener) {
-        JsonRequest<AlysisRedDetailModel> request = new GetRequest.Builder<AlysisRedDetailModel>(UrlFactory.getAnalysisRedListDetail())
+        JsonRequest<DetailModel> request = new GetRequest.Builder<DetailModel>(UrlFactory.getAnalysisRedListDetail())
                 .param("storeId",UserProfile.getInstance().getAuthRangeId())
                 .param("sdate", sdate)
                 .param("edate",edate)
@@ -52,7 +53,7 @@ public class AlysisCtrl {
                 .param("beginKey",beginKey)
                 .param("couponId",couponId)
                 .build()
-                .targetClass(AlysisRedDetailModel.class)
+                .targetClass(DetailModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }

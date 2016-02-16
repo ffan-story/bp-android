@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 红包核销明细
  */
-public class AlysisRedDetailModel extends BaseModel {
+public class DetailModel extends BaseModel {
 
     public List<RedDetailModel> redDetailList;
     public String mStrRedTitle;
@@ -23,7 +23,7 @@ public class AlysisRedDetailModel extends BaseModel {
     public String  mStride2ndRow;
     private RedDetailModel mRedDetailModel;
 
-    public AlysisRedDetailModel(JSONObject json) {
+    public DetailModel(JSONObject json) {
         super(json);
     }
 

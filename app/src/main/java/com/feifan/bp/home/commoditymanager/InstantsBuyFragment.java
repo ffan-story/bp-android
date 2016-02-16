@@ -164,7 +164,7 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
                 errorInfo = Utils.getString(R.string.error_message_network);
             }
         }
-        if(errorInfo == null) {
+        if(null == errorInfo) {
             if(error instanceof TimeoutError) {
                 errorInfo = Utils.getString(R.string.error_message_timeout);
             }else {

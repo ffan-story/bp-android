@@ -81,7 +81,7 @@ public abstract class AbstractAnalSubTotalPack extends ProgressFragment implemen
         View header = View.inflate(getActivity(),R.layout.head_analysis_red,null);
         mTvChargeOffTotal= (TextView)header.findViewById(R.id.anal_tv_charge_off_total);
         mTvSubsidyMoneyFf=  (TextView)header.findViewById(R.id.anal_tv_subsidy_money_ff);
-        mTvNoData =(TextView) header.findViewById(R.id.no_data_view);
+        mTvNoData =(TextView) header.findViewById(R.id.no_net_view);
         mRel2Row = (RelativeLayout)header.findViewById(R.id.rel_2row);
         mTvSubsidyMoneyThird = (TextView)mRel2Row.findViewById(R.id.anal_tv_subsidy_money_third);
         mTvSubsidyMoneyVendor = (TextView)mRel2Row.findViewById(R.id.anal_tv_subsidy_money_vendor);
