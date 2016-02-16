@@ -1,6 +1,7 @@
 package com.feifan.bp.marketinganalysis;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +72,14 @@ public class SummaryListAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlatformTopbarActivity.startActivity(mContext, DetailFragment.class.getName(), "优惠券 " + position);
+                //需要修改真是数据~~~~~~~~~
+                Bundle mBundle = new Bundle();
+                mBundle.putString(DetailFragment.EXTRA_CHARGE_OFF_END_NAME,"23342");
+                mBundle.putString(DetailFragment.EXTRA_CHARGE_OFF_END_COUNT,"12");
+                mBundle.putString(DetailFragment.EXTRA_CHARGE_OFF_ID,"0151216231722");
+                mBundle.putString(DetailFragment.EXTRA_CHARGE_OFF_START_TIME,"2015-12-01");
+                mBundle.putString(DetailFragment.EXTRA_CHARGE_OFF_END_TIME,"2015-12-31");
+                PlatformTopbarActivity.startActivity(mContext, DetailFragment.class.getName(), mContext.getString(R.string.anal_red_charge_off_detail),mBundle);
             }
         });
 

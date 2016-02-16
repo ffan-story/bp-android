@@ -149,6 +149,7 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
         Bundle args = new Bundle();
         switch (v.getId()){
             case R.id.red_container://红包
+              //  PlatformTopbarActivity.startActivity(getContext(), AnalRelSubTotalFrag.class.getName(), titleName, args);
                 titleName = getString(R.string.anal_red_pack);
                 args.putString(STARTDATE,mStartDate);
                 args.putString(ENDTDATE, mEndDate);
@@ -173,7 +174,7 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
                 requestData();
                 break;
         }
-        PlatformTopbarActivity.startActivity(getContext(), SummaryFragment.class.getName(), titleName, args);
+       PlatformTopbarActivity.startActivity(getContext(), SummaryFragment.class.getName(), titleName, args);
     }
 
     @Override

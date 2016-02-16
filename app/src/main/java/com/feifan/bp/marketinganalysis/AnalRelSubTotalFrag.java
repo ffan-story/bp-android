@@ -88,12 +88,12 @@ public class AnalRelSubTotalFrag extends AbstractAnalSubTotalPack {
     public void mItemClick(int position) {
         if (!redList.isEmpty() && position-1>=0){
             Bundle mBundle = new Bundle();
-            mBundle.putString(AnalRedDetailFrag.EXTRA_CHARGE_OFF_END_NAME,redList.get(position-1).mStrRedCouponName);
-            mBundle.putString(AnalRedDetailFrag.EXTRA_CHARGE_OFF_END_COUNT,redList.get(position-1).mStrChargeOffCount);
-            mBundle.putString(AnalRedDetailFrag.EXTRA_CHARGE_OFF_ID,redList.get(position-1).mStrCouponId);
-            mBundle.putString(AnalRedDetailFrag.EXTRA_CHARGE_OFF_START_TIME,mStrStarDate);
-            mBundle.putString(AnalRedDetailFrag.EXTRA_CHARGE_OFF_END_TIME,mStrEndDate);
-            PlatformTopbarActivity.startActivity(getActivity(), AnalRedDetailFrag.class.getName(), getString(R.string.anal_red_charge_off_detail),mBundle);
+            mBundle.putString(DetailFragment.EXTRA_CHARGE_OFF_END_NAME,redList.get(position-1).mStrRedCouponName);
+            mBundle.putString(DetailFragment.EXTRA_CHARGE_OFF_END_COUNT,redList.get(position-1).mStrChargeOffCount);
+            mBundle.putString(DetailFragment.EXTRA_CHARGE_OFF_ID,redList.get(position-1).mStrCouponId);
+            mBundle.putString(DetailFragment.EXTRA_CHARGE_OFF_START_TIME,mStrStarDate);
+            mBundle.putString(DetailFragment.EXTRA_CHARGE_OFF_END_TIME,mStrEndDate);
+            PlatformTopbarActivity.startActivity(getActivity(), DetailFragment.class.getName(), getString(R.string.anal_red_charge_off_detail),mBundle);
         }
     }
 

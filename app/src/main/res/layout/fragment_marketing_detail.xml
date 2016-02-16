@@ -60,5 +60,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/view_spacing_10" />
 
+
+    <TextView
+        android:id="@+id/fragment_marketing_detail_no_data"
+        style="@style/txt_color99_size16"
+        android:text="@string/anal_subsidy_no_detail_data"
+        android:layout_margin="@dimen/view_spacing_10"/>
+
     <include layout="@layout/fragment_marketing_no_net" android:id="@+id/detail_no_net" />
 </LinearLayout>
