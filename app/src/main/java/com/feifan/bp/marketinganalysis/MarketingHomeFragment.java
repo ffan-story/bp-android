@@ -2,7 +2,6 @@ package com.feifan.bp.marketinganalysis;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.view.MenuItem;
@@ -13,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
@@ -33,8 +33,13 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
         SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "MarketingHomeFragment";
-    public static final String STARTDATE = "startTime";
-    public static final String ENDTDATE = "endTime";
+    public static final String EXTRA_STARTDATE = "startTime";
+    public static final String EXTRA_ENDTDATE = "endTime";
+    public static final String TYPE = "type";
+    public static final String TYPE_RED = "redbag";
+    public static final String TYPE_SHAKE = "shake";
+    public static final String TYPE_COMMON = "common";
+    public static final String TYPE_COUPON = "coupon";
     private SwipeRefreshLayout mSwipe;
     private SegmentedGroup mSegmentGroup;
     private RadioButton mToday,mYesterday,mOther;
@@ -104,15 +109,15 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
             mTotalContiner.setVisibility(View.VISIBLE);
             mNoNetView.setVisibility(View.GONE);
             mSwipe.setRefreshing(true);
-            new Handler().postDelayed(new Runnable() {
+            MarketingCtrl.getSummary(mStartDate, mEndDate, "summary", new Response.Listener<MarketingSummaryModel>() {
                 @Override
-                public void run() {
+                public void onResponse(MarketingSummaryModel model) {
                     setContentEmpty(false);
                     setContentShown(true);
                     stopRefresh();
                     fillView();
                 }
-            },500);
+            });
         }else{
             stopRefresh();
             mTotalContiner.setVisibility(View.GONE);
@@ -146,35 +151,38 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
     @Override
     public void onClick(View v) {
         String titleName = "";
+        String type = "";
         Bundle args = new Bundle();
         switch (v.getId()){
             case R.id.red_container://红包
               //  PlatformTopbarActivity.startActivity(getContext(), AnalRelSubTotalFrag.class.getName(), titleName, args);
                 titleName = getString(R.string.anal_red_pack);
-                args.putString(STARTDATE,mStartDate);
-                args.putString(ENDTDATE, mEndDate);
+                type = TYPE_RED;
                 break;
             case R.id.shake_container://摇一摇
                 titleName = getString(R.string.anal_remote);
-                args.putString(STARTDATE,mStartDate);
-                args.putString(ENDTDATE, mEndDate);
+                type = TYPE_SHAKE;
                 break;
             case R.id.general_coupons_container://通用券
                 titleName = getString(R.string.anal_general_coupons);
-                args.putString(STARTDATE,mStartDate);
-                args.putString(ENDTDATE, mEndDate);
+                type = TYPE_COMMON;
+                args.putString(EXTRA_STARTDATE,mStartDate);
+                args.putString(EXTRA_ENDTDATE, mEndDate);
+                args.putString(TYPE,type);
                 PlatformTopbarActivity.startActivity(getContext(), CommonSummaryFragment.class.getName(), titleName, args);
                 return;
             case R.id.coupons_container://优惠券
                 titleName = getString(R.string.anal_coupons);
-                args.putString(STARTDATE,mStartDate);
-                args.putString(ENDTDATE, mEndDate);
+                type = TYPE_COUPON;
                 break;
             case R.id.reload:
                 requestData();
-                break;
+                return;
         }
-       PlatformTopbarActivity.startActivity(getContext(), SummaryFragment.class.getName(), titleName, args);
+        args.putString(EXTRA_STARTDATE,mStartDate);
+        args.putString(EXTRA_ENDTDATE, mEndDate);
+        args.putString(TYPE,type);
+        PlatformTopbarActivity.startActivity(getContext(), SummaryFragment.class.getName(), titleName, args);
     }
 
     @Override

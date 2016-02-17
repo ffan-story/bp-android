@@ -29,6 +29,7 @@ public abstract class AbsSummaryFragment extends ProgressFragment implements Swi
     protected ListView mSummaryList;
     protected String mStartDate, mEndDate;
     protected Bundle args;
+    protected String mType;
     protected LinearLayout mSummaryContainer;
     protected RelativeLayout mSubsidyThirdMerchant;
     protected RelativeLayout mNoNetView,mNoDataView;//    无网络/数据 视图
@@ -76,14 +77,30 @@ public abstract class AbsSummaryFragment extends ProgressFragment implements Swi
 
     private void initData() {
         args = getActivity().getIntent().getBundleExtra(PlatformTopbarActivity.EXTRA_ARGS);
-        mStartDate = args.getString(MarketingHomeFragment.STARTDATE);
-        mEndDate = args.getString(MarketingHomeFragment.ENDTDATE);
+        mStartDate = args.getString(MarketingHomeFragment.EXTRA_STARTDATE);
+        mEndDate = args.getString(MarketingHomeFragment.EXTRA_ENDTDATE);
+        mType = args.getString(MarketingHomeFragment.TYPE);
         if (TimeUtil.getIntervalDays(mStartDate, mEndDate) >= 1){
             mQueryTime.setText(getString(R.string.query_when_time, mStartDate, mEndDate));
         }else{
             mQueryTime.setText(getString(R.string.query_time, mStartDate));
         }
-
+        String titleName = "";
+        switch (mType){
+            case MarketingHomeFragment.TYPE_RED:
+                titleName = getString(R.string.anal_coupons_summary_title);
+                break;
+            case MarketingHomeFragment.TYPE_SHAKE:
+                titleName = getString(R.string.anal_award_summary_title);
+                break;
+            case MarketingHomeFragment.TYPE_COMMON:
+                titleName = getString(R.string.anal_general_detail);
+                break;
+            case MarketingHomeFragment.TYPE_COUPON:
+                titleName = getString(R.string.anal_coupons_summary_title);
+                break;
+        }
+        mSummaryTitle.setText(titleName);
     }
 
     protected abstract void myInitView(View header);
@@ -94,12 +111,14 @@ public abstract class AbsSummaryFragment extends ProgressFragment implements Swi
         if(Utils.isNetworkAvailable(getActivity())){
             mSwipe.setRefreshing(true);
             mNoNetView.setVisibility(View.GONE);
+            mSummaryContainer.setVisibility(View.VISIBLE);
             myRequestData();
         }else{
             stopRefresh();
             setContentEmpty(false);
             setContentShown(true);
             mSummaryContainer.setVisibility(View.GONE);
+            mSummaryList.setAdapter(null);
             mNoDataView.setVisibility(View.GONE);
             mNoNetView.setVisibility(View.VISIBLE);
         }

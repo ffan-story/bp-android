@@ -43,7 +43,6 @@ public class CommonSummaryFragment extends AbsSummaryFragment implements Paginat
 
 
     private void fillView() {
-        mSummaryTitle.setText(getString(R.string.anal_general_detail));
         if(true){
             mNoDataView.setVisibility(View.GONE);
             mSummaryContainer.setVisibility(View.VISIBLE);

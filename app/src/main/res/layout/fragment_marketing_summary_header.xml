@@ -118,12 +118,13 @@
             android:layout_height="@dimen/view_size_1"
             android:background="@color/divider"/>
 
+        <include layout="@layout/fragment_marketing_no_data"
+                 android:id="@+id/summary_no_data"/>
+
     </LinearLayout>
 
     <include layout="@layout/fragment_marketing_no_net"
         android:id="@+id/summary_no_net"/>
 
-    <include layout="@layout/fragment_marketing_no_data"
-        android:id="@+id/summary_no_data"/>
 
 </RelativeLayout>
