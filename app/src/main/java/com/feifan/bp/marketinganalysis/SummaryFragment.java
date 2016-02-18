@@ -1,11 +1,15 @@
 package com.feifan.bp.marketinganalysis;
 
-import android.os.Handler;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.feifan.bp.Constants;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
+
+import java.util.List;
 
 /**
  * 营销分析汇总页
@@ -13,8 +17,9 @@ import com.feifan.bp.R;
  */
 public class SummaryFragment extends AbsSummaryFragment {
 
+    private static final String TAG = "SummaryFragment";
     private TextView mSummaryMerchantSubsidy,mSummaryThirdSubsidy;
-
+    private List<MarketingSummaryModel.SummaryListModel> mSummaryDataList;
     @Override
     protected void myInitView(View view) {
         mSummaryMerchantSubsidy = (TextView) view.findViewById(R.id.marketing_merchant_subsidy);
@@ -23,44 +28,43 @@ public class SummaryFragment extends AbsSummaryFragment {
 
     @Override
     protected void myRequestData() {
-        new Handler().postDelayed(new Runnable() {
+        MarketingCtrl.getSummary(mStartDate, mEndDate, mType, new Response.Listener<MarketingSummaryModel>() {
             @Override
-            public void run() {
-                stopRefresh();
-                setContentEmpty(false);
-                setContentShown(true);
-                fillView();
+            public void onResponse(MarketingSummaryModel model) {
+                if(isAdded() && null != model){
+                    setContentEmpty(false);
+                    setContentShown(true);
+                    stopRefresh();
+                    fillView(model);
+                }
             }
-        }, 500);
+        });
     }
 
-    private void fillView() {
-        mSummaryTitle.setText(getString(R.string.anal_coupons_summary_title));
+    private void fillView(MarketingSummaryModel model) {
 
-        if(true){   //无数据
-            mNoDataView.setVisibility(View.GONE);
-            mSummaryContainer.setVisibility(View.VISIBLE);
-        }else{
-            mSummaryContainer.setVisibility(View.GONE);
-            mNoDataView.setVisibility(View.VISIBLE);
-            return;
-        }
+        mSummaryDataList = model.summaryList;
 
-        if(true){    //第三方补贴与商户补贴同时为0
+        if(Constants.MARKETING_HIDE_OTHER_SUBSIDY.equals(model.mSummaryHideOtherSubsidy)){    //第三方补贴与商户补贴同时为0
             mSubsidyThirdMerchant.setVisibility(View.GONE);
         }else{
             mSubsidyThirdMerchant.setVisibility(View.VISIBLE);
         }
-
         mSummaryChargeTotal.setText(Html.fromHtml(String.format(getString(R.string.two_row_33_99),
-                "888", getActivity().getString(R.string.anal_charge_off_total))));
+                model.mSummaryAllTotal, getActivity().getString(R.string.anal_charge_off_total))));
         mSummaryFeifanSubsidy.setText(Html.fromHtml(String.format(getString(R.string.two_row_red_99),
-                "999", getActivity().getString(R.string.anal_subsidy_money_ff))));
+                Utils.formatMoney(model.mSummaryAllFeifan, 2), getActivity().getString(R.string.anal_subsidy_money_ff))));
         mSummaryMerchantSubsidy.setText(Html.fromHtml(String.format(getString(R.string.two_row_red_99),
-                "666", getActivity().getString(R.string.anal_subsidy_money_vendor))));
+                Utils.formatMoney(model.mSummaryAllMerchantr, 2), getActivity().getString(R.string.anal_subsidy_money_vendor))));
         mSummaryThirdSubsidy.setText(Html.fromHtml(String.format(getString(R.string.two_row_red_99),
-                "555", getActivity().getString(R.string.anal_subsidy_money_third))));
-        mSummaryList.setAdapter(new SummaryListAdapter(getActivity()));
+                Utils.formatMoney(model.mSummaryAllThird,2), getActivity().getString(R.string.anal_subsidy_money_third))));
+
+        if(mSummaryDataList.size() <= 0){   //无数据
+            mNoDataView.setVisibility(View.VISIBLE);
+        }else{
+            mNoDataView.setVisibility(View.GONE);
+            mSummaryList.setAdapter(new SummaryListAdapter(getActivity(),mSummaryDataList,args));
+        }
 
     }
 

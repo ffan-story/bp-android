@@ -411,6 +411,7 @@
     <string name="anal_remote">摇一摇</string>
     <string name="anal_general_coupons">通用券</string>
     <string name="anal_general_detail">明细</string>
+    <string name="anal_coupon_name">券名称：%1$s</string>
     <string name="anal_coupons">优惠券</string>
     <string name="anal_charge_summary_total_title">总计</string>
     <string name="anal_charge_total_count">券核销总笔数 : %1$s</string>
@@ -421,6 +422,7 @@
     <string name="anal_award_money">奖励金额(元)</string>
     <string name="anal_coupons_summary_title">券分类汇总</string>
     <string name="anal_award_summary_title">奖品分类汇总</string>
+    <string name="anal_no_more_data">已经没有更多数据了</string>
 
 </resources>
 
