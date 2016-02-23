@@ -173,6 +173,7 @@ public class RegisterDetailActivity extends AppCompatActivity implements View.On
                 GoodsListFragment.STATUS_AUDIT_DENY, mFragmentTabCountList.get(3));
 
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(CurrentItemIndex);
         tabLayout.setupWithViewPager(viewPager);
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {

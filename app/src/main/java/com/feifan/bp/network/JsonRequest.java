@@ -38,7 +38,7 @@ import java.util.Map;
 
 /**
  * Json请求
- *
+ * <p>
  * <pre>
  *     可以发送JSON信息体或key-value值作为参数，并得到T类型的对象
  * </pre>
@@ -55,6 +55,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
 
     /**
      * 更新冗余参数内容
+     *
      * @param profile
      */
     public static void updateRedundantParams(UserProfile profile) {
@@ -67,6 +68,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
         REDUNDANT_PARAMS.put("applicant", String.valueOf(UserProfile.getInstance().getUid()));//2016-1-11加操作者id
         REDUNDANT_PARAMS.put("agid", UserProfile.getInstance().getAuthRangeId());
         REDUNDANT_PARAMS.put("loginToken", UserProfile.getInstance().getLoginToken());
+
     }
 
     /**
@@ -101,6 +103,9 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
+        if(UserProfile.getInstance().getCookie()!=null){
+            mHeaders.put(Constants.COOKIE_KEY, UserProfile.getInstance().getCookie());
+        }
         LogUtil.i(TAG, "headers:" + mHeaders.toString());
         return mHeaders;
     }
@@ -137,7 +142,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
 
     /**
      * 带有状态码的错误类
-     *
+     * <p>
      * <pre>
      *     可以根据错误码进行处理
      * </pre>

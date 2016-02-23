@@ -17,9 +17,13 @@ import android.widget.Toast;
 
 import com.feifan.bp.util.LogUtil;
 
+import org.apache.http.cookie.Cookie;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
