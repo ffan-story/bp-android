@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion '23.0.2'
 
     defaultConfig {
@@ -18,7 +18,22 @@ android {
     }
 }
 
+buildscript {
+    repositories {
+        maven { url "http://101.200.89.219:8081/nexus/content/groups/public"}
+    }
+    dependencies {
+        classpath "com.wanda.qr:qrlibs:1.1"
+    }
+}
+allprojects {
+    repositories {
+        maven { url "http://101.200.89.219:8081/nexus/content/groups/public"}
+    }
+}
+
+
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile project(':materialwidget')
+    compile 'com.wanda.qr:qrlibs:1.1'
 }
