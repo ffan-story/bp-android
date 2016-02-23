@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.net.wifi.WifiEnterpriseConfig;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -25,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -104,7 +106,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     public Dialog phoneDialog;
     public DialogPhoneLayout dialogPhoneLayout;
     public String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/feifandp/img.jpg";
-
     /**
      * 防止webview action 连续点击，页面重复
      */
@@ -140,6 +141,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
          * @param msg 错误消息
          */
         void OnErrorReceived(String msg, WebView web, String url);
+
+        /**
+         * cookie失效,需要重新登录
+         *
+         * @param msg 错误消息
+         */
+        void OnInvalidReceived(String msg,WebView web, String url);
     }
 
     public static BrowserFragment newInstance() {
@@ -442,6 +450,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
                 mListener.OnErrorReceived(uri.getAuthority(), mWebView, mUrl);
+            }else if(schema.equals(Constants.URL_SCHEME_LOGIN_INVALID)){ //登录失效
+                mListener.OnInvalidReceived(uri.getAuthority(),mWebView, mUrl);
             }
             return true;
         }

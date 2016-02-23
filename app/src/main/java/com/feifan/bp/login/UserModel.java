@@ -18,8 +18,10 @@ public class UserModel extends BaseModel {
     public String authRangeType;
     public String authRangeId;
     public String loginToken;
+    public String token;
     public String merchantId;
     public String plazaId;
+    public String cookie;
 
     public UserModel(JSONObject json) {
         super(json);
@@ -36,9 +38,11 @@ public class UserModel extends BaseModel {
         authRange = data.optString("authRange");
         authRangeType = data.optString("authRangeType");
         authRangeId = data.optString("authRangeId");
+        token = data.optString("token");
         loginToken = data.optString("loginToken");
         merchantId = data.optString("merchantId");
         plazaId = data.optString("plazaId");
+        cookie = data.optString("Cookie");
     }
 
     @Override

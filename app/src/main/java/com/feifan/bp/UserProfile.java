@@ -38,8 +38,10 @@ public class UserProfile {
     private static final String PREFERENCE_KEY_AUTH_RANGE_TYPE = "authRangeType";
     // 偏好项键值－权限组ID
     private static final String PREFERENCE_KEY_AGID = "agId";
-    // 偏好项键值－访问token
+    // 偏好项键值－登录token
     private static final String PREFERENCE_KEY_LOGIN_TOKEN = "loginToken";
+    // 偏好项键值－访问token
+    private static final String PREFERENCE_KEY_TOKEN = "token";
     // 偏好项键值－权限菜单
     private static final String PREFERENCE_KEY_USER_AUTH = "permission";
     // 偏好项键值－城市ID
@@ -58,6 +60,8 @@ public class UserProfile {
     private static final String PREFERENCE_KEY_HISTORY_URL = "history";
     // 偏好项键值－权限列表字符串
     private static final String PREFERENCE_KEY_RIGHT_STRING = "rightString";
+    //偏好项键值－登录验证Cookie
+    private static final String PREFERENCE_KEY_COOKIE = "cookie";
 
     private Context mContext;
 
@@ -179,6 +183,14 @@ public class UserProfile {
         return getString(PREFERENCE_KEY_LOGIN_TOKEN);
     }
 
+    public void setToken(String token) {
+        putString(PREFERENCE_KEY_TOKEN, token);
+    }
+
+    public String getToken() {
+        return getString(PREFERENCE_KEY_TOKEN);
+    }
+
     public void setHistoryUrl(String url) {
         putString(PREFERENCE_KEY_HISTORY_URL, url);
     }
@@ -217,6 +229,14 @@ public class UserProfile {
 
     public String getMerchantId(){
         return getString(PREFERENCE_KEY_MERCHANT_ID);
+    }
+
+    public void setCookie(String cookie){
+        putString(PREFERENCE_KEY_COOKIE, cookie);
+    }
+
+    public String getCookie(){
+        return getString(PREFERENCE_KEY_COOKIE);
     }
 
     public void clear() {

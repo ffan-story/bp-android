@@ -43,6 +43,12 @@ public class Constants {
     public static final String URL_SCHEME_PLATFORM_CLOSE = "close";
     public static final String URL_SCHEME_ACTION = "action";
     public static final String URL_SCHEME_ERROR = "error";
+    public static final String URL_SCHEME_LOGIN_INVALID = "login";
+
+    //Cookie key
+    public static final String COOKIE_KEY = "Cookie";
+    public static final String COOKIE_VALUE = "MAPPUIF";
+    public static final String COOKIE_RESPONSE_KEY = "Set-Cookie";
 
     public enum Environment {
         SIT,              // Api集成环境

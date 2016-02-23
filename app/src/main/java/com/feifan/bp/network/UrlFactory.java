@@ -219,6 +219,9 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "login";
     }
 
+    public static String getLoginConfirmUrl(){
+        return EnvironmentManager.getHostFactory().getFFanH5Host()+"mapp/newlogin/tokenlogin";
+    }
     public static String getAuthorizeUrl() {
         return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "userAuth";
 //        return "http://xapi.pre.ffan.com/xadmin/userAuth";

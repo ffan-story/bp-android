@@ -1,8 +1,6 @@
 package com.feifan.bp.login;
 
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -12,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
@@ -22,9 +19,15 @@ import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.network.BaseModel;
 import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.password.ForgetPasswordFragment;
+import com.feifan.bp.util.LogUtil;
+import com.loopj.android.http.PersistentCookieStore;
+import org.apache.http.cookie.Cookie;
+
+import java.util.List;
 
 /**
  * 登录界面Fragment
@@ -105,12 +108,14 @@ public class LoginFragment extends BaseFragment {
                             profile.setAuthRangeId(userModel.authRangeId);
                             profile.setAuthRangeType(userModel.authRangeType);
                             profile.setAgId(userModel.agId);
+                            profile.setToken(userModel.token);
                             profile.setLoginToken(userModel.loginToken);
                             profile.setMerchantId(userModel.merchantId);
                             profile.setPlazaId(userModel.plazaId);
+                            profile.setCookie(userModel.cookie);
                             JsonRequest.updateRedundantParams(profile);
                             Statistics.updateClientData(profile);
-
+                            loginConfirm(userModel.token);
                             UserCtrl.checkPermissions(userModel.uid, new Listener<AuthListModel>() {
                                 @Override
                                 public void onResponse(AuthListModel authListModel) {
@@ -124,7 +129,7 @@ public class LoginFragment extends BaseFragment {
                                 }
                             });
                         }
-                    }, new DefaultErrorListener(){
+                    }, new DefaultErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
                             hideProgressBar();
@@ -139,6 +144,15 @@ public class LoginFragment extends BaseFragment {
             }
         });
         return v;
+    }
+
+    private void loginConfirm(String token){
+        UserCtrl.loginConfirm(token, new Listener<BaseModel>() {
+            @Override
+            public void onResponse(BaseModel model) {
+
+            }
+        });
     }
 
     @Override

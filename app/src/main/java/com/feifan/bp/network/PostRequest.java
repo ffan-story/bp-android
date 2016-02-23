@@ -2,8 +2,6 @@ package com.feifan.bp.network;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
-import com.feifan.bp.BuildConfig;
-import com.feifan.bp.UserProfile;
 import com.feifan.bp.util.LogUtil;
 
 import java.util.HashMap;

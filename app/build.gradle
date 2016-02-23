@@ -131,6 +131,10 @@ dependencies {
 //    compile 'org.robolectric:robolectric:3.0'
 }
 
+android {
+    useLibrary 'org.apache.http.legacy'
+}
+
 apply plugin: 'liannu'
 
 shootline {
