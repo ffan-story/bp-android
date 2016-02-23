@@ -18,21 +18,6 @@ android {
     }
 }
 
-buildscript {
-    repositories {
-        maven { url "http://101.200.89.219:8081/nexus/content/groups/public"}
-    }
-    dependencies {
-        classpath "com.wanda.qr:qrlibs:1.1"
-    }
-}
-allprojects {
-    repositories {
-        maven { url "http://101.200.89.219:8081/nexus/content/groups/public"}
-    }
-}
-
-
 dependencies {
     compile project(':materialwidget')
     compile 'com.wanda.qr:qrlibs:1.1'
