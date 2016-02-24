@@ -1,13 +1,16 @@
 package com.feifan.bp.marketinganalysis;
 
 import android.app.Activity;
-import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 
+import com.android.volley.Response;
+import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
+import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 
 /**
@@ -15,7 +18,12 @@ import com.feifan.bp.widget.paginate.Paginate;
  * Created by kontar on 2016/2/3.
  */
 public class CommonSummaryFragment extends AbsSummaryFragment implements Paginate.Callbacks{
-
+    public static final String TAG = "CommonSummaryFragment";
+    private int mPageIndex;
+    private boolean isLoading = false;
+    private Paginate mPaginate;
+    private CommonDetailAdapter mCommonDetailAdapter;
+    private int mRequestDataSize;
     @Override
     protected void myInitView(View view) {
         mSubsidyThirdMerchant.setVisibility(View.GONE);
@@ -30,34 +38,81 @@ public class CommonSummaryFragment extends AbsSummaryFragment implements Paginat
     @Override
     protected void myRequestData() {
         mSummaryContainer.setVisibility(View.VISIBLE);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                stopRefresh();
-                setContentEmpty(false);
-                setContentShown(true);
-                fillView();
-            }
-        }, 500);
+        mPageIndex = 0;
+        fetchData(false);
     }
 
+    private void fetchData(final boolean isLoadMore) {
+        if(!Utils.isNetworkAvailable(getActivity())){
+            mSummaryList.setAdapter(null);
+            mNoNetView.setVisibility(View.VISIBLE);
+            return;
+        }
+        MarketingCtrl.getCommonSummaryAndDetail(mStartDate, mEndDate, mType, mPageIndex+"", new Response.Listener<CommonModel>() {
+            @Override
+            public void onResponse(CommonModel model) {
+                if (isAdded() && null != model) {
+                    setContentEmpty(false);
+                    setContentShown(true);
+                    stopRefresh();
+                    isLoading = false;
+                    fillView(model, isLoadMore);
+                }
+            }
+        });
+    }
 
-    private void fillView() {
-        if(true){
+    private void fillView(CommonModel model,Boolean isLoadMore) {
+        mRequestDataSize = model.mCommonDetails.size();
+        mSummaryChargeTotal.setText(Html.fromHtml(String.format(getString(R.string.two_row_33_99),
+                model.mVerifyNum, getActivity().getString(R.string.anal_charge_off_total))));
+        mSummaryFeifanSubsidy.setText(Html.fromHtml(String.format(getString(R.string.two_row_red_99),
+                Utils.formatMoney(model.mAwardAmount,2), getActivity().getString(R.string.anal_award_money))));
+
+        if(null != model.mCommonDetails && model.mCommonDetails.size() > 0){//无数据
             mNoDataView.setVisibility(View.GONE);
-            mSummaryContainer.setVisibility(View.VISIBLE);
         }else{
-            mSummaryContainer.setVisibility(View.GONE);
+            mSummaryList.setAdapter(null);
             mNoDataView.setVisibility(View.VISIBLE);
             return;
         }
 
-        mNoDataView.setVisibility(View.GONE);
-        mSummaryChargeTotal.setText(Html.fromHtml(String.format(getString(R.string.two_row_33_99),
-                "666", getActivity().getString(R.string.anal_charge_off_total))));
-        mSummaryFeifanSubsidy.setText(Html.fromHtml(String.format(getString(R.string.two_row_red_99),
-                "666", getActivity().getString(R.string.anal_award_money))));
-        mSummaryList.setAdapter(new CommonDetailAdapter(getActivity()));
+        if(isLoadMore){
+            if(null != mCommonDetailAdapter){
+                mCommonDetailAdapter.notifyData(model.mCommonDetails);
+            }
+        }else{
+            mCommonDetailAdapter = new CommonDetailAdapter(getActivity(),model.mCommonDetails);
+            mSummaryList.setAdapter(mCommonDetailAdapter);
+            mPaginate = Paginate.with(mSummaryList,CommonSummaryFragment.this)
+                    .setLoadingTriggerThreshold(0)
+                    .addLoadingListItem(true)
+                    .build();
+        }
+        mPaginate.setHasMoreDataToLoad(!hasLoadedAllItems());
+
+    }
+
+    @Override
+    public void onLoadMore() {
+        isLoading = true;
+        mPageIndex++;
+        fetchData(true);
+    }
+
+    @Override
+    public void hasLoadMore() {
+        ToastUtil.showToast(getActivity(), getString(R.string.anal_no_more_data));
+    }
+
+    @Override
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    @Override
+    public boolean hasLoadedAllItems() {
+        return mRequestDataSize != Integer.parseInt(Constants.LIST_LIMIT);
     }
 
     protected Toolbar getToolbar() {
@@ -68,23 +123,4 @@ public class CommonSummaryFragment extends AbsSummaryFragment implements Paginat
         return null;
     }
 
-    @Override
-    public void onLoadMore() {
-
-    }
-
-    @Override
-    public void hasLoadMore() {
-
-    }
-
-    @Override
-    public boolean isLoading() {
-        return false;
-    }
-
-    @Override
-    public boolean hasLoadedAllItems() {
-        return false;
-    }
 }

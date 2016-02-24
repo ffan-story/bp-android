@@ -9,27 +9,32 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.feifan.bp.R;
+import com.feifan.bp.Utils;
+
+import java.util.List;
 
 /**
  * Created by konta on 2016/2/3.
  */
 public class CommonDetailAdapter extends BaseAdapter {
 
-    Context mContext;
     private static final String TAG = "CommonDetailAdapter";
+    private Context mContext;
+    private List<CommonModel.CommonDetail> mDetails;
 
-    public CommonDetailAdapter(Context context) {
+    public CommonDetailAdapter(Context context, List<CommonModel.CommonDetail> mCommonDetails) {
         mContext = context;
+        mDetails = mCommonDetails;
     }
 
     @Override
     public int getCount() {
-        return 10;
+        return mDetails.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return mDetails.get(position);
     }
 
     @Override
@@ -47,17 +52,21 @@ public class CommonDetailAdapter extends BaseAdapter {
         }else{
             holder = (MyViewHolder)convertView.getTag();
         }
-
         holder.mCouponCode.setText(String.format(mContext.getString(R.string.instant_colon),
-                mContext.getString(R.string.anal_red_coupon_code),"0000000" + position));
+                mContext.getString(R.string.anal_red_coupon_code),mDetails.get(position).mCouponId));
         holder.mAwardMoney.setText(Html.fromHtml(String.format(mContext.getString(R.string.instant_discount_content),
-                mContext.getString(R.string.coupon_award_amount),position)));
+                mContext.getString(R.string.coupon_award_amount), Utils.formatMoney(mDetails.get(position).mAwardMoney,2))));
         holder.mCouponName.setText(String.format(mContext.getString(R.string.instant_colon),
-                mContext.getString(R.string.coupon_name),"测试券名称" + position));
+                mContext.getString(R.string.coupon_name),mDetails.get(position).mCouponName));
         holder.mChargeTime.setText(String.format(mContext.getString(R.string.instant_colon),
-                mContext.getString(R.string.chargeoff_time),"2016-02-02 10:00:0" + position));
+                mContext.getString(R.string.chargeoff_time),mDetails.get(position).mVerifyTime));
 
         return convertView;
+    }
+
+    public void notifyData(List<CommonModel.CommonDetail> items){
+        mDetails.addAll(items);
+        notifyDataSetChanged();
     }
 
     public static class MyViewHolder{

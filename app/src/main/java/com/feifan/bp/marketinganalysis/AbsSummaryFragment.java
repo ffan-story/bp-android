@@ -119,7 +119,6 @@ public abstract class AbsSummaryFragment extends ProgressFragment implements Swi
             setContentShown(true);
             mSummaryContainer.setVisibility(View.GONE);
             mSummaryList.setAdapter(null);
-            mNoDataView.setVisibility(View.GONE);
             mNoNetView.setVisibility(View.VISIBLE);
         }
     }

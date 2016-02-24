@@ -36,6 +36,7 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
     public static final String EXTRA_STARTDATE = "startTime";
     public static final String EXTRA_ENDTDATE = "endTime";
     public static final String TYPE = "type";
+    public static final String TYPE_SUMMARY = "summary";
     public static final String TYPE_RED = "redbag";
     public static final String TYPE_SHAKE = "shake";
     public static final String TYPE_COMMON = "common";
@@ -109,13 +110,15 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
             mTotalContiner.setVisibility(View.VISIBLE);
             mNoNetView.setVisibility(View.GONE);
             mSwipe.setRefreshing(true);
-            MarketingCtrl.getSummary(mStartDate, mEndDate, "summary", new Response.Listener<MarketingSummaryModel>() {
+            MarketingCtrl.getSummary(mStartDate, mEndDate, TYPE_SUMMARY, new Response.Listener<MarketingSummaryModel>() {
                 @Override
                 public void onResponse(MarketingSummaryModel model) {
-                    setContentEmpty(false);
-                    setContentShown(true);
-                    stopRefresh();
-                    fillView();
+                    if (isAdded() && null != model) {
+                        setContentEmpty(false);
+                        setContentShown(true);
+                        stopRefresh();
+                        fillView(model);
+                    }
                 }
             });
         }else{
@@ -139,12 +142,12 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
         }
     }
 
-    private void fillView() {
-        mChargeOffCount.setText(getString(R.string.anal_charge_total_count, "666"));
-        mRedChargeCount.setText(getString(R.string.anal_charge_count,"111"));
-        mShakeChargeCount.setText(getString(R.string.anal_charge_count,"222"));
-        mCouponsCount.setText(getString(R.string.anal_charge_count,"333"));
-        mGeneralCount.setText(getString(R.string.anal_charge_count,"555"));
+    private void fillView(MarketingSummaryModel model) {
+        mChargeOffCount.setText(getString(R.string.anal_charge_total_count, model.mHomeAllVerifyNum));
+        mRedChargeCount.setText(getString(R.string.anal_charge_count,model.mHomeRedVerifyNum));
+        mShakeChargeCount.setText(getString(R.string.anal_charge_count,model.mHomeShakeVerifyNum));
+        mCouponsCount.setText(getString(R.string.anal_charge_count,model.mHomeCommonVerifyNum));
+        mGeneralCount.setText(getString(R.string.anal_charge_count,model.mHomeCouponVerifyNum));
 
     }
 
@@ -155,7 +158,6 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
         Bundle args = new Bundle();
         switch (v.getId()){
             case R.id.red_container://红包
-              //  PlatformTopbarActivity.startActivity(getContext(), AnalRelSubTotalFrag.class.getName(), titleName, args);
                 titleName = getString(R.string.anal_red_pack);
                 type = TYPE_RED;
                 break;

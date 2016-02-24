@@ -2,6 +2,7 @@ package com.feifan.bp.marketinganalysis;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,7 @@ public class SummaryListAdapter extends BaseAdapter {
         }else{
             holder.mThirdSubsidy.setVisibility(View.VISIBLE);
             holder.mMerchantSubsidy.setVisibility(View.VISIBLE);
+            holder.mMerchantSubsidy.setEllipsize(TextUtils.TruncateAt.END);
             holder.mMerchantSubsidy.setText(String.format(mContext.getString(R.string.instant_colon),
                     mContext.getString(R.string.anal_subsidy_item_money_vendor),
                     Utils.formatMoney(mList.get(position).mListMerchant, 2)));
@@ -79,10 +81,24 @@ public class SummaryListAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String title = "";
+                if(!TextUtils.isEmpty(mArgs.getString(MarketingHomeFragment.TYPE))){
+                    switch (mArgs.getString(MarketingHomeFragment.TYPE)){
+                        case MarketingHomeFragment.TYPE_RED:
+                            title = mContext.getString(R.string.anal_red_charge_detail_red);
+                            break;
+                        case MarketingHomeFragment.TYPE_SHAKE:
+                            title = mContext.getString(R.string.anal_red_charge_detail_award);
+                            break;
+                        case MarketingHomeFragment.TYPE_COUPON:
+                            title = mContext.getString(R.string.anal_red_charge_detail_coupon);
+                            break;
+                    }
+                }
                 mArgs.putString(DetailFragment.EXTRA_COUPON_ID,mList.get(position).mListCouponId);
                 mArgs.putString(DetailFragment.EXTRA_COUPON_NAME,mList.get(position).mListCouponName);
                 mArgs.putString(DetailFragment.EXTRA_CHARGEOFF_NUM,mList.get(position).mListChargeOffCount);
-                PlatformTopbarActivity.startActivity(mContext, DetailFragment.class.getName(), mList.get(position).mListCouponName,mArgs);
+                PlatformTopbarActivity.startActivity(mContext, DetailFragment.class.getName(), title,mArgs);
             }
         });
 

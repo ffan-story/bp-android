@@ -1,7 +1,6 @@
 package com.feifan.bp.marketinganalysis;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.feifan.bp.network.BaseModel;
 
@@ -33,7 +32,6 @@ public class MarketingDetailModel extends BaseModel {
     protected void parseData(String json) throws JSONException {
         super.parseData(json);
         JSONObject data = new JSONObject(json);
-        Log.e(TAG, "we got json : " + json);
         detailList = new ArrayList<>();
         JSONArray array = data.optJSONArray("list");
         mDetailTitle = data.optString("couponName");

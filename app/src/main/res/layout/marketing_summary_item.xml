@@ -21,8 +21,7 @@
             <TextView
                 android:id="@+id/marketing_item_title"
                 style="@style/txt_color33_size14"
-                android:layout_width="match_parent"
-                android:maxLength="15"
+                android:maxEms="15"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:text="一条大河向东流路见不平一声吼啊啊啊"
