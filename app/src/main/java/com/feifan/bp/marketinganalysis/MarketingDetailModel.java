@@ -17,11 +17,11 @@ import java.util.List;
 public class MarketingDetailModel extends BaseModel {
 
     public static final String TAG = "MarketingDetailModel";
-    public List<DetailListModel> detailList;
-    public String mDetailTitle;
-    public String mDetailTotal;
-    public String mBeginKey;
-    public String mHideOtherSubsidy;
+    public List<DetailListModel> detailList;    //明细列表
+    public String mDetailTitle;     //券名称
+    public String mDetailTotal;     //核销总笔数
+    public String mBeginKey;        //翻页参数
+    public String mHideOtherSubsidy;    //是否隐藏第三方和商户补贴 0：显示   1：隐藏
     private DetailListModel mDetailModel;
 
     public MarketingDetailModel(JSONObject json) {
@@ -66,18 +66,15 @@ public class MarketingDetailModel extends BaseModel {
     }
 
     public static class DetailListModel {
-        public String mHideOtherSubsidy;
-
-        public String mDetailCouponId;
-        public String mChargeOffStatus;
-
-        public String mDetailFeifan;
-        public String mDetailThird;
-        public String mDetailMerchant;
-
-        public String mDetailGetTime;
-        public String mDetailValidTime;
-        public String mChargeOffTime;
+        public String mHideOtherSubsidy;    //是否隐藏第三方和商户补贴 0：显示   1：隐藏
+        public String mDetailCouponId;      //券码
+        public String mChargeOffStatus;     //核销状态
+        public String mDetailFeifan;        //非凡补贴
+        public String mDetailThird;         //第三方补贴
+        public String mDetailMerchant;      //商户补贴
+        public String mDetailGetTime;       //领券时间
+        public String mDetailValidTime;     //有效期至
+        public String mChargeOffTime;       //核销时间
 
     }
 }

@@ -10,6 +10,7 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
+import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 
@@ -48,7 +49,7 @@ public class CommonSummaryFragment extends AbsSummaryFragment implements Paginat
             mNoNetView.setVisibility(View.VISIBLE);
             return;
         }
-        MarketingCtrl.getCommonSummaryAndDetail(mStartDate, mEndDate, mType, mPageIndex+"", new Response.Listener<CommonModel>() {
+        MarketingCtrl.getCommonSummaryAndDetail(mStartDate, TimeUtil.getAddOneDay(mEndDate), mType, mPageIndex+"", new Response.Listener<CommonModel>() {
             @Override
             public void onResponse(CommonModel model) {
                 if (isAdded() && null != model) {
