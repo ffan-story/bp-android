@@ -40,16 +40,39 @@ public class MarketingCtrl  {
      * @param beginKey  游标
      * @param listener
      */
-    public static void getDetailList(String couponId,String sdate, String edate, String beginKey,Response.Listener listener){
+    public static void getDetailList(String type,String couponId,String sdate, String edate, String beginKey,Response.Listener listener){
         JsonRequest<MarketingDetailModel> request = new GetRequest.Builder<MarketingDetailModel>(UrlFactory.getAnalysisRedListDetail())
+                .param("type",type)
                 .param("sdate", sdate)
                 .param("edate", edate)
-                .param("couponId",couponId)
+                .param("couponId", couponId)
                 .param("beginKey",beginKey)
                 .param("limit", Constants.LIST_LIMIT)
                 .param("storeId", UserProfile.getInstance().getAuthRangeId())
                 .build()
                 .targetClass(MarketingDetailModel.class)
+                .listener(listener);
+        PlatformState.getInstance().getRequestQueue().add(request);
+    }
+
+    /**
+     * 获取通用券汇总&详情
+     * @param sdate
+     * @param edate
+     * @param type
+     * @param pageIndex
+     * @param listener
+     */
+    public static void getCommonSummaryAndDetail(String sdate,String edate,String type,String pageIndex,Response.Listener listener){
+        JsonRequest<CommonModel> request = new GetRequest.Builder<CommonModel>(UrlFactory.getAnalysisRedList())
+                .param("sdate", sdate)
+                .param("edate", edate)
+                .param("type",type)
+                .param("moffset", pageIndex)
+                .param("mlimit", Constants.LIST_LIMIT)
+                .param("storeId", UserProfile.getInstance().getAuthRangeId())
+                .build()
+                .targetClass(CommonModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }

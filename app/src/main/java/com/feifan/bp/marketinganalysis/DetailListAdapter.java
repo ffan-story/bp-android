@@ -1,10 +1,10 @@
 package com.feifan.bp.marketinganalysis;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.feifan.bp.Constants;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by kontar on 2016/2/3.
  */
-public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.MyViewHolder> {
+public class DetailListAdapter extends BaseAdapter {
     private List<MarketingDetailModel.DetailListModel> mList;
     Context mContext;
     public DetailListAdapter(Context context, List<MarketingDetailModel.DetailListModel> mDetailList) {
@@ -25,13 +25,31 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.My
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.marketing_detail_item,parent,false);
-        return new MyViewHolder(view);
+    public int getCount() {
+        return mList.size();
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public Object getItem(int position) {
+        return mList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        MyViewHolder holder;
+        if(null == convertView){
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.marketing_detail_item,null);
+            holder = new MyViewHolder(convertView);
+            convertView.setTag(holder);
+        }else{
+           holder = (MyViewHolder) convertView.getTag();
+        }
+
         holder.mCouponCode.setText(String.format(mContext.getString(R.string.instant_colon),mContext.getString(R.string.anal_red_coupon_code),mList.get(position).mDetailCouponId + position));
         holder.mChargeStatus.setText(mList.get(position).mChargeOffStatus);
         holder.mSubsidyFeifan.setText(String.format(mContext.getString(R.string.instant_colon),mContext.getString(R.string.anal_subsidy_item_money_ff),Utils.formatMoney(mList.get(position).mDetailFeifan,2)));
@@ -48,25 +66,19 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.My
         holder.mGetTime.setText(String.format(mContext.getString(R.string.instant_colon),mContext.getString(R.string.anal_subsidy_get_time),mList.get(position).mDetailGetTime));
         holder.mUsefulToTime.setText(String.format(mContext.getString(R.string.instant_colon),mContext.getString(R.string.anal_subsidy_end_time),mList.get(position).mDetailValidTime));
         holder.mChargeOffTime.setText(String.format(mContext.getString(R.string.instant_colon),mContext.getString(R.string.anal_subsidy_use_time),mList.get(position).mChargeOffTime));
-    }
-
-    @Override
-    public int getItemCount() {
-        return mList.size();
+        return convertView;
     }
 
     public void notifyData(List<MarketingDetailModel.DetailListModel> items) {
-        int previousDataSize = this.mList.size();
         mList.addAll(items);
-        notifyItemRangeChanged(previousDataSize,items.size());
+        notifyDataSetChanged();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder {
         TextView mCouponCode,mChargeStatus,
                 mSubsidyFeifan,mSubsidyThird,mSubsidyMerchant,
                 mGetTime,mUsefulToTime,mChargeOffTime;
         public MyViewHolder(View itemView) {
-            super(itemView);
             mCouponCode = (TextView)itemView.findViewById(R.id.detail_coupon_code);
             mChargeStatus = (TextView)itemView.findViewById(R.id.detail_coupon_status);
             mSubsidyFeifan = (TextView)itemView.findViewById(R.id.subsidy_feifan);
