@@ -15,9 +15,9 @@ import java.util.List;
 public class CommonModel extends BaseModel {
 
     public static final String TAG = "CommonModel";
-    public String mVerifyNum;
-    public String mAwardAmount;
-    public List<CommonDetail> mCommonDetails;
+    public String mVerifyNum;   //核销总笔数
+    public String mAwardAmount; //奖励金额
+    public List<CommonDetail> mCommonDetails;   //明细列表
     private CommonDetail detail;
     public CommonModel(JSONObject json) {
         super(json);
@@ -44,9 +44,9 @@ public class CommonModel extends BaseModel {
     }
 
     public class CommonDetail{
-        public String mCouponId;
-        public String mAwardMoney;
-        public String mCouponName;
-        public String mVerifyTime;
+        public String mCouponId;    //券码
+        public String mAwardMoney;  //奖励金额
+        public String mCouponName;  //券名称
+        public String mVerifyTime;  //核销时间
     }
 }
