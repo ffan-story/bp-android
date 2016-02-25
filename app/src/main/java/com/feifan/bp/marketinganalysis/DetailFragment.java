@@ -88,13 +88,7 @@ public class DetailFragment extends ProgressFragment implements Paginate.Callbac
         });
 
         if(!TextUtils.isEmpty(mCouponName)){
-            if(MarketingHomeFragment.TYPE_RED.equals(mType)){   //红包明细
-                mDetailTitle.setText(mCouponName);
-            }else if(MarketingHomeFragment.TYPE_SHAKE.equals(mType)){   //摇一摇明细
-                mDetailTitle.setText(String.format(getString(R.string.anal_award_name),mCouponName));
-            }else{  //优惠券明细
-                mDetailTitle.setText(String.format(getString(R.string.anal_coupon_name),mCouponName));
-            }
+            mDetailTitle.setText(mCouponName);
         }
         if(!TextUtils.isEmpty(mChargeOffNum)){
             mChargeOffCount.setText(mChargeOffNum);
