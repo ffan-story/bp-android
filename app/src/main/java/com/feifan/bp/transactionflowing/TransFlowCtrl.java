@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.transactionflowing;
 
 import com.android.volley.Response;
 import com.feifan.bp.PlatformState;
@@ -6,10 +6,10 @@ import com.feifan.bp.UserProfile;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.transactionflow.model.CouponSummaryModel;
-import com.feifan.bp.transactionflow.model.InstantDetailModel;
-import com.feifan.bp.transactionflow.model.InstantOrderDetailModel;
-import com.feifan.bp.transactionflow.model.InstantSummaryModel;
+import com.feifan.bp.transactionflowing.model.CouponSummaryModel;
+import com.feifan.bp.transactionflowing.model.InstantDetailModel;
+import com.feifan.bp.transactionflowing.model.InstantOrderDetailModel;
+import com.feifan.bp.transactionflowing.model.InstantSummaryModel;
 
 /**
  * 对账管理界面控制类

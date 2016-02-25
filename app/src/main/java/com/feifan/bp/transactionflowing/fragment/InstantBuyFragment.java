@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow.fragment;
+package com.feifan.bp.transactionflowing.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -20,8 +20,8 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.transactionflow.TransFlowCtrl;
-import com.feifan.bp.transactionflow.model.InstantSummaryModel;
+import com.feifan.bp.transactionflowing.TransFlowCtrl;
+import com.feifan.bp.transactionflowing.model.InstantSummaryModel;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.NumberUtil;
 import com.feifan.bp.util.TimeUtil;

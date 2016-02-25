@@ -257,7 +257,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                         args.putStringArray(BrowserTabActivity.EXTRA_KEY_STATUS, getActivity().getResources().getStringArray(R.array.data_type));
                         args.putStringArray(BrowserTabActivity.EXTRA_KEY_TITLES, getActivity().getResources().getStringArray(R.array.tab_title_veri_history_title));
                     } else {
-                        Utils.showShortToast(getActivity(), R.string.error_message_permission_limited, Gravity.CENTER);
+                        Utils.showShortToast(getActivity(), R.string.error_message_permission_limited);
                         return;
                     }
                 } else {
@@ -278,7 +278,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 
                 String code = mCodeEditText.getText().toString().replaceAll(" ", "");
                 if (TextUtils.isEmpty(code)) {
-                    Utils.showShortToast(getActivity(), R.string.chargeoff_code_empty, Gravity.CENTER);
+                    Utils.showShortToast(getActivity(), R.string.chargeoff_code_empty);
                     return;
                 }
                 int mIntCodeLength = code.trim().length();
@@ -466,7 +466,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 
                                 Bundle args = new Bundle();
                                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-//                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingAlysFrag.class.getName());
                                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingHomeFragment.class.getName());
 
                                 mListener.onFragmentInteraction(args);
@@ -478,6 +477,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 
                                 Bundle args = new Bundle();
                                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
+                                args.putString(SimpleBrowserFragment.EXTRA_KEY_URL, url);
                                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, IndexSalesManageFragment.class.getName());
                                 mListener.onFragmentInteraction(args);
                             } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getReportId())) {//TODO 跳转到对账管理

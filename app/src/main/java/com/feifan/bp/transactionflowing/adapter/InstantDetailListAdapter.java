@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow.adapter;
+package com.feifan.bp.transactionflowing.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.transactionflow.fragment.InstantOrderDetailFragment;
-import com.feifan.bp.transactionflow.model.InstantDetailModel;
+import com.feifan.bp.transactionflowing.fragment.InstantOrderDetailFragment;
+import com.feifan.bp.transactionflowing.model.InstantDetailModel;
 import com.feifan.bp.util.NumberUtil;
 
 import java.util.Iterator;

@@ -78,7 +78,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".transactionflow.TransFlowTabActivity"
+            android:name=".transactionflowing.TransFlowTabActivity"
             android:label=" "
             android:screenOrientation="portrait">
         </activity>
