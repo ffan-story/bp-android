@@ -58,12 +58,6 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
         return view;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initData();
-    }
-
     private void initView(View view) {
 
         mSwipe  = (SwipeRefreshLayout)view.findViewById(R.id.marketing_swipe);
@@ -96,11 +90,7 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
         view.findViewById(R.id.coupons_container).setOnClickListener(this);
         view.findViewById(R.id.general_coupons_container).setOnClickListener(this);
         view.findViewById(R.id.reload).setOnClickListener(this);
-    }
 
-    private void initData() {
-        tabIndex = R.id.today;
-        mStartDate = mEndDate = TimeUtil.getToday();
         mToday.setChecked(true);
     }
 
@@ -144,10 +134,10 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
 
     private void fillView(MarketingSummaryModel model) {
         mChargeOffCount.setText(getString(R.string.anal_charge_total_count, model.mHomeAllVerifyNum));
-        mRedChargeCount.setText(getString(R.string.anal_charge_count,model.mHomeRedVerifyNum));
-        mShakeChargeCount.setText(getString(R.string.anal_charge_count,model.mHomeShakeVerifyNum));
-        mCouponsCount.setText(getString(R.string.anal_charge_count,model.mHomeCommonVerifyNum));
-        mGeneralCount.setText(getString(R.string.anal_charge_count,model.mHomeCouponVerifyNum));
+        mRedChargeCount.setText(getString(R.string.anal_charge_count, model.mHomeRedVerifyNum));
+        mShakeChargeCount.setText(getString(R.string.anal_charge_count, model.mHomeShakeVerifyNum));
+        mCouponsCount.setText(getString(R.string.anal_charge_count, model.mHomeCommonVerifyNum));
+        mGeneralCount.setText(getString(R.string.anal_charge_count, model.mHomeCouponVerifyNum));
 
     }
 
@@ -191,9 +181,13 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId){
             case R.id.today:
-                tabIndex = R.id.today;
                 mStartDate = mEndDate = TimeUtil.getToday();
-                requestData();
+                if(tabIndex == 0){  //避免重复请求
+                    tabIndex = R.id.today;
+                }else{
+                    tabIndex = R.id.today;
+                    requestData();
+                }
                 break;
             case R.id.yesterday:
                 tabIndex = R.id.yesterday;

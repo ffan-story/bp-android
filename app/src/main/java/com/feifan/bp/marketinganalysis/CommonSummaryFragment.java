@@ -70,9 +70,9 @@ public class CommonSummaryFragment extends AbsSummaryFragment implements Paginat
         mSummaryFeifanSubsidy.setText(Html.fromHtml(String.format(getString(R.string.two_row_red_99),
                 Utils.formatMoney(model.mAwardAmount,2), getActivity().getString(R.string.anal_award_money))));
 
-        if(null != model.mCommonDetails && model.mCommonDetails.size() > 0){//无数据
+        if(null != model.mCommonDetails && model.mCommonDetails.size() > 0){//有数据
             mNoDataView.setVisibility(View.GONE);
-        }else{
+        }else if(!isLoadMore){
             mSummaryList.setAdapter(null);
             mNoDataView.setVisibility(View.VISIBLE);
             return;

@@ -5,6 +5,7 @@
     <dimen name="view_spacing_1">1dp</dimen>
     <dimen name="view_spacing_3">3dp</dimen>
     <dimen name="view_spacing_5">5dp</dimen>
+    <dimen name="view_spacing_6">6dp</dimen>
     <dimen name="view_spacing_8">8dp</dimen>
     <dimen name="view_spacing_10">10dp</dimen>
     <dimen name="view_spacing_12">12dp</dimen>
