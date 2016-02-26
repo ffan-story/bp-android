@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.view.WindowManager;
 
 import com.feifan.bp.LaunchActivity;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 
@@ -28,6 +29,7 @@ public class SystemAlterDialog {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             UserProfile.getInstance().clear();
+                            PlatformState.getInstance().reset();
                             Intent intent = LaunchActivity.buildIntent(context);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                             context.startActivity(intent);

@@ -29,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.util.LogUtil;
 
@@ -105,8 +106,9 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        if(UserProfile.getInstance().getCookie()!=null){
-            mHeaders.put(Constants.COOKIE_KEY, UserProfile.getInstance().getCookie());
+        final String cookie = PlatformState.getInstance().retrieveCookie();
+        if(PlatformState.getInstance().retrieveCookie() != null){
+            mHeaders.put(Constants.COOKIE_KEY, cookie);
         }
         LogUtil.i(TAG, "headers:" + mHeaders.toString());
         return mHeaders;
@@ -126,12 +128,11 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
                     new String(response.data, HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
             LogUtil.i(TAG, "Receive:" + jsonString);
 
-            // 处理Cookie
+            // 保存最新Cookie
             if(response.headers != null) {
-                Log.e("xuchunlei", response.headers.toString());
                 String cookies = NetworkHelper.pickCookies(response.headers.toString());
                 if(cookies != null) {
-                    UserProfile.getInstance().setCookie(cookies);
+                    PlatformState.getInstance().updateCookie(cookies);
                 }
             }
 

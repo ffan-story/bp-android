@@ -1,9 +1,12 @@
 package com.feifan.bp.util;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Frank on 15/8/19.
@@ -12,6 +15,11 @@ public class TimeUtil {
 
     private static final SimpleDateFormat DATE_FORMAT_DATE = new SimpleDateFormat("yyyy-MM-dd");
     private static final SimpleDateFormat DATE_FORMAT_DATE_MONTH = new SimpleDateFormat("yyyy-MM");
+    private static final SimpleDateFormat DATE_FORMAT_GMT;
+    static {
+        DATE_FORMAT_GMT = new SimpleDateFormat("ddd, dd-ddd-yyyy HH:mm:ss 'GMT'", Locale.US);
+        DATE_FORMAT_GMT.setTimeZone(new java.util.SimpleTimeZone(0, "GMT"));
+    }
     private TimeUtil() {
     }
 
@@ -169,5 +177,14 @@ public class TimeUtil {
     public static String dateToStr(String style, Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat(style);
         return formatter.format(date);
+    }
+
+    public static Date getGMTDate(String date) {
+        try {
+            return DATE_FORMAT_GMT.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

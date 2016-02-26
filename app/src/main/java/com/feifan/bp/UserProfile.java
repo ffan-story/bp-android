@@ -61,8 +61,6 @@ public class UserProfile {
     private static final String PREFERENCE_KEY_HISTORY_URL = "history";
     // 偏好项键值－权限列表字符串
     private static final String PREFERENCE_KEY_RIGHT_STRING = "rightString";
-    //偏好项键值－登录验证Cookie
-    private static final String PREFERENCE_KEY_COOKIE = "cookie";
 
     private Context mContext;
 
@@ -230,19 +228,6 @@ public class UserProfile {
 
     public String getMerchantId(){
         return getString(PREFERENCE_KEY_MERCHANT_ID);
-    }
-
-    public void setCookie(String cookie){
-        String oldCookie = getString(PREFERENCE_KEY_COOKIE);
-        Log.e("xuchunlei", "oldCookie---->" + oldCookie);
-        Log.e("xuchunlei", "set-------Cookie---->" + cookie);
-        if(cookie != null)
-        putString(PREFERENCE_KEY_COOKIE, cookie);
-    }
-
-    public String getCookie(){
-        Log.e("xuchunlei", "get-------Cookie---->" + getString(PREFERENCE_KEY_COOKIE));
-        return getString(PREFERENCE_KEY_COOKIE);
     }
 
     public void clear() {

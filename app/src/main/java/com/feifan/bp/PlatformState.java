@@ -9,9 +9,16 @@ import android.util.SparseArray;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.feifan.bp.network.HttpsUrlStack;
+import com.feifan.bp.network.NetworkHelper;
 import com.feifan.bp.util.LogUtil;
+import com.feifan.bp.util.TimeUtil;
 
+import java.net.HttpCookie;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +35,8 @@ public class PlatformState {
     private static final String STATE_PREFERENCES_NAME = "state";
     // 偏好项键值－清除缓存标记
     private static final String CLEAR_CACHE_FLAG = "CLEAR_CACHE_FLAG";
+    // 偏好项键值－Cookie
+    private static final String PREFERENCE_KEY_COOKIE = "COOKIE";
 
     private static PlatformState INSTANCE;
 
@@ -91,6 +100,10 @@ public class PlatformState {
     public void reset() {
         mLastUrl = null;
         clearCache();
+
+        //清除缓存
+        SharedPreferences sp = sContext.getSharedPreferences(STATE_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        sp.edit().remove(PREFERENCE_KEY_COOKIE).apply();
     }
 
     /**
@@ -142,5 +155,60 @@ public class PlatformState {
      */
     public void updateUnreadStatus(int key, boolean value) {
         mUnreadMap.put(key, value);
+    }
+
+    /**
+     * 更新Cookie
+     * @param cookie
+     */
+    public void updateCookie(String cookie) {
+
+        if(cookie == null) {
+            return;
+        }
+
+        SharedPreferences sp = sContext.getSharedPreferences(STATE_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(PREFERENCE_KEY_COOKIE, cookie);
+        editor.apply();
+
+//        String oldExpire = null;
+//        String newExpire;
+
+
+//        String oldCookie = sp.getString(PREFERENCE_KEY_COOKIE, Constants.NO_STRING);
+//        if(!oldCookie.equals(Constants.NO_STRING)) {
+//            oldExpire = NetworkHelper.parseCookie(oldCookie, NetworkHelper.COOKIE_KEY_EXPIRES);
+//        }
+//        newExpire = NetworkHelper.parseCookie(cookie, NetworkHelper.COOKIE_KEY_EXPIRES);
+//        Log.e("xuchunlei", cookie);
+//        Log.e("xuchunlei", newExpire);
+//        if(oldExpire != null) {
+//            Date dtOld = TimeUtil.getGMTDate(oldExpire);
+//            Date dtNew = TimeUtil.getGMTDate(newExpire);
+//            if(dtNew.getTime() > dtOld.getTime()) {
+//                SharedPreferences.Editor editor = sp.edit();
+//                if(cookie != null) {
+//                    editor.putString(PREFERENCE_KEY_COOKIE, cookie);
+//                    editor.apply();
+//                }
+//            }
+//        }else {
+//            SharedPreferences.Editor editor = sp.edit();
+//            if(cookie != null) {
+//                editor.putString(PREFERENCE_KEY_COOKIE, cookie);
+//                editor.apply();
+//            }
+//        }
+
+
+    }
+
+    /**
+     * 获取Cookie
+     */
+    public String retrieveCookie() {
+        SharedPreferences sp = sContext.getSharedPreferences(STATE_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        return sp.getString(PREFERENCE_KEY_COOKIE, Constants.NO_STRING);
     }
 }
