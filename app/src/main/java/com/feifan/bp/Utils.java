@@ -37,7 +37,6 @@ public class Utils {
 
     private static final String TAG = "Utils";
     private static Toast mToast;
-    private static AlertDialog mDialog;
     private static Handler mhandler = new Handler();
     private static Runnable r = new Runnable() {
         public void run() {
@@ -186,14 +185,15 @@ public class Utils {
 
     /**
      * 包含0-9 || A-Z || a-z 时，返回false,否则返回true
+     *
      * @param value
      * @return
      */
-    public static boolean isNotDigitAndLetter(String value)  {
+    public static boolean isNotDigitAndLetter(String value) {
         Pattern p = Pattern.compile("^[A-Za-z0-9]+$");
         Matcher m = p.matcher(value);
         if (!m.matches()) {
-           return true;
+            return true;
         }
         return false;
     }
@@ -262,9 +262,9 @@ public class Utils {
         } else if (result.contains(".")) {
             String[] strs = result.split("\\.");
             if (strs[1].length() == 1) {
-                result = result+"0";
+                result = result + "0";
             }
-        }else{
+        } else {
         }
         return result;
     }
@@ -274,16 +274,16 @@ public class Utils {
      * <pre>
      *     使用ApplicationContext，适用于没有Context的场景
      * </pre>
+     *
      * @param resource
      * @return
      */
     public static String getString(int resource) {
-        if(resource > 0) {
+        if (resource > 0) {
             return PlatformState.getApplicationContext().getString(resource);
         }
         return null;
     }
-
 
 
     /**
@@ -320,39 +320,6 @@ public class Utils {
         File file = new File(dir);
         if (!file.exists()) {
             file.mkdir();
-        }
-    }
-
-    /**
-     * 展示登录失效弹框
-     */
-    public static void showLoginDialog(final Context context,String msg){
-        mDialog = new AlertDialog.Builder(context)
-                .setMessage(msg)
-                .setCancelable(false)
-                .setPositiveButton(R.string.common_confirm, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        UserProfile.getInstance().clear();
-                        Intent intent = LaunchActivity.buildIntent(context);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                        context.startActivity(intent);
-                    }
-                }).create();
-        mDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);//设置系统级别AlterDialog
-        if(!mDialog.isShowing()){
-            mDialog.show();
-        }
-    }
-
-    /**
-     * 消除登录失效弹框
-     */
-    public static void dismissLoginDialog(){
-        if(mDialog.isShowing()){
-            mDialog.dismiss();
         }
     }
 }

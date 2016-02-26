@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -77,8 +76,8 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         mFragments.add(SettingsFragment.newInstance());
 
         // 加载标题栏
-        mToolbar = (Toolbar)findViewById(R.id.head_bar);
-        mCenterTitle = (TextView)mToolbar.findViewById(R.id.header_center_title);
+        mToolbar = (Toolbar) findViewById(R.id.head_bar);
+        mCenterTitle = (TextView) mToolbar.findViewById(R.id.header_center_title);
 //        initHeader(mToolbar);
 
         // 初始化视图
@@ -118,9 +117,9 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         verifyContent();
 
         // 获取未读提示状态
-        if(UserProfile.getInstance().isStoreUser()){
+        if (UserProfile.getInstance().isStoreUser()) {
             storeId = UserProfile.getInstance().getAuthRangeId();
-        }else {
+        } else {
             merchantId = UserProfile.getInstance().getAuthRangeId();
         }
         HomeCtrl.getUnReadtatus(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
@@ -170,8 +169,8 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
     @Override
     public void retryRequestNetwork() {
-        if(mCurrentFragment instanceof MessageFragment){
-            ((MessageFragment)mCurrentFragment).updateData();
+        if (mCurrentFragment instanceof MessageFragment) {
+            ((MessageFragment) mCurrentFragment).updateData();
         }
     }
 
@@ -193,8 +192,8 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
             showHome(true);
         } else if (from.equals(SettingsFragment.class.getName())) {//设置界面
             if (to.equals(LaunchActivity.class.getName())) {
-               startActivity(buildIntent(this));
-            }else{
+                startActivity(buildIntent(this));
+            } else {
                 PlatformTopbarActivity.startActivity(this, to);
             }
         } else if (from.equals(ForgetPasswordFragment.class.getName())) {
@@ -209,7 +208,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
-            }else if(to.equals(CheckManageFragment.class.getName())){
+            } else if (to.equals(CheckManageFragment.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) {
                     Intent intent = new Intent(this, PlatformTopbarActivity.class);
                     intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, CheckManageFragment.class.getName());
@@ -217,7 +216,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
-            } else if(to.equals(IndexSalesManageFragment.class.getName())){
+            } else if (to.equals(IndexSalesManageFragment.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) {
                     Intent intent = new Intent(this, PlatformTopbarActivity.class);
                     LogUtil.i("congjing","dddddd"+args.getString(SimpleBrowserFragment.EXTRA_KEY_URL));
@@ -227,18 +226,18 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
-            }else if (to.equals(MarketingHomeFragment.class.getName())){//营销分析 二期
+            } else if (to.equals(MarketingHomeFragment.class.getName())) {//营销分析 二期
                 if (Utils.isNetworkAvailable(this)) {
                     Intent intent = new Intent(this, PlatformTopbarActivity.class);
                     intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingHomeFragment.class.getName());
-                    intent.putExtra(Constants.EXTRA_KEY_TITLE,getString(R.string.sale_anal));
+                    intent.putExtra(Constants.EXTRA_KEY_TITLE, getString(R.string.sale_anal));
                     startActivity(intent);
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
             } else if (to.equals(BrowserTabActivity.class.getName())) {
                 openTabBrowser(args);
-            } else{
+            } else {
                 openBrowser(args.getString(BrowserActivity.EXTRA_KEY_URL));
             }
         } else if (from.equals(UserInfoFragment.class.getName())) {
@@ -256,7 +255,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
     @Override
     public void onStatusChanged(boolean flag) {
-        if(flag) {
+        if (flag) {
             mMessageTab.showBadger();
         } else {
             mMessageTab.hideBadger();
@@ -278,7 +277,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         // 改变标题
         Bundle args = fragment.getArguments();
         String title = null;
-        if(args != null) {
+        if (args != null) {
             title = args.getString(Constants.EXTRA_KEY_TITLE);
         }
         mCenterTitle.setText(title);
@@ -310,7 +309,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
     }
 
     // 检验内容
-    private void verifyContent(){
+    private void verifyContent() {
         if (UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
             showLogin();
         }
@@ -343,7 +342,6 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
     @Override
     public void onBackPressed() {
-        Utils.dismissLoginDialog();
         if (mCurrentFragment != null
                 && mCurrentFragment instanceof FeedBackFragment
                 || mCurrentFragment instanceof HelpCenterFragment) {
@@ -351,13 +349,5 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == event.KEYCODE_HOME){
-            Utils.dismissLoginDialog();
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }

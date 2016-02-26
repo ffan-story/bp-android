@@ -1,5 +1,6 @@
 package com.feifan.bp.network;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -10,6 +11,7 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.util.LogUtil;
+import com.feifan.bp.widget.SystemAlterDialog;
 
 /**
  * 网络请求错误Listener默认实现
@@ -35,7 +37,10 @@ public class DefaultErrorListener implements ErrorListener {
                 if (!Utils.isChineseChar(msg)) {
                     msg = context.getString(R.string.error_message_text_network_data_fail);
                 } else if (msg.equals(Utils.getString(R.string.error_message_login_invalid))) {
-                    Utils.showLoginDialog(context,msg);
+                    AlertDialog mDialog = SystemAlterDialog.getInstance(context, msg);
+                    if(!mDialog.isShowing()){
+                        mDialog.show();
+                    }
                     return;
                 }
                 Utils.showShortToast(context, msg, Gravity.CENTER);

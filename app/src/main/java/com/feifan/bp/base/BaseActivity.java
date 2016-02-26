@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.feifan.bp.R;
 import com.feifan.bp.util.LogUtil;
+import com.feifan.bp.widget.SystemAlterDialog;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
@@ -154,7 +155,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
+        SystemAlterDialog.dismissSystemDialog();
         MobclickAgent.onPause(this);
 
         if (isFinishing()) {
