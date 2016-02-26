@@ -94,6 +94,7 @@
     <string name="error_message_network">您的网络好像有点问题</string>
     <string name="error_message_timeout">网络超时</string>
     <string name="error_message_network_link">请检查您的网络连接</string>
+    <string name="error_message_login_invalid">登录失效,请重新登录</string>
 
     <string name="sd_card_exist">sd卡不存在</string>
     <string name="title_activity_browser">BrowserActivity</string>

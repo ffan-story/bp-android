@@ -16,7 +16,7 @@ import com.feifan.bp.util.LogUtil;
  * <pre>
  *     适用于Volley网络请求框架
  * </pre>
- *
+ * <p/>
  * Created by xuchunlei on 15/10/31.
  */
 public class DefaultErrorListener implements ErrorListener {
@@ -34,6 +34,9 @@ public class DefaultErrorListener implements ErrorListener {
                 LogUtil.i(TAG, "error msg=" + msg);
                 if (!Utils.isChineseChar(msg)) {
                     msg = context.getString(R.string.error_message_text_network_data_fail);
+                } else if (msg.equals(Utils.getString(R.string.error_message_login_invalid))) {
+                    Utils.showLoginDialog(context,msg);
+                    return;
                 }
                 Utils.showShortToast(context, msg, Gravity.CENTER);
             } else {

@@ -33,6 +33,7 @@ public class Constants {
 
     // 网络
     public static final int RESPONSE_CODE_SUCCESS = 200;
+    public static final int RESPONSE_CODE_NOT_LOGIN = 3001;
 
     // 浏览器
     public static final String URL_SCHEME_PLATFORM = "platform";

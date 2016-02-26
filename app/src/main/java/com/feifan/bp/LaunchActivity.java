@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -338,6 +339,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
     @Override
     public void onBackPressed() {
+        Utils.dismissLoginDialog();
         if (mCurrentFragment != null
                 && mCurrentFragment instanceof FeedBackFragment
                 || mCurrentFragment instanceof HelpCenterFragment) {
@@ -345,5 +347,13 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == event.KEYCODE_HOME){
+            Utils.dismissLoginDialog();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

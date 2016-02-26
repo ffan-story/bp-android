@@ -57,6 +57,8 @@ public class BaseModel {
             } catch (JSONException e) {
                 LogUtil.w(TAG, e.getMessage());
             }
+        } else if (status == Constants.RESPONSE_CODE_NOT_LOGIN){ //登录失效
+            msg = Utils.getString(R.string.error_message_login_invalid);
         } else {          // 错误
             if(TextUtils.isEmpty(msg)) {       // 未知错误
                 msg = Utils.getString(R.string.error_message_unknown);
