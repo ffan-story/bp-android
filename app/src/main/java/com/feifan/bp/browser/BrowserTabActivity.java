@@ -16,6 +16,7 @@ import android.widget.PopupWindow;
 
 import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
@@ -271,6 +272,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
                             mDialog.dismiss();
                             isShowDlg = true;
                             UserProfile.getInstance().clear();
+                            PlatformState.getInstance().reset();
                             startActivity(LaunchActivity.buildIntent(BrowserTabActivity.this));
                         }
                     })
