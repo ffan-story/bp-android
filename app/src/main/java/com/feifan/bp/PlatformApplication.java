@@ -1,17 +1,12 @@
 package com.feifan.bp;
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.Application;
-import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 import android.webkit.WebView;
 
+import com.bp.crash.BPCrashConfig;
 import com.feifan.bp.network.JsonRequest;
-import com.feifan.statlib.FmsConstants;
-
-import java.util.List;
+import com.wanda.crashsdk.pub.FeifanCrashManager;
 
 /**
  * Created by xuchunlei on 15/6/17.
@@ -43,6 +38,20 @@ public class PlatformApplication extends Application {
         }
     }
 
+
+    private void startCrashManager() {
+        try {
+            BPCrashConfig crashConfig = new BPCrashConfig();
+            final UserProfile profile = UserProfile.getInstance();
+            if(profile != null && profile.getUid() != 0) {
+                crashConfig.setUid(String.valueOf(profile.getUid()));
+            }
+            FeifanCrashManager.getInstance().init(getApplicationContext(), crashConfig);
+            FeifanCrashManager.getInstance().start();
+        } catch (com.wanda.crashsdk.exception.IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void onTerminate() {
         super.onTerminate();

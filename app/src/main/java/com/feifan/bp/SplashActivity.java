@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.VersionModel;
@@ -16,6 +15,7 @@ import com.feifan.bp.login.AuthListModel;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.statlib.FmsAgent;
+import com.wanda.crashsdk.pub.FeifanCrashManager;
 
 /**
  * 欢迎界面
@@ -32,7 +32,7 @@ public class SplashActivity extends PlatformBaseActivity {
         getWindow().setFormat(PixelFormat.RGBA_8888);
         setContentView(R.layout.activity_splash);
         checkVersion();
-
+        FeifanCrashManager.getInstance().reportActive();
         //统计埋点----用户启动APP
         FmsAgent.onEvent(getApplicationContext(), Statistics.USER_OPEN_APP);
     }

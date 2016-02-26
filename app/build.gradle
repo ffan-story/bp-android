@@ -131,9 +131,10 @@ dependencies {
     compile project(':refresh')
     compile project(':materialwidget')
     compile project(':statlib')
-//    compile 'junit:junit:4.10'
-//    compile 'org.mockito:mockito-core:1.+'
-//    compile 'org.robolectric:robolectric:3.0'
+    //    compile 'junit:junit:4.10'
+    //    compile 'org.mockito:mockito-core:1.+'
+    //    compile 'org.robolectric:robolectric:3.0'
+    compile project(':libworks:bpcrash')
 }
 
 android {
