@@ -23,8 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.wanda.qr.base.ScannerView;
-import com.wanda.qr.common.toolbox.IScanStack;
+import com.feifan.scan.base.ScannerView;
+import com.feifan.scan.common.toolbox.IScanStack;
 
 public class CodeScannerFragment extends Fragment  implements IScanStack.onScanCallBack {
     private static final String TAG = CodeScannerFragment.class.getSimpleName();
