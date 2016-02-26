@@ -41,7 +41,7 @@
                 android:layout_below="@id/common_code"
                 android:layout_marginBottom="@dimen/view_size_5"
                 android:layout_marginTop="@dimen/view_size_10"
-                android:maxLength="15"
+                android:maxLength="20"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:text="券名称"/>

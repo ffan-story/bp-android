@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
+import com.feifan.bp.util.TimeUtil;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class SummaryFragment extends AbsSummaryFragment {
 
     @Override
     protected void myRequestData() {
-        MarketingCtrl.getSummary(mStartDate, mEndDate, mType, new Response.Listener<MarketingSummaryModel>() {
+        MarketingCtrl.getSummary(mStartDate, TimeUtil.getAddOneDay(mEndDate), mType, new Response.Listener<MarketingSummaryModel>() {
             @Override
             public void onResponse(MarketingSummaryModel model) {
                 if(isAdded() && null != model){

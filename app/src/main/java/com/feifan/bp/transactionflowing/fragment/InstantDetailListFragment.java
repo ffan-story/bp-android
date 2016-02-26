@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow.fragment;
+package com.feifan.bp.transactionflowing.fragment;
 
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
@@ -15,9 +15,9 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.transactionflow.adapter.InstantDetailListAdapter;
-import com.feifan.bp.transactionflow.model.InstantDetailModel;
-import com.feifan.bp.transactionflow.TransFlowCtrl;
+import com.feifan.bp.transactionflowing.adapter.InstantDetailListAdapter;
+import com.feifan.bp.transactionflowing.model.InstantDetailModel;
+import com.feifan.bp.transactionflowing.TransFlowCtrl;
 import com.feifan.bp.widget.SpacesItemDecoration;
 import com.feifan.material.MaterialDialog;
 

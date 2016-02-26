@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.net.wifi.WifiEnterpriseConfig;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -26,7 +25,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -594,7 +592,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                             mWebView.loadUrl("javascript:imageCallback('" + name + "')");
                         } else {
                             Utils.showShortToast(getActivity(),
-                                    R.string.error_message_upload_picture_fail, Gravity.CENTER);
+                                    R.string.error_message_upload_picture_fail);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -607,14 +605,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                                       byte[] responseBody, Throwable error) {
                     hideProgressBar();
                     Utils.showShortToast(getActivity(),
-                            R.string.error_message_upload_picture_fail, Gravity.CENTER);
+                            R.string.error_message_upload_picture_fail);
                     IOUtil.closeQuietly(in);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
             Utils.showShortToast(getActivity(),
-                    R.string.error_message_upload_picture_fail, Gravity.CENTER);
+                    R.string.error_message_upload_picture_fail);
             IOUtil.closeQuietly(in);
         }
     }
@@ -661,7 +659,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     phoneDialog.dismiss();
                 }
                 if (!Utils.isHasSdCard()) {
-                    Utils.showShortToast(getActivity(), R.string.sd_card_exist, Gravity.CENTER);
+                    Utils.showShortToast(getActivity(), R.string.sd_card_exist);
                 } else {
                     Crop.cameraImage(getActivity(), imgPath);
                 }

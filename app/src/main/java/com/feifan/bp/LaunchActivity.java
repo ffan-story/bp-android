@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
+import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.IndexFragment;
@@ -32,6 +33,7 @@ import com.feifan.bp.marketinganalysis.MarketingHomeFragment;
 import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.settings.feedback.FeedBackFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerRadioButton;
 import com.feifan.bp.widget.TabBar;
 import com.feifan.statlib.FmsAgent;
@@ -218,6 +220,8 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
             } else if(to.equals(IndexSalesManageFragment.class.getName())){
                 if (Utils.isNetworkAvailable(this)) {
                     Intent intent = new Intent(this, PlatformTopbarActivity.class);
+                    LogUtil.i("congjing","dddddd"+args.getString(SimpleBrowserFragment.EXTRA_KEY_URL));
+                    intent.putExtra(SimpleBrowserFragment.EXTRA_KEY_URL,args.getString(SimpleBrowserFragment.EXTRA_KEY_URL));
                     intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, IndexSalesManageFragment.class.getName());
                     startActivity(intent);
                 } else {

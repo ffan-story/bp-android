@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow;
+package com.feifan.bp.transactionflowing;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +9,8 @@ import android.support.v4.view.ViewPager;
 
 import com.feifan.bp.R;
 import com.feifan.bp.base.BaseActivity;
-import com.feifan.bp.transactionflow.fragment.CouponListViewFragment;
-import com.feifan.bp.transactionflow.fragment.InstantBuyFragment;
+import com.feifan.bp.transactionflowing.fragment.CouponListViewFragment;
+import com.feifan.bp.transactionflowing.fragment.InstantBuyFragment;
 
 import java.util.ArrayList;
 import java.util.List;

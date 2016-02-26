@@ -94,4 +94,8 @@ public class Constants {
      */
     public  static final String MARKETING_HIDE_OTHER_SUBSIDY = "1";
 
+    /**
+     * 标题显示的最大长度
+     */
+    public static final int TITLE_LIMIT_MAX = 15;
 }

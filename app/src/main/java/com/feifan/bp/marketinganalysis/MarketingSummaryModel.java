@@ -21,20 +21,20 @@ import java.util.List;
     /**
      * home页数据
      */
-    public String mHomeAllVerifyNum;
-    public String mHomeRedVerifyNum;
-    public String mHomeShakeVerifyNum;
-    public String mHomeCommonVerifyNum;
-    public String mHomeCouponVerifyNum;
+    public String mHomeAllVerifyNum;    //核销总笔数
+    public String mHomeRedVerifyNum;    //红包核销笔数
+    public String mHomeShakeVerifyNum;  //摇一摇核销笔数
+    public String mHomeCommonVerifyNum; //通用券核销笔数
+    public String mHomeCouponVerifyNum; //优惠券核销笔数
     /**
      * 汇总页数据
      */
-    public String mSummaryAllTotal;
-    public String mSummaryAllFeifan;
-    public String mSummaryAllThird;
-    public String mSummaryAllMerchantr;
-    public String mSummaryHideOtherSubsidy;
-    public List<SummaryListModel> summaryList;
+    public String mSummaryAllTotal;     //核销总笔数
+    public String mSummaryAllFeifan;    //非凡总补贴
+    public String mSummaryAllThird;     //第三方总补贴
+    public String mSummaryAllMerchantr; //商户总补贴
+    public String mSummaryHideOtherSubsidy; //显示隐藏第三方和商户补贴 0：显示  1：隐藏
+    public List<SummaryListModel> summaryList;  //明细列表
 
     public SummaryListModel mRedModel;
 
@@ -86,13 +86,13 @@ import java.util.List;
     }
 
     public static class SummaryListModel {
-        public String mListCouponId;
-        public String mListCouponName;
-        public String mListChargeOffCount;
-        public String mListFeifan;
-        public String mListThird;
-        public String mListMerchant;
-        public String mListHideOtherSubsidy;
-        public String mVerifyTime;
+        public String mListCouponId;        //券码
+        public String mListCouponName;      //券名称
+        public String mListChargeOffCount;  //核销笔数
+        public String mListFeifan;          //非凡补贴
+        public String mListThird;           //第三方补贴
+        public String mListMerchant;        //商户补贴
+        public String mListHideOtherSubsidy;  //显示隐藏第三方和商户补贴 0：显示  1：隐藏
+        public String mVerifyTime;      //核销时间
     }
 }

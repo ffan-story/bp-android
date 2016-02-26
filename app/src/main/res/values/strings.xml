@@ -415,6 +415,7 @@
     <string name="anal_general_coupons">通用券</string>
     <string name="anal_general_detail">明细</string>
     <string name="anal_coupon_name">券名称：%1$s</string>
+    <string name="anal_award_name">奖品名称：%1$s</string>
     <string name="anal_coupons">优惠券</string>
     <string name="anal_charge_summary_total_title">总计</string>
     <string name="anal_charge_total_count">券核销总笔数 : %1$s</string>

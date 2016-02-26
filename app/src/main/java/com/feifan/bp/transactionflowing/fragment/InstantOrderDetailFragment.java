@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow.fragment;
+package com.feifan.bp.transactionflowing.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,10 +16,10 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.transactionflow.adapter.InstantDetailListAdapter;
-import com.feifan.bp.transactionflow.adapter.InstantOrderDetailAdapter;
-import com.feifan.bp.transactionflow.model.InstantOrderDetailModel;
-import com.feifan.bp.transactionflow.TransFlowCtrl;
+import com.feifan.bp.transactionflowing.adapter.InstantDetailListAdapter;
+import com.feifan.bp.transactionflowing.adapter.InstantOrderDetailAdapter;
+import com.feifan.bp.transactionflowing.model.InstantOrderDetailModel;
+import com.feifan.bp.transactionflowing.TransFlowCtrl;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 import com.feifan.material.MaterialDialog;

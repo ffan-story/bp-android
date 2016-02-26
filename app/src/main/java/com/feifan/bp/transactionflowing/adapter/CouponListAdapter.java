@@ -1,4 +1,4 @@
-package com.feifan.bp.transactionflow.adapter;
+package com.feifan.bp.transactionflowing.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.feifan.bp.R;
-import com.feifan.bp.transactionflow.model.CouponSummaryModel;
+import com.feifan.bp.transactionflowing.model.CouponSummaryModel;
 import com.feifan.bp.util.NumberUtil;
 
 import java.util.List;

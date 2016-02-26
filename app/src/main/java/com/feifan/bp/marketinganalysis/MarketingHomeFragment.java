@@ -110,7 +110,7 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
             mTotalContiner.setVisibility(View.VISIBLE);
             mNoNetView.setVisibility(View.GONE);
             mSwipe.setRefreshing(true);
-            MarketingCtrl.getSummary(mStartDate, mEndDate, TYPE_SUMMARY, new Response.Listener<MarketingSummaryModel>() {
+            MarketingCtrl.getSummary(mStartDate, TimeUtil.getAddOneDay(mEndDate), TYPE_SUMMARY, new Response.Listener<MarketingSummaryModel>() {
                 @Override
                 public void onResponse(MarketingSummaryModel model) {
                     if (isAdded() && null != model) {

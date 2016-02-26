@@ -19,6 +19,7 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 
@@ -87,7 +88,7 @@ public class DetailFragment extends ProgressFragment implements Paginate.Callbac
         });
 
         if(!TextUtils.isEmpty(mCouponName)){
-            mDetailTitle.setText(String.format(getString(R.string.anal_coupon_name),mCouponName));
+            mDetailTitle.setText(mCouponName);
         }
         if(!TextUtils.isEmpty(mChargeOffNum)){
             mChargeOffCount.setText(mChargeOffNum);
@@ -103,6 +104,7 @@ public class DetailFragment extends ProgressFragment implements Paginate.Callbac
     @Override
     protected void requestData() {
         mBeginKey = "";
+        mSwipe.setRefreshing(true);
         fetchData(false);
     }
 
@@ -110,8 +112,7 @@ public class DetailFragment extends ProgressFragment implements Paginate.Callbac
         if (Utils.isNetworkAvailable(getActivity())){
             mNoNetView.setVisibility(View.GONE);
             mNodataView.setVisibility(View.GONE);
-            mSwipe.setRefreshing(true);
-            MarketingCtrl.getDetailList(mType,mCouponId, mStartDate, mEndDate, mBeginKey, new Response.Listener<MarketingDetailModel>() {
+            MarketingCtrl.getDetailList(mType,mCouponId, mStartDate, TimeUtil.getAddOneDay(mEndDate), mBeginKey, new Response.Listener<MarketingDetailModel>() {
                 @Override
                 public void onResponse(MarketingDetailModel model) {
                     stopRefresh();
