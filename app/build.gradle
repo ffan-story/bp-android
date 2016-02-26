@@ -27,7 +27,7 @@ def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim
 // I want to use git tags as my version names (1.2.2)
 //def gitCurrentTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
 
-def version = "1.6.1"
+def version = "1.6.2"
 
 android {
     compileSdkVersion 23
@@ -37,7 +37,7 @@ android {
         applicationId "com.feifan.bp"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 10
+        versionCode 11
         versionName version
     }
 

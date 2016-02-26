@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.JsonReader;
+import android.util.Log;
 
 import com.feifan.bp.home.StoreModel;
 import com.feifan.bp.login.AuthListModel.AuthItem;
@@ -232,10 +233,15 @@ public class UserProfile {
     }
 
     public void setCookie(String cookie){
+        String oldCookie = getString(PREFERENCE_KEY_COOKIE);
+        Log.e("xuchunlei", "oldCookie---->" + oldCookie);
+        Log.e("xuchunlei", "set-------Cookie---->" + cookie);
+        if(cookie != null)
         putString(PREFERENCE_KEY_COOKIE, cookie);
     }
 
     public String getCookie(){
+        Log.e("xuchunlei", "get-------Cookie---->" + getString(PREFERENCE_KEY_COOKIE));
         return getString(PREFERENCE_KEY_COOKIE);
     }
 

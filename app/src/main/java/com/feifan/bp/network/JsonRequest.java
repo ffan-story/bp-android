@@ -16,6 +16,8 @@
 
 package com.feifan.bp.network;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -123,6 +125,16 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
             String jsonString =
                     new String(response.data, HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
             LogUtil.i(TAG, "Receive:" + jsonString);
+
+            // 处理Cookie
+            if(response.headers != null) {
+                Log.e("xuchunlei", response.headers.toString());
+                String cookies = NetworkHelper.pickCookies(response.headers.toString());
+                if(cookies != null) {
+                    UserProfile.getInstance().setCookie(cookies);
+                }
+            }
+
             if (mClazz != null) {
                 Constructor<T> constructor = mClazz.getConstructor(JSONObject.class);
                 T t = constructor.newInstance(new JSONObject(jsonString));

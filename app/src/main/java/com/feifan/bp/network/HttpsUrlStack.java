@@ -95,11 +95,9 @@ public class HttpsUrlStack extends HurlStack {
 
             while (var12.hasNext()) {
                 Map.Entry header = (Map.Entry) var12.next();
-//                LogUtil.e("fangke","header.getKey()>>>>>>>>>>"+header.getKey());
                 if (header.getKey() != null) {
                     if (header.getKey().equals(Constants.COOKIE_RESPONSE_KEY)) {
                         for (int i = 0; i < ((List) header.getValue()).size(); i++) {
-//                            LogUtil.e("fangke", "        Set-Cookie=============" + header.getValue());
                             if(((String) ((List) header.getValue()).get(i)).contains(Constants.COOKIE_VALUE)){
                                 BasicHeader h = new BasicHeader((String) header.getKey(), (String) ((List) header.getValue()).get(i));
                                 response.addHeader(h);

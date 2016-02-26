@@ -7,7 +7,6 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.BaseModel;
-import com.feifan.bp.network.CookieRequest;
 import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.PostRequest;
 import com.feifan.bp.network.UrlFactory;
@@ -41,7 +40,7 @@ public class UserCtrl {
      * @param listener    响应回调
      */
     public static void login(String account, String password, Listener<UserModel> listener, ErrorListener errorListener) {
-        JsonRequest<UserModel> request = new CookieRequest<UserModel>(UrlFactory.getLoginUrl(),errorListener)
+        JsonRequest<UserModel> request = new PostRequest<UserModel>(UrlFactory.getLoginUrl(),errorListener)
                 .param("userName", account)
                 .param("password", password)
                 .param("authRangeType", "store,merchant")
