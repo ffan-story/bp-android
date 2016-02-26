@@ -104,6 +104,7 @@ public class DetailFragment extends ProgressFragment implements Paginate.Callbac
     @Override
     protected void requestData() {
         mBeginKey = "";
+        mSwipe.setRefreshing(true);
         fetchData(false);
     }
 
@@ -111,7 +112,6 @@ public class DetailFragment extends ProgressFragment implements Paginate.Callbac
         if (Utils.isNetworkAvailable(getActivity())){
             mNoNetView.setVisibility(View.GONE);
             mNodataView.setVisibility(View.GONE);
-            mSwipe.setRefreshing(true);
             MarketingCtrl.getDetailList(mType,mCouponId, mStartDate, TimeUtil.getAddOneDay(mEndDate), mBeginKey, new Response.Listener<MarketingDetailModel>() {
                 @Override
                 public void onResponse(MarketingDetailModel model) {

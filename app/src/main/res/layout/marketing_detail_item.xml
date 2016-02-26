@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/view_spacing_10"
-    android:paddingTop="@dimen/view_spacing_15"
+    android:paddingTop="@dimen/view_spacing_10"
     android:paddingRight="@dimen/view_spacing_10">
 
     <android.support.v7.widget.CardView
@@ -32,40 +32,57 @@
                 android:layout_alignParentRight="true"
                 android:text="核销状态"/>
 
-            <TextView
-                android:id="@+id/subsidy_feifan"
-                style="@style/txt_color_blue_size14"
-                android:textSize="@dimen/font_size_12"
-                android:layout_alignParentLeft="true"
+            <LinearLayout
+                android:id="@+id/subsidy_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/detail_coupon_code"
-                android:layout_marginBottom="@dimen/view_size_5"
-                android:layout_marginTop="@dimen/view_size_5"/>
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/subsidy_third"
-                style="@style/txt_color_blue_size14"
-                android:textSize="@dimen/font_size_12"
-                android:layout_below="@id/detail_coupon_code"
-                android:layout_toRightOf="@id/subsidy_feifan"
-                android:layout_marginLeft="@dimen/view_spacing_12"
-                android:layout_marginBottom="@dimen/view_size_5"
-                android:layout_marginTop="@dimen/view_size_5"/>
 
-            <TextView
-                android:id="@+id/subsidy_merchant"
-                style="@style/txt_color_blue_size14"
-                android:textSize="@dimen/font_size_12"
-                android:layout_toRightOf="@id/subsidy_third"
-                android:layout_marginLeft="@dimen/view_spacing_12"
-                android:layout_below="@id/detail_coupon_code"
-                android:layout_marginBottom="@dimen/view_size_5"
-                android:layout_marginTop="@dimen/view_size_5"/>
+                <TextView
+                    android:id="@+id/subsidy_feifan"
+                    style="@style/txt_color_blue_size14"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/font_size_12"
+                    android:layout_marginBottom="@dimen/view_size_5"
+                    android:layout_marginTop="@dimen/view_size_5"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="飞凡补贴"/>
+
+                <TextView
+                    android:id="@+id/subsidy_third"
+                    style="@style/txt_color_blue_size14"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/font_size_12"
+                    android:layout_marginBottom="@dimen/view_size_5"
+                    android:layout_marginTop="@dimen/view_size_5"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="第三方补贴"/>
+
+                <TextView
+                    android:id="@+id/subsidy_merchant"
+                    style="@style/txt_color_blue_size14"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/font_size_12"
+                    android:layout_marginBottom="@dimen/view_size_5"
+                    android:layout_marginTop="@dimen/view_size_5"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="商户补贴"/>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/get_coupon_time"
                 style="@style/txt_color99_size12"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/subsidy_feifan" />
+                android:layout_below="@id/subsidy_container" />
 
             <TextView
                 android:id="@+id/end_useful_time"

@@ -61,6 +61,7 @@
     <dimen name="fab_elevation_lollipop">8dp</dimen>
 
     <!-- 控件size -->
+    <dimen name="view_size_0.5">0.5dp</dimen>
     <dimen name="view_size_1">1dp</dimen>
     <dimen name="view_size_3">3dp</dimen>
     <dimen name="view_size_5">5dp</dimen>

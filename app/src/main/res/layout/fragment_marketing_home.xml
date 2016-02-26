@@ -75,7 +75,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/view_size_1"
+                    android:layout_height="@dimen/view_size_0.5"
                     android:layout_below="@id/red_container"
                     android:layout_marginLeft="@dimen/view_spacing_60"
                     android:background="@color/divider"/>
@@ -116,7 +116,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/view_size_1"
+                    android:layout_height="@dimen/view_size_0.5"
                     android:layout_marginLeft="@dimen/view_spacing_60"
                     android:layout_below="@id/shake_container"
                     android:background="@color/divider"/>
@@ -157,7 +157,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/view_size_1"
+                    android:layout_height="@dimen/view_size_0.5"
                     android:layout_marginLeft="@dimen/view_spacing_60"
                     android:layout_below="@id/general_coupons_container"
                     android:background="@color/divider"/>

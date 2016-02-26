@@ -56,16 +56,7 @@ public class SummaryListAdapter extends BaseAdapter {
         }else {
             holder = (MyViewHolder)convertView.getTag();
         }
-        if(MarketingHomeFragment.TYPE_RED.equals(mType)){   //红包汇总
-            holder.mTitle.setMaxEms(Constants.TITLE_LIMIT_MAX);
-            holder.mTitle.setText(mList.get(position).mListCouponName);
-        }else if(MarketingHomeFragment.TYPE_SHAKE.equals(mType)){   //摇一摇汇总
-            holder.mTitle.setMaxEms(Constants.TITLE_LIMIT_MAX + 5);
-            holder.mTitle.setText(String.format(mContext.getString(R.string.anal_award_name),mList.get(position).mListCouponName));
-        }else{  //优惠券汇总
-            holder.mTitle.setMaxEms(Constants.TITLE_LIMIT_MAX + 4);
-            holder.mTitle.setText(String.format(mContext.getString(R.string.anal_coupon_name),mList.get(position).mListCouponName));
-        }
+        holder.mTitle.setText(mList.get(position).mListCouponName);
         holder.mChargeCount.setText(String.format(mContext.getString(R.string.instant_colon),
                 mContext.getString(R.string.anal_charge_off_count),
                 mList.get(position).mListChargeOffCount));
