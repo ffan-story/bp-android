@@ -34,7 +34,7 @@
                     android:text="券核销总笔数 : --"/>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/view_size_1"
+                    android:layout_height="@dimen/dividerheight"
                     android:layout_below="@id/chargeoff_total_count"
                     android:background="@color/divider"/>
 
@@ -198,7 +198,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/view_size_1"
+                    android:layout_height="@dimen/dividerheight"
                     android:layout_below="@id/coupons_container"
                     android:background="@color/divider"/>
 

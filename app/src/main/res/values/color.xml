@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 分隔线颜色 -->
-    <color name="divider">#d8d8d8</color>
+    <color name="divider">#e3e3f0</color>
     <color name="divider_deep_gray">#585858</color>
 
     <!-- 标题栏 -->
