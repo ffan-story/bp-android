@@ -4,29 +4,22 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.WindowManager;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.feifan.bp.util.LogUtil;
 
-import org.apache.http.cookie.Cookie;
-
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +30,7 @@ public class Utils {
 
     private static final String TAG = "Utils";
     private static Toast mToast;
+    private static AlertDialog mDialog;
     private static Handler mhandler = new Handler();
     private static Runnable r = new Runnable() {
         public void run() {
@@ -322,4 +316,68 @@ public class Utils {
             file.mkdir();
         }
     }
+
+
+    /**
+     * 展示登录失效弹框
+     */
+    public static void showLoginDialog(final Context context,String msg){
+        mDialog = new AlertDialog.Builder(context)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton(R.string.common_confirm, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        UserProfile.getInstance().clear();
+                        Intent intent = LaunchActivity.buildIntent(context);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                        context.startActivity(intent);
+                    }
+                }).create();
+        mDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);//设置系统级别AlterDialog
+        if(!mDialog.isShowing()){
+            mDialog.show();
+        }
+    }
+
+    /**
+     * 消除登录失效弹框
+     */
+    public static void dismissLoginDialog(){
+        if(mDialog.isShowing()){
+            mDialog.dismiss();
+        }
+    }
+
+    /**
+     * 静态 LaunchActivity 用于获取 Handle ，发送Handle message
+     */
+    public static  LaunchActivity myLunchActivitys;
+
+    /**
+     * 输出格式化webview URL
+     * @param webViewUrl
+     */
+    public static void logUrlFormat(String webViewUrl){
+        if (!TextUtils.isEmpty(webViewUrl)){
+            if (webViewUrl.contains("?")){
+                if (BuildConfig.DEBUG){
+                    Message message = new Message();
+                    message.what = 1;
+                    Bundle b = new Bundle();
+                    b.putString("MESSAGE", webViewUrl.split("[?]")[0] + "\n" + webViewUrl.split("[?]")[1].replace("&", "\n"));
+                    message.setData(b);
+                    myLunchActivitys.myHandler.sendMessage(message);
+                }
+                LogUtil.i("URL","WebView URl:"+webViewUrl.split("[?]")[0] + "\n" + webViewUrl.split("[?]")[1].replace("&", "\n"));
+
+            }else{
+                LogUtil.i("URL","WebView URl:"+webViewUrl);
+            }
+
+        }
+    }
+
 }

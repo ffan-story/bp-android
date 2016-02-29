@@ -128,4 +128,6 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
     protected boolean isShowToolbar() {
         return true;
     }
+
+
 }

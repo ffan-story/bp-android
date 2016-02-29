@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_margin="@dimen/view_spacing_15"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:id="@+id/tv_context"
+        android:background="@color/xf"
+        android:fadeScrollbars="true" />
+</LinearLayout>

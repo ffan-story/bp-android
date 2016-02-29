@@ -76,7 +76,7 @@ public class PlatformState {
     }
 
     public void setLastUrl(String url) {
-        LogUtil.i(TAG, "save last request url " + url);
+        Utils.logUrlFormat(url);
         mLastUrl = url;
     }
 
