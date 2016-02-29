@@ -79,13 +79,15 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-        createFloatView();
 
-        Message message = new Message();
-        message.what = 1;
-        myHandler.sendMessage(message);
-        JsonRequest.myJsonLunchActivity = LaunchActivity.this;
-        Utils.myLunchActivitys= LaunchActivity.this;
+//        createFloatView();
+//        if (BuildConfig.DEBUG) {
+//        Message message = new Message();
+//        message.what = 1;
+//        myHandler.sendMessage(message);
+//        JsonRequest.myJsonLunchActivity = LaunchActivity.this;
+//        Utils.myLunchActivitys= LaunchActivity.this;
+//        }
 
         //统计埋点初始化
         FmsAgent.init(getApplicationContext(), EnvironmentManager.getHostFactory().getFFanApiPrefix() + "mxlog");
@@ -168,13 +170,12 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         PlatformState.getInstance().reset();
         //统计埋点----用户启动APP
         FmsAgent.onEvent(getApplicationContext(), Statistics.CLOSE_APP);
-
-        if (mContextWindowManager !=null ){
-            mContextWindowManager.removeView(mLineContextFloat);
-        }
-        if (mBtnWindowManager !=null){
-            mBtnWindowManager.removeView(mBtnFloatView);
-        }
+//        if (mContextWindowManager !=null ){
+//            mContextWindowManager.removeView(mLineContextFloat);
+//        }
+//        if (mBtnWindowManager !=null){
+//            mBtnWindowManager.removeView(mBtnFloatView);
+//        }
     }
 
 //    private void initHeader(Toolbar header) {
@@ -385,148 +386,146 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
     }
 
 
-    WindowManager.LayoutParams wmBtnParams;
-    //定义浮动窗口布局
-//    RelativeLayout mRelButtonFloat;
-    Button mBtnFloatView;
-    WindowManager mBtnWindowManager;
-    private void createFloatView() {
-        wmBtnParams = new WindowManager.LayoutParams();
-        //获取的是WindowManagerImpl.CompatModeWrapper
-        mBtnWindowManager = (WindowManager)getApplication().getSystemService(getApplication().WINDOW_SERVICE);
-        //设置window type
-        wmBtnParams.type = WindowManager.LayoutParams.TYPE_PHONE;
-        //设置图片格式，效果为背景透明
-        wmBtnParams.format = PixelFormat.RGBA_8888;
-        //设置浮动窗口不可聚焦（实现操作除浮动窗口外的其他可见窗口的操作）
-        wmBtnParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        //调整悬浮窗显示的停靠位置为左侧置顶
-        wmBtnParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
-        // 以屏幕左上角为原点，设置x、y初始值，相对于gravity
-        wmBtnParams.x = Gravity.RIGHT;
-        wmBtnParams.y = Gravity.BOTTOM;
-
-        //设置悬浮窗口长宽数据
-        wmBtnParams.width =40;
-        wmBtnParams.height = 40;
-
-        mBtnFloatView =  new Button(getApplicationContext());
-        mBtnFloatView.setBackgroundResource(R.drawable.bg_red_dot);
-
-        if (!isContextShow){
-            createContextFloatView();
-        }
-        // 设置悬浮窗的Touch监听
-        mBtnFloatView.setOnTouchListener(new View.OnTouchListener() {
-            int  lastY;
-            int  paramY;
-            public boolean onTouch(View v, MotionEvent event) {
-                switch(event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        lastY = (int) event.getRawY();
-                        paramY = wmBtnParams.y;
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        int dy = (int) event.getRawY() - lastY;
-                        wmBtnParams.y = paramY - dy;
-                        LogUtil.i("congjing","  wmBtnParams.y="+  wmBtnParams.y);
-                        LogUtil.i("congjing","  wmBtnParams.x="+  wmBtnParams.x);
-                        // 更新悬浮窗位置
-                        mBtnWindowManager.updateViewLayout(mBtnFloatView, wmBtnParams);
-                        break;
-                }
-                return false;
-            }
-        });
+//    WindowManager.LayoutParams wmBtnParams;
+//    //定义浮动窗口布局
+////    RelativeLayout mRelButtonFloat;
+//    Button mBtnFloatView;
+//    WindowManager mBtnWindowManager;
+//    private void createFloatView() {
+//        wmBtnParams = new WindowManager.LayoutParams();
+//        //获取的是WindowManagerImpl.CompatModeWrapper
+//        mBtnWindowManager = (WindowManager)getApplication().getSystemService(getApplication().WINDOW_SERVICE);
+//        //设置window type
+//        wmBtnParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+//        //设置图片格式，效果为背景透明
+//        wmBtnParams.format = PixelFormat.RGBA_8888;
+//        //设置浮动窗口不可聚焦（实现操作除浮动窗口外的其他可见窗口的操作）
+//        wmBtnParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+//        //调整悬浮窗显示的停靠位置为左侧置顶
+//        wmBtnParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+//        // 以屏幕左上角为原点，设置x、y初始值，相对于gravity
+//        wmBtnParams.x = Gravity.RIGHT;
+//        wmBtnParams.y = Gravity.BOTTOM;
 //
-        mBtnFloatView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isContextShow){
-                    createContextFloatView();
-                }else{
-                    isContextShow = false;
-                    mContextWindowManager.removeView(mLineContextFloat);
-                }
-            }
-        });
+//        //设置悬浮窗口长宽数据
+//        wmBtnParams.width =40;
+//        wmBtnParams.height = 40;
+//
+//        mBtnFloatView =  new Button(getApplicationContext());
+//        mBtnFloatView.setBackgroundResource(R.drawable.bg_red_dot);
+//
+//        if (!isContextShow){
+//            createContextFloatView();
+//        }
+//        // 设置悬浮窗的Touch监听
+//        mBtnFloatView.setOnTouchListener(new View.OnTouchListener() {
+//            int  lastY;
+//            int  paramY;
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch(event.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        lastY = (int) event.getRawY();
+//                        paramY = wmBtnParams.y;
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        int dy = (int) event.getRawY() - lastY;
+//                        wmBtnParams.y = paramY - dy;
+//                        // 更新悬浮窗位置
+//                        mBtnWindowManager.updateViewLayout(mBtnFloatView, wmBtnParams);
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
+////
+//        mBtnFloatView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!isContextShow){
+//                    createContextFloatView();
+//                }else{
+//                    isContextShow = false;
+//                    mContextWindowManager.removeView(mLineContextFloat);
+//                }
+//            }
+//        });
+//
+//        mBtnWindowManager.addView(mBtnFloatView, wmBtnParams);
+//    }
+//
+//
+//   private String mContext ="";
 
-        mBtnWindowManager.addView(mBtnFloatView, wmBtnParams);
-    }
+//    public Handler myHandler = new Handler() {
+//        public void handleMessage(Message msg) {
+//            if (mTvContext !=null){
+//                if (!TextUtils.isEmpty(msg.getData().getString("MESSAGE"))){
+//                    mContext = msg.getData().getString("MESSAGE");
+//                    mTvContext.setText(msg.getData().getString("MESSAGE"));
+//                }
+//            }
+//
+//            super.handleMessage(msg);
+//        }
+//    };
 
-
-   private String mContext ="";
-
-    public Handler myHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            if (mTvContext !=null){
-                if (!TextUtils.isEmpty(msg.getData().getString("MESSAGE"))){
-                    mContext = msg.getData().getString("MESSAGE");
-                    mTvContext.setText(msg.getData().getString("MESSAGE"));
-                }
-            }
-
-            super.handleMessage(msg);
-        }
-    };
-
-
-    WindowManager.LayoutParams wmParams;
-    View mLineContextFloat;
-    //创建浮动窗口设置布局参数的对象
-    WindowManager mContextWindowManager;
-    TextView mTvContext;
-    boolean isContextShow = false;
-    private void createContextFloatView(){
-        wmParams = new WindowManager.LayoutParams();
-        //获取的是WindowManagerImpl.CompatModeWrapper
-        mContextWindowManager = (WindowManager)getApplication().getSystemService(getApplication().WINDOW_SERVICE);
-
-        //设置window type
-        wmParams.type = WindowManager.LayoutParams.TYPE_PHONE;
-        //设置图片格式，效果为背景透明
-        wmParams.format = PixelFormat.RGBA_8888;
-
-        //设置浮动窗口不可聚焦（实现操作除浮动窗口外的其他可见窗口的操作）
-        wmParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        //调整悬浮窗显示的停靠位置为左侧置顶
-        wmParams.gravity = Gravity.LEFT | Gravity.TOP;
-        // 以屏幕左上角为原点，设置x、y初始值，相对于gravity
-        wmParams.x = Gravity.LEFT;
-        wmParams.y = Gravity.TOP;
-
-        // 设置悬浮窗口长宽数据
-        wmParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        wmParams.height = 500;
-
-        LayoutInflater inflater = LayoutInflater.from(getApplication());
-        //获取浮动窗口视图所在布局
-        mLineContextFloat = (View) inflater.inflate(R.layout.xf_context, null);
-        mTvContext = (TextView)mLineContextFloat.findViewById(R.id.tv_context);
-        mTvContext.setMovementMethod(ScrollingMovementMethod.getInstance());
-        if (!TextUtils.isEmpty(mContext)){
-            mTvContext.setText(mContext);
-        }
-        //添加mFloatLayout
-        mContextWindowManager.addView(mLineContextFloat, wmParams);
-
-        isContextShow = true;
-        mLineContextFloat.measure(View.MeasureSpec.makeMeasureSpec(0,
-                View.MeasureSpec.UNSPECIFIED), View.MeasureSpec
-                .makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-
-        //设置监听浮动窗口的触摸移动
-        mLineContextFloat.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //getRawX是触摸位置相对于屏幕的坐标，getX是相对于按钮的坐标
-                wmParams.x = 0;
-                //减25为状态栏的高度
-                wmParams.y = (int) event.getRawY() - mTvContext.getMeasuredHeight() / 2 - 25;
-                //刷新
-                mContextWindowManager.updateViewLayout(mLineContextFloat, wmParams);
-                return false;  //此处必须返回false，否则OnClickListener获取不到监听
-            }
-        });
-    }
+//
+//    WindowManager.LayoutParams wmParams;
+//    View mLineContextFloat;
+//    //创建浮动窗口设置布局参数的对象
+//    WindowManager mContextWindowManager;
+//    TextView mTvContext;
+//    boolean isContextShow = false;
+//    private void createContextFloatView(){
+//        wmParams = new WindowManager.LayoutParams();
+//        //获取的是WindowManagerImpl.CompatModeWrapper
+//        mContextWindowManager = (WindowManager)getApplication().getSystemService(getApplication().WINDOW_SERVICE);
+//
+//        //设置window type
+//        wmParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+//        //设置图片格式，效果为背景透明
+//        wmParams.format = PixelFormat.RGBA_8888;
+//
+//        //设置浮动窗口不可聚焦（实现操作除浮动窗口外的其他可见窗口的操作）
+//        wmParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+//        //调整悬浮窗显示的停靠位置为左侧置顶
+//        wmParams.gravity = Gravity.LEFT | Gravity.TOP;
+//        // 以屏幕左上角为原点，设置x、y初始值，相对于gravity
+//        wmParams.x = Gravity.LEFT;
+//        wmParams.y = Gravity.TOP;
+//
+//        // 设置悬浮窗口长宽数据
+//        wmParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        wmParams.height = 500;
+//
+//        LayoutInflater inflater = LayoutInflater.from(getApplication());
+//        //获取浮动窗口视图所在布局
+//        mLineContextFloat = (View) inflater.inflate(R.layout.xf_context, null);
+//        mTvContext = (TextView)mLineContextFloat.findViewById(R.id.tv_context);
+//        mTvContext.setMovementMethod(ScrollingMovementMethod.getInstance());
+//        if (!TextUtils.isEmpty(mContext)){
+//            mTvContext.setText(mContext);
+//        }
+//        //添加mFloatLayout
+//        mContextWindowManager.addView(mLineContextFloat, wmParams);
+//
+//        isContextShow = true;
+//        mLineContextFloat.measure(View.MeasureSpec.makeMeasureSpec(0,
+//                View.MeasureSpec.UNSPECIFIED), View.MeasureSpec
+//                .makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+//
+//        //设置监听浮动窗口的触摸移动
+//        mLineContextFloat.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                //getRawX是触摸位置相对于屏幕的坐标，getX是相对于按钮的坐标
+//                wmParams.x = 0;
+//                //减25为状态栏的高度
+//                wmParams.y = (int) event.getRawY() - mTvContext.getMeasuredHeight() / 2 - 25;
+//                //刷新
+//                mContextWindowManager.updateViewLayout(mLineContextFloat, wmParams);
+//                return false;  //此处必须返回false，否则OnClickListener获取不到监听
+//            }
+//        });
+//    }
 }

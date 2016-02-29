@@ -351,10 +351,10 @@ public class Utils {
         }
     }
 
-    /**
-     * 静态 LaunchActivity 用于获取 Handle ，发送Handle message
-     */
-    public static  LaunchActivity myLunchActivitys;
+//    /**
+//     * 静态 LaunchActivity 用于获取 Handle ，发送Handle message
+//     */
+//    public static  LaunchActivity myLunchActivitys;
 
     /**
      * 输出格式化webview URL
@@ -363,14 +363,14 @@ public class Utils {
     public static void logUrlFormat(String webViewUrl){
         if (!TextUtils.isEmpty(webViewUrl)){
             if (webViewUrl.contains("?")){
-                if (BuildConfig.DEBUG){
-                    Message message = new Message();
-                    message.what = 1;
-                    Bundle b = new Bundle();
-                    b.putString("MESSAGE", webViewUrl.split("[?]")[0] + "\n" + webViewUrl.split("[?]")[1].replace("&", "\n"));
-                    message.setData(b);
-                    myLunchActivitys.myHandler.sendMessage(message);
-                }
+//                if (BuildConfig.DEBUG){
+//                    Message message = new Message();
+//                    message.what = 1;
+//                    Bundle b = new Bundle();
+//                    b.putString("MESSAGE", webViewUrl.split("[?]")[0] + "\n" + webViewUrl.split("[?]")[1].replace("&", "\n"));
+//                    message.setData(b);
+//                    myLunchActivitys.myHandler.sendMessage(message);
+//                }
                 LogUtil.i("URL","WebView URl:"+webViewUrl.split("[?]")[0] + "\n" + webViewUrl.split("[?]")[1].replace("&", "\n"));
 
             }else{
