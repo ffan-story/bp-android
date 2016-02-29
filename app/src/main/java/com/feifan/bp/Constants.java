@@ -52,8 +52,9 @@ public class Constants {
     public static final String COOKIE_RESPONSE_KEY = "Set-Cookie";
 
     public enum Environment {
-        SIT,              // Api集成环境
-        PRODUCT_PRE,      // 预生产环境
+        TEST,             // RD联调环境
+        SIT,              // QA测试环境
+        PRODUCT_PRE,      // 灰度测试环境
         PRODUCT,          // 生产环境
     }
 

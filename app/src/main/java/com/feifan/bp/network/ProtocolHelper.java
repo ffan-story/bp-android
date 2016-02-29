@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  * Cookie工具类
  * Created by xuchunlei on 16/2/26.
  */
-public class NetworkHelper {
+public class ProtocolHelper {
 
     // Set-Cookie长度
     private static int COOKIE_KEY_LENGTH = 10;
@@ -19,7 +19,7 @@ public class NetworkHelper {
     private static Pattern EXPIRES_PATTERN = Pattern.compile("expires=.*GMT");
     public static final String COOKIE_KEY_EXPIRES = "expires";
 
-    private NetworkHelper() {
+    private ProtocolHelper() {
 
     }
 

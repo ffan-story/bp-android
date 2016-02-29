@@ -48,7 +48,38 @@ public class HostSupplier {
     }
 
     /**
-     * SIT环境主机域名工厂
+     * TEST环境主机域名工厂－RD联调
+     */
+    static class TestHostFactory implements IHostFactory {
+
+        @Override
+        public String getXadminApiPrefix() {
+            return "http://api.test.ffan.com/xadmin/";
+        }
+
+        @Override
+        public String getFFanApiPrefix() {
+            return "http://api.test.ffan.com/ffan/".concat(VERSION).concat("/");
+        }
+
+        @Override
+        public String getMAppApiPrefix() {
+            return "http://api.test.ffan.com/mapp/".concat(VERSION).concat("/");
+        }
+
+        @Override
+        public String getFFanH5Host() {
+            return "http://sop.test.ffan.com/";
+        }
+
+        @Override
+        public String getFFanApiV1Host() {
+            return "http://api.test.ffan.com/v1/";
+        }
+    }
+
+    /**
+     * SIT环境主机域名工厂－QA测试
      */
     static class SitHostFactory implements IHostFactory {
 

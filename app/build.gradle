@@ -60,11 +60,14 @@ android {
     }
 
     productFlavors{
-        sit{
-            println gitSha
-//            println commitCount
-//            println gitCurrentTag
+        devtest{
+            applicationId "com.feifan.bp.dev"
+            versionName version + ".dev-" + gitSha
+            buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.TEST"
 
+            manifestPlaceholders = [UMENG_APPKEY_VALUE : "55ffcb5e67e58e10d8000f85"]
+        }
+        sit{
             applicationId "com.feifan.bp.test"
             versionName version + "-" + gitSha
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.SIT"

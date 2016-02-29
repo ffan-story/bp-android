@@ -16,7 +16,6 @@
 
 package com.feifan.bp.network;
 
-
 import android.os.Bundle;
 import android.os.Message;
 
@@ -62,7 +61,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
     /**
      * 静态 LaunchActivity 用于获取 Handle ，发送Handle message
      */
-    public static  LaunchActivity myJsonLunchActivity;
+//    public static  LaunchActivity myJsonLunchActivity;
 
     /**
      * 更新冗余参数内容
@@ -135,20 +134,21 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
                     new String(response.data, HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
             LogUtil.i(TAG, "Receive:" + jsonString);
 
-            if (BuildConfig.DEBUG){
-                Message message = new Message();
-                message.what = 1;
-                Bundle mBundle = new Bundle();
-                mBundle.putString("MESSAGE", formatJson(jsonString));
-                message.setData(mBundle);
-                myJsonLunchActivity.myHandler.sendMessage(message);
-            }
+//            if (BuildConfig.DEBUG){
+//                Message message = new Message();
+//                message.what = 1;
+//                Bundle mBundle = new Bundle();
+//                mBundle.putString("MESSAGE", formatJson(jsonString));
+//                message.setData(mBundle);
+//                myJsonLunchActivity.myHandler.sendMessage(message);
+//            }
 
             // 保存最新Cookie
             if(response.headers != null) {
-                String cookies = NetworkHelper.pickCookies(response.headers.toString());
+                String cookies = ProtocolHelper.pickCookies(response.headers.toString());
                 if(cookies != null) {
                     PlatformState.getInstance().updateCookie(cookies);
+                    LogUtil.i(TAG, "Update cookies to " + cookies);
                 }
             }
 
@@ -177,6 +177,10 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
      * </pre>
      */
     public static class StatusError extends VolleyError {
+
+        /** 错误状态－Cookie过期 */
+        public static final int STATUS_COOKIE_EXPIRE = 3001;
+
         private final int mStatus;
 
         public StatusError(int status, String message) {

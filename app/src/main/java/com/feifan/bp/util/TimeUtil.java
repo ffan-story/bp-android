@@ -17,8 +17,11 @@ public class TimeUtil {
     private static final SimpleDateFormat DATE_FORMAT_DATE_MONTH = new SimpleDateFormat("yyyy-MM");
     private static final SimpleDateFormat DATE_FORMAT_GMT;
     static {
-        DATE_FORMAT_GMT = new SimpleDateFormat("ddd, dd-ddd-yyyy HH:mm:ss 'GMT'", Locale.US);
+        DATE_FORMAT_GMT = new SimpleDateFormat("E dd-MM-yyyy HH:mm:ss 'GMT'", Locale.UK);
         DATE_FORMAT_GMT.setTimeZone(new java.util.SimpleTimeZone(0, "GMT"));
+
+        Date d = new Date();
+        Log.e("xuchunlei", "test---->" + DATE_FORMAT_GMT.format(d).toString());
     }
     private TimeUtil() {
     }

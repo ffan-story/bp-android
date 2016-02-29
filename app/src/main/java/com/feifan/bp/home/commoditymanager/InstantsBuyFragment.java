@@ -102,7 +102,6 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     setContentShown(true);
-//                    getContentView().setVisibility(View.GONE);
                     if (isShowDlg && isAdded()) {
                         showError(volleyError);
                     }

@@ -9,17 +9,7 @@ import android.util.SparseArray;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.feifan.bp.network.HttpsUrlStack;
-import com.feifan.bp.network.NetworkHelper;
 import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.util.TimeUtil;
-
-import java.net.HttpCookie;
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 状态类
@@ -171,6 +161,12 @@ public class PlatformState {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(PREFERENCE_KEY_COOKIE, cookie);
         editor.apply();
+//        Log.e("xuchunlei", NetworkHelper.parseCookie(cookie, NetworkHelper.COOKIE_KEY_EXPIRES));
+//
+//        Log.e("xuchunlei", "parse---->" + TimeUtil.getGMTDate(NetworkHelper.parseCookie(cookie, NetworkHelper.COOKIE_KEY_EXPIRES)));
+//
+//        Date d = new Date(NetworkHelper.parseCookie(cookie, NetworkHelper.COOKIE_KEY_EXPIRES));
+
 
 //        String oldExpire = null;
 //        String newExpire;

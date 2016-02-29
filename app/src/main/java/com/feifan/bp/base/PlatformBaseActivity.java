@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 
 import com.feifan.bp.R;
+import com.feifan.bp.util.DialogUtil;
 import com.feifan.bp.widget.SystemAlterDialog;
 import com.feifan.material.MaterialDialog;
 import com.umeng.analytics.MobclickAgent;
@@ -83,7 +84,11 @@ public abstract class PlatformBaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        SystemAlterDialog.dismissSystemDialog();
+//        SystemAlterDialog.dismissSystemDialog();
+
+        // 清理系统对话框
+        DialogUtil.clearDialog();
+
         MobclickAgent.onPause(this);
         if (isFinishing()) {
             removeDialog(DIALOG_ID_PROGRESS_BAR);

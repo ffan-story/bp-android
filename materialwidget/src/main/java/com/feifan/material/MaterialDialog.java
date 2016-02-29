@@ -54,6 +54,20 @@ public class MaterialDialog {
         this.mContext = context;
     }
 
+    public Window getWindow() {
+        if(mAlertDialog != null) {
+            return mAlertDialog.getWindow();
+        }
+        return null;
+    }
+
+    public boolean isShowing() {
+        if(mAlertDialog != null) {
+            return mAlertDialog.isShowing();
+        }
+        return false;
+    }
+
     public void show() {
         if (mHasShow == false)
             mBuilder = new Builder();
