@@ -2,7 +2,9 @@ package com.feifan.bp.home;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.internal.widget.ViewStubCompat;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,6 +22,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.base.VolleyFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.UrlFactory;
@@ -38,7 +41,7 @@ import bp.feifan.com.refresh.PtrHandler;
  * congjing
  * 消息列表
  */
-public class MessageFragment extends BaseFragment implements OnLoadingMoreListener, PtrHandler {
+public class MessageFragment extends VolleyFragment implements OnLoadingMoreListener, PtrHandler {
     private PtrClassicFrameLayout mPtrFrame, mPtrFrameEmpty;
     private int pageIndex = 1;
     private int totalCount = 0;
@@ -69,12 +72,6 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        hideEmptyView();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         if(mList !=null  && mList.size()>0){
@@ -86,15 +83,25 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
      * 获取列表数据
      */
     private void fetchData(int pageIndex) {
-        showProgressBar(true);
+        setContentShown(true);
+        if (!Utils.isNetworkAvailable(getActivity())){
+            setContentEmpty(true, getActivity().getResources().getString(R.string.empty_view_text), getActivity().getResources().getString(R.string.common_retry_text), R.mipmap.empty_ic_timeout,new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    fetchData(1);
+                }
+            });
+            return;
+        }
         HomeCtrl.messageList(UserProfile.getInstance().getUid() + "", pageIndex, new Response.Listener<MessageModel>() {
             @Override
             public void onResponse(MessageModel messageModel) {
 
-                hideProgressBar();
+                setContentEmpty(true);
                 totalCount = messageModel.getTotalCount();
-                if (totalCount<=0 && mPtrFrameEmpty != null) {
-                    hideEmptyView();
+                if (totalCount <= 0 && mPtrFrameEmpty != null) {
+                    setContentEmpty(true);
                     mPtrFrame.setVisibility(View.GONE);
                     mPtrFrameEmpty.setVisibility(View.VISIBLE);
                     mPtrFrameEmpty.refreshComplete();
@@ -106,18 +113,18 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
                     mList = new ArrayList<>();
                     mList = messageModel.getMessageDataList();
                     if (mList != null && mList.size() > 0 && mPtrFrame != null) {
-                        hideEmptyView();
+                        setContentEmpty(false);
                         mPtrFrame.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.setVisibility(View.GONE);
                         mPtrFrame.refreshComplete();
                     } else if (mPtrFrameEmpty != null) {
-                        hideEmptyView();
+                        setContentEmpty(false);
                         mPtrFrame.setVisibility(View.GONE);
                         mPtrFrameEmpty.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.refreshComplete();
                     }
                 } else {
-                    hideEmptyView();
+                    setContentEmpty(false);
                     for (int i = 0; i < messageModel.getMessageDataList().size(); i++) {
                         mList.add(messageModel.getMessageDataList().get(i));
                     }
@@ -128,9 +135,9 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
                 // 获取未读提示状态
                 String storeId = null;
                 String merchantId = null;
-                if(UserProfile.getInstance().isStoreUser()){
+                if (UserProfile.getInstance().isStoreUser()) {
                     storeId = UserProfile.getInstance().getAuthRangeId();
-                }else {
+                } else {
                     merchantId = UserProfile.getInstance().getAuthRangeId();
                 }
 
@@ -141,7 +148,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
                         PlatformState.getInstance().updateUnreadStatus(refundId, readMessageModel.refundCount > 0);
 
                         // 更新消息提示
-                        if(mListener != null) {
+                        if (mListener != null) {
                             mListener.onStatusChanged(readMessageModel.messageCount > 0);
                         }
                     }
@@ -150,8 +157,7 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                showEmptyView();
-                hideProgressBar();
+                setContentShown(true);
                 if (mPtrFrameEmpty != null) {
                     mPtrFrame.refreshComplete();
                 } else if (mPtrFrame != null) {
@@ -172,13 +178,15 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+
             }
         });
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View contentView = inflater.inflate(R.layout.refresh_listview, null);
+    protected View onCreateContentView(ViewStubCompat stub) {
+        stub.setLayoutResource(R.layout.refresh_listview);
+        View contentView = stub.inflate();
         mPtrFrame = (PtrClassicFrameLayout) contentView.findViewById(R.id.rotate_header_list_view_frame);
         mListView = (LoadingMoreListView) mPtrFrame.findViewById(R.id.rotate_header_list_view);
         mPtrFrameEmpty = (PtrClassicFrameLayout) contentView.findViewById(R.id.ptr_empty);
@@ -217,14 +225,13 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    protected void requestData() {
+        fetchData(pageIndex);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        hideEmptyView();
+    public void onDetach() {
+        super.onDetach();
     }
 
     /**
@@ -261,6 +268,11 @@ public class MessageFragment extends BaseFragment implements OnLoadingMoreListen
     @Override
     public void onRefreshBegin(PtrFrameLayout frame) {
         updateData();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
     }
 
     class Adapter extends BaseAdapter {

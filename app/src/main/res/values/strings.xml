@@ -281,6 +281,7 @@
     <string name="date_end_text">结束日期</string>
     <string name="empty_view_retry">重试</string>
     <string name="empty_view_text">你的网络好像有问题  点击刷新</string>
+    <string name="refresh">刷新</string>
     <!--店铺分析-->
     <string name="store_analysis">店铺分析</string>
 
