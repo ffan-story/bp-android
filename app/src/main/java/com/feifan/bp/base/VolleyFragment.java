@@ -31,7 +31,7 @@ import java.net.SocketException;
  * </pre>
  * Created by xuchunlei on 16/2/29.
  */
-public abstract class VolleyFragment extends ProgressFragment implements Response.ErrorListener{
+public abstract class VolleyFragment extends ProgressFragment implements Response.ErrorListener {
 
     // 错误提示框
     private MaterialDialog mErrDialog;
@@ -53,7 +53,7 @@ public abstract class VolleyFragment extends ProgressFragment implements Respons
                         getActivity().finish();
                     }
                 });
-        if(isAdded()) {
+        if (isAdded()) {
             mSysDialog = DialogUtil.getDialog();
         }
     }
@@ -61,35 +61,27 @@ public abstract class VolleyFragment extends ProgressFragment implements Respons
     @Override
     public void onErrorResponse(VolleyError volleyError) {
 
+        final Context context = PlatformState.getApplicationContext();
         // 处理状态错误
-        if(volleyError instanceof StatusError) {
-            StatusError error = (StatusError)volleyError;
+        if (volleyError instanceof StatusError) {
+            StatusError error = (StatusError) volleyError;
             switch (error.getStatus()) {
                 case StatusError.STATUS_COOKIE_EXPIRE:      // Cookie验证失败
-                    if(!mSysDialog.isShowing()) {
-                        // 清理登录数据
-                        UserProfile.getInstance().clear();
-                        PlatformState.getInstance().reset();
-
-//                        mSysDialog.setMessage(R.string.error_message_login_invalid)
-//                                .setPositiveButton(R.string.common_confirm, new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View v) {
-//                                        mSysDialog.dismiss();
-//                                        // 清理登录数据
-//                                        UserProfile.getInstance().clear();
-//                                        PlatformState.getInstance().reset();
-//
-//                                        // 跳转到登录界面
-//                                        if(isAdded()) {
-//                                            final Context context = getContext();
-//                                            Intent intent = LaunchActivity.buildIntent(context);
-//                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//                                            context.startActivity(intent);
-//                                        }
-//
-//                                    }
-//                                }).show();
+                    if (!mSysDialog.isShowing()) {
+                        //显示对话框
+                        mSysDialog.show();
+                        DialogUtil.setDialogStyle(error.getMessage(), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mSysDialog.dismiss();
+                                // 清理登录数据
+                                UserProfile.getInstance().clear();
+                                PlatformState.getInstance().reset();
+                                Intent intent = LaunchActivity.buildIntent(context);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                                context.startActivity(intent);
+                            }
+                        });
                     }
                     return;
             }
@@ -112,10 +104,10 @@ public abstract class VolleyFragment extends ProgressFragment implements Respons
                 errorInfo = Utils.getString(R.string.error_message_network);
             }
         }
-        if(errorInfo == null) {
-            if(error instanceof TimeoutError) {
+        if (errorInfo == null) {
+            if (error instanceof TimeoutError) {
                 errorInfo = Utils.getString(R.string.error_message_timeout);
-            }else {
+            } else {
                 errorInfo = Utils.getString(R.string.error_message_network_link);
             }
         }
