@@ -25,7 +25,6 @@ import com.feifan.bp.base.VolleyFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 
@@ -154,21 +153,19 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
                     }
                 });
             }
-        }, new DefaultErrorListener());
+        }, new DefaultErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                super.onErrorResponse(volleyError);
+                    setContentShown(true);
+                    if (mPtrFrameEmpty != null) {
+                        mPtrFrame.refreshComplete();
+                    } else if (mPtrFrame != null) {
+                        mPtrFrame.refreshComplete();
+                    }
+            }
+        });
     }
-
-//    @Override
-//    public void onErrorResponse(VolleyError volleyError) {
-//        super.onErrorResponse(volleyError);
-//        EnableErrorDialog(false);
-//        setContentShown(true);
-//        if (mPtrFrameEmpty != null) {
-//            mPtrFrame.refreshComplete();
-//        } else if (mPtrFrame != null) {
-//            mPtrFrame.refreshComplete();
-//        }
-//    }
-
 
     /**
      * 修改message 状态接口
