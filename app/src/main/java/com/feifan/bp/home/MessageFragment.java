@@ -25,6 +25,7 @@ import com.feifan.bp.base.VolleyFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 
@@ -84,7 +85,7 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
     private void fetchData(int pageIndex) {
         setContentShown(true);
         if (!Utils.isNetworkAvailable(getActivity())){
-            setContentEmpty(true, getActivity().getResources().getString(R.string.empty_view_text), getActivity().getResources().getString(R.string.common_retry_text), R.mipmap.empty_ic_timeout,new View.OnClickListener() {
+            setContentEmpty(true, getActivity().getResources().getString(R.string.empty_view_text), getActivity().getResources().getString(R.string.common_retry_text), R.mipmap.empty_ic_timeout, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     fetchData(1);
@@ -158,12 +159,15 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
     @Override
     public void onErrorResponse(VolleyError volleyError) {
         super.onErrorResponse(volleyError);
-        EnableErrorDialog(false);
-        setContentShown(true);
-        if (mPtrFrameEmpty != null) {
-            mPtrFrame.refreshComplete();
-        } else if (mPtrFrame != null) {
-            mPtrFrame.refreshComplete();
+        LogUtil.i("congjing","11111111111111");
+        if (!isContentShown()){
+            LogUtil.i("congjing","2222222222222");
+            setContentShown(true);
+            if (mPtrFrameEmpty != null) {
+                mPtrFrame.refreshComplete();
+            } else if (mPtrFrame != null) {
+                mPtrFrame.refreshComplete();
+            }
         }
     }
 
@@ -178,13 +182,13 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
             @Override
             public void onResponse(MessageStatusModel messageModel) {
                 mList.get(position).setmStrMessageStatus(Constants.READ);
-
             }
         }, this);
     }
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
+        EnableErrorDialog(false);
         stub.setLayoutResource(R.layout.refresh_listview);
         View contentView = stub.inflate();
         mPtrFrame = (PtrClassicFrameLayout) contentView.findViewById(R.id.rotate_header_list_view_frame);
