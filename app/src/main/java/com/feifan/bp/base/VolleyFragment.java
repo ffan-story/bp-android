@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -35,8 +34,6 @@ public abstract class VolleyFragment extends ProgressFragment {
 
     // 错误提示框
     private MaterialDialog mErrDialog;
-    // 系统提示框
-    private AlertDialog mSysDialog;
 
     // 是否可以显示错误提示框
     private transient boolean canShowErr = true;
@@ -53,9 +50,6 @@ public abstract class VolleyFragment extends ProgressFragment {
                         getActivity().finish();
                     }
                 });
-        if (isAdded()) {
-            mSysDialog = DialogUtil.getDialog();
-        }
     }
 
     /**
@@ -69,6 +63,9 @@ public abstract class VolleyFragment extends ProgressFragment {
         canShowErr = enable;
     }
 
+    /**
+     *
+     */
     public class DefaultErrorListener implements ErrorListener {
 
         @Override
@@ -79,13 +76,15 @@ public abstract class VolleyFragment extends ProgressFragment {
                 StatusError error = (StatusError) volleyError;
                 switch (error.getStatus()) {
                     case StatusError.STATUS_COOKIE_EXPIRE:      // Cookie验证失败
-                        if (!mSysDialog.isShowing()) {
+                        // 系统提示框
+                        final AlertDialog dialog = DialogUtil.getDialog();
+                        if (!dialog.isShowing()) {
                             //显示对话框
-                            mSysDialog.show();
+                            dialog.show();
                             DialogUtil.setDialogStyle(error.getMessage(), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    mSysDialog.dismiss();
+                                    dialog.dismiss();
                                     // 清理登录数据
                                     UserProfile.getInstance().clear();
                                     PlatformState.getInstance().reset();
