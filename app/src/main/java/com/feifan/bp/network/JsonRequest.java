@@ -31,7 +31,6 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.util.LogUtil;
 
