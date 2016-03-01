@@ -67,7 +67,6 @@ public class PlatformState {
 
     public void setLastUrl(String url) {
         Utils.logUrlFormat(url);
-//        LogUtil.i(TAG, "url " + url);
         mLastUrl = url;
     }
 

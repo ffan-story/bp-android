@@ -19,6 +19,7 @@ package com.feifan.bp.network;
 import android.os.Bundle;
 import android.os.Message;
 
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -31,6 +32,8 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
+
+import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.util.LogUtil;
 
@@ -56,6 +59,8 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
     protected static Map<String, String> REDUNDANT_PARAMS;
 
     private Map<String, String> mHeaders = new HashMap<String, String>();
+
+    public static  LaunchActivity myLunchActivity;
 
     /**
      * 静态 LaunchActivity 用于获取 Handle ，发送Handle message
