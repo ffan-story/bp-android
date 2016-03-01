@@ -21,7 +21,7 @@ import com.feifan.bp.network.JsonRequest.StatusError;
 /**
  * 网络请求错误Listener默认实现
  * <pre>
- *     适用于Volley网络请求框架
+ *     适用于Volley网络请求框架，没有独立界面显示错误的情况
  * </pre>
  * <p/>
  * Created by xuchunlei on 15/10/31.
