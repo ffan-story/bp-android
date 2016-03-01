@@ -153,7 +153,18 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
                     }
                 });
             }
-        }, new DefaultErrorListener());
+        }, new DefaultErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                super.onErrorResponse(volleyError);
+                    setContentShown(true);
+                    if (mPtrFrameEmpty != null) {
+                        mPtrFrame.refreshComplete();
+                    } else if (mPtrFrame != null) {
+                        mPtrFrame.refreshComplete();
+                    }
+            }
+        });
     }
 
 
@@ -168,7 +179,6 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
 //            mPtrFrame.refreshComplete();
 //        }
 //    }
-
 
     /**
      * 修改message 状态接口
