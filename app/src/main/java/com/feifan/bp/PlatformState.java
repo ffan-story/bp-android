@@ -38,6 +38,9 @@ public class PlatformState {
     // 上次访问的url地址
     private String mLastUrl;
 
+    // 当前登录手机号
+    private String mCurrentPhone;
+
     // 未读状态集合
     private SparseArray<Boolean> mUnreadMap = new SparseArray<Boolean>();
 
@@ -161,43 +164,6 @@ public class PlatformState {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(PREFERENCE_KEY_COOKIE, cookie);
         editor.apply();
-//        Log.e("xuchunlei", NetworkHelper.parseCookie(cookie, NetworkHelper.COOKIE_KEY_EXPIRES));
-//
-//        Log.e("xuchunlei", "parse---->" + TimeUtil.getGMTDate(NetworkHelper.parseCookie(cookie, NetworkHelper.COOKIE_KEY_EXPIRES)));
-//
-//        Date d = new Date(NetworkHelper.parseCookie(cookie, NetworkHelper.COOKIE_KEY_EXPIRES));
-
-
-//        String oldExpire = null;
-//        String newExpire;
-
-
-//        String oldCookie = sp.getString(PREFERENCE_KEY_COOKIE, Constants.NO_STRING);
-//        if(!oldCookie.equals(Constants.NO_STRING)) {
-//            oldExpire = NetworkHelper.parseCookie(oldCookie, NetworkHelper.COOKIE_KEY_EXPIRES);
-//        }
-//        newExpire = NetworkHelper.parseCookie(cookie, NetworkHelper.COOKIE_KEY_EXPIRES);
-//        Log.e("xuchunlei", cookie);
-//        Log.e("xuchunlei", newExpire);
-//        if(oldExpire != null) {
-//            Date dtOld = TimeUtil.getGMTDate(oldExpire);
-//            Date dtNew = TimeUtil.getGMTDate(newExpire);
-//            if(dtNew.getTime() > dtOld.getTime()) {
-//                SharedPreferences.Editor editor = sp.edit();
-//                if(cookie != null) {
-//                    editor.putString(PREFERENCE_KEY_COOKIE, cookie);
-//                    editor.apply();
-//                }
-//            }
-//        }else {
-//            SharedPreferences.Editor editor = sp.edit();
-//            if(cookie != null) {
-//                editor.putString(PREFERENCE_KEY_COOKIE, cookie);
-//                editor.apply();
-//            }
-//        }
-
-
     }
 
     /**
@@ -206,5 +172,21 @@ public class PlatformState {
     public String retrieveCookie() {
         SharedPreferences sp = sContext.getSharedPreferences(STATE_PREFERENCES_NAME, Context.MODE_PRIVATE);
         return sp.getString(PREFERENCE_KEY_COOKIE, Constants.NO_STRING);
+    }
+
+    /**
+     * 设置当前登录手机号
+     * @param phone
+     */
+    public void setCurrentPhone(String phone) {
+        mCurrentPhone = phone;
+    }
+
+    /**
+     * 获取当前登录手机号
+     * @return
+     */
+    public String getCurrentPhone() {
+        return mCurrentPhone;
     }
 }

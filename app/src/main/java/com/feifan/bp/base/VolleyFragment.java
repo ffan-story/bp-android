@@ -78,7 +78,7 @@ public abstract class VolleyFragment extends ProgressFragment implements Respons
                                 UserProfile.getInstance().clear();
                                 PlatformState.getInstance().reset();
                                 Intent intent = LaunchActivity.buildIntent(context);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                                 context.startActivity(intent);
                             }
                         });
