@@ -57,8 +57,8 @@ public class BadgerRadioButton extends RadioButton {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if(isShow) {
-            int rfBottom = 45;
             if (count>0){
+                int rfBottom = 45;
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
                 paint.setStyle(Paint.Style.FILL);//充满
@@ -87,6 +87,11 @@ public class BadgerRadioButton extends RadioButton {
                 }else{
                     canvas.drawText(String.valueOf(count), (getWidth() + mDrawableWidth) / 2+15, 26, paint);
                 }
+            }else{//count 小于等于0 显示红点
+                Paint paint = new Paint();
+                paint.setAntiAlias(true);
+                paint.setStyle(Paint.Style.FILL);
+                paint.setColor(Color.RED);
             }
         }
     }

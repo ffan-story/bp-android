@@ -10,8 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
+
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -372,7 +372,6 @@ public class Utils {
 //                    myLunchActivitys.myHandler.sendMessage(message);
 //                }
                 LogUtil.i("URL","WebView URl:"+webViewUrl.split("[?]")[0] + "\n" + webViewUrl.split("[?]")[1].replace("&", "\n"));
-
             }else{
                 LogUtil.i("URL","WebView URl:"+webViewUrl);
             }

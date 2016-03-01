@@ -15,7 +15,9 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.base.VolleyFragment;
 import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.material.MaterialDialog;
 import com.feifan.statlib.FmsAgent;
@@ -28,7 +30,7 @@ import java.net.SocketException;
  * 商品管理 — 闪购商品列表
  * Created by konta on 2015/12/22.
  */
-public class InstantsBuyFragment extends ProgressFragment implements PlatformTabActivity.onPageSelectListener, View.OnClickListener {
+public class InstantsBuyFragment extends VolleyFragment implements PlatformTabActivity.onPageSelectListener, View.OnClickListener {
     private static final String TAG = "InstantsBuyFragment";
     public static final String EXTRA_KEY_URL = "url";
 
@@ -98,13 +100,10 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
                         setContentShown(true);
                     }
                 }
-            }, new Response.ErrorListener() {
+            },new DefaultErrorListener(){
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    setContentShown(true);
-                    if (isShowDlg && isAdded()) {
-                        showError(volleyError);
-                    }
+                    super.onErrorResponse(volleyError);
                 }
             });
 
@@ -150,29 +149,6 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
         }else{
             Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
         }
-    }
-
-    private void showError(VolleyError error) {
-        String errorInfo = error.getMessage();
-        Throwable t = error.getCause();
-        if (t != null) {
-            if (t instanceof JSONException) {
-                errorInfo = Utils.getString(R.string.error_message_unknown);
-            } else if (t instanceof IOException
-                    || t instanceof SocketException) {
-                errorInfo = Utils.getString(R.string.error_message_network);
-            }
-        }
-        if(null == errorInfo) {
-            if(error instanceof TimeoutError) {
-                errorInfo = Utils.getString(R.string.error_message_timeout);
-            }else {
-                errorInfo = Utils.getString(R.string.error_message_network_link);
-            }
-        }
-        mDialog.setMessage(errorInfo)
-                .show();
-        isShowDlg = false;
     }
 
     @Override
