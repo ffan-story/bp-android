@@ -38,8 +38,8 @@ public abstract class VolleyFragment extends ProgressFragment implements Respons
     // 系统提示框
     private AlertDialog mSysDialog;
 
-    // 是否正在显示错误
-    private transient boolean isShowingErr = false;
+    // 是否可以显示错误提示框
+    private transient boolean canShowErr = true;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public abstract class VolleyFragment extends ProgressFragment implements Respons
                     @Override
                     public void onClick(View v) {
                         mErrDialog.dismiss();
-                        isShowingErr = false;
+                        canShowErr = true;
                         getActivity().finish();
                     }
                 });
@@ -88,9 +88,20 @@ public abstract class VolleyFragment extends ProgressFragment implements Respons
         }
 
         //接收到错误并且未显示
-        if (!isShowingErr && isAdded()) {
+        if (canShowErr && isAdded()) {
             showError(volleyError);
         }
+    }
+
+    /**
+     * 是否显示错误对话框
+     * <pre>
+     *     默认开启错误对话框，如果需要自己实现错误提示界面，则设置为false
+     * </pre>
+     * @param enable
+     */
+    protected void EnableErrorDialog(boolean enable) {
+        canShowErr = enable;
     }
 
     private void showError(VolleyError error) {
@@ -113,6 +124,6 @@ public abstract class VolleyFragment extends ProgressFragment implements Respons
         }
         mErrDialog.setMessage(errorInfo)
                 .show();
-        isShowingErr = true;
+        canShowErr = false;
     }
 }
