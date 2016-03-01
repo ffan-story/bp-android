@@ -23,7 +23,7 @@ import com.feifan.bp.network.JsonRequest.StatusError;
  * <pre>
  *     适用于Volley网络请求框架，没有独立界面显示错误的情况
  * </pre>
- * <p/>
+ * <p>
  * Created by xuchunlei on 15/10/31.
  */
 public class DefaultErrorListener implements ErrorListener {
@@ -51,7 +51,7 @@ public class DefaultErrorListener implements ErrorListener {
                                     UserProfile.getInstance().clear();
                                     PlatformState.getInstance().reset();
                                     Intent intent = LaunchActivity.buildIntent(context);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                                     context.startActivity(intent);
                                 }
                             });
