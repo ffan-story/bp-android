@@ -21,7 +21,6 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.base.VolleyFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.envir.EnvironmentManager;
@@ -88,7 +87,6 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
             setContentEmpty(true, getActivity().getResources().getString(R.string.empty_view_text), getActivity().getResources().getString(R.string.common_retry_text), R.mipmap.empty_ic_timeout,new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     fetchData(1);
                 }
             });
@@ -154,20 +152,27 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
                     }
                 });
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                setContentShown(true);
-                if (mPtrFrameEmpty != null) {
-                    mPtrFrame.refreshComplete();
-                } else if (mPtrFrame != null) {
-                    mPtrFrame.refreshComplete();
-                }
-
-            }
-        });
+        }, this);
     }
 
+    @Override
+    public void onErrorResponse(VolleyError volleyError) {
+        super.onErrorResponse(volleyError);
+        EnableErrorDialog(false);
+        setContentShown(true);
+        if (mPtrFrameEmpty != null) {
+            mPtrFrame.refreshComplete();
+        } else if (mPtrFrame != null) {
+            mPtrFrame.refreshComplete();
+        }
+    }
+
+    /**
+     * 修改message 状态接口
+     * @param userid
+     * @param maillnboxid
+     * @param position
+     */
     private void setMessageListStatus(String userid, String maillnboxid,final int position) {
         HomeCtrl.setMessageStatusRead(userid, maillnboxid, new Response.Listener<MessageStatusModel>() {
             @Override
@@ -175,12 +180,7 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
                 mList.get(position).setmStrMessageStatus(Constants.READ);
 
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        });
+        }, this);
     }
 
     @Override
