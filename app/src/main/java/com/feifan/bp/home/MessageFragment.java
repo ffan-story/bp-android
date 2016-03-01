@@ -92,6 +92,7 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
             });
             return;
         }
+
         HomeCtrl.messageList(UserProfile.getInstance().getUid() + "", pageIndex, new Response.Listener<MessageModel>() {
             @Override
             public void onResponse(MessageModel messageModel) {
