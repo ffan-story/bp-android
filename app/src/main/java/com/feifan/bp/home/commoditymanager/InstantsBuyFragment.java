@@ -100,12 +100,7 @@ public class InstantsBuyFragment extends VolleyFragment implements PlatformTabAc
                         setContentShown(true);
                     }
                 }
-            },new DefaultErrorListener(){
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    super.onErrorResponse(volleyError);
-                }
-            });
+            },new DefaultErrorListener());
 
         }else{
             if (isShowDlg && isAdded()) {
