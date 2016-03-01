@@ -153,20 +153,22 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
                     }
                 });
             }
-        }, this);
+        }, new DefaultErrorListener());
     }
 
-    @Override
-    public void onErrorResponse(VolleyError volleyError) {
-        super.onErrorResponse(volleyError);
-        EnableErrorDialog(false);
-        setContentShown(true);
-        if (mPtrFrameEmpty != null) {
-            mPtrFrame.refreshComplete();
-        } else if (mPtrFrame != null) {
-            mPtrFrame.refreshComplete();
-        }
-    }
+
+//    @Override
+//    public void onErrorResponse(VolleyError volleyError) {
+//        super.onErrorResponse(volleyError);
+//        EnableErrorDialog(false);
+//        setContentShown(true);
+//        if (mPtrFrameEmpty != null) {
+//            mPtrFrame.refreshComplete();
+//        } else if (mPtrFrame != null) {
+//            mPtrFrame.refreshComplete();
+//        }
+//    }
+
 
     /**
      * 修改message 状态接口
@@ -181,7 +183,7 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
                 mList.get(position).setmStrMessageStatus(Constants.READ);
 
             }
-        }, this);
+        }, new DefaultErrorListener());
     }
 
     @Override
