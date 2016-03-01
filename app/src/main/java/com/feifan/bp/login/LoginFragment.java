@@ -14,6 +14,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
@@ -66,6 +67,7 @@ public class LoginFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
         final EditText account = (EditText) v.findViewById(R.id.login_account);
+        account.setText(PlatformState.getInstance().getCurrentPhone());
         final EditText password = (EditText) v.findViewById(R.id.login_password);
         v.findViewById(R.id.login_forget_password).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +96,8 @@ public class LoginFragment extends BaseFragment {
                 }
                 String accountStr = account.getText().toString();
                 String passwordStr = password.getText().toString();
-
+                PlatformState.getInstance().setCurrentPhone(accountStr);
+                
                 try {
                     Utils.checkPhoneNumber(getActivity(), accountStr);
                     showProgressBar(true);
