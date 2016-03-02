@@ -13,13 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.network.response.DialogCookieListener;
+import com.feifan.bp.network.response.DialogErrorListener;
 import com.feifan.bp.transactionflowing.TransFlowCtrl;
 import com.feifan.bp.transactionflowing.model.InstantSummaryModel;
 import com.feifan.bp.util.LogUtil;
@@ -136,7 +135,7 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
                                 setContentShown(true);
                             }
                         }
-                    }, new DialogCookieListener() {
+                    }, new DialogErrorListener() {
 
                         @Override
                         protected void postDisposeError() {

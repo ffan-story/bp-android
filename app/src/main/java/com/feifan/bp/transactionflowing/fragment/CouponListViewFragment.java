@@ -15,13 +15,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.network.response.DialogCookieListener;
+import com.feifan.bp.network.response.DialogErrorListener;
 import com.feifan.bp.transactionflowing.TransFlowCtrl;
 import com.feifan.bp.transactionflowing.adapter.CouponListViewAdapter;
 import com.feifan.bp.transactionflowing.model.CouponSummaryModel;
@@ -173,7 +172,7 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
                                     setContentShown(true);
                                 }
                             }
-                        }, new DialogCookieListener() {
+                        }, new DialogErrorListener() {
                             @Override
                             protected void postDisposeError() {
                                 super.postDisposeError();

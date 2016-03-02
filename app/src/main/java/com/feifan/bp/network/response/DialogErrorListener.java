@@ -7,7 +7,7 @@ import com.feifan.bp.util.DialogUtil;
  *
  * Created by xuchunlei on 16/3/2.
  */
-public class DialogCookieListener extends CookieErrorListener {
+public class DialogErrorListener extends CookieErrorListener {
 
     @Override
     protected void disposeError(String error) {

@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
@@ -25,7 +24,7 @@ import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.network.response.DialogCookieListener;
+import com.feifan.bp.network.response.DialogErrorListener;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 
@@ -154,7 +153,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                     }
                 });
             }
-        }, new DialogCookieListener(){
+        }, new DialogErrorListener(){
             @Override
             protected void postDisposeError() {
                 super.postDisposeError();
@@ -180,7 +179,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
             public void onResponse(MessageStatusModel messageModel) {
                 mList.get(position).setmStrMessageStatus(Constants.READ);
             }
-        }, new DialogCookieListener());
+        }, new DialogErrorListener());
     }
 
     @Override
