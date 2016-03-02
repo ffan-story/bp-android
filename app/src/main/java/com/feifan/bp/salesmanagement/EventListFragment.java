@@ -9,15 +9,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
-import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.network.response.ToastErrorListener;
 import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 import com.feifan.bp.salesmanagement.PromotionListModel.PromotionDetailModel;
@@ -151,16 +149,23 @@ public class EventListFragment extends ProgressFragment implements Paginate.Call
         if (loading && !isLoadMore) {
             setContentShown(false);
         }
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
+        Response.ErrorListener errorListener = new ToastErrorListener(){
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            protected void preDisposeError() {
                 setContentShown(true);
-                if (isAdded()){
-                    Utils.showShortToast(getActivity(), volleyError.getMessage());
-                    stopRefresh();
-                }
+                stopRefresh();
             }
         };
+//        Response.ErrorListener errorListener = new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError volleyError) {
+//                setContentShown(true);
+//                if (isAdded()){
+//                    Utils.showShortToast(getActivity(), volleyError.getMessage());
+//                    stopRefresh();
+//                }
+//            }
+//        };
         Response.Listener<PromotionListModel> responseListener = new Response.Listener<PromotionListModel>() {
 
             @Override
