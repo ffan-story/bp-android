@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
+import com.feifan.bp.network.response.ToastErrorListener;
 import com.feifan.bp.util.TimeUtil;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class SummaryFragment extends AbsSummaryFragment {
                     fillView(model);
                 }
             }
-        });
+        }, new ToastErrorListener());
     }
 
     private void fillView(MarketingSummaryModel model) {

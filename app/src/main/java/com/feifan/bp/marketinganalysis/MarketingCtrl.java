@@ -20,9 +20,10 @@ public class MarketingCtrl  {
      * @param type  汇总类型 ：红包，摇一摇，优惠券
      * @param listener
      */
-    public static void getSummary(String sdate,String edate,String type,Response.Listener listener){
+    public static void getSummary(String sdate,String edate,String type,Response.Listener listener,Response.ErrorListener errorListener){
         JsonRequest<MarketingSummaryModel> request = new GetRequest.Builder<MarketingSummaryModel>(UrlFactory.getAnalysisRedList())
-                .param("sdate",sdate)
+                .errorListener(errorListener)
+                .param("sdate", sdate)
                 .param("edate",edate)
                 .param("type",type)
                 .param("storeId", UserProfile.getInstance().getAuthRangeId())
@@ -40,9 +41,10 @@ public class MarketingCtrl  {
      * @param beginKey  游标
      * @param listener
      */
-    public static void getDetailList(String type,String couponId,String sdate, String edate, String beginKey,Response.Listener listener){
+    public static void getDetailList(String type,String couponId,String sdate, String edate, String beginKey,Response.Listener listener,Response.ErrorListener errorListener){
         JsonRequest<MarketingDetailModel> request = new GetRequest.Builder<MarketingDetailModel>(UrlFactory.getAnalysisRedListDetail())
-                .param("type",type)
+                .errorListener(errorListener)
+                .param("type", type)
                 .param("sdate", sdate)
                 .param("edate", edate)
                 .param("couponId", couponId)
@@ -63,8 +65,9 @@ public class MarketingCtrl  {
      * @param pageIndex
      * @param listener
      */
-    public static void getCommonSummaryAndDetail(String sdate,String edate,String type,String pageIndex,Response.Listener listener){
+    public static void getCommonSummaryAndDetail(String sdate,String edate,String type,String pageIndex,Response.Listener listener,Response.ErrorListener errorListener){
         JsonRequest<CommonModel> request = new GetRequest.Builder<CommonModel>(UrlFactory.getAnalysisRedList())
+                .errorListener(errorListener)
                 .param("sdate", sdate)
                 .param("edate", edate)
                 .param("type",type)

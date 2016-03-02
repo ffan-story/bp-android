@@ -15,6 +15,7 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.network.response.DialogErrorListener;
 import com.feifan.bp.transactionflowing.adapter.InstantDetailListAdapter;
 import com.feifan.bp.transactionflowing.model.InstantDetailModel;
 import com.feifan.bp.transactionflowing.TransFlowCtrl;
@@ -93,13 +94,11 @@ public class InstantDetailListFragment extends ProgressFragment{
                         setContentShown(true);
                     }
                 }
-            }, new Response.ErrorListener() {
+            }, new DialogErrorListener(){
                 @Override
-                public void onErrorResponse(VolleyError volleyError) {
+                protected void preDisposeError() {
+                    super.preDisposeError();
                     setContentShown(true);
-                    if (isShowDlg && isAdded()) {
-                        showError(volleyError);
-                    }
                 }
             });
         }else{

@@ -14,8 +14,8 @@ import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.browser.BrowserActivity;
-import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.network.response.DialogErrorListener;
 import com.feifan.material.MaterialDialog;
 import com.feifan.statlib.FmsAgent;
 
@@ -93,7 +93,14 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
                         setContentShown(true);
                     }
                 }
-            },new DefaultErrorListener());
+            },new DialogErrorListener(){
+                @Override
+                protected void postDisposeError() {
+                    super.postDisposeError();
+                    setContentShown(true);
+                }
+
+            });
 
         }else{
             if (isShowDlg && isAdded()) {

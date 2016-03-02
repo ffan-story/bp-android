@@ -19,6 +19,7 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.network.response.ToastErrorListener;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.paginate.Paginate;
@@ -123,7 +124,7 @@ public class DetailFragment extends ProgressFragment implements Paginate.Callbac
                         fillView(model, isLoadMore);
                     }
                 }
-            });
+            }, new ToastErrorListener());
         }else{
             setContentEmpty(false);
             setContentShown(true);
