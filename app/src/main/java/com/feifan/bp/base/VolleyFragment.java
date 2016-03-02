@@ -36,7 +36,7 @@ public abstract class VolleyFragment extends ProgressFragment {
     private MaterialDialog mErrDialog;
 
     // 是否可以显示错误提示框
-    protected transient boolean canShowErr = true;
+    private transient boolean canShowErr = true;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -95,25 +95,28 @@ public abstract class VolleyFragment extends ProgressFragment {
     }
 
     protected void showError(VolleyError error) {
-        String errorInfo = error.getMessage();
-        Throwable t = error.getCause();
-        if (t != null) {
-            if (t instanceof JSONException) {
-                errorInfo = Utils.getString(R.string.error_message_unknown);
-            } else if (t instanceof IOException
-                    || t instanceof SocketException) {
-                errorInfo = Utils.getString(R.string.error_message_network);
+        if(canShowErr && isAdded()) {
+            String errorInfo = error.getMessage();
+            Throwable t = error.getCause();
+            if (t != null) {
+                if (t instanceof JSONException) {
+                    errorInfo = Utils.getString(R.string.error_message_unknown);
+                } else if (t instanceof IOException
+                        || t instanceof SocketException) {
+                    errorInfo = Utils.getString(R.string.error_message_network);
+                }
             }
-        }
-        if (errorInfo == null) {
-            if (error instanceof TimeoutError) {
-                errorInfo = Utils.getString(R.string.error_message_timeout);
-            } else {
-                errorInfo = Utils.getString(R.string.error_message_network_link);
+            if (errorInfo == null) {
+                if (error instanceof TimeoutError) {
+                    errorInfo = Utils.getString(R.string.error_message_timeout);
+                } else {
+                    errorInfo = Utils.getString(R.string.error_message_network_link);
+                }
             }
+            mErrDialog.setMessage(errorInfo)
+                    .show();
+            canShowErr = false;
         }
-        mErrDialog.setMessage(errorInfo)
-                .show();
-        canShowErr = false;
+
     }
 }
