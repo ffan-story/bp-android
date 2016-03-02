@@ -21,10 +21,11 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.VolleyFragment;
+import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.network.response.DialogCookieListener;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 
@@ -40,7 +41,7 @@ import bp.feifan.com.refresh.PtrHandler;
  * congjing
  * 消息列表
  */
-public class MessageFragment extends VolleyFragment implements OnLoadingMoreListener, PtrHandler {
+public class MessageFragment extends ProgressFragment implements OnLoadingMoreListener, PtrHandler {
     private PtrClassicFrameLayout mPtrFrame, mPtrFrameEmpty;
     private int pageIndex = 1;
     private int totalCount = 0;
@@ -153,16 +154,16 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
                     }
                 });
             }
-        }, new DefaultErrorListener(){
+        }, new DialogCookieListener(){
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                super.onErrorResponse(volleyError);
-                    setContentShown(true);
-                    if (mPtrFrameEmpty != null) {
-                        mPtrFrame.refreshComplete();
-                    } else if (mPtrFrame != null) {
-                        mPtrFrame.refreshComplete();
-                    }
+            protected void postDisposeError() {
+                super.postDisposeError();
+                setContentShown(true);
+                if (mPtrFrameEmpty != null) {
+                    mPtrFrame.refreshComplete();
+                } else if (mPtrFrame != null) {
+                    mPtrFrame.refreshComplete();
+                }
             }
         });
     }
@@ -179,7 +180,7 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
             public void onResponse(MessageStatusModel messageModel) {
                 mList.get(position).setmStrMessageStatus(Constants.READ);
             }
-        }, new DefaultErrorListener());
+        }, new DialogCookieListener());
     }
 
     @Override

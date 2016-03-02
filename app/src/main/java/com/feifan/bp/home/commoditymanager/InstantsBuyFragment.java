@@ -8,29 +8,22 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.Response;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.base.VolleyFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.material.MaterialDialog;
 import com.feifan.statlib.FmsAgent;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.net.SocketException;
 /**
  * 商品管理 — 闪购商品列表
  * Created by konta on 2015/12/22.
  */
-public class InstantsBuyFragment extends VolleyFragment implements PlatformTabActivity.onPageSelectListener, View.OnClickListener {
+public class InstantsBuyFragment extends ProgressFragment implements PlatformTabActivity.onPageSelectListener, View.OnClickListener {
     private static final String TAG = "InstantsBuyFragment";
     public static final String EXTRA_KEY_URL = "url";
 

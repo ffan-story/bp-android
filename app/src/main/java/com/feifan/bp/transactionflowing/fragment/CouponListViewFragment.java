@@ -15,13 +15,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.android.volley.Response;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.VolleyFragment;
+import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.network.response.DialogCookieListener;
 import com.feifan.bp.transactionflowing.TransFlowCtrl;
 import com.feifan.bp.transactionflowing.adapter.CouponListViewAdapter;
 import com.feifan.bp.transactionflowing.model.CouponSummaryModel;
@@ -34,17 +34,13 @@ import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.MaterialDialog;
 import com.feifan.statlib.FmsAgent;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.net.SocketException;
 import java.util.List;
 
 /**
  * 通用券
  * Created by kontar on 16/1/19.
  */
-public class CouponListViewFragment extends VolleyFragment implements RadioGroup.OnCheckedChangeListener,
+public class CouponListViewFragment extends ProgressFragment implements RadioGroup.OnCheckedChangeListener,
         SwipeRefreshLayout.OnRefreshListener, OnLoadingMoreListener, PlatformTabActivity.onPageSelectListener {
 
     private static final String TAG = "CouponFragment";
@@ -177,10 +173,10 @@ public class CouponListViewFragment extends VolleyFragment implements RadioGroup
                                     setContentShown(true);
                                 }
                             }
-                        }, new DefaultErrorListener() {
+                        }, new DialogCookieListener() {
                             @Override
-                            public void onErrorResponse(VolleyError volleyError) {
-                                super.onErrorResponse(volleyError);
+                            protected void postDisposeError() {
+                                super.postDisposeError();
                                 setContentShown(true);
                                 load.hideFooterView();
                                 load.setAdapter(null);

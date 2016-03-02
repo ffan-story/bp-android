@@ -18,7 +18,8 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.VolleyFragment;
+import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.network.response.DialogCookieListener;
 import com.feifan.bp.transactionflowing.TransFlowCtrl;
 import com.feifan.bp.transactionflowing.model.InstantSummaryModel;
 import com.feifan.bp.util.LogUtil;
@@ -34,7 +35,7 @@ import java.util.Calendar;
 /**
  * Created by konta on 2016/1/7.
  */
-public class InstantBuyFragment extends VolleyFragment implements View.OnClickListener,
+public class InstantBuyFragment extends ProgressFragment implements View.OnClickListener,
         DatePickerDialog.OnDateSetListener,
         SegmentedGroup.OnCheckedChangeListener {
 
@@ -135,10 +136,11 @@ public class InstantBuyFragment extends VolleyFragment implements View.OnClickLi
                                 setContentShown(true);
                             }
                         }
-                    }, new DefaultErrorListener() {
+                    }, new DialogCookieListener() {
+
                         @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            super.onErrorResponse(volleyError);
+                        protected void postDisposeError() {
+                            super.postDisposeError();
                             stopRefresh();
                         }
                     }
