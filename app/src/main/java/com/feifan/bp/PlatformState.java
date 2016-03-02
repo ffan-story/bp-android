@@ -94,7 +94,7 @@ public class PlatformState {
         mLastUrl = null;
         clearCache();
 
-        //清除缓存
+        //清除Cookie缓存
         SharedPreferences sp = sContext.getSharedPreferences(STATE_PREFERENCES_NAME, Context.MODE_PRIVATE);
         sp.edit().remove(PREFERENCE_KEY_COOKIE).apply();
     }

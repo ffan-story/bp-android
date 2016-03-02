@@ -129,25 +129,28 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         // 用于检查更新后，清除登录信息的情况
         verifyContent();
 
-        // 获取未读提示状态
-        if (UserProfile.getInstance().isStoreUser()) {
-            storeId = UserProfile.getInstance().getAuthRangeId();
-        } else {
-            merchantId = UserProfile.getInstance().getAuthRangeId();
-        }
-        HomeCtrl.getUnReadtatus(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
-            @Override
-            public void onResponse(ReadMessageModel readMessageModel) {
-                int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
-                PlatformState.getInstance().updateUnreadStatus(refundId, readMessageModel.refundCount > 0);
-                // 更新消息提示
-                if (readMessageModel.messageCount > 0) {
-                    mMessageTab.showBadger();
-                } else {
-                    mMessageTab.hideBadger();
-                }
+
+        // 非登录状态，则获取未读提示状态
+        if(!(mCurrentFragment instanceof LoginFragment)) {
+            if (UserProfile.getInstance().isStoreUser()) {
+                storeId = UserProfile.getInstance().getAuthRangeId();
+            } else {
+                merchantId = UserProfile.getInstance().getAuthRangeId();
             }
-        });
+            HomeCtrl.getUnReadtatus(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
+                @Override
+                public void onResponse(ReadMessageModel readMessageModel) {
+                    int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
+                    PlatformState.getInstance().updateUnreadStatus(refundId, readMessageModel.refundCount > 0);
+                    // 更新消息提示
+                    if (readMessageModel.messageCount > 0) {
+                        mMessageTab.showBadger();
+                    } else {
+                        mMessageTab.hideBadger();
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -170,15 +173,6 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 //        }
     }
 
-//    private void initHeader(Toolbar header) {
-//        header.setNavigationIcon(R.mipmap.ic_left_arrow);
-//        header.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
-//    }
 
     @Override
     public int getContentContainerId() {

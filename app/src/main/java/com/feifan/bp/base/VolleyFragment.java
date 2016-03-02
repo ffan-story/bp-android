@@ -64,7 +64,7 @@ public abstract class VolleyFragment extends ProgressFragment {
     }
 
     /**
-     *
+     * FIXME 静态内部类可能导致内存泄漏，后期优化
      */
     public class DefaultErrorListener implements ErrorListener {
 
