@@ -84,7 +84,7 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
     private void fetchData(int pageIndex) {
         setContentShown(true);
         if (!Utils.isNetworkAvailable(getActivity())){
-            setContentEmpty(true, getActivity().getResources().getString(R.string.empty_view_text), getActivity().getResources().getString(R.string.common_retry_text), R.mipmap.empty_ic_timeout,new View.OnClickListener() {
+            setContentEmpty(true, getActivity().getResources().getString(R.string.empty_view_text), getActivity().getResources().getString(R.string.common_retry_text), R.mipmap.empty_ic_timeout, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     fetchData(1);
@@ -167,19 +167,6 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
         });
     }
 
-
-//    @Override
-//    public void onErrorResponse(VolleyError volleyError) {
-//        super.onErrorResponse(volleyError);
-//        EnableErrorDialog(false);
-//        setContentShown(true);
-//        if (mPtrFrameEmpty != null) {
-//            mPtrFrame.refreshComplete();
-//        } else if (mPtrFrame != null) {
-//            mPtrFrame.refreshComplete();
-//        }
-//    }
-
     /**
      * 修改message 状态接口
      * @param userid
@@ -191,13 +178,13 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
             @Override
             public void onResponse(MessageStatusModel messageModel) {
                 mList.get(position).setmStrMessageStatus(Constants.READ);
-
             }
         }, new DefaultErrorListener());
     }
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
+        EnableErrorDialog(false);
         stub.setLayoutResource(R.layout.refresh_listview);
         View contentView = stub.inflate();
         mPtrFrame = (PtrClassicFrameLayout) contentView.findViewById(R.id.rotate_header_list_view_frame);
