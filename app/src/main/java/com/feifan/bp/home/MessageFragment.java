@@ -184,7 +184,6 @@ public class MessageFragment extends VolleyFragment implements OnLoadingMoreList
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
-        EnableErrorDialog(false);
         stub.setLayoutResource(R.layout.refresh_listview);
         View contentView = stub.inflate();
         mPtrFrame = (PtrClassicFrameLayout) contentView.findViewById(R.id.rotate_header_list_view_frame);

@@ -36,7 +36,7 @@ public abstract class VolleyFragment extends ProgressFragment {
     private MaterialDialog mErrDialog;
 
     // 是否可以显示错误提示框
-    private transient boolean canShowErr = true;
+    protected transient boolean canShowErr = true;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -53,20 +53,9 @@ public abstract class VolleyFragment extends ProgressFragment {
     }
 
     /**
-     * 是否显示错误对话框
-     * <pre>
-     *     默认开启错误对话框，如果需要自己实现错误提示界面，则设置为false
-     * </pre>
-     * @param enable
-     */
-    protected void EnableErrorDialog(boolean enable) {
-        canShowErr = enable;
-    }
-
-    /**
      * FIXME 静态内部类可能导致内存泄漏，后期优化
      */
-    public class DefaultErrorListener implements ErrorListener {
+    public static class DefaultErrorListener implements ErrorListener {
 
         @Override
         public void onErrorResponse(VolleyError volleyError) {
@@ -99,13 +88,13 @@ public abstract class VolleyFragment extends ProgressFragment {
             }
 
             //接收到错误并且未显示
-            if (canShowErr && isAdded()) {
-                showError(volleyError);
-            }
+//            if (canShowErr && isAdded()) {
+//                showError(volleyError);
+//            }
         }
     }
 
-    private void showError(VolleyError error) {
+    protected void showError(VolleyError error) {
         String errorInfo = error.getMessage();
         Throwable t = error.getCause();
         if (t != null) {
