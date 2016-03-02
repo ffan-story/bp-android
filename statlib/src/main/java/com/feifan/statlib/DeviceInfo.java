@@ -105,7 +105,8 @@ class DeviceInfo {
     }
 
     public static String getOsVersion() {
-        String result = Build.VERSION.RELEASE;
+        String result = "Android " + Build.VERSION.RELEASE;
+
         StatLog.i(TAG, "getOsVersion()=" + result);
         if (result == null)
             return "";

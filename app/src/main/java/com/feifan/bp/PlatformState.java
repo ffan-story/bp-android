@@ -1,8 +1,11 @@
 package com.feifan.bp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -10,6 +13,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.feifan.bp.network.HttpsUrlStack;
 import com.feifan.bp.util.LogUtil;
+
+import java.lang.ref.WeakReference;
 
 /**
  * 状态类
@@ -43,6 +48,9 @@ public class PlatformState {
 
     // 未读状态集合
     private SparseArray<Boolean> mUnreadMap = new SparseArray<Boolean>();
+
+    // 当前窗口
+    private WeakReference<Activity> mCurrentActivity;
 
     private PlatformState(){
         mQueue = Volley.newRequestQueue(sContext, new HttpsUrlStack());
@@ -188,5 +196,17 @@ public class PlatformState {
      */
     public String getCurrentPhone() {
         return mCurrentPhone;
+    }
+
+    public void setCurrentActivity(Activity activity) {
+        mCurrentActivity = new WeakReference<Activity>(activity);
+    }
+
+    public Activity getCurrentActivity() {
+        Activity activity = null;
+        if(mCurrentActivity != null) {
+            activity = mCurrentActivity.get();
+        }
+        return activity;
     }
 }
