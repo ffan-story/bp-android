@@ -87,7 +87,8 @@ public abstract class PlatformBaseActivity extends AppCompatActivity {
 //        SystemAlterDialog.dismissSystemDialog();
 
         // 清理系统对话框
-        DialogUtil.clearDialog();
+        DialogUtil.closeCookieDialog();
+        DialogUtil.closeErrorDialog();
 
         MobclickAgent.onPause(this);
         if (isFinishing()) {

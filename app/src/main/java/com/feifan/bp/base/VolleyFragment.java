@@ -32,91 +32,53 @@ import java.net.SocketException;
  */
 public abstract class VolleyFragment extends ProgressFragment {
 
-    // 错误提示框
-    private MaterialDialog mErrDialog;
-
-    // 是否可以显示错误提示框
-    private transient boolean canShowErr = true;
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mErrDialog = new MaterialDialog(getActivity())
-                .setNegativeButton(R.string.common_confirm, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mErrDialog.dismiss();
-                        canShowErr = true;
-                        getActivity().finish();
-                    }
-                });
-    }
-
     /**
-     * FIXME 静态内部类可能导致内存泄漏，后期优化
+     * Volley请求错误回调
      */
     public static class DefaultErrorListener implements ErrorListener {
 
         @Override
         public void onErrorResponse(VolleyError volleyError) {
-            final Context context = PlatformState.getApplicationContext();
             // 处理状态错误
             if (volleyError instanceof StatusError) {
                 StatusError error = (StatusError) volleyError;
                 switch (error.getStatus()) {
                     case StatusError.STATUS_COOKIE_EXPIRE:      // Cookie验证失败
                         // 系统提示框
-                        final AlertDialog dialog = DialogUtil.getDialog();
-                        if (!dialog.isShowing()) {
-                            //显示对话框
-                            dialog.show();
-                            DialogUtil.setDialogStyle(error.getMessage(), new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog.dismiss();
-                                    // 清理登录数据
-                                    UserProfile.getInstance().clear();
-                                    PlatformState.getInstance().reset();
-                                    Intent intent = LaunchActivity.buildIntent(context);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                                    context.startActivity(intent);
-                                }
-                            });
-                        }
+                        DialogUtil.showCookieDialog(error.getMessage());
                         return;
+                    default:
+                        break;
                 }
             }
 
             //接收到错误并且未显示
-//            if (canShowErr && isAdded()) {
-//                showError(volleyError);
-//            }
+            DialogUtil.showErrorDialog(getError(volleyError));
         }
     }
 
-    protected void showError(VolleyError error) {
-        if(canShowErr && isAdded()) {
-            String errorInfo = error.getMessage();
-            Throwable t = error.getCause();
-            if (t != null) {
-                if (t instanceof JSONException) {
-                    errorInfo = Utils.getString(R.string.error_message_unknown);
-                } else if (t instanceof IOException
-                        || t instanceof SocketException) {
-                    errorInfo = Utils.getString(R.string.error_message_network);
-                }
+    /**
+     * 显示错误
+     * @param error
+     */
+    private static String getError(VolleyError error) {
+        String errorInfo = error.getMessage();
+        Throwable t = error.getCause();
+        if (t != null) {
+            if (t instanceof JSONException) {
+                errorInfo = Utils.getString(R.string.error_message_unknown);
+            } else if (t instanceof IOException
+                    || t instanceof SocketException) {
+                errorInfo = Utils.getString(R.string.error_message_network);
             }
-            if (errorInfo == null) {
-                if (error instanceof TimeoutError) {
-                    errorInfo = Utils.getString(R.string.error_message_timeout);
-                } else {
-                    errorInfo = Utils.getString(R.string.error_message_network_link);
-                }
-            }
-            mErrDialog.setMessage(errorInfo)
-                    .show();
-            canShowErr = false;
         }
-
+        if (errorInfo == null) {
+            if (error instanceof TimeoutError) {
+                errorInfo = Utils.getString(R.string.error_message_timeout);
+            } else {
+                errorInfo = Utils.getString(R.string.error_message_network_link);
+            }
+        }
+        return errorInfo;
     }
 }

@@ -156,8 +156,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-//        SystemAlterDialog.dismissSystemDialog();
-        DialogUtil.clearDialog();
+        DialogUtil.closeCookieDialog();
+        DialogUtil.closeErrorDialog();
 
         MobclickAgent.onPause(this);
 
