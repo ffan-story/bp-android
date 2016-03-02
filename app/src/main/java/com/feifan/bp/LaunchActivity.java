@@ -132,24 +132,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
         // 非登录状态，则获取未读提示状态
         if(!(mCurrentFragment instanceof LoginFragment)) {
-            if (UserProfile.getInstance().isStoreUser()) {
-                storeId = UserProfile.getInstance().getAuthRangeId();
-            } else {
-                merchantId = UserProfile.getInstance().getAuthRangeId();
-            }
-            HomeCtrl.getUnReadtatus(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
-                @Override
-                public void onResponse(ReadMessageModel readMessageModel) {
-                    int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
-                    PlatformState.getInstance().updateUnreadStatus(refundId, readMessageModel.refundCount > 0);
-                    // 更新消息提示
-                    if (readMessageModel.messageCount > 0) {
-                        mMessageTab.showBadger();
-                    } else {
-                        mMessageTab.hideBadger();
-                    }
-                }
-            });
+            refreshUnread();
         }
     }
 
@@ -202,6 +185,8 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
                 }
             }
             showHome(true);
+            // 登录后刷新未读提示
+            refreshUnread();
         } else if (from.equals(SettingsFragment.class.getName())) {//设置界面
             if (to.equals(LaunchActivity.class.getName())) {
                 startActivity(buildIntent(this));
@@ -324,6 +309,28 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         if (UserCtrl.getStatus() == UserCtrl.USER_STATUS_LOGOUT) { //登出状态
             showLogin();
         }
+    }
+
+    // 更新未读提示
+    private void refreshUnread() {
+        if (UserProfile.getInstance().isStoreUser()) {
+            storeId = UserProfile.getInstance().getAuthRangeId();
+        } else {
+            merchantId = UserProfile.getInstance().getAuthRangeId();
+        }
+        HomeCtrl.getUnReadtatus(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
+            @Override
+            public void onResponse(ReadMessageModel readMessageModel) {
+                int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
+                PlatformState.getInstance().updateUnreadStatus(refundId, readMessageModel.refundCount > 0);
+                // 更新消息提示
+                if (readMessageModel.messageCount > 0) {
+                    mMessageTab.showBadger();
+                } else {
+                    mMessageTab.hideBadger();
+                }
+            }
+        });
     }
 
     // 打开TAB浏览器
