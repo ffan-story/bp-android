@@ -16,6 +16,7 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.network.response.DialogErrorListener;
 import com.feifan.bp.transactionflowing.adapter.InstantDetailListAdapter;
 import com.feifan.bp.transactionflowing.adapter.InstantOrderDetailAdapter;
 import com.feifan.bp.transactionflowing.model.InstantOrderDetailModel;
@@ -129,19 +130,31 @@ public class InstantOrderDetailFragment extends ProgressFragment implements OnLo
 
                             }
                         }
-                    }, new Response.ErrorListener() {
+                    }, new DialogErrorListener(){
                         @Override
-                        public void onErrorResponse(VolleyError volleyError) {
+                        protected void preDisposeError() {
+                            super.preDisposeError();
                             setContentShown(true);
                             mLoadDetailList.hideFooterView();
                             if (mPageIndex > 1) {
                                 mPageIndex--;
                             }
-                            if (isShowDlg && isAdded()) {
-                                showError(volleyError);
-                            }
                         }
-                    });
+                    }
+//                    new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError volleyError) {
+//                            setContentShown(true);
+//                            mLoadDetailList.hideFooterView();
+//                            if (mPageIndex > 1) {
+//                                mPageIndex--;
+//                            }
+//                            if (isShowDlg && isAdded()) {
+//                                showError(volleyError);
+//                            }
+//                        }
+//                    }
+            );
         }else{
             if (isShowDlg && isAdded()) {
                 mDialog.setMessage(getResources().getString(R.string.error_message_text_offline))

@@ -10,6 +10,7 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
+import com.feifan.bp.network.response.ToastErrorListener;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.paginate.Paginate;
@@ -60,7 +61,7 @@ public class CommonSummaryFragment extends AbsSummaryFragment implements Paginat
                     fillView(model, isLoadMore);
                 }
             }
-        });
+        }, new ToastErrorListener());
     }
 
     private void fillView(CommonModel model,Boolean isLoadMore) {

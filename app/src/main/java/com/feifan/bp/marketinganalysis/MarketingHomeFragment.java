@@ -17,6 +17,7 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.network.response.ToastErrorListener;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
@@ -110,7 +111,7 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
                         fillView(model);
                     }
                 }
-            });
+            }, new ToastErrorListener());
         }else{
             stopRefresh();
             mTotalContiner.setVisibility(View.GONE);

@@ -1,5 +1,6 @@
 package com.feifan.bp.util;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.util.Log;
@@ -25,8 +26,6 @@ public class DialogUtil {
 
     // Error对话框
     private static AlertDialog sErrorDialog;
-    private static boolean sEnableError = true;
-
 
     private DialogUtil() {
 
@@ -86,9 +85,6 @@ public class DialogUtil {
      * 显示错误提示对话框
      */
     public static void showErrorDialog(String msg) {
-        if(!sEnableError) {
-            return;
-        }
         if(sErrorDialog == null) {
             sErrorDialog = new AlertDialog.Builder(PlatformState.getApplicationContext()).create();
             sErrorDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
@@ -104,7 +100,10 @@ public class DialogUtil {
                 @Override
                 public void onClick(View v) {
                     sErrorDialog.dismiss();
-                    PlatformState.getInstance().getCurrentActivity().finish();
+                    Activity activity = PlatformState.getInstance().getCurrentActivity();
+                    if(activity != null && !(activity instanceof LaunchActivity)) {
+                        activity.finish();
+                    }
                 }
             });
         }
@@ -117,17 +116,6 @@ public class DialogUtil {
         if(sErrorDialog != null) {
             sErrorDialog.dismiss();
         }
-    }
-
-    /**
-     * 启用或禁用错误对话框
-     * <pre>
-     *     true-启用；false-禁用.默认禁用
-     * </pre>
-     * @param enable
-     */
-    public static void enableErrorDialog(boolean enable) {
-        sEnableError = enable;
     }
 
     private static View customize(Window w) {
