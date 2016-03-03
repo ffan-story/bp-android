@@ -47,12 +47,12 @@ public class DetailListAdapter extends BaseAdapter {
             holder = new MyViewHolder(convertView);
             convertView.setTag(holder);
         }else{
-           holder = (MyViewHolder) convertView.getTag();
+            holder = (MyViewHolder) convertView.getTag();
         }
 
         holder.mCouponCode.setText(String.format(mContext.getString(R.string.instant_colon),mContext.getString(R.string.anal_red_coupon_code),mList.get(position).mDetailCouponId + position));
         holder.mChargeStatus.setText(mList.get(position).mChargeOffStatus);
-        holder.mSubsidyFeifan.setText(String.format(mContext.getString(R.string.instant_colon),mContext.getString(R.string.anal_subsidy_item_money_ff),Utils.formatMoney(mList.get(position).mDetailFeifan,2)));
+        holder.mSubsidyFeifan.setText(Utils.formatMoney(mList.get(position).mDetailFeifan,2));
 
         if(Constants.MARKETING_HIDE_OTHER_SUBSIDY.equals(mList.get(position).mHideOtherSubsidy)){//第三方与商户补贴 开关
             holder.mSubsidyThird.setVisibility(View.GONE);
@@ -60,8 +60,8 @@ public class DetailListAdapter extends BaseAdapter {
         }else {
             holder.mSubsidyThird.setVisibility(View.VISIBLE);
             holder.mSubsidyMerchant.setVisibility(View.VISIBLE);
-            holder.mSubsidyThird.setText(String.format(mContext.getString(R.string.instant_colon),mContext.getString(R.string.anal_subsidy_item_money_third),Utils.formatMoney(mList.get(position).mDetailThird, 2)));
-            holder.mSubsidyMerchant.setText(String.format(mContext.getString(R.string.instant_colon),mContext.getString(R.string.anal_subsidy_item_money_vendor),Utils.formatMoney(mList.get(position).mDetailMerchant,2)));
+            holder.mSubsidyThird.setText(Utils.formatMoney(mList.get(position).mDetailThird, 2));
+            holder.mSubsidyMerchant.setText(Utils.formatMoney(mList.get(position).mDetailMerchant,2));
         }
         holder.mGetTime.setText(String.format(mContext.getString(R.string.instant_colon),mContext.getString(R.string.anal_subsidy_get_time),mList.get(position).mDetailGetTime));
         holder.mUsefulToTime.setText(String.format(mContext.getString(R.string.instant_colon),mContext.getString(R.string.anal_subsidy_end_time),mList.get(position).mDetailValidTime));
