@@ -22,7 +22,6 @@
             <TextView
                 android:id="@+id/marketing_item_title"
                 style="@style/txt_color33_size14"
-                android:maxLength="15"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:text="券名称"
