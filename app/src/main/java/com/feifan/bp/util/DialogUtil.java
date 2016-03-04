@@ -45,19 +45,12 @@ public class DialogUtil {
             sCookieDialog.show();
 
             //更改对话框样式为Material Design
-            Window dlgWindow = sCookieDialog.getWindow();
-            View contentV = LayoutInflater.from(PlatformState.getApplicationContext()).inflate(R.layout.layout_system_alterdialog, null);
-            contentV.setFocusable(true);
-            contentV.setFocusableInTouchMode(true);
-
-            dlgWindow.setBackgroundDrawableResource(com.feifan.materialwidget.R.drawable.material_dialog_window);
-            dlgWindow.setContentView(contentV);
+            View v = customize(sCookieDialog.getWindow());
 
             //设置内容和动作
-            TextView messageV = (TextView) dlgWindow.findViewById(R.id.message);
+            TextView messageV = (TextView) v.findViewById(R.id.message);
             messageV.setText(msg);
-            TextView postiveV = (TextView) dlgWindow.findViewById(R.id.positive);
-            postiveV.setOnClickListener(new OnClickListener() {
+            v.findViewById(R.id.positive).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     DialogUtil.closeCookieDialog();
@@ -78,6 +71,7 @@ public class DialogUtil {
     public static void closeCookieDialog() {
         if (sCookieDialog != null) {
             sCookieDialog.dismiss();
+            sCookieDialog = null;
         }
     }
 
@@ -115,6 +109,7 @@ public class DialogUtil {
     public static void closeErrorDialog() {
         if(sErrorDialog != null) {
             sErrorDialog.dismiss();
+            sErrorDialog = null;
         }
     }
 
