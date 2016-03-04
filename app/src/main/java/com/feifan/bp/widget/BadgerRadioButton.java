@@ -92,7 +92,7 @@ public class BadgerRadioButton extends RadioButton {
                 paint.setAntiAlias(true);
                 paint.setStyle(Paint.Style.FILL);
                 paint.setColor(Color.RED);
-                canvas.drawCircle((getWidth() + mDrawableWidth) / 2+20, 20, 15, paint);
+                canvas.drawCircle((getWidth() + mDrawableWidth) / 2 + 20, 10, 8, paint);
             }
         }
     }
@@ -124,5 +124,4 @@ public class BadgerRadioButton extends RadioButton {
         isShow = false;
         invalidate();
     }
-
 }

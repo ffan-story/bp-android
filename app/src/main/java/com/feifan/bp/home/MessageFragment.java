@@ -24,6 +24,7 @@ import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.network.response.CookieErrorListener;
 import com.feifan.bp.network.response.DialogErrorListener;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
@@ -153,10 +154,9 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                     }
                 });
             }
-        }, new DialogErrorListener(){
+        }, new CookieErrorListener() {
             @Override
-            protected void postDisposeError() {
-                super.postDisposeError();
+            protected void disposeError(String error) {
                 setContentShown(true);
                 if (mPtrFrameEmpty != null) {
                     mPtrFrame.refreshComplete();
