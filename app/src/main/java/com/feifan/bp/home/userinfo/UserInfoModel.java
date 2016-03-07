@@ -1,7 +1,5 @@
 package com.feifan.bp.home.userinfo;
 
-import android.text.TextUtils;
-
 import com.feifan.bp.network.BaseModel;
 
 import org.json.JSONException;

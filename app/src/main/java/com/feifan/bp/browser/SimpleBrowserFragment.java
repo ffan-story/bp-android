@@ -17,16 +17,12 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
-import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.statlib.FmsAgent;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 概览

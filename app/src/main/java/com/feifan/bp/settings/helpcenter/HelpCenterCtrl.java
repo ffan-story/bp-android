@@ -5,7 +5,6 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.UserProfile;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;

@@ -1,15 +1,9 @@
 package com.feifan.bp.browser;
 
-import android.text.TextUtils;
-
-import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.BaseModel;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * 判断是否签订营销合同
