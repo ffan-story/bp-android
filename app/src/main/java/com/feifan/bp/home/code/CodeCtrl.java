@@ -4,15 +4,8 @@ package com.feifan.bp.home.code;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.feifan.bp.BuildConfig;
-import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.UserProfile;
-import com.feifan.bp.home.MessageModel;
-import com.feifan.bp.home.MessageStatusModel;
-import com.feifan.bp.home.ReadMessageModel;
-import com.feifan.bp.home.VersionModel;
-import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.PostRequest;

@@ -2,8 +2,6 @@ package com.feifan.bp.home;
 
 import android.text.TextUtils;
 
-import com.feifan.bp.BuildConfig;
-import com.feifan.bp.envir.AuthSupplier;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.network.BaseModel;
 

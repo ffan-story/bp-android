@@ -1,9 +1,6 @@
 package com.feifan.bp.home.code;
 
-import android.util.Log;
-
 import com.feifan.bp.network.BaseModel;
-import com.feifan.bp.util.LogUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,7 +1,5 @@
 package com.feifan.bp;
 
-import android.provider.ContactsContract;
-
 import com.feifan.statlib.FmsConstants;
 
 /**

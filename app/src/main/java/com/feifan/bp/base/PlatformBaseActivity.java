@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.feifan.bp.R;
 import com.feifan.bp.util.DialogUtil;
-import com.feifan.bp.widget.SystemAlterDialog;
 import com.feifan.material.MaterialDialog;
 import com.umeng.analytics.MobclickAgent;
 
@@ -84,7 +83,6 @@ public abstract class PlatformBaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-//        SystemAlterDialog.dismissSystemDialog();
 
         // 清理系统对话框
         DialogUtil.closeCookieDialog();
