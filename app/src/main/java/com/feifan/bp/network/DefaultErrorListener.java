@@ -1,18 +1,13 @@
 package com.feifan.bp.network;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.View;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
-import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
-import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.util.DialogUtil;
 import com.feifan.bp.util.LogUtil;

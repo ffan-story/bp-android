@@ -15,7 +15,6 @@ import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.home.ErrorFragment;
 import com.feifan.bp.home.code.CodeQueryResultFragment;
-import com.feifan.bp.util.LogUtil;
 
 import bp.feifan.com.codescanner.CaptureActivityOfResult;
 import bp.feifan.com.codescanner.CodeScannerFragment;

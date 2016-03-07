@@ -3,7 +3,6 @@ package com.feifan.bp.util;
 import android.util.Log;
 
 import com.feifan.bp.BuildConfig;
-import com.feifan.bp.Utils;
 
 /**
  * Created by xuchunlei on 15/6/24.

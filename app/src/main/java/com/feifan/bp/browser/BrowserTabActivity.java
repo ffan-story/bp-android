@@ -4,10 +4,10 @@ package com.feifan.bp.browser;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -21,7 +21,6 @@ import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
 import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.material.MaterialDialog;
 
@@ -210,7 +209,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
             @Override
             public void onDismiss() {
                 mShadowView.startAnimation(AnimationUtils.loadAnimation(BrowserTabActivity.this, R.anim.pop_bg_hide));
-                mShadowView.setVisibility(View.INVISIBLE);
+                mShadowView.setVisibility(View.GONE);
                 if (lastSelectPos != mPopWindow.getSelectPos()) {
                     lastSelectPos = mPopWindow.getSelectPos();
                     mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);

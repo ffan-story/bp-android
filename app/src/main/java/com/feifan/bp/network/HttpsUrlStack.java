@@ -1,12 +1,9 @@
 package com.feifan.bp.network;
 
-import android.util.Log;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.toolbox.HurlStack;
 import com.feifan.bp.Constants;
-import com.feifan.bp.util.LogUtil;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,7 +16,6 @@ import org.apache.http.message.BasicStatusLine;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyManagementException;

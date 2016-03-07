@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
@@ -21,14 +20,9 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.network.BaseModel;
-import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.JsonRequest;
+import com.feifan.bp.network.response.ToastErrorListener;
 import com.feifan.bp.password.ForgetPasswordFragment;
-import com.feifan.bp.util.LogUtil;
-import com.loopj.android.http.PersistentCookieStore;
-import org.apache.http.cookie.Cookie;
-
-import java.util.List;
 
 /**
  * 登录界面Fragment
@@ -132,11 +126,10 @@ public class LoginFragment extends BaseFragment {
                                 }
                             });
                         }
-                    }, new DefaultErrorListener() {
+                    }, new ToastErrorListener(){
                         @Override
-                        public void onErrorResponse(VolleyError volleyError) {
+                        protected void preDisposeError() {
                             hideProgressBar();
-                            super.onErrorResponse(volleyError);
                         }
                     });
                 } catch (Throwable throwable) {

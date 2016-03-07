@@ -4,9 +4,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.paginate.Paginate;
 
 public final class RecyclerPaginate extends Paginate {

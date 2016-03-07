@@ -12,8 +12,6 @@ import java.util.Map;
 
 import com.feifan.bp.network.VolleyPatches.ProgressListener;
 
-import org.apache.http.HttpEntity;
-
 /**
  * Multi-Part请求
  * <pre>
