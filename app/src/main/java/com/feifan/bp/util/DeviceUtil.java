@@ -1,8 +1,5 @@
 package com.feifan.bp.util;
 
-import android.content.Context;
-import android.util.DisplayMetrics;
-
 import com.feifan.bp.PlatformState;
 
 /**

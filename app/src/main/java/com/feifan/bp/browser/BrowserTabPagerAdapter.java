@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;

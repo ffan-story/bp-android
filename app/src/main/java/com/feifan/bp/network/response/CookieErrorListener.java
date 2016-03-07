@@ -71,7 +71,7 @@ public abstract class CookieErrorListener implements ErrorListener {
      * 显示错误
      * @param error
      */
-    private String getErrorMessage(VolleyError error) {
+    private String  getErrorMessage(VolleyError error) {
         String errorInfo = error.getMessage();
         Throwable t = error.getCause();
         if (t != null) {
