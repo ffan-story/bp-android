@@ -154,7 +154,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        PlatformState.getInstance().reset();
+        PlatformState.getInstance().exit();
         //统计埋点----用户启动APP
         FmsAgent.onEvent(getApplicationContext(), Statistics.CLOSE_APP);
     }
