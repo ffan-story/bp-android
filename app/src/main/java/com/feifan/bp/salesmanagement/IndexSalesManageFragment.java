@@ -58,13 +58,14 @@ public class IndexSalesManageFragment extends BaseFragment implements View.OnCli
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexSalesManageFragment.class.getName());
         switch (v.getId()){
             case R.id.rl_coupon_management:
-                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_FINA_GENCOUPON);
+                // 优惠券管理
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_SALEMANA_COUPON);
                 BrowserActivity.startActivity(getContext(),url);
 //                BrowserActivity.startActivity(getContext(), UrlFactory.urlForHtml(UserProfile.getInstance().getAuthList().get(5).url));
                 break;
             case R.id.rl_activity_management:
-                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_FINA_FLASHBUY);
-                // TODO 跳转到活动管理界面
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_SALEMANA_REGIS);
+                // 跳转到活动管理界面
                 Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
                         .addFragment(EventListFragment.class.getName(), getString(R.string.event_register))
                         .addArgument(EventListFragment.class.getName(), EventListFragment.REGISTER,false)
