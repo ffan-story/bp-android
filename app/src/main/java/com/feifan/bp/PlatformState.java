@@ -107,6 +107,11 @@ public class PlatformState {
         sp.edit().remove(PREFERENCE_KEY_COOKIE).apply();
     }
 
+    public void exit() {
+        mLastUrl = null;
+        clearCache();
+    }
+
     /**
      * 缓存是否可被清除
      * @return
