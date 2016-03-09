@@ -22,12 +22,14 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.network.response.DialogErrorListener;
 import com.feifan.material.MaterialDialog;
+import com.feifan.statlib.FmsAgent;
 
 import org.json.JSONException;
 
@@ -292,12 +294,16 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
                 if(isWhite) {
                     noticeDlg.setMessage(notice).show();
                 }else{
+                    //统计埋点  确认核销
+                    FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_VERIFY_VERIFY);
                     btn_code_use.setEnabled(false);
                     checkGoodsCode(code, orderNo);
                 }
                 break;
 
             case R.id.btn_ticket_code_use://券码
+                //统计埋点  确认核销
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_VERIFY_VERIFY);
                 btn_code_use.setEnabled(false);
                 checkCouponCode(code, memberId);
                 break;
@@ -311,7 +317,6 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
      * @param memberId
      */
     private void checkCouponCode(String code, String memberId) {
-
         startWaiting();
         CodeCtrl.checkCouponCode(code, memberId, new Response.Listener() {
                     @Override
