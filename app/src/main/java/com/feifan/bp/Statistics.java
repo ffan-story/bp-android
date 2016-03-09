@@ -1,7 +1,5 @@
 package com.feifan.bp;
 
-import android.provider.ContactsContract;
-
 import com.feifan.statlib.FmsConstants;
 
 /**
@@ -33,6 +31,11 @@ public class Statistics {
     public final static String FB_HOME_STOREANA	        = "FB_HOME_STOREANA";       //  商户APP首页  点击店铺分析
     public final static String FB_STOREANA_OVERVIEW	    = "FB_STOREANA_OVERVIEW";   //  店铺分析页面	概览
     public final static String FB_STOREANA_VISITORANA   = "FB_STOREANA_VISITORANA"; //  店铺分析页面	访客分析
+
+    public final static String FB_VERIFY_VERIFY         = "FB_VERIFY_VERIFY";       //  核销详情    确认核销
+
+    public final static String FB_SALEMANA_COUPON       = "FB_SALEMANA_COUPON";     //  营销管理    优惠券管理
+    public final static String FB_SALEMANA_REGIS        = "FB_SALEMANA_REGIS";      //  营销管理    活动报名
 
     public final static String FB_HOME_FINA	            = "FB_HOME_FINA";           //  商户APP首页 	点击对账管理
     public final static String FB_FINA_FLASHBUY         = "FB_FINA_FLASHBUY";       //  交易流水页面	闪购

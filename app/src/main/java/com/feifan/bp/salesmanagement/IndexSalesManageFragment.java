@@ -11,14 +11,11 @@ import android.widget.RelativeLayout;
 
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformTabActivity;
-import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
-import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.SimpleBrowserFragment;
-import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.statlib.FmsAgent;
 
@@ -61,13 +58,13 @@ public class IndexSalesManageFragment extends BaseFragment implements View.OnCli
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexSalesManageFragment.class.getName());
         switch (v.getId()){
             case R.id.rl_coupon_management:
-                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_FINA_GENCOUPON);
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_SALEMANA_COUPON);
                 LogUtil.i("congjing","url=="+url);
                 BrowserActivity.startActivity(getContext(),url);
 //                BrowserActivity.startActivity(getContext(), UrlFactory.urlForHtml(UserProfile.getInstance().getAuthList().get(5).url));
                 break;
             case R.id.rl_activity_management:
-                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_FINA_FLASHBUY);
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_SALEMANA_REGIS);
                 // TODO 跳转到活动管理界面
                 Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
                         .addFragment(EventListFragment.class.getName(), getString(R.string.event_register))
