@@ -28,7 +28,7 @@ import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
-import com.feifan.bp.message.MessMainFrag;
+import com.feifan.bp.message.MessageFragment;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.marketinganalysis.MarketingHomeFragment;
 import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
@@ -68,7 +68,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
         //初始化数据
         mFragments.add(IndexFragment.newInstance());
-        mFragments.add(MessMainFrag.newInstance());
+        mFragments.add(MessageFragment.newInstance());
         mFragments.add(SettingsFragment.newInstance());
 
         // 加载标题栏
@@ -138,8 +138,8 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
     @Override
     public void retryRequestNetwork() {
-        if (mCurrentFragment instanceof MessMainFrag) {
-            ((MessMainFrag) mCurrentFragment).updateData();
+        if (mCurrentFragment instanceof MessageFragment) {
+            ((MessageFragment) mCurrentFragment).updateData();
         }
     }
 

@@ -12,12 +12,11 @@ import java.util.ArrayList;
  * 系统消息Model
  * Created by apple on 16/3/3.
  */
-public class MessMainModel extends BaseModel {
+public class MessageModel extends BaseModel {
     private MessageData mStrMessageData;
     public int totalCount;
     public ArrayList<MessageData> messageDataList;
-
-    public MessMainModel(JSONObject json) {
+    public MessageModel(JSONObject json) {
         super(json);
     }
 
@@ -34,7 +33,7 @@ public class MessMainModel extends BaseModel {
                 mStrMessageData.mStrMessId = dataArray.getJSONObject(i).optString("userId");
                 mStrMessageData.mStrMessStatus = dataArray.getJSONObject(i).optString("mailStatus");
                 mStrMessageData.mStrDetailUrl = dataArray.getJSONObject(i).optString("detailH5Url");
-                mStrMessageData.mStrMessSnipper = dataArray.getJSONObject(i).optString("content");
+                mStrMessageData.mStrMessSniper = dataArray.getJSONObject(i).optString("content");
                 mStrMessageData.mStrMessTime = dataArray.getJSONObject(i).optString("createTime_text");
                 mStrMessageData.mStrMessSender = dataArray.getJSONObject(i).optString("sender");
             } catch (JSONException e) {
@@ -46,14 +45,11 @@ public class MessMainModel extends BaseModel {
 
     public class MessageData {
         public String mStrMailInboxId;
-        public String mStrMessSnipper;
+        public String mStrMessSniper;
         public String mStrMessTime;
         public String mStrMessSender;
         public String mStrMessId;
         public String mStrMessStatus;
         public String mStrDetailUrl;
     }
-
-
-
 }

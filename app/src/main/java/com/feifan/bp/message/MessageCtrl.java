@@ -10,9 +10,7 @@ import com.feifan.bp.network.UrlFactory;
 /**
  * Created by apple on 16/3/3.
  */
-public class MessCtrl {
-
-
+public class MessageCtrl {
     /**
      * 获取消息列表
      * @param userId
@@ -20,14 +18,14 @@ public class MessCtrl {
      * @param listener
      */
     public static void getMessageCategoryList(String userId,  int pageIndex,String messType, Response.Listener listener, Response.ErrorListener errorListener) {
-        JsonRequest<MessMainModel> request = new GetRequest.Builder<MessMainModel>(UrlFactory.getMessgeList()).errorListener(errorListener)
+        JsonRequest<MessageModel> request = new GetRequest.Builder<MessageModel>(UrlFactory.getMessgeList()).errorListener(errorListener)
                 .param("userId", userId)
                 .param("userType", "1")//固定传1
                 .param("pageIndex", Integer.toString(pageIndex))
                 .param("subId", messType)
                 .param("limit", Integer.toString(Constants.LIST_MAX_LENGTH))
                 .build()
-                .targetClass(MessMainModel.class)
+                .targetClass(MessageModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }

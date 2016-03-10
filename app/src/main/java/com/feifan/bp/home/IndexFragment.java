@@ -44,7 +44,6 @@ import com.feifan.bp.home.storeanalysis.visitorsAnalysisFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.marketinganalysis.MarketingHomeFragment;
-import com.feifan.bp.message.MessCtrl;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;

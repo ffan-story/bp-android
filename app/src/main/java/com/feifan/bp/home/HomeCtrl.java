@@ -1,7 +1,5 @@
 package com.feifan.bp.home;
 
-
-
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -9,6 +7,7 @@ import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.UserProfile;
+import com.feifan.bp.message.MessageStatusModel;
 import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
@@ -31,24 +30,6 @@ public class HomeCtrl {
         JsonRequest<VersionModel> request = new PostRequest<VersionModel>(UrlFactory.checkVersionUpdate(), errorListener)
                 .param("currVersionCode", String.valueOf(BuildConfig.VERSION_CODE))
                 .targetClass(VersionModel.class)
-                .listener(listener);
-        PlatformState.getInstance().getRequestQueue().add(request);
-    }
-
-    /**
-     * 获取消息列表
-     * @param userId
-     * @param pageIndex
-     * @param listener
-     */
-    public static void messageList(String userId,  int pageIndex, Listener listener, ErrorListener errorListener) {
-        JsonRequest<MessageModel> request = new GetRequest.Builder<MessageModel>(UrlFactory.getMessgeList()).errorListener(errorListener)
-                .param("userId", userId)
-                .param("userType", "1")//固定传1
-                .param("pageIndex", Integer.toString(pageIndex))
-                .param("limit", Integer.toString(Constants.LIST_MAX_LENGTH))
-                .build()
-                .targetClass(MessageModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
     }

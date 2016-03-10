@@ -1,7 +1,6 @@
-package com.feifan.bp.home;
+package com.feifan.bp.message;
 
 import com.feifan.bp.network.BaseModel;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

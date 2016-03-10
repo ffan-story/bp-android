@@ -18,15 +18,15 @@ import java.util.ArrayList;
  * 消息adapter
  * Created by apple on 16/3/3.
  */
-class MessMainAdp extends BaseAdapter{
+class MessageAdapter extends BaseAdapter{
     private Context mContext;
-    private ArrayList<MessMainModel.MessageData> messageDataList;
-    public MessMainAdp(Context context, ArrayList<MessMainModel.MessageData> messageDataList){
+    private ArrayList<MessageModel.MessageData> messageDataList;
+    public MessageAdapter(Context context, ArrayList<MessageModel.MessageData> messageDataList){
         this.messageDataList = messageDataList;
         mContext = context;
     }
 
-    public void notifyData(ArrayList<MessMainModel.MessageData> messageDataList){
+    public void notifyData(ArrayList<MessageModel.MessageData> messageDataList){
         this.messageDataList = messageDataList;
         notifyDataSetChanged();
     }
@@ -55,7 +55,7 @@ class MessMainAdp extends BaseAdapter{
         }else{
             mViewHolder = (ViewHolder)convertView.getTag();
         }
-        MessMainModel.MessageData messageData = messageDataList.get(position);
+        MessageModel.MessageData messageData = messageDataList.get(position);
 
         if (null != messageData.mStrMessStatus && messageData.mStrMessStatus.equals(Constants.UNREAD)) {
             mViewHolder.mImgRedDot.setVisibility(View.VISIBLE);
@@ -65,7 +65,7 @@ class MessMainAdp extends BaseAdapter{
             mViewHolder.mMessSnippet.setTextColor(mContext.getResources().getColor(R.color.font_color_99));
         }
 
-        mViewHolder.mMessSnippet.setText(messageData.mStrMessSnipper);
+        mViewHolder.mMessSnippet.setText(messageData.mStrMessSniper);
         mViewHolder.mMessTime.setText(messageData.mStrMessTime);
         mViewHolder.mMessSender.setText(messageData.mStrMessSender);
         return convertView;

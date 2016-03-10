@@ -23,7 +23,6 @@ import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.HomeCtrl;
-import com.feifan.bp.home.MessageStatusModel;
 import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.network.response.DialogErrorListener;
@@ -40,21 +39,21 @@ import bp.feifan.com.refresh.PtrHandler;
 /**
  * Created by apple on 16/3/7.
  */
-public class MessMainFrag extends ProgressFragment implements OnLoadingMoreListener, PtrHandler,View.OnClickListener {
+public class MessageFragment extends ProgressFragment implements OnLoadingMoreListener, PtrHandler,View.OnClickListener {
     private  PtrClassicFrameLayout mPtrFrame, mPtrFrameEmpty;
     int pageIndex = 1;
     int totalCount = 0;
     private LoadingMoreListView mListView;
-    private ArrayList<MessMainModel.MessageData> mList = new ArrayList<>();
-    private MessMainAdp mAdapter;
+    private ArrayList<MessageModel.MessageData> mList = new ArrayList<>();
+    private MessageAdapter mAdapter;
 
     private RelativeLayout mRelSystem,mRelNotice;
     private ImageView mImgSystem,mImgNotice;
     private int  mIntNoticeMessCount,mIntSystemMessCount;
     private TextView mTvSystemDot,mTvNoticeDot;
 
-    public static MessMainFrag newInstance() {
-        MessMainFrag fragment = new MessMainFrag();
+    public static MessageFragment newInstance() {
+        MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
         args.putString(Constants.EXTRA_KEY_TITLE, Utils.getString(R.string.home_message_title_text));
         fragment.setArguments(args);
@@ -107,7 +106,7 @@ public class MessMainFrag extends ProgressFragment implements OnLoadingMoreListe
             }
         });
 
-        mAdapter = new MessMainAdp(getActivity(),mList);
+        mAdapter = new MessageAdapter(getActivity(),mList);
         mListView.setAdapter(mAdapter);
 
         mListView.setOnLoadingMoreListener(this);
@@ -200,9 +199,9 @@ public class MessMainFrag extends ProgressFragment implements OnLoadingMoreListe
             return;
         }
 
-        MessCtrl.getMessageCategoryList(UserProfile.getInstance().getUid() + "", pageIndex, messType, new Response.Listener<MessMainModel>() {
+        MessageCtrl.getMessageCategoryList(UserProfile.getInstance().getUid() + "", pageIndex, messType, new Response.Listener<MessageModel>() {
             @Override
-            public void onResponse(MessMainModel messageModel) {
+            public void onResponse(MessageModel messageModel) {
                 setContentEmpty(true);
                 totalCount = messageModel.totalCount;
                 if (totalCount <= 0 && mPtrFrameEmpty != null) {
