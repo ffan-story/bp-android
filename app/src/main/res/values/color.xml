@@ -66,6 +66,7 @@
     <color name="pinkred">#F93578</color>
     <color name="orange">#F97A35</color>
     <color name="dark_orange">#FF5A00</color>
+    <color name="orange_dot">#FF7800</color>
     <!--描边-->
     <color name="color_bf">#BFBFBF</color>
     <color name="color_c2c3c8">#C2C3C8</color>

@@ -184,7 +184,7 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     }
 
     @Override
-    public void onStatusChanged(boolean flag) {
+    public void onStatusChanged(boolean flag,int count) {
 
     }
 

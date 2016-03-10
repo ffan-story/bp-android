@@ -156,6 +156,15 @@ public class PlatformState {
         mUnreadMap.put(key, value);
     }
 
+
+    /**
+     * 更新指定key项的未读状态
+     * @param key
+     * @param value
+     */
+    public int updateUnreadMessCount(int count) {
+       return count;
+    }
     /**
      * 更新Cookie
      * @param cookie

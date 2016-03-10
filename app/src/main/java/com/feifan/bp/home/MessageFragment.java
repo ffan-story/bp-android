@@ -131,17 +131,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                 }
                 mAdapter.notifyDataSetChanged();
 
-                // FIXME add by xuchunlei
-                // 获取未读提示状态
-                String storeId = null;
-                String merchantId = null;
-                if (UserProfile.getInstance().isStoreUser()) {
-                    storeId = UserProfile.getInstance().getAuthRangeId();
-                } else {
-                    merchantId = UserProfile.getInstance().getAuthRangeId();
-                }
-
-                HomeCtrl.getUnReadtatus(merchantId, storeId, "1", new Response.Listener<ReadMessageModel>() {
+                HomeCtrl.getUnReadtatus(new Response.Listener<ReadMessageModel>() {
                     @Override
                     public void onResponse(ReadMessageModel readMessageModel) {
                         int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
@@ -149,7 +139,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
 
                         // 更新消息提示
                         if (mListener != null) {
-                            mListener.onStatusChanged(readMessageModel.messageCount > 0);
+                            mListener.onStatusChanged(readMessageModel.messageCount > 0,readMessageModel.messageCount);
                         }
                     }
                 });

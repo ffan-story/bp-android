@@ -59,7 +59,6 @@ public class IndexSalesManageFragment extends BaseFragment implements View.OnCli
         switch (v.getId()){
             case R.id.rl_coupon_management:
                 FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_FINA_GENCOUPON);
-                LogUtil.i("congjing","url=="+url);
                 BrowserActivity.startActivity(getContext(),url);
 //                BrowserActivity.startActivity(getContext(), UrlFactory.urlForHtml(UserProfile.getInstance().getAuthList().get(5).url));
                 break;

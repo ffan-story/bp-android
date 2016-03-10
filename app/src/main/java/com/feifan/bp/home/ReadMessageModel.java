@@ -25,6 +25,9 @@ public class ReadMessageModel extends BaseModel {
     public int refundCount;
 
 
+    public int mIntSystemMessCount;
+    public int mIntNoticeMessCount;
+
     public ReadMessageModel(JSONObject json) {
         super(json);
     }
@@ -32,7 +35,10 @@ public class ReadMessageModel extends BaseModel {
     protected void parseData(String json) throws JSONException {
         super.parseData(json);
         JSONObject data = new JSONObject(json);
-        messageCount = data.optInt("message");
+        JSONObject messageJson = data.getJSONObject("message");
+        messageCount = messageJson.optInt("total");
+        mIntSystemMessCount = messageJson.optInt("system");
+        mIntNoticeMessCount = messageJson.optInt("notice");
         JSONObject component = data.getJSONObject("component");
 
         if (!TextUtils.isEmpty(component.optString(EnvironmentManager.getAuthFactory().getRefundId()))) {

@@ -129,6 +129,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
             String jsonString =
                     new String(response.data, HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
             LogUtil.i(TAG, "Receive:" + formatJson(jsonString));
+            LogUtil.i(TAG, "Receive:" + jsonString);
 
             // 保存最新Cookie
             if(response.headers != null) {
