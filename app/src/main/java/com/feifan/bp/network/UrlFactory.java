@@ -226,6 +226,9 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "userAuth";
 //        return "http://xapi.pre.ffan.com/xadmin/userAuth";
     }
+    public static String getLogoutUrl(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix()+"mapp/loginout";
+    }
 
     public static String getCheckPhoneNumExistUrl() {
         return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "verificationphone";
