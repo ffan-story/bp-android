@@ -248,6 +248,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                 }
             }
         });
+
     }
 
     /**

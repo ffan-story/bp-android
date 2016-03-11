@@ -63,7 +63,7 @@ public class IndexSalesManageFragment extends BaseFragment implements View.OnCli
 //                BrowserActivity.startActivity(getContext(), UrlFactory.urlForHtml(UserProfile.getInstance().getAuthList().get(5).url));
                 break;
             case R.id.rl_activity_management:
-                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_FINA_FLASHBUY);
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_SALEMANA_REGIS);
                 // TODO 跳转到活动管理界面
                 Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
                         .addFragment(EventListFragment.class.getName(), getString(R.string.event_register))
