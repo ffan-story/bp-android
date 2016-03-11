@@ -40,9 +40,11 @@ import bp.feifan.com.refresh.PtrHandler;
  * Created by apple on 16/3/7.
  */
 public class MessageFragment extends ProgressFragment implements OnLoadingMoreListener, PtrHandler,View.OnClickListener {
-    private  PtrClassicFrameLayout mPtrFrame, mPtrFrameEmpty;
-    int pageIndex = 1;
-    int totalCount = 0;
+    private PtrClassicFrameLayout mPtrFrame, mPtrFrameEmpty;
+    private int pageIndex = 1;
+    private int totalCount = 0;
+    private String mSubMess = "1";
+
     private LoadingMoreListView mListView;
     private ArrayList<MessageModel.MessageData> mList = new ArrayList<>();
     private MessageAdapter mAdapter;
@@ -77,6 +79,9 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
+        pageIndex = 1;
+        mSubMess = "1";
+
         stub.setLayoutResource(R.layout.fragment_message_main);
         View view = stub.inflate();
         mPtrFrame = (PtrClassicFrameLayout) view.findViewById(R.id.rotate_header_list_view_frame);
@@ -86,13 +91,14 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         mRelNotice = (RelativeLayout)view.findViewById(R.id.rel_mess_notice);
         mRelSystem.setOnClickListener(this);
         mRelNotice.setOnClickListener(this);
+
         mImgSystem = (ImageView)view.findViewById(R.id.img_line_system);
         mImgNotice = (ImageView)view.findViewById(R.id.img_line_notice);
 
         mTvSystemDot = (TextView)view.findViewById(R.id.tv_dot_system);
         mTvNoticeDot = (TextView)view.findViewById(R.id.tv_dot_notice);
-        getRedDot();
 
+        getRedDot();
         mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -129,7 +135,6 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         return view;
     }
 
-    private String mSubMess = "1";
     @Override
     protected void requestData() {
 
