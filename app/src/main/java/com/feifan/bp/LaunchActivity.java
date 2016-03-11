@@ -1,11 +1,16 @@
 package com.feifan.bp;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 
@@ -13,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.feifan.bp.base.PlatformBaseActivity;
@@ -34,8 +40,10 @@ import com.feifan.bp.marketinganalysis.MarketingHomeFragment;
 import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.settings.feedback.FeedBackFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerRadioButton;
 import com.feifan.bp.widget.TabBar;
+import com.feifan.material.MaterialDialog;
 import com.feifan.statlib.FmsAgent;
 
 import java.util.ArrayList;
@@ -52,6 +60,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
     public static final int MESSAGE_POSITION = 1;
     private BadgerRadioButton mMessageTab;
+    private MaterialDialog mDialog;
 
     public static Intent buildIntent(Context context) {
 
@@ -102,6 +111,26 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
         // 加载内容视图
         initContent();
+
+        //权限检查对话框
+        mDialog = new MaterialDialog(this);
+        mDialog.setTitle(getString(R.string.apply))
+                .setMessage(getString(R.string.apply_camera))
+                .setCanceledOnTouchOutside(false)
+                .setNegativeButton(R.string.common_cancel, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                    }
+                })
+                .setPositiveButton(R.string.home_settings_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_SETTINGS);
+                        startActivity(intent);
+                        mDialog.dismiss();
+                    }
+                });
     }
 
     @Override
@@ -111,7 +140,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         verifyContent();
 
         // 非登录状态，则获取未读提示状态
-        if(!(mCurrentFragment instanceof LoginFragment)) {
+        if (!(mCurrentFragment instanceof LoginFragment)) {
             refreshUnread();
         }
     }
@@ -171,8 +200,13 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
             PlatformTopbarActivity.startActivity(this, ForgetPasswordFragment.class.getName());
         } else if (from.equals(IndexFragment.class.getName())) {
             if (to.equals(CodeScannerActivity.class.getName())) {
-                CodeScannerActivity.startActivityForResult(this, null);
-                //add by tianjun 2015.10.27
+                //照相机权限申请
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},Constants.MY_PERMISSIONS_REQUEST_CAMERA);
+                } else {
+                    CodeScannerActivity.startActivityForResult(this, null);
+                }
             } else if (to.equals(UserInfoFragment.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) {
                     PlatformTopbarActivity.startActivity(this, to);
@@ -190,7 +224,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
             } else if (to.equals(IndexSalesManageFragment.class.getName())) {
                 if (Utils.isNetworkAvailable(this)) {
                     Intent intent = new Intent(this, PlatformTopbarActivity.class);
-                    intent.putExtra(SimpleBrowserFragment.EXTRA_KEY_URL,args.getString(SimpleBrowserFragment.EXTRA_KEY_URL));
+                    intent.putExtra(SimpleBrowserFragment.EXTRA_KEY_URL, args.getString(SimpleBrowserFragment.EXTRA_KEY_URL));
                     intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, IndexSalesManageFragment.class.getName());
                     startActivity(intent);
                 } else {
@@ -344,10 +378,30 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == event.KEYCODE_HOME){
+        if (keyCode == event.KEYCODE_HOME) {
             Utils.dismissLoginDialog();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * 权限受理结果回调
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == Constants.MY_PERMISSIONS_REQUEST_CAMERA) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//授权通过
+                CodeScannerActivity.startActivityForResult(this, null);
+            } else {//授权拒绝
+                mDialog.show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
 

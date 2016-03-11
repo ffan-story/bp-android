@@ -36,7 +36,7 @@ android {
     defaultConfig {
         applicationId "com.feifan.bp"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 12
         versionName version
     }
@@ -59,34 +59,34 @@ android {
         }
     }
 
-    productFlavors{
-        devtest{
+    productFlavors {
+        devtest {
             applicationId "com.feifan.bp.dev"
             versionName version + ".dev-" + gitSha
-            buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.TEST"
+            buildConfigField "com.feifan.bp.Constants.Environment", "CURRENT_ENVIRONMENT", "com.feifan.bp.Constants.Environment.TEST"
 
-            manifestPlaceholders = [UMENG_APPKEY_VALUE : "55ffcb5e67e58e10d8000f85"]
+            manifestPlaceholders = [UMENG_APPKEY_VALUE: "55ffcb5e67e58e10d8000f85"]
         }
-        sit{
+        sit {
             applicationId "com.feifan.bp.test"
             versionName version + "-" + gitSha
-            buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.SIT"
+            buildConfigField "com.feifan.bp.Constants.Environment", "CURRENT_ENVIRONMENT", "com.feifan.bp.Constants.Environment.SIT"
 
-            manifestPlaceholders = [UMENG_APPKEY_VALUE : "55ffcb5e67e58e10d8000f85"]
+            manifestPlaceholders = [UMENG_APPKEY_VALUE: "55ffcb5e67e58e10d8000f85"]
         }
-        productpre{
+        productpre {
             applicationId "com.feifan.bp.pre"
             versionName version + ".pre-" + gitSha
-            buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT_PRE"
+            buildConfigField "com.feifan.bp.Constants.Environment", "CURRENT_ENVIRONMENT", "com.feifan.bp.Constants.Environment.PRODUCT_PRE"
 
-            manifestPlaceholders = [UMENG_APPKEY_VALUE : "55ffc7ffe0f55afc2d0016ee"]
+            manifestPlaceholders = [UMENG_APPKEY_VALUE: "55ffc7ffe0f55afc2d0016ee"]
         }
-        product{
+        product {
             applicationId "com.feifan.bp"
             versionName version
-            buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.PRODUCT"
+            buildConfigField "com.feifan.bp.Constants.Environment", "CURRENT_ENVIRONMENT", "com.feifan.bp.Constants.Environment.PRODUCT"
 
-            manifestPlaceholders = [UMENG_APPKEY_VALUE : "55ffc7ffe0f55afc2d0016ee"]
+            manifestPlaceholders = [UMENG_APPKEY_VALUE: "55ffc7ffe0f55afc2d0016ee"]
         }
     }
 
@@ -143,7 +143,6 @@ dependencies {
 android {
     useLibrary 'org.apache.http.legacy'
 }
-
 apply plugin: 'liannu'
 
 shootline {
@@ -151,10 +150,10 @@ shootline {
     pgyer {
 //        uKey= 'b4d3d5d5080a979372b3e209dd3bc028'
 //        _api_key= '1b004c68ffb3663ff9954e502c428770'
-        uKey='523d8a1f42d5455d01525913fae356cc'
-        _api_key='048ad38bdf6822f1a3ed36981cb85bb2'
-        fileName= "${project.buildDir.absolutePath}/outputs/apk/${project.parent.name}.apk"
-        password='bp123'
+        uKey = '523d8a1f42d5455d01525913fae356cc'
+        _api_key = '048ad38bdf6822f1a3ed36981cb85bb2'
+        fileName = "${project.buildDir.absolutePath}/outputs/apk/${project.parent.name}.apk"
+        password = 'bp123'
     }
 
     // 应用宝渠道

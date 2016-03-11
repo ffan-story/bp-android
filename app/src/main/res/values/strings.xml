@@ -430,5 +430,8 @@
     <string name="anal_award_summary_title">奖品分类汇总</string>
     <string name="anal_no_more_data">已经没有更多数据了</string>
 
+    <string name="apply">权限申请</string>
+    <string name="apply_camera">在设置-应用-飞凡商家-权限中开启相机权限,以正常使用扫码验证功能</string>
+    <string name="apply_storage">在设置-应用-飞凡商家-权限中开启存储空间权限,以正常使用飞凡商家功能</string>
 </resources>
 
