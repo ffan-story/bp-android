@@ -24,6 +24,7 @@ public class InstCtrl {
      */
     public static void getInstEventGoodsList(String promotionCode,int pageIndex, Listener listener) {
         JsonRequest<com.feifan.bp.salesmanagement.InstEventGoodsListModel> request = new GetRequest.Builder<com.feifan.bp.salesmanagement.InstEventGoodsListModel>(UrlFactory.getInstEventGoodsList())
+                .param("applicant", String.valueOf(UserProfile.getInstance().getUid()))
                 .param("promotionCode", promotionCode)
                 .param("merchantId", UserProfile.getInstance().getMerchantId())
                 .param("storeId", UserProfile.getInstance().getAuthRangeId())
@@ -45,6 +46,7 @@ public class InstCtrl {
      */
     public static void getInstEventGoodsSetingDeta(String promotionCode,String goodsCode,String goodsAction, Listener listener) {
         JsonRequest<com.feifan.bp.salesmanagement.InstEvenSkuSettModel> request = new GetRequest.Builder<com.feifan.bp.salesmanagement.InstEvenSkuSettModel>(UrlFactory.getInstEventGoodsSettingDetail(goodsCode))
+                .param("applicant", String.valueOf(UserProfile.getInstance().getUid()))
                 .param("promotionCode", promotionCode)
                 .param("goodsCode", goodsCode)
                 .param("goods_action", goodsAction)
@@ -72,6 +74,7 @@ public class InstCtrl {
                                                    String merchantCutAmount,
                                                    Listener listener) {
         JsonRequest<com.feifan.bp.salesmanagement.InstEvenSkuSettModel> request = new PostRequest<com.feifan.bp.salesmanagement.InstEvenSkuSettModel>(UrlFactory.getInstEventGoodsCommAndSave(), new ToastErrorListener())
+                .param("applicant", String.valueOf(UserProfile.getInstance().getUid()))
                 .param("goods_action", goodsAction)
                 .param("promotionCode", promotionCode)
                 .param("merchantId", UserProfile.getInstance().getMerchantId())
