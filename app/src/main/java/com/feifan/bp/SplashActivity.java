@@ -37,7 +37,10 @@ public class SplashActivity extends PlatformBaseActivity {
         // 统计埋点----用户启动APP
         FmsAgent.onEvent(getApplicationContext(), Statistics.USER_OPEN_APP);
         // 听云
-        NBSAppAgent.setLicenseKey(getString(R.string.tingyun_key)).withLocationServiceEnabled(true).start(this);
+        if(BuildConfig.CURRENT_ENVIRONMENT.equals(Constants.Environment.PRODUCT)) {
+            NBSAppAgent.setLicenseKey(getString(R.string.tingyun_key)).withLocationServiceEnabled(true).start(this);
+        }
+
     }
 
     private void checkVersion() {
