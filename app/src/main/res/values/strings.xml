@@ -428,6 +428,8 @@
     <string name="anal_coupons_summary_title">券分类汇总</string>
     <string name="anal_award_summary_title">奖品分类汇总</string>
     <string name="anal_no_more_data">已经没有更多数据了</string>
+    
+    <string name="tingyun_key">f1b65362b46f44edbafbcd429b7ba497</string>
 
 </resources>
 
