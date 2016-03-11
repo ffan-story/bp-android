@@ -18,6 +18,7 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'newlens'
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 
@@ -124,6 +125,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.3.3'
     compile 'com.android.support:support-v4:23.0.1'
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile 'com.loopj.android:android-async-http:1.4.8'

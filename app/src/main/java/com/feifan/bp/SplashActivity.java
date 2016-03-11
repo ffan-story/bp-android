@@ -24,6 +24,7 @@ import com.feifan.bp.util.LogUtil;
 import com.feifan.material.MaterialDialog;
 import com.feifan.statlib.FmsAgent;
 import com.wanda.crashsdk.pub.FeifanCrashManager;
+import com.networkbench.agent.impl.NBSAppAgent;
 
 /**
  * 欢迎界面
@@ -49,7 +50,7 @@ public class SplashActivity extends PlatformBaseActivity {
             checkVersion();
         }
         FeifanCrashManager.getInstance().reportActive();
-        //统计埋点----用户启动APP
+        // 统计埋点----用户启动APP
         FmsAgent.onEvent(getApplicationContext(), Statistics.USER_OPEN_APP);
 
         //权限检查对话框
@@ -72,6 +73,8 @@ public class SplashActivity extends PlatformBaseActivity {
                         mDialog.dismiss();
                     }
                 });
+        // 听云
+        NBSAppAgent.setLicenseKey("f1b65362b46f44edbafbcd429b7ba497").withLocationServiceEnabled(true).start(this);
     }
 
     private void checkVersion() {
