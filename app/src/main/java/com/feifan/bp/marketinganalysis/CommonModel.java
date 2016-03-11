@@ -1,5 +1,7 @@
 package com.feifan.bp.marketinganalysis;
 
+import android.util.Log;
+
 import com.feifan.bp.network.BaseModel;
 
 import org.json.JSONArray;
