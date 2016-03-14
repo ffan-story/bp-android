@@ -67,7 +67,6 @@
     <string name="message_notice">通知公告</string>
     <!-- Message(消息)－end -->
 
-
     <string name="login_info_not_enough">请输入完整信息</string>
 
     <!-- 错误信息 -->
@@ -433,5 +432,8 @@
     
     <string name="tingyun_key">f1b65362b46f44edbafbcd429b7ba497</string>
 
+    <string name="apply">权限申请</string>
+    <string name="apply_camera">在设置-应用-飞凡商家-权限中开启相机权限,以正常使用扫码验证功能</string>
+    <string name="apply_storage">在设置-应用-飞凡商家-权限中开启存储空间权限,以正常使用飞凡商家功能</string>
 </resources>
 

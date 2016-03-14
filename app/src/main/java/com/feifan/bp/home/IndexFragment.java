@@ -1,9 +1,12 @@
 package com.feifan.bp.home;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -235,7 +238,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             case R.id.index_scan:
                 //统计埋点  扫码验证
                 FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_SCANCODE);
-
                 if (!UserProfile.getInstance().isStoreUser()) {
                     Toast.makeText(getActivity().getApplicationContext(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
                     return;

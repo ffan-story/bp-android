@@ -40,9 +40,13 @@ import bp.feifan.com.refresh.PtrHandler;
  * Created by apple on 16/3/7.
  */
 public class MessageFragment extends ProgressFragment implements OnLoadingMoreListener, PtrHandler,View.OnClickListener {
-    private  PtrClassicFrameLayout mPtrFrame, mPtrFrameEmpty;
-    int pageIndex = 1;
-    int totalCount = 0;
+    private PtrClassicFrameLayout mPtrFrame, mPtrFrameEmpty;
+    private int pageIndex = 1;
+    private int totalCount = 0;
+    public static String MESS_TYPE_SYSTEM = "1";
+    public static String MESS_TYPE_NOTICE = "2";
+    private String mMessType = MESS_TYPE_SYSTEM;
+
     private LoadingMoreListView mListView;
     private ArrayList<MessageModel.MessageData> mList = new ArrayList<>();
     private MessageAdapter mAdapter;
@@ -72,11 +76,14 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
     @Override
     public void onResume() {
         super.onResume();
-        fetchData(pageIndex,mSubMess);
+        fetchData(pageIndex,mMessType);
     }
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
+        pageIndex = 1;
+        mMessType = MESS_TYPE_SYSTEM;
+
         stub.setLayoutResource(R.layout.fragment_message_main);
         View view = stub.inflate();
         mPtrFrame = (PtrClassicFrameLayout) view.findViewById(R.id.rotate_header_list_view_frame);
@@ -86,13 +93,14 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         mRelNotice = (RelativeLayout)view.findViewById(R.id.rel_mess_notice);
         mRelSystem.setOnClickListener(this);
         mRelNotice.setOnClickListener(this);
+
         mImgSystem = (ImageView)view.findViewById(R.id.img_line_system);
         mImgNotice = (ImageView)view.findViewById(R.id.img_line_notice);
 
         mTvSystemDot = (TextView)view.findViewById(R.id.tv_dot_system);
         mTvNoticeDot = (TextView)view.findViewById(R.id.tv_dot_notice);
-        getRedDot();
 
+        getRedDot();
         mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -106,7 +114,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
             }
         });
 
-        mAdapter = new MessageAdapter(getActivity(),mList);
+        mAdapter = new MessageAdapter(getActivity(),mList,mMessType);
         mListView.setAdapter(mAdapter);
 
         mListView.setOnLoadingMoreListener(this);
@@ -129,7 +137,6 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         return view;
     }
 
-    private String mSubMess = "1";
     @Override
     protected void requestData() {
 
@@ -144,7 +151,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
             mList.clear();
             mAdapter.notifyDataSetChanged();
         }
-        fetchData(pageIndex, mSubMess);
+        fetchData(pageIndex, mMessType);
     }
 
     private void getRedDot(){
@@ -187,13 +194,13 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
     /**
      * 获取列表数据
      */
-    public void fetchData (int pageIndex, String messType){
+    public void fetchData (int pageIndex, final String messType){
         setContentShown(true);
         if (!Utils.isNetworkAvailable(getActivity())) {
             setContentEmpty(true, getActivity().getResources().getString(R.string.empty_view_text), getActivity().getResources().getString(R.string.common_retry_text), R.mipmap.empty_ic_timeout, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    fetchData(1, mSubMess);
+                    fetchData(1, mMessType);
                 }
             });
             return;
@@ -233,7 +240,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                         mList.add(messageModel.messageDataList.get(i));
                     }
                 }
-                mAdapter.notifyData(mList);
+                mAdapter.notifyData(mList,messType);
                 getRedDot();
             }
         }, new DialogErrorListener() {
@@ -277,7 +284,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
             Toast.makeText(getActivity(), getString(R.string.error_no_more_data), Toast.LENGTH_LONG).show();
         } else {
             pageIndex++;
-            fetchData(pageIndex, mSubMess);
+            fetchData(pageIndex, mMessType);
         }
         mListView.hideFooterView();
     }
@@ -296,20 +303,20 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.rel_mess_system:
-                mSubMess = "1";
+                mMessType = MESS_TYPE_SYSTEM;
                 pageIndex =1;
                 mList.clear();
                 mImgNotice.setVisibility(View.INVISIBLE);
                 mImgSystem.setVisibility(View.VISIBLE);
-                fetchData(pageIndex,mSubMess);
+                fetchData(pageIndex,mMessType);
                 break;
             case R.id.rel_mess_notice:
-                mSubMess = "2";
+                mMessType = MESS_TYPE_NOTICE;
                 pageIndex =1;
                 mList.clear();
                 mImgNotice.setVisibility(View.VISIBLE);
                 mImgSystem.setVisibility(View.INVISIBLE);
-                fetchData(pageIndex,mSubMess);
+                fetchData(pageIndex,mMessType);
                 break;
         }
     }

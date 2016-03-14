@@ -50,6 +50,10 @@ public class Constants {
     public static final String COOKIE_VALUE = "MAPPUIF";
     public static final String COOKIE_RESPONSE_KEY = "Set-Cookie";
 
+    //权限申请
+    public static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
+    public static final int MY_PERMISSIONS_REQUEST_STORAGE = 2;
+
     public enum Environment {
         TEST,             // RD联调环境
         SIT,              // QA测试环境

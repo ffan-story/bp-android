@@ -1,6 +1,7 @@
 package com.feifan.bp.message;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +22,17 @@ import java.util.ArrayList;
 class MessageAdapter extends BaseAdapter{
     private Context mContext;
     private ArrayList<MessageModel.MessageData> messageDataList;
-    public MessageAdapter(Context context, ArrayList<MessageModel.MessageData> messageDataList){
+    private String mStrMessType;
+    public MessageAdapter(Context context, ArrayList<MessageModel.MessageData> messageDataList,String messTyle){
         this.messageDataList = messageDataList;
         mContext = context;
+        mStrMessType = messTyle;
     }
 
-    public void notifyData(ArrayList<MessageModel.MessageData> messageDataList){
+    public void notifyData(ArrayList<MessageModel.MessageData> messageDataList,String messTyle){
         this.messageDataList = messageDataList;
         notifyDataSetChanged();
+        mStrMessType = messTyle;
     }
     @Override
     public int getCount() {
@@ -65,9 +69,14 @@ class MessageAdapter extends BaseAdapter{
             mViewHolder.mMessSnippet.setTextColor(mContext.getResources().getColor(R.color.font_color_99));
         }
 
-        mViewHolder.mMessSnippet.setText(messageData.mStrMessSniper);
         mViewHolder.mMessTime.setText(messageData.mStrMessTime);
-        mViewHolder.mMessSender.setText(messageData.mStrMessSender);
+        if (!TextUtils.isEmpty(mStrMessType) && mStrMessType.equals(MessageFragment.MESS_TYPE_NOTICE)){
+            mViewHolder.mMessSnippet.setText(messageData.mStrMessTitle);
+            mViewHolder.mMessSender.setText(messageData.mStrMessSender);
+        }else{
+            mViewHolder.mMessSnippet.setText(messageData.mStrMessSniper);
+            mViewHolder.mMessSender.setText(messageData.mStrMessSender);
+        }
         return convertView;
     }
 

@@ -33,7 +33,14 @@ public class MessageModel extends BaseModel {
                 mStrMessageData.mStrMessId = dataArray.getJSONObject(i).optString("userId");
                 mStrMessageData.mStrMessStatus = dataArray.getJSONObject(i).optString("mailStatus");
                 mStrMessageData.mStrDetailUrl = dataArray.getJSONObject(i).optString("detailH5Url");
+
+                //系统通知  列表标题为摘要
                 mStrMessageData.mStrMessSniper = dataArray.getJSONObject(i).optString("content");
+                //通知公告 列表标题为title
+                mStrMessageData.mStrMessTitle = dataArray.getJSONObject(i).optString("title");
+                mStrMessageData.mStrMessTitle2 = dataArray.getJSONObject(i).optString("title2");
+
+
                 mStrMessageData.mStrMessTime = dataArray.getJSONObject(i).optString("createTime_text");
                 mStrMessageData.mStrMessSender = dataArray.getJSONObject(i).optString("sender");
             } catch (JSONException e) {
@@ -46,6 +53,8 @@ public class MessageModel extends BaseModel {
     public class MessageData {
         public String mStrMailInboxId;
         public String mStrMessSniper;
+        public String mStrMessTitle;
+        public String mStrMessTitle2;
         public String mStrMessTime;
         public String mStrMessSender;
         public String mStrMessId;

@@ -1,9 +1,16 @@
 package com.feifan.bp;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
 
 import com.android.volley.Response;
 import com.android.volley.Response.Listener;
@@ -14,17 +21,19 @@ import com.feifan.bp.home.VersionModel;
 import com.feifan.bp.login.AuthListModel;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.util.LogUtil;
+import com.feifan.material.MaterialDialog;
 import com.feifan.statlib.FmsAgent;
 import com.wanda.crashsdk.pub.FeifanCrashManager;
 import com.networkbench.agent.impl.NBSAppAgent;
 
 /**
  * 欢迎界面
- *
+ * <p/>
  * Created by maning on 15/7/29.
  */
 public class SplashActivity extends PlatformBaseActivity {
 
+    private MaterialDialog mDialog;
     private static final String TAG = "SplashActivity";
 
     @Override
@@ -32,15 +41,45 @@ public class SplashActivity extends PlatformBaseActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFormat(PixelFormat.RGBA_8888);
         setContentView(R.layout.activity_splash);
-        checkVersion();
-        FeifanCrashManager.getInstance().reportActive();
+
         // 统计埋点----用户启动APP
         FmsAgent.onEvent(getApplicationContext(), Statistics.USER_OPEN_APP);
+
+        //内存权限检查
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    Constants.MY_PERMISSIONS_REQUEST_STORAGE);
+        } else {
+            checkVersion();
+        }
+        FeifanCrashManager.getInstance().reportActive();
+
+
+        //权限检查对话框
+        mDialog = new MaterialDialog(this);
+        mDialog.setTitle(getString(R.string.apply))
+                .setMessage(getString(R.string.apply_storage))
+                .setCanceledOnTouchOutside(false)
+                .setNegativeButton(R.string.common_cancel, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        SplashActivity.this.finish();
+                    }
+                })
+                .setPositiveButton(R.string.home_settings_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_SETTINGS);
+                        startActivity(intent);
+                        mDialog.dismiss();
+                    }
+                });
         // 听云
         if(BuildConfig.CURRENT_ENVIRONMENT.equals(Constants.Environment.PRODUCT)) {
             NBSAppAgent.setLicenseKey(getString(R.string.tingyun_key)).withLocationServiceEnabled(true).start(this);
         }
-
     }
 
     private void checkVersion() {
@@ -154,5 +193,18 @@ public class SplashActivity extends PlatformBaseActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == Constants.MY_PERMISSIONS_REQUEST_STORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//授权通过
+                checkVersion();
+            } else {//授权拒绝
+                mDialog.show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
