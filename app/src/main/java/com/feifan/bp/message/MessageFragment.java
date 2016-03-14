@@ -26,6 +26,7 @@ import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.network.response.DialogErrorListener;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 
@@ -73,9 +74,11 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         }
     }
 
+    boolean isUpdata = true;
     @Override
     public void onResume() {
         super.onResume();
+        isUpdata = false;
         fetchData(pageIndex,mMessType);
     }
 
@@ -146,12 +149,16 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
      * 更新数据
      */
     public void updateData() {
-        pageIndex = 1;
-        if(mList !=null){
-            mList.clear();
-            mAdapter.notifyDataSetChanged();
+        if (isUpdata){
+            isUpdata = true;
+            pageIndex = 1;
+            if(mList !=null){
+                mList.clear();
+                mAdapter.notifyDataSetChanged();
+            }
+            fetchData(pageIndex, mMessType);
         }
-        fetchData(pageIndex, mMessType);
+
     }
 
     private void getRedDot(){
@@ -209,17 +216,17 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         MessageCtrl.getMessageCategoryList(UserProfile.getInstance().getUid() + "", pageIndex, messType, new Response.Listener<MessageModel>() {
             @Override
             public void onResponse(MessageModel messageModel) {
-                setContentEmpty(true);
                 totalCount = messageModel.totalCount;
                 if (totalCount <= 0 && mPtrFrameEmpty != null) {
-                    setContentEmpty(true);
+                    setContentEmpty(false);
                     mPtrFrame.setVisibility(View.GONE);
                     mPtrFrameEmpty.setVisibility(View.VISIBLE);
-                    mPtrFrameEmpty.refreshComplete();
+                    return;
                 }
                 if (messageModel.messageDataList == null) {
                     return;
                 }
+                setContentEmpty(true);
                 if (mList == null || mList.size() <= 0) {
                     mList = new ArrayList<>();
                     mList = messageModel.messageDataList;

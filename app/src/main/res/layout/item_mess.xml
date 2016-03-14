@@ -17,13 +17,28 @@
             android:layout_width="@dimen/view_spacing_20"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/bg_red_dot" />
+            android:src="@drawable/bg_red_dot"
+            android:layout_weight="0"/>
 
         <TextView
             android:id="@+id/tv_message_snippet"
             style="@style/txt_color33_size14"
             android:ellipsize="end"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/view_size_5"/>
+
+        <TextView
+            android:id="@+id/tv_message_top_static"
+            style="@style/txt_color33_size14"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:background="@drawable/bg_rectangle_organe"
+            android:text="置顶"
+            android:textColor="@color/orange_dot"
+            android:padding="@dimen/view_size_3"
+            android:layout_weight="0"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout

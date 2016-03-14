@@ -1,6 +1,7 @@
 package com.feifan.bp.message;
 
 import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.util.LogUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,30 +25,36 @@ public class MessageModel extends BaseModel {
     protected void parseData(String json) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
         totalCount = jsonObject.optInt("totalCount");
-        JSONArray dataArray = jsonObject.getJSONArray("data");
-        messageDataList = new ArrayList<MessageData>();
-        for (int i = 0; i < dataArray.length(); i++) {
-            mStrMessageData = new MessageData();
-            try {
-                mStrMessageData.mStrMailInboxId = dataArray.getJSONObject(i).optString("mailInboxId");
-                mStrMessageData.mStrMessId = dataArray.getJSONObject(i).optString("userId");
-                mStrMessageData.mStrMessStatus = dataArray.getJSONObject(i).optString("mailStatus");
-                mStrMessageData.mStrDetailUrl = dataArray.getJSONObject(i).optString("detailH5Url");
+        LogUtil.i("congjing",""+(totalCount>0));
 
-                //系统通知  列表标题为摘要
-                mStrMessageData.mStrMessSniper = dataArray.getJSONObject(i).optString("content");
-                //通知公告 列表标题为title
-                mStrMessageData.mStrMessTitle = dataArray.getJSONObject(i).optString("title");
-                mStrMessageData.mStrMessTitle2 = dataArray.getJSONObject(i).optString("title2");
+        LogUtil.i("congjing","data"+jsonObject.isNull("data"));
+        if (totalCount>0){
+            JSONArray dataArray = jsonObject.getJSONArray("data");
+            messageDataList = new ArrayList<MessageData>();
+            for (int i = 0; i < dataArray.length(); i++) {
+                mStrMessageData = new MessageData();
+                try {
+                    mStrMessageData.mStrMailInboxId = dataArray.getJSONObject(i).optString("mailInboxId");
+                    mStrMessageData.mStrMessId = dataArray.getJSONObject(i).optString("userId");
+                    mStrMessageData.mStrMessStatus = dataArray.getJSONObject(i).optString("mailStatus");
+                    mStrMessageData.mStrDetailUrl = dataArray.getJSONObject(i).optString("detailH5Url");
+
+                    //系统通知  列表标题为摘要
+                    mStrMessageData.mStrMessSniper = dataArray.getJSONObject(i).optString("content");
+                    //通知公告 列表标题为title
+                    mStrMessageData.mStrMessTitle = dataArray.getJSONObject(i).optString("title");
+                    mStrMessageData.mStrMessTitle2 = dataArray.getJSONObject(i).optString("title2");
 
 
-                mStrMessageData.mStrMessTime = dataArray.getJSONObject(i).optString("createTime_text");
-                mStrMessageData.mStrMessSender = dataArray.getJSONObject(i).optString("sender");
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    mStrMessageData.mStrMessTime = dataArray.getJSONObject(i).optString("createTime_text");
+                    mStrMessageData.mStrMessSender = dataArray.getJSONObject(i).optString("sender");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                messageDataList.add(mStrMessageData);
             }
-            messageDataList.add(mStrMessageData);
         }
+
     }
 
     public class MessageData {

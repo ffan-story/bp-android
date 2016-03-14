@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners android:radius="3dp"/>
+            <!-- 描边 -->
+            <stroke
+                android:width="@dimen/dividerheight"
+                android:color="@color/orange_dot"
+                android:dashWidth="@dimen/radio_button_stroke_border"
+                android:dashGap="0dp"/>
+        </shape>
+    </item>
+</selector>
