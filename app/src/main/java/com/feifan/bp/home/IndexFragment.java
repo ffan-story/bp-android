@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.feifan.bp.BuildConfig;
 import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
@@ -61,7 +62,6 @@ import java.util.List;
 public class IndexFragment extends BaseFragment implements View.OnClickListener, OnTabLifetimeListener {
 
     private static final String TAG = "IndexFragment";
-    private static final String STATISTICAL_PATH = "http://sop.sit.ffan.com/H5App/index.html#/statistical";
 
     private OnFragmentInteractionListener mListener;
 
@@ -104,7 +104,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         } else {
             merchantId = UserProfile.getInstance().getAuthRangeId();
         }
-        HomeCtrl.getUnReadtatus(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
+        HomeCtrl.getUnReadtatus(new Response.Listener<ReadMessageModel>() {
             @Override
             public void onResponse(ReadMessageModel readMessageModel) {
                 int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
@@ -358,45 +358,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             return holder;
         }
 
-        /**
-         * 添加埋点
-         * @param id
-         */
-        private void addStatistices(int id){
-            //统计埋点  sit
-//            switch (id) {
-//                case 1142:
-//                    FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_ORDERMANA);
-//                    break;// 订单管理
-//                case 1160:
-//                    FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STAT);
-//                    break;// 统计报表
-//                case 1161:
-//                    FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STAFFMANA);
-//                    break;// 员工管理
-//                case 1162:
-//                    FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_RETURN);
-//                    break;// 退款售后
-//            }
-
-            //统计埋点  Product
-            switch (id) {
-                case 997:
-                    FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_ORDERMANA);
-                    break;// 订单管理
-                case 1002:
-                    FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STAT);
-                    break;// 统计报表
-                case 1003:
-                    FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STAFFMANA);
-                    break;// 员工管理
-                case 1004:
-                    FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_RETURN);
-                    break;// 退款售后
-            }
-
-        }
-
         @Override
         public void onBindViewHolder(final IndexViewHolder indexViewHolder, int i) {
             final AuthItem item = mList.get(i);
@@ -516,6 +477,46 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             public IndexViewHolder(View itemView) {
                 super(itemView);
                 t = (BadgerTextView) itemView;
+            }
+        }
+
+        /**
+         * 添加埋点
+         * @param id
+         */
+        private void addStatistices(int id){
+            if (BuildConfig.DEBUG){
+                //统计埋点  sit
+                switch (id) {
+                    case 1142:
+                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_ORDERMANA);
+                        break;// 订单管理
+                    case 1160:
+                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STAT);
+                        break;// 统计报表
+                    case 1161:
+                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STAFFMANA);
+                        break;// 员工管理
+                    case 1162:
+                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_RETURN);
+                        break;// 退款售后
+                }
+            }else{
+                //统计埋点  Product
+                switch (id) {
+                    case 997:
+                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_ORDERMANA);
+                        break;// 订单管理
+                    case 1002:
+                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STAT);
+                        break;// 统计报表
+                    case 1003:
+                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STAFFMANA);
+                        break;// 员工管理
+                    case 1004:
+                        FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_RETURN);
+                        break;// 退款售后
+                }
             }
         }
     }

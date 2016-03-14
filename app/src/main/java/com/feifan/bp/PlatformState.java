@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -163,6 +161,15 @@ public class PlatformState {
         mUnreadMap.put(key, value);
     }
 
+
+    /**
+     * 更新指定key项的未读状态
+     * @param key
+     * @param value
+     */
+    public int updateUnreadMessCount(int count) {
+       return count;
+    }
     /**
      * 更新Cookie
      * @param cookie

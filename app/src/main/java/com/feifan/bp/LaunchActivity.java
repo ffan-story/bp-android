@@ -22,13 +22,13 @@ import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.IndexFragment;
-import com.feifan.bp.home.MessageFragment;
 import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.home.SettingsFragment;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
+import com.feifan.bp.message.MessageFragment;
 import com.feifan.bp.password.ForgetPasswordFragment;
 import com.feifan.bp.marketinganalysis.MarketingHomeFragment;
 import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
@@ -50,11 +50,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
     private List<Fragment> mFragments = new ArrayList<>();
     private Fragment mCurrentFragment;
 
-    // badger
-    public static final String USER_TYPE = "1";
     public static final int MESSAGE_POSITION = 1;
-    private String storeId = "";
-    private String merchantId = "";
     private BadgerRadioButton mMessageTab;
 
     public static Intent buildIntent(Context context) {
@@ -67,7 +63,6 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-
         //统计埋点初始化
         FmsAgent.init(getApplicationContext(), EnvironmentManager.getHostFactory().getFFanApiPrefix() + "mxlog");
 
@@ -112,10 +107,8 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
     @Override
     protected void onResume() {
         super.onResume();
-
         // 用于检查更新后，清除登录信息的情况
         verifyContent();
-
 
         // 非登录状态，则获取未读提示状态
         if(!(mCurrentFragment instanceof LoginFragment)) {
@@ -230,14 +223,16 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
     }
 
+
     @Override
-    public void onStatusChanged(boolean flag) {
+    public void onStatusChanged(boolean flag, int count) {
         if (flag) {
-            mMessageTab.showBadger();
+            mMessageTab.showBadger(count);
         } else {
             mMessageTab.hideBadger();
         }
     }
+
 
     /**
      * 切换界面
@@ -245,6 +240,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
      * @param fragment
      */
     private void switchFragment(Fragment fragment) {
+
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.content_container, fragment);
@@ -294,19 +290,14 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
     // 更新未读提示
     private void refreshUnread() {
-        if (UserProfile.getInstance().isStoreUser()) {
-            storeId = UserProfile.getInstance().getAuthRangeId();
-        } else {
-            merchantId = UserProfile.getInstance().getAuthRangeId();
-        }
-        HomeCtrl.getUnReadtatus(merchantId, storeId, USER_TYPE, new Response.Listener<ReadMessageModel>() {
+        HomeCtrl.getUnReadtatus(new Response.Listener<ReadMessageModel>() {
             @Override
             public void onResponse(ReadMessageModel readMessageModel) {
                 int refundId = Integer.valueOf(EnvironmentManager.getAuthFactory().getRefundId());
                 PlatformState.getInstance().updateUnreadStatus(refundId, readMessageModel.refundCount > 0);
                 // 更新消息提示
                 if (readMessageModel.messageCount > 0) {
-                    mMessageTab.showBadger();
+                    mMessageTab.showBadger(readMessageModel.messageCount);
                 } else {
                     mMessageTab.hideBadger();
                 }
@@ -358,6 +349,5 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         }
         return super.onKeyDown(keyCode, event);
     }
-
 }
 

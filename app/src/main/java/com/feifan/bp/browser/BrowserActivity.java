@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
@@ -20,8 +21,6 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
-import com.feifan.bp.widget.FloatingActionButton;
-import com.feifan.bp.widget.ObservableScrollView;
 import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.croplib.Crop;
 import com.feifan.material.MaterialDialog;
@@ -35,7 +34,6 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
     public static final String EXTRA_KEY_URL = "url";
     public static final String EXTRA_KEY_STAFF_MANAGE = "staff";
 
-    private ObservableScrollView mScrollView;
     private FloatingActionButton fab;
     private SelectPopWindow mPopWindow;
     private View mShadowView;
@@ -163,7 +161,7 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
             @Override
             public void onDismiss() {
                 mShadowView.startAnimation(AnimationUtils.loadAnimation(BrowserActivity.this, R.anim.pop_bg_hide));
-                mShadowView.setVisibility(View.INVISIBLE);
+                mShadowView.setVisibility(View.GONE);
                 if (lastSelectPos != mPopWindow.getSelectPos()) {
                     lastSelectPos = mPopWindow.getSelectPos();
                     mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);

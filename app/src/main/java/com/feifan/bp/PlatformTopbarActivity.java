@@ -15,7 +15,6 @@ import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
 import com.feifan.bp.transactionflowing.TransFlowTabActivity;
-import com.feifan.bp.util.DialogUtil;
 
 
 /**
@@ -185,7 +184,7 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     }
 
     @Override
-    public void onStatusChanged(boolean flag) {
+    public void onStatusChanged(boolean flag,int count) {
 
     }
 

@@ -63,6 +63,8 @@
 
     <!-- Message(消息)－begin -->
     <string name="message_empty">暂无消息</string>
+    <string name="message_system">系统消息</string>
+    <string name="message_notice">通知公告</string>
     <!-- Message(消息)－end -->
 
 

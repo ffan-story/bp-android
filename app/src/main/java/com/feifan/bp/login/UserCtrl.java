@@ -6,14 +6,12 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.envir.EnvironmentManager;
-import com.feifan.bp.home.MessageModel;
 import com.feifan.bp.network.BaseModel;
-import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.PostRequest;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
-import com.feifan.bp.network.response.CookieErrorListener;
+
 import com.feifan.bp.network.response.ToastErrorListener;
 
 /**
@@ -58,8 +56,8 @@ public class UserCtrl {
      * @param listener 响应回调
      */
     public static void loginConfirm(String token,Listener<BaseModel> listener){
-        JsonRequest<BaseModel> request = new PostRequest<>(UrlFactory.getLoginConfirmUrl(),new DefaultErrorListener())
-                .param("token", token)
+        JsonRequest<BaseModel> request = new PostRequest<>(UrlFactory.getLoginConfirmUrl(),new ToastErrorListener())
+                .param("token",token)
                 .targetClass(BaseModel.class)
                 .listener(listener);
         PlatformState.getInstance().getRequestQueue().add(request);
@@ -77,6 +75,7 @@ public class UserCtrl {
                 .param("uid", String.valueOf(uId))
                 .param("nodeid", EnvironmentManager.getAuthFactory().getNodeId())
                 .param("appType", "bpMobile")
+                .errorListener(new ToastErrorListener())
                 .build()
                 .targetClass(AuthListModel.class)
                 .listener(listener);

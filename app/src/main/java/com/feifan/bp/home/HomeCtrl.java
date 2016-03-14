@@ -1,12 +1,13 @@
 package com.feifan.bp.home;
 
-
-
+import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.UserProfile;
+import com.feifan.bp.message.MessageStatusModel;
 import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
@@ -34,24 +35,6 @@ public class HomeCtrl {
     }
 
     /**
-     * 获取消息列表
-     * @param userId
-     * @param pageIndex
-     * @param listener
-     */
-    public static void messageList(String userId,  int pageIndex, Listener listener, ErrorListener errorListener) {
-        JsonRequest<MessageModel> request = new GetRequest.Builder<MessageModel>(UrlFactory.getMessgeList()).errorListener(errorListener)
-                .param("userId", userId)
-                .param("userType", "1")//固定传1
-                .param("pageIndex", Integer.toString(pageIndex))
-                .param("limit", Integer.toString(Constants.LIST_MAX_LENGTH))
-                .build()
-                .targetClass(MessageModel.class)
-                .listener(listener);
-        PlatformState.getInstance().getRequestQueue().add(request);
-    }
-
-    /**
      * 设置消息状态
      * @param userid
      * @param maillnboxid
@@ -67,19 +50,25 @@ public class HomeCtrl {
         PlatformState.getInstance().getRequestQueue().add(request);
     }
 
+    public static final String USER_TYPE = "1";
     /**
      * 获得未读提示状态，目前包括：退款售后，消息
-     *
-     * @param merchantId
-     * @param storeId
-     * @param userType
      * @param listener
      */
-    public static void getUnReadtatus(String merchantId, String storeId, String userType, Listener listener) {
+    public static void getUnReadtatus(Response.Listener listener) {
+        // 获取未读提示状态
+        String storeId = null;
+        String merchantId = null;
+        if (UserProfile.getInstance().isStoreUser()) {
+            storeId = UserProfile.getInstance().getAuthRangeId();
+        } else {
+            merchantId = UserProfile.getInstance().getAuthRangeId();
+        }
+
         JsonRequest<ReadMessageModel> request = new GetRequest.Builder<ReadMessageModel>(UrlFactory.getReadMessage())
                 .param("merchantId", merchantId)
                 .param("storeId", storeId)
-                .param("userType", userType)
+                .param("userType", USER_TYPE)
                 .build()
                 .targetClass(ReadMessageModel.class)
                 .listener(listener);

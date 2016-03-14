@@ -1,0 +1,182 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/ll_tab"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rel_mess_system"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_message_system"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:text="@string/message_system"
+                    android:textColor="@color/bg_color_blue"
+                    android:textSize="@dimen/font_size_16" />
+
+                <TextView
+                    android:id="@+id/tv_dot_system"
+                    android:layout_width="@dimen/view_spacing_15"
+                    android:layout_height="@dimen/view_spacing_15"
+                    android:layout_toRightOf="@id/tv_message_system"
+                    android:background="@drawable/bg_red_dot"
+                    android:gravity="center|center_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_12"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    android:layout_marginTop="@dimen/view_size_3"/>
+
+
+                <ImageView
+                    android:id="@+id/img_line_system"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/view_spacing_20"
+                    android:layout_marginRight="@dimen/view_spacing_20"
+                    android:background="@color/bg_color_blue"
+                    android:gravity="center" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_mess_notice"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_message_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:text="@string/message_notice"
+                    android:textColor="@color/bg_color_blue"
+                    android:textSize="@dimen/font_size_16" />
+
+                <TextView
+                    android:id="@+id/tv_dot_notice"
+                    android:layout_width="@dimen/view_spacing_15"
+                    android:layout_height="@dimen/view_spacing_15"
+                    android:layout_toRightOf="@id/tv_message_notice"
+                    android:background="@drawable/bg_red_dot"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_12"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    android:layout_marginTop="@dimen/view_size_3"/>
+
+                <ImageView
+                    android:id="@+id/img_line_notice"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/view_spacing_20"
+                    android:layout_marginRight="@dimen/view_spacing_20"
+                    android:background="@color/bg_color_blue"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dividerheight"
+            android:layout_alignParentBottom="true"
+            android:background="@color/divider" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dividerheight"
+        android:layout_below="@id/ll_tab"
+        android:background="@color/divider"
+        android:layout_marginTop="@dimen/view_spacing_5"/>
+
+    <bp.feifan.com.refresh.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rotate_header_list_view_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/line1"
+        android:background="@color/white"
+        cube_ptr:ptr_duration_to_close="200"
+        cube_ptr:ptr_duration_to_close_header="1000"
+        cube_ptr:ptr_keep_header_when_refresh="true"
+        cube_ptr:ptr_pull_to_fresh="false"
+        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+        cube_ptr:ptr_resistance="1.7"
+       >
+
+        <com.feifan.bp.widget.LoadingMoreListView
+            android:id="@+id/rotate_header_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice"
+            android:dividerHeight="0dp"
+            android:divider="@android:color/transparent"
+            android:fadingEdge="none"
+            android:listSelector="@android:color/transparent"
+            android:scrollbarStyle="outsideOverlay"
+            />
+    </bp.feifan.com.refresh.PtrClassicFrameLayout>
+
+
+    <bp.feifan.com.refresh.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ptr_empty"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/main_bg"
+        android:visibility="gone"
+        cube_ptr:ptr_duration_to_close="200"
+        cube_ptr:ptr_duration_to_close_header="1000"
+        cube_ptr:ptr_keep_header_when_refresh="true"
+        cube_ptr:ptr_pull_to_fresh="false"
+        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+        cube_ptr:ptr_resistance="1.7">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center|center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:drawablePadding="@dimen/view_spacing_5"
+                android:drawableTop="@mipmap/message_ic_empty"
+                android:gravity="center"
+                android:text="@string/message_empty" />
+        </LinearLayout>
+
+    </bp.feifan.com.refresh.PtrClassicFrameLayout>
+
+
+</RelativeLayout>

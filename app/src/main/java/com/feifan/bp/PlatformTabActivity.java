@@ -189,7 +189,7 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
     }
 
     @Override
-    public void onStatusChanged(boolean flag) {
+    public void onStatusChanged(boolean flag,int count) {
 
     }
 

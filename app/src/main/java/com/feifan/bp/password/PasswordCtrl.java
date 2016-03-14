@@ -9,7 +9,6 @@ import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.PostRequest;
 import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.util.LogUtil;
 
 public class PasswordCtrl {
 

@@ -45,5 +45,13 @@ public interface OnFragmentInteractionListener {
      * 重载该方法，可以相应状态变更事件
      * @param flag
      */
-    void onStatusChanged(boolean flag);
+    //void onStatusChanged(boolean flag);
+
+    /**
+     * 重载该方法，可以相应状态变更事件
+     * @param flag
+     * @param count  数量
+     */
+    void onStatusChanged(boolean flag,int count);
 }
+
