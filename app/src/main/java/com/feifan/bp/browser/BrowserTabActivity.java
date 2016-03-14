@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -14,6 +15,8 @@ import android.webkit.WebView;
 import android.widget.PopupWindow;
 
 import com.feifan.bp.Constants;
+import com.feifan.bp.LaunchActivity;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
@@ -22,7 +25,7 @@ import com.feifan.bp.widget.FloatingActionButton;
 import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.material.MaterialDialog;
 
-public class BrowserTabActivity extends BaseActivity implements BrowserFragment.OnBrowserListener{
+public class BrowserTabActivity extends BaseActivity implements BrowserFragment.OnBrowserListener {
 
     private static final String TAG = BrowserTabActivity.class.getSimpleName();
 
@@ -38,7 +41,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     private BrowserTabPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
-    private String mContextTitle ="";
+    private String mContextTitle = "";
 
     // tabs
     private TabLayout tabLayout;
@@ -69,14 +72,13 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
      * @param Status
      * @param titles
      */
-    public static void startActivity(Context context,String url,String[] Status, String[] titles) {
+    public static void startActivity(Context context, String url, String[] Status, String[] titles) {
         Intent i = new Intent(context, BrowserTabActivity.class);
         i.putExtra(EXTRA_KEY_URL, url);
         i.putExtra(EXTRA_KEY_STATUS, Status);
         i.putExtra(EXTRA_KEY_TITLES, titles);
         context.startActivity(i);
     }
-
 
 
     /**
@@ -86,7 +88,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
      * @param titles
      * @param contextTitle
      */
-    public static void startActivity(Context context,String url,String[] Status, String[] titles,String contextTitle) {
+    public static void startActivity(Context context, String url, String[] Status, String[] titles, String contextTitle) {
         Intent i = new Intent(context, BrowserTabActivity.class);
         i.putExtra(EXTRA_KEY_URL, url);
         i.putExtra(EXTRA_KEY_STATUS, Status);
@@ -95,7 +97,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         context.startActivity(i);
     }
 
-    public static void startActivity(Context context,String url,String[] Status, String[] titles,Boolean force) {
+    public static void startActivity(Context context, String url, String[] Status, String[] titles, Boolean force) {
         Intent i = new Intent(context, BrowserTabActivity.class);
         i.putExtra(EXTRA_KEY_URL, url);
         i.putExtra(EXTRA_KEY_STATUS, Status);
@@ -113,14 +115,14 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         initData();
 
         // FIXME 增加强制刷新界面功能
-        if(mForce) {
+        if (mForce) {
             tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     super.onTabSelected(tab);
                     Fragment current = pagerAdapter.getItem(tab.getPosition());
-                    if(current instanceof OnActionListener) {
-                        ((OnActionListener)current).onReload();
+                    if (current instanceof OnActionListener) {
+                        ((OnActionListener) current).onReload();
                     }
                 }
             });
@@ -136,25 +138,25 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     /**
      * 加载数据
      */
-    private void initData(){
+    private void initData() {
         mShowFab = UserProfile.getInstance().getAuthRangeType().equals("merchant");
         mUrl = getIntent().getStringExtra(EXTRA_KEY_URL);
         arryStatus = getIntent().getStringArrayExtra(EXTRA_KEY_STATUS);
         tabTitles = getIntent().getStringArrayExtra(EXTRA_KEY_TITLES);
-        mContextTitle= getIntent().getStringExtra(EXTRA_KEY_CONTEXT_TITLE);
+        mContextTitle = getIntent().getStringExtra(EXTRA_KEY_CONTEXT_TITLE);
         mForce = getIntent().getBooleanExtra(EXTRA_KEY_FORCE, false);
         //arryTabItem = new BrowserTabItem[tabLayout.getTabCount()];
 
-        if(null!=tabTitles && tabTitles.length>4){
+        if (null != tabTitles && tabTitles.length > 4) {
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        } else{
+        } else {
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
         }
 
-        if(mShowFab){
+        if (mShowFab) {
             mStoreId = UserProfile.getInstance().getStoreId(lastSelectPos);
-            sUrl = addStoreId(mUrl,mStoreId);
-        }else{
+            sUrl = addStoreId(mUrl, mStoreId);
+        } else {
             sUrl = mUrl;
         }
         loadWeb(sUrl);
@@ -173,7 +175,7 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         });
     }
 
-    public void refreshViewPage(){
+    public void refreshViewPage() {
         pagerAdapter.refreshViewPage();
     }
 
@@ -190,8 +192,8 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
                 });
     }
 
-    private void loadWeb(String url){
-        pagerAdapter = new BrowserTabPagerAdapter(getSupportFragmentManager(),tabTitles,url,arryStatus,mContextTitle);
+    private void loadWeb(String url) {
+        pagerAdapter = new BrowserTabPagerAdapter(getSupportFragmentManager(), tabTitles, url, arryStatus, mContextTitle);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(1);
         tabLayout.setupWithViewPager(viewPager);
@@ -220,9 +222,9 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
         });
     }
 
-    private String addStoreId(String url,String storeId){
+    private String addStoreId(String url, String storeId) {
         String[] urls = url.split("\\?");
-        return urls[0]+"?storeId="+storeId+"&"+urls[1];
+        return urls[0] + "?storeId=" + storeId + "&" + urls[1];
     }
 
     @Override
@@ -233,18 +235,18 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     @Override
     public void OnTitleReceived(String title) {
         LogUtil.i(TAG, "Change title to " + title);
-        if((title.equals(getString(R.string.index_history_text))||
-                title.equals(getString(R.string.index_order_text))||
-                title.equals(getString(R.string.browser_staff_list)))&&mShowFab){
+        if ((title.equals(getString(R.string.index_history_text)) ||
+                title.equals(getString(R.string.index_order_text)) ||
+                title.equals(getString(R.string.browser_staff_list))) && mShowFab) {
             fab.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             fab.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void OnErrorReceived(String msg, final WebView web, final String url) {
-        if(isShowDlg && !isFinishing() ) {
+        if (isShowDlg && !isFinishing()) {
             mDialog.setMessage(msg)
                     .setPositiveButton(R.string.common_retry_text, new View.OnClickListener() {
                         @Override
@@ -261,9 +263,29 @@ public class BrowserTabActivity extends BaseActivity implements BrowserFragment.
     }
 
     @Override
+    public void OnInvalidReceived(String msg, final WebView web, final String url) {
+        if (isShowDlg && !isFinishing()) {
+            mDialog.setMessage(msg)
+                    .setPositiveButton(R.string.common_confirm, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                            isShowDlg = true;
+                            UserProfile.getInstance().clear();
+                            PlatformState.getInstance().reset();
+                            startActivity(LaunchActivity.buildIntent(BrowserTabActivity.this));
+                        }
+                    })
+                    .show();
+
+            isShowDlg = false;
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == Constants.REQUEST_CODE) {
+        if (requestCode == Constants.REQUEST_CODE) {
             switch (resultCode) {
                 case RESULT_OK:
                     tabLayout.getTabAt(DEFAULT_PAGE_INDEX).select();

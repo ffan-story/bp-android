@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/marketing_swipe"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_color_gray_f3">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <include layout="@layout/segmented_group"
+                android:id="@+id/segmentedGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/total_coupons_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/segmentedGroup">
+
+                <TextView
+                    android:id="@+id/chargeoff_total_count"
+                    style="@style/txt_color33_size16"
+                    android:layout_width="match_parent"
+                    android:background="@color/bg_color_gray_f3"
+                    android:padding="@dimen/view_spacing_15"
+                    android:text="券核销总笔数 : --"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dividerheight"
+                    android:layout_below="@id/chargeoff_total_count"
+                    android:background="@color/divider"/>
+
+                <RelativeLayout
+                    android:id="@+id/red_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/chargeoff_total_count"
+                    android:padding="@dimen/view_spacing_15"
+                    android:layout_marginLeft="@dimen/view_spacing_5"
+                    android:layout_marginTop="@dimen/view_spacing_1"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:id="@+id/red_tv"
+                        style="@style/txt_color33_size14"
+                        android:drawableLeft="@mipmap/marketing_redenvelope"
+                        android:drawablePadding="@dimen/view_spacing_15"
+                        android:layout_centerVertical="true"
+                        android:text="@string/anal_red_pack"/>
+
+                    <TextView
+                        android:id="@+id/red_charge_count"
+                        style="@style/txt_color99_size12"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/view_spacing_20"
+                        android:text="核销笔数 : --"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/marketing_arrow"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_size_0.5"
+                    android:layout_below="@id/red_container"
+                    android:layout_marginLeft="@dimen/view_spacing_60"
+                    android:background="@color/divider"/>
+
+                <RelativeLayout
+                    android:id="@+id/shake_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_spacing_1"
+                    android:layout_below="@id/red_container"
+                    android:layout_marginLeft="@dimen/view_spacing_5"
+                    android:padding="@dimen/view_spacing_15"
+                    android:background="@color/white">
+
+                    <TextView
+                        style="@style/txt_color33_size14"
+                        android:drawableLeft="@mipmap/marketing_shake"
+                        android:drawablePadding="@dimen/view_spacing_15"
+                        android:layout_centerVertical="true"
+                        android:text="@string/anal_remote"/>
+
+                    <TextView
+                        android:id="@+id/shake_charge_count"
+                        style="@style/txt_color99_size12"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/view_spacing_20"
+                        android:text="核销笔数 : --"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/marketing_arrow"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_size_0.5"
+                    android:layout_marginLeft="@dimen/view_spacing_60"
+                    android:layout_below="@id/shake_container"
+                    android:background="@color/divider"/>
+
+                <RelativeLayout
+                    android:id="@+id/general_coupons_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/shake_container"
+                    android:padding="@dimen/view_spacing_15"
+                    android:layout_marginLeft="@dimen/view_spacing_5"
+                    android:layout_marginTop="@dimen/view_spacing_1"
+                    android:background="@color/white">
+
+                    <TextView
+                        style="@style/txt_color33_size14"
+                        android:drawableLeft="@mipmap/marketing_general_coupons"
+                        android:drawablePadding="@dimen/view_spacing_15"
+                        android:layout_centerVertical="true"
+                        android:text="@string/anal_general_coupons"/>
+
+                    <TextView
+                        android:id="@+id/coupons_charge_count"
+                        style="@style/txt_color99_size12"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/view_spacing_20"
+                        android:text="核销笔数 : --"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/marketing_arrow"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_size_0.5"
+                    android:layout_marginLeft="@dimen/view_spacing_60"
+                    android:layout_below="@id/general_coupons_container"
+                    android:background="@color/divider"/>
+
+                <RelativeLayout
+                    android:id="@+id/coupons_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/view_spacing_15"
+                    android:layout_marginLeft="@dimen/view_spacing_5"
+                    android:layout_below="@id/general_coupons_container"
+                    android:layout_marginTop="@dimen/view_spacing_1"
+                    android:background="@color/white">
+
+                    <TextView
+                        style="@style/txt_color33_size14"
+                        android:drawableLeft="@mipmap/marketing_coupons"
+                        android:drawablePadding="@dimen/view_spacing_15"
+                        android:layout_centerVertical="true"
+                        android:text="@string/anal_coupons"/>
+
+                    <TextView
+                        android:id="@+id/general_coupons_charge_count"
+                        style="@style/txt_color99_size12"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/view_spacing_20"
+                        android:text="核销笔数 : --"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/marketing_arrow"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dividerheight"
+                    android:layout_below="@id/coupons_container"
+                    android:background="@color/divider"/>
+
+            </RelativeLayout>
+
+            <include layout="@layout/fragment_marketing_no_net"
+                     android:id="@+id/home_no_net"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                android:layout_below="@id/total_coupons_container"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</android.support.v4.widget.SwipeRefreshLayout>

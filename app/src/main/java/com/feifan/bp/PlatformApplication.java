@@ -1,17 +1,14 @@
 package com.feifan.bp;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.Application;
-import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
+import android.os.Bundle;
 import android.webkit.WebView;
 
+import com.bp.crash.BPCrashConfig;
 import com.feifan.bp.network.JsonRequest;
-import com.feifan.statlib.FmsConstants;
-
-import java.util.List;
+import com.wanda.crashsdk.pub.FeifanCrashManager;
 
 /**
  * Created by xuchunlei on 15/6/17.
@@ -41,8 +38,61 @@ public class PlatformApplication extends Application {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
+        startCrashManager();
+
+        // 更新当前显示的Activity
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+                PlatformState.getInstance().setCurrentActivity(activity);
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+        });
     }
 
+
+    private void startCrashManager() {
+        try {
+            BPCrashConfig crashConfig = new BPCrashConfig();
+            final UserProfile profile = UserProfile.getInstance();
+            if(profile != null && profile.getUid() != 0) {
+                crashConfig.setUid(String.valueOf(profile.getUid()));
+            }
+            FeifanCrashManager.getInstance().init(getApplicationContext(), crashConfig);
+            FeifanCrashManager.getInstance().start();
+        } catch (com.wanda.crashsdk.exception.IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void onTerminate() {
         super.onTerminate();

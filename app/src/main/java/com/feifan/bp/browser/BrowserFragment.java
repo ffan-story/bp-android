@@ -104,7 +104,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     public Dialog phoneDialog;
     public DialogPhoneLayout dialogPhoneLayout;
     public String imgPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/feifandp/img.jpg";
-
     /**
      * 防止webview action 连续点击，页面重复
      */
@@ -140,6 +139,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
          * @param msg 错误消息
          */
         void OnErrorReceived(String msg, WebView web, String url);
+
+        /**
+         * cookie失效,需要重新登录
+         *
+         * @param msg 错误消息
+         */
+        void OnInvalidReceived(String msg,WebView web, String url);
     }
 
     public static BrowserFragment newInstance() {
@@ -442,6 +448,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 }
             }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
                 mListener.OnErrorReceived(uri.getAuthority(), mWebView, mUrl);
+            }else if(schema.equals(Constants.URL_SCHEME_LOGIN_INVALID)){ //登录失效
+                mListener.OnInvalidReceived(uri.getAuthority(),mWebView, mUrl);
             }
             return true;
         }
@@ -584,7 +592,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                             mWebView.loadUrl("javascript:imageCallback('" + name + "')");
                         } else {
                             Utils.showShortToast(getActivity(),
-                                    R.string.error_message_upload_picture_fail, Gravity.CENTER);
+                                    R.string.error_message_upload_picture_fail);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -597,14 +605,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                                       byte[] responseBody, Throwable error) {
                     hideProgressBar();
                     Utils.showShortToast(getActivity(),
-                            R.string.error_message_upload_picture_fail, Gravity.CENTER);
+                            R.string.error_message_upload_picture_fail);
                     IOUtil.closeQuietly(in);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
             Utils.showShortToast(getActivity(),
-                    R.string.error_message_upload_picture_fail, Gravity.CENTER);
+                    R.string.error_message_upload_picture_fail);
             IOUtil.closeQuietly(in);
         }
     }
@@ -651,7 +659,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     phoneDialog.dismiss();
                 }
                 if (!Utils.isHasSdCard()) {
-                    Utils.showShortToast(getActivity(), R.string.sd_card_exist, Gravity.CENTER);
+                    Utils.showShortToast(getActivity(), R.string.sd_card_exist);
                 } else {
                     Crop.cameraImage(getActivity(), imgPath);
                 }

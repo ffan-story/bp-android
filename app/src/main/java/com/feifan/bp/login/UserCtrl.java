@@ -1,16 +1,20 @@
 package com.feifan.bp.login;
 
-import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.Response.ErrorListener;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.envir.EnvironmentManager;
+import com.feifan.bp.home.MessageModel;
+import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.network.DefaultErrorListener;
+import com.feifan.bp.network.PostRequest;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
-import com.feifan.bp.network.PostRequest;
+import com.feifan.bp.network.response.CookieErrorListener;
+import com.feifan.bp.network.response.ToastErrorListener;
 
 /**
  * Created by xuchunlei on 15/6/17.
@@ -49,6 +53,19 @@ public class UserCtrl {
     }
 
     /**
+     * xadmin 登录验证
+     * @param token    登录token
+     * @param listener 响应回调
+     */
+    public static void loginConfirm(String token,Listener<BaseModel> listener){
+        JsonRequest<BaseModel> request = new PostRequest<>(UrlFactory.getLoginConfirmUrl(),new DefaultErrorListener())
+                .param("token", token)
+                .targetClass(BaseModel.class)
+                .listener(listener);
+        PlatformState.getInstance().getRequestQueue().add(request);
+    }
+
+    /**
      * 检查权限
      * @param uId
      * @param listener
@@ -66,4 +83,15 @@ public class UserCtrl {
         PlatformState.getInstance().getRequestQueue().add(request);
     }
 
+    /**
+     * xadmin登出请求
+     */
+    public static  void  logout(Listener<BaseModel> listener){
+        JsonRequest<BaseModel> request = new GetRequest.Builder<>(UrlFactory.getLogoutUrl())
+                .errorListener(new ToastErrorListener())
+                .build()
+                .targetClass(BaseModel.class)
+                .listener(listener);
+        PlatformState.getInstance().getRequestQueue().add(request);
+    }
 }

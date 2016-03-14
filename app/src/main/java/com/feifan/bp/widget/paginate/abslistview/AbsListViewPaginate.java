@@ -60,6 +60,8 @@ public final class AbsListViewPaginate extends Paginate implements EndScrollList
     public void onEndReached() {
         if (!callbacks.isLoading() && !callbacks.hasLoadedAllItems()) {
             callbacks.onLoadMore();
+        }else if(!callbacks.isLoading()){
+            callbacks.hasLoadMore();
         }
     }
 

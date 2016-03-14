@@ -48,3 +48,9 @@
 -printusage unused.txt
 #混淆前后的映射
 -printmapping mapping.txt
+
+# ProGuard configurations for NetworkBench Lens
+-keep class com.networkbench.** { *; }
+-dontwarn com.networkbench.**
+-keepattributes Exceptions, Signature, InnerClasses
+# End NetworkBench Lens

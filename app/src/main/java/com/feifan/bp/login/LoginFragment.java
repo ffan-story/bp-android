@@ -1,8 +1,6 @@
 package com.feifan.bp.login;
 
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -12,19 +10,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.network.BaseModel;
 import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.password.ForgetPasswordFragment;
+import com.feifan.bp.util.LogUtil;
+import com.loopj.android.http.PersistentCookieStore;
+import org.apache.http.cookie.Cookie;
+
+import java.util.List;
 
 /**
  * 登录界面Fragment
@@ -63,6 +67,7 @@ public class LoginFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
         final EditText account = (EditText) v.findViewById(R.id.login_account);
+        account.setText(PlatformState.getInstance().getCurrentPhone());
         final EditText password = (EditText) v.findViewById(R.id.login_password);
         v.findViewById(R.id.login_forget_password).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +96,8 @@ public class LoginFragment extends BaseFragment {
                 }
                 String accountStr = account.getText().toString();
                 String passwordStr = password.getText().toString();
-
+                PlatformState.getInstance().setCurrentPhone(accountStr);
+                
                 try {
                     Utils.checkPhoneNumber(getActivity(), accountStr);
                     showProgressBar(true);
@@ -105,12 +111,14 @@ public class LoginFragment extends BaseFragment {
                             profile.setAuthRangeId(userModel.authRangeId);
                             profile.setAuthRangeType(userModel.authRangeType);
                             profile.setAgId(userModel.agId);
+                            profile.setToken(userModel.token);
                             profile.setLoginToken(userModel.loginToken);
                             profile.setMerchantId(userModel.merchantId);
                             profile.setPlazaId(userModel.plazaId);
+//                            profile.setCookie(userModel.cookie);
                             JsonRequest.updateRedundantParams(profile);
                             Statistics.updateClientData(profile);
-
+                            loginConfirm(userModel.token);
                             UserCtrl.checkPermissions(userModel.uid, new Listener<AuthListModel>() {
                                 @Override
                                 public void onResponse(AuthListModel authListModel) {
@@ -124,7 +132,7 @@ public class LoginFragment extends BaseFragment {
                                 }
                             });
                         }
-                    }, new DefaultErrorListener(){
+                    }, new DefaultErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
                             hideProgressBar();
@@ -139,6 +147,15 @@ public class LoginFragment extends BaseFragment {
             }
         });
         return v;
+    }
+
+    private void loginConfirm(String token){
+        UserCtrl.loginConfirm(token, new Listener<BaseModel>() {
+            @Override
+            public void onResponse(BaseModel model) {
+
+            }
+        });
     }
 
     @Override

@@ -1,24 +1,14 @@
 package com.feifan.bp.home.code;
 
 
-import java.io.IOException;
-import java.net.SocketException;
-import java.util.List;
-
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.feifan.bp.R;
-import com.feifan.bp.base.ProgressFragment;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.internal.widget.ViewStubCompat;
-
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.View.OnClickListener;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -28,14 +18,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.feifan.bp.PlatformTopbarActivity;
-
+import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
+import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.network.response.DialogErrorListener;
 import com.feifan.material.MaterialDialog;
+import com.feifan.statlib.FmsAgent;
 
 import org.json.JSONException;
+
+import java.io.IOException;
+import java.net.SocketException;
+import java.util.List;
 
 
 /**
@@ -168,17 +168,14 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
 
                         }
 
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            setContentShown(true);
-
-                            if (isShowDlg && isAdded()) {
-                                showError(volleyError);
+                    }, new DialogErrorListener(){
+                                @Override
+                                protected void preDisposeError() {
+                                    super.preDisposeError();
+                                    setContentShown(true);
+                                }
                             }
-                        }
-
-                    });
+                    );
                 } else {
                     if (isShowDlg && isAdded()) {
                         mDialog.setMessage(getResources().getString(R.string.error_message_text_offline))
@@ -202,14 +199,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
                                 setContentShown(true);
                             }
                         }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            if (isShowDlg && isAdded()) {
-                                showError(volleyError);
-                            }
-                        }
-                    });
+                    }, new DialogErrorListener());
                 }
             }
         }
@@ -304,12 +294,16 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
                 if(isWhite) {
                     noticeDlg.setMessage(notice).show();
                 }else{
+                    //统计埋点  确认核销
+                    FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_VERIFY_VERIFY);
                     btn_code_use.setEnabled(false);
                     checkGoodsCode(code, orderNo);
                 }
                 break;
 
             case R.id.btn_ticket_code_use://券码
+                //统计埋点  确认核销
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_VERIFY_VERIFY);
                 btn_code_use.setEnabled(false);
                 checkCouponCode(code, memberId);
                 break;
@@ -323,36 +317,44 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
      * @param memberId
      */
     private void checkCouponCode(String code, String memberId) {
-
         startWaiting();
         CodeCtrl.checkCouponCode(code, memberId, new Response.Listener() {
-            @Override
-            public void onResponse(Object o) {
-                if (isAdded()) {
-                    tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_already));
-                    btn_code_use.setVisibility(View.GONE);
-                    stopWaiting();
-                    Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (null != getActivity()) {
-                                getActivity().finish();
-                            }
+                    @Override
+                    public void onResponse(Object o) {
+                        if (isAdded()) {
+                            tv_ticket_code_status.setText(getResources().getString(R.string.chargeoff_already));
+                            btn_code_use.setVisibility(View.GONE);
+                            stopWaiting();
+                            Utils.showShortToast(getActivity().getApplicationContext(), R.string.check_success);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (null != getActivity()) {
+                                        getActivity().finish();
+                                    }
+                                }
+                            }, 1000);
                         }
-                    }, 1000);
+                    }
+                }, new DialogErrorListener() {
+                    @Override
+                    protected void preDisposeError() {
+                        super.preDisposeError();
+                        btn_code_use.setVisibility(View.GONE);
+                        stopWaiting();
+                    }
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                btn_code_use.setVisibility(View.GONE);
-                stopWaiting();
-                if (isShowDlg && isAdded()) {
-                    showError(volleyError);
-                }
-            }
-        });
+//                new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError volleyError) {
+//                btn_code_use.setVisibility(View.GONE);
+//                stopWaiting();
+//                if (isShowDlg && isAdded()) {
+//                    showError(volleyError);
+//                }
+//            }
+//        }
+        );
     }
 
     /**
@@ -381,16 +383,25 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
                     }, 1000);
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                btn_code_use.setVisibility(View.GONE);
-                stopWaiting();
-                if (isShowDlg && isAdded()) {
-                    showError(volleyError);
+        }, new DialogErrorListener(){
+                    @Override
+                    protected void preDisposeError() {
+                        super.preDisposeError();
+                        btn_code_use.setVisibility(View.GONE);
+                        stopWaiting();
+                    }
                 }
-            }
-        });
+//                new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError volleyError) {
+//                btn_code_use.setVisibility(View.GONE);
+//                stopWaiting();
+//                if (isShowDlg && isAdded()) {
+//                    showError(volleyError);
+//                }
+//            }
+//        }
+        );
 
     }
 

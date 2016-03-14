@@ -2,7 +2,7 @@ package com.feifan.bp.envir;
 
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.envir.HostSupplier.SitHostFactory;
-import com.feifan.bp.envir.HostSupplier.ProductPreFactory;
+import com.feifan.bp.envir.HostSupplier.TestHostFactory;
 import com.feifan.bp.envir.HostSupplier.ProductFactory;
 import com.feifan.bp.envir.HostSupplier.IHostFactory;
 import com.feifan.bp.envir.AuthSupplier.IAuthFactory;
@@ -19,6 +19,10 @@ public class EnvironmentManager {
 
     static {
         switch (BuildConfig.CURRENT_ENVIRONMENT){
+            case TEST:
+                sHostFactory = new TestHostFactory();
+                sAuthFactory = new SitAuthFactory();
+                break;
             case SIT:
                 sHostFactory = new SitHostFactory();
                 sAuthFactory = new SitAuthFactory();

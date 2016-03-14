@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_color_gray_f3">
+
+    <TextView
+        android:id="@+id/tv_no_net"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/view_spacing_100"
+        android:drawablePadding="@dimen/view_spacing_30"
+        android:drawableTop="@mipmap/marketing_no_data"
+        android:textColor="@color/marketing_no_net"
+        android:textSize="@dimen/font_size_14"
+        android:text="@string/anal_charge_no_data"/>
+
+</RelativeLayout>

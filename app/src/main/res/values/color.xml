@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 分隔线颜色 -->
-    <color name="divider">#d8d8d8</color>
+    <color name="divider">#e3e3f0</color>
+    <color name="divider_deep_gray">#585858</color>
 
     <!-- 标题栏 -->
     <color name="title_background">#4c85c2</color>
@@ -16,6 +17,7 @@
     <color name="font_color_red">#e13e31</color>
     <color name="font_color_blue_add">#1BB0ED</color>
     <color name="transcation_flow_money">#E11212</color>
+    <color name="marketing_no_net">#9C9FA6</color>
 
 
     <!-- 背景 -->
@@ -59,11 +61,15 @@
 
     <color name="bg_defult_gray">#FAFAFA</color>
     <color name="bg_text_gray">#EFEFEF</color>
+    <color name="bg_gray_f9f9fc">#F9F9FC</color>
 
     <color name="pinkred">#F93578</color>
     <color name="orange">#F97A35</color>
     <color name="dark_orange">#FF5A00</color>
     <!--描边-->
     <color name="color_bf">#BFBFBF</color>
+    <color name="color_c2c3c8">#C2C3C8</color>
+
+    <color name="xf">#000000</color>
 
 </resources>

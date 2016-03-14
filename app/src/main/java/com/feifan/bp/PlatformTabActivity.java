@@ -200,6 +200,11 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
     public void OnErrorReceived(String msg, WebView web, String url) {
     }
 
+    @Override
+    public void OnInvalidReceived(String msg, WebView web, String url) {
+
+    }
+
     /**
      * 参数构建器，用来传递初始化需要的fragments及其参数，调用方式如下：
      * <p/>

@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.Result;
 
 import java.util.Collection;
 
@@ -45,7 +44,7 @@ public final class CaptureActivityHandler extends Handler {
       CameraManager cameraManager) {
     this.fragment = fragment;
     decodeThread = new DecodeThread(fragment, decodeFormats, characterSet,
-        new ViewfinderResultPointCallback(fragment.getViewfinderView()));
+        new ViewfinderResultPointCallback(null));
     decodeThread.start();
     state = State.SUCCESS;
 
@@ -68,7 +67,7 @@ public final class CaptureActivityHandler extends Handler {
         Bundle bundle = message.getData();
         Bitmap barcode = bundle == null ? null : (Bitmap) bundle
             .getParcelable(DecodeThread.BARCODE_BITMAP);
-        fragment.handleDecode((Result) message.obj, barcode);
+//        fragment.handleDecode((Result) message.obj, barcode);
         break;
       case Contents.Message.DECODE_FAILED:
         // We're decoding as fast as possible, so when one decode fails,
@@ -120,7 +119,7 @@ public final class CaptureActivityHandler extends Handler {
       state = State.PREVIEW;
       cameraManager.requestPreviewFrame(decodeThread.getHandler(),
           Contents.Message.DECODE);
-      fragment.drawViewfinder();
+//      fragment.drawViewfinder();
     }
   }
 

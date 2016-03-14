@@ -43,10 +43,17 @@ public class Constants {
     public static final String URL_SCHEME_PLATFORM_CLOSE = "close";
     public static final String URL_SCHEME_ACTION = "action";
     public static final String URL_SCHEME_ERROR = "error";
+    public static final String URL_SCHEME_LOGIN_INVALID = "login";
+
+    //Cookie key
+    public static final String COOKIE_KEY = "Cookie";
+    public static final String COOKIE_VALUE = "MAPPUIF";
+    public static final String COOKIE_RESPONSE_KEY = "Set-Cookie";
 
     public enum Environment {
-        SIT,              // Api集成环境
-        PRODUCT_PRE,      // 预生产环境
+        TEST,             // RD联调环境
+        SIT,              // QA测试环境
+        PRODUCT_PRE,      // 灰度测试环境
         PRODUCT,          // 生产环境
     }
 
@@ -87,4 +94,8 @@ public class Constants {
      */
     public  static final String MARKETING_HIDE_OTHER_SUBSIDY = "1";
 
+    /**
+     * 标题显示的最大长度
+     */
+    public static final int TITLE_LIMIT_MAX = 15;
 }

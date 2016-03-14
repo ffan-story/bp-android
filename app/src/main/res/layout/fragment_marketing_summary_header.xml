@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color_gray_f3">
+
+    <LinearLayout
+        android:id="@+id/summary_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/summary_total_title"
+            style="@style/txt_color33_size16"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:padding="@dimen/view_spacing_10"
+            android:text="@string/anal_charge_summary_total_title" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dividerheight"
+            android:background="@color/divider"
+            android:clickable="false"
+            android:focusable="false" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_size_75"
+            android:background="@color/white"
+            android:layout_gravity="center"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/marketing_charge_off_total"
+                style="@style/txt_color33_size18"
+                android:layout_marginLeft="@dimen/view_spacing_10"
+                android:lineSpacingExtra="@dimen/view_size_5"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/line1"
+                android:layout_width="@dimen/dividerheight"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/view_size_5"
+                android:background="@color/divider" />
+
+            <TextView
+                android:id="@+id/marketing_feifan_subsidy"
+                style="@style/txt_color33_size18"
+                android:layout_marginLeft="@dimen/view_spacing_10"
+                android:layout_toRightOf="@id/line1"
+                android:lineSpacingExtra="@dimen/view_size_5"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dividerheight"
+            android:background="@color/divider"
+            android:clickable="false"
+            android:focusable="false" />
+
+        <RelativeLayout
+            android:id="@+id/subsidy_third_merchant_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_size_75"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/marketing_third_subsidy"
+                style="@style/txt_color33_size18"
+                android:layout_marginLeft="@dimen/view_spacing_10"
+                android:lineSpacingExtra="@dimen/view_size_5"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/line"
+                android:layout_width="@dimen/dividerheight"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/view_size_5"
+                android:background="@color/divider"
+                android:clickable="false"
+                android:focusable="false" />
+
+            <TextView
+                android:id="@+id/marketing_merchant_subsidy"
+                style="@style/txt_color33_size18"
+                android:layout_marginLeft="@dimen/view_spacing_10"
+                android:layout_toRightOf="@id/line"
+                android:lineSpacingExtra="@dimen/view_size_5"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dividerheight"
+            android:background="@color/divider"
+            android:clickable="false"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/marketing_summary_title"
+            style="@style/txt_color33_size16"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/view_spacing_15"
+            android:padding="@dimen/view_spacing_10"
+            android:text="券分类汇总" />
+
+        <include layout="@layout/fragment_marketing_no_data"
+                 android:id="@+id/summary_no_data"/>
+
+    </LinearLayout>
+
+    <include layout="@layout/fragment_marketing_no_net"
+        android:id="@+id/summary_no_net"/>
+
+
+</RelativeLayout>

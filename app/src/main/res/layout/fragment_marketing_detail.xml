@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color_gray_f3">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/view_size_50"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/view_spacing_10"
+        android:orientation="vertical"
+        android:paddingRight="@dimen/view_spacing_10">
+
+        <TextView
+            android:id="@+id/detail_total_count"
+            style="@style/txt_color33_size12"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="--" />
+
+        <TextView
+            style="@style/txt_color99_size12"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/anal_charge_off_count" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/view_size_50"
+        android:layout_toLeftOf="@id/ll"
+        android:layout_marginTop="@dimen/view_spacing_10"
+        android:background="@mipmap/newbg_white" />
+
+    <TextView
+        android:id="@+id/detail_title"
+        style="@style/txt_color33_size16"
+        android:layout_height="@dimen/view_size_50"
+        android:layout_width="match_parent"
+        android:layout_toLeftOf="@id/img"
+        android:layout_marginTop="@dimen/view_spacing_10"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:background="@color/white"
+        android:padding="@dimen/view_spacing_10"
+        android:text="券名称" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_marketing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detail_title">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/view_spacing_10"
+            android:divider="@null"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

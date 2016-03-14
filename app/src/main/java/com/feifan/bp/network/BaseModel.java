@@ -57,7 +57,7 @@ public class BaseModel {
             } catch (JSONException e) {
                 LogUtil.w(TAG, e.getMessage());
             }
-        } else {          // 错误
+        }else {          // 错误
             if(TextUtils.isEmpty(msg)) {       // 未知错误
                 msg = Utils.getString(R.string.error_message_unknown);
             }

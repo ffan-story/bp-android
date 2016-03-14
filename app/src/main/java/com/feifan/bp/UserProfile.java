@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.JsonReader;
+import android.util.Log;
 
 import com.feifan.bp.home.StoreModel;
 import com.feifan.bp.login.AuthListModel.AuthItem;
@@ -38,8 +39,10 @@ public class UserProfile {
     private static final String PREFERENCE_KEY_AUTH_RANGE_TYPE = "authRangeType";
     // 偏好项键值－权限组ID
     private static final String PREFERENCE_KEY_AGID = "agId";
-    // 偏好项键值－访问token
+    // 偏好项键值－登录token
     private static final String PREFERENCE_KEY_LOGIN_TOKEN = "loginToken";
+    // 偏好项键值－访问token
+    private static final String PREFERENCE_KEY_TOKEN = "token";
     // 偏好项键值－权限菜单
     private static final String PREFERENCE_KEY_USER_AUTH = "permission";
     // 偏好项键值－城市ID
@@ -177,6 +180,14 @@ public class UserProfile {
 
     public String getLoginToken() {
         return getString(PREFERENCE_KEY_LOGIN_TOKEN);
+    }
+
+    public void setToken(String token) {
+        putString(PREFERENCE_KEY_TOKEN, token);
+    }
+
+    public String getToken() {
+        return getString(PREFERENCE_KEY_TOKEN);
     }
 
     public void setHistoryUrl(String url) {

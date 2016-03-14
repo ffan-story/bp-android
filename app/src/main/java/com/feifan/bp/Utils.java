@@ -1,18 +1,18 @@
 package com.feifan.bp;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
+import android.text.TextUtils;
+
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.feifan.bp.util.LogUtil;
@@ -30,6 +30,7 @@ public class Utils {
 
     private static final String TAG = "Utils";
     private static Toast mToast;
+    private static AlertDialog mDialog;
     private static Handler mhandler = new Handler();
     private static Runnable r = new Runnable() {
         public void run() {
@@ -178,14 +179,15 @@ public class Utils {
 
     /**
      * 包含0-9 || A-Z || a-z 时，返回false,否则返回true
+     *
      * @param value
      * @return
      */
-    public static boolean isNotDigitAndLetter(String value)  {
+    public static boolean isNotDigitAndLetter(String value) {
         Pattern p = Pattern.compile("^[A-Za-z0-9]+$");
         Matcher m = p.matcher(value);
         if (!m.matches()) {
-           return true;
+            return true;
         }
         return false;
     }
@@ -254,9 +256,9 @@ public class Utils {
         } else if (result.contains(".")) {
             String[] strs = result.split("\\.");
             if (strs[1].length() == 1) {
-                result = result+"0";
+                result = result + "0";
             }
-        }else{
+        } else {
         }
         return result;
     }
@@ -266,16 +268,16 @@ public class Utils {
      * <pre>
      *     使用ApplicationContext，适用于没有Context的场景
      * </pre>
+     *
      * @param resource
      * @return
      */
     public static String getString(int resource) {
-        if(resource > 0) {
+        if (resource > 0) {
             return PlatformState.getApplicationContext().getString(resource);
         }
         return null;
     }
-
 
 
     /**
@@ -314,4 +316,67 @@ public class Utils {
             file.mkdir();
         }
     }
+
+
+    /**
+     * 展示登录失效弹框
+     */
+    public static void showLoginDialog(final Context context,String msg){
+        mDialog = new AlertDialog.Builder(context)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton(R.string.common_confirm, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        UserProfile.getInstance().clear();
+                        Intent intent = LaunchActivity.buildIntent(context);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                        context.startActivity(intent);
+                    }
+                }).create();
+        mDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);//设置系统级别AlterDialog
+        if(!mDialog.isShowing()){
+            mDialog.show();
+        }
+    }
+
+    /**
+     * 消除登录失效弹框
+     */
+    public static void dismissLoginDialog(){
+        if(mDialog.isShowing()){
+            mDialog.dismiss();
+        }
+    }
+
+//    /**
+//     * 静态 LaunchActivity 用于获取 Handle ，发送Handle message
+//     */
+//    public static  LaunchActivity myLunchActivitys;
+
+    /**
+     * 输出格式化webview URL
+     * @param webViewUrl
+     */
+    public static void logUrlFormat(String webViewUrl){
+        if (!TextUtils.isEmpty(webViewUrl)){
+            if (webViewUrl.contains("?")){
+//                if (BuildConfig.DEBUG){
+//                    Message message = new Message();
+//                    message.what = 1;
+//                    Bundle b = new Bundle();
+//                    b.putString("MESSAGE", webViewUrl.split("[?]")[0] + "\n" + webViewUrl.split("[?]")[1].replace("&", "\n"));
+//                    message.setData(b);
+//                    myLunchActivitys.myHandler.sendMessage(message);
+//                }
+                LogUtil.i("URL","WebView URl:"+webViewUrl.split("[?]")[0] + "\n" + webViewUrl.split("[?]")[1].replace("&", "\n"));
+            }else{
+                LogUtil.i("URL","WebView URl:"+webViewUrl);
+            }
+
+        }
+    }
+
 }

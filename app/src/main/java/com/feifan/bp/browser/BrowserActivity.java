@@ -15,6 +15,8 @@ import android.webkit.WebView;
 import android.widget.PopupWindow;
 
 import com.feifan.bp.Constants;
+import com.feifan.bp.LaunchActivity;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.base.BaseActivity;
@@ -203,6 +205,26 @@ public class BrowserActivity extends BaseActivity implements BrowserFragment.OnB
                             mDialog.dismiss();
                             isShowDlg = true;
                             web.loadUrl(url);
+                        }
+                    })
+                    .show();
+
+            isShowDlg = false;
+        }
+    }
+
+    @Override
+    public void OnInvalidReceived(String msg, WebView web, String url) {
+        if (isShowDlg && !isFinishing()) {
+            mDialog.setMessage(msg)
+                    .setPositiveButton(R.string.common_confirm, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                            isShowDlg = true;
+                            UserProfile.getInstance().clear();
+                            PlatformState.getInstance().reset();
+                            startActivity(LaunchActivity.buildIntent(BrowserActivity.this));
                         }
                     })
                     .show();

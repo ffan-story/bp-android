@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/bg_color_gray_f3">
+
+    <TextView
+        android:id="@+id/marketing_summary_query_time"
+        style="@style/txt_color_blue_size14"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="@dimen/view_spacing_10"
+        android:paddingBottom="@dimen/view_spacing_10"
+        android:drawableLeft="@mipmap/icon_time_bulue"
+        android:drawablePadding="@dimen/view_spacing_5"
+        android:text="查询时间:2016-1-7" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/marketing_summary_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/marketing_summary_query_time">
+
+        <ListView
+            android:id="@+id/marketing_summary_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null">
+
+        </ListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

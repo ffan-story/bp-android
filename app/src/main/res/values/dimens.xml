@@ -2,8 +2,10 @@
 
     <!-- 视图使用的间距 -->
     <dimen name="view_spacing_5_px">5px</dimen>
+    <dimen name="view_spacing_1">1dp</dimen>
     <dimen name="view_spacing_3">3dp</dimen>
     <dimen name="view_spacing_5">5dp</dimen>
+    <dimen name="view_spacing_6">6dp</dimen>
     <dimen name="view_spacing_8">8dp</dimen>
     <dimen name="view_spacing_10">10dp</dimen>
     <dimen name="view_spacing_12">12dp</dimen>
@@ -12,9 +14,11 @@
     <dimen name="view_spacing_25">25dp</dimen>
     <dimen name="view_spacing_26">26dp</dimen>
     <dimen name="view_spacing_30">30dp</dimen>
+    <dimen name="view_spacing_35">35dp</dimen>
     <dimen name="view_spacing_40">40dp</dimen>
     <dimen name="view_spacing_45">45dp</dimen>
     <dimen name="view_spacing_50">50dp</dimen>
+    <dimen name="view_spacing_55">55dp</dimen>
     <dimen name="view_spacing_60">60dp</dimen>
     <dimen name="view_spacing_100">100dp</dimen>
     <dimen name="view_spacing_120">120dp</dimen>
@@ -58,6 +62,7 @@
     <dimen name="fab_elevation_lollipop">8dp</dimen>
 
     <!-- 控件size -->
+    <dimen name="view_size_0.5">0.5dp</dimen>
     <dimen name="view_size_1">1dp</dimen>
     <dimen name="view_size_3">3dp</dimen>
     <dimen name="view_size_5">5dp</dimen>

@@ -3,11 +3,11 @@ package com.feifan.bp.salesmanagement;
 import com.android.volley.Response;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.network.BaseModel;
-import com.feifan.bp.network.DefaultErrorListener;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.PostRequest;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.network.response.ToastErrorListener;
 
 /**
  * Created by Frank on 16/1/5.
@@ -64,6 +64,7 @@ public class PromotionCtrl {
                 .param("promotionCode", promotionCode)
                 .param("pageIndex", "1")
                 .param("limit", "10")
+                .errorListener(new ToastErrorListener())
                 .build()
                 .targetClass(GoodsStatusModel.class)
                 .listener(listener);
@@ -85,6 +86,7 @@ public class PromotionCtrl {
                 .param("merchantId", merchantId)
                 .param("promotionCode", promotionCode)
                 .param("approveStatus", status)
+                .errorListener(new ToastErrorListener())
                 .build()
                 .targetClass(GoodsListModel.class)
                 .listener(listener);
@@ -103,7 +105,7 @@ public class PromotionCtrl {
      */
     public static void goodsAudit(String storeId, String merchantId, String applicant, String promotionCode, String goodsCode,
                                   Response.Listener<BaseModel> listener) {
-        JsonRequest<BaseModel> request = new PostRequest<>(UrlFactory.auditGoodsUrl(), new DefaultErrorListener())
+        JsonRequest<BaseModel> request = new PostRequest<>(UrlFactory.auditGoodsUrl(), new ToastErrorListener())
                 .param("storeId", storeId)
                 .param("merchantId", merchantId)
                 .param("applicant", applicant)
@@ -126,7 +128,7 @@ public class PromotionCtrl {
      */
     public static void goodsDelete(String storeId, String merchantId, String applicant, String promotionCode, String goodsCode,
                                    Response.Listener<BaseModel> listener) {
-        JsonRequest<BaseModel> request = new PostRequest<>(UrlFactory.deleteGoodsUrl(), new DefaultErrorListener())
+        JsonRequest<BaseModel> request = new PostRequest<>(UrlFactory.deleteGoodsUrl(), new ToastErrorListener())
                 .param("storeId", storeId)
                 .param("merchantId", merchantId)
                 .param("applicant", applicant)

@@ -18,6 +18,7 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'newlens'
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 
@@ -27,7 +28,7 @@ def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim
 // I want to use git tags as my version names (1.2.2)
 //def gitCurrentTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
 
-def version = "1.6.1"
+def version = "1.6.2"
 
 android {
     compileSdkVersion 23
@@ -36,8 +37,8 @@ android {
     defaultConfig {
         applicationId "com.feifan.bp"
         minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 10
+        targetSdkVersion 22
+        versionCode 11
         versionName version
     }
 
@@ -60,11 +61,14 @@ android {
     }
 
     productFlavors{
-        sit{
-            println gitSha
-//            println commitCount
-//            println gitCurrentTag
+        devtest{
+            applicationId "com.feifan.bp.dev"
+            versionName version + ".dev-" + gitSha
+            buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.TEST"
 
+            manifestPlaceholders = [UMENG_APPKEY_VALUE : "55ffcb5e67e58e10d8000f85"]
+        }
+        sit{
             applicationId "com.feifan.bp.test"
             versionName version + "-" + gitSha
             buildConfigField "com.feifan.bp.Constants.Environment","CURRENT_ENVIRONMENT","com.feifan.bp.Constants.Environment.SIT"
@@ -121,6 +125,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.3.3'
     compile 'com.android.support:support-v4:23.0.1'
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile 'com.loopj.android:android-async-http:1.4.8'
@@ -131,9 +136,14 @@ dependencies {
     compile project(':refresh')
     compile project(':materialwidget')
     compile project(':statlib')
-//    compile 'junit:junit:4.10'
-//    compile 'org.mockito:mockito-core:1.+'
-//    compile 'org.robolectric:robolectric:3.0'
+    //    compile 'junit:junit:4.10'
+    //    compile 'org.mockito:mockito-core:1.+'
+    //    compile 'org.robolectric:robolectric:3.0'
+    compile project(':libworks:bpcrash')
+}
+
+android {
+    useLibrary 'org.apache.http.legacy'
 }
 
 apply plugin: 'liannu'
@@ -146,6 +156,7 @@ shootline {
         uKey='523d8a1f42d5455d01525913fae356cc'
         _api_key='048ad38bdf6822f1a3ed36981cb85bb2'
         fileName= "${project.buildDir.absolutePath}/outputs/apk/${project.parent.name}.apk"
+        password='bp123'
     }
 
     // 应用宝渠道
@@ -153,6 +164,3 @@ shootline {
         fileName = '/Users/xuchunlei/Projects/myapp.apk'
     }
 }
-
-
-shoot.dependsOn 'assembleSitRelease'

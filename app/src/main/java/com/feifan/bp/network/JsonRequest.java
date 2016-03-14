@@ -16,6 +16,8 @@
 
 package com.feifan.bp.network;
 
+
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -27,6 +29,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
+import com.feifan.bp.PlatformState;
+
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.util.LogUtil;
 
@@ -38,7 +42,7 @@ import java.util.Map;
 
 /**
  * Json请求
- *
+ * <p>
  * <pre>
  *     可以发送JSON信息体或key-value值作为参数，并得到T类型的对象
  * </pre>
@@ -54,7 +58,12 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
     private Map<String, String> mHeaders = new HashMap<String, String>();
 
     /**
+     * 静态 LaunchActivity 用于获取 Handle ，发送Handle message
+     */
+
+    /**
      * 更新冗余参数内容
+     *
      * @param profile
      */
     public static void updateRedundantParams(UserProfile profile) {
@@ -64,7 +73,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
         REDUNDANT_PARAMS.put("version", String.valueOf(BuildConfig.VERSION_CODE));
 //            mParams.put("clientAgent", )
         REDUNDANT_PARAMS.put("uid", String.valueOf(UserProfile.getInstance().getUid()));
-        REDUNDANT_PARAMS.put("applicant", String.valueOf(UserProfile.getInstance().getUid()));//2016-1-11加操作者id
+//        REDUNDANT_PARAMS.put("applicant", String.valueOf(UserProfile.getInstance().getUid()));//2016-1-11加操作者id
         REDUNDANT_PARAMS.put("agid", UserProfile.getInstance().getAuthRangeId());
         REDUNDANT_PARAMS.put("loginToken", UserProfile.getInstance().getLoginToken());
     }
@@ -101,6 +110,10 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
+        final String cookie = PlatformState.getInstance().retrieveCookie();
+        if(PlatformState.getInstance().retrieveCookie() != null){
+            mHeaders.put(Constants.COOKIE_KEY, cookie);
+        }
         LogUtil.i(TAG, "headers:" + mHeaders.toString());
         return mHeaders;
     }
@@ -117,7 +130,18 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
         try {
             String jsonString =
                     new String(response.data, HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
+//            LogUtil.i(TAG, "Receive:" + formatJson(jsonString));
             LogUtil.i(TAG, "Receive:" + jsonString);
+
+            // 保存最新Cookie
+            if(response.headers != null) {
+                String cookies = ProtocolHelper.pickCookies(response.headers.toString());
+                if(cookies != null) {
+                    PlatformState.getInstance().updateCookie(cookies);
+                    LogUtil.i(TAG, "Update cookies to " + cookies);
+                }
+            }
+
             if (mClazz != null) {
                 Constructor<T> constructor = mClazz.getConstructor(JSONObject.class);
                 T t = constructor.newInstance(new JSONObject(jsonString));
@@ -137,12 +161,16 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
 
     /**
      * 带有状态码的错误类
-     *
+     * <p>
      * <pre>
      *     可以根据错误码进行处理
      * </pre>
      */
     public static class StatusError extends VolleyError {
+
+        /** 错误状态－Cookie过期 */
+        public static final int STATUS_COOKIE_EXPIRE = 3001;
+
         private final int mStatus;
 
         public StatusError(int status, String message) {
@@ -154,4 +182,87 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
             return mStatus;
         }
     }
+
+
+    /**
+     * 单位缩进字符串。
+     */
+    private static String SPACE = "   ";
+    /**
+     * 返回格式化JSON字符串。
+     *
+     * @param json 未格式化的JSON字符串。
+     * @return 格式化的JSON字符串。
+     */
+    public String formatJson(String json)
+    {
+        StringBuffer result = new StringBuffer();
+
+        int length = json.length();
+        int number = 0;
+        char key = 0;
+        //遍历输入字符串。
+        for (int i = 0; i < length; i++) {
+            //1、获取当前字符。
+            key = json.charAt(i);
+            if((key == '[') || (key == '{') ) {  //2、如果当前字符是前方括号、前花括号做如下处理：
+                if((i - 1 > 0) && (json.charAt(i - 1) == ':')){//（1）如果前面还有字符，并且字符为“：”，打印：换行和缩进字符字符串。
+                    result.append('\n');
+                    result.append(indent(number));
+                }
+                //（2）打印：当前字符。
+                result.append(key);
+                //（3）前方括号、前花括号，的后面必须换行。打印：换行。
+                result.append('\n');
+                //（4）每出现一次前方括号、前花括号；缩进次数增加一次。打印：新行缩进。
+                number++;
+                result.append(indent(number));
+                //（5）进行下一次循环。
+                continue;
+            }
+
+            //3、如果当前字符是后方括号、后花括号做如下处理：
+            if((key == ']') || (key == '}') ) {
+                //（1）后方括号、后花括号，的前面必须换行。打印：换行。
+                result.append('\n');
+                //（2）每出现一次后方括号、后花括号；缩进次数减少一次。打印：缩进。
+                number--;
+                result.append(indent(number));
+                //（3）打印：当前字符。
+                result.append(key);
+                //（4）如果当前字符后面还有字符，并且字符不为“，”，打印：换行。
+                if(((i + 1) < length) && (json.charAt(i + 1) != ',')) {
+                    result.append('\n');
+                }
+                //（5）继续下一次循环。
+                continue;
+            }
+
+            //4、如果当前字符是逗号。逗号后面换行，并缩进，不改变缩进次数。
+            if((key == ',')) {
+                result.append(key);
+                result.append('\n');
+                result.append(indent(number));
+                continue;
+            }
+            //5、打印：当前字符。
+            result.append(key);
+        }
+        return result.toString();
+    }
+
+    /**
+     * 返回指定次数的缩进字符串。每一次缩进三个空格，即SPACE。
+     *
+     * @param number 缩进次数。
+     * @return 指定缩进次数的字符串。
+     */
+    private String indent(int number) {
+        StringBuffer result = new StringBuffer();
+        for(int i = 0; i < number; i++) {
+            result.append(SPACE);
+        }
+        return result.toString();
+    }
+
 }

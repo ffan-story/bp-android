@@ -18,10 +18,14 @@ class EndScrollListener implements AbsListView.OnScrollListener {
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItemPosition, int visibleItemCount, int totalItemCount) {
-        if ((totalItemCount - visibleItemCount) <= (firstVisibleItemPosition + visibleThreshold)) {
-            callback.onEndReached();
-        }
 
+        if(view.getLastVisiblePosition() >= 0){ //避免空指针
+            //  判断ListView是否滑倒底部
+            if((totalItemCount - visibleItemCount) <= (firstVisibleItemPosition + visibleThreshold)
+                    && view.getChildAt(view.getLastVisiblePosition() - firstVisibleItemPosition).getBottom() == view.getHeight()){
+                callback.onEndReached();
+            }
+        }
         if (delegate != null) {
             delegate.onScroll(view, firstVisibleItemPosition, visibleItemCount, totalItemCount);
         }

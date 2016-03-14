@@ -16,8 +16,8 @@ import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.transactionflow.fragment.CouponListViewFragment;
-import com.feifan.bp.transactionflow.fragment.InstantBuyFragment;
+import com.feifan.bp.transactionflowing.fragment.CouponListViewFragment;
+import com.feifan.bp.transactionflowing.fragment.InstantBuyFragment;
 import com.feifan.bp.util.LogUtil;
 
 /**

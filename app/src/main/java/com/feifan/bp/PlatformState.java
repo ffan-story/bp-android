@@ -1,8 +1,11 @@
 package com.feifan.bp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -11,8 +14,7 @@ import com.android.volley.toolbox.Volley;
 import com.feifan.bp.network.HttpsUrlStack;
 import com.feifan.bp.util.LogUtil;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.ref.WeakReference;
 
 /**
  * 状态类
@@ -28,6 +30,8 @@ public class PlatformState {
     private static final String STATE_PREFERENCES_NAME = "state";
     // 偏好项键值－清除缓存标记
     private static final String CLEAR_CACHE_FLAG = "CLEAR_CACHE_FLAG";
+    // 偏好项键值－Cookie
+    private static final String PREFERENCE_KEY_COOKIE = "COOKIE";
 
     private static PlatformState INSTANCE;
 
@@ -39,8 +43,14 @@ public class PlatformState {
     // 上次访问的url地址
     private String mLastUrl;
 
+    // 当前登录手机号
+    private String mCurrentPhone;
+
     // 未读状态集合
     private SparseArray<Boolean> mUnreadMap = new SparseArray<Boolean>();
+
+    // 当前窗口
+    private WeakReference<Activity> mCurrentActivity;
 
     private PlatformState(){
         mQueue = Volley.newRequestQueue(sContext, new HttpsUrlStack());
@@ -67,7 +77,7 @@ public class PlatformState {
     }
 
     public void setLastUrl(String url) {
-        LogUtil.i(TAG, "save last request url " + url);
+        Utils.logUrlFormat(url);
         mLastUrl = url;
     }
 
@@ -89,6 +99,15 @@ public class PlatformState {
      * 重置状态
      */
     public void reset() {
+        mLastUrl = null;
+        clearCache();
+
+        //清除Cookie缓存
+        SharedPreferences sp = sContext.getSharedPreferences(STATE_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        sp.edit().remove(PREFERENCE_KEY_COOKIE).apply();
+    }
+
+    public void exit() {
         mLastUrl = null;
         clearCache();
     }
@@ -142,5 +161,57 @@ public class PlatformState {
      */
     public void updateUnreadStatus(int key, boolean value) {
         mUnreadMap.put(key, value);
+    }
+
+    /**
+     * 更新Cookie
+     * @param cookie
+     */
+    public void updateCookie(String cookie) {
+
+        if(cookie == null) {
+            return;
+        }
+
+        SharedPreferences sp = sContext.getSharedPreferences(STATE_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(PREFERENCE_KEY_COOKIE, cookie);
+        editor.apply();
+    }
+
+    /**
+     * 获取Cookie
+     */
+    public String retrieveCookie() {
+        SharedPreferences sp = sContext.getSharedPreferences(STATE_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        return sp.getString(PREFERENCE_KEY_COOKIE, Constants.NO_STRING);
+    }
+
+    /**
+     * 设置当前登录手机号
+     * @param phone
+     */
+    public void setCurrentPhone(String phone) {
+        mCurrentPhone = phone;
+    }
+
+    /**
+     * 获取当前登录手机号
+     * @return
+     */
+    public String getCurrentPhone() {
+        return mCurrentPhone;
+    }
+
+    public void setCurrentActivity(Activity activity) {
+        mCurrentActivity = new WeakReference<Activity>(activity);
+    }
+
+    public Activity getCurrentActivity() {
+        Activity activity = null;
+        if(mCurrentActivity != null) {
+            activity = mCurrentActivity.get();
+        }
+        return activity;
     }
 }
