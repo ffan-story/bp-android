@@ -26,7 +26,6 @@ import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.network.response.DialogErrorListener;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 
@@ -74,12 +73,12 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         }
     }
 
-    boolean isUpdata = true;
     @Override
     public void onResume() {
         super.onResume();
-        isUpdata = false;
-        fetchData(pageIndex,mMessType);
+        if(mList !=null  && mList.size()>0){
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -119,7 +118,6 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
 
         mAdapter = new MessageAdapter(getActivity(),mList,mMessType);
         mListView.setAdapter(mAdapter);
-
         mListView.setOnLoadingMoreListener(this);
         mPtrFrame.setLastUpdateTimeRelateObject(this);
         mPtrFrameEmpty.setPtrHandler(this);
@@ -136,7 +134,6 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                 mPtrFrame.autoRefresh();
             }
         }, 100);
-
         return view;
     }
 
@@ -149,16 +146,12 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
      * 更新数据
      */
     public void updateData() {
-        if (isUpdata){
-            isUpdata = true;
-            pageIndex = 1;
-            if(mList !=null){
-                mList.clear();
-                mAdapter.notifyDataSetChanged();
-            }
-            fetchData(pageIndex, mMessType);
+        pageIndex = 1;
+        if(mList !=null){
+            mList.clear();
+            mAdapter.notifyDataSetChanged();
         }
-
+        fetchData(pageIndex, mMessType);
     }
 
     private void getRedDot(){
