@@ -23,7 +23,7 @@ public class MessageCtrl {
                 .param("userType", "1")//固定传1
                 .param("pageIndex", Integer.toString(pageIndex))
                 .param("subId", messType)
-                .param("limit", Integer.toString(Constants.LIST_MAX_LENGTH))
+                .param("limit", Constants.LIST_LIMIT)
                 .build()
                 .targetClass(MessageModel.class)
                 .listener(listener);
