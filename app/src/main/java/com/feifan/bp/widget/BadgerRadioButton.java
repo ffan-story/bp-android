@@ -62,9 +62,9 @@ public class BadgerRadioButton extends RadioButton {
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
                 paint.setStyle(Paint.Style.FILL);//充满
-                paint.setColor(Color.RED);
+                paint.setColor(Color.parseColor("#FF7800"));
                 if (count <10){
-                    canvas.drawCircle((getWidth() + mDrawableWidth) / 2+20, 20, 15, paint);
+                    canvas.drawCircle((getWidth() + mDrawableWidth) / 2+20, 17, 18, paint);
                 }else {
                     if (count <100){
                         rfBottom = 45;
@@ -85,13 +85,13 @@ public class BadgerRadioButton extends RadioButton {
                 if (count>=1000){
                     canvas.drawText("……", (getWidth() + mDrawableWidth) / 2+15, 26, paint);
                 }else{
-                    canvas.drawText(String.valueOf(count), (getWidth() + mDrawableWidth) / 2+15, 26, paint);
+                    canvas.drawText(String.valueOf(count), (getWidth() + mDrawableWidth) / 2+15, 25, paint);
                 }
             }else{//count 小于等于0 显示红点
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
                 paint.setStyle(Paint.Style.FILL);
-                paint.setColor(Color.RED);
+                paint.setColor(Color.parseColor("#FF7800"));
                 canvas.drawCircle((getWidth() + mDrawableWidth) / 2 + 20, 10, 8, paint);
             }
         }
