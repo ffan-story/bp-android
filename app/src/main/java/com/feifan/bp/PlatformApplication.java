@@ -5,6 +5,7 @@ import android.app.Application;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.text.TextUtils;
 import android.webkit.WebView;
 
 import com.bp.crash.BPCrashConfig;
@@ -102,7 +103,6 @@ public class PlatformApplication extends Application {
             String uid = String.valueOf(profile.getUid());
             mXGPushManger.unRegister();
             mXGPushManger.registerApp(uid);
-            Log.e("register xg ",uid);
         }
     }
     @Override

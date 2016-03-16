@@ -15,7 +15,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        //TODO  test loaction
         maven { url "http://101.200.89.219:8081/nexus/content/groups/public/"}
     }
 }
