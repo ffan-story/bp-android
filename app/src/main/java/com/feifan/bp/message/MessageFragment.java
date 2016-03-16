@@ -2,6 +2,7 @@ package com.feifan.bp.message;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,11 +27,15 @@ import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.network.response.DialogErrorListener;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 
 import java.util.ArrayList;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
+import bp.feifan.com.codescanner.Contents;
 import bp.feifan.com.refresh.PtrClassicFrameLayout;
 import bp.feifan.com.refresh.PtrDefaultHandler;
 import bp.feifan.com.refresh.PtrFrameLayout;
@@ -79,6 +84,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         if(mList !=null  && mList.size()>0){
             mAdapter.notifyDataSetChanged();
         }
+        getRedDot();
     }
 
     @Override
@@ -102,7 +108,6 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         mTvSystemDot = (TextView)view.findViewById(R.id.tv_dot_system);
         mTvNoticeDot = (TextView)view.findViewById(R.id.tv_dot_notice);
 
-        getRedDot();
         mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
