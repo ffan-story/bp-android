@@ -47,14 +47,16 @@ public class Utils {
      * @param text
      */
     public static void showToast(Context context, int text, int duration) {
-        mhandler.removeCallbacks(r);
-        if (null != mToast) {
-            mToast.setText(text);
-        } else {
-            mToast = Toast.makeText(context, text, duration);
+        if(context != null) {
+            mhandler.removeCallbacks(r);
+            if (null != mToast) {
+                mToast.setText(text);
+            } else {
+                mToast = Toast.makeText(context, text, duration);
+            }
+            mhandler.postDelayed(r, 5000);
+            mToast.show();
         }
-        mhandler.postDelayed(r, 5000);
-        mToast.show();
     }
 
     /**
@@ -64,10 +66,11 @@ public class Utils {
      * @param gravity 停靠位置
      */
     public static void showShortToast(Context context, String message, int gravity) {
-
-        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-        toast.setGravity(gravity, 0, 0);
-        toast.show();
+        if(context != null) {
+            Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+            toast.setGravity(gravity, 0, 0);
+            toast.show();
+        }
     }
 
     /**
@@ -77,10 +80,11 @@ public class Utils {
      * @param gravity 停靠位置
      */
     public static void showShortToast(Context context, int message, int gravity) {
-
-        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-        toast.setGravity(gravity, 0, 0);
-        toast.show();
+        if(context != null) {
+            Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+            toast.setGravity(gravity, 0, 0);
+            toast.show();
+        }
     }
 
     /**
@@ -89,7 +93,9 @@ public class Utils {
      * @param message
      */
     public static void showShortToast(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        if(context != null) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -98,7 +104,9 @@ public class Utils {
      * @param message
      */
     public static void showShortToast(Context context, int message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        if(context != null) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -108,9 +116,11 @@ public class Utils {
      * @param gravity 停靠位置
      */
     public static void showLongToast(Context context, int message, int gravity) {
-        Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
-        toast.setGravity(gravity, 0, 0);
-        toast.show();
+        if(context != null) {
+            Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+            toast.setGravity(gravity, 0, 0);
+            toast.show();
+        }
     }
 
     /**
@@ -119,14 +129,15 @@ public class Utils {
      * @return
      */
     public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm != null) {
-            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-                return true;
+        if(context != null) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm != null) {
+                NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+                if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+                    return true;
+                }
             }
         }
-
         return false;
     }
 
@@ -136,17 +147,19 @@ public class Utils {
      * @return
      */
     public static boolean isCurrentNetworkAvailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm == null) {
-        } else {
-            //如果仅仅是用来判断网络连接
-            //则可以使用 cm.getActiveNetworkInfo().isAvailable();
-            NetworkInfo[] info = cm.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-                        return true;
+        if(context != null) {
+            ConnectivityManager cm = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm == null) {
+            } else {
+                //如果仅仅是用来判断网络连接
+                //则可以使用 cm.getActiveNetworkInfo().isAvailable();
+                NetworkInfo[] info = cm.getAllNetworkInfo();
+                if (info != null) {
+                    for (int i = 0; i < info.length; i++) {
+                        if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -161,18 +174,22 @@ public class Utils {
      * @return
      */
     public static void checkPhoneNumber(Context context, String phoneNumber) throws Throwable {
-        Pattern p = Pattern.compile("^[1][0-9][0-9]{9}$");
-        Matcher m = p.matcher(phoneNumber);
-        if (!m.matches()) {
-            throw new Throwable(context.getString(R.string.error_message_text_phone_number_illegal));
+        if(context != null) {
+            Pattern p = Pattern.compile("^[1][0-9][0-9]{9}$");
+            Matcher m = p.matcher(phoneNumber);
+            if (!m.matches()) {
+                throw new Throwable(context.getString(R.string.error_message_text_phone_number_illegal));
+            }
         }
     }
 
     public static void checkDigitAndLetter(Context context, String value) throws Throwable {
-        Pattern p = Pattern.compile("^[A-Za-z0-9]+$");
-        Matcher m = p.matcher(value);
-        if (!m.matches()) {
-            throw new Throwable(context.getString(R.string.error_message_text_search_illegal_format));
+        if(context != null) {
+            Pattern p = Pattern.compile("^[A-Za-z0-9]+$");
+            Matcher m = p.matcher(value);
+            if (!m.matches()) {
+                throw new Throwable(context.getString(R.string.error_message_text_search_illegal_format));
+            }
         }
     }
 
@@ -197,12 +214,15 @@ public class Utils {
      * @param url
      */
     public static Intent getSystemBrowser(String url) {
-        LogUtil.i(TAG, "getSystemBrowser() url=" + url);
-        Intent intent = new Intent();
-        intent.setAction("android.intent.action.VIEW");
-        Uri content_url = Uri.parse(url);
-        intent.setData(content_url);
-        return intent;
+        if(!TextUtils.isEmpty(url)) {
+            LogUtil.i(TAG, "getSystemBrowser() url=" + url);
+            Intent intent = new Intent();
+            intent.setAction("android.intent.action.VIEW");
+            Uri content_url = Uri.parse(url);
+            intent.setData(content_url);
+            return intent;
+        }
+        return null;
     }
 
     public static boolean isChineseChar(String str) {
