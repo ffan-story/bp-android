@@ -11,24 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.Response.Listener;
 import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
+import com.feifan.bp.LaunchActivity;
+import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
-import com.feifan.bp.settings.feedback.FeedBackFragment;
-import com.feifan.bp.LaunchActivity;
-import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
-import com.feifan.bp.util.LogUtil;
-import com.feifan.bp.PlatformState;
-
-import com.feifan.bp.OnFragmentInteractionListener;
-import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
+import com.feifan.bp.settings.feedback.FeedBackFragment;
+import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
+import com.feifan.bp.util.LogUtil;
 import com.feifan.statlib.FmsAgent;
 
 import java.util.concurrent.Executors;
@@ -121,7 +120,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 Bundle args = new Bundle();
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, ResetPasswordFragment.class.getName());
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TITLE,getString(R.string.reset_password));
+                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TITLE, getString(R.string.reset_password));
                 mListener.onFragmentInteraction(args);
                 break;
 
@@ -141,8 +140,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        hideProgressBar();
-                        Utils.showShortToast(getActivity().getApplicationContext(), R.string.settings_clear_cache_finished_text);
+                        if (getActivity() != null) {
+                            hideProgressBar();
+                            Utils.showShortToast(getActivity().getApplicationContext(), R.string.settings_clear_cache_finished_text);
+                        }
                     }
                 }, 1000);
 
