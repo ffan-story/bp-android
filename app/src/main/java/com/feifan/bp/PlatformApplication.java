@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.WebView;
 
 import com.bp.crash.BPCrashConfig;
@@ -97,10 +97,12 @@ public class PlatformApplication extends Application {
     }
 
     public void onAccountChange(){
-        String phone = PlatformState.getInstance().getCurrentPhone();
-        if(!TextUtils.isEmpty(phone)){
+        final UserProfile profile = UserProfile.getInstance();
+        if(profile != null && profile.getUid() != 0){
+            String uid = String.valueOf(profile.getUid());
             mXGPushManger.unRegister();
-            mXGPushManger.registerApp(phone);
+            mXGPushManger.registerApp(uid);
+            Log.e("register xg ",uid);
         }
     }
     @Override

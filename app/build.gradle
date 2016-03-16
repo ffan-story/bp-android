@@ -140,7 +140,7 @@ dependencies {
     //    compile 'org.mockito:mockito-core:1.+'
     //    compile 'org.robolectric:robolectric:3.0'
     compile project(':libworks:bpcrash')
-    compile 'com.ffan.lib:xglibs:1.0.1'
+    compile 'com.ffan.lib:xglibs:1.0.3'
 }
 
 android {
