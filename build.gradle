@@ -15,6 +15,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven { url "http://work.dianshang.wanda.cn/nexus/content/groups/public/"}
+        maven { url "http://101.200.89.219:8081/nexus/content/groups/public/"}
     }
 }

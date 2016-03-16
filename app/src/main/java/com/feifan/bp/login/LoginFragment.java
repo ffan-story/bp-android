@@ -1,5 +1,6 @@
 package com.feifan.bp.login;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,11 +14,12 @@ import android.widget.EditText;
 import com.android.volley.Response.Listener;
 import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
+import com.feifan.bp.PlatformApplication;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
-import com.feifan.bp.Utils;
 import com.feifan.bp.UserProfile;
+import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.network.BaseModel;
 import com.feifan.bp.network.JsonRequest;
@@ -98,8 +100,15 @@ public class LoginFragment extends BaseFragment {
                     UserCtrl.login(accountStr, passwordStr, new Listener<UserModel>() {
                         @Override
                         public void onResponse(UserModel userModel) {
+                            if(getActivity() == null || getView() == null){
+                                return;
+                            }
                             hideProgressBar();
                             final UserProfile profile = UserProfile.getInstance();
+                            Application app = getActivity().getApplication();
+                            if(app != null && app instanceof PlatformApplication){
+                                ((PlatformApplication)app).onAccountChange();
+                            }
                             profile.setUid(userModel.uid);
                             profile.setUser(userModel.user);
                             profile.setAuthRangeId(userModel.authRangeId);

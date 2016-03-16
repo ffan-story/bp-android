@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.webkit.WebView;
 
 import com.bp.crash.BPCrashConfig;
 import com.feifan.bp.network.JsonRequest;
+import com.ffan.xg.XGPushManger;
 import com.wanda.crashsdk.pub.FeifanCrashManager;
 
 /**
@@ -16,7 +18,7 @@ import com.wanda.crashsdk.pub.FeifanCrashManager;
 public class PlatformApplication extends Application {
 
     private int selectPos = 0;//门店默认选择
-
+    private XGPushManger mXGPushManger;
     public int getSelectPos() {
         return selectPos;
     }
@@ -33,13 +35,13 @@ public class PlatformApplication extends Application {
         UserProfile.getInstance().initialize(this);
         JsonRequest.updateRedundantParams(UserProfile.getInstance());
         Statistics.updateClientData(UserProfile.getInstance());
-
+        mXGPushManger = XGPushManger.getInstance(this);
         // 允许WebView进行调试
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
         startCrashManager();
-
+        onAccountChange();
         // 更新当前显示的Activity
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
@@ -91,6 +93,14 @@ public class PlatformApplication extends Application {
             FeifanCrashManager.getInstance().start();
         } catch (com.wanda.crashsdk.exception.IllegalArgumentException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void onAccountChange(){
+        String phone = PlatformState.getInstance().getCurrentPhone();
+        if(!TextUtils.isEmpty(phone)){
+            mXGPushManger.unRegister();
+            mXGPushManger.registerApp(phone);
         }
     }
     @Override
