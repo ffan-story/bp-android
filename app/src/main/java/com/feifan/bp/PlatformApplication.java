@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.text.TextUtils;
 import android.webkit.WebView;
 
 import com.bp.crash.BPCrashConfig;
