@@ -48,6 +48,7 @@ public class MessageModel extends BaseModel {
 
                     mStrMessageData.mStrMessTime = dataArray.getJSONObject(i).optString("createTime_text");
                     mStrMessageData.mStrMessSender = dataArray.getJSONObject(i).optString("sender");
+                    mStrMessageData.mStrMessTag = dataArray.getJSONObject(i).optString("tagName");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -67,5 +68,6 @@ public class MessageModel extends BaseModel {
         public String mStrMessId;
         public String mStrMessStatus;
         public String mStrDetailUrl;
+        public String mStrMessTag;
     }
 }

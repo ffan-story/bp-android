@@ -36,27 +36,26 @@
 
                 <TextView
                     android:id="@+id/tv_dot_system"
-                    android:layout_width="@dimen/view_spacing_15"
-                    android:layout_height="@dimen/view_spacing_15"
+                    android:layout_width="@dimen/view_spacing_20"
+                    android:layout_height="@dimen/view_spacing_20"
                     android:layout_toRightOf="@id/tv_message_system"
-                    android:background="@drawable/bg_red_dot"
                     android:gravity="center|center_vertical"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_size_12"
-                    android:textStyle="bold"
                     android:visibility="invisible"
-                    android:layout_marginTop="@dimen/view_size_3"/>
+                    android:background="@drawable/bg_red_dot"
+                    android:layout_marginTop="@dimen/view_size_3"
+                    />
 
 
                 <ImageView
                     android:id="@+id/img_line_system"
-                    android:layout_width="match_parent"
+                    android:layout_width="74dp"
                     android:layout_height="2dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="@dimen/view_spacing_20"
-                    android:layout_marginRight="@dimen/view_spacing_20"
+                    android:layout_centerInParent="true"
                     android:background="@color/bg_color_blue"
-                    android:gravity="center" />
+                     />
             </RelativeLayout>
 
             <RelativeLayout
@@ -69,34 +68,31 @@
 
                 <TextView
                     android:id="@+id/tv_message_notice"
+                    style="@style/txt_color66_size16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center"
-                    android:text="@string/message_notice"
-                    android:textColor="@color/bg_color_blue"
-                    android:textSize="@dimen/font_size_16" />
-
+                    android:text="@string/message_notice"/>
                 <TextView
                     android:id="@+id/tv_dot_notice"
-                    android:layout_width="@dimen/view_spacing_15"
-                    android:layout_height="@dimen/view_spacing_15"
+                    android:layout_width="@dimen/view_spacing_20"
+                    android:layout_height="@dimen/view_spacing_20"
                     android:layout_toRightOf="@id/tv_message_notice"
-                    android:background="@drawable/bg_red_dot"
-                    android:gravity="center"
+                    android:gravity="center|center_vertical"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_size_12"
-                    android:textStyle="bold"
                     android:visibility="invisible"
-                    android:layout_marginTop="@dimen/view_size_3"/>
+                    android:background="@drawable/bg_red_dot"
+                    android:layout_marginTop="@dimen/view_size_3"
+                    />
 
                 <ImageView
                     android:id="@+id/img_line_notice"
-                    android:layout_width="match_parent"
+                    android:layout_width="74dp"
                     android:layout_height="2dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="@dimen/view_spacing_20"
-                    android:layout_marginRight="@dimen/view_spacing_20"
+                    android:layout_centerInParent="true"
                     android:background="@color/bg_color_blue"
                     android:visibility="gone"/>
             </RelativeLayout>
@@ -113,7 +109,7 @@
     <ImageView
         android:id="@+id/line1"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dividerheight"
+        android:layout_height="1dp"
         android:layout_below="@id/ll_tab"
         android:background="@color/divider"
         android:layout_marginTop="@dimen/view_spacing_5"/>
@@ -143,6 +139,10 @@
             android:listSelector="@android:color/transparent"
             android:scrollbarStyle="outsideOverlay"
             />
+        <!--android:paddingTop="@dimen/view_spacing_10"-->
+
+        <!--android:clipToPadding="false"-->
+
     </bp.feifan.com.refresh.PtrClassicFrameLayout>
 
 

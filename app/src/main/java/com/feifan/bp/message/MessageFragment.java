@@ -1,8 +1,8 @@
 package com.feifan.bp.message;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,15 +27,11 @@ import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.network.response.DialogErrorListener;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 
 import java.util.ArrayList;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
-import bp.feifan.com.codescanner.Contents;
 import bp.feifan.com.refresh.PtrClassicFrameLayout;
 import bp.feifan.com.refresh.PtrDefaultHandler;
 import bp.feifan.com.refresh.PtrFrameLayout;
@@ -59,6 +55,8 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
     private RelativeLayout mRelSystem,mRelNotice;
     private ImageView mImgSystem,mImgNotice;
     private int  mIntNoticeMessCount,mIntSystemMessCount;
+
+    private TextView mTvSystemTitle,mTvNoticeTitle;
     private TextView mTvSystemDot,mTvNoticeDot;
 
     public static MessageFragment newInstance() {
@@ -104,6 +102,9 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
 
         mImgSystem = (ImageView)view.findViewById(R.id.img_line_system);
         mImgNotice = (ImageView)view.findViewById(R.id.img_line_notice);
+
+        mTvSystemTitle = (TextView)view.findViewById(R.id.tv_message_system);
+        mTvNoticeTitle = (TextView)view.findViewById(R.id.tv_message_notice);
 
         mTvSystemDot = (TextView)view.findViewById(R.id.tv_dot_system);
         mTvNoticeDot = (TextView)view.findViewById(R.id.tv_dot_notice);
@@ -182,18 +183,27 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
      * @param intNoticeMessCount
      */
     private void setRedDot(int intSystemMessCount,int intNoticeMessCount){
-        if (intNoticeMessCount>0){
-            mTvNoticeDot.setVisibility(View.VISIBLE);
-            mTvNoticeDot.setText(String.valueOf(intNoticeMessCount));
-        }else{
-            mTvNoticeDot.setVisibility(View.INVISIBLE);
-        }
-        if (intSystemMessCount>0){
+        if (intSystemMessCount>=100){
+            mTvSystemDot.setVisibility(View.VISIBLE);
+            mTvSystemDot.setText("…");
+        }else if (intSystemMessCount>0){
             mTvSystemDot.setVisibility(View.VISIBLE);
             mTvSystemDot.setText(String.valueOf(intSystemMessCount));
         }else{
             mTvSystemDot.setVisibility(View.INVISIBLE);
         }
+
+        if (intNoticeMessCount>=100){
+            mTvNoticeDot.setVisibility(View.VISIBLE);
+            mTvNoticeDot.setText("…");
+        }else if (intNoticeMessCount>0){
+            mTvNoticeDot.setVisibility(View.VISIBLE);
+            mTvNoticeDot.setText(String.valueOf(intNoticeMessCount));
+        }else{
+            mTvNoticeDot.setVisibility(View.INVISIBLE);
+        }
+
+
     }
 
     /**
@@ -313,7 +323,9 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                 mList.clear();
                 mImgNotice.setVisibility(View.INVISIBLE);
                 mImgSystem.setVisibility(View.VISIBLE);
-                fetchData(pageIndex,mMessType);
+                mTvSystemTitle.setTextColor(Color.parseColor("#3d99e9"));
+                mTvNoticeTitle.setTextColor(Color.parseColor("#666666"));
+                fetchData(pageIndex, mMessType);
                 break;
             case R.id.rel_mess_notice:
                 mMessType = MESS_TYPE_NOTICE;
@@ -321,6 +333,8 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                 mList.clear();
                 mImgNotice.setVisibility(View.VISIBLE);
                 mImgSystem.setVisibility(View.INVISIBLE);
+                mTvNoticeTitle.setTextColor(Color.parseColor("#3d99e9"));
+                mTvSystemTitle.setTextColor(Color.parseColor("#666666"));
                 fetchData(pageIndex,mMessType);
                 break;
         }

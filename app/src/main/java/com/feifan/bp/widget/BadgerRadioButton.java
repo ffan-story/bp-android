@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -63,27 +62,19 @@ public class BadgerRadioButton extends RadioButton {
                 paint.setAntiAlias(true);
                 paint.setStyle(Paint.Style.FILL);//充满
                 paint.setColor(Color.parseColor("#FF7800"));
-                if (count <10){
-                    canvas.drawCircle((getWidth() + mDrawableWidth) / 2+20, 17, 18, paint);
-                }else {
-                    if (count <100){
-                        rfBottom = 45;
-                    }else if (count >= 100){
-                        rfBottom = 50;
-                    }
-                    RectF rectF = new RectF(0,0,rfBottom,30);// 设置个新的长方形
-                    rectF.offset((getWidth() + mDrawableWidth) / 2+5, 4);
-                    canvas.drawRoundRect(rectF, 16, 16, paint);//第二个参数是x半径，第三个参数是y半径
-                }
+                canvas.drawCircle((getWidth() + mDrawableWidth) / 2 + 20, 19, 18, paint);
 
                 paint.reset();
                 paint.setColor(Color.WHITE);
                 paint.setStrokeWidth(8);
                 paint.setAntiAlias(true);
                 //设置字体大小
-                paint.setTextSize(20);
-                if (count>=1000){
-                    canvas.drawText("……", (getWidth() + mDrawableWidth) / 2+15, 26, paint);
+                paint.setTextSize(22);
+
+                if (count>=100){
+                    canvas.drawText("...", (getWidth() + mDrawableWidth) / 2+13, 25, paint);
+                }else if (count>=10){
+                    canvas.drawText(String.valueOf(count), (getWidth() + mDrawableWidth) / 2+7, 25, paint);
                 }else{
                     canvas.drawText(String.valueOf(count), (getWidth() + mDrawableWidth) / 2+15, 25, paint);
                 }

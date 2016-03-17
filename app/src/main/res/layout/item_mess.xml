@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    >
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingRight="@dimen/view_spacing_15"
-        android:paddingTop="@dimen/view_spacing_15">
+        android:layout_marginTop="@dimen/view_spacing_20">
 
         <ImageView
             android:id="@+id/img_message_red_point"
@@ -26,29 +26,32 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:layout_weight="1"
-            android:layout_marginRight="@dimen/view_size_5"/>
+            android:layout_marginRight="@dimen/view_size_10"
+            android:text="市地税局的卡了积分"/>
 
         <TextView
-            android:id="@+id/tv_message_top_static"
-            style="@style/txt_color33_size14"
-            android:ellipsize="end"
+            android:id="@+id/tv_message_tag"
+            style="@style/txt_color33_size12"
+            android:textSize="@dimen/font_size_11"
             android:singleLine="true"
             android:background="@drawable/bg_rectangle_organe"
-            android:text="置顶"
             android:textColor="@color/orange_dot"
-            android:padding="@dimen/view_size_3"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:maxLength="2"
+            android:visibility="gone"
             android:layout_weight="0"
-            android:visibility="gone"/>
+            />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingRight="@dimen/view_spacing_15"
+        android:paddingRight="@dimen/view_spacing_20"
         android:paddingLeft="@dimen/view_spacing_20"
         android:paddingTop="@dimen/view_spacing_10"
-        android:paddingBottom="@dimen/view_spacing_15">
+        android:paddingBottom="@dimen/view_spacing_20">
 
         <TextView
             android:id="@+id/tv_message_sender"
@@ -56,7 +59,8 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxEms="8"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:text="去224234"/>
 
         <TextView
             android:id="@+id/tv_message_time"
@@ -64,12 +68,13 @@
             android:layout_toRightOf="@id/tv_message_sender"
             android:layout_weight="1"
             android:gravity="right"
-            android:lines="1"/>
+            android:lines="1"
+            android:text="20188343434"/>
     </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dividerheight"
+        android:layout_height="1dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/view_spacing_20"
         android:background="@color/divider" />
