@@ -1,11 +1,13 @@
 package com.feifan.bp;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -28,7 +30,7 @@ import com.networkbench.agent.impl.NBSAppAgent;
 
 /**
  * 欢迎界面
- * <p/>
+ * <p>
  * Created by maning on 15/7/29.
  */
 public class SplashActivity extends PlatformBaseActivity {
@@ -41,9 +43,11 @@ public class SplashActivity extends PlatformBaseActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFormat(PixelFormat.RGBA_8888);
         setContentView(R.layout.activity_splash);
+        //兼容Api15及以下的系统
         //内存权限检查
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED
+                && Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     Constants.MY_PERMISSIONS_REQUEST_STORAGE);
         } else {
