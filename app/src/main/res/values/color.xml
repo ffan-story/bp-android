@@ -3,6 +3,7 @@
     <!-- 分隔线颜色 -->
     <color name="divider">#e3e3f0</color>
     <color name="divider_deep_gray">#585858</color>
+    <color name="divider_D8">#D8D8D8</color>
 
     <!-- 标题栏 -->
     <color name="title_background">#4c85c2</color>
@@ -24,6 +25,7 @@
     <color name="bg_color_blue">#3d99e9</color>
     <color name="bg_color_grey">#e6e6e6</color>
     <color name="bg_color_gray_f3">#f3f3f3</color>
+    <color name="bg_color_gray_f8">#f8f8fc</color>
 
     <!-- Progress bar background -->
     <color name="progress_bar_bg">#cc000000</color>

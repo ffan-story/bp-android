@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.ViewTreeObserver;
 import android.widget.RadioButton;
 
+import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.util.VersionUtil;
 
 /**
@@ -52,38 +53,49 @@ public class BadgerRadioButton extends RadioButton {
         });
     }
 
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public int dip2px( float dpValue) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if(isShow) {
+            int tabWidth = getWidth();
+            int tabHeight = getHeight();
+            float radius =  dip2px(10);
             if (count>0){
-                int rfBottom = 45;
+                int ry = (int)(tabHeight/5+radius/2);
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
                 paint.setStyle(Paint.Style.FILL);//充满
                 paint.setColor(Color.parseColor("#FF7800"));
-                canvas.drawCircle((getWidth() + mDrawableWidth) / 2 + 20, 19, 18, paint);
+                canvas.drawCircle(tabWidth/2+mDrawableWidth, tabHeight/5, radius, paint);
 
                 paint.reset();
                 paint.setColor(Color.WHITE);
-                paint.setStrokeWidth(8);
+                paint.setStrokeWidth(dip2px(8));
                 paint.setAntiAlias(true);
                 //设置字体大小
-                paint.setTextSize(22);
+                paint.setTextSize(dip2px(12));
 
                 if (count>=100){
-                    canvas.drawText("...", (getWidth() + mDrawableWidth) / 2+13, 25, paint);
+                    canvas.drawText("…", tabWidth/2+mDrawableWidth-(radius/2), ry, paint);
                 }else if (count>=10){
-                    canvas.drawText(String.valueOf(count), (getWidth() + mDrawableWidth) / 2+7, 25, paint);
+                    canvas.drawText(String.valueOf(count), tabWidth/2+mDrawableWidth-((2*radius)/3), ry, paint);
                 }else{
-                    canvas.drawText(String.valueOf(count), (getWidth() + mDrawableWidth) / 2+15, 25, paint);
+                    canvas.drawText(String.valueOf(count), tabWidth/2+mDrawableWidth-(radius/2-3), ry, paint);
                 }
             }else{//count 小于等于0 显示红点
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
                 paint.setStyle(Paint.Style.FILL);
                 paint.setColor(Color.parseColor("#FF7800"));
-                canvas.drawCircle((getWidth() + mDrawableWidth) / 2 + 20, 10, 8, paint);
+                canvas.drawCircle(tabWidth/2+mDrawableWidth, tabHeight/5, dip2px(6), paint);
             }
         }
     }

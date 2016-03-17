@@ -59,6 +59,13 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
     private TextView mTvSystemTitle,mTvNoticeTitle;
     private TextView mTvSystemDot,mTvNoticeDot;
 
+    private OnFragmentInteractionListener mListener;
+
+    /**
+     * 首次进入在onResume方法中不刷新数据，只在onRefreshBegin中刷新数据。
+     */
+    boolean isOnceResume = false;
+
     public static MessageFragment newInstance() {
         MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
@@ -67,7 +74,6 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         return fragment;
     }
 
-    private OnFragmentInteractionListener mListener;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -79,14 +85,14 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
     @Override
     public void onResume() {
         super.onResume();
-        if(mList !=null  && mList.size()>0){
-            mAdapter.notifyDataSetChanged();
+        if(mList !=null  && mList.size()>0 && isOnceResume){
+            updateData();
         }
-        getRedDot();
     }
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
+        isOnceResume = false;
         pageIndex = 1;
         mMessType = MESS_TYPE_SYSTEM;
 
@@ -156,8 +162,8 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         if(mList !=null){
             mList.clear();
             mAdapter.notifyDataSetChanged();
+            fetchData(pageIndex, mMessType);
         }
-        fetchData(pageIndex, mMessType);
     }
 
     private void getRedDot(){
@@ -257,6 +263,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                 }
                 mAdapter.notifyData(mList,messType);
                 getRedDot();
+                isOnceResume = true;
             }
         }, new DialogErrorListener() {
             @Override
