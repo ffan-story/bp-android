@@ -24,6 +24,8 @@ public class BadgerRadioButton extends RadioButton {
 
     private boolean isShow = false;
 
+    private int count = 0;
+
     public BadgerRadioButton(Context context) {
         this(context, null);
     }
@@ -68,27 +70,31 @@ public class BadgerRadioButton extends RadioButton {
             int tabWidth = getWidth();
             int tabHeight = getHeight();
             float radius =  dip2px(10);
+            int textSize = dip2px(12);
             if (count>0){
+                int rx = tabWidth/2+mDrawableWidth;
                 int ry = (int)(tabHeight/5+radius/2);
+
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
                 paint.setStyle(Paint.Style.FILL);//充满
                 paint.setColor(Color.parseColor("#FF7800"));
-                canvas.drawCircle(tabWidth/2+mDrawableWidth, tabHeight/5, radius, paint);
+                canvas.drawCircle(rx, tabHeight / 5, radius, paint);
 
                 paint.reset();
                 paint.setColor(Color.WHITE);
                 paint.setStrokeWidth(dip2px(8));
                 paint.setAntiAlias(true);
                 //设置字体大小
-                paint.setTextSize(dip2px(12));
+                paint.setTextSize(textSize);
 
+                int textWidth;
                 if (count>=100){
-                    canvas.drawText("…", tabWidth/2+mDrawableWidth-(radius/2), ry, paint);
-                }else if (count>=10){
-                    canvas.drawText(String.valueOf(count), tabWidth/2+mDrawableWidth-((2*radius)/3), ry, paint);
-                }else{
-                    canvas.drawText(String.valueOf(count), tabWidth/2+mDrawableWidth-(radius/2-3), ry, paint);
+                    textWidth = getTextWidth(paint, "…");
+                    canvas.drawText("…", rx-textWidth/2, ry, paint);
+                }else {
+                    textWidth = getTextWidth(paint, String.valueOf(count));
+                    canvas.drawText(String.valueOf(count), rx-textWidth/2, ry, paint);
                 }
             }else{//count 小于等于0 显示红点
                 Paint paint = new Paint();
@@ -100,7 +106,25 @@ public class BadgerRadioButton extends RadioButton {
         }
     }
 
-    private int count = 0;
+
+    /**
+     * 计算文字宽度
+     * @param paint
+     * @param str
+     * @return
+     */
+    public static int getTextWidth(Paint paint, String str) {
+        int iRet = 0;
+        if (str != null && str.length() > 0) {
+            int len = str.length();
+            float[] widths = new float[len];
+            paint.getTextWidths(str, widths);
+            for (int j = 0; j < len; j++) {
+                iRet += (int) Math.ceil(widths[j]);
+            }
+        }
+        return iRet;
+    }
 
     /**
      * 显示角标
