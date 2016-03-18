@@ -328,6 +328,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                 mMessType = MESS_TYPE_SYSTEM;
                 pageIndex =1;
                 mList.clear();
+                mAdapter.notifyDataSetChanged();
                 mImgNotice.setVisibility(View.INVISIBLE);
                 mImgSystem.setVisibility(View.VISIBLE);
                 mTvSystemTitle.setTextColor(Color.parseColor("#3d99e9"));
@@ -338,6 +339,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                 mMessType = MESS_TYPE_NOTICE;
                 pageIndex =1;
                 mList.clear();
+                mAdapter.notifyDataSetChanged();
                 mImgNotice.setVisibility(View.VISIBLE);
                 mImgSystem.setVisibility(View.INVISIBLE);
                 mTvNoticeTitle.setTextColor(Color.parseColor("#3d99e9"));
