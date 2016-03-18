@@ -3,6 +3,7 @@
     <item>
         <shape>
             <corners android:radius="2dp"/>
+            <solid android:color="@color/white"/>
             <!-- 描边 -->
             <stroke
                 android:width="@dimen/dividerheight"

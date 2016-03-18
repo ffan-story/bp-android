@@ -38,14 +38,13 @@
                     android:id="@+id/tv_dot_system"
                     android:layout_width="@dimen/view_spacing_20"
                     android:layout_height="@dimen/view_spacing_20"
+                    android:layout_marginTop="@dimen/view_size_3"
                     android:layout_toRightOf="@id/tv_message_system"
+                    android:background="@drawable/bg_red_dot"
                     android:gravity="center|center_vertical"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_size_12"
-                    android:visibility="invisible"
-                    android:background="@drawable/bg_red_dot"
-                    android:layout_marginTop="@dimen/view_size_3"
-                    />
+                    android:visibility="invisible" />
 
 
                 <ImageView
@@ -54,8 +53,7 @@
                     android:layout_height="2dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerInParent="true"
-                    android:background="@color/bg_color_blue"
-                     />
+                    android:background="@color/bg_color_blue" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -73,19 +71,19 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center"
-                    android:text="@string/message_notice"/>
+                    android:text="@string/message_notice" />
+
                 <TextView
                     android:id="@+id/tv_dot_notice"
                     android:layout_width="@dimen/view_spacing_20"
                     android:layout_height="@dimen/view_spacing_20"
+                    android:layout_marginTop="@dimen/view_size_3"
                     android:layout_toRightOf="@id/tv_message_notice"
+                    android:background="@drawable/bg_red_dot"
                     android:gravity="center|center_vertical"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_size_12"
-                    android:visibility="invisible"
-                    android:background="@drawable/bg_red_dot"
-                    android:layout_marginTop="@dimen/view_size_3"
-                    />
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/img_line_notice"
@@ -94,7 +92,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerInParent="true"
                     android:background="@color/bg_color_blue"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -106,27 +104,19 @@
             android:background="@color/divider" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/line1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/ll_tab"
-        android:background="@color/divider"
-        android:layout_marginTop="@dimen/view_spacing_5"/>
 
     <bp.feifan.com.refresh.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rotate_header_list_view_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/line1"
-        android:background="@color/white"
+        android:layout_below="@id/ll_tab"
+        android:background="@color/bg_color_gray_f8"
         cube_ptr:ptr_duration_to_close="200"
         cube_ptr:ptr_duration_to_close_header="1000"
         cube_ptr:ptr_keep_header_when_refresh="true"
         cube_ptr:ptr_pull_to_fresh="false"
         cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        cube_ptr:ptr_resistance="1.7"
-       >
+        cube_ptr:ptr_resistance="1.7">
 
         <com.feifan.bp.widget.LoadingMoreListView
             android:id="@+id/rotate_header_list_view"
@@ -137,19 +127,18 @@
             android:divider="@android:color/transparent"
             android:fadingEdge="none"
             android:listSelector="@android:color/transparent"
+            android:paddingTop="@dimen/view_spacing_5"
             android:scrollbarStyle="outsideOverlay"
+            android:clipToPadding="false"
             />
-        <!--android:paddingTop="@dimen/view_spacing_10"-->
-
-        <!--android:clipToPadding="false"-->
 
     </bp.feifan.com.refresh.PtrClassicFrameLayout>
-
 
     <bp.feifan.com.refresh.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/ptr_empty"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_below="@id/ll_tab"
         android:background="@color/main_bg"
         android:visibility="gone"
         cube_ptr:ptr_duration_to_close="200"
@@ -157,8 +146,7 @@
         cube_ptr:ptr_keep_header_when_refresh="true"
         cube_ptr:ptr_pull_to_fresh="false"
         cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        cube_ptr:ptr_resistance="1.7"
-        android:layout_below="@id/ll_tab">
+        cube_ptr:ptr_resistance="1.7">
 
         <LinearLayout
             android:layout_width="fill_parent"
