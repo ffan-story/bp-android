@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                android:background="@color/bg_color_gray_f3">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.feifan.bp.widget.SegmentedGroup
+            android:id="@+id/segmented_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/view_spacing_20"
+            android:layout_marginRight="@dimen/view_spacing_20"
+            android:layout_marginTop="@dimen/view_spacing_10"
+            android:orientation="horizontal"
+            segmentedgroup:sc_border_width="1dp"
+            segmentedgroup:sc_corner_radius="5dp"
+            segmentedgroup:sc_tint_color="@color/bg_color_blue">
+
+            <RadioButton
+                android:id="@+id/btn1"
+                style="@style/RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/today"/>
+
+            <RadioButton
+                android:id="@+id/btn2"
+                style="@style/RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/yesterday"/>
+
+            <RadioButton
+                android:id="@+id/btn3"
+                style="@style/RadioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/custom"/>
+
+        </com.feifan.bp.widget.SegmentedGroup>
+
+        <TextView
+            android:id="@+id/query_time"
+            style="@style/txt_color_new_blue_size14"
+            android:layout_below="@id/segmented_group"
+            android:gravity="center_vertical"
+            android:padding="@dimen/view_spacing_10"
+            android:drawableLeft="@mipmap/time_icon"
+            android:drawablePadding="@dimen/view_spacing_5"
+            android:layout_centerHorizontal="true"
+            android:text="查询时间 : 2016-1-1 10:00:00"/>
+
+
+        <ListView
+            android:id="@+id/receipts_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/query_time">
+
+        </ListView>
+
+    </RelativeLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

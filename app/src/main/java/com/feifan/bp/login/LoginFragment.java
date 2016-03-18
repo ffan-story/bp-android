@@ -3,7 +3,6 @@ package com.feifan.bp.login;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,9 +12,11 @@ import android.widget.EditText;
 
 import com.android.volley.Response.Listener;
 import com.feifan.bp.Constants;
+import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformApplication;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
@@ -93,7 +94,7 @@ public class LoginFragment extends BaseFragment {
                 String accountStr = account.getText().toString();
                 String passwordStr = password.getText().toString();
                 PlatformState.getInstance().setCurrentPhone(accountStr);
-                
+
                 try {
                     Utils.checkPhoneNumber(getActivity(), accountStr);
                     showProgressBar(true);
@@ -129,9 +130,11 @@ public class LoginFragment extends BaseFragment {
                                     profile.setHistoryUrl(authListModel.historyUrl);
                                     profile.setRightString(authListModel.rightString);
                                     // 通知界面跳转
-                                    Bundle args = new Bundle();
-                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
-                                    mListener.onFragmentInteraction(args);
+//                                    Bundle args = new Bundle();
+//                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
+//                                    mListener.onFragmentInteraction(args);
+                                    startActivity(LaunchActivity.buildIntent(getActivity()));
+                                    getActivity().finish();
                                 }
                             });
                         }
@@ -161,9 +164,9 @@ public class LoginFragment extends BaseFragment {
     }
 
     @Override
-    protected void setupToolbar(Toolbar toolbar) {
-        super.setupToolbar(toolbar);
-        toolbar.setTitle(R.string.login_login_text);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ((PlatformTopbarActivity)getActivity()).getToolbar().setNavigationIcon(null);
     }
 
     @Override

@@ -1,12 +1,9 @@
 package com.feifan.bp.home;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -46,10 +43,10 @@ import com.feifan.bp.home.commoditymanager.InstantsBuyFragment;
 import com.feifan.bp.home.storeanalysis.visitorsAnalysisFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.AuthListModel.AuthItem;
-import com.feifan.bp.marketinganalysis.MarketingHomeFragment;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.receiptsrecord.ReceiptsFragment;
 import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerTextView;
@@ -427,11 +424,14 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                  */
                                 FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_PROMTION_ANA);
 
-                                Bundle args = new Bundle();
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingHomeFragment.class.getName());
+//                                Bundle args = new Bundle();
+//                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
+//                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingHomeFragment.class.getName());
+//
+//                                mListener.onFragmentInteraction(args);
 
-                                mListener.onFragmentInteraction(args);
+//                                PlatformTopbarActivity.startActivity(getActivity(), ReceiptsFragment.class.getName(), "收款流水");
+                                ReceiptsFragment.start();
                             } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getMarketingManageId())) {//TODO 跳转到营销管理
                                 /**
                                  * 统计埋点  营销管理

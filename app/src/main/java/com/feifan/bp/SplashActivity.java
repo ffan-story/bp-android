@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,15 +19,17 @@ import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.feifan.bp.base.PlatformBaseActivity;
+import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.VersionModel;
 import com.feifan.bp.login.AuthListModel;
+import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.material.MaterialDialog;
 import com.feifan.statlib.FmsAgent;
-import com.wanda.crashsdk.pub.FeifanCrashManager;
 import com.networkbench.agent.impl.NBSAppAgent;
+import com.wanda.crashsdk.pub.FeifanCrashManager;
 
 /**
  * 欢迎界面
@@ -37,7 +40,6 @@ public class SplashActivity extends PlatformBaseActivity {
 
     private MaterialDialog mDialog;
     private static final String TAG = "SplashActivity";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,9 @@ public class SplashActivity extends PlatformBaseActivity {
         // 统计埋点----用户启动APP
         FmsAgent.onEvent(getApplicationContext(), Statistics.USER_OPEN_APP);
 
+        //启动动画
+        overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+
         //内存权限检查
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED
@@ -54,8 +59,17 @@ public class SplashActivity extends PlatformBaseActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     Constants.MY_PERMISSIONS_REQUEST_STORAGE);
         } else {
-            checkVersion();
+            //防闪烁
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    checkVersion();
+                }
+            },500);
         }
+
+        //统计埋点初始化
+        FmsAgent.init(getApplicationContext(), EnvironmentManager.getHostFactory().getFFanApiPrefix() + "mxlog");
         FeifanCrashManager.getInstance().reportActive();
 
 
@@ -98,7 +112,9 @@ public class SplashActivity extends PlatformBaseActivity {
 
                 if (uid == Constants.NO_INTEGER) {
                     if (mustUpdate == VersionModel.UPDATE_NO_UPDATE) {
-                        startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+//                        startActivity(LaunchActivity.buildIntent(SplashActivity.this));
+//                        finish();
+                        PlatformTopbarActivity.startActivityFromOther(PlatformState.getApplicationContext(), LoginFragment.class.getName(), getString(R.string.login_login_text));
                         finish();
                     } else {
                         AlertDialog.Builder b = new AlertDialog.Builder(SplashActivity.this);
@@ -196,6 +212,13 @@ public class SplashActivity extends PlatformBaseActivity {
                 finish();
             }
         });
+
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override

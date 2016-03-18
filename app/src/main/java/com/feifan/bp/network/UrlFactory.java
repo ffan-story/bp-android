@@ -197,23 +197,7 @@ public abstract class UrlFactory {
                 concat("&version=" + BuildConfig.VERSION_CODE).
                 concat("&showTabs=0");
     }
-    /************************************/
-    public static String urlForHtmlTest(String reUrl) {
-        UserProfile userProfile = UserProfile.getInstance();
-        String paramStart = "?";
-        if (reUrl.contains(paramStart)) {
-            paramStart = "&";
-        }
-        return "http://10.1.80.161/".concat(formatRelativeUrl(reUrl)).
-                concat(paramStart).
-                concat("loginToken=").concat(userProfile.getLoginToken()).
-                concat("&uid=").concat(String.valueOf(userProfile.getUid())).
-                concat("&appType=bpMobile").
-                concat("&version=" + BuildConfig.VERSION_CODE).
-                concat("&showTabs=0");
-    }
 
-    /************************************/
     //----for http request---//
     public static String getLoginUrl() {
         return EnvironmentManager.getHostFactory().getXadminApiPrefix() + "login";
@@ -388,6 +372,15 @@ public abstract class UrlFactory {
      */
     public static String getInstEventGoodsCommAndSave() {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix()  + "mapp/enroll/activity";
+    }
+
+    /**
+     * http://api.sit.ffan.com/mapp/v1/cashflow?action=list
+     * 获取收款流水列表
+     * @return
+     */
+    public static String getReceiptsRecordsList(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "cashflow?action=list";
     }
 
     private static String formatRelativeUrl(String relativeUrl) {

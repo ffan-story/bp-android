@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+
 import com.feifan.bp.base.PlatformBaseActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
@@ -69,6 +70,21 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     }
 
     /**
+     * startActivity
+     * 从非activity打开activity
+     * @param context
+     * @param fragmentName
+     * @param titleName
+     */
+    public static void startActivityFromOther(Context context, String fragmentName,String titleName) {
+        Intent i = new Intent(context, PlatformTopbarActivity.class);
+        i.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO,fragmentName);
+        i.putExtra(Constants.EXTRA_KEY_TITLE, titleName);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(i);
+    }
+
+    /**
      * startActivityForResult
      * 用bundle传参
      * @param context
@@ -103,7 +119,6 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topbar);
-
         args = getIntent().getBundleExtra(EXTRA_ARGS);
         // 初始化标题栏
         mToolbar = (Toolbar)findViewById(R.id.topbar_header);
