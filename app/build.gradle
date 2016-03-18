@@ -42,6 +42,7 @@ android {
         versionName version
     }
 
+
     signingConfigs {
         releaseConfig {
             keyAlias 'bpkeystore'
@@ -137,9 +138,12 @@ dependencies {
     compile project(':materialwidget')
     compile project(':statlib')
     //    compile 'junit:junit:4.10'
+
     //    compile 'org.mockito:mockito-core:1.+'
+
     //    compile 'org.robolectric:robolectric:3.0'
     compile project(':libworks:bpcrash')
+    compile files('libs/volley.jar')
     compile 'com.ffan.lib:xglibs:1.0.3'
 }
 

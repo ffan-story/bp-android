@@ -50,6 +50,8 @@ import java.util.Map;
 public class JsonRequest<T extends BaseModel> extends Request<T> {
 
     protected static final String TAG = "Request";
+    private static final String UNI_SOURCE_PARAM = "_uni_source";
+    private static final String UNI_SOURCE_VALUE = "2.1";
 
     protected static Map<String, String> REDUNDANT_PARAMS;
 
@@ -68,6 +70,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
         REDUNDANT_PARAMS = new HashMap<String, String>();
         REDUNDANT_PARAMS.put("appType", "bpMobile");
         REDUNDANT_PARAMS.put("clientType", "Android");
+        REDUNDANT_PARAMS.put(UNI_SOURCE_PARAM, UNI_SOURCE_VALUE);
         REDUNDANT_PARAMS.put("version", String.valueOf(BuildConfig.VERSION_CODE));
 //            mParams.put("clientAgent", )
         REDUNDANT_PARAMS.put("uid", String.valueOf(UserProfile.getInstance().getUid()));

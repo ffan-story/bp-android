@@ -28,7 +28,6 @@ proguard/
 
 # built native files
 *.o
-*.so
 
 # Mac OS X clutter
 *.DS_Store

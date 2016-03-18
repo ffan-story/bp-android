@@ -1,4 +1,4 @@
-package com.feifan.bp;
+package com.feifan.bp.xg;
 
 /**
  * Created by mengmeng on 16/3/14.
@@ -7,7 +7,6 @@ package com.feifan.bp;
 import android.content.Context;
 import android.util.Log;
 
-import com.ffan.xg.MessageReceiver;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
@@ -17,7 +16,7 @@ import com.tencent.android.tpush.XGPushTextMessage;
 /**
  * Created by mengmeng on 16/3/7.
  */
-public class XGPushMsgReceiver  extends MessageReceiver {
+public class XGPushMsgReceiver  extends XGPushBaseReceiver {
 
     private final String TAG = "MessageReceiver";
 
