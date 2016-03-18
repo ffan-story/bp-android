@@ -102,7 +102,6 @@ public class PlatformApplication extends Application {
             String uid = String.valueOf(profile.getUid());
             mXGPushManger.unRegister();
             mXGPushManger.registerApp(uid);
-            Log.e("register xg ",uid);
         }
     }
     @Override

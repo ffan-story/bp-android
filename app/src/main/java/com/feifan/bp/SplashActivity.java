@@ -43,7 +43,10 @@ public class SplashActivity extends PlatformBaseActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFormat(PixelFormat.RGBA_8888);
         setContentView(R.layout.activity_splash);
-        //兼容Api15及以下的系统
+
+        // 统计埋点----用户启动APP
+        FmsAgent.onEvent(getApplicationContext(), Statistics.USER_OPEN_APP);
+
         //内存权限检查
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED
@@ -54,8 +57,7 @@ public class SplashActivity extends PlatformBaseActivity {
             checkVersion();
         }
         FeifanCrashManager.getInstance().reportActive();
-        // 统计埋点----用户启动APP
-        FmsAgent.onEvent(getApplicationContext(), Statistics.USER_OPEN_APP);
+
 
         //权限检查对话框
         mDialog = new MaterialDialog(this);
@@ -78,7 +80,9 @@ public class SplashActivity extends PlatformBaseActivity {
                     }
                 });
         // 听云
-        NBSAppAgent.setLicenseKey(getString(R.string.tingyun_key)).withLocationServiceEnabled(true).start(this);
+        if(BuildConfig.CURRENT_ENVIRONMENT.equals(Constants.Environment.PRODUCT)) {
+            NBSAppAgent.setLicenseKey(getString(R.string.tingyun_key)).withLocationServiceEnabled(true).start(this);
+        }
     }
 
     private void checkVersion() {

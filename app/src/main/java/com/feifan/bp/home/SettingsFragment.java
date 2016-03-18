@@ -21,11 +21,16 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
+
+import com.feifan.bp.login.UserCtrl;
+import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.settings.feedback.FeedBackFragment;
+
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.password.ResetPasswordFragment;
-import com.feifan.bp.settings.feedback.FeedBackFragment;
+
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.statlib.FmsAgent;
@@ -149,20 +154,27 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
                 break;
             case R.id.settings_exit:
-                Executors.newSingleThreadExecutor().execute(new Runnable() {
-
+                //调用登出接口
+                UserCtrl.logout(new Listener<BaseModel>() {
                     @Override
-                    public void run() {
+                    public void onResponse(BaseModel model) {
+
                         PlatformState.getInstance().reset();
                         UserProfile.getInstance().clear();
-                        getActivity().runOnUiThread(new Runnable() {
+
+                        Executors.newSingleThreadExecutor().execute(new Runnable() {
 
                             @Override
                             public void run() {
-                                Bundle args = new Bundle();
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LaunchActivity.class.getName());
-                                mListener.onFragmentInteraction(args);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Bundle args = new Bundle();
+                                        args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
+                                        args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LaunchActivity.class.getName());
+                                        mListener.onFragmentInteraction(args);
+                                    }
+                                });
                             }
                         });
                     }

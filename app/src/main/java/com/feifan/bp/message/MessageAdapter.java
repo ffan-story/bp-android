@@ -61,6 +61,13 @@ class MessageAdapter extends BaseAdapter{
         }
         MessageModel.MessageData messageData = messageDataList.get(position);
 
+
+        if (position == messageDataList.size()-1){
+            mViewHolder.mImgLine2.setVisibility(View.GONE);
+        }else{
+            mViewHolder.mImgLine2.setVisibility(View.VISIBLE);
+        }
+
         if (null != messageData.mStrMessStatus && messageData.mStrMessStatus.equals(Constants.UNREAD)) {
             mViewHolder.mImgRedDot.setVisibility(View.VISIBLE);
             mViewHolder.mMessSnippet.setTextColor(mContext.getResources().getColor(R.color.font_color_66));
@@ -77,17 +84,26 @@ class MessageAdapter extends BaseAdapter{
             mViewHolder.mMessSnippet.setText(messageData.mStrMessSniper);
             mViewHolder.mMessSender.setText(messageData.mStrMessSender);
         }
+        if (TextUtils.isEmpty(messageData.mStrMessTag)){
+            mViewHolder.mTvTag.setVisibility(View.GONE);
+        }else{
+            mViewHolder.mTvTag.setVisibility(View.VISIBLE);
+            mViewHolder.mTvTag.setText(messageData.mStrMessTag);
+        }
         return convertView;
     }
 
     public static class ViewHolder {
+        private ImageView mImgLine2;
         private ImageView mImgRedDot;
-        private TextView mMessSnippet,mMessTime,  mMessSender;
+        private TextView mMessSnippet,mMessTime,  mMessSender,mTvTag;
         public ViewHolder(View itemView) {
             mMessSnippet = (TextView)itemView.findViewById(R.id.tv_message_snippet);
             mMessTime = (TextView)itemView.findViewById(R.id.tv_message_time);
             mMessSender = (TextView)itemView.findViewById(R.id.tv_message_sender);
             mImgRedDot=(ImageView)itemView.findViewById(R.id.img_message_red_point);
+            mTvTag = (TextView)itemView.findViewById(R.id.tv_message_tag);
+            mImgLine2 = (ImageView)itemView.findViewById(R.id.line2);
         }
     }
 }

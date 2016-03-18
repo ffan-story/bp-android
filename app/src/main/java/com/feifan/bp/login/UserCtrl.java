@@ -11,6 +11,7 @@ import com.feifan.bp.network.PostRequest;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
+
 import com.feifan.bp.network.response.ToastErrorListener;
 
 /**
@@ -81,4 +82,15 @@ public class UserCtrl {
         PlatformState.getInstance().getRequestQueue().add(request);
     }
 
+    /**
+     * xadmin登出请求
+     */
+    public static  void  logout(Listener<BaseModel> listener){
+        JsonRequest<BaseModel> request = new GetRequest.Builder<>(UrlFactory.getLogoutUrl())
+                .errorListener(new ToastErrorListener())
+                .build()
+                .targetClass(BaseModel.class)
+                .listener(listener);
+        PlatformState.getInstance().getRequestQueue().add(request);
+    }
 }

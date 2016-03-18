@@ -2,7 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <corners android:radius="3dp"/>
+            <corners android:radius="2dp"/>
+            <solid android:color="@color/white"/>
             <!-- 描边 -->
             <stroke
                 android:width="@dimen/dividerheight"

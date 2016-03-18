@@ -71,7 +71,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
         REDUNDANT_PARAMS.put("version", String.valueOf(BuildConfig.VERSION_CODE));
 //            mParams.put("clientAgent", )
         REDUNDANT_PARAMS.put("uid", String.valueOf(UserProfile.getInstance().getUid()));
-        //REDUNDANT_PARAMS.put("applicant", String.valueOf(UserProfile.getInstance().getUid()));//2016-1-11加操作者id
+//        REDUNDANT_PARAMS.put("applicant", String.valueOf(UserProfile.getInstance().getUid()));//2016-1-11加操作者id
         REDUNDANT_PARAMS.put("agid", UserProfile.getInstance().getAuthRangeId());
         REDUNDANT_PARAMS.put("loginToken", UserProfile.getInstance().getLoginToken());
     }
@@ -128,7 +128,7 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
         try {
             String jsonString =
                     new String(response.data, HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
-            LogUtil.i(TAG, "Receive:" + formatJson(jsonString));
+//            LogUtil.i(TAG, "Receive:" + formatJson(jsonString));
             LogUtil.i(TAG, "Receive:" + jsonString);
 
             // 保存最新Cookie

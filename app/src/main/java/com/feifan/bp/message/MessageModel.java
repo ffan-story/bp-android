@@ -1,12 +1,10 @@
 package com.feifan.bp.message;
 
 import com.feifan.bp.network.BaseModel;
-import com.feifan.bp.util.LogUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 /**
@@ -25,9 +23,6 @@ public class MessageModel extends BaseModel {
     protected void parseData(String json) throws JSONException {
         JSONObject jsonObject = new JSONObject(json);
         totalCount = jsonObject.optInt("totalCount");
-        LogUtil.i("congjing",""+(totalCount>0));
-
-        LogUtil.i("congjing","data"+jsonObject.isNull("data"));
         if (totalCount>0){
             JSONArray dataArray = jsonObject.getJSONArray("data");
             messageDataList = new ArrayList<MessageData>();
@@ -48,6 +43,7 @@ public class MessageModel extends BaseModel {
 
                     mStrMessageData.mStrMessTime = dataArray.getJSONObject(i).optString("createTime_text");
                     mStrMessageData.mStrMessSender = dataArray.getJSONObject(i).optString("sender");
+                    mStrMessageData.mStrMessTag = dataArray.getJSONObject(i).optString("tagName");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -67,5 +63,6 @@ public class MessageModel extends BaseModel {
         public String mStrMessId;
         public String mStrMessStatus;
         public String mStrDetailUrl;
+        public String mStrMessTag;
     }
 }

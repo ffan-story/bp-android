@@ -1,6 +1,7 @@
 package com.feifan.bp.message;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.view.MenuItem;
@@ -26,7 +27,6 @@ import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.network.UrlFactory;
 import com.feifan.bp.network.response.DialogErrorListener;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 
@@ -55,7 +55,16 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
     private RelativeLayout mRelSystem,mRelNotice;
     private ImageView mImgSystem,mImgNotice;
     private int  mIntNoticeMessCount,mIntSystemMessCount;
+
+    private TextView mTvSystemTitle,mTvNoticeTitle;
     private TextView mTvSystemDot,mTvNoticeDot;
+
+    private OnFragmentInteractionListener mListener;
+
+    /**
+     * 首次进入在onResume方法中不刷新数据，只在onRefreshBegin中刷新数据。
+     */
+    boolean isOnceResume = false;
 
     public static MessageFragment newInstance() {
         MessageFragment fragment = new MessageFragment();
@@ -65,7 +74,6 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         return fragment;
     }
 
-    private OnFragmentInteractionListener mListener;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -74,16 +82,17 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         }
     }
 
-    boolean isUpdata = true;
     @Override
     public void onResume() {
         super.onResume();
-        isUpdata = false;
-        fetchData(pageIndex,mMessType);
+        if(mList !=null  && mList.size()>0 && isOnceResume){
+            updateData();
+        }
     }
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
+        isOnceResume = false;
         pageIndex = 1;
         mMessType = MESS_TYPE_SYSTEM;
 
@@ -100,10 +109,12 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         mImgSystem = (ImageView)view.findViewById(R.id.img_line_system);
         mImgNotice = (ImageView)view.findViewById(R.id.img_line_notice);
 
+        mTvSystemTitle = (TextView)view.findViewById(R.id.tv_message_system);
+        mTvNoticeTitle = (TextView)view.findViewById(R.id.tv_message_notice);
+
         mTvSystemDot = (TextView)view.findViewById(R.id.tv_dot_system);
         mTvNoticeDot = (TextView)view.findViewById(R.id.tv_dot_notice);
 
-        getRedDot();
         mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -119,7 +130,6 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
 
         mAdapter = new MessageAdapter(getActivity(),mList,mMessType);
         mListView.setAdapter(mAdapter);
-
         mListView.setOnLoadingMoreListener(this);
         mPtrFrame.setLastUpdateTimeRelateObject(this);
         mPtrFrameEmpty.setPtrHandler(this);
@@ -136,7 +146,6 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                 mPtrFrame.autoRefresh();
             }
         }, 100);
-
         return view;
     }
 
@@ -149,16 +158,12 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
      * 更新数据
      */
     public void updateData() {
-        if (isUpdata){
-            isUpdata = true;
-            pageIndex = 1;
-            if(mList !=null){
-                mList.clear();
-                mAdapter.notifyDataSetChanged();
-            }
+        pageIndex = 1;
+        if(mList !=null){
+            mList.clear();
+            mAdapter.notifyDataSetChanged();
             fetchData(pageIndex, mMessType);
         }
-
     }
 
     private void getRedDot(){
@@ -184,18 +189,27 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
      * @param intNoticeMessCount
      */
     private void setRedDot(int intSystemMessCount,int intNoticeMessCount){
-        if (intNoticeMessCount>0){
-            mTvNoticeDot.setVisibility(View.VISIBLE);
-            mTvNoticeDot.setText(String.valueOf(intNoticeMessCount));
-        }else{
-            mTvNoticeDot.setVisibility(View.INVISIBLE);
-        }
-        if (intSystemMessCount>0){
+        if (intSystemMessCount>=100){
+            mTvSystemDot.setVisibility(View.VISIBLE);
+            mTvSystemDot.setText("…");
+        }else if (intSystemMessCount>0){
             mTvSystemDot.setVisibility(View.VISIBLE);
             mTvSystemDot.setText(String.valueOf(intSystemMessCount));
         }else{
             mTvSystemDot.setVisibility(View.INVISIBLE);
         }
+
+        if (intNoticeMessCount>=100){
+            mTvNoticeDot.setVisibility(View.VISIBLE);
+            mTvNoticeDot.setText("…");
+        }else if (intNoticeMessCount>0){
+            mTvNoticeDot.setVisibility(View.VISIBLE);
+            mTvNoticeDot.setText(String.valueOf(intNoticeMessCount));
+        }else{
+            mTvNoticeDot.setVisibility(View.INVISIBLE);
+        }
+
+
     }
 
     /**
@@ -249,6 +263,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                 }
                 mAdapter.notifyData(mList,messType);
                 getRedDot();
+                isOnceResume = true;
             }
         }, new DialogErrorListener() {
             @Override
@@ -313,16 +328,22 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
                 mMessType = MESS_TYPE_SYSTEM;
                 pageIndex =1;
                 mList.clear();
+                mAdapter.notifyDataSetChanged();
                 mImgNotice.setVisibility(View.INVISIBLE);
                 mImgSystem.setVisibility(View.VISIBLE);
-                fetchData(pageIndex,mMessType);
+                mTvSystemTitle.setTextColor(Color.parseColor("#3d99e9"));
+                mTvNoticeTitle.setTextColor(Color.parseColor("#666666"));
+                fetchData(pageIndex, mMessType);
                 break;
             case R.id.rel_mess_notice:
                 mMessType = MESS_TYPE_NOTICE;
                 pageIndex =1;
                 mList.clear();
+                mAdapter.notifyDataSetChanged();
                 mImgNotice.setVisibility(View.VISIBLE);
                 mImgSystem.setVisibility(View.INVISIBLE);
+                mTvNoticeTitle.setTextColor(Color.parseColor("#3d99e9"));
+                mTvSystemTitle.setTextColor(Color.parseColor("#666666"));
                 fetchData(pageIndex,mMessType);
                 break;
         }
