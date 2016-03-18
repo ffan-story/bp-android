@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.view.ViewTreeObserver;
 import android.widget.RadioButton;
 
-import com.feifan.bp.util.LogUtil;
+import com.feifan.bp.R;
 import com.feifan.bp.util.VersionUtil;
 
 /**
@@ -55,31 +55,21 @@ public class BadgerRadioButton extends RadioButton {
         });
     }
 
-    /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     */
-    public int dip2px( float dpValue) {
-        final float scale = getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if(isShow) {
-            int tabWidth = getWidth();
-            int tabHeight = getHeight();
-            float radius =  dip2px(10);
+            float radius = dip2px(10);
             int textSize = dip2px(12);
+            int rx =(int)((getWidth()+mDrawableWidth+radius)/2+12);
+            int ry = (int)(getHeight()/5+radius/2);
+            int color = getResources().getColor(R.color.orange_dot);
             if (count>0){
-                int rx = tabWidth/2+mDrawableWidth;
-                int ry = (int)(tabHeight/5+radius/2);
-
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
                 paint.setStyle(Paint.Style.FILL);//充满
-                paint.setColor(Color.parseColor("#FF7800"));
-                canvas.drawCircle(rx, tabHeight / 5, radius, paint);
+                paint.setColor(color);
+                canvas.drawCircle(rx, getHeight() / 5, radius, paint);
 
                 paint.reset();
                 paint.setColor(Color.WHITE);
@@ -100,30 +90,10 @@ public class BadgerRadioButton extends RadioButton {
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
                 paint.setStyle(Paint.Style.FILL);
-                paint.setColor(Color.parseColor("#FF7800"));
-                canvas.drawCircle(tabWidth/2+mDrawableWidth, tabHeight/5, dip2px(6), paint);
+                paint.setColor(color);
+                canvas.drawCircle((getWidth()+mDrawableWidth+4)/2+8, 10, dip2px(4), paint);
             }
         }
-    }
-
-
-    /**
-     * 计算文字宽度
-     * @param paint
-     * @param str
-     * @return
-     */
-    public static int getTextWidth(Paint paint, String str) {
-        int iRet = 0;
-        if (str != null && str.length() > 0) {
-            int len = str.length();
-            float[] widths = new float[len];
-            paint.getTextWidths(str, widths);
-            for (int j = 0; j < len; j++) {
-                iRet += (int) Math.ceil(widths[j]);
-            }
-        }
-        return iRet;
     }
 
     /**
@@ -151,4 +121,32 @@ public class BadgerRadioButton extends RadioButton {
         isShow = false;
         invalidate();
     }
+
+    /**
+     * 计算文字宽度
+     * @param paint
+     * @param str
+     * @return
+     */
+    public static int getTextWidth(Paint paint, String str) {
+        int iRet = 0;
+        if (str != null && str.length() > 0) {
+            int len = str.length();
+            float[] widths = new float[len];
+            paint.getTextWidths(str, widths);
+            for (int j = 0; j < len; j++) {
+                iRet += (int) Math.ceil(widths[j]);
+            }
+        }
+        return iRet;
+    }
+
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public int dip2px( float dpValue) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
 }
