@@ -80,7 +80,8 @@ public class SplashActivity extends PlatformBaseActivity {
                     }
                 });
         // 听云
-        if(BuildConfig.CURRENT_ENVIRONMENT.equals(Constants.Environment.PRODUCT)) {
+        if(BuildConfig.CURRENT_ENVIRONMENT.equals(Constants.Environment.PRODUCT)
+                && !BuildConfig.DEBUG) {
             NBSAppAgent.setLicenseKey(getString(R.string.tingyun_key)).withLocationServiceEnabled(true).start(this);
         }
     }
