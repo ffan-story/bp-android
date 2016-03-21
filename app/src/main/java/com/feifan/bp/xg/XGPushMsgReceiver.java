@@ -7,6 +7,7 @@ package com.feifan.bp.xg;
 import android.content.Context;
 import android.util.Log;
 
+import com.feifan.bp.receiptsrecord.ReceiptsFragment;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
@@ -99,7 +100,8 @@ public class XGPushMsgReceiver  extends XGPushBaseReceiver {
         }
         if (message.getActionType() == XGPushClickedResult.NOTIFACTION_CLICKED_TYPE) {
             //TODO notification  点击事件
-
+            ReceiptsFragment.start();
+            return;
         } else if (message.getActionType() == XGPushClickedResult.NOTIFACTION_DELETED_TYPE) {
 
         }
