@@ -1,8 +1,12 @@
 package com.feifan.bp.receiptsrecord;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.feifan.bp.Constants;
+import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
@@ -53,7 +59,27 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
 
     //打开收款流水页
     public static void start(){
-        PlatformTopbarActivity.startActivityFromOther(PlatformState.getApplicationContext(), ReceiptsFragment.class.getName(), "收款流水");
+        ActivityManager manager = (ActivityManager)PlatformState.getApplicationContext().getSystemService(PlatformState.getApplicationContext().ACTIVITY_SERVICE) ;
+        List<ActivityManager.RunningTaskInfo> runningTaskInfos = manager.getRunningTasks(1) ;
+        String name = "";
+        if(runningTaskInfos != null && runningTaskInfos.size() >0 && runningTaskInfos.get(0) != null && runningTaskInfos.get(0).topActivity != null) {
+            name = runningTaskInfos.get(0).topActivity.getClassName();
+        }
+        if(!TextUtils.isEmpty(name) && name.contains("com.feifan.bp")) {
+            Intent intent = new Intent(PlatformState.getApplicationContext(), PlatformTopbarActivity.class);
+            intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, ReceiptsFragment.class.getName());
+            intent.putExtra(Constants.EXTRA_KEY_TITLE, "收款流水");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PlatformState.getApplicationContext().startActivity(intent);
+        }else {
+            Intent[] intents = new Intent[2];
+            intents[0] = Intent.makeRestartActivityTask(new ComponentName(PlatformState.getApplicationContext(), com.feifan.bp.LaunchActivity.class));
+            intents[1] = new Intent(PlatformState.getApplicationContext(), PlatformTopbarActivity.class);
+            intents[1].putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, ReceiptsFragment.class.getName());
+            intents[1].putExtra(Constants.EXTRA_KEY_TITLE, "收款流水");
+            intents[1].setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PlatformState.getApplicationContext().startActivities(intents);
+        }
     }
 
     @Override
