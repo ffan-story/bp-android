@@ -85,6 +85,20 @@ public class PlatformTopbarActivity extends PlatformBaseActivity implements OnFr
     }
 
     /**
+     * 打开收款流水页   push消息
+     * @param context
+     * @param fragmentName
+     * @param titleName
+     */
+    public static void startReceipts(Context context, String fragmentName,String titleName) {
+        Intent i = new Intent(context, PlatformTopbarActivity.class);
+        i.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO,fragmentName);
+        i.putExtra(Constants.EXTRA_KEY_TITLE, titleName);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(i);
+    }
+
+    /**
      * startActivityForResult
      * 用bundle传参
      * @param context

@@ -16,21 +16,19 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
-import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
-
-import com.feifan.bp.login.UserCtrl;
-import com.feifan.bp.network.BaseModel;
-import com.feifan.bp.settings.feedback.FeedBackFragment;
-import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
 import com.feifan.bp.login.LoginFragment;
+import com.feifan.bp.login.UserCtrl;
+import com.feifan.bp.network.BaseModel;
 import com.feifan.bp.password.ResetPasswordFragment;
+import com.feifan.bp.settings.feedback.FeedBackFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.statlib.FmsAgent;
@@ -173,8 +171,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 //                                        args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
 //                                        args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LaunchActivity.class.getName());
 //                                        mListener.onFragmentInteraction(args);
-                                    PlatformTopbarActivity.startActivityFromOther(getActivity(), LoginFragment.class.getName(), getActivity().getString(R.string.login_login_text));
-                                    getActivity().finish();
+                                    if(isAdded()){
+                                        PlatformTopbarActivity.startActivityFromOther(getActivity(), LoginFragment.class.getName(), getActivity().getString(R.string.login_login_text));
+                                        getActivity().finish();
+                                    }
                                 }
                             });
 

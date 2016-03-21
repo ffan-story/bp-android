@@ -99,6 +99,12 @@ public class AuthSupplier {
          * @return
          */
         String getReportId();
+
+        /**
+         * 获取收款流水ID
+         * @return
+         */
+        String getReceiptsId();
     }
 
     /**
@@ -118,6 +124,7 @@ public class AuthSupplier {
             mFilter.put(1333, R.mipmap.index_ic_report);   // 对账管理
             mFilter.put(1445, R.mipmap.index_ic_analysis); // 店铺分析
             mFilter.put(1673, R.mipmap.index_ic_graphchart); // 营销分析
+            mFilter.put(1863, R.mipmap.index_ic_receipts); // 收款流水
         }
 
         @Override
@@ -184,6 +191,11 @@ public class AuthSupplier {
 
         @Override
         public String getReportId() {  return "1333"; }
+
+        @Override
+        public String getReceiptsId() {
+            return "1863";
+        }
 
     }
 
@@ -276,6 +288,11 @@ public class AuthSupplier {
 
         @Override
         public String getReportId() {  return "1145"; }
+
+        @Override
+        public String getReceiptsId() {
+            return null;
+        }
 
     }
 

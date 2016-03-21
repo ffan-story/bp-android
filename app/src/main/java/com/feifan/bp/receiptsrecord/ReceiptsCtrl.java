@@ -3,6 +3,7 @@ package com.feifan.bp.receiptsrecord;
 import com.android.volley.Response;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
@@ -21,7 +22,7 @@ public class ReceiptsCtrl {
                 .param("endDate",endDate)
                 .param("page",page)
                 .param("limit", Constants.LIST_LIMIT)
-                .param("storeId", "11200")
+                .param("storeId", UserProfile.getInstance().getAuthRangeId())
                 .build()
                 .targetClass(ReceiptsModel.class)
                 .listener(listener);

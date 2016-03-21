@@ -3,11 +3,11 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-    <include layout="@layout/no_data_view"
+    <include layout="@layout/view_no_data"
              android:id="@+id/no_data"
              android:layout_width="match_parent"
              android:layout_height="match_parent" />
-    <include layout="@layout/no_net_view"
+    <include layout="@layout/view_no_net"
              android:id="@+id/no_net"
              android:layout_width="match_parent"
              android:layout_height="match_parent"/>

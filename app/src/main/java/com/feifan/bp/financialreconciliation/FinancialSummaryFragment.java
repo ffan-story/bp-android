@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
-import com.feifan.bp.receiptsrecord.ReceiptsAdapter;
 import com.feifan.bp.receiptsrecord.ReceiptsModel;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.SegmentedGroup;
@@ -36,9 +35,9 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
     private TextView mQueryTime;
     private int tabIndex, pageIndex;
     private SwipeRefreshLayout mSwipe;
-    private ListView receiptsList;
+    private ListView mList;
     private String mStartDate, mEndDate;
-    private ReceiptsAdapter mAdapter;
+    private SummaryAdapter mAdapter;
     private List<ReceiptsModel.ReceiptsRecord> mReceiptsList;
     private Paginate mPaginate;
     private boolean isLoading;
@@ -62,7 +61,7 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
         mSwipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         mSwipe.setColorSchemeColors(R.color.accent);
         mSwipe.setOnRefreshListener(this);
-        receiptsList = (ListView) view.findViewById(R.id.receipts_list);
+        mList = (ListView) view.findViewById(R.id.receipts_list);
         btn1.setChecked(true);
         return view;
     }
@@ -88,7 +87,7 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
 //            }, new ToastErrorListener());
             initView();
         } else {
-            receiptsList.setAdapter(null);
+            mList.setAdapter(null);
             mSwipe.setVisibility(View.GONE);
             stopRefresh();
         }
@@ -97,7 +96,7 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
     private void initView() {
         setContentEmpty(false);
         setContentShown(true);
-        receiptsList.setAdapter(new ReceiptsAdapter(getActivity(), mReceiptsList));
+        mList.setAdapter(new SummaryAdapter(getActivity()));
     }
 
     private void fillView(ReceiptsModel model, boolean isLoadMore) {
@@ -108,11 +107,11 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
                 mAdapter.notifyData(mReceiptsList);
             }
         } else {
-            mAdapter = new ReceiptsAdapter(getActivity(), mReceiptsList);
-            receiptsList.setAdapter(mAdapter);
+            mAdapter = new SummaryAdapter(getActivity());
+            mList.setAdapter(mAdapter);
 //            mPaginate = Paginate.with(receiptsList, FinancialSummaryFragment.this)
-//                    .setLoadingTriggerThreshold(0)
-//                    .addLoadingListItem(true)
+//                  .setLoadingTriggerThreshold(0)
+//                  .addLoadingListItem(true)
 //                    .build();
         }
 //        mPaginate.setHasMoreDataToLoad(!hasLoadedAllItems());

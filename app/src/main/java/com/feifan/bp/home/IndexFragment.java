@@ -43,6 +43,7 @@ import com.feifan.bp.home.commoditymanager.InstantsBuyFragment;
 import com.feifan.bp.home.storeanalysis.visitorsAnalysisFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.AuthListModel.AuthItem;
+import com.feifan.bp.marketinganalysis.MarketingHomeFragment;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
@@ -424,14 +425,11 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                  */
                                 FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_PROMTION_ANA);
 
-//                                Bundle args = new Bundle();
-//                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-//                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingHomeFragment.class.getName());
-//
-//                                mListener.onFragmentInteraction(args);
+                                Bundle args = new Bundle();
+                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
+                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingHomeFragment.class.getName());
 
-//                                PlatformTopbarActivity.startActivity(getActivity(), ReceiptsFragment.class.getName(), "收款流水");
-                                ReceiptsFragment.start();
+                                mListener.onFragmentInteraction(args);
                             } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getMarketingManageId())) {//TODO 跳转到营销管理
                                 /**
                                  * 统计埋点  营销管理
@@ -447,13 +445,19 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                 /**
                                  *  统计埋点 对账管理
                                  */
-                                FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_FINA);
+                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_FINA);
 
                                 Bundle args = new Bundle();
                                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
                                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CheckManageFragment.class.getName());
                                 mListener.onFragmentInteraction(args);
-                            } else {
+                            }else if(item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getReceiptsId())){ // TODO 跳转到收款流水
+                                /**
+                                 * 统计埋点 收款流水
+                                 */
+                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_CHECKOUT_LST);
+                                PlatformTopbarActivity.startReceipts(PlatformState.getApplicationContext(), ReceiptsFragment.class.getName(), "收款流水");
+                            }else {
                                 BrowserActivity.startActivity(getContext(), url);
                             }
                         } else {

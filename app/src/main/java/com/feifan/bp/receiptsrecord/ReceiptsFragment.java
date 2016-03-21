@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,6 +55,8 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
     private List<ReceiptsModel.ReceiptsRecord> mReceiptsList;
     private Paginate mPaginate;
     private boolean isLoading;
+    private int mCurrentCount;
+    private int mTotalCount = 0;
     private RelativeLayout mNoDataView,mNoNetView; //无数据 & 无网络页
 
     //打开收款流水页
@@ -92,10 +95,10 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
             }
         });
         mSwipe = (SwipeRefreshLayout) view.findViewById(R.id.date_select_swipe);
-        mSwipe.setColorSchemeColors(R.color.accent);
+        mSwipe.setColorSchemeResources(R.color.accent);
         mSwipe.setOnRefreshListener(this);
         receiptsList  = (ListView) view.findViewById(R.id.receipts_list);
-        View header = LayoutInflater.from(getActivity()).inflate(R.layout.no_data_net_view,null,false);
+        View header = LayoutInflater.from(getActivity()).inflate(R.layout.view_no_data_net,null,false);
         mNoDataView = (RelativeLayout) header.findViewById(R.id.no_data);
         mNoNetView = (RelativeLayout) header.findViewById(R.id.no_net);
         mNoDataView.setVisibility(View.GONE);
@@ -113,6 +116,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
 
     @Override
     protected void requestData() {
+        mCurrentCount = 0;
         pageIndex = 0;
         fetchData(false);
     }
@@ -128,6 +132,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
                         stopRefresh();
                         setContentEmpty(false);
                         setContentShown(true);
+                        isLoading = false;
                         fillView(model, isLoadMore);
                     }
                 }
@@ -144,6 +149,8 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
         mReceiptsList = model.receiptsList;
         if(null != mReceiptsList && mReceiptsList.size() > 0){ // 有数据
             mNoDataView.setVisibility(View.GONE);
+            mCurrentCount += mReceiptsList.size();
+            mTotalCount = Integer.parseInt(model.totalCount);
         }else if(!isLoadMore){
             receiptsList.setAdapter(null);
             mNoDataView.setVisibility(View.VISIBLE);
@@ -194,7 +201,8 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
 
     @Override
     public boolean hasLoadedAllItems() {
-        return pageIndex == 3;
+        Log.e("ReceiptsFragment","current = " + mCurrentCount + "---total = " + mTotalCount);
+        return mCurrentCount == mTotalCount;
     }
 
     @Override
