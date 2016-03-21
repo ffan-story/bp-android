@@ -1,12 +1,10 @@
 package com.feifan.bp.receiptsrecord;
 
-import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +24,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ProgressFragment;
 import com.feifan.bp.network.response.ToastErrorListener;
+import com.feifan.bp.util.SystemUtil;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.SegmentedGroup;
@@ -59,13 +58,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
 
     //打开收款流水页
     public static void start(){
-        ActivityManager manager = (ActivityManager)PlatformState.getApplicationContext().getSystemService(PlatformState.getApplicationContext().ACTIVITY_SERVICE) ;
-        List<ActivityManager.RunningTaskInfo> runningTaskInfos = manager.getRunningTasks(1) ;
-        String name = "";
-        if(runningTaskInfos != null && runningTaskInfos.size() >0 && runningTaskInfos.get(0) != null && runningTaskInfos.get(0).topActivity != null) {
-            name = runningTaskInfos.get(0).topActivity.getClassName();
-        }
-        if(!TextUtils.isEmpty(name) && name.contains("com.feifan.bp")) {
+        if(SystemUtil.isBPActivities(PlatformState.getApplicationContext())) {
             Intent intent = new Intent(PlatformState.getApplicationContext(), PlatformTopbarActivity.class);
             intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, ReceiptsFragment.class.getName());
             intent.putExtra(Constants.EXTRA_KEY_TITLE, "收款流水");
