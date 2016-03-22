@@ -216,6 +216,10 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
      * 获取列表数据
      */
     public void fetchData (int pageIndex, final String messType){
+        if (!isAdded()){
+            return;
+        }
+
         setContentShown(true);
         if (isAdded() && !Utils.isNetworkAvailable(getActivity())){
             setContentEmpty(true, getString(R.string.empty_view_text), getString(R.string.common_retry_text), R.mipmap.empty_ic_timeout, new View.OnClickListener() {
