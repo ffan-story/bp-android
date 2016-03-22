@@ -72,6 +72,9 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void onClick(View view) {
+        if(!isAdded()){
+            return;
+        }
         final String phone = mPhoneNum.getText().toString();
         String smsCode = mSmsCode.getText().toString();
         switch (view.getId()) {
