@@ -52,8 +52,7 @@
                 android:layout_centerVertical="true"
                 android:ellipsize="end"
                 android:gravity="right"
-                android:singleLine="true"
-                android:text="北京通州万达广场" />
+                android:singleLine="true" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -74,7 +73,6 @@
                 android:ellipsize="end"
                 android:gravity="right"
                 android:singleLine="true"
-                android:text="已核销"
                 android:textColor="@color/red" />
         </RelativeLayout>
         <View
