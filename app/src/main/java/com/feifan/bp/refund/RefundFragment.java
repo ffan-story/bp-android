@@ -56,6 +56,9 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        if(!isAdded()) {
+            return;
+        }
         switch (v.getId()){
             case R.id.img_refund_scancode:
                 if (!UserProfile.getInstance().isStoreUser()) {
@@ -68,23 +71,23 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
             case R.id.btn_refund_next:
 
                 if (!UserProfile.getInstance().isStoreUser()) {
-                    Toast.makeText(getActivity(), R.string.error_message_permission_limited, Toast.LENGTH_SHORT).show();
+                    Utils.showShortToastSafely(R.string.error_message_permission_limited);
                     mEdRefundCode.setText("");
                     return;
                 }
                 if (TextUtils.isEmpty(mEdRefundCode.getText().toString().trim())) {
-                    Toast.makeText(getActivity(), R.string.order_number_can_not_be_empty, Toast.LENGTH_SHORT).show();
+                    Utils.showShortToastSafely(R.string.order_number_can_not_be_empty);
                     return;
                 }
 
                 if (!Utils.isNetworkAvailable(getActivity())) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_offline, Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_text_offline);
                     return;
                 }
 
                 String code = mEdRefundCode.getText().toString().replaceAll(" ", "");
                 try {
-                    Utils.checkDigitAndLetter(getActivity(), code);
+                    Utils.checkDigitAndLetter(code);
                 } catch (Throwable throwable) {
                     Utils.showShortToast(getActivity(), throwable.getMessage());
                     return;

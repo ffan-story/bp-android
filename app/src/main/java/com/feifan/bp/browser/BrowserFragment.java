@@ -374,7 +374,6 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             Log.d(TAG, "We got " + url + " in shouldOverrideUrlLoading via PlatformWebViewClient");
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
-            LogUtil.i(TAG, "schema======" + schema);
             if(TextUtils.isEmpty(schema)){
                return true;
             }
@@ -469,6 +468,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void addImage(String url) {
+        if(!isAdded()) {
+            return;
+        }
         mImgPickType = IMG_PICK_TYPE_0;
         String source = "both";
         int pos = url.indexOf("?");
@@ -518,7 +520,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     public void beginCrop(Uri source) {
         if (!isAdded()){
-            Utils.showShortToast(PlatformState.getApplicationContext(),"对不起，此机型不支持拍照功能，请从相册选择图片");
+            Utils.showShortToastSafely("对不起，此机型不支持拍照功能，请从相册选择图片");
             return;
         }
         Uri outputUri = Uri.fromFile(new File(getActivity().getCacheDir(), "cropped"));
@@ -553,7 +555,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             //new File(Crop.getOutput(result).getPath());
             // uploadPicture(Crop.getOutput(result));
         } else if (resultCode == Crop.RESULT_ERROR) {
-            Toast.makeText(getActivity(), Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+            Utils.showShortToastSafely(Crop.getError(result).getMessage());
         }
     }
 
@@ -591,8 +593,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                             LogUtil.i(TAG, "Upload image successfully, file'md5 is " + name);
                             mWebView.loadUrl("javascript:imageCallback('" + name + "')");
                         } else {
-                            Utils.showShortToast(getActivity(),
-                                    R.string.error_message_upload_picture_fail);
+                            Utils.showShortToastSafely(R.string.error_message_upload_picture_fail);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -604,15 +605,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 public void onFailure(int statusCode, Header[] headers,
                                       byte[] responseBody, Throwable error) {
                     hideProgressBar();
-                    Utils.showShortToast(getActivity(),
-                            R.string.error_message_upload_picture_fail);
+                    Utils.showShortToastSafely(R.string.error_message_upload_picture_fail);
                     IOUtil.closeQuietly(in);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Utils.showShortToast(getActivity(),
-                    R.string.error_message_upload_picture_fail);
+            Utils.showShortToastSafely(R.string.error_message_upload_picture_fail);
             IOUtil.closeQuietly(in);
         }
     }
@@ -638,6 +637,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        if(!isAdded()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.dialog_phone:
                 if (null != phoneDialog) {
@@ -647,11 +649,8 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 try {
                     startActivityForResult(intent, Crop.REQUEST_PICK);
                 } catch (ActivityNotFoundException e) {
-                    Toast.makeText(getActivity(), com.feifan.croplib.R.string.crop_pick_error, Toast.LENGTH_SHORT).show();
+                    Utils.showShortToastSafely(com.feifan.croplib.R.string.crop_pick_error);
                 }
-
-//                startActivityForResult();
-//                Crop.pickImage(getActivity());
                 break;
 
             case R.id.dialog_camera:
@@ -659,7 +658,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     phoneDialog.dismiss();
                 }
                 if (!Utils.isHasSdCard()) {
-                    Utils.showShortToast(getActivity(), R.string.sd_card_exist);
+                    Utils.showShortToastSafely(R.string.sd_card_exist);
                 } else {
                     Crop.cameraImage(getActivity(), imgPath);
                 }

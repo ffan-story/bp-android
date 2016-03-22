@@ -245,6 +245,10 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
      * @param fragment
      */
     private void switchFragment(Fragment fragment) {
+        if(fragment.isAdded()) {
+            return;
+        }
+
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.content_container, fragment);

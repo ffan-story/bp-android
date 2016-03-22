@@ -842,6 +842,9 @@ public class DatePickerDialog extends DialogFragment implements
 
     @Override
     public void onClick(View v) {
+        if(!isAdded()){
+            return;
+        }
         tryVibrate();
         if (v.getId() == R.id.date_picker_year||v.getId() == R.id.date_picker_year_end) {
             setCurrentView(YEAR_VIEW);

@@ -83,15 +83,15 @@ public class LoginFragment extends BaseFragment {
             public void onClick(View v) {
 
                 if (TextUtils.isEmpty(account.getText()) && TextUtils.isEmpty(password.getText())) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_login_empty, Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_text_login_empty);
                     return;
                 }
                 if (TextUtils.isEmpty(password.getText())) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_login_password_empty, Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_text_login_password_empty);
                     return;
                 }
                 if (TextUtils.isEmpty(account.getText())) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_phone_number_empty, Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_text_phone_number_empty);
                     return;
                 }
                 String accountStr = account.getText().toString();
@@ -125,10 +125,13 @@ public class LoginFragment extends BaseFragment {
                                     profile.setAuthList(authListModel.toJsonString());
                                     profile.setHistoryUrl(authListModel.historyUrl);
                                     profile.setRightString(authListModel.rightString);
+
                                     // 通知界面跳转
-                                    Bundle args = new Bundle();
-                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
-                                    mListener.onFragmentInteraction(args);
+                                    if(isAdded()) {
+                                        Bundle args = new Bundle();
+                                        args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
+                                        mListener.onFragmentInteraction(args);
+                                    }
                                 }
                             });
                         }
@@ -141,7 +144,7 @@ public class LoginFragment extends BaseFragment {
                     });
                 } catch (Throwable throwable) {
                     hideProgressBar();
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_phone_number_illegal, Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_text_phone_number_illegal);
                 }
 
             }

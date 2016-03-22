@@ -195,7 +195,7 @@ public class CodeScannerFragment extends Fragment  implements IScanStack.onScanC
     }
 
     private void showDecodeDialog() {
-        if (mDecodeDialog == null) {
+        if (isAdded() && mDecodeDialog == null) {
             mDecodeDialog = new ProgressDialog(getActivity());
             mDecodeDialog.setTitle(R.string.scan_cade_dialog_title);
             mDecodeDialog.setMessage(getString(R.string.dialog_message));
