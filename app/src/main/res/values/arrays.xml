@@ -62,7 +62,6 @@
     <array name="tab_title_order">
         <item>全部状态</item>
         <item>待付款</item>
-        <item>POS交易关闭</item>
         <item>交易关闭</item>
         <item>付款成功</item>
         <item>交易成功</item>

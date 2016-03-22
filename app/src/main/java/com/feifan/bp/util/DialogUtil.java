@@ -10,10 +10,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
+import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
+import com.feifan.bp.Utils;
+import com.feifan.bp.login.LoginFragment;
 
 /**
  * Created by xuchunlei on 16/2/29.
@@ -56,9 +61,18 @@ public class DialogUtil {
                     // 清理登录数据
                     UserProfile.getInstance().clear();
                     PlatformState.getInstance().reset();
-                    Intent intent = LaunchActivity.buildIntent(PlatformState.getApplicationContext());
+//                    Intent intent = LaunchActivity.buildIntent(PlatformState.getApplicationContext());
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+//                    PlatformState.getApplicationContext().startActivity(intent);
+                    Intent intent = new Intent(PlatformState.getApplicationContext(),PlatformTopbarActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                    intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, LoginFragment.class.getName());
+                    intent.putExtra(Constants.EXTRA_KEY_TITLE, Utils.getString(R.string.login_login_text));
                     PlatformState.getApplicationContext().startActivity(intent);
+                    Activity activity = PlatformState.getInstance().getCurrentActivity();
+                    if(activity != null ) {
+                        activity.finish();
+                    }
                 }
             });
         }

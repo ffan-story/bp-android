@@ -74,7 +74,7 @@ android {
             versionName version + "-" + gitSha
             buildConfigField "com.feifan.bp.Constants.Environment", "CURRENT_ENVIRONMENT", "com.feifan.bp.Constants.Environment.SIT"
 
-            manifestPlaceholders = [UMENG_APPKEY_VALUE: "55ffcb5e67e58e10d8000f85"]
+            manifestPlaceholders = [UMENG_APPKEY_VALUE: "55ffcb5e67e58e10d8000f85", XG_ID_VALUE : "2100188879",XG_KEY_VALUE : "A1K26I9N7EIY"]
         }
         productpre {
             applicationId "com.feifan.bp.pre"
@@ -88,7 +88,7 @@ android {
             versionName version
             buildConfigField "com.feifan.bp.Constants.Environment", "CURRENT_ENVIRONMENT", "com.feifan.bp.Constants.Environment.PRODUCT"
 
-            manifestPlaceholders = [UMENG_APPKEY_VALUE: "55ffc7ffe0f55afc2d0016ee"]
+            manifestPlaceholders = [UMENG_APPKEY_VALUE: "55ffc7ffe0f55afc2d0016ee",XG_ID_VALUE: "2100186256",XG_KEY_VALUE: "A27WF58IQ9YQ"]
         }
     }
 

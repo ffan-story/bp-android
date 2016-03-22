@@ -32,6 +32,15 @@ class DeviceInfo {
     private static LocationManager locationManager;
     private static BluetoothAdapter bluetoothAdapter;
     private static SensorManager sensorManager;
+    /**
+     * id : 1142
+     * name : 订单管理
+     * url : H5App/index.html#/order
+     */
+
+    private int id;
+    private String name;
+    private String url;
 
     public static void init(Context context) {
         DeviceInfo.context = context;
@@ -382,5 +391,29 @@ class DeviceInfo {
             return Character.toUpperCase(first) + s.substring(1);
         }
 
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

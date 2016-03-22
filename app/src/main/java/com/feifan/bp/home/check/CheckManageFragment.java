@@ -16,6 +16,8 @@ import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.financialreconciliation.FinancialSummaryFragment;
+import com.feifan.bp.home.commoditymanager.BrandFragment;
 import com.feifan.bp.transactionflowing.fragment.CouponListViewFragment;
 import com.feifan.bp.transactionflowing.fragment.InstantBuyFragment;
 import com.feifan.bp.util.LogUtil;
@@ -53,21 +55,28 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
     public void onClick(View v) {
         Bundle args = new Bundle();
         args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, CheckManageFragment.class.getName());
+        Bundle fragmentArgs;
+        Intent intent;
         switch (v.getId()) {
             case R.id.check_manager_transaction_flow_rl:
                 // TODO 跳转到流水对账界面
                 LogUtil.i(Constants.TAG, "From CheckManageFragment to ----Fragment");
-                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
+                fragmentArgs = new PlatformTabActivity.ArgsBuilder()
                         .addFragment(InstantBuyFragment.class.getName(), getString(R.string.falsh_buy))
-                        .addArgument(InstantBuyFragment.class.getName(), "", "")
                         .addFragment(CouponListViewFragment.class.getName(), getString(R.string.coupons))
-                        .addArgument(CouponListViewFragment.class.getName(), "","")
                         .build();
-                Intent intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.reconciliation_management_transaction_flow), fragmentArgs);
+                intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.reconciliation_management_transaction_flow), fragmentArgs);
                 startActivity(intent);
                 break;
             case R.id.check_manager_financial_reconciliation_rl:
-                Utils.showToast(getActivity(), R.string.check_manage_system_construction, Toast.LENGTH_SHORT);
+                // TODO 跳转到财务对账页面
+                fragmentArgs = new PlatformTabActivity.ArgsBuilder()
+                        .addFragment(FinancialSummaryFragment.class.getName(), "乐付")
+                        .addFragment(BrandFragment.class.getName(), "券")
+                        .addFragment(BrandFragment.class.getName(),getString(R.string.falsh_buy))
+                        .build();
+                intent = PlatformTabActivity.buildIntent(getContext(), "财务对账", fragmentArgs);
+                startActivity(intent);
                 break;
             case R.id.check_manager_inventory_query_rl:
                 Utils.showToast(getActivity(), R.string.check_manage_system_construction, Toast.LENGTH_SHORT);

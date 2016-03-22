@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/relative_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/view_spacing_18"
+        android:paddingTop="@dimen/view_spacing_20"
+        android:paddingBottom="@dimen/view_spacing_20"
+        android:paddingRight="@dimen/view_spacing_15">
+
+        <TextView
+            android:id="@+id/receipts_settle_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="结算单号"/>
+
+        <TextView
+            android:id="@+id/receipts_settle_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/receipts_settle_no"
+            android:layout_marginTop="@dimen/view_spacing_8"
+            android:text="结算主体"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/detail_arrow"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/view_spacing_1"
+        android:background="@color/white"
+        android:layout_below="@id/relative_container"
+        android:paddingTop="@dimen/view_spacing_20"
+        android:paddingBottom="@dimen/view_spacing_15"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/receipts_summary_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="结算
+                笔数"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/receipts_summary_settle_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="结算金额"/>
+
+            <TextView
+                android:layout_width="@dimen/dividerheight"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:background="@color/divider" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/receipts_summary_adjust_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="调账
+                金额"/>
+
+            <TextView
+                android:layout_width="@dimen/dividerheight"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:background="@color/divider" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

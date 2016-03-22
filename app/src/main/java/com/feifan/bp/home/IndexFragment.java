@@ -1,12 +1,9 @@
 package com.feifan.bp.home;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -50,6 +47,7 @@ import com.feifan.bp.marketinganalysis.MarketingHomeFragment;
 import com.feifan.bp.network.GetRequest;
 import com.feifan.bp.network.JsonRequest;
 import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.receiptsrecord.ReceiptsFragment;
 import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerTextView;
@@ -447,13 +445,19 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                 /**
                                  *  统计埋点 对账管理
                                  */
-                                FmsAgent.onEvent(getActivity(), Statistics.FB_HOME_FINA);
+                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_FINA);
 
                                 Bundle args = new Bundle();
                                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
                                 args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CheckManageFragment.class.getName());
                                 mListener.onFragmentInteraction(args);
-                            } else {
+                            }else if(item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getReceiptsId())){ // TODO 跳转到收款流水
+                                /**
+                                 * 统计埋点 收款流水
+                                 */
+                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_CHECKOUT_LST);
+                                PlatformTopbarActivity.startReceipts(PlatformState.getApplicationContext(), ReceiptsFragment.class.getName(), "收款流水");
+                            }else {
                                 BrowserActivity.startActivity(getContext(), url);
                             }
                         } else {

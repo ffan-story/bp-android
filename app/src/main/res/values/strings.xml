@@ -435,5 +435,17 @@
     <string name="apply">权限申请</string>
     <string name="apply_camera">在设置-应用-飞凡商家-权限中开启相机权限,以正常使用扫码验证功能</string>
     <string name="apply_storage">在设置-应用-飞凡商家-权限中开启存储空间权限,以正常使用飞凡商家功能</string>
+
+    <!-- 收款流水 -->
+    <string name="receipts_pay_type">支付方式</string>
+    <string name="receipts_record_no">流水号</string>
+    <string name="receipts_status">状态</string>
+    <string name="receipts_time">收款时间</string>
+    <string name="receipts_amount">收款金额</string>
+    <string name="receipts_real_amount">可开发票金额</string>
+
+    <!-- 财务对账 -->
+    <string name="financial_lefu">乐付</string>
+    <string name="financial_coupon">券</string>
 </resources>
 

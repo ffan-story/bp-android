@@ -13,12 +13,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.feifan.bp.base.PlatformBaseActivity;
@@ -40,7 +38,6 @@ import com.feifan.bp.marketinganalysis.MarketingHomeFragment;
 import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.settings.feedback.FeedBackFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerRadioButton;
 import com.feifan.bp.widget.TabBar;
 import com.feifan.material.MaterialDialog;
@@ -312,7 +309,9 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
     // 显示登录界面
     private void showLogin() {
         mBottomBar.setVisibility(View.GONE);
-        switchFragment(LoginFragment.newInstance());
+//        switchFragment(LoginFragment.newInstance());
+        PlatformTopbarActivity.startActivityFromOther(PlatformState.getApplicationContext(), LoginFragment.class.getName(), Utils.getString(R.string.login_login_text));
+        finish();
     }
 
     // 检验内容
