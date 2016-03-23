@@ -1,7 +1,6 @@
 package com.feifan.bp;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -52,11 +51,12 @@ public class SplashActivity extends PlatformBaseActivity {
         //启动动画
         overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
 
-        //内存权限检查
+        //内存/位置权限检查
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION},
                     Constants.MY_PERMISSIONS_REQUEST_STORAGE);
         } else {
             //防闪烁
@@ -67,7 +67,6 @@ public class SplashActivity extends PlatformBaseActivity {
                 }
             },500);
         }
-
         //统计埋点初始化
         FmsAgent.init(getApplicationContext(), EnvironmentManager.getHostFactory().getFFanApiPrefix() + "mxlog");
         FeifanCrashManager.getInstance().reportActive();
@@ -225,7 +224,7 @@ public class SplashActivity extends PlatformBaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == Constants.MY_PERMISSIONS_REQUEST_STORAGE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//授权通过
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[0] == PackageManager.PERMISSION_GRANTED) {//授权通过
                 checkVersion();
             } else {//授权拒绝
                 mDialog.show();

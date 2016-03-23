@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,15 @@ public class MaterialDialog {
         else
             mAlertDialog.show();
         mHasShow = true;
+    }
+
+    public void show(String msg) {
+        if(TextUtils.isEmpty(msg)){
+            show();
+        }else {
+           setMessage(msg);
+            show();
+        }
     }
 
     public MaterialDialog setView(View view) {
