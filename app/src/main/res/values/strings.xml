@@ -293,6 +293,7 @@
     <string name="chargeoff_never">未核销</string>
     <string name="chargeoff_already">已核销</string>
     <string name="chargeoff_timeout">已过期</string>
+    <string name="chargeoff_refund">已过期(自动退款)</string>
     <string name="chargeoff_ticket_code">券码:</string>
     <string name="chargeoff_ticket_buytime">领券时间:</string>
     <string name="chargeoff_ticket_expiry_date">有效期至:</string>

@@ -109,6 +109,8 @@ public class Utils {
         }
     }
 
+
+
     /**
      * 显示长时间的toast提示
      *
@@ -183,13 +185,11 @@ public class Utils {
         }
     }
 
-    public static void checkDigitAndLetter(Context context, String value) throws Throwable {
-        if(context != null) {
-            Pattern p = Pattern.compile("^[A-Za-z0-9]+$");
-            Matcher m = p.matcher(value);
-            if (!m.matches()) {
-                throw new Throwable(context.getString(R.string.error_message_text_search_illegal_format));
-            }
+    public static void checkDigitAndLetter(String value) throws Throwable {
+        Pattern p = Pattern.compile("^[A-Za-z0-9]+$");
+        Matcher m = p.matcher(value);
+        if (!m.matches()) {
+            throw new Throwable(getString(R.string.error_message_text_search_illegal_format));
         }
     }
 
@@ -298,69 +298,6 @@ public class Utils {
         return null;
     }
 
-
-    /**
-     * 删除文件
-     *
-     * @param file   删除的文件或目录
-     * @param filter 过滤字符串，文件名中包含该字符串的文件都将被删除
-     */
-    public static void deleteFile(File file, String filter) {
-        if (file.exists()) {
-            if (file.isFile() && file.getName().contains(filter)) {
-                file.delete();
-                LogUtil.i(Constants.TAG, "deleted" + file.getAbsolutePath());
-            } else if (file.isDirectory()) {
-                File files[] = file.listFiles();
-                for (int i = 0; i < files.length; i++) {
-                    deleteFile(files[i], filter);
-                }
-            }
-//            if (file.getName().contains(filter)) {
-//                file.delete();
-//                LogUtil.i(Constants.TAG, "deleted" + file.getAbsolutePath());
-//            }
-
-        }
-    }
-
-    /**
-     * 创建目录
-     *
-     * @param dir
-     */
-    public static void createDir(String dir) {
-        File file = new File(dir);
-        if (!file.exists()) {
-            file.mkdir();
-        }
-    }
-
-
-    /**
-     * 展示登录失效弹框
-     */
-    public static void showLoginDialog(final Context context,String msg){
-        mDialog = new AlertDialog.Builder(context)
-                .setMessage(msg)
-                .setCancelable(false)
-                .setPositiveButton(R.string.common_confirm, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        UserProfile.getInstance().clear();
-                        Intent intent = LaunchActivity.buildIntent(context);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                        context.startActivity(intent);
-                    }
-                }).create();
-        mDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);//设置系统级别AlterDialog
-        if(!mDialog.isShowing()){
-            mDialog.show();
-        }
-    }
-
     /**
      * 消除登录失效弹框
      */
@@ -396,6 +333,22 @@ public class Utils {
             }
 
         }
+    }
+
+    /**
+     * 以安全的方式显示Toast
+     * @param message
+     */
+    public static void showShortToastSafely(int message) {
+        Toast.makeText(PlatformState.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 以安全的方式显示Toast
+     * @param message
+     */
+    public static void showShortToastSafely(String message) {
+        Toast.makeText(PlatformState.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -48,9 +48,9 @@ public class DefaultErrorListener implements ErrorListener {
                 if (!Utils.isChineseChar(msg)) {
                     msg = context.getString(R.string.error_message_text_network_data_fail);
                 }
-                Utils.showShortToast(context, msg, Gravity.CENTER);
+                Utils.showShortToastSafely(msg);
             } else {
-                Utils.showShortToast(context, R.string.error_message_text_offline, Gravity.CENTER);
+                Utils.showShortToastSafely(R.string.error_message_text_offline);
             }
         }
     }

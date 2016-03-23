@@ -62,8 +62,7 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                         Statistics.updateClientData(UserProfile.getInstance());
                     } else {
                         showEmptyView();
-                        Utils.showShortToast(getActivity(), userInfoModel.msg,
-                                Gravity.CENTER);
+                        Utils.showShortToastSafely(userInfoModel.msg);
                     }
                 }
             });
