@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--营销活动报名商品列表-->
+<com.feifan.bp.widget.swipemenu.recyler.SwipeMenuLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include
+        android:id="@id/smContentView"
+        layout="@layout/campaign_goods_item"/>
+
+    <include
+        android:id="@id/smMenuView"
+        layout="@layout/swipe_menu_view"/>
+
+</com.feifan.bp.widget.swipemenu.recyler.SwipeMenuLayout>

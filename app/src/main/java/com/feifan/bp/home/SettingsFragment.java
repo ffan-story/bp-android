@@ -3,6 +3,7 @@ package com.feifan.bp.home;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -104,6 +105,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        if(!isAdded()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.settings_help_center:
                 Bundle helpBundle = new Bundle();
@@ -143,10 +147,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (getActivity() != null) {
-                            hideProgressBar();
-                            Utils.showShortToast(getActivity().getApplicationContext(), R.string.settings_clear_cache_finished_text);
-                        }
+                        hideProgressBar();
+                        Utils.showShortToastSafely(R.string.settings_clear_cache_finished_text);
                     }
                 }, 1000);
 
@@ -159,27 +161,31 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
                     PlatformState.getInstance().reset();
                     UserProfile.getInstance().clear();
+                    if(isAdded()){
+                        PlatformTopbarActivity.startActivityFromOther(getActivity(), LoginFragment.class.getName(), getActivity().getString(R.string.login_login_text));
+                        getActivity().finish();
+                    }
+//                        Bundle args = new Bundle();
+//                        args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
+//                        args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LaunchActivity.class.getName());
 
-                    Executors.newSingleThreadExecutor().execute(new Runnable() {
+//                        mListener.onFragmentInteraction(args);
 
-                        @Override
-                        public void run() {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+//                        Executors.newSingleThreadExecutor().execute(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//                                getActivity().runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
 //                                        Bundle args = new Bundle();
 //                                        args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, SettingsFragment.class.getName());
 //                                        args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, LaunchActivity.class.getName());
 //                                        mListener.onFragmentInteraction(args);
-                                    if(isAdded()){
-                                        PlatformTopbarActivity.startActivityFromOther(getActivity(), LoginFragment.class.getName(), getActivity().getString(R.string.login_login_text));
-                                        getActivity().finish();
-                                    }
-                                }
-                            });
-
-                        }
-                    });
+//                                    }
+//                                });
+//                            }
+//                        });
                     }
                 });
                 break;
@@ -235,8 +241,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         }, new ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                LogUtil.i(TAG, "onErrorResponse() error=" + volleyError != null ? volleyError.getMessage() : "null");
-                Utils.showShortToast(getActivity(), R.string.settings_check_update_none);
+                Utils.showShortToastSafely(R.string.settings_check_update_none);
             }
         });
     }

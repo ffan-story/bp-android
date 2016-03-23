@@ -50,12 +50,13 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
     // 券状态常量
     private static final int COUPON_STATUS_UNUSED = 3;     // 未核销
     private static final int COUPON_STATUS_USED = 4;       // 已核销
-    private static final int COUPON_STATUS_EXPIRED = 6;    // 过期
+    private static final int COUPON_STATUS_EXPIRED = 6;    // 已过期
 
     // 提货码状态常量
     private static final int GOODS_STATUS_UNUSED = 1;      // 未核销
     private static final int GOODS_STATUS_USED = 2;        // 已核销
-    private static final int GOODS_STATUS_EXPIRED = 3;     // 过期
+    private static final int GOODS_STATUS_EXPIRED = 3;     // 已过期
+    private static final int GOODS_STATUS_REFUND = 4;      // 已过期（自动退款）
 
     private String code;
     private Boolean isCouponCode = false;
@@ -255,6 +256,10 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
                 break;
             case GOODS_STATUS_EXPIRED://已过期
                 tv_goods_status.setText(getResources().getString(R.string.chargeoff_timeout));
+                btn_code_use.setVisibility(View.GONE);
+                break;
+            case GOODS_STATUS_REFUND://已过期（自动退款）
+                tv_goods_status.setText(getResources().getString(R.string.chargeoff_refund));
                 btn_code_use.setVisibility(View.GONE);
                 break;
         }

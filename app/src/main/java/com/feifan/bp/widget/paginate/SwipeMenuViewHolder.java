@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.feifan.bp.util.LogUtil;
+
 /**
  * RecylerView滑动删除
  * <p/>
@@ -256,30 +258,6 @@ public abstract class SwipeMenuViewHolder {
             return mDragHelper.shouldInterceptTouchEvent(ev);
         }
 
-//        @Override
-//        public boolean dispatchTouchEvent(MotionEvent ev) {
-//            switch (ev.getAction()) {
-//                case MotionEvent.ACTION_DOWN:
-//                    downX = ev.getX();
-//                    downY = ev.getY();
-//                    break;
-//                case MotionEvent.ACTION_MOVE:
-//                    break;
-//                case MotionEvent.ACTION_UP:
-//                    upX = ev.getX();
-//                    upY = ev.getY();
-//                    break;
-//            }
-//            dx = Math.abs(downX - upX);
-//            dy = Math.abs(downY - upY);
-//            if(dx>(2*dy)){
-//                getParent().requestDisallowInterceptTouchEvent(true);
-//            }else{
-//                getParent().requestDisallowInterceptTouchEvent(false);
-//            }
-//            return super.dispatchTouchEvent(ev);
-//        }
-
         @Override
         public boolean onTouchEvent(@NonNull MotionEvent ev) {
             mDragHelper.processTouchEvent(ev);
@@ -288,7 +266,7 @@ public abstract class SwipeMenuViewHolder {
                     swipeMenuView.setVisibility(View.GONE);
                 }
             }
-           return true;
+            return true;
         }
 
         @Override

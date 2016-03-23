@@ -7,4 +7,6 @@
     <item name="menu_refund_start" type="id" />
     <item name="menu_analysis_help" type="id" />      //店铺分析－指标说明
 
+    <item name="smContentView" type="id"/>
+    <item name="smMenuView" type="id"/>  //侧滑菜单列表
 </resources>

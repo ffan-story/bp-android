@@ -9,7 +9,7 @@
         android:layout_height="@dimen/view_size_1"
         android:background="@color/divider"/>
 
-    <android.support.v7.widget.RecyclerView
+    <com.feifan.bp.widget.swipemenu.recyler.SwipeMenuRecyclerView
         android:id="@+id/fragment_list_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

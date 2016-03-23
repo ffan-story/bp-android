@@ -221,7 +221,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
         }
 
         setContentShown(true);
-        if (!Utils.isNetworkAvailable(getActivity())) {
+        if (isAdded() && !Utils.isNetworkAvailable(getActivity())){
             setContentEmpty(true, getActivity().getResources().getString(R.string.empty_view_text), getActivity().getResources().getString(R.string.common_retry_text), R.mipmap.empty_ic_timeout, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -20,6 +21,7 @@ import com.feifan.bp.base.LazyLoadFragment;
 import com.feifan.bp.network.BaseModel;
 import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 import com.feifan.bp.util.LogUtil;
+import com.feifan.bp.widget.swipemenu.recyler.SwipeMenuRecyclerView;
 import com.feifan.material.MaterialDialog;
 
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ import java.util.Set;
 public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsListSwipeAdapter.onCheckChangeListener, GoodsListSwipeAdapter.onItemDeleteListener {
 
     private CheckBox cbAllCheck;
-    private RecyclerView mProductList;
+    private SwipeMenuRecyclerView mProductList;
     private GoodsListSwipeAdapter mSwipeAdapter;
     private List<GoodsDetailModel> datas;
     private HashMap<Integer, Boolean> checkStatus = new HashMap<>();//商品选中状态
@@ -56,12 +58,14 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
 
     private void initViews(View view) {
         cbAllCheck = (CheckBox) view.findViewById(R.id.allcheck);
-        mProductList = (RecyclerView) view.findViewById(R.id.fragment_list_rv);
+        mProductList = (SwipeMenuRecyclerView) view.findViewById(R.id.fragment_list_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
 
         mProductList.setItemAnimator(new DefaultItemAnimator());
         mProductList.setLayoutManager(linearLayoutManager);
         mProductList.setHasFixedSize(true);
+        mProductList.setOpenInterpolator(new BounceInterpolator());
+        mProductList.setCloseInterpolator(new BounceInterpolator());
 
         mRlEnrollBottom = (RelativeLayout) view.findViewById(R.id.rl_enroll_bottom);
         mBtnCommit = (Button) view.findViewById(R.id.btn_commit);
@@ -142,7 +146,6 @@ public class GoodsNoCommitFragment extends LazyLoadFragment implements GoodsList
         };
         PromotionCtrl.getGoodsList(mStoreId, mMerchantId, mPromotionId, "0", listener);
     }
-
 
     /**
      * GoodsListSwipeAdapter的回调函数,当点击item的CheckBox传递点击位置和状态

@@ -53,6 +53,7 @@ public class Constants {
     //权限申请
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
     public static final int MY_PERMISSIONS_REQUEST_STORAGE = 2;
+    public static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 3;
 
     public enum Environment {
         TEST,             // RD联调环境
