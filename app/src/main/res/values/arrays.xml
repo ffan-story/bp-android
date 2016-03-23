@@ -71,7 +71,6 @@
     <array name="tab_title_order_status">
         <item>ALL</item>
         <item>INITIAL</item>
-        <item>CLOSE</item>
         <item>TRADE_CANCEL</item>
         <item>PAY_SUCCESS</item>
         <item>TRADE_SUCCESS</item>
