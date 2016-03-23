@@ -24,6 +24,7 @@ import com.feifan.bp.widget.paginate.SwipeMenuViewHolder;
 
 import java.util.HashMap;
 import java.util.List;
+
 import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 
 public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
@@ -37,7 +38,7 @@ public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
     private onCheckChangeListener checkChangeListener;
     private onItemDeleteListener itemDeleteListener;
 
-    public GoodsListSwipeAdapter(Context context, List<GoodsDetailModel> mListData, HashMap<Integer, Boolean> checkStatus,String promotionId) {
+    public GoodsListSwipeAdapter(Context context, List<GoodsDetailModel> mListData, HashMap<Integer, Boolean> checkStatus, String promotionId) {
         this.context = context;
         this.mListData = mListData;
         this.checkStatus = checkStatus;
@@ -47,18 +48,14 @@ public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View captureView = layoutInflater.inflate(R.layout.campaign_goods_item, parent, false);
-        View swipeMenuView = layoutInflater.inflate(R.layout.swipe_menu_view, parent, false);
-        swipeMenuView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-        return new SwipeViewHolder(context, swipeMenuView, captureView, SwipeMenuViewHolder.EDGE_RIGHT).getDragViewHolder();
+        View itemView = layoutInflater.inflate(R.layout.promotion_goods_item, parent, false);
+        return new SwipeViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
-        final SwipeViewHolder swipeViewHolder = (SwipeViewHolder) SwipeMenuViewHolder.getHolder(holder);
+        final SwipeViewHolder swipeViewHolder = (SwipeViewHolder) holder;
         GoodsDetailModel model = mListData.get(position);
         swipeViewHolder.tvProductName.setText(model.getGoodsName());
         swipeViewHolder.tvProductStatus.setText("状态:未提交");
@@ -88,7 +85,7 @@ public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
                 args.putString(InstEvenSkuSettFragment.EXTRA_PARTAKE_GOODS_CODE, mListData.get(position).getGoodsCode());
                 args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_GOODS_ACTION, false);
                 args.putBoolean(InstEvenSkuSettFragment.EXTRA_EVENT_IS_STATUS_REFUSE, false);
-                PlatformTopbarActivity.startActivityForResult((RegisterDetailActivity)context, InstEvenSkuSettFragment.class.getName(), "设置详情", args);
+                PlatformTopbarActivity.startActivityForResult((RegisterDetailActivity) context, InstEvenSkuSettFragment.class.getName(), "设置详情", args);
             }
         });
     }
@@ -98,7 +95,7 @@ public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
         return mListData == null ? 0 : mListData.size();
     }
 
-    class SwipeViewHolder extends SwipeMenuViewHolder {
+    class SwipeViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvProductName;
         private TextView tvProductStatus;
@@ -106,13 +103,8 @@ public class GoodsListSwipeAdapter extends RecyclerView.Adapter {
         private CheckBox cbSelect;
         private RelativeLayout rlGoods;
 
-        public SwipeViewHolder(Context context, View swipeMenuView, View captureView, int mTrackingEdges) {
-            super(context, swipeMenuView, captureView, mTrackingEdges);
-        }
-
-
-        @Override
-        public void initView(View itemView) {
+        public SwipeViewHolder(View itemView) {
+            super(itemView);
             tvProductName = (TextView) itemView.findViewById(R.id.tv_product_name);
             tvProductStatus = (TextView) itemView.findViewById(R.id.tv_product_status);
             tvDelete = (TextView) itemView.findViewById(R.id.tv_delete);
