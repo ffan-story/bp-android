@@ -60,7 +60,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
     private RelativeLayout mNoDataView,mNoNetView; //无数据 & 无网络页
 
     //打开收款流水页
-    public static void start(){
+    public static void start(String payFlowId){
         if(SystemUtil.isBPActivities(PlatformState.getApplicationContext())) {
             Intent intent = new Intent(PlatformState.getApplicationContext(), PlatformTopbarActivity.class);
             intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, ReceiptsFragment.class.getName());
