@@ -201,59 +201,59 @@ public class HttpsUrlStack extends HurlStack {
 
     }
 
-    @Override
-    protected HttpURLConnection createConnection(URL url) throws IOException {
-        if ("https".equals(url.getProtocol())) {
-            try {
-                SSLContext context = SSLContext.getInstance("TLS");
+//    @Override
+//    protected HttpURLConnection createConnection(URL url) throws IOException {
+//        if ("https".equals(url.getProtocol())) {
+//            try {
+//                SSLContext context = SSLContext.getInstance("TLS");
+//
+//                context.init(null, new TrustManager[]{new TrustAllManager()}, null);
+//
+//                HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
+//                HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+//
+//                    @Override
+//                    public boolean verify(String arg0, SSLSession arg1) {
+//                        return true;
+//                    }
+//                });
+//                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+//                return connection;
+//            } catch (NoSuchAlgorithmException e) {
+//                e.printStackTrace();
+//                return super.createConnection(url);
+//
+//            } catch (KeyManagementException e) {
+//                e.printStackTrace();
+//                return super.createConnection(url);
+//
+//            }
+//
+//        } else {
+//            return super.createConnection(url);
+//        }
+//    }
 
-                context.init(null, new TrustManager[]{new TrustAllManager()}, null);
-
-                HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
-                HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-
-                    @Override
-                    public boolean verify(String arg0, SSLSession arg1) {
-                        return true;
-                    }
-                });
-                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-                return connection;
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-                return super.createConnection(url);
-
-            } catch (KeyManagementException e) {
-                e.printStackTrace();
-                return super.createConnection(url);
-
-            }
-
-        } else {
-            return super.createConnection(url);
-        }
-    }
-
-    public class TrustAllManager implements X509TrustManager {
-
-        @Override
-        public void checkClientTrusted(X509Certificate[] arg0, String arg1)
-                throws CertificateException {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void checkServerTrusted(X509Certificate[] arg0, String arg1)
-                throws CertificateException {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-    }
+//    public class TrustAllManager implements X509TrustManager {
+//
+//        @Override
+//        public void checkClientTrusted(X509Certificate[] arg0, String arg1)
+//                throws CertificateException {
+//            // TODO Auto-generated method stub
+//
+//        }
+//
+//        @Override
+//        public void checkServerTrusted(X509Certificate[] arg0, String arg1)
+//                throws CertificateException {
+//            // TODO Auto-generated method stub
+//
+//        }
+//
+//        @Override
+//        public X509Certificate[] getAcceptedIssuers() {
+//            // TODO Auto-generated method stub
+//            return null;
+//        }
+//    }
 }

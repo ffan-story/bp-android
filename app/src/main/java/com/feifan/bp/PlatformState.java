@@ -9,6 +9,7 @@ import android.util.SparseArray;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.feifan.bp.network.FullTrustManager;
 import com.feifan.bp.network.HttpsUrlStack;
 import com.feifan.bp.util.LogUtil;
 
@@ -51,6 +52,7 @@ public class PlatformState {
     private WeakReference<Activity> mCurrentActivity;
 
     private PlatformState(){
+        FullTrustManager.trustAll();
         mQueue = Volley.newRequestQueue(sContext, new HttpsUrlStack());
         Log.i(Constants.TAG, "App is running within " + BuildConfig.CURRENT_ENVIRONMENT);
     }
