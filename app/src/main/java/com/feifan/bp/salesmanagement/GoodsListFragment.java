@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.android.volley.Response;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
-import com.feifan.bp.base.LazyLoadFragment;
+import com.feifan.bp.base.ui.LazyLoadFragment;
 import com.feifan.bp.salesmanagement.GoodsListModel.GoodsDetailModel;
 
 import java.util.ArrayList;

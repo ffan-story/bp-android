@@ -2,10 +2,10 @@ package com.feifan.bp.settings.feedback;
 
 import com.android.volley.Response;
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.network.BaseModel;
-import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.network.JsonRequest;
-import com.feifan.bp.network.PostRequest;
+import com.feifan.bp.base.network.BaseModel;
+import com.feifan.bp.base.network.UrlFactory;
+import com.feifan.bp.base.network.JsonRequest;
+import com.feifan.bp.base.network.PostRequest;
 
 /**
  * Created by tianjun on 2015-10-29.

@@ -19,7 +19,7 @@ import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
-import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.base.ui.BaseActivity;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.SelectPopWindow;
 import com.feifan.material.MaterialDialog;

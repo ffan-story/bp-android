@@ -2,7 +2,7 @@ package com.feifan.bp.biz.commoditymanager;
 
 import android.util.Log;
 
-import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.base.network.BaseModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;

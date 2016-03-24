@@ -17,9 +17,9 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.base.ui.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
-import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.base.network.UrlFactory;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 

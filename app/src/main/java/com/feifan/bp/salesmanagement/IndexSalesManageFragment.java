@@ -13,10 +13,9 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
-import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.base.ui.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.SimpleBrowserFragment;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.statlib.FmsAgent;
 
 

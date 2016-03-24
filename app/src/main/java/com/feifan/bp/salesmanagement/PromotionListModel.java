@@ -3,7 +3,7 @@ package com.feifan.bp.salesmanagement;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.base.network.BaseModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;

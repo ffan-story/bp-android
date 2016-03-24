@@ -4,7 +4,7 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.envir.EnvironmentManager;
+import com.feifan.bp.base.envir.EnvironmentManager;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -3,7 +3,6 @@ package com.feifan.bp.home;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -24,17 +23,14 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.base.ui.BaseFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
-import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.base.network.BaseModel;
 import com.feifan.bp.password.ResetPasswordFragment;
 import com.feifan.bp.settings.feedback.FeedBackFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
-import com.feifan.bp.util.LogUtil;
 import com.feifan.statlib.FmsAgent;
-
-import java.util.concurrent.Executors;
 
 /**
  * 设置界面Fragment

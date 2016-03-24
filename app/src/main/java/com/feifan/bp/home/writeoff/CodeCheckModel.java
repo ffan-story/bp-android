@@ -1,6 +1,6 @@
 package com.feifan.bp.home.writeoff;
 
-import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.base.network.BaseModel;
 import com.feifan.bp.util.LogUtil;
 
 import org.json.JSONException;

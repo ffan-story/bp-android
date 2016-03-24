@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.base.ui.ProgressFragment;
 import com.feifan.bp.receiptsrecord.ReceiptsModel;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.SegmentedGroup;

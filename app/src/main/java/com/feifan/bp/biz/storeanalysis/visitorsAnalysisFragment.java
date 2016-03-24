@@ -23,9 +23,9 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.base.ui.ProgressFragment;
 import com.feifan.bp.browser.SimpleBrowserFragment;
-import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.base.network.UrlFactory;
 
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.widget.SegmentedGroup;

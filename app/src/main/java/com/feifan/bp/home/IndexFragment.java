@@ -31,26 +31,24 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.base.OnTabLifetimeListener;
+import com.feifan.bp.base.ui.BaseFragment;
+import com.feifan.bp.base.ui.OnTabLifetimeListener;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.browser.SimpleBrowserFragment;
-import com.feifan.bp.envir.EnvironmentManager;
 import com.feifan.bp.biz.check.CheckManageFragment;
-import com.feifan.bp.home.Functions.Function;
-import com.feifan.bp.home.Functions.Function.LaunchFunction;
-import com.feifan.bp.home.Functions.FunctionStore;
 import com.feifan.bp.home.writeoff.CodeQueryResultFragment;
 import com.feifan.bp.biz.commoditymanager.BrandFragment;
 import com.feifan.bp.biz.commoditymanager.InstantsBuyFragment;
 import com.feifan.bp.biz.storeanalysis.visitorsAnalysisFragment;
+import com.feifan.bp.base.envir.EnvironmentManager;
+
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.marketinganalysis.MarketingHomeFragment;
-import com.feifan.bp.network.GetRequest;
-import com.feifan.bp.network.JsonRequest;
-import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.base.network.GetRequest;
+import com.feifan.bp.base.network.JsonRequest;
+import com.feifan.bp.base.network.UrlFactory;
 import com.feifan.bp.receiptsrecord.ReceiptsFragment;
 import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.util.LogUtil;
@@ -230,7 +228,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         if(isAdded()) {
 
             // 营销分析
-            Function maFunc = new LaunchFunction(EnvironmentManager.getAuthFactory().getMarketingAnalysisId())
+            Function maFunc = new Function.LaunchFunction(EnvironmentManager.getAuthFactory().getMarketingAnalysisId())
                     .activity(PlatformTopbarActivity.class)
                     .param(Constants.EXTRA_KEY_TITLE, getString(R.string.sale_anal))
                     .param(Constants.EXTRA_KEY_TO, MarketingHomeFragment.class.getName());

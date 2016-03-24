@@ -13,9 +13,9 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.base.ui.ProgressFragment;
 import com.feifan.bp.browser.SimpleBrowserFragment;
-import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.base.network.UrlFactory;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

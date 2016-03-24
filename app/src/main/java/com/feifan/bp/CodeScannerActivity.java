@@ -11,7 +11,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 
-import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.base.ui.BaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.home.ErrorFragment;
 import com.feifan.bp.home.writeoff.CodeQueryResultFragment;

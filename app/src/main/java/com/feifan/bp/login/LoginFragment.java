@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,10 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.network.BaseModel;
-import com.feifan.bp.network.JsonRequest;
-import com.feifan.bp.network.response.ToastErrorListener;
+import com.feifan.bp.base.ui.BaseFragment;
+import com.feifan.bp.base.network.BaseModel;
+import com.feifan.bp.base.network.JsonRequest;
+import com.feifan.bp.base.network.response.ToastErrorListener;
 import com.feifan.bp.password.ForgetPasswordFragment;
 
 /**

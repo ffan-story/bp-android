@@ -12,7 +12,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.feifan.bp.base.PlatformBaseActivity;
+import com.feifan.bp.base.ui.PlatformBaseActivity;
 import com.feifan.bp.browser.BrowserFragment;
 import com.feifan.bp.widget.CustomViewPager;
 
