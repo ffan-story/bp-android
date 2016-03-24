@@ -15,10 +15,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-<<<<<<< HEAD
-        //TODO  test loaction
-=======
->>>>>>> patch
         maven { url "http://101.200.89.219:8081/nexus/content/groups/public/"}
     }
 }
