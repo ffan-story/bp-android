@@ -29,7 +29,7 @@
 
 #########根据项目附加项##########
 #项目自己的代码
--keep class  com.feifan.bp.network.BaseModel {*;}
+-keep class  com.feifan.bp.base.network.BaseModel {*;}
 #-keep class  * extends com.feifan.bp.network.BaseModel {*;}
 #第三方jar
 -keep class com.umeng.**{*;}  #友盟相关

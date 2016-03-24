@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.webkit.WebView;
 
 import com.bp.crash.BPCrashConfig;
-import com.feifan.bp.network.JsonRequest;
+import com.feifan.bp.base.network.JsonRequest;
 import com.feifan.bp.xg.XGPushManger;
 import com.wanda.crashsdk.pub.FeifanCrashManager;
 

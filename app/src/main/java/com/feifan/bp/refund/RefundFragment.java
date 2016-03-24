@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,9 @@ import com.feifan.bp.CodeScannerActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.base.ui.BaseFragment;
 import com.feifan.bp.browser.BrowserActivity;
-import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.base.network.UrlFactory;
 
 /**
  * Created by congjing

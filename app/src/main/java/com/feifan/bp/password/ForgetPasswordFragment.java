@@ -14,8 +14,8 @@ import com.android.volley.Response.Listener;
 import com.feifan.bp.Constants;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.base.ui.BaseFragment;
+import com.feifan.bp.base.network.BaseModel;
 import com.feifan.bp.util.SecureUtil;
 import com.feifan.bp.widget.CountDownButton;
 

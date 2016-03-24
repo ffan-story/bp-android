@@ -3,9 +3,9 @@ package com.feifan.bp.login;
 import android.util.JsonReader;
 import android.util.JsonWriter;
 
-import com.feifan.bp.envir.AuthSupplier.IAuthFactory;
-import com.feifan.bp.envir.EnvironmentManager;
-import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.base.envir.AuthSupplier.IAuthFactory;
+import com.feifan.bp.base.envir.EnvironmentManager;
+import com.feifan.bp.base.network.BaseModel;
 import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.LogUtil;
 

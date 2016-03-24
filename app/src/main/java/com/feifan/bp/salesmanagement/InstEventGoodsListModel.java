@@ -1,7 +1,7 @@
 package com.feifan.bp.salesmanagement;
 
 
-import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.base.network.BaseModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;

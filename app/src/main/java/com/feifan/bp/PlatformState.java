@@ -9,8 +9,8 @@ import android.util.SparseArray;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.feifan.bp.network.FullTrustManager;
-import com.feifan.bp.network.HttpsUrlStack;
+import com.feifan.bp.base.network.FullTrustManager;
+import com.feifan.bp.base.network.HttpsUrlStack;
 import com.feifan.bp.util.LogUtil;
 
 import java.lang.ref.WeakReference;

@@ -2,7 +2,7 @@ package com.feifan.bp.marketinganalysis;
 
 import android.text.TextUtils;
 
-import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.base.network.BaseModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -8,11 +8,11 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.message.MessageStatusModel;
-import com.feifan.bp.network.DefaultErrorListener;
-import com.feifan.bp.network.GetRequest;
-import com.feifan.bp.network.JsonRequest;
-import com.feifan.bp.network.PostRequest;
-import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.base.network.DefaultErrorListener;
+import com.feifan.bp.base.network.GetRequest;
+import com.feifan.bp.base.network.JsonRequest;
+import com.feifan.bp.base.network.PostRequest;
+import com.feifan.bp.base.network.UrlFactory;
 
 /**
  * 主界面控制类

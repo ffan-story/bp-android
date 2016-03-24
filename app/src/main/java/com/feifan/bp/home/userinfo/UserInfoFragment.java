@@ -3,7 +3,6 @@ package com.feifan.bp.home.userinfo;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseFragment;
+import com.feifan.bp.base.ui.BaseFragment;
 
 /**
  * Created by tianjun on 2015-10-26.

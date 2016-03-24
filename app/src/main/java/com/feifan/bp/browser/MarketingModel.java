@@ -1,6 +1,6 @@
 package com.feifan.bp.browser;
 
-import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.base.network.BaseModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;

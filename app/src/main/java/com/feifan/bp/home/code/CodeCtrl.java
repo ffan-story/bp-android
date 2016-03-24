@@ -6,10 +6,10 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.UserProfile;
-import com.feifan.bp.network.GetRequest;
-import com.feifan.bp.network.JsonRequest;
-import com.feifan.bp.network.PostRequest;
-import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.base.network.GetRequest;
+import com.feifan.bp.base.network.JsonRequest;
+import com.feifan.bp.base.network.PostRequest;
+import com.feifan.bp.base.network.UrlFactory;
 
 import java.util.Random;
 

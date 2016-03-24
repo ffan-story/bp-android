@@ -20,13 +20,13 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.base.ui.ProgressFragment;
 import com.feifan.bp.browser.BrowserActivity;
-import com.feifan.bp.envir.EnvironmentManager;
+import com.feifan.bp.base.envir.EnvironmentManager;
 import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.ReadMessageModel;
-import com.feifan.bp.network.UrlFactory;
-import com.feifan.bp.network.response.DialogErrorListener;
+import com.feifan.bp.base.network.UrlFactory;
+import com.feifan.bp.base.network.response.DialogErrorListener;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 

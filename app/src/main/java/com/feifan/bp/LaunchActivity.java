@@ -19,11 +19,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.android.volley.Response;
-import com.feifan.bp.base.PlatformBaseActivity;
+import com.feifan.bp.base.ui.PlatformBaseActivity;
 import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.browser.SimpleBrowserFragment;
-import com.feifan.bp.envir.EnvironmentManager;
+import com.feifan.bp.base.envir.EnvironmentManager;
 import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.ReadMessageModel;

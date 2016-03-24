@@ -6,7 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.feifan.bp.R;
-import com.feifan.bp.base.ProgressFragment;
+import com.feifan.bp.base.ui.ProgressFragment;
 
 /**
  * 商品管理 — 品牌商品

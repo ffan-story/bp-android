@@ -22,8 +22,8 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.network.BaseModel;
+import com.feifan.bp.base.ui.BaseFragment;
+import com.feifan.bp.base.network.BaseModel;
 
 /**
  * Created by tianjun on 2015-10-27.

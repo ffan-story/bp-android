@@ -3,9 +3,9 @@ package com.feifan.bp.message;
 import com.android.volley.Response;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
-import com.feifan.bp.network.GetRequest;
-import com.feifan.bp.network.JsonRequest;
-import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.base.network.GetRequest;
+import com.feifan.bp.base.network.JsonRequest;
+import com.feifan.bp.base.network.UrlFactory;
 
 /**
  * Created by apple on 16/3/3.

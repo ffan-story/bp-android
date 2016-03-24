@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
 import com.feifan.bp.R;
-import com.feifan.bp.base.BaseActivity;
+import com.feifan.bp.base.ui.BaseActivity;
 import com.feifan.bp.transactionflowing.fragment.CouponListViewFragment;
 import com.feifan.bp.transactionflowing.fragment.InstantBuyFragment;
 

@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.BaseFragment;
-import com.feifan.bp.network.UrlFactory;
+import com.feifan.bp.base.ui.BaseFragment;
+import com.feifan.bp.base.network.UrlFactory;
 
 /**
  * Created by tianjun on 2015-11-9.

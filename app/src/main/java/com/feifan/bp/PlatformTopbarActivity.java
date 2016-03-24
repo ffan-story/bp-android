@@ -12,7 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.feifan.bp.base.PlatformBaseActivity;
+import com.feifan.bp.base.ui.PlatformBaseActivity;
 import com.feifan.bp.home.check.CheckManageFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
 import com.feifan.bp.transactionflowing.TransFlowTabActivity;
