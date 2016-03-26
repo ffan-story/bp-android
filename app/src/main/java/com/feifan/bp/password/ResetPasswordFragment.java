@@ -100,6 +100,9 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onClick(View view) {
+        if(!isAdded()){
+            return;
+        }
         switch (view.getId()) {
             case R.id.btn_confirm:
                 if (!mIsConfirmEnable) {
@@ -109,30 +112,32 @@ public class ResetPasswordFragment extends BaseFragment implements View.OnClickL
                 String newPwd = mNewPwd.getText().toString();
                 String confirmPwd = mConfirmPwd.getText().toString();
                 if (TextUtils.isEmpty(oldPwd)) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_old_password_empty, Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_text_old_password_empty);
                     return;
                 } else if (TextUtils.isEmpty(newPwd)) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_new_password_empty, Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_text_new_password_empty);
                     return;
                 } else if (TextUtils.isEmpty(confirmPwd)) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_confirm_password_empty, Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_text_confirm_password_empty);
                     return;
                 } else if (!newPwd.equals(confirmPwd)) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_password_different, Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_text_password_different);
                     return;
                 } else if (newPwd.length() < Constants.PASSWORD_MIN_LENGTH) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_password_length, Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_text_password_length);
                     return;
                 } else if (newPwd.length() > Constants.PASSWORD_MAX_LENGTH) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_password_length_max, Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_text_password_length_max);
                     return;
                 }
                 mIsConfirmEnable = false;
                 PasswordCtrl.resetPassword(oldPwd, newPwd, new Response.Listener<PasswordModel>() {
                     @Override
                     public void onResponse(PasswordModel passwordModel) {
-                        getActivity().onBackPressed();
-                        Utils.showShortToast(getActivity(), getString(R.string.reset_pwd_suc));
+                        if(isAdded()) {
+                            getActivity().onBackPressed();
+                            Utils.showShortToastSafely(R.string.reset_pwd_suc);
+                        }
                     }
                 });
 

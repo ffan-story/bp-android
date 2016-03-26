@@ -127,7 +127,7 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
                         PasswordCtrl.sendSMSCode(phone, mRadomSmsCode, new Listener<BaseModel>() {
                             @Override
                             public void onResponse(BaseModel baseModel) {
-                                Utils.showShortToast(getActivity(), getString(R.string.sms_sended));
+                                Utils.showShortToastSafely(R.string.sms_sended);
                             }
                         });
                     }
