@@ -1,7 +1,6 @@
 package com.feifan.bp.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -35,6 +34,8 @@ import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.browser.BrowserTabActivity;
 import com.feifan.bp.browser.SimpleBrowserFragment;
 import com.feifan.bp.biz.check.CheckManageFragment;
+import com.feifan.bp.home.function.Function;
+import com.feifan.bp.home.function.FunctionStore;
 import com.feifan.bp.home.writeoff.CodeQueryResultFragment;
 import com.feifan.bp.biz.commoditymanager.BrandFragment;
 import com.feifan.bp.biz.commoditymanager.InstantsBuyFragment;
@@ -52,6 +53,7 @@ import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerTextView;
 import com.feifan.statlib.FmsAgent;
+import com.feifan.bp.home.function.Function.LaunchFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -244,7 +246,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             mFunctions.addFunction(cmFunc);
 
             // 店铺分析
-            Function saFunc = new LaunchFunction(EnvironmentManager.getAuthFactory().getStoreAnalysisId())
+            Function saFunc = new Function.LaunchFunction(EnvironmentManager.getAuthFactory().getStoreAnalysisId())
                     .activity(PlatformTabActivity.class)
                     .param(Constants.EXTRA_KEY_TITLE, getString(R.string.store_analysis))
                     .param(Constants.EXTRA_KEY_FRAGMENTS, new PlatformTabActivity.ArgsBuilder()
@@ -256,7 +258,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
             mFunctions.addFunction(saFunc);
 
             // 商品管理
-            Function gmFunc = new LaunchFunction(EnvironmentManager.getAuthFactory().getCommodityManagerId())
+            Function gmFunc = new Function.LaunchFunction(EnvironmentManager.getAuthFactory().getCommodityManagerId())
                     .activity(PlatformTabActivity.class)
                     .param(Constants.EXTRA_KEY_TITLE, getString(R.string.index_commodity_text))
                     .param(Constants.EXTRA_KEY_FRAGMENTS, new PlatformTabActivity.ArgsBuilder()

@@ -1,10 +1,9 @@
-package com.feifan.bp.home;
+package com.feifan.bp.home.function;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
