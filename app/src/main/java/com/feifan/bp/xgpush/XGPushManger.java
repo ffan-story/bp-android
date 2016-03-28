@@ -1,4 +1,4 @@
-package com.feifan.bp.xg;
+package com.feifan.bp.xgpush;
 
 import android.content.Context;
 import android.content.Intent;

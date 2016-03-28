@@ -1,4 +1,4 @@
-package com.feifan.bp.xg;
+package com.feifan.bp.xgpush;
 
 /**
  * Created by mengmeng on 16/3/14.

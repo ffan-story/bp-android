@@ -153,12 +153,11 @@
                 <action android:name="android.intent.action.MEDIA_REMOVED" />
                 <action android:name="android.intent.action.MEDIA_CHECKING" />
                 <action android:name="android.intent.action.MEDIA_EJECT" />
-
                 <data android:scheme="file" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".xg.XGPushMsgReceiver"
+        <receiver android:name=".xgpush.XGPushMsgReceiver"
             android:exported="false">
             <intent-filter>
                 <!-- 接收消息透传 -->

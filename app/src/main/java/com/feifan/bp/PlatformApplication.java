@@ -5,11 +5,12 @@ import android.app.Application;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.WebView;
 
 import com.bp.crash.BPCrashConfig;
 import com.feifan.bp.network.JsonRequest;
-import com.feifan.bp.xg.XGPushManger;
+import com.feifan.bp.xgpush.XGPushManger;
 import com.wanda.crashsdk.pub.FeifanCrashManager;
 
 /**
@@ -101,9 +102,16 @@ public class PlatformApplication extends Application {
         mXGPushManger.unRegister();
         if(profile != null && profile.getUid() != 0){
             String uid = String.valueOf(profile.getUid());
+            Log.e("uid",uid);
            if(!TextUtils.isEmpty(uid)) {
                mXGPushManger.registerApp(uid);
            }
+        }
+    }
+
+    public void unRegisterPush(){
+        if(mXGPushManger != null){
+            mXGPushManger.unRegister();
         }
     }
     @Override
