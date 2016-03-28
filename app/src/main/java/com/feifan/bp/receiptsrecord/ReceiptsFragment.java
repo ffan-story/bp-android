@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,9 +23,11 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.ui.ProgressFragment;
 import com.feifan.bp.base.network.response.ToastErrorListener;
+import com.feifan.bp.base.ui.ProgressFragment;
+import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.util.SystemUtil;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.util.ToastUtil;
@@ -58,22 +61,26 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
     private int mCurrentCount;
     private int mTotalCount = 0;
     private RelativeLayout mNoDataView,mNoNetView; //无数据 & 无网络页
+    private static final String PAY_FLOW_ID = "payFlowId";  //push消息Id
+    private boolean isMsgReaded = false;    //从push消息过来 才去设置消息未读状态
 
     //打开收款流水页
     public static void start(String payFlowId){
         if(SystemUtil.isBPActivities(PlatformState.getApplicationContext())) {
             Intent intent = new Intent(PlatformState.getApplicationContext(), PlatformTopbarActivity.class);
             intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, ReceiptsFragment.class.getName());
-            intent.putExtra(Constants.EXTRA_KEY_TITLE, "收款流水");
+            intent.putExtra(Constants.EXTRA_KEY_TITLE, PlatformState.getApplicationContext().getString(R.string.receipts_title));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(PAY_FLOW_ID, payFlowId);
             PlatformState.getApplicationContext().startActivity(intent);
         }else {
             Intent[] intents = new Intent[2];
             intents[0] = Intent.makeRestartActivityTask(new ComponentName(PlatformState.getApplicationContext(), com.feifan.bp.LaunchActivity.class));
             intents[1] = new Intent(PlatformState.getApplicationContext(), PlatformTopbarActivity.class);
             intents[1].putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, ReceiptsFragment.class.getName());
-            intents[1].putExtra(Constants.EXTRA_KEY_TITLE, "收款流水");
+            intents[1].putExtra(Constants.EXTRA_KEY_TITLE, PlatformState.getApplicationContext().getString(R.string.receipts_title));
             intents[1].setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intents[1].putExtra(PAY_FLOW_ID, payFlowId);
             PlatformState.getApplicationContext().startActivities(intents);
         }
     }
@@ -121,6 +128,34 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
         fetchData(false);
     }
 
+    /**
+     * 更新消息状态
+     */
+    private void initMsgStatus(){
+        String payFlowId = getPayFlowId();
+        if(!TextUtils.isEmpty(payFlowId) && !isMsgReaded){
+            setMessageStatus(payFlowId);
+        }
+    }
+    private String getPayFlowId(){
+        if(isAdded()){
+            Intent intent = getActivity().getIntent();
+            if(intent != null && !TextUtils.isEmpty(intent.getStringExtra(PAY_FLOW_ID))){
+                return intent.getStringExtra(PAY_FLOW_ID);
+            }
+        }
+        return "";
+    }
+
+    private void setMessageStatus(String payFlowId) {
+        HomeCtrl.setMessageStatusRead(UserProfile.getInstance().getAuthRangeId(), payFlowId, new Response.Listener() {
+            @Override
+            public void onResponse(Object o) {
+                isMsgReaded = true;
+            }
+        }, new ToastErrorListener());
+    }
+
     private void fetchData(final boolean isLoadMore) {
         if(Utils.isNetworkAvailable(getActivity())) {
             mSwipe.setRefreshing(true);
@@ -134,14 +169,17 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
                         setContentShown(true);
                         isLoading = false;
                         fillView(model, isLoadMore);
+                        initMsgStatus();
                     }
                 }
             }, new ToastErrorListener());
         }else{
+            stopRefresh();
+            setContentEmpty(false);
+            setContentShown(true);
             receiptsList.setAdapter(null);
             mNoDataView.setVisibility(View.GONE);
             mNoNetView.setVisibility(View.VISIBLE);
-            stopRefresh();
         }
     }
 

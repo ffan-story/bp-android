@@ -35,6 +35,9 @@ public abstract class CookieErrorListener implements ErrorListener {
                     // 系统提示框
                     DialogUtil.showCookieDialog(error.getMessage());
                     return;
+                case StatusError.STATUS_NOT_LOGIN:      // 身份失效
+                    DialogUtil.showCookieDialog(error.getMessage());
+                    return;
                 default:
                     break;
             }

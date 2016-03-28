@@ -55,6 +55,21 @@ public class SplashActivity extends PlatformBaseActivity {
         //内存/位置权限检查
         onPermissionCheck();
 
+        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+                && Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION},
+                    Constants.MY_PERMISSIONS_REQUEST_STORAGE);
+        } else {
+            //防闪烁
+            new Handler().postDelayed(new Runnable() {
+                @Override
+               public void run() {
+                    checkVersion();
+                }
+            },600);
+        }
         //统计埋点初始化
         FmsAgent.init(getApplicationContext(), EnvironmentManager.getHostFactory().getFFanApiPrefix() + "mxlog");
         FeifanCrashManager.getInstance().reportActive();
