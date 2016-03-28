@@ -1,5 +1,7 @@
 package com.feifan.bp.home;
 
+import android.os.Bundle;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +31,30 @@ public class FunctionStore {
         if(func == null) {
             throw new NullPointerException("Function " + name + " not found.");
         }
+        func.call();
+    }
+
+    /**
+     * 调用带参数的功能
+     * @param name
+     * @param params
+     */
+    public void invokeFunc(String name, Bundle params) {
+        Function func = mStore.get(name);
+        if(func == null) {
+            throw new NullPointerException("Function " + name + " not found.");
+        }
+
+        //添加参数
+        if(params != null) {
+            if(func instanceof Function.LaunchFunction) { // 启动类型的功能可携带参数
+                for(String key : params.keySet()) {
+                    ((Function.LaunchFunction)func).param(key, params.get(key));
+                }
+
+            }
+        }
+
         func.call();
     }
 }

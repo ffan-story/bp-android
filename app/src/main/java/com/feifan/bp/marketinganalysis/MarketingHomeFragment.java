@@ -97,7 +97,7 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
 
     @Override
     protected void requestData() {
-        if(Utils.isNetworkAvailable(getActivity())){
+        if(Utils.isNetworkAvailable()){
             mTotalContiner.setVisibility(View.VISIBLE);
             mNoNetView.setVisibility(View.GONE);
             mSwipe.setRefreshing(true);

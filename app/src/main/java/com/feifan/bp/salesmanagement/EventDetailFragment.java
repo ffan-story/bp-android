@@ -86,7 +86,7 @@ public class EventDetailFragment extends ProgressFragment implements View.OnClic
     protected void requestData() {
         setContentShown(false);
         if (mPromotionId != null) {
-            if (Utils.isNetworkAvailable(getActivity())) {
+            if (Utils.isNetworkAvailable()) {
                 setContentEmpty(false);
                 mUrl = UrlFactory.promotionDetailForHtml(mPromotionId);
                 mWebView.loadUrl(mUrl);

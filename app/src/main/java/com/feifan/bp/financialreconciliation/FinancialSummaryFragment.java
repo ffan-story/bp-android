@@ -73,7 +73,7 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
     }
 
     private void fetchData(final boolean isLoadMore) {
-        if (Utils.isNetworkAvailable(getActivity())) {
+        if (Utils.isNetworkAvailable()) {
 //            mSwipe.setRefreshing(true);
 //            ReceiptsCtrl.getReceiptsRecords(mStartDate, mEndDate, "1", new Response.Listener<ReceiptsModel>() {
 //                @Override

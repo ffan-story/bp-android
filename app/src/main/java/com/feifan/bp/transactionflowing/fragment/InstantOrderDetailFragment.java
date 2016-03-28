@@ -112,7 +112,7 @@ public class InstantOrderDetailFragment extends ProgressFragment implements OnLo
 
     @Override
     protected void requestData() {
-        if(Utils.isNetworkAvailable(getActivity())){
+        if(Utils.isNetworkAvailable()){
             setContentEmpty(false);
             TransFlowCtrl.getInstantOrderDetailList(isOnlyRefund, mStartDate, mEndDate,
                     mPageIndex, mLimit, mGoogsId,

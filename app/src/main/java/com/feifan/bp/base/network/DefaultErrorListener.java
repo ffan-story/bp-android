@@ -28,7 +28,7 @@ public class DefaultErrorListener implements ErrorListener {
     @Override
     public void onErrorResponse(VolleyError volleyError) {
         final Context context = PlatformState.getApplicationContext();
-        if (!Utils.isNetworkAvailable(context)) {     // 网络不可用
+        if (!Utils.isNetworkAvailable()) {     // 网络不可用
             Utils.showShortToast(context, R.string.error_message_text_offline, Gravity.CENTER);
         } else {                               // 其他原因
             if (volleyError instanceof StatusError) {

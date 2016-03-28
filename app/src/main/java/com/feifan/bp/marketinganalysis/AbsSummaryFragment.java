@@ -108,7 +108,7 @@ public abstract class AbsSummaryFragment extends ProgressFragment implements Swi
 
     @Override
     protected void requestData() {
-        if(Utils.isNetworkAvailable(getActivity())){
+        if(Utils.isNetworkAvailable()){
             mSwipe.setRefreshing(true);
             mNoNetView.setVisibility(View.GONE);
             mSummaryContainer.setVisibility(View.VISIBLE);

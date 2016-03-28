@@ -110,7 +110,7 @@ public class DetailFragment extends ProgressFragment implements Paginate.Callbac
     }
 
     private void fetchData(final boolean isLoadMore) {
-        if (Utils.isNetworkAvailable(getActivity())){
+        if (Utils.isNetworkAvailable()){
             mNoNetView.setVisibility(View.GONE);
             mNodataView.setVisibility(View.GONE);
             MarketingCtrl.getDetailList(mType,mCouponId, mStartDate, TimeUtil.getAddOneDay(mEndDate), mBeginKey, new Response.Listener<MarketingDetailModel>() {

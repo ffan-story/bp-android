@@ -155,7 +155,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
     protected void requestData() {
         if (!TextUtils.isEmpty(code)) {
             if (isCouponCode) {//券码
-                if (Utils.isNetworkAvailable(getActivity())) {
+                if (Utils.isNetworkAvailable()) {
                     setContentEmpty(false);
                     CodeCtrl.queryCouponsResult(code, new Response.Listener<CodeModel>() {
                         @Override
@@ -187,7 +187,7 @@ public class CodeQueryResultFragment extends ProgressFragment implements OnClick
                     setContentEmpty(true);
                 }
             } else {//提货码
-                if (Utils.isNetworkAvailable(getActivity())) {
+                if (Utils.isNetworkAvailable()) {
                     setContentEmpty(false);
                     CodeCtrl.queryGoodsResult(code, new Response.Listener<GoodsModel>() {
                         @Override

@@ -106,7 +106,7 @@ public class FeedBackFragment extends BaseFragment implements View.OnClickListen
                             Gravity.CENTER);
                     return;
                 }
-                if(!Utils.isNetworkAvailable(getActivity())){
+                if(!Utils.isNetworkAvailable()){
                     Utils.showShortToast(getActivity(), R.string.error_message_text_offline,
                             Gravity.CENTER);
                     return;

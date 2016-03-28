@@ -1,6 +1,5 @@
 package com.feifan.bp.home;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -17,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.feifan.bp.BuildConfig;
@@ -99,7 +97,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
-//        getToolbar().setVisibility(View.GONE);
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
@@ -233,6 +230,49 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     .param(Constants.EXTRA_KEY_TITLE, getString(R.string.sale_anal))
                     .param(Constants.EXTRA_KEY_TO, MarketingHomeFragment.class.getName());
             mFunctions.addFunction(maFunc);
+
+            // 营销管理
+            Function mmFunc = new Function.LaunchFunction(EnvironmentManager.getAuthFactory().getMarketingManageId())
+                    .activity(PlatformTopbarActivity.class)
+                    .param(Constants.EXTRA_KEY_TO, IndexSalesManageFragment.class.getName());
+            mFunctions.addFunction(mmFunc);
+
+            // 对账管理
+            Function cmFunc = new Function.LaunchFunction(EnvironmentManager.getAuthFactory().getReportId())
+                    .activity(PlatformTopbarActivity.class)
+                    .param(Constants.EXTRA_KEY_TO, CheckManageFragment.class.getName());
+            mFunctions.addFunction(cmFunc);
+
+            // 店铺分析
+            Function saFunc = new LaunchFunction(EnvironmentManager.getAuthFactory().getStoreAnalysisId())
+                    .activity(PlatformTabActivity.class)
+                    .param(Constants.EXTRA_KEY_TITLE, getString(R.string.store_analysis))
+                    .param(Constants.EXTRA_KEY_FRAGMENTS, new PlatformTabActivity.ArgsBuilder()
+                            .addFragment(SimpleBrowserFragment.class.getName(), "概览")
+                            .addArgument(SimpleBrowserFragment.class.getName(), SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
+                            .addFragment(visitorsAnalysisFragment.class.getName(), "访客分析")
+                            .addArgument(visitorsAnalysisFragment.class.getName(), visitorsAnalysisFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
+                            .build());
+            mFunctions.addFunction(saFunc);
+
+            // 商品管理
+            Function gmFunc = new LaunchFunction(EnvironmentManager.getAuthFactory().getCommodityManagerId())
+                    .activity(PlatformTabActivity.class)
+                    .param(Constants.EXTRA_KEY_TITLE, getString(R.string.index_commodity_text))
+                    .param(Constants.EXTRA_KEY_FRAGMENTS, new PlatformTabActivity.ArgsBuilder()
+                            .addFragment(InstantsBuyFragment.class.getName(), getString(R.string.commodity_instants_buy))
+                            .addArgument(InstantsBuyFragment.class.getName(), InstantsBuyFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
+                            .addFragment(BrandFragment.class.getName(), getString(R.string.commodity_brand))
+                            .addArgument(BrandFragment.class.getName(), BrandFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
+                            .build());
+            mFunctions.addFunction(gmFunc);
+
+            // 收款流水
+            Function rjFunc = new LaunchFunction(EnvironmentManager.getAuthFactory().getReceiptsId())
+                    .activity(PlatformTopbarActivity.class)
+                    .param(Constants.EXTRA_KEY_TITLE, getString(R.string.receipts_title))
+                    .param(Constants.EXTRA_KEY_TO, ReceiptsFragment.class.getName());
+            mFunctions.addFunction(rjFunc);
         }
 
 
@@ -268,7 +308,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 //统计埋点  验证历史
                 FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_VERIFY);
 
-                if (Utils.isNetworkAvailable(getActivity().getApplicationContext())) {
+                if (Utils.isNetworkAvailable()) {
                     if (!UserProfile.getInstance().getHistoryUrl().equals(Constants.NO_STRING)) {
                         String url = UrlFactory.checkHistoryForHtml(UserProfile.getInstance().getHistoryUrl()) + "&status=";
                         args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, BrowserTabActivity.class.getName());
@@ -307,7 +347,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                             getActivity().getApplicationContext().getString(R.string.query_result), args);
                     return;
                 }else{
-                    if (!Utils.isNetworkAvailable(getActivity())) {
+                    if (!Utils.isNetworkAvailable()) {
                         Utils.showShortToastSafely(R.string.error_message_text_offline);
                         return;
                     }
@@ -395,18 +435,27 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 public void onClick(View v) {
                     if (isAdded()) {
 
+                        String url = UrlFactory.urlForHtml(item.url);
                         // 响应功能调用
                         try{
-                            mFunctions.invokeFunc(String.valueOf(item.id));
+                            final String id = String.valueOf(item.id);
+                            if(url != null) {
+                                Bundle params = new Bundle();
+                                params.putString(Constants.EXTRA_KEY_URL, url);
+                                mFunctions.invokeFunc(id, params);
+                            }else {
+                                mFunctions.invokeFunc(id);
+                            }
+
+                            sendStatEventById(id);
+                            LogUtil.i(TAG, "Invoke " + item.id + " function successfully");
                             return;
                         }catch (Exception e) {
                             e.printStackTrace();
+                            LogUtil.e(TAG, e.getMessage());
                         }
 
-
-
-                        String url = UrlFactory.urlForHtml(item.url);
-                        if (Utils.isNetworkAvailable(getContext())) {
+                        if (Utils.isNetworkAvailable()) {
                             // 添加统计埋点
                             addStatistices(item.id);
 
@@ -419,65 +468,11 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                         getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
                                         getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)),
                                         titleName);
-                            } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getStoreAnalysisId())) {//TODO 跳转到店铺分析界面
-                                // 统计埋点-店铺分析
-                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STOREANA);
-
-                                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
-                                        .addFragment(SimpleBrowserFragment.class.getName(), "概览")
-                                        .addArgument(SimpleBrowserFragment.class.getName(), SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
-                                        .addFragment(visitorsAnalysisFragment.class.getName(), "访客分析")
-                                        .addArgument(visitorsAnalysisFragment.class.getName(), visitorsAnalysisFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
-                                        .build();
-                                Intent intent = PlatformTabActivity.buildIntent(getContext(), "店铺分析", fragmentArgs);
-                                startActivity(intent);
-                            } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getCommodityManagerId())) {//TODO 跳转到商品管理页面
-                                // 统计埋点-商品管理
-                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_GOODSMANA);
-
-                                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
-                                        .addFragment(InstantsBuyFragment.class.getName(), getString(R.string.commodity_instants_buy))
-                                        .addArgument(InstantsBuyFragment.class.getName(), InstantsBuyFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
-                                        .addFragment(BrandFragment.class.getName(), getString(R.string.commodity_brand))
-                                        .addArgument(BrandFragment.class.getName(), BrandFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
-                                        .build();
-                                Intent intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.index_commodity_text), fragmentArgs);
-                                startActivity(intent);
-                            } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getMarketingAnalysisId())) {//TODO 跳转到营销分析
-                                // 统计埋点  营销分析
-                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_PROMTION_ANA);
-
-                                Bundle args = new Bundle();
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingHomeFragment.class.getName());
-
-                                mListener.onFragmentInteraction(args);
-                            } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getMarketingManageId())) {//TODO 跳转到营销管理
-                                // 统计埋点  营销管理
-                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_SALEMANA);
-
-                                Bundle args = new Bundle();
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-                                args.putString(SimpleBrowserFragment.EXTRA_KEY_URL, url);
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, IndexSalesManageFragment.class.getName());
-                                mListener.onFragmentInteraction(args);
-                            } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getReportId())) {//TODO 跳转到对账管理
-                                // 统计埋点 对账管理
-                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_FINA);
-
-                                Bundle args = new Bundle();
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
-                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CheckManageFragment.class.getName());
-                                mListener.onFragmentInteraction(args);
-                            }else if(item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getReceiptsId())){ // TODO 跳转到收款流水
-                                // 统计埋点 收款流水
-                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_CHECKOUT_LST);
-                                PlatformTopbarActivity.startReceipts(PlatformState.getApplicationContext(), ReceiptsFragment.class.getName(), "收款流水");
                             }else {
                                 BrowserActivity.startActivity(getContext(), url);
                             }
                         } else {
-                            Utils.showShortToast(getContext(), R.string.error_message_text_offline, Gravity.CENTER);
+                            Utils.showShortToastSafely(R.string.error_message_text_offline);
                         }
                     }
                 }
@@ -490,6 +485,23 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                 }
                 mRefundMenu = indexViewHolder.t;
                 refreshRefund();
+            }
+        }
+
+        // 根据function的ID发送统计信息
+        private void sendStatEventById(String id) {
+            if(id.equals(EnvironmentManager.getAuthFactory().getMarketingAnalysisId())) { // 营销分析
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_PROMTION_ANA);
+            } else if(id.equals(Integer.valueOf(EnvironmentManager.getAuthFactory().getMarketingManageId()))) { //营销管理
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_SALEMANA);
+            } else if(id.equals(EnvironmentManager.getAuthFactory().getReportId())) { // 对账管理
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_FINA);
+            } else if(id.equals(EnvironmentManager.getAuthFactory().getStoreAnalysisId())){ //店铺分析
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STOREANA);
+            } else if(id.equals(EnvironmentManager.getAuthFactory().getCommodityManagerId())) { // 商品管理
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_GOODSMANA);
+            } else if(id.equals(EnvironmentManager.getAuthFactory().getReceiptsId())) { // 收款流水
+                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_CHECKOUT_LST);
             }
         }
 

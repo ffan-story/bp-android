@@ -223,7 +223,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
 
             startDate = FromDate;
             endDate = ToDate;
-            if (Utils.isNetworkAvailable(getActivity())) {
+            if (Utils.isNetworkAvailable()) {
                 mWebView.loadUrl("about:blank");
                 mWebView.loadUrl(mUrl + "&sdate=" + startDate + "&edate=" + endDate);
             } else {
@@ -237,7 +237,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.week:
-                if (Utils.isNetworkAvailable(getActivity())) {
+                if (Utils.isNetworkAvailable()) {
                     mWebView.loadUrl("about:blank");
                     mWebView.loadUrl(mUrl + "&days=7");
                     mCheckFlag = false;
@@ -247,7 +247,7 @@ public class visitorsAnalysisFragment extends ProgressFragment implements RadioG
                 }
                 break;
             case R.id.month:
-                if (Utils.isNetworkAvailable(getActivity())) {
+                if (Utils.isNetworkAvailable()) {
                     mWebView.loadUrl("about:blank");
                     mWebView.loadUrl(mUrl + "&days=30");
                     tabIndex = R.id.month;

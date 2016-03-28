@@ -79,7 +79,7 @@ public class RefundFragment extends BaseFragment implements View.OnClickListener
                     return;
                 }
 
-                if (!Utils.isNetworkAvailable(getActivity())) {
+                if (!Utils.isNetworkAvailable()) {
                     Utils.showShortToastSafely(R.string.error_message_text_offline);
                     return;
                 }

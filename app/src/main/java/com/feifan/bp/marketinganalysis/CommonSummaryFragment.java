@@ -45,7 +45,7 @@ public class CommonSummaryFragment extends AbsSummaryFragment implements Paginat
     }
 
     private void fetchData(final boolean isLoadMore) {
-        if(!Utils.isNetworkAvailable(getActivity())){
+        if(!Utils.isNetworkAvailable()){
             mSummaryList.setAdapter(null);
             mNoNetView.setVisibility(View.VISIBLE);
             return;

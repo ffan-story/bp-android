@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 
 import com.feifan.bp.PlatformState;
+import com.feifan.bp.R;
+import com.feifan.bp.Utils;
 
 /**
  * 功能对象
@@ -58,16 +61,41 @@ public abstract class Function {
             return this;
         }
 
+        public LaunchFunction param(String key, Bundle value) {
+            mParams.putBundle(key, value);
+            return this;
+        }
+
+        public LaunchFunction param(String key, Object value) {
+            if(value instanceof String) {
+                param(key, value.toString());
+            } else if(value instanceof Integer) {
+                param(key, (Integer)value);
+            } else if(value instanceof Bundle) {
+                param(key, (Bundle)value);
+            }
+            return this;
+        }
+
+
+
         @Override
         public void call() {
+            if(!Utils.isNetworkAvailable()) {
+                Utils.showShortToastSafely(R.string.error_message_text_offline);
+                return;
+            }
             final Context appContext = PlatformState.getApplicationContext();
             Intent intent = new Intent(appContext, mLaunchClazz);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             for(String key : mParams.keySet()) {
                 Object value = mParams.get(key);
                 if(value instanceof Integer){
                     intent.putExtra(key, (Integer)value);
                 } else if(value instanceof String) {
                     intent.putExtra(key, value.toString());
+                } else if(value instanceof Bundle) {
+                    intent.putExtra(key, (Bundle)value);
                 } else {
                     throw new IllegalArgumentException(value.getClass().getSimpleName() + " not supported");
                 }

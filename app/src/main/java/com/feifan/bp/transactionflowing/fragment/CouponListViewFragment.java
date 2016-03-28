@@ -155,7 +155,7 @@ public class CouponListViewFragment extends ProgressFragment implements RadioGro
     protected void requestData() {
         if (shouldRequest) {
             isShowDlg = true;
-            if (Utils.isNetworkAvailable(getActivity())) {
+            if (Utils.isNetworkAvailable()) {
                 setContentEmpty(false);
                 mSwipeLayout.setRefreshing(true);
                 TransFlowCtrl.getCouponSummary(selectData, mPageIndex, mLimit, new Response.Listener<CouponSummaryModel>() {

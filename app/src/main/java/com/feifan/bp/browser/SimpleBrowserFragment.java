@@ -82,7 +82,7 @@ public class SimpleBrowserFragment extends ProgressFragment {
     protected void requestData() {
         setContentShown(false);
         if (mUrl != null) {
-            if (Utils.isNetworkAvailable(getActivity())) {
+            if (Utils.isNetworkAvailable()) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

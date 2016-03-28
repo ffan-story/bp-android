@@ -439,6 +439,7 @@
     <string name="apply_fine_location">在设置-应用-飞凡商家-权限中开启位置权限,以正常使用飞凡商家功能</string>
 
     <!-- 收款流水 -->
+    <string name="receipts_title">收款流水</string>
     <string name="receipts_pay_type">支付方式</string>
     <string name="receipts_record_no">流水号</string>
     <string name="receipts_status">状态</string>

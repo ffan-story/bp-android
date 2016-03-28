@@ -130,7 +130,8 @@ public class Utils {
      *
      * @return
      */
-    public static boolean isNetworkAvailable(Context context) {
+    public static boolean isNetworkAvailable() {
+        final Context context = PlatformState.getApplicationContext();
         if(context != null) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             if (cm != null) {

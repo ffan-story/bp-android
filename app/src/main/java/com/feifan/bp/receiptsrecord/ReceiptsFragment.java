@@ -122,7 +122,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
     }
 
     private void fetchData(final boolean isLoadMore) {
-        if(Utils.isNetworkAvailable(getActivity())) {
+        if(Utils.isNetworkAvailable()) {
             mSwipe.setRefreshing(true);
             mNoNetView.setVisibility(View.GONE);
             ReceiptsCtrl.getReceiptsRecords(mStartDate, mEndDate, pageIndex + "", new Response.Listener<ReceiptsModel>() {

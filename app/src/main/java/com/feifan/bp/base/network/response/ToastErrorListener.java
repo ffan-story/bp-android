@@ -16,18 +16,17 @@ public class ToastErrorListener extends CookieErrorListener {
 
     @Override
     protected void disposeError(String error) {
-        final Context context = PlatformState.getApplicationContext();
-        if (!Utils.isNetworkAvailable(context)) {     // 网络不可用
-            Utils.showShortToast(context, R.string.error_message_text_offline, Gravity.CENTER);
+        if (!Utils.isNetworkAvailable()) {     // 网络不可用
+            Utils.showShortToastSafely(R.string.error_message_text_offline);
         } else {                               // 其他原因
 
             if (!TextUtils.isEmpty(error) && error.trim().length() > 0) {
                 if (!Utils.isChineseChar(error)) {
-                    error = context.getString(R.string.error_message_text_network_data_fail);
+                    error = Utils.getString(R.string.error_message_text_network_data_fail);
                 }
-                Utils.showShortToast(context, error, Gravity.CENTER);
+                Utils.showShortToastSafely(error);
             } else {
-                Utils.showShortToast(context, R.string.error_message_text_offline, Gravity.CENTER);
+                Utils.showShortToastSafely(R.string.error_message_text_offline);
             }
         }
     }

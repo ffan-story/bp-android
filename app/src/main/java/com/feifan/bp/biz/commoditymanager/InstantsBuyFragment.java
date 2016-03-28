@@ -82,7 +82,7 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
 
     @Override
     protected void requestData() {
-        if (Utils.isNetworkAvailable(getContext())){
+        if (Utils.isNetworkAvailable()){
             setContentEmpty(false);
             CommodityManagerCtrl.getCommodityInfo(new Response.Listener<InstantsBuyModle>() {
                 @Override
@@ -131,7 +131,7 @@ public class InstantsBuyFragment extends ProgressFragment implements PlatformTab
 
     @Override
     public void onClick(View v) {
-        if(Utils.isNetworkAvailable(getContext())){
+        if(Utils.isNetworkAvailable()){
             if(null != v.getTag()){//商品列表
                 String url = UrlFactory.getInstantsForHtmlUrl(v.getTag().toString());
                 BrowserActivity.startActivity(getContext(), url);

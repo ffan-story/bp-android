@@ -78,7 +78,7 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
         }
 
         if (!TextUtils.isEmpty(mUrlStr)){//url不为空，退款售后---我要退款（h5页面 ）
-            if (!Utils.isNetworkAvailable(getApplicationContext())) {
+            if (!Utils.isNetworkAvailable()) {
                 Utils.showShortToast(getApplicationContext(), R.string.error_message_text_offline, Gravity.CENTER);
                 finish();
                 return;
@@ -95,7 +95,7 @@ public class CodeScannerActivity extends BaseActivity implements CaptureActivity
                     PlatformTopbarActivity.startActivity(CodeScannerActivity.this, ErrorFragment.class.getName(),
                             getApplicationContext().getApplicationContext().getString(R.string.query_result), args);
                 }else{
-                    if (!Utils.isNetworkAvailable(getApplicationContext())) {
+                    if (!Utils.isNetworkAvailable()) {
                         Utils.showShortToast(getApplicationContext(), R.string.error_message_text_offline, Gravity.CENTER);
                         return;
                     }

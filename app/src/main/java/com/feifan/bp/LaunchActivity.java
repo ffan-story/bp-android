@@ -177,7 +177,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
         int type = args.getInt(OnFragmentInteractionListener.INTERATION_KEY_TYPE, OnFragmentInteractionListener.TYPE_IDLE);
         if (from.equals(LoginFragment.class.getName())) {  // 来自登录界面，登录成功
             if (PlatformState.getInstance().getLastUrl() != null) {
-                if (Utils.isNetworkAvailable(this)) {
+                if (Utils.isNetworkAvailable()) {
                     BrowserActivity.startActivity(this, PlatformState.getInstance().getLastUrl());
 
                 } else {
@@ -205,34 +205,8 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
                     CodeScannerActivity.startActivityForResult(this, null);
                 }
             } else if (to.equals(UserInfoFragment.class.getName())) {
-                if (Utils.isNetworkAvailable(this)) {
+                if (Utils.isNetworkAvailable()) {
                     PlatformTopbarActivity.startActivity(this, to);
-                } else {
-                    Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
-                }
-            } else if (to.equals(CheckManageFragment.class.getName())) {
-                if (Utils.isNetworkAvailable(this)) {
-                    Intent intent = new Intent(this, PlatformTopbarActivity.class);
-                    intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, CheckManageFragment.class.getName());
-                    startActivity(intent);
-                } else {
-                    Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
-                }
-            } else if (to.equals(IndexSalesManageFragment.class.getName())) {
-                if (Utils.isNetworkAvailable(this)) {
-                    Intent intent = new Intent(this, PlatformTopbarActivity.class);
-                    intent.putExtra(SimpleBrowserFragment.EXTRA_KEY_URL, args.getString(SimpleBrowserFragment.EXTRA_KEY_URL));
-                    intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, IndexSalesManageFragment.class.getName());
-                    startActivity(intent);
-                } else {
-                    Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
-                }
-            } else if (to.equals(MarketingHomeFragment.class.getName())) {//营销分析 二期
-                if (Utils.isNetworkAvailable(this)) {
-                    Intent intent = new Intent(this, PlatformTopbarActivity.class);
-                    intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingHomeFragment.class.getName());
-                    intent.putExtra(Constants.EXTRA_KEY_TITLE, getString(R.string.sale_anal));
-                    startActivity(intent);
                 } else {
                     Utils.showShortToast(this, R.string.error_message_text_offline, Gravity.CENTER);
                 }
@@ -343,7 +317,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
     // 打开TAB浏览器
     private void openTabBrowser(Bundle args) {
-        if (Utils.isNetworkAvailable(this)) {
+        if (Utils.isNetworkAvailable()) {
             Intent intent = new Intent(this, BrowserTabActivity.class);
             intent.putExtra(BrowserTabActivity.EXTRA_KEY_URL, args.getString(BrowserTabActivity.EXTRA_KEY_URL));
             intent.putExtra(BrowserTabActivity.EXTRA_KEY_STATUS, args.getStringArray(BrowserTabActivity.EXTRA_KEY_STATUS));
@@ -357,7 +331,7 @@ public class LaunchActivity extends PlatformBaseActivity implements OnFragmentIn
 
     // 打开浏览器
     private void openBrowser(String url) {
-        if (Utils.isNetworkAvailable(this)) {
+        if (Utils.isNetworkAvailable()) {
             Intent intent = new Intent(this, BrowserActivity.class);
             intent.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
             startActivity(intent);

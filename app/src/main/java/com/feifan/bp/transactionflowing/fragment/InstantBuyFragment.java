@@ -123,7 +123,7 @@ public class InstantBuyFragment extends ProgressFragment implements View.OnClick
         if (null == getActivity()) {
             return;
         }
-        if (Utils.isNetworkAvailable(getActivity())) {
+        if (Utils.isNetworkAvailable()) {
             setContentEmpty(false);
             mSwipe.setRefreshing(true);
             TransFlowCtrl.getInstantSummary(startDate, endDate, new Response.Listener<InstantSummaryModel>() {

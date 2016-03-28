@@ -84,7 +84,7 @@ public class InstantDetailListFragment extends ProgressFragment{
 
     @Override
     protected void requestData() {
-        if(Utils.isNetworkAvailable(getActivity())){
+        if(Utils.isNetworkAvailable()){
             setContentEmpty(false);
             TransFlowCtrl.getInstantDetailList(startDate, endDate, pageIndex, limit, new Response.Listener<InstantDetailModel>() {
                 @Override
