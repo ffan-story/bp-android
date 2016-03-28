@@ -83,10 +83,10 @@ public class AuthSupplier {
         String getCommodityManagerId();
 
         /**
-         * 红包统计
+         * 获取营销分析ID
          * @return
          */
-        String getGraphChartId();
+        String getMarketingAnalysisId();
 
         /**
          * 获取营销管理ID
@@ -184,7 +184,7 @@ public class AuthSupplier {
         public String getCommodityManagerId() { return "1226"; }
 
         @Override
-        public String getGraphChartId() { return "1673"; }
+        public String getMarketingAnalysisId() { return "1673"; }
 
         @Override
         public String getMarketingManageId() { return "1227"; }
@@ -279,7 +279,7 @@ public class AuthSupplier {
         }
 
         @Override
-        public String getGraphChartId() { return "1415"; }
+        public String getMarketingAnalysisId() { return "1415"; }
 
         @Override
         public String getMarketingManageId() {

@@ -1,4 +1,4 @@
-package com.feifan.bp.home.commoditymanager;
+package com.feifan.bp.biz.commoditymanager;
 
 import android.os.Bundle;
 import android.support.v7.internal.widget.ViewStubCompat;

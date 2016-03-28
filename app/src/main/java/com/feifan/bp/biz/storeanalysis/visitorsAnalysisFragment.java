@@ -1,4 +1,4 @@
-package com.feifan.bp.home.storeanalysis;
+package com.feifan.bp.biz.storeanalysis;
 
 import android.content.DialogInterface;
 import android.graphics.Bitmap;

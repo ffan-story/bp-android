@@ -28,7 +28,7 @@ import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.IndexFragment;
 import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.home.SettingsFragment;
-import com.feifan.bp.home.check.CheckManageFragment;
+import com.feifan.bp.biz.check.CheckManageFragment;
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;

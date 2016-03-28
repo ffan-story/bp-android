@@ -1,4 +1,4 @@
-package com.feifan.bp.home.check;
+package com.feifan.bp.biz.check;
 
 import android.app.Activity;
 import android.os.Bundle;

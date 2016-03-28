@@ -93,6 +93,10 @@ public class Constants {
      * 通用参数键值－title
      */
     public static final String EXTRA_KEY_TITLE = "title";
+    /**
+     * 通用参数键值－to
+     */
+    public static final String EXTRA_KEY_TO = "to";
 
     /**
      * 隐藏其它补贴金额  1:隐藏 0:显示

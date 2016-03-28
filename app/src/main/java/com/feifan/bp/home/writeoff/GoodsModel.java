@@ -1,4 +1,4 @@
-package com.feifan.bp.home.code;
+package com.feifan.bp.home.writeoff;
 
 import com.feifan.bp.network.BaseModel;
 

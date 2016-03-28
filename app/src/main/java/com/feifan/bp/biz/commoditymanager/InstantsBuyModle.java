@@ -1,4 +1,4 @@
-package com.feifan.bp.home.commoditymanager;
+package com.feifan.bp.biz.commoditymanager;
 
 import android.util.Log;
 

@@ -1,4 +1,4 @@
-package com.feifan.bp.home.commoditymanager;
+package com.feifan.bp.biz.commoditymanager;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
