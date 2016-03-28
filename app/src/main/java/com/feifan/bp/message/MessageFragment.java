@@ -218,7 +218,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
     public void fetchData (int pageIndex, final String messType){
         setContentShown(true);
         if (isAdded() && !Utils.isNetworkAvailable(getActivity())){
-            setContentEmpty(true, getActivity().getResources().getString(R.string.empty_view_text), getActivity().getResources().getString(R.string.common_retry_text), R.mipmap.empty_ic_timeout, new View.OnClickListener() {
+            setContentEmpty(true, getString(R.string.empty_view_text), getString(R.string.common_retry_text), R.mipmap.empty_ic_timeout, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     fetchData(1, mMessType);
@@ -303,7 +303,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
     @Override
     public void onLoadingMore() {
         if (mList.size() >= totalCount) {
-            Toast.makeText(getActivity(), getString(R.string.error_no_more_data), Toast.LENGTH_LONG).show();
+            Utils.showLongToastSafely(R.string.error_no_more_data);
         } else {
             pageIndex++;
             fetchData(pageIndex, mMessType);

@@ -351,4 +351,12 @@ public class Utils {
         Toast.makeText(PlatformState.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * 以安全的方式长时间显示Toast
+     * @param message
+     */
+    public static void showLongToastSafely(int message) {
+        Toast.makeText(PlatformState.getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
 }
