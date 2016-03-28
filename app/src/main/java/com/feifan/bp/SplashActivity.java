@@ -32,13 +32,14 @@ import com.wanda.crashsdk.pub.FeifanCrashManager;
 
 /**
  * 欢迎界面
- * <p>
+ * <p/>
  * Created by maning on 15/7/29.
  */
 public class SplashActivity extends PlatformBaseActivity {
 
     private MaterialDialog mDialog;
     private static final String TAG = "SplashActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,21 +53,8 @@ public class SplashActivity extends PlatformBaseActivity {
         overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
 
         //内存/位置权限检查
-        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED)
-                && Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION},
-                    Constants.MY_PERMISSIONS_REQUEST_STORAGE);
-        } else {
-            //防闪烁
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    checkVersion();
-                }
-            },500);
-        }
+        onPermissionCheck();
+
         //统计埋点初始化
         FmsAgent.init(getApplicationContext(), EnvironmentManager.getHostFactory().getFFanApiPrefix() + "mxlog");
         FeifanCrashManager.getInstance().reportActive();
@@ -93,9 +81,33 @@ public class SplashActivity extends PlatformBaseActivity {
                     }
                 });
         // 听云
-        if(BuildConfig.CURRENT_ENVIRONMENT.equals(Constants.Environment.PRODUCT)
+        if (BuildConfig.CURRENT_ENVIRONMENT.equals(Constants.Environment.PRODUCT)
                 && !BuildConfig.DEBUG) {
             NBSAppAgent.setLicenseKey(getString(R.string.tingyun_key)).withLocationServiceEnabled(true).start(this);
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        onPermissionCheck();
+    }
+
+    private void onPermissionCheck() {
+        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+                && Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION},
+                    Constants.MY_PERMISSIONS_REQUEST_STORAGE);
+        } else {
+            //防闪烁
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    checkVersion();
+                }
+            }, 500);
         }
     }
 
