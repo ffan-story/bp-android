@@ -171,6 +171,8 @@ public class JsonRequest<T extends BaseModel> extends Request<T> {
 
         /** 错误状态－Cookie过期 */
         public static final int STATUS_COOKIE_EXPIRE = 3001;
+        /** 错误状态－登陆身份失效 */
+        public static final int STATUS_NOT_LOGIN = 401;
 
         private final int mStatus;
 
