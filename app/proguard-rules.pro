@@ -54,3 +54,10 @@
 -dontwarn com.networkbench.**
 -keepattributes Exceptions, Signature, InnerClasses
 # End NetworkBench Lens
+
+#信鸽push的处理
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep class com.tencent.android.tpush.**  {* ;}
+-keep class com.tencent.mid.**  {* ;}
+# End 信鸽
