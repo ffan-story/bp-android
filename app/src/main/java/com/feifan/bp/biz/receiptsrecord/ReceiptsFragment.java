@@ -132,6 +132,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
      * 更新消息状态
      */
     private void initMsgStatus(){
+        Log.e("ReceiptsFragment",isMsgReaded + "------");
         String payFlowId = getPayFlowId();
         if(!TextUtils.isEmpty(payFlowId) && !isMsgReaded){
             setMessageStatus(payFlowId);
