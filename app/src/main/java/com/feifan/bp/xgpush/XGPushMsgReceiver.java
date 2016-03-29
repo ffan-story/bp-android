@@ -8,7 +8,9 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.feifan.bp.Statistics;
 import com.feifan.bp.biz.receiptsrecord.ReceiptsFragment;
+import com.feifan.statlib.FmsAgent;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
@@ -94,9 +96,9 @@ public class XGPushMsgReceiver  extends XGPushBaseReceiver {
     // 消息透传
     @Override
     public void onTextMessage(Context context, XGPushTextMessage message) {
-        String text = "收到消息:" + message.toString();
-        // APP自主处理消息的过程...
-        Log.d(TAG, text);
+        FmsAgent.onEvent(context.getApplicationContext(), Statistics.FB_PUSHMES_RECEIVE);
+        String msg = message.getContent();
+        Log.e("onTextMessage",msg);
     }
 
 
@@ -109,6 +111,7 @@ public class XGPushMsgReceiver  extends XGPushBaseReceiver {
         }
         if (message.getActionType() == XGPushClickedResult.NOTIFACTION_CLICKED_TYPE) {
             String customContent = message.getCustomContent();
+            Log.e("content",customContent);
             if (!TextUtils.isEmpty(customContent)) {
                 try {
                     JSONObject obj = new JSONObject(customContent);
@@ -122,6 +125,7 @@ public class XGPushMsgReceiver  extends XGPushBaseReceiver {
                         payFlowId = obj.getString(PAYFLOWID_KEY);
                     }
                     if(PAYFLOW_TYPE.equals(typeValue) && !TextUtils.isEmpty(payFlowId)){
+                        FmsAgent.onEvent(context.getApplicationContext(), Statistics.FB_PUSHMES_READ);
                         ReceiptsFragment.start(payFlowId);
                     }
                 } catch (JSONException e) {
