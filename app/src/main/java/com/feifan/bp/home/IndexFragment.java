@@ -44,12 +44,12 @@ import com.feifan.bp.base.envir.EnvironmentManager;
 
 import com.feifan.bp.home.userinfo.UserInfoFragment;
 import com.feifan.bp.login.AuthListModel.AuthItem;
-import com.feifan.bp.marketinganalysis.MarketingHomeFragment;
+import com.feifan.bp.biz.marketinganalysis.MarketingHomeFragment;
 import com.feifan.bp.base.network.GetRequest;
 import com.feifan.bp.base.network.JsonRequest;
 import com.feifan.bp.base.network.UrlFactory;
-import com.feifan.bp.receiptsrecord.ReceiptsFragment;
-import com.feifan.bp.salesmanagement.IndexSalesManageFragment;
+import com.feifan.bp.biz.receiptsrecord.ReceiptsFragment;
+import com.feifan.bp.biz.salesmanagement.IndexSalesManageFragment;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerTextView;
 import com.feifan.statlib.FmsAgent;
@@ -222,8 +222,9 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                     + " must implement OnFragmentInteractionListener");
         }
 
+        // 初始化功能对象库
+        // FIXME 可优化在每次登录后初始化一次
         mFunctions = new FunctionStore();
-
         if(isAdded()) {
 
             // 营销分析
@@ -457,18 +458,19 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                             LogUtil.e(TAG, e.getMessage());
                         }
 
+                        // 处理其他功能调用
+                        // FIXME 统一使用FunctionStore处理
                         if (Utils.isNetworkAvailable()) {
                             // 添加统计埋点
                             addStatistices(item.id);
-
                             if (EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id) != -1 && EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id) != -1) {
                                 String titleName = "";
                                 if (!url.contains("/staff?") && !item.name.equals("员工管理")) {
                                     titleName = item.name;
                                 }
                                 BrowserTabActivity.startActivity(getContext(), url + "&status=",
-                                        getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
-                                        getContext().getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)),
+                                        getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
+                                        getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)),
                                         titleName);
                             }else {
                                 BrowserActivity.startActivity(getContext(), url);
@@ -521,7 +523,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
          * @param id
          */
         private void addStatistices(int id){
-            if (BuildConfig.DEBUG){
+            if (BuildConfig.CURRENT_ENVIRONMENT.equals(Constants.Environment.SIT)){
                 //统计埋点  sit
                 switch (id) {
                     case 1142:

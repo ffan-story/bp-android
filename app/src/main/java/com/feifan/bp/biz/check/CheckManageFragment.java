@@ -16,10 +16,10 @@ import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ui.BaseFragment;
-import com.feifan.bp.financialreconciliation.FinancialSummaryFragment;
+import com.feifan.bp.biz.financialreconciliation.FinancialSummaryFragment;
 import com.feifan.bp.biz.commoditymanager.BrandFragment;
-import com.feifan.bp.transactionflowing.fragment.CouponListViewFragment;
-import com.feifan.bp.transactionflowing.fragment.InstantBuyFragment;
+import com.feifan.bp.biz.transactionflowing.fragment.CouponListViewFragment;
+import com.feifan.bp.biz.transactionflowing.fragment.InstantBuyFragment;
 import com.feifan.bp.util.LogUtil;
 
 /**

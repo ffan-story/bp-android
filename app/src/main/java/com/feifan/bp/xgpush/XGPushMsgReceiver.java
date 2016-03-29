@@ -8,7 +8,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.feifan.bp.receiptsrecord.ReceiptsFragment;
+import com.feifan.bp.biz.receiptsrecord.ReceiptsFragment;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;

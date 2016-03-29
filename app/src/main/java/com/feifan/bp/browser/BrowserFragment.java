@@ -44,7 +44,7 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.base.ui.BaseFragment;
 import com.feifan.bp.base.network.UploadHttpClient;
 import com.feifan.bp.base.network.UrlFactory;
-import com.feifan.bp.refund.RefundFragment;
+import com.feifan.bp.biz.refund.RefundFragment;
 import com.feifan.bp.util.IOUtil;
 import com.feifan.bp.util.ImageUtil;
 import com.feifan.bp.util.LogUtil;

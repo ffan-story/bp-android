@@ -84,13 +84,13 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".transactionflowing.TransFlowTabActivity"
+            android:name=".biz.transactionflowing.TransFlowTabActivity"
             android:label=" "
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".salesmanagement.RegisterDetailActivity"
+            android:name=".biz.salesmanagement.RegisterDetailActivity"
             android:label=" "
             android:screenOrientation="portrait">
         </activity>
