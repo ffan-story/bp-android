@@ -26,6 +26,16 @@
         <item name="android:textSize">@dimen/font_size_12</item>
     </style>
 
+    <style name="txt_color33_size13" parent="commmonTxt">
+        <item name="android:textColor">@color/font_color_33</item>
+        <item name="android:textSize">@dimen/font_size_13</item>
+    </style>
+
+    <style name="txt_color99_size13" parent="commmonTxt">
+        <item name="android:textColor">@color/font_color_99</item>
+        <item name="android:textSize">@dimen/font_size_13</item>
+    </style>
+
     <style name="txt_color33_size14" parent="commmonTxt">
         <item name="android:textColor">@color/font_color_33</item>
         <item name="android:textSize">@dimen/font_size_14</item>
@@ -48,6 +58,11 @@
 
     <style name="txt_color99_size14" parent="commmonTxt">
         <item name="android:textColor">@color/font_color_99</item>
+        <item name="android:textSize">@dimen/font_size_14</item>
+    </style>
+
+    <style name="txt_orange_14" parent="commmonTxt">
+        <item name="android:textColor">@color/orange_dot</item>
         <item name="android:textSize">@dimen/font_size_14</item>
     </style>
 

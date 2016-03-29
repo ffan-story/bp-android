@@ -89,6 +89,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
     protected View onCreateContentView(ViewStubCompat stub) {
         stub.setLayoutResource(R.layout.fragment_receipts);
         View view = stub.inflate();
+        initMsgStatus();
         mSegmentedGroup = (SegmentedGroup) view.findViewById(R.id.segmented_group);
         btn1 = (RadioButton) view.findViewById(R.id.btn1);
         btn2 = (RadioButton) view.findViewById(R.id.btn2);
@@ -121,19 +122,12 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
         return view;
     }
 
-    @Override
-    protected void requestData() {
-        mCurrentCount = 0;
-        pageIndex = 0;
-        fetchData(false);
-    }
-
     /**
      * 更新消息状态
      */
     private void initMsgStatus(){
         String payFlowId = getPayFlowId();
-        if(!TextUtils.isEmpty(payFlowId) && !isMsgReaded){
+        if(!TextUtils.isEmpty(payFlowId)){
             setMessageStatus(payFlowId);
         }
     }
@@ -148,12 +142,27 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
     }
 
     private void setMessageStatus(String payFlowId) {
-        HomeCtrl.setMessageStatusRead(UserProfile.getInstance().getAuthRangeId(), payFlowId, new Response.Listener() {
-            @Override
-            public void onResponse(Object o) {
-                isMsgReaded = true;
-            }
-        }, new ToastErrorListener());
+        if(Utils.isNetworkAvailable()){
+            HomeCtrl.setMessageStatusRead(UserProfile.getInstance().getAuthRangeId(), payFlowId, new Response.Listener() {
+                @Override
+                public void onResponse(Object o) {
+                    setContentEmpty(false);
+                    setContentShown(true);
+                }
+            }, new ToastErrorListener());
+        }else {
+            receiptsList.setAdapter(null);
+            mNoDataView.setVisibility(View.GONE);
+            mNoNetView.setVisibility(View.VISIBLE);
+            stopRefresh();
+        }
+    }
+
+    @Override
+    protected void requestData() {
+        mCurrentCount = 0;
+        pageIndex = 0;
+        fetchData(false);
     }
 
     private void fetchData(final boolean isLoadMore) {
@@ -239,7 +248,6 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
 
     @Override
     public boolean hasLoadedAllItems() {
-        Log.e("ReceiptsFragment","current = " + mCurrentCount + "---total = " + mTotalCount);
         return mCurrentCount == mTotalCount;
     }
 

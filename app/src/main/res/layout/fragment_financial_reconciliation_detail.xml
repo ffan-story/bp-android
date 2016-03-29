@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_color_gray_f3">
+    <TextView
+        android:id="@+id/query_time"
+        style="@style/txt_color_new_blue_size14"
+        android:gravity="center_vertical"
+        android:padding="@dimen/view_spacing_12"
+        android:drawableLeft="@mipmap/time_icon"
+        android:drawablePadding="@dimen/view_spacing_5"
+        android:layout_centerHorizontal="true"
+        android:text="--"/>
+
+    <include layout="@layout/layout_swipe_list"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+        android:layout_below="@id/query_time" />
+
+</RelativeLayout>

@@ -34,7 +34,7 @@
                     android:text="券核销总笔数 : --"/>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dividerheight"
+                    android:layout_height="@dimen/divider_height"
                     android:layout_below="@id/chargeoff_total_count"
                     android:background="@color/divider"/>
 
@@ -74,6 +74,7 @@
                 </RelativeLayout>
 
                 <View
+                    android:id="@+id/line1"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/view_size_0.5"
                     android:layout_below="@id/red_container"
@@ -84,8 +85,7 @@
                     android:id="@+id/shake_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/view_spacing_1"
-                    android:layout_below="@id/red_container"
+                    android:layout_below="@id/line1"
                     android:layout_marginLeft="@dimen/view_spacing_5"
                     android:padding="@dimen/view_spacing_15"
                     android:background="@color/white">
@@ -115,6 +115,7 @@
                 </RelativeLayout>
 
                 <View
+                    android:id="@+id/line2"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/view_size_0.5"
                     android:layout_marginLeft="@dimen/view_spacing_60"
@@ -125,10 +126,9 @@
                     android:id="@+id/general_coupons_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/shake_container"
+                    android:layout_below="@id/line2"
                     android:padding="@dimen/view_spacing_15"
                     android:layout_marginLeft="@dimen/view_spacing_5"
-                    android:layout_marginTop="@dimen/view_spacing_1"
                     android:background="@color/white">
 
                     <TextView
@@ -156,6 +156,7 @@
                 </RelativeLayout>
 
                 <View
+                    android:id="@+id/line3"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/view_size_0.5"
                     android:layout_marginLeft="@dimen/view_spacing_60"
@@ -168,8 +169,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/view_spacing_15"
                     android:layout_marginLeft="@dimen/view_spacing_5"
-                    android:layout_below="@id/general_coupons_container"
-                    android:layout_marginTop="@dimen/view_spacing_1"
+                    android:layout_below="@id/line3"
                     android:background="@color/white">
 
                     <TextView
@@ -198,7 +198,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dividerheight"
+                    android:layout_height="@dimen/divider_height"
                     android:layout_below="@id/coupons_container"
                     android:background="@color/divider"/>
 

@@ -20,7 +20,7 @@
 
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/dividerheight"
+            android:layout_height="@dimen/divider_height"
             android:background="@color/divider"
             android:clickable="false"
             android:focusable="false" />
@@ -41,7 +41,7 @@
 
             <TextView
                 android:id="@+id/line1"
-                android:layout_width="@dimen/dividerheight"
+                android:layout_width="@dimen/divider_height"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:layout_margin="@dimen/view_size_5"
@@ -59,7 +59,7 @@
 
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/dividerheight"
+            android:layout_height="@dimen/divider_height"
             android:background="@color/divider"
             android:clickable="false"
             android:focusable="false" />
@@ -80,7 +80,7 @@
 
             <TextView
                 android:id="@+id/line"
-                android:layout_width="@dimen/dividerheight"
+                android:layout_width="@dimen/divider_height"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="@dimen/view_size_5"
@@ -99,7 +99,7 @@
 
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/dividerheight"
+            android:layout_height="@dimen/divider_height"
             android:background="@color/divider"
             android:clickable="false"
             android:focusable="false" />

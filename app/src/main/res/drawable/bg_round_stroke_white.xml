@@ -6,9 +6,9 @@
             <corners android:radius="@dimen/radio_button_conner_radius"/>
             <!-- 描边 -->
             <stroke
-                android:width="@dimen/dividerheight"
+                android:width="@dimen/divider_height"
                 android:color="@color/color_bf"
-                android:dashWidth="@dimen/dividerheight"
+                android:dashWidth="@dimen/divider_height"
                 android:dashGap="0dp"/>
         </shape>
     </item>

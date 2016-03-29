@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:choiceMode="singleChoice"
             android:divider="@color/divider"
-            android:dividerHeight="@dimen/dividerheight"
+            android:dividerHeight="@dimen/divider_height"
             android:fadingEdge="none"
             android:listSelector="@android:color/transparent"
             android:scrollbarStyle="outsideOverlay" />

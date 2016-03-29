@@ -278,6 +278,7 @@
     <string name="date_error_6">选择的时间段最小为3天</string>
     <string name="date_error_7">选择的时间段最长为30天</string>
     <string name="date_error_8">开始/结束时间不能大于当前时间</string>
+    <string name="date_error_9">系统暂时不支持跨年查询，请重新选择开始或结束时间</string>
     <string name="date_start_text">开始日期</string>
     <string name="date_end_text">结束日期</string>
     <string name="empty_view_retry">重试</string>
@@ -448,7 +449,32 @@
     <string name="receipts_real_amount">可开发票金额</string>
 
     <!-- 财务对账 -->
+    <string name="financial_reconciliation">财务对账</string>
     <string name="financial_lefu">乐付</string>
     <string name="financial_coupon">券</string>
+    <string name="financial_order_no">对账单号：%1$s</string>
+    <string name="financial_settle_sub">结算主体：%1$s</string>
+    <string name="financial_settle_num">结算笔数</string>
+    <string name="financial_settle_money">结算金额</string>
+    <string name="financial_settle_title">结算单</string>
+    <string name="financial_adjust_title">调账信息</string>
+    <string name="financial_reconciliation_detail">对账单详情</string>
+    <string name="financial_settle_order_no">结算单号：</string>
+    <string name="financial_settle_cycle">结算周期：</string>
+    <string name="financial_settle_count">交易笔数：</string>
+    <string name="financial_settle_pay">用户付款金额：</string>
+    <string name="financial_settle_refund">用户退款金额：</string>
+    <string name="financial_settle_platform">平台补贴金额：</string>
+    <string name="financial_settle_third">第三方补贴金额：</string>
+    <string name="financial_settle_comm">佣金：</string>
+    <string name="financial_settle_amount">结算金额：</string>
+    <string name="financial_order_settle_amount">订单结算金额：</string>
+    <string name="financial_adjust_no">调账流水</string>
+    <string name="financial_adjust_order_no">结算单号</string>
+    <string name="financial_adjust_settle_cycle">结算周期</string>
+    <string name="financial_adjust_amount">调账金额</string>
+    <string name="financial_adjust_explain">调账说明</string>
+    <string name="financial_settle_no">订单号：%1$s</string>
+    <string name="financial_settle_detail">结算详情</string>
+    <string name="financial_settle_refund_order">退款单</string>
 </resources>
-

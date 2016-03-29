@@ -383,6 +383,30 @@ public abstract class UrlFactory {
         return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "cashflow?action=list";
     }
 
+    /**
+     * 获取财务对账首页列表
+     * http://api.sit.ffan.com/mapp/v1/reconciliation?action=list
+     */
+    public static String getReconciliationSummary(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "reconciliation?action=list";
+    }
+
+    /**
+     * 获取对账单详情 （结算单 + 调账信息）
+     * http://api.sit.ffan.com/mapp/v1/reconciliation?action=detailList
+     */
+    public static String getReConciliationOrders(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "reconciliation?action=detailList";
+    }
+
+    /**
+     * 获取订单详情
+     * http://api.sit.ffan.com/mapp/v1/reconciliation?action=settleDetail
+     */
+    public static String getSettleDetail(){
+        return EnvironmentManager.getHostFactory().getMAppApiPrefix() + "reconciliation?action=settleDetail";
+    }
+
     private static String formatRelativeUrl(String relativeUrl) {
         if (TextUtils.isEmpty(relativeUrl)) {
             return relativeUrl;

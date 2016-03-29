@@ -23,7 +23,7 @@
     <dimen name="view_spacing_60">60dp</dimen>
     <dimen name="view_spacing_100">100dp</dimen>
     <dimen name="view_spacing_120">120dp</dimen>
-    <dimen name="dividerheight">0.5dp</dimen>
+    <dimen name="divider_height">0.5dp</dimen>
     <!-- 字体 -->
     <dimen name="font_size_26">26sp</dimen>
     <dimen name="font_size_24">24sp</dimen>
@@ -34,6 +34,7 @@
     <dimen name="font_size_18">18sp</dimen>
     <dimen name="font_size_16">16sp</dimen>
     <dimen name="font_size_14">14sp</dimen>
+    <dimen name="font_size_13">13sp</dimen>
     <dimen name="font_size_12">12sp</dimen>
     <dimen name="font_size_11">11sp</dimen>
 

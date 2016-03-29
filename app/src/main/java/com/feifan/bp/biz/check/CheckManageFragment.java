@@ -14,13 +14,15 @@ import com.feifan.bp.Constants;
 import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformTabActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.ui.BaseFragment;
-import com.feifan.bp.biz.financialreconciliation.FinancialSummaryFragment;
 import com.feifan.bp.biz.commoditymanager.BrandFragment;
+import com.feifan.bp.biz.financialreconciliation.fragment.FinancialSummaryFragment;
 import com.feifan.bp.biz.transactionflowing.fragment.CouponListViewFragment;
 import com.feifan.bp.biz.transactionflowing.fragment.InstantBuyFragment;
 import com.feifan.bp.util.LogUtil;
+import com.feifan.statlib.FmsAgent;
 
 /**
  * 对账管理界面
@@ -70,12 +72,14 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
                 break;
             case R.id.check_manager_financial_reconciliation_rl:
                 // TODO 跳转到财务对账页面
+                //统计埋点  财务对账
+                FmsAgent.onEvent(getActivity().getApplication(), Statistics.FB_FINANCE_CHK);
                 fragmentArgs = new PlatformTabActivity.ArgsBuilder()
-                        .addFragment(FinancialSummaryFragment.class.getName(), "乐付")
-                        .addFragment(BrandFragment.class.getName(), "券")
+                        .addFragment(FinancialSummaryFragment.class.getName(), getString(R.string.financial_lefu))
+                        .addFragment(BrandFragment.class.getName(), getString(R.string.financial_coupon))
                         .addFragment(BrandFragment.class.getName(),getString(R.string.falsh_buy))
                         .build();
-                intent = PlatformTabActivity.buildIntent(getContext(), "财务对账", fragmentArgs);
+                intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.financial_reconciliation), fragmentArgs);
                 startActivity(intent);
                 break;
             case R.id.check_manager_inventory_query_rl:

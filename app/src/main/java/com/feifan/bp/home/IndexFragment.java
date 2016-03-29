@@ -1,6 +1,7 @@
 package com.feifan.bp.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -28,32 +29,31 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.ui.BaseFragment;
-import com.feifan.bp.base.ui.OnTabLifetimeListener;
-import com.feifan.bp.browser.BrowserActivity;
-import com.feifan.bp.browser.BrowserTabActivity;
-import com.feifan.bp.browser.SimpleBrowserFragment;
-import com.feifan.bp.biz.check.CheckManageFragment;
-import com.feifan.bp.home.function.Function;
-import com.feifan.bp.home.function.FunctionStore;
-import com.feifan.bp.home.writeoff.CodeQueryResultFragment;
-import com.feifan.bp.biz.commoditymanager.BrandFragment;
-import com.feifan.bp.biz.commoditymanager.InstantsBuyFragment;
-import com.feifan.bp.biz.storeanalysis.visitorsAnalysisFragment;
 import com.feifan.bp.base.envir.EnvironmentManager;
-
-import com.feifan.bp.home.userinfo.UserInfoFragment;
-import com.feifan.bp.login.AuthListModel.AuthItem;
-import com.feifan.bp.biz.marketinganalysis.MarketingHomeFragment;
 import com.feifan.bp.base.network.GetRequest;
 import com.feifan.bp.base.network.JsonRequest;
 import com.feifan.bp.base.network.UrlFactory;
+import com.feifan.bp.base.ui.BaseFragment;
+import com.feifan.bp.base.ui.OnTabLifetimeListener;
+import com.feifan.bp.biz.check.CheckManageFragment;
+import com.feifan.bp.biz.commoditymanager.BrandFragment;
+import com.feifan.bp.biz.commoditymanager.InstantsBuyFragment;
+import com.feifan.bp.biz.marketinganalysis.MarketingHomeFragment;
 import com.feifan.bp.biz.receiptsrecord.ReceiptsFragment;
 import com.feifan.bp.biz.salesmanagement.IndexSalesManageFragment;
+import com.feifan.bp.biz.storeanalysis.visitorsAnalysisFragment;
+import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.browser.BrowserTabActivity;
+import com.feifan.bp.browser.SimpleBrowserFragment;
+import com.feifan.bp.home.function.Function;
+import com.feifan.bp.home.function.Function.LaunchFunction;
+import com.feifan.bp.home.function.FunctionStore;
+import com.feifan.bp.home.userinfo.UserInfoFragment;
+import com.feifan.bp.home.writeoff.CodeQueryResultFragment;
+import com.feifan.bp.login.AuthListModel.AuthItem;
 import com.feifan.bp.util.LogUtil;
 import com.feifan.bp.widget.BadgerTextView;
 import com.feifan.statlib.FmsAgent;
-import com.feifan.bp.home.function.Function.LaunchFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -472,6 +472,72 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                                         getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabStatusRes(item.id)),
                                         getResources().getStringArray(EnvironmentManager.getAuthFactory().getAuthTabTitleRes(item.id)),
                                         titleName);
+                            } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getStoreAnalysisId())) {//TODO 跳转到店铺分析界面
+                                /**
+                                 * 统计埋点    店铺分析
+                                 */
+                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_STOREANA);
+
+                                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
+                                        .addFragment(SimpleBrowserFragment.class.getName(), "概览")
+                                        .addArgument(SimpleBrowserFragment.class.getName(), SimpleBrowserFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
+                                        .addFragment(visitorsAnalysisFragment.class.getName(), "访客分析")
+                                        .addArgument(visitorsAnalysisFragment.class.getName(), visitorsAnalysisFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
+                                        .build();
+                                Intent intent = PlatformTabActivity.buildIntent(getContext(), "店铺分析", fragmentArgs);
+                                startActivity(intent);
+                            } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getCommodityManagerId())) {//TODO 跳转到商品管理页面
+                                /**
+                                 * 统计埋点 商品管理
+                                 */
+                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_GOODSMANA);
+
+                                Bundle fragmentArgs = new PlatformTabActivity.ArgsBuilder()
+                                        .addFragment(InstantsBuyFragment.class.getName(), getString(R.string.commodity_instants_buy))
+                                        .addArgument(InstantsBuyFragment.class.getName(), InstantsBuyFragment.EXTRA_KEY_URL, UrlFactory.storeOverviewForHtml())
+                                        .addFragment(BrandFragment.class.getName(), getString(R.string.commodity_brand))
+                                        .addArgument(BrandFragment.class.getName(), BrandFragment.EXTRA_KEY_URL, UrlFactory.visitorsAnalysisForHtml())
+                                        .build();
+                                Intent intent = PlatformTabActivity.buildIntent(getContext(), getString(R.string.index_commodity_text), fragmentArgs);
+                                startActivity(intent);
+                            } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getMarketingAnalysisId())) {//TODO 跳转到营销分析
+                                /**
+                                 * 统计埋点  营销分析
+                                 */
+                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_PROMTION_ANA);
+
+                                Bundle args = new Bundle();
+                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
+                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, MarketingHomeFragment.class.getName());
+
+                                mListener.onFragmentInteraction(args);
+                            } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getMarketingManageId())) {//TODO 跳转到营销管理
+                                /**
+                                 * 统计埋点  营销管理
+                                 */
+                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_SALEMANA);
+
+                                Bundle args = new Bundle();
+                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
+                                args.putString(SimpleBrowserFragment.EXTRA_KEY_URL, url);
+                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, IndexSalesManageFragment.class.getName());
+                                mListener.onFragmentInteraction(args);
+                            } else if (item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getReportId())) {//TODO 跳转到对账管理
+                                /**
+                                 *  统计埋点 对账管理
+                                 */
+                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_HOME_FINA);
+
+                                Bundle args = new Bundle();
+                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, IndexFragment.class.getName());
+                                args.putString(OnFragmentInteractionListener.INTERATION_KEY_TO, CheckManageFragment.class.getName());
+                                mListener.onFragmentInteraction(args);
+                            }else if(item.id == Integer.valueOf(EnvironmentManager.getAuthFactory().getReceiptsId())){ // TODO 跳转到收款流水
+                                /**
+                                 * 统计埋点 收款流水
+                                 */
+                                FmsAgent.onEvent(getActivity().getApplicationContext(), Statistics.FB_CHECKOUT_LST);
+                                PlatformTopbarActivity.startActivityFromOther(PlatformState.getApplicationContext(), ReceiptsFragment.class.getName(), "收款流水");
                             }else {
                                 BrowserActivity.startActivity(getContext(), url);
                             }

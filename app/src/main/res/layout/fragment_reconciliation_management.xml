@@ -75,7 +75,7 @@
             android:layout_alignLeft="@+id/reconciliation_management_financial_reconciliation"
             android:layout_below="@id/reconciliation_management_financial_reconciliation"
             android:layout_marginTop="@dimen/view_spacing_5"
-            android:text="@string/reconciliation_management_temporarily_not_open"
+            android:text="@string/reconciliation_management_view_details"
             android:textColor="@color/white"
             android:textSize="@dimen/font_size_18"/>
 

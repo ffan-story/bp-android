@@ -1,21 +1,29 @@
-package com.feifan.bp.biz.financialreconciliation;
+package com.feifan.bp.biz.financialreconciliation.fragment;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
 import com.feifan.bp.R;
 import com.feifan.bp.Utils;
+import com.feifan.bp.base.network.response.ToastErrorListener;
 import com.feifan.bp.base.ui.ProgressFragment;
-import com.feifan.bp.biz.receiptsrecord.ReceiptsModel;
+import com.feifan.bp.biz.financialreconciliation.ReconciliationCtrl;
+import com.feifan.bp.biz.financialreconciliation.adapter.SummaryAdapter;
+import com.feifan.bp.biz.financialreconciliation.model.FinancialSummaryModel;
 import com.feifan.bp.util.TimeUtil;
+import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.bp.widget.paginate.Paginate;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
@@ -24,23 +32,28 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
+ * 财务对账 首页
  * Created by konta on 2016/3/18.
  */
 public class FinancialSummaryFragment extends ProgressFragment implements DatePickerDialog.OnDateSetListener,
         RadioGroup.OnCheckedChangeListener,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener,
+        Paginate.Callbacks {
 
+    private static final String TAG = "FinancialSummary";
     private SegmentedGroup mSegmentedGroup;
     private RadioButton btn1, btn2, btn3;
     private TextView mQueryTime;
-    private int tabIndex, pageIndex;
+    private int tabIndex, pageIndex, mTotalCount, mCurrentSize;
     private SwipeRefreshLayout mSwipe;
     private ListView mList;
     private String mStartDate, mEndDate;
     private SummaryAdapter mAdapter;
-    private List<ReceiptsModel.ReceiptsRecord> mReceiptsList;
+    private List<FinancialSummaryModel.FinancialSummary> summaryList;
+    private RelativeLayout mNoDataView,mNoNetView; //无数据 & 无网络页
     private Paginate mPaginate;
     private boolean isLoading;
+    public static final String QUERY_TIME = "queryTime";
 
     @Override
     protected View onCreateContentView(ViewStubCompat stub) {
@@ -59,9 +72,22 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
             }
         });
         mSwipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
-        mSwipe.setColorSchemeColors(R.color.accent);
+        mSwipe.setColorSchemeResources(R.color.accent);
         mSwipe.setOnRefreshListener(this);
         mList = (ListView) view.findViewById(R.id.receipts_list);
+        View header = LayoutInflater.from(getActivity()).inflate(R.layout.view_no_data_net,null,false);
+        mNoDataView = (RelativeLayout) header.findViewById(R.id.no_data);
+        mNoNetView = (RelativeLayout) header.findViewById(R.id.no_net);
+        mNoDataView.setVisibility(View.GONE);
+        mNoNetView.setVisibility(View.GONE);
+        mList.addHeaderView(header);
+        header.findViewById(R.id.reload).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestData();
+            }
+        });
+        tabIndex = 0;
         btn1.setChecked(true);
         return view;
     }
@@ -69,52 +95,64 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
     @Override
     protected void requestData() {
         pageIndex = 0;
+        mCurrentSize = 0;
         fetchData(false);
     }
 
     private void fetchData(final boolean isLoadMore) {
+        setQueryTime();
         if (Utils.isNetworkAvailable()) {
-//            mSwipe.setRefreshing(true);
-//            ReceiptsCtrl.getReceiptsRecords(mStartDate, mEndDate, "1", new Response.Listener<ReceiptsModel>() {
-//                @Override
-//                public void onResponse(ReceiptsModel model) {
-//                    if (isAdded() && null != model) {
-//                        setContentEmpty(false);
-//                        setContentShown(true);
-//                        fillView(model, isLoadMore);
-//                    }
-//                }
-//            }, new ToastErrorListener());
-            initView();
+            mSwipe.setRefreshing(true);
+            mNoNetView.setVisibility(View.GONE);
+            ReconciliationCtrl.getSettleDetail(pageIndex + "", mStartDate, mEndDate, new Response.Listener<FinancialSummaryModel>() {
+                @Override
+                public void onResponse(FinancialSummaryModel model) {
+                    stopRefresh();
+                    setContentEmpty(false);
+                    setContentShown(true);
+                    isLoading = false;
+                    if (isAdded() && model != null) {
+                        fillView(model, isLoadMore);
+                    }
+                }
+            }, new ToastErrorListener());
         } else {
+            setContentEmpty(false);
+            setContentShown(true);
             mList.setAdapter(null);
-            mSwipe.setVisibility(View.GONE);
+            mNoDataView.setVisibility(View.GONE);
+            mNoNetView.setVisibility(View.VISIBLE);
             stopRefresh();
         }
     }
 
-    private void initView() {
-        setContentEmpty(false);
-        setContentShown(true);
-        mList.setAdapter(new SummaryAdapter(getActivity()));
-    }
+    private void fillView(FinancialSummaryModel model, boolean isLoadMore) {
+        summaryList = model.summaries;
+        if(summaryList != null && summaryList.size() > 0){
+            mNoDataView.setVisibility(View.GONE);
+            mCurrentSize += summaryList.size();
+            mTotalCount = Integer.parseInt(model.mTotalCount);
+        }else if(!isLoadMore){
+            mList.setAdapter(null);
+            mNoDataView.setVisibility(View.VISIBLE);
+            return;
+        }
 
-    private void fillView(ReceiptsModel model, boolean isLoadMore) {
-        mReceiptsList = model.receiptsList;
-        stopRefresh();
+        Bundle args = new Bundle();
+        args.putString(QUERY_TIME, mQueryTime.getText().toString());
         if (isLoadMore) {
             if (null != mAdapter) {
-                mAdapter.notifyData(mReceiptsList);
+                mAdapter.notifyData(summaryList);
             }
         } else {
-            mAdapter = new SummaryAdapter(getActivity());
+            mAdapter = new SummaryAdapter(getActivity(),summaryList,args);
             mList.setAdapter(mAdapter);
-//            mPaginate = Paginate.with(receiptsList, FinancialSummaryFragment.this)
-//                  .setLoadingTriggerThreshold(0)
-//                  .addLoadingListItem(true)
-//                    .build();
+            mPaginate = Paginate.with(mList, FinancialSummaryFragment.this)
+                    .setLoadingTriggerThreshold(0)
+                    .addLoadingListItem(true)
+                    .build();
         }
-//        mPaginate.setHasMoreDataToLoad(!hasLoadedAllItems());
+        mPaginate.setHasMoreDataToLoad(!hasLoadedAllItems());
     }
 
     @Override
@@ -128,27 +166,27 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
         }
     }
 
-//    @Override
-//    public void onLoadMore() {
-//        isLoading = true;
-//        pageIndex++;
-//        fetchData(true);
-//    }
-//
-//    @Override
-//    public void hasLoadMore() {
-//        ToastUtil.showToast(getActivity(), getString(R.string.anal_no_more_data));
-//    }
-//
-//    @Override
-//    public boolean isLoading() {
-//        return isLoading;
-//    }
-//
-//    @Override
-//    public boolean hasLoadedAllItems() {
-//        return pageIndex == 3;
-//    }
+    @Override
+    public void onLoadMore() {
+        isLoading = true;
+        pageIndex++;
+        fetchData(true);
+    }
+
+    @Override
+    public void hasLoadMore() {
+        ToastUtil.showToast(getActivity(), getString(R.string.anal_no_more_data));
+    }
+
+    @Override
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    @Override
+    public boolean hasLoadedAllItems() {
+        return mCurrentSize == mTotalCount;
+    }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -170,7 +208,6 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
             case R.id.btn3:
                 break;
         }
-        setQueryTime();
     }
 
     // 设置SegmentGroup选中状态
@@ -212,9 +249,6 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
     }
 
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
-        tabIndex = R.id.btn3;
-        setTabFocus(tabIndex);
-
         String FromDate = year + "-" + DataFormat(monthOfYear + 1) + "-" + DataFormat(dayOfMonth);
         String ToDate = yearEnd + "-" + DataFormat(monthOfYearEnd + 1) + "-" + DataFormat(dayOfMonthEnd);
 
@@ -224,12 +258,16 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
             Toast.makeText(getActivity(), getString(R.string.date_error_2), Toast.LENGTH_LONG).show();
         } else if (TimeUtil.compare_date(FromDate, ToDate)) {
             Toast.makeText(getActivity(), getString(R.string.date_error_3), Toast.LENGTH_LONG).show();
-        } else {
+        }else if(year != yearEnd){
+            Toast.makeText(getActivity(), getString(R.string.date_error_9), Toast.LENGTH_LONG).show();
+        }else {
+            tabIndex = R.id.btn3;
             mStartDate = FromDate;
             mEndDate = ToDate;
             setQueryTime();
             requestData();
         }
+        setTabFocus(tabIndex);
     }
 
     private void setQueryTime() {
