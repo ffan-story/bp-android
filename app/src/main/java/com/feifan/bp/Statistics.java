@@ -45,6 +45,9 @@ public class Statistics {
 
     public final static String FB_CHECKOUT_LST          = "FB_CHECKOUT_LST";        //收款流水
     public final static String FB_FINANCE_CHK          = "FB_FINANCE_CHK";          //财务对账
+
+    public final static String FB_PUSHMES_READ          = "FB_PUSHMES_READ";          //财务对账
+    public final static String FB_PUSHMES_RECEIVE       = "FB_PUSHMES_RECEIVE";          //财务对账
     /**
      * 更新客户端数据
      * 发送统计日志时作为业务相关的客户端参数数据
