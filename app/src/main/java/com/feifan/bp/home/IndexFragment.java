@@ -455,7 +455,6 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
                             return;
                         }catch (Exception e) {
                             e.printStackTrace();
-                            LogUtil.e(TAG, e.getMessage());
                         }
 
                         // 处理其他功能调用
