@@ -25,8 +25,8 @@ import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.ui.ProgressFragment;
 import com.feifan.bp.base.network.response.ToastErrorListener;
+import com.feifan.bp.base.ui.ProgressFragment;
 import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.util.SystemUtil;
 import com.feifan.bp.util.TimeUtil;
@@ -126,9 +126,9 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
      * 更新消息状态
      */
     private void initMsgStatus(){
-        Log.e("ReceiptsFragment",isMsgReaded + "------");
+        Log.e("ReceiptsFragment", isMsgReaded + "------");
         String payFlowId = getPayFlowId();
-        if(!TextUtils.isEmpty(payFlowId)){
+        if(!TextUtils.isEmpty(payFlowId) && !isMsgReaded){
             setMessageStatus(payFlowId);
         }
     }

@@ -62,6 +62,7 @@ public class AuthListModel extends BaseModel {
                 aItem.id = id;
                 aItem.name = item.optString("name");
                 aItem.url = item.optString("url");
+                aItem.sort = item.optString("sort");
                 list.add(aItem);
 //            }
             }
@@ -143,6 +144,11 @@ public class AuthListModel extends BaseModel {
          */
         public String url;
 
+        /**
+         * 排序
+         */
+        public String sort;
+
         public AuthItem(){
 
         }
@@ -164,6 +170,7 @@ public class AuthListModel extends BaseModel {
                 writer.name("id").value(id);
                 writer.name("name").value(name);
                 writer.name("url").value(url);
+                writer.name("sort").value(sort);
                 writer.endObject();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -182,7 +189,9 @@ public class AuthListModel extends BaseModel {
                         item.name = reader.nextString();
                     } else if (name.equals("url")) {
                         item.url = reader.nextString();
-                    } else {
+                    }else if(name.equals("sort")){
+                        item.sort = reader.nextString();
+                    }else {
                         reader.skipValue();
                     }
                 }

@@ -52,7 +52,7 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
     private List<FinancialSummaryModel.FinancialSummary> summaryList;
     private RelativeLayout mNoDataView,mNoNetView; //无数据 & 无网络页
     private Paginate mPaginate;
-    private boolean isLoading;
+    private boolean isLoading = false;
     public static final String QUERY_TIME = "queryTime";
 
     @Override
@@ -290,4 +290,5 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
     public boolean onMenuItemClick(MenuItem item) {
         return false;
     }
+
 }

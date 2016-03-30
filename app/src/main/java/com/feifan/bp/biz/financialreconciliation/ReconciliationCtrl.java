@@ -32,7 +32,7 @@ public class ReconciliationCtrl {
                 .param("page", page)
                 .param("startDate",startDate)
                 .param("endDate",endDate)
-                .param("storeId", "9063471")
+                .param("storeId", UserProfile.getInstance().getAuthRangeId())
                 .build()
                 .targetClass(FinancialSummaryModel.class)
                 .listener(listener);

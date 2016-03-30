@@ -56,6 +56,8 @@ import com.feifan.bp.widget.BadgerTextView;
 import com.feifan.statlib.FmsAgent;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -119,7 +121,7 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_index, container, false);
@@ -180,6 +182,19 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
 
         List<AuthItem> list = UserProfile.getInstance().getAuthList();
         LogUtil.i(TAG, "auth list=" + list);
+
+        Collections.sort(list, new Comparator<AuthItem>() {
+            @Override
+            public int compare(AuthItem item1, AuthItem item2) {
+                if(Integer.parseInt(item1.sort) > Integer.parseInt(item2.sort)){
+                    return 1;
+                }else if(Integer.parseInt(item1.sort) < Integer.parseInt(item2.sort)){
+                    return -1;
+                }else {
+                    return 0;
+                }
+            }
+        });
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.index_function_container);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(

@@ -51,7 +51,7 @@ public class SummaryAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         myViewHolder holder;
         if(convertView == null){
             convertView = LayoutInflater.from(mContext).inflate(R.layout.financial_summary_item,parent,false);
@@ -61,11 +61,10 @@ public class SummaryAdapter extends BaseAdapter {
             holder = (myViewHolder) convertView.getTag();
         }
         holder.mSettleNo.setText(mContext.getString(R.string.financial_order_no,summaryList.get(position).mReNo));
-        holder.mSettleSubject.setText(mContext.getString(R.string.financial_settle_sub,summaryList.get(position).mSettleSub + position));
+        holder.mSettleSubject.setText(mContext.getString(R.string.financial_settle_sub,summaryList.get(position).mSettleSub));
         holder.mSettleCount.setText(summaryList.get(position).mSettleCount);
         holder.mSettleAmount.setText(summaryList.get(position).mSettleAmount);
         holder.mAdjustAmount.setText(summaryList.get(position).mAdjustAmount);
-        mArgs.putString(AbsFinancialFragment.RENO,summaryList.get(position).mReNo);
         holder.relativeContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +72,7 @@ public class SummaryAdapter extends BaseAdapter {
                         .addFragment(SettleOrdersFragment.class.getName(), mContext.getString(R.string.financial_settle_title))
                         .addFragment(AdjustOrdersFragment.class.getName(), mContext.getString(R.string.financial_adjust_title))
                         .build();
+                mArgs.putString(AbsFinancialFragment.RENO,summaryList.get(position).mReNo);
                 Intent intent = PlatformTabActivity.buildIntent(mContext, mContext.getString(R.string.financial_reconciliation_detail), fragmentArgs);
                 intent.putExtra(PlatformTopbarActivity.EXTRA_ARGS,mArgs);
                 mContext.startActivity(intent);

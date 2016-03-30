@@ -46,7 +46,7 @@ public class SettleOrderAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         SettleOrderViewHolder holder;
         if(convertView == null){
             convertView = LayoutInflater.from(mContext).inflate(R.layout.financial_settle_order_item,parent,false);
@@ -64,10 +64,10 @@ public class SettleOrderAdapter extends BaseAdapter {
         holder.mThirdSubsidy.setText(mSettleOrders.get(position).mThirdSub);
         holder.mCommission.setText(mSettleOrders.get(position).mFeeAmount);
         holder.mSettleAmount.setText(mSettleOrders.get(position).mSettleMoney);
-        mArgs.putString(AbsFinancialFragment.SETTLENO,mSettleOrders.get(position).mSettleOrderNo);
         holder.mSettleContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mArgs.putString(AbsFinancialFragment.SETTLENO,mSettleOrders.get(position).mSettleOrderNo);
                 PlatformTopbarActivity.startActivity(mContext,SettleDetailFragment.class.getName(),mContext.getString(R.string.financial_settle_detail),mArgs);
             }
         });
