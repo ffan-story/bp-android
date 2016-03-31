@@ -3,6 +3,7 @@ package com.feifan.bp.util;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -94,7 +95,12 @@ public class DialogUtil {
     public static void showErrorDialog(String msg) {
         if(sErrorDialog == null) {
             sErrorDialog = new AlertDialog.Builder(PlatformState.getApplicationContext()).create();
-            sErrorDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                sErrorDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+            }else {
+                sErrorDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+            }
         }
         if(!sErrorDialog.isShowing()) {
             // 必须先显示，才能进行自定义设置

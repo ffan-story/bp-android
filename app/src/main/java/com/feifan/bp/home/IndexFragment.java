@@ -186,13 +186,20 @@ public class IndexFragment extends BaseFragment implements View.OnClickListener,
         Collections.sort(list, new Comparator<AuthItem>() {
             @Override
             public int compare(AuthItem item1, AuthItem item2) {
-                if(Integer.parseInt(item1.sort) > Integer.parseInt(item2.sort)){
-                    return 1;
-                }else if(Integer.parseInt(item1.sort) < Integer.parseInt(item2.sort)){
-                    return -1;
-                }else {
-                    return 0;
+                if(item1 != null && !TextUtils.isEmpty(item1.sort) && item2 != null && !TextUtils.isEmpty(item2.sort)) {
+                    try {
+                        if (Integer.parseInt(item1.sort) > Integer.parseInt(item2.sort)) {
+                            return 1;
+                        } else if (Integer.parseInt(item1.sort) < Integer.parseInt(item2.sort)) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    }catch (Exception e){
+                        return 0;
+                    }
                 }
+                return 0;
             }
         });
 
