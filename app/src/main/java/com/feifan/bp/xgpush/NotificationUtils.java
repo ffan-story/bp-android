@@ -17,50 +17,50 @@ public class NotificationUtils {
   public static final int BASE_NOTIFICATION_ID = 30000;
 
   public static int showNotification(Context context,
-                                     Intent notificationIntent, String content, int notificationIcon) {
-    return showNotification(context, notificationIntent, content,
+                                     Intent notificationIntent, String content,String title, int notificationIcon) {
+    return showNotification(context, notificationIntent, content,title,
         notificationIcon, true);
   }
 
   public static int showNotification(Context context,
-                                     Intent notificationIntent, String content, int notificationIcon,
+                                     Intent notificationIntent, String content,String title, int notificationIcon,
                                      int notificationId) {
-    return showNotification(context, notificationIntent, content,
+    return showNotification(context, notificationIntent, content,title,
         notificationIcon, true, false, false, notificationId);
   }
 
   public static int showNotification(Context context,
-                                     Intent notificationIntent, String content, int notificationIcon,
+                                     Intent notificationIntent, String content,String title, int notificationIcon,
                                      boolean vibrate) {
     int notificationId = getNextNotificationId(context);
-    return showNotification(context, notificationIntent, content,
+    return showNotification(context, notificationIntent, content,title,
         notificationIcon, vibrate, false, false, notificationId);
   }
 
   public static int showNotification(Context context,
-                                     PendingIntent notificationIntent, String content,
+                                     PendingIntent notificationIntent, String content,String title,
                                      int notificationIcon) {
-    return showNotification(context, notificationIntent, content,
+    return showNotification(context, notificationIntent, content,title,
         notificationIcon, true);
   }
 
   public static int showNotification(Context context,
-                                     PendingIntent notificationIntent, String content,
+                                     PendingIntent notificationIntent, String content,String title,
                                      int notificationIcon, int notificationId) {
-    return showNotification(context, notificationIntent, content,
+    return showNotification(context, notificationIntent, content,title,
         notificationIcon, true, false, false, notificationId);
   }
 
   public static int showNotification(Context context,
-                                     PendingIntent notificationIntent, String content,
+                                     PendingIntent notificationIntent, String content,String title,
                                      int notificationIcon, boolean vibrate) {
     int notificationId = getNextNotificationId(context);
-    return showNotification(context, notificationIntent, content,
+    return showNotification(context, notificationIntent, content,title,
         notificationIcon, vibrate, false, false, notificationId);
   }
 
   public static int showNotification(Context context,
-                                     Intent notificationIntent, String content, int notificationIcon,
+                                     Intent notificationIntent, String content,String title, int notificationIcon,
                                      boolean vibrate, boolean autoCancel, boolean onGoing,
                                      int notificationId) {
     int nid = notificationId;
@@ -74,12 +74,33 @@ public class NotificationUtils {
     PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
         notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-    return showNotification(context, contentIntent, content,
+    return showNotification(context, contentIntent, content,title,
         notificationIcon, vibrate, autoCancel, onGoing, nid);
   }
 
   public static int showNotification(Context context,
-                                     PendingIntent contentIntent, String content, int notificationIcon,
+                                     Intent[] notificationIntent, String content,String title, int notificationIcon,
+                                     boolean vibrate, boolean autoCancel, boolean onGoing,
+                                     int notificationId) {
+    if(notificationIntent == null || notificationIntent.length == 0){
+      return -1;
+    }
+    int nid = notificationId;
+    //-1 表示自动生成Id
+    if (notificationId == -1) {
+      nid = getNextNotificationId(context);
+    }
+    notificationIntent[0].putExtra(PUSH_MESSAGE_NOTIFICATION_ID,
+            nid);
+    PendingIntent contentIntent = PendingIntent.getActivities(context, 0,
+            notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+    return showNotification(context, contentIntent, content,title,
+            notificationIcon, vibrate, autoCancel, onGoing, nid);
+  }
+
+  public static int showNotification(Context context,
+                                     PendingIntent contentIntent, String content, String title,int notificationIcon,
                                      boolean vibrate, boolean autoCancel, boolean onGoing,
                                      int notificationId) {
     int nid = notificationId;
@@ -88,8 +109,9 @@ public class NotificationUtils {
     }
     NotificationCompat.Builder builder = new NotificationCompat.Builder(
         context).setTicker(content).setWhen(System.currentTimeMillis())
-            .setContentTitle(content).setSmallIcon(notificationIcon)
+            .setContentTitle(title).setContentText(content).setSmallIcon(notificationIcon)
             .setContentIntent(contentIntent).setAutoCancel(autoCancel)
+            .setSmallIcon(notificationIcon)
             .setOngoing(onGoing);
     if (vibrate) {
       long[] pattern = {20, 150, 100, 150};
@@ -101,7 +123,6 @@ public class NotificationUtils {
     notification.defaults |= Notification.DEFAULT_SOUND;
     NotificationManager notificationMgr = (NotificationManager) context
         .getSystemService(Context.NOTIFICATION_SERVICE);
-
     notificationMgr.notify(nid, notification);
     return nid;
   }

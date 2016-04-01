@@ -5,20 +5,13 @@ package com.feifan.bp.xgpush;
  */
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.feifan.bp.Statistics;
-import com.feifan.bp.biz.receiptsrecord.ReceiptsFragment;
-import com.feifan.statlib.FmsAgent;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by mengmeng on 16/3/7.
@@ -96,7 +89,6 @@ public class XGPushMsgReceiver  extends XGPushBaseReceiver {
     // 消息透传
     @Override
     public void onTextMessage(Context context, XGPushTextMessage message) {
-        FmsAgent.onEvent(context.getApplicationContext(), Statistics.FB_PUSHMES_RECEIVE);
         String msg = message.getContent();
         Log.e("onTextMessage",msg);
     }
@@ -106,36 +98,41 @@ public class XGPushMsgReceiver  extends XGPushBaseReceiver {
     @Override
     public void onNotifactionClickedResult(Context context,
                                            XGPushClickedResult message) {
-        if (context == null || message == null) {
-            return;
-        }
-        if (message.getActionType() == XGPushClickedResult.NOTIFACTION_CLICKED_TYPE) {
-            String customContent = message.getCustomContent();
-            Log.e("content",customContent);
-            if (!TextUtils.isEmpty(customContent)) {
-                try {
-                    JSONObject obj = new JSONObject(customContent);
-                    String typeValue = "";
-                    String payFlowId = "";
-                    // key1为前台配置的key
-                    if (!obj.isNull(TYPE_KEY)) {
-                        typeValue = obj.getString(TYPE_KEY);
-                    }
-                    if(!obj.isNull(PAYFLOWID_KEY)){
-                        payFlowId = obj.getString(PAYFLOWID_KEY);
-                    }
-                    if(PAYFLOW_TYPE.equals(typeValue) && !TextUtils.isEmpty(payFlowId)){
-                        FmsAgent.onEvent(context.getApplicationContext(), Statistics.FB_PUSHMES_READ);
-                        ReceiptsFragment.start(payFlowId);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            return;
-        } else if (message.getActionType() == XGPushClickedResult.NOTIFACTION_DELETED_TYPE) {
-
-        }
+//        if (context == null || message == null) {
+//            return;
+//        }
+//        if (message.getActionType() == XGPushClickedResult.NOTIFACTION_CLICKED_TYPE) {
+//            String customContent = message.getCustomContent();
+//            Log.e("content",customContent);
+//            if (!TextUtils.isEmpty(customContent)) {
+//                try {
+//                    JSONObject obj = new JSONObject(customContent);
+//                    String typeValue = "";
+//                    String payFlowId = "";
+//                    // key1为前台配置的key
+//                    if (!obj.isNull(TYPE_KEY)) {
+//                        typeValue = obj.getString(TYPE_KEY);
+//                    }
+//                    if(!obj.isNull(PAYFLOWID_KEY)){
+//                        payFlowId = obj.getString(PAYFLOWID_KEY);
+//                    }
+//                    if(PAYFLOW_TYPE.equals(typeValue) && !TextUtils.isEmpty(payFlowId)){
+//                        final UserProfile profile = UserProfile.getInstance();
+//                        if(profile != null && profile.getUid() != -1){
+//                            FmsAgent.onEvent(context.getApplicationContext(), Statistics.FB_PUSHMES_READ);
+//                            ReceiptsFragment.start(payFlowId);
+//                        }else {
+//                            PlatformTopbarActivity.startActivityFromOther(PlatformState.getApplicationContext(), LoginFragment.class.getName(), context.getString(R.string.login_login_text));
+//                        }
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            return;
+//        } else if (message.getActionType() == XGPushClickedResult.NOTIFACTION_DELETED_TYPE) {
+//
+//        }
     }
 
     // 通知展示

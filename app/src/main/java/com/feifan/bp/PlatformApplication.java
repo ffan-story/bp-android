@@ -5,12 +5,18 @@ import android.app.Application;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.WebView;
 
 import com.bp.crash.BPCrashConfig;
-import com.feifan.bp.xgpush.XGPushManger;
 import com.feifan.bp.base.network.JsonRequest;
+import com.feifan.bp.util.SystemUtil;
+import com.feifan.bp.xgpush.NotificationUtils;
+import com.feifan.bp.xgpush.XGPushManger;
+import com.feifan.bp.xgpush.XGPushUtils;
+import com.feifan.statlib.FmsAgent;
+import com.tencent.android.tpush.XGNotifaction;
+import com.tencent.android.tpush.XGPushManager;
+import com.tencent.android.tpush.XGPushNotifactionCallback;
 import com.wanda.crashsdk.pub.FeifanCrashManager;
 
 /**
@@ -20,6 +26,7 @@ public class PlatformApplication extends Application {
 
     private int selectPos = 0;//门店默认选择
     private XGPushManger mXGPushManger;
+
     public int getSelectPos() {
         return selectPos;
     }
@@ -72,7 +79,6 @@ public class PlatformApplication extends Application {
 
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
             }
 
             @Override
@@ -87,7 +93,7 @@ public class PlatformApplication extends Application {
         try {
             BPCrashConfig crashConfig = new BPCrashConfig();
             final UserProfile profile = UserProfile.getInstance();
-            if(profile != null && profile.getUid() != 0) {
+            if (profile != null && profile.getUid() != 0) {
                 crashConfig.setUid(String.valueOf(profile.getUid()));
             }
             FeifanCrashManager.getInstance().init(getApplicationContext(), crashConfig);
@@ -97,23 +103,50 @@ public class PlatformApplication extends Application {
         }
     }
 
-    public void onAccountChange(){
+    public void onAccountChange() {
         final UserProfile profile = UserProfile.getInstance();
         mXGPushManger.unRegister();
-        if(profile != null && profile.getUid() != 0){
+        if (profile != null && profile.getUid() != 0) {
             String uid = String.valueOf(profile.getUid());
-            Log.e("uid",uid);
-           if(!TextUtils.isEmpty(uid)) {
-               mXGPushManger.registerApp(uid);
-           }
+            if (!TextUtils.isEmpty(uid)) {
+                mXGPushManger.registerApp(uid);
+                XGPushManager.setNotifactionCallback(new XGPushNotifactionCallback() {
+                    @Override
+                    public void handleNotify(XGNotifaction xgNotifaction) {
+                        if (xgNotifaction == null) {
+                            return;
+                        }
+                        FmsAgent.onEvent(PlatformState.getApplicationContext(), Statistics.FB_PUSHMES_RECEIVE);
+                        String title = xgNotifaction.getTitle();
+                        if (TextUtils.isEmpty(title)) {
+                            title = getString(R.string.app_name);
+                        }
+                        String content = xgNotifaction.getContent();
+                        String customContent = xgNotifaction.getCustomContent();
+                        if(TextUtils.isEmpty(customContent)){
+                            return;
+                        }
+                        String payflowid = XGPushUtils.getPayFlowId(customContent, getApplicationContext());
+                        String type = XGPushUtils.getTypeId(customContent, getApplicationContext());
+                    if (XGPushUtils.PAYFLOW_TYPE.equals(type) && !TextUtils.isEmpty(payflowid)) {
+                            if(SystemUtil.isBPActivities(PlatformState.getApplicationContext())) {
+                                NotificationUtils.showNotification(PlatformState.getApplicationContext(), XGPushUtils.getPayFlowIntent(payflowid), content, title, R.mipmap.ic_logo,false,false,false,-1);
+                            }else {
+                                NotificationUtils.showNotification(PlatformState.getApplicationContext(), XGPushUtils.getPayFlowIntents(payflowid), content, title, R.mipmap.ic_logo,false,false,false,-1);
+                            }
+                        }
+                    }
+                });
+            }
         }
     }
 
-    public void unRegisterPush(){
-        if(mXGPushManger != null){
+    public void unRegisterPush() {
+        if (mXGPushManger != null) {
             mXGPushManger.unRegister();
         }
     }
+
     @Override
     public void onTerminate() {
         super.onTerminate();

@@ -60,6 +60,12 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
+            android:name=".xgpush.NOPActivity"
+            android:label=" "
+            android:screenOrientation="portrait"
+            android:theme="@style/Transparent">
+        </activity>
+        <activity
             android:name=".browser.BrowserActivity"
             android:label=" "
             android:screenOrientation="portrait">

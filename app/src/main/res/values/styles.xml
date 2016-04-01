@@ -252,7 +252,11 @@
         <item name="android:textSize">@dimen/font_size_16</item>
         <item name="android:background">@drawable/bg_button_white_stroke_blue</item>
     </style>
-
+    <style name="Transparent">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+    </style>
 
     <!--Button 样式  蓝色圆角   点击效果白色蓝色描边-->
     <!-- <style name="btn_round_blue_change_white_click">

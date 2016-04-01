@@ -23,6 +23,7 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.network.response.ToastErrorListener;
@@ -34,6 +35,7 @@ import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.bp.widget.paginate.Paginate;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
+import com.feifan.statlib.FmsAgent;
 
 import java.util.Calendar;
 import java.util.List;
@@ -61,7 +63,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
     private int mCurrentCount;
     private int mTotalCount = 0;
     private RelativeLayout mNoDataView,mNoNetView; //无数据 & 无网络页
-    private static final String PAY_FLOW_ID = "payFlowId";  //push消息Id
+    public static final String PAY_FLOW_ID = "payFlowId";  //push消息Id
     private boolean isMsgReaded = false;    //从push消息过来 才去设置消息未读状态
 
     //打开收款流水页
@@ -83,6 +85,15 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
             intents[1].putExtra(PAY_FLOW_ID, payFlowId);
             PlatformState.getApplicationContext().startActivities(intents);
         }
+    }
+
+    public static Intent getPayFlowIntent(String payFlowId){
+        Intent intent = new Intent(PlatformState.getApplicationContext(), PlatformTopbarActivity.class);
+        intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, ReceiptsFragment.class.getName());
+        intent.putExtra(Constants.EXTRA_KEY_TITLE, PlatformState.getApplicationContext().getString(R.string.receipts_title));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(PAY_FLOW_ID, payFlowId);
+        return intent;
     }
 
     @Override
@@ -126,6 +137,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
      * 更新消息状态
      */
     private void initMsgStatus(){
+        FmsAgent.onEvent(PlatformState.getApplicationContext(), Statistics.FB_PUSHMES_RECEIVE);
         Log.e("ReceiptsFragment", isMsgReaded + "------");
         String payFlowId = getPayFlowId();
         if(!TextUtils.isEmpty(payFlowId) && !isMsgReaded){
