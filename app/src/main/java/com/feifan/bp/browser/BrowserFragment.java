@@ -370,6 +370,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Log.d(TAG, "We got " + url + " in shouldOverrideUrlLoading via PlatformWebViewClient");
+            if(url == null) {
+                return true;
+            }
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
             if(TextUtils.isEmpty(schema)){
@@ -521,33 +524,37 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             Utils.showShortToastSafely("对不起，此机型不支持拍照功能，请从相册选择图片");
             return;
         }
-        Uri outputUri = Uri.fromFile(new File(getActivity().getCacheDir(), "cropped"));
-
-        switch (mImgPickType) {
-            case IMG_PICK_TYPE_0:
-                new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
-                break;
-            case IMG_PICK_TYPE_1:
-                new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
-                break;
-            case IMG_PICK_TYPE_2:
-            case IMG_PICK_TYPE_3:
-                new Crop(getActivity(), source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(getActivity());
-                break;
-            default:
-                new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
-                break;
+        File cropFile = new File(getActivity().getCacheDir(), "cropped");
+        if(cropFile != null) {
+            Uri outputUri = Uri.fromFile(cropFile);
+            if(outputUri != null) {
+                switch (mImgPickType) {
+                    case IMG_PICK_TYPE_0:
+                        new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
+                        break;
+                    case IMG_PICK_TYPE_1:
+                        new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
+                        break;
+                    case IMG_PICK_TYPE_2:
+                    case IMG_PICK_TYPE_3:
+                        new Crop(getActivity(), source).output(outputUri).withAspect(16, 9).withMaxSize(1280, 720).start(getActivity());
+                        break;
+                    default:
+                        new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
+                        break;
+                }
+            }
         }
     }
 
     public void handleCrop(int resultCode, Intent result) {
-        if (resultCode == getActivity().RESULT_OK) {
+        if (isAdded() && resultCode == getActivity().RESULT_OK) {
 
             int i = ImageUtil.readPictureDegree(Crop.getOutput(result).getPath());
             try {
                 Bitmap myRoundBitmap = ImageUtil.rotaingImageView(i, MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Crop.getOutput(result)));
                 uploadPicture(Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), myRoundBitmap, null, null)));
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             //new File(Crop.getOutput(result).getPath());
@@ -562,7 +569,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         // 获取符合条件的图片输入流
         Bitmap uploadImg = null;
         try {
-            uploadImg = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(uri));
+            if(isAdded()) {
+                uploadImg = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(uri));
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

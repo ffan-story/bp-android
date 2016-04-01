@@ -95,7 +95,6 @@ public class DialogUtil {
     public static void showErrorDialog(String msg) {
         if(sErrorDialog == null) {
             sErrorDialog = new AlertDialog.Builder(PlatformState.getApplicationContext()).create();
-
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 sErrorDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
             }else {
