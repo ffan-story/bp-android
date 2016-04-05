@@ -155,13 +155,16 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
 
     private void setMessageStatus(String payFlowId) {
         if(Utils.isNetworkAvailable()){
-            HomeCtrl.setMessageStatusRead(UserProfile.getInstance().getAuthRangeId(), payFlowId, new Response.Listener() {
-                @Override
-                public void onResponse(Object o) {
-                    setContentEmpty(false);
-                    setContentShown(true);
-                }
-            }, new ToastErrorListener());
+            int uid = UserProfile.getInstance().getUid();
+            if(uid != -1) {
+                HomeCtrl.setMessageStatusRead(String.valueOf(uid), payFlowId, new Response.Listener() {
+                    @Override
+                    public void onResponse(Object o) {
+                        setContentEmpty(false);
+                        setContentShown(true);
+                    }
+                }, new ToastErrorListener());
+            }
         }else {
             receiptsList.setAdapter(null);
             mNoDataView.setVisibility(View.GONE);
