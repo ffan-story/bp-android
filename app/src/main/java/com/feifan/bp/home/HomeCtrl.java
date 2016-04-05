@@ -7,12 +7,12 @@ import com.feifan.bp.BuildConfig;
 import com.feifan.bp.Constants;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.UserProfile;
-import com.feifan.bp.message.MessageStatusModel;
 import com.feifan.bp.base.network.DefaultErrorListener;
 import com.feifan.bp.base.network.GetRequest;
 import com.feifan.bp.base.network.JsonRequest;
 import com.feifan.bp.base.network.PostRequest;
 import com.feifan.bp.base.network.UrlFactory;
+import com.feifan.bp.message.MessageStatusModel;
 
 /**
  * 主界面控制类
@@ -34,6 +34,9 @@ public class HomeCtrl {
         PlatformState.getInstance().getRequestQueue().add(request);
     }
 
+    public static void setMessageStatusRead(String userid,  String maillnboxid, Listener listener) {
+        setMessageStatusRead(userid,  maillnboxid, listener, new DefaultErrorListener());
+    }
     /**
      * 设置消息状态
      * @param userid
@@ -41,7 +44,7 @@ public class HomeCtrl {
      * @param listener
      */
     public static void setMessageStatusRead(String userid,  String maillnboxid, Listener listener, ErrorListener errorListener) {
-        JsonRequest<MessageStatusModel> request = new PostRequest<MessageStatusModel>(UrlFactory.getMessgeListStatus(), new DefaultErrorListener())
+        JsonRequest<MessageStatusModel> request = new PostRequest<MessageStatusModel>(UrlFactory.getMessgeListStatus(), errorListener)
                 .param("userId", userid)
                 .param("mailInboxId", maillnboxid)
                 .param("mailStatus", Constants.READ)

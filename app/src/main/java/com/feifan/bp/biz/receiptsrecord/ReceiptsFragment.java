@@ -163,7 +163,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
                         setContentEmpty(false);
                         setContentShown(true);
                     }
-                }, new ToastErrorListener());
+                }, null);
             }
         }else {
             receiptsList.setAdapter(null);

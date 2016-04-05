@@ -11,7 +11,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.feifan.bp.Constants;
@@ -20,13 +19,13 @@ import com.feifan.bp.PlatformState;
 import com.feifan.bp.R;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.ui.ProgressFragment;
-import com.feifan.bp.browser.BrowserActivity;
 import com.feifan.bp.base.envir.EnvironmentManager;
-import com.feifan.bp.home.HomeCtrl;
-import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.base.network.UrlFactory;
 import com.feifan.bp.base.network.response.DialogErrorListener;
+import com.feifan.bp.base.ui.ProgressFragment;
+import com.feifan.bp.browser.BrowserActivity;
+import com.feifan.bp.home.HomeCtrl;
+import com.feifan.bp.home.ReadMessageModel;
 import com.feifan.bp.widget.LoadingMoreListView;
 import com.feifan.bp.widget.OnLoadingMoreListener;
 
@@ -296,7 +295,7 @@ public class MessageFragment extends ProgressFragment implements OnLoadingMoreLi
             public void onResponse(MessageStatusModel messageModel) {
                 mList.get(position).mStrMessStatus = Constants.READ;
             }
-        }, new DialogErrorListener());
+        });
     }
 
     @Override
