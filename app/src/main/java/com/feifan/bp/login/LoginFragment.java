@@ -2,6 +2,7 @@ package com.feifan.bp.login;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,10 +21,11 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
-import com.feifan.bp.base.ui.BaseFragment;
 import com.feifan.bp.base.network.BaseModel;
 import com.feifan.bp.base.network.JsonRequest;
 import com.feifan.bp.base.network.response.ToastErrorListener;
+import com.feifan.bp.base.ui.BaseFragment;
+import com.feifan.bp.biz.receiptsrecord.ReceiptsFragment;
 import com.feifan.bp.password.ForgetPasswordFragment;
 
 /**
@@ -134,7 +136,16 @@ public class LoginFragment extends BaseFragment {
 //                                    args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, LoginFragment.class.getName());
 //                                    mListener.onFragmentInteraction(args);
                                     if(isAdded()) {
-                                        startActivity(LaunchActivity.buildIntent(getActivity()));
+                                        String payFlowId = "";
+                                        Intent intent = getActivity().getIntent();
+                                        if(intent != null) {
+                                            payFlowId = getActivity().getIntent().getStringExtra(ReceiptsFragment.PAY_FLOW_ID);
+                                        }
+                                        if(!TextUtils.isEmpty(payFlowId)){
+                                            ReceiptsFragment.start(payFlowId);
+                                        }else {
+                                            startActivity(LaunchActivity.buildIntent(getActivity()));
+                                        }
                                         getActivity().finish();
                                     }
                                 }

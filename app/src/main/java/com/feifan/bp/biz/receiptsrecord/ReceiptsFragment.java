@@ -29,7 +29,6 @@ import com.feifan.bp.Utils;
 import com.feifan.bp.base.network.response.ToastErrorListener;
 import com.feifan.bp.base.ui.ProgressFragment;
 import com.feifan.bp.home.HomeCtrl;
-import com.feifan.bp.util.SystemUtil;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.SegmentedGroup;
@@ -68,14 +67,14 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
 
     //打开收款流水页
     public static void start(String payFlowId){
-        if(SystemUtil.isBPActivities(PlatformState.getApplicationContext())) {
-            Intent intent = new Intent(PlatformState.getApplicationContext(), PlatformTopbarActivity.class);
-            intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, ReceiptsFragment.class.getName());
-            intent.putExtra(Constants.EXTRA_KEY_TITLE, PlatformState.getApplicationContext().getString(R.string.receipts_title));
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(PAY_FLOW_ID, payFlowId);
-            PlatformState.getApplicationContext().startActivity(intent);
-        }else {
+//        if(SystemUtil.isBPActivities(PlatformState.getApplicationContext())) {
+//            Intent intent = new Intent(PlatformState.getApplicationContext(), PlatformTopbarActivity.class);
+//            intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO, ReceiptsFragment.class.getName());
+//            intent.putExtra(Constants.EXTRA_KEY_TITLE, PlatformState.getApplicationContext().getString(R.string.receipts_title));
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.putExtra(PAY_FLOW_ID, payFlowId);
+//            PlatformState.getApplicationContext().startActivity(intent);
+//        }else {
             Intent[] intents = new Intent[2];
             intents[0] = Intent.makeRestartActivityTask(new ComponentName(PlatformState.getApplicationContext(), com.feifan.bp.LaunchActivity.class));
             intents[1] = new Intent(PlatformState.getApplicationContext(), PlatformTopbarActivity.class);
@@ -84,7 +83,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
             intents[1].setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intents[1].putExtra(PAY_FLOW_ID, payFlowId);
             PlatformState.getApplicationContext().startActivities(intents);
-        }
+//        }
     }
 
     public static Intent getPayFlowIntent(String payFlowId){
