@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.feifan.bp.Constants;
+import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
@@ -25,7 +27,11 @@ public class NOPActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            PlatformTopbarActivity.startActivityFromOther(PlatformState.getApplicationContext(), LoginFragment.class.getName(), getString(R.string.login_login_text));
+            intent.setClass(this, PlatformTopbarActivity.class);
+            intent.putExtra(OnFragmentInteractionListener.INTERATION_KEY_TO,LoginFragment.class.getName());
+            intent.putExtra(Constants.EXTRA_KEY_TITLE, getString(R.string.login_login_text));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PlatformState.getApplicationContext().startActivity(intent);
             finish();
         }
     }
