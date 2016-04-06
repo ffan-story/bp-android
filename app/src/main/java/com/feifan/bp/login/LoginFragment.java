@@ -1,6 +1,5 @@
 package com.feifan.bp.login;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import com.android.volley.Response.Listener;
 import com.feifan.bp.Constants;
 import com.feifan.bp.LaunchActivity;
 import com.feifan.bp.OnFragmentInteractionListener;
-import com.feifan.bp.PlatformApplication;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
@@ -107,10 +105,7 @@ public class LoginFragment extends BaseFragment {
                             }
                             hideProgressBar();
                             final UserProfile profile = UserProfile.getInstance();
-                            Application app = getActivity().getApplication();
-                            if(app != null && app instanceof PlatformApplication){
-                                ((PlatformApplication)app).onAccountChange();
-                            }
+                            PlatformState.getInstance().onAccountChange();
                             profile.setUid(userModel.uid);
                             profile.setUser(userModel.user);
                             profile.setAuthRangeId(userModel.authRangeId);
