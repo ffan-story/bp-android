@@ -105,14 +105,15 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     /**
      * 防止webview action 连续点击，页面重复
      */
-    private boolean isOnclicked =false;
+    private boolean isOnclicked = false;
 
     private BrowserMatcher mMatcher = new BrowserMatcher();
     // dialog
     private MaterialDialog mDialog;
+
     @Override
     public void onReload() {
-        if(mWebView != null) {
+        if (mWebView != null) {
             mWebView.clearView();
             mWebView.loadUrl(mUrl);
             LogUtil.i(TAG, "Reload web page " + mUrl);
@@ -143,7 +144,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
          *
          * @param msg 错误消息
          */
-        void OnInvalidReceived(String msg,WebView web, String url);
+        void OnInvalidReceived(String msg, WebView web, String url);
     }
 
     public static BrowserFragment newInstance() {
@@ -184,7 +185,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         View v = inflater.inflate(R.layout.fragment_browser, container, false);
         mWebView = (WebView) v.findViewById(R.id.browser_content);
         initWeb(mWebView);
-        if(mUrl != null) {
+        if (mUrl != null) {
             mWebView.loadUrl(mUrl);
             PlatformState.getInstance().setLastUrl(mUrl);
             LogUtil.i(TAG, "mUrl==" + mUrl);
@@ -207,9 +208,9 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.topbar_menu, menu);
         BrowserMatcher.MenuInfo info = mMatcher.matchForMenu(mTitleName);
-        if(info != null) {
+        if (info != null) {
             MenuItem item = menu.add(Menu.NONE, info.id, 1, info.titleRes);
-            if(info.iconRes != Constants.NO_INTEGER) {
+            if (info.iconRes != Constants.NO_INTEGER) {
                 item.setIcon(info.iconRes);
             }
             item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
@@ -262,7 +263,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     // 当前页面是否可以回退
     private boolean canGoBack() {
-        if(TextUtils.isEmpty(getToolbar().getTitle())){
+        if (TextUtils.isEmpty(getToolbar().getTitle())) {
             return false;
         }
         // 特殊页面
@@ -273,20 +274,21 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         return mWebView.canGoBack();
     }
 
-    public void goBack(){
-        if(canGoBack()){
-            if(mUrl.contains("/00?") && getString(R.string.commodity_instants_details).equals(getToolbar().getTitle().toString())){//若是从临时保存详情页返回，返回临时保存列表
+    public void goBack() {
+        if (canGoBack()) {
+            if (mUrl.contains("/00?") && getString(R.string.commodity_instants_details).equals(getToolbar().getTitle().toString())) {//若是从临时保存详情页返回，返回临时保存列表
                 String url = UrlFactory.getInstantsForHtmlUrl("00");
                 getActivity().finish();
                 BrowserActivity.startActivity(getContext(), url);
-            }else{
+            } else {
                 mWebView.goBack();
             }
-        }else{
+        } else {
             getActivity().setResult(Activity.RESULT_CANCELED);
             getActivity().finish();
         }
     }
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         if (mWebViewProgress < 100) {
@@ -300,13 +302,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                 url = UrlFactory.staffAddForHtml();
                 Intent i = new Intent(getActivity(), BrowserActivity.class);
                 i.putExtra(BrowserActivity.EXTRA_KEY_URL, url);
-                getActivity().startActivityForResult(i,Constants.REQUEST_CODE);
+                getActivity().startActivityForResult(i, Constants.REQUEST_CODE);
                 LogUtil.i(TAG, "menu onClick() staff url=" + url);
                 return true;
 
             case R.id.menu_coupon_add:
                 url = UrlFactory.couponAddForHtml();
-                fetchMarketingData(UserProfile.getInstance().getAuthRangeId(),url);
+                fetchMarketingData(UserProfile.getInstance().getAuthRangeId(), url);
                 return true;
 
             case R.id.menu_picture_add:
@@ -323,16 +325,17 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     /**
      * 获取合同状态
-     * @param storeId  商户id
+     *
+     * @param storeId 商户id
      */
-    private void fetchMarketingData(String storeId,final String url){
+    private void fetchMarketingData(String storeId, final String url) {
         MarketingCtrl.marketingStatus(storeId, new Response.Listener<MarketingModel>() {
             @Override
             public void onResponse(MarketingModel baseModel) {
                 if (baseModel.hasContract == 1) {
                     mWebView.loadUrl(url);
                 } else {
-                    Utils.showShortToast(getActivity(),getResources().getString(R.string.coupone_marketing_contract_not_hint));
+                    Utils.showShortToast(getActivity(), getResources().getString(R.string.coupone_marketing_contract_not_hint));
                 }
             }
         }, new Response.ErrorListener() {
@@ -358,11 +361,12 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             if (!isAdded()) {
                 return;
             }
-
-            mListener.OnTitleReceived(title);
-            mTitleName = title;
-            getToolbar().setTitle(title);
-            getActivity().supportInvalidateOptionsMenu();
+            if (!title.contains("ffan")) { // FIXME: 16/4/6 修复android6.0系统title onReceive Url导致标题栏变化
+                mListener.OnTitleReceived(title);
+                mTitleName = title;
+                getToolbar().setTitle(title);
+                getActivity().supportInvalidateOptionsMenu();
+            }
         }
     }
 
@@ -370,13 +374,13 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Log.d(TAG, "We got " + url + " in shouldOverrideUrlLoading via PlatformWebViewClient");
-            if(url == null) {
+            if (url == null) {
                 return true;
             }
             Uri uri = Uri.parse(url);
             String schema = uri.getScheme();
-            if(TextUtils.isEmpty(schema)){
-               return true;
+            if (TextUtils.isEmpty(schema)) {
+                return true;
             }
 
             if (schema.equals(Constants.URL_SCHEME_PLATFORM)) {
@@ -384,7 +388,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     UserProfile.getInstance().clear();
                     startActivity(LaunchActivity.buildIntent(getActivity()));
                 } else if (url.contains(Constants.URL_SCHEME_PLATFORM_EXIT)) {
-                    if (getActivity() != null ) {
+                    if (getActivity() != null) {
                         getActivity().finish();
                     }
                 } else if (url.contains(Constants.URL_SCHEME_PLATFORM_HOME)) {
@@ -401,7 +405,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
                     addImage(url);
                 }
             } else if (schema.equals(Constants.URL_SCHEME_ACTION)) {
-                if(isOnclicked){
+                if (isOnclicked) {
                     return true;
                 }
                 isOnclicked = true;
@@ -410,46 +414,46 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
                 String actionStrUri = UrlFactory.urlForHtml(actionUri.getAuthority() + actionUri.getEncodedPath() + "#" + actionUri.getEncodedFragment());
 
-                if (TextUtils.isEmpty(actionStrUri)){
+                if (TextUtils.isEmpty(actionStrUri)) {
                     return true;
                 }
-                if(actionStrUri.contains("/goods/search_result")){//券码历史  链接符为&
-                    LogUtil.i(TAG, "actionStrUri======" +  actionStrUri);
+                if (actionStrUri.contains("/goods/search_result")) {//券码历史  链接符为&
+                    LogUtil.i(TAG, "actionStrUri======" + actionStrUri);
                     actionStrUri = UrlFactory.actionUrlForHtml(actionUri.getAuthority() + actionUri.getEncodedPath() + "#" + actionUri.getEncodedFragment());
                     BrowserActivity.startActivity(mActivity, actionStrUri);
                     return true;
                 }
-                LogUtil.i(TAG, "actionStrUri======" +  actionStrUri);
-                if(actionStrUri.contains("/refund/detail")){//退款单详情
+                LogUtil.i(TAG, "actionStrUri======" + actionStrUri);
+                if (actionStrUri.contains("/refund/detail")) {//退款单详情
                     BrowserTabActivity.startActivity(mActivity,
-                            actionStrUri+"&status=",
+                            actionStrUri + "&status=",
                             mActivity.getResources().getStringArray(R.array.data_type),
                             mActivity.getResources().getStringArray(R.array.tab_title_refund_detail_titles),
                             true);
-                }else if(actionStrUri.contains("/staff/edit/")){//员工管理 编辑
+                } else if (actionStrUri.contains("/staff/edit/")) {//员工管理 编辑
                     Intent i = new Intent(mActivity, BrowserActivity.class);
                     i.putExtra(BrowserActivity.EXTRA_KEY_URL, actionStrUri);
-                    getActivity().startActivityForResult(i,Constants.REQUEST_CODE);
-                }else if(actionStrUri.contains("/staff") && (mActivity instanceof BrowserActivity)){//添加员工成功  以及编辑成功
+                    getActivity().startActivityForResult(i, Constants.REQUEST_CODE);
+                } else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserActivity)) {//添加员工成功  以及编辑成功
                     mActivity.setResult(Activity.RESULT_OK);
                     mActivity.finish();
-                }else if (actionStrUri.contains("/order/detail")){//查看详情：验证历史  订单管理
+                } else if (actionStrUri.contains("/order/detail")) {//查看详情：验证历史  订单管理
                     BrowserActivity.startActivity(mActivity, actionStrUri);
-                }else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserTabActivity)){//员工管理冻结、解冻刷新ViewPage
+                } else if (actionStrUri.contains("/staff") && (mActivity instanceof BrowserTabActivity)) {//员工管理冻结、解冻刷新ViewPage
                     ((BrowserTabActivity) mActivity).refreshViewPage();
-                }else if(actionStrUri.contains("/staff")){//添加员工
+                } else if (actionStrUri.contains("/staff")) {//添加员工
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
-                }else{
+                } else {
                     Activity a = getActivity();
                     if (a instanceof BrowserTabActivity) {
                         ((BrowserTabActivity) a).refreshViewPage();
                     }
                 }
-            }else if(schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
+            } else if (schema.equals(Constants.URL_SCHEME_ERROR)) {  //错误消息
                 mListener.OnErrorReceived(uri.getAuthority(), mWebView, mUrl);
-            }else if(schema.equals(Constants.URL_SCHEME_LOGIN_INVALID)){ //登录失效
-                mListener.OnInvalidReceived(uri.getAuthority(),mWebView, mUrl);
+            } else if (schema.equals(Constants.URL_SCHEME_LOGIN_INVALID)) { //登录失效
+                mListener.OnInvalidReceived(uri.getAuthority(), mWebView, mUrl);
             }
             return true;
         }
@@ -469,7 +473,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void addImage(String url) {
-        if(!isAdded()) {
+        if (!isAdded()) {
             return;
         }
         mImgPickType = IMG_PICK_TYPE_0;
@@ -520,14 +524,14 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     }
 
     public void beginCrop(Uri source) {
-        if (!isAdded()){
+        if (!isAdded()) {
             Utils.showShortToastSafely("对不起，此机型不支持拍照功能，请从相册选择图片");
             return;
         }
         File cropFile = new File(getActivity().getCacheDir(), "cropped");
-        if(cropFile != null) {
+        if (cropFile != null) {
             Uri outputUri = Uri.fromFile(cropFile);
-            if(outputUri != null) {
+            if (outputUri != null) {
                 switch (mImgPickType) {
                     case IMG_PICK_TYPE_0:
                         new Crop(getActivity(), source).output(outputUri).asSquare().start(getActivity());
@@ -565,11 +569,11 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void uploadPicture(Uri uri) {
-        LogUtil.i(TAG,"uri=="+uri);
+        LogUtil.i(TAG, "uri==" + uri);
         // 获取符合条件的图片输入流
         Bitmap uploadImg = null;
         try {
-            if(isAdded()) {
+            if (isAdded()) {
                 uploadImg = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(uri));
             }
         } catch (FileNotFoundException e) {
@@ -644,7 +648,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if(!isAdded()) {
+        if (!isAdded()) {
             return;
         }
         switch (v.getId()) {
