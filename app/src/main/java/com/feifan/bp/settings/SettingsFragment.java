@@ -201,7 +201,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 final String url = versionModel.getVersionUrl();
 
                 if (mustUpdate == VersionModel.UPDATE_NO_UPDATE) {
-                    Utils.showShortToast(getActivity(), R.string.settings_check_update_none);
+                    Utils.showShortToastSafely(R.string.settings_check_update_none);
                 } else {
                     AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
                     b.setTitle(getString(R.string.version_update_title));

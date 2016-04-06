@@ -138,13 +138,13 @@ public class ForgetPasswordFragment extends BaseFragment implements View.OnClick
 
     public boolean isCheckedMobile(String phone) {
         if (TextUtils.isEmpty(phone)) {
-            Utils.showShortToast(getActivity(), getString(R.string.error_message_text_phone_number_empty));
+            Utils.showShortToastSafely(R.string.error_message_text_phone_number_empty);
             return false;
         }
         try {
-            Utils.checkPhoneNumber(getActivity(), phone);
+            Utils.checkPhoneNumber(phone);
         } catch (Throwable throwable) {
-            Utils.showShortToast(getActivity(), R.string.error_message_text_phone_number_illegal, Gravity.CENTER);
+            Utils.showShortToastSafely(R.string.error_message_text_phone_number_illegal);
             return false;
         }
         return true;

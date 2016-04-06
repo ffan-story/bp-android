@@ -83,7 +83,7 @@ public class CheckManageFragment extends BaseFragment implements View.OnClickLis
                 startActivity(intent);
                 break;
             case R.id.check_manager_inventory_query_rl:
-                Utils.showToast(getActivity(), R.string.check_manage_system_construction, Toast.LENGTH_SHORT);
+                Utils.showShortToastSafely(R.string.check_manage_system_construction);
                 break;
         }
     }

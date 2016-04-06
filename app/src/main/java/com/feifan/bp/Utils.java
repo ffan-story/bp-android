@@ -176,13 +176,11 @@ public class Utils {
      * @param phoneNumber
      * @return
      */
-    public static void checkPhoneNumber(Context context, String phoneNumber) throws Throwable {
-        if(context != null) {
-            Pattern p = Pattern.compile("^[1][0-9][0-9]{9}$");
-            Matcher m = p.matcher(phoneNumber);
-            if (!m.matches()) {
-                throw new Throwable(context.getString(R.string.error_message_text_phone_number_illegal));
-            }
+    public static void checkPhoneNumber(String phoneNumber) throws Throwable {
+        Pattern p = Pattern.compile("^[1][0-9][0-9]{9}$");
+        Matcher m = p.matcher(phoneNumber);
+        if (!m.matches()) {
+            throw new Throwable(getString(R.string.error_message_text_phone_number_illegal));
         }
     }
 

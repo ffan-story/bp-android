@@ -113,7 +113,6 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
                     mList = new ArrayList<>();
                     mList = helpCenterModel.getArryListHelpCenterData();
                     if (!mList.isEmpty() && mPtrFrame != null) {
-                        getActivity();
                         hideEmptyView();
                         mPtrFrame.setVisibility(View.VISIBLE);
                         mPtrFrameEmpty.setVisibility(View.GONE);
@@ -190,7 +189,7 @@ public class HelpCenterFragment extends BaseFragment implements OnLoadingMoreLis
     @Override
     public void onLoadingMore() {
         if (mList.size() >= totalCount) {
-            Toast.makeText(getActivity(), getString(R.string.error_no_more_data), Toast.LENGTH_LONG).show();
+            Utils.showLongToastSafely(R.string.error_no_more_data);
         } else {
             pageIndex++;
             fetchHelpCenterList(pageIndex);

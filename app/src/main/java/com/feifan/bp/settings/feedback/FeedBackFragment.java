@@ -67,8 +67,7 @@ public class FeedBackFragment extends BaseFragment implements View.OnClickListen
                 editStart = mEtFeedBack.getSelectionStart();
                 editEnd = mEtFeedBack.getSelectionEnd();
                 if (temp.length() > charMaxNum) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_feed_back_length,
-                            Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_feed_back_length);
                     if(getClipboard().trim().length()> 0){
                         s.delete(editStart - getClipboard().trim().length(), editEnd);
                     }else {
@@ -98,17 +97,15 @@ public class FeedBackFragment extends BaseFragment implements View.OnClickListen
                     return;
                 }
                 if (TextUtils.isEmpty(mEtFeedBack.getText().toString().trim())) {
-                    Utils.showToast(getActivity(), R.string.error_message_feed_back_length_empty, Toast.LENGTH_SHORT);
+                    Utils.showShortToastSafely(R.string.error_message_feed_back_length_empty);
                     return;
                 }
                 if (mEtFeedBack.getText().toString().length() > Constants.FEED_BACK_MAX_lENGTH) {
-                    Utils.showShortToast(getActivity(), R.string.error_message_feed_back_length,
-                            Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_feed_back_length);
                     return;
                 }
                 if(!Utils.isNetworkAvailable()){
-                    Utils.showShortToast(getActivity(), R.string.error_message_text_offline,
-                            Gravity.CENTER);
+                    Utils.showShortToastSafely(R.string.error_message_text_offline);
                     return;
                 }
                 UserProfile manager = UserProfile.getInstance();
@@ -120,8 +117,7 @@ public class FeedBackFragment extends BaseFragment implements View.OnClickListen
                         new Response.Listener<BaseModel>() {
                             public void onResponse(BaseModel feedBackModel) {
                                 if (feedBackModel.status == Constants.RESPONSE_CODE_SUCCESS) {
-                                    Utils.showLongToast(getActivity(), R.string.feed_back_success_prompt,
-                                            Gravity.CENTER);
+                                    Utils.showLongToastSafely(R.string.feed_back_success_prompt);
                                     if (mListener != null) {
                                         Bundle b = new Bundle();
                                         b.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM,
@@ -131,8 +127,7 @@ public class FeedBackFragment extends BaseFragment implements View.OnClickListen
                                         mListener.onFragmentInteraction(b);
                                     }
                                 } else {
-                                    Utils.showShortToast(getActivity(), feedBackModel.msg,
-                                            Gravity.CENTER);
+                                    Utils.showShortToastSafely(feedBackModel.msg);
                                 }
                                 hideProgressBar();
                             }
