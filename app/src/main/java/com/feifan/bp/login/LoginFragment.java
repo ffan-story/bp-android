@@ -71,9 +71,9 @@ public class LoginFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 // 通知界面跳转
-                Bundle args = new Bundle();
-                args.putString(OnFragmentInteractionListener.INTERATION_KEY_FROM, ForgetPasswordFragment.class.getName());
-                mListener.onFragmentInteraction(args);
+                if(isAdded()){
+                    PlatformTopbarActivity.startActivity(getActivity(), ForgetPasswordFragment.class.getName());
+                }
             }
         });
         v.findViewById(R.id.login_go).setOnClickListener(new View.OnClickListener() {

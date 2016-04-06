@@ -95,6 +95,7 @@ public class FinancialSummaryFragment extends ProgressFragment implements DatePi
     @Override
     protected void requestData() {
         pageIndex = 0;
+        mTotalCount = 0;
         mCurrentSize = 0;
         fetchData(false);
     }

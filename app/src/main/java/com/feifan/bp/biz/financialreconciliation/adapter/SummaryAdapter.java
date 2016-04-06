@@ -82,8 +82,10 @@ public class SummaryAdapter extends BaseAdapter {
     }
 
     public void notifyData(List itemList) {
-        summaryList.addAll(itemList);
-        notifyDataSetChanged();
+        if(itemList != null && itemList.size() > 0){
+            summaryList.addAll(itemList);
+            notifyDataSetChanged();
+        }
     }
 
     public static class myViewHolder{

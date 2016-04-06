@@ -92,15 +92,13 @@
 
                 <TextView
                     style="@style/txt_color99_size13"
-                    android:layout_centerVertical="true"
                     android:text="@string/financial_adjust_explain"/>
 
                 <TextView
                     android:id="@+id/financial_adjust_explain"
                     style="@style/txt_color33_size14"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:maxEms="15"
+                    android:maxEms="13"
                     android:maxLines="2"
                     android:ellipsize="end"
                     android:text="--"/>

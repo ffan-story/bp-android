@@ -92,7 +92,7 @@ public class PlatformTabActivity extends PlatformBaseActivity implements
         // 初始化Tab
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_bar);
         CustomViewPager pager = (CustomViewPager) findViewById(R.id.tab_pager);
-        pager.setOffscreenPageLimit(1);
+        pager.setOffscreenPageLimit(2);
         mAdapter = createAdapter(args);
         pager.setAdapter(mAdapter);
 
