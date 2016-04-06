@@ -97,7 +97,7 @@ public class LoginFragment extends BaseFragment {
                 PlatformState.getInstance().setCurrentPhone(accountStr);
 
                 try {
-                    Utils.checkPhoneNumber(getActivity(), accountStr);
+                    Utils.checkPhoneNumber(accountStr);
                     showProgressBar(true);
                     UserCtrl.login(accountStr, passwordStr, new Listener<UserModel>() {
                         @Override
