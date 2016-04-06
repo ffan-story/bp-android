@@ -41,6 +41,7 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
+import com.feifan.bp.base.network.response.ToastErrorListener;
 import com.feifan.bp.base.ui.BaseFragment;
 import com.feifan.bp.base.network.UploadHttpClient;
 import com.feifan.bp.base.network.UrlFactory;
@@ -332,18 +333,15 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
         MarketingCtrl.marketingStatus(storeId, new Response.Listener<MarketingModel>() {
             @Override
             public void onResponse(MarketingModel baseModel) {
-                if (baseModel.hasContract == 1) {
-                    mWebView.loadUrl(url);
-                } else {
-                    Utils.showShortToast(getActivity(), getResources().getString(R.string.coupone_marketing_contract_not_hint));
+                if(isAdded()) {
+                    if (baseModel.hasContract == 1) {
+                        mWebView.loadUrl(url);
+                    } else {
+                        Utils.showShortToastSafely(getResources().getString(R.string.coupone_marketing_contract_not_hint));
+                    }
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        });
+        }, new ToastErrorListener());
 
     }
 
