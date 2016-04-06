@@ -20,20 +20,16 @@ import com.tencent.android.tpush.XGPushNotifactionCallback;
 import com.wanda.crashsdk.pub.FeifanCrashManager;
 
 /**
+ * 定制的应用类
+ * <pre>
+ *     在这里初始化一些全局变量，尽量不在这里进行方法扩展
+ * </pre>
+ *
  * Created by xuchunlei on 15/6/17.
  */
 public class PlatformApplication extends Application {
 
-    private int selectPos = 0;//门店默认选择
     private XGPushManger mXGPushManger;
-
-    public int getSelectPos() {
-        return selectPos;
-    }
-
-    public void setSelectPos(int selectPos) {
-        this.selectPos = selectPos;
-    }
 
     @Override
     public void onCreate() {
