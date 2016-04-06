@@ -4,14 +4,25 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.bp.crash.BPCrashConfig;
 import com.feifan.bp.base.network.FullTrustManager;
 import com.feifan.bp.base.network.HttpsUrlStack;
 import com.feifan.bp.util.LogUtil;
+import com.feifan.bp.util.SystemUtil;
+import com.feifan.bp.xgpush.NotificationUtils;
+import com.feifan.bp.xgpush.XGPushManger;
+import com.feifan.bp.xgpush.XGPushUtils;
+import com.feifan.statlib.FmsAgent;
+import com.tencent.android.tpush.XGNotifaction;
+import com.tencent.android.tpush.XGPushManager;
+import com.tencent.android.tpush.XGPushNotifactionCallback;
+import com.wanda.crashsdk.pub.FeifanCrashManager;
 
 import java.lang.ref.WeakReference;
 
@@ -51,10 +62,13 @@ public class PlatformState {
     // 当前窗口
     private WeakReference<Activity> mCurrentActivity;
 
+    private XGPushManger mXGPushManger;
+
     private PlatformState(){
         FullTrustManager.trustAll();
         mQueue = Volley.newRequestQueue(sContext, new HttpsUrlStack());
         Log.i(Constants.TAG, "App is running within " + BuildConfig.CURRENT_ENVIRONMENT);
+        mXGPushManger = XGPushManger.getInstance(sContext);
     }
 
     public static PlatformState getInstance() {
@@ -222,5 +236,67 @@ public class PlatformState {
             activity = mCurrentActivity.get();
         }
         return activity;
+    }
+
+    /**
+     * 用于进行信鸽push的注册以及切换
+     */
+    public void onAccountChange() {
+        final UserProfile profile = UserProfile.getInstance();
+        mXGPushManger.unRegister();
+        if (profile != null && profile.getUid() != 0) {
+            String uid = String.valueOf(profile.getUid());
+            if (!TextUtils.isEmpty(uid)) {
+                mXGPushManger.registerApp(uid);
+                XGPushManager.setNotifactionCallback(new XGPushNotifactionCallback() {
+                    @Override
+                    public void handleNotify(XGNotifaction xgNotifaction) {
+                        if (xgNotifaction == null || sContext == null) {
+                            return;
+                        }
+                        FmsAgent.onEvent(PlatformState.getApplicationContext(), Statistics.FB_PUSHMES_RECEIVE);
+                        String title = xgNotifaction.getTitle();
+                        if (TextUtils.isEmpty(title)) {
+                            title = sContext.getString(R.string.app_name);
+                        }
+                        String content = xgNotifaction.getContent();
+                        String customContent = xgNotifaction.getCustomContent();
+                        if(TextUtils.isEmpty(customContent)){
+                            return;
+                        }
+                        String payflowid = XGPushUtils.getPayFlowId(customContent, getApplicationContext());
+                        String type = XGPushUtils.getTypeId(customContent, getApplicationContext());
+                        if (XGPushUtils.PAYFLOW_TYPE.equals(type) && !TextUtils.isEmpty(payflowid)) {
+                            if(SystemUtil.isBPActivities(PlatformState.getApplicationContext())) {
+                                NotificationUtils.showNotification(PlatformState.getApplicationContext(), XGPushUtils.getPayFlowIntent(payflowid), content, title, R.mipmap.ic_logo,false,false,false,-1);
+                            }else {
+                                NotificationUtils.showNotification(PlatformState.getApplicationContext(), XGPushUtils.getPayFlowIntents(payflowid), content, title, R.mipmap.ic_logo,false,false,false,-1);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    public void unRegisterPush() {
+        if (mXGPushManger != null) {
+            mXGPushManger.unRegister();
+        }
+    }
+
+
+    public void startCrashManager() {
+        try {
+            BPCrashConfig crashConfig = new BPCrashConfig();
+            final UserProfile profile = UserProfile.getInstance();
+            if (profile != null && profile.getUid() != 0) {
+                crashConfig.setUid(String.valueOf(profile.getUid()));
+            }
+            FeifanCrashManager.getInstance().init(getApplicationContext(), crashConfig);
+            FeifanCrashManager.getInstance().start();
+        } catch (com.wanda.crashsdk.exception.IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 }
