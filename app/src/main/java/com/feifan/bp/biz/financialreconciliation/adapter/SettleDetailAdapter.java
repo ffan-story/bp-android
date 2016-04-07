@@ -65,7 +65,10 @@ public class SettleDetailAdapter extends BaseAdapter {
     }
 
     public void notifyData(List<SettleDetailModel.SettleDetail> settleDetails) {
-        mSettleDetails.addAll(settleDetails);
+        if(settleDetails != null && settleDetails.size() > 0){
+            mSettleDetails.addAll(settleDetails);
+            notifyDataSetChanged();
+        }
     }
 
     public static class SettleDetailViewHolder{
