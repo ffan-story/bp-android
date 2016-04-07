@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -136,8 +135,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
      * 更新消息状态
      */
     private void initMsgStatus(){
-        FmsAgent.onEvent(PlatformState.getApplicationContext(), Statistics.FB_PUSHMES_RECEIVE);
-        Log.e("ReceiptsFragment", isMsgReaded + "------");
+        FmsAgent.onEvent(PlatformState.getApplicationContext(), Statistics.FB_PUSHMES_READ);
         String payFlowId = getPayFlowId();
         if(!TextUtils.isEmpty(payFlowId) && !isMsgReaded){
             setMessageStatus(payFlowId);
