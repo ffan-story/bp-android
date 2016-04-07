@@ -5,7 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +22,6 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.network.response.ToastErrorListener;
@@ -33,7 +32,6 @@ import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.SegmentedGroup;
 import com.feifan.bp.widget.paginate.Paginate;
 import com.feifan.material.datetimepicker.date.DatePickerDialog;
-import com.feifan.statlib.FmsAgent;
 
 import java.util.Calendar;
 import java.util.List;
@@ -98,7 +96,6 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
     protected View onCreateContentView(ViewStubCompat stub) {
         stub.setLayoutResource(R.layout.fragment_receipts);
         View view = stub.inflate();
-        initMsgStatus();
         mSegmentedGroup = (SegmentedGroup) view.findViewById(R.id.segmented_group);
         btn1 = (RadioButton) view.findViewById(R.id.btn1);
         btn2 = (RadioButton) view.findViewById(R.id.btn2);
@@ -131,46 +128,6 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
         return view;
     }
 
-    /**
-     * 更新消息状态
-     */
-    private void initMsgStatus(){
-        FmsAgent.onEvent(PlatformState.getApplicationContext(), Statistics.FB_PUSHMES_READ);
-        String payFlowId = getPayFlowId();
-        if(!TextUtils.isEmpty(payFlowId) && !isMsgReaded){
-            setMessageStatus(payFlowId);
-        }
-    }
-    private String getPayFlowId(){
-        if(isAdded()){
-            Intent intent = getActivity().getIntent();
-            if(intent != null && !TextUtils.isEmpty(intent.getStringExtra(PAY_FLOW_ID))){
-                return intent.getStringExtra(PAY_FLOW_ID);
-            }
-        }
-        return "";
-    }
-
-    private void setMessageStatus(String payFlowId) {
-        if(Utils.isNetworkAvailable()){
-            int uid = UserProfile.getInstance().getUid();
-            if(uid != -1) {
-                HomeCtrl.setMessageStatusRead(String.valueOf(uid), payFlowId, new Response.Listener() {
-                    @Override
-                    public void onResponse(Object o) {
-                        setContentEmpty(false);
-                        setContentShown(true);
-                    }
-                }, null);
-            }
-        }else {
-            receiptsList.setAdapter(null);
-            mNoDataView.setVisibility(View.GONE);
-            mNoNetView.setVisibility(View.VISIBLE);
-            stopRefresh();
-        }
-    }
-
     @Override
     protected void requestData() {
         mCurrentCount = 0;
@@ -191,7 +148,6 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
                         setContentShown(true);
                         isLoading = false;
                         fillView(model, isLoadMore);
-                        initMsgStatus();
                     }
                 }
             }, new ToastErrorListener());
