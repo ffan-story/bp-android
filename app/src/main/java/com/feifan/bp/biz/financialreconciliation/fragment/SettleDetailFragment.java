@@ -30,6 +30,7 @@ public class SettleDetailFragment extends AbsFinancialFragment implements Pagina
     protected void preFetchData() {
         pageIndex = 0;
         mCurrentSize = 0;
+        mTotalCount = 0;
     }
 
     @Override
@@ -81,7 +82,6 @@ public class SettleDetailFragment extends AbsFinancialFragment implements Pagina
                     .build();
         }
         mPaginate.setHasMoreDataToLoad(!hasLoadedAllItems());
-        mList.setAdapter(new SettleDetailAdapter(getActivity(), settleDetails));
     }
 
     @Override
