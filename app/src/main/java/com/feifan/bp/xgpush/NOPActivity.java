@@ -12,11 +12,13 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
+import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.biz.receiptsrecord.ReceiptsFragment;
 import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.login.LoginFragment;
+import com.feifan.statlib.FmsAgent;
 
 /**
  * 这个是一个空的activity目的就是在用户点击notification的时候，进入此界面判断跳到哪个个界面
@@ -53,6 +55,7 @@ public class NOPActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if(intent != null) {
+            FmsAgent.onEvent(PlatformState.getApplicationContext(), Statistics.FB_PUSHMES_READ);
             String payid = intent.getStringExtra(ReceiptsFragment.PAY_FLOW_ID);
             if (!TextUtils.isEmpty(payid)) {
                 setMessageStatus(payid);
