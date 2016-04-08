@@ -34,7 +34,7 @@ public class NOPActivity extends AppCompatActivity {
             if(!TextUtils.isEmpty(payid)){
                 setMessageStatus(payid);
             }
-            if (profile != null && profile.getUid() != -1) {
+            if (profile != null) {
                 intent.setClass(this, PlatformTopbarActivity.class);
                 startActivity(intent);
                 finish();
