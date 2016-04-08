@@ -40,6 +40,28 @@
         android:drawableRight="@mipmap/settings_ic_right_arrow"
         android:text="@string/settings_help_center" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_bottom_background">
+
+        <TextView
+            android:id="@+id/settings_phone"
+            style="@style/SettingButton"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/icon_phone"
+            android:drawableRight="@mipmap/settings_ic_right_arrow"
+            android:text="@string/settings_phone" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/view_spacing_30"
+            android:textColor="@color/bg_color_blue"
+            android:text="@string/setting_phone_number"/>
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/settings_exit"
         android:layout_width="match_parent"

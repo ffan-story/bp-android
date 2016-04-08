@@ -59,6 +59,8 @@
     <string name="settings_check_update_none">无最新版本</string>
     <string name="settings_clear_cache_finished_text">清除完毕</string>
     <string name="settings_help_center">帮助中心</string>
+    <string name="settings_phone">客服电话</string>
+    <string name="setting_phone_number">400-950-6655</string>
     <!-- Settings（设置） - end -->
 
     <!-- Message(消息)－begin -->

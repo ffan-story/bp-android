@@ -3,6 +3,8 @@ package com.feifan.bp.settings;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -23,12 +25,12 @@ import com.feifan.bp.R;
 import com.feifan.bp.Statistics;
 import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
+import com.feifan.bp.base.network.BaseModel;
 import com.feifan.bp.base.ui.BaseFragment;
 import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.home.VersionModel;
 import com.feifan.bp.login.LoginFragment;
 import com.feifan.bp.login.UserCtrl;
-import com.feifan.bp.base.network.BaseModel;
 import com.feifan.bp.password.ResetPasswordFragment;
 import com.feifan.bp.settings.feedback.FeedBackFragment;
 import com.feifan.bp.settings.helpcenter.HelpCenterFragment;
@@ -74,6 +76,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         v.findViewById(R.id.settings_change_password).setOnClickListener(this);
         v.findViewById(R.id.settings_clear_cache).setOnClickListener(this);
         v.findViewById(R.id.settings_exit).setOnClickListener(this);
+        v.findViewById(R.id.settings_phone).setOnClickListener(this);
         TextView upgrade = (TextView) v.findViewById(R.id.settings_check_upgrade);
         upgrade.setText(getString(R.string.settings_check_upgrade_format, BuildConfig.VERSION_NAME));
         upgrade.setOnClickListener(this);
@@ -150,6 +153,12 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                     }
                 }, 1000);
 
+                break;
+            case R.id.settings_phone:
+                String number = Constants.SERVICE_TEL;
+                //用intent启动拨打电话
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number));
+                startActivity(intent);
                 break;
             case R.id.settings_exit:
                 //调用登出接口

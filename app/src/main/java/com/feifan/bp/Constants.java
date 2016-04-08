@@ -6,6 +6,11 @@ package com.feifan.bp;
 public class Constants {
     public static final String TAG = "Platform";
 
+    /**
+     * 客服电话   400-950-6655
+     */
+    public static String SERVICE_TEL = "4009506655";
+
     public static int CODE_LENGTH_TEN = 10;
     public static int CODE_LENGTH_TWENTY = 20;
     public static String LIST_LIMIT = "10";
