@@ -132,7 +132,7 @@
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.feifan.bp.test.PUSH_ACTION" />
+                <action android:name="com.feifan.bp.pre.PUSH_ACTION" />
             </intent-filter>
         </service>
 
