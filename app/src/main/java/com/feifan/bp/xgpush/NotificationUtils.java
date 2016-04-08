@@ -71,7 +71,7 @@ public class NotificationUtils {
     notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     notificationIntent.putExtra(PUSH_MESSAGE_NOTIFICATION_ID,
         nid);
-    PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+    PendingIntent contentIntent = PendingIntent.getActivity(context, nid,
         notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
     return showNotification(context, contentIntent, content,title,
