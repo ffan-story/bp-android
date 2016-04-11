@@ -87,8 +87,9 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_left_background">
 
                     <TextView
                         android:id="@+id/receipts_summary_settle_amount"
@@ -105,18 +106,13 @@
                         android:layout_marginTop="@dimen/view_spacing_6"
                         android:text="@string/financial_settle_money"/>
 
-                    <TextView
-                        android:layout_width="@dimen/divider_height"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:background="@color/divider"/>
-
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_left_background">
 
                     <TextView
                         android:id="@+id/receipts_summary_adjust_amount"
@@ -130,12 +126,6 @@
                         android:layout_centerInParent="true"
                         android:layout_marginTop="@dimen/view_spacing_6"
                         android:text="@string/financial_adjust_amount"/>
-
-                    <TextView
-                        android:layout_width="@dimen/divider_height"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:background="@color/divider"/>
 
                 </RelativeLayout>
 
