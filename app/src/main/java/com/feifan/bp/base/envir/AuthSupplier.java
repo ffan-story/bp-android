@@ -213,6 +213,7 @@ public class AuthSupplier {
             mFilter.put(1145, R.mipmap.index_ic_report);   // 对账管理
             mFilter.put(1293, R.mipmap.index_ic_analysis); // 店铺分析
             mFilter.put(1415, R.mipmap.index_ic_graphchart); //营销分析
+            mFilter.put(1655, R.mipmap.index_ic_graphchart); //营销分析
         }
 
         @Override
@@ -291,7 +292,7 @@ public class AuthSupplier {
 
         @Override
         public String getReceiptsId() {
-            return null;
+            return "1655";
         }
 
     }
