@@ -180,6 +180,9 @@ public class MarketingHomeFragment extends ProgressFragment implements View.OnCl
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if(!isAdded()){
+            return;
+        }
         switch (checkedId){
             case R.id.today:
                 mStartDate = mEndDate = TimeUtil.getToday();
