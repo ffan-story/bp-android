@@ -34,14 +34,14 @@
                     <TextView
                         android:id="@+id/financial_settle_orders_no_tv"
                         style="@style/txt_color33_size13"
-                        android:layout_centerVertical="true"
                         android:text="@string/financial_settle_order_no"/>
 
                     <TextView
                         android:id="@+id/financial_settle_orders_no"
                         style="@style/txt_color33_size14"
-                        android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/financial_settle_orders_no_tv"
+                        android:maxEms="15"
+                        android:maxLines="2"
                         android:text="--"/>
 
                 </RelativeLayout>
@@ -50,6 +50,7 @@
                     android:id="@+id/financial_settle_cycle_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_spacing_3"
                     android:layout_below="@id/financial_settle_orders_no_container">
 
                     <TextView

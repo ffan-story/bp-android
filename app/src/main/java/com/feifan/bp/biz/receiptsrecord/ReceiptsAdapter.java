@@ -60,8 +60,10 @@ public class ReceiptsAdapter extends BaseAdapter {
     }
 
     public void notifyData(List<ReceiptsModel.ReceiptsRecord> itemList) {
-        mList.addAll(itemList);
-        notifyDataSetChanged();
+        if(mList != null && mList.size() > 0){
+            mList.addAll(itemList);
+            notifyDataSetChanged();
+        }
     }
 
     public static class ReceiptsViewHolder extends RecyclerView.ViewHolder{
