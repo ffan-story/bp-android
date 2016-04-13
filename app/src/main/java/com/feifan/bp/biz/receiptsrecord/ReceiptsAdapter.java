@@ -60,7 +60,7 @@ public class ReceiptsAdapter extends BaseAdapter {
     }
 
     public void notifyData(List<ReceiptsModel.ReceiptsRecord> itemList) {
-        if(mList != null && mList.size() > 0){
+        if(itemList != null && itemList.size() > 0){
             mList.addAll(itemList);
             notifyDataSetChanged();
         }

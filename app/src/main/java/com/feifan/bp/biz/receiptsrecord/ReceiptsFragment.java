@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.widget.ViewStubCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,11 +21,9 @@ import com.feifan.bp.OnFragmentInteractionListener;
 import com.feifan.bp.PlatformState;
 import com.feifan.bp.PlatformTopbarActivity;
 import com.feifan.bp.R;
-import com.feifan.bp.UserProfile;
 import com.feifan.bp.Utils;
 import com.feifan.bp.base.network.response.ToastErrorListener;
 import com.feifan.bp.base.ui.ProgressFragment;
-import com.feifan.bp.home.HomeCtrl;
 import com.feifan.bp.util.TimeUtil;
 import com.feifan.bp.util.ToastUtil;
 import com.feifan.bp.widget.SegmentedGroup;
@@ -57,7 +54,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
     private Paginate mPaginate;
     private boolean isLoading;
     private int mCurrentCount;
-    private int mTotalCount = 0;
+    private int mTotalCount;
     private RelativeLayout mNoDataView,mNoNetView; //无数据 & 无网络页
     public static final String PAY_FLOW_ID = "payFlowId";  //push消息Id
     private boolean isMsgReaded = false;    //从push消息过来 才去设置消息未读状态
@@ -132,6 +129,7 @@ public class ReceiptsFragment extends ProgressFragment implements DatePickerDial
     protected void requestData() {
         mCurrentCount = 0;
         pageIndex = 0;
+        mTotalCount = 0;
         fetchData(false);
     }
 
