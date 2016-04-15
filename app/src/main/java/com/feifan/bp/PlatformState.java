@@ -29,7 +29,7 @@ import java.lang.ref.WeakReference;
 /**
  * 状态类
  * <p>
- *     存取平台相关的状态变量
+ * 存取平台相关的状态变量
  * </p>
  * Created by xuchunlei on 15/6/17.
  */
@@ -64,7 +64,7 @@ public class PlatformState {
 
     private XGPushManger mXGPushManger;
 
-    private PlatformState(){
+    private PlatformState() {
         FullTrustManager.trustAll();
         mQueue = Volley.newRequestQueue(sContext, new HttpsUrlStack());
         Log.i(Constants.TAG, "App is running within " + BuildConfig.CURRENT_ENVIRONMENT);
@@ -72,7 +72,7 @@ public class PlatformState {
     }
 
     public static PlatformState getInstance() {
-        if(INSTANCE == null) {
+        if (INSTANCE == null) {
             INSTANCE = new PlatformState();
         }
         return INSTANCE;
@@ -86,7 +86,7 @@ public class PlatformState {
         return sContext;
     }
 
-    public static String getStatePreferenceName(){
+    public static String getStatePreferenceName() {
         return STATE_PREFERENCES_NAME;
     }
 
@@ -96,7 +96,7 @@ public class PlatformState {
     }
 
     public String getLastUrl() {
-        if(mLastUrl != null) {
+        if (mLastUrl != null) {
             final String standardUrl = mLastUrl.replace("#", "");
             Uri uri = Uri.parse(standardUrl);
             String token = uri.getQueryParameter("loginToken");
@@ -128,6 +128,7 @@ public class PlatformState {
 
     /**
      * 缓存是否可被清除
+     *
      * @return
      */
     public boolean isCacheClearable() {
@@ -161,15 +162,17 @@ public class PlatformState {
 
     /**
      * 获取指定key项的未读状态
+     *
      * @param key
      * @return
      */
-    public boolean getUnreadStatus(int key){
+    public boolean getUnreadStatus(int key) {
         return mUnreadMap.get(key, false);
     }
 
     /**
      * 更新指定key项的未读状态
+     *
      * @param key
      * @param value
      */
@@ -180,19 +183,22 @@ public class PlatformState {
 
     /**
      * 更新指定key项的未读状态
+     *
      * @param key
      * @param value
      */
     public int updateUnreadMessCount(int count) {
-       return count;
+        return count;
     }
+
     /**
      * 更新Cookie
+     *
      * @param cookie
      */
     public void updateCookie(String cookie) {
 
-        if(cookie == null) {
+        if (cookie == null) {
             return;
         }
 
@@ -212,6 +218,7 @@ public class PlatformState {
 
     /**
      * 设置当前登录手机号
+     *
      * @param phone
      */
     public void setCurrentPhone(String phone) {
@@ -220,6 +227,7 @@ public class PlatformState {
 
     /**
      * 获取当前登录手机号
+     *
      * @return
      */
     public String getCurrentPhone() {
@@ -232,50 +240,55 @@ public class PlatformState {
 
     public Activity getCurrentActivity() {
         Activity activity = null;
-        if(mCurrentActivity != null) {
+        if (mCurrentActivity != null) {
             activity = mCurrentActivity.get();
         }
         return activity;
     }
 
+    public void onAccountChange() {
+        final UserProfile profile = UserProfile.getInstance();
+        if (profile != null && profile.getUid() != -1) {
+            String uid = String.valueOf(profile.getUid());
+            onAccountChange(uid);
+        }
+    }
+
     /**
      * 用于进行信鸽push的注册以及切换
      */
-    public void onAccountChange() {
-        final UserProfile profile = UserProfile.getInstance();
+    public void onAccountChange(String uid) {
         mXGPushManger.unRegister();
-        if (profile != null && profile.getUid() != 0) {
-            String uid = String.valueOf(profile.getUid());
-            if (!TextUtils.isEmpty(uid)) {
-                mXGPushManger.registerApp(uid);
-                XGPushManager.setNotifactionCallback(new XGPushNotifactionCallback() {
-                    @Override
-                    public void handleNotify(XGNotifaction xgNotifaction) {
-                        if (xgNotifaction == null || sContext == null) {
-                            return;
-                        }
-                        FmsAgent.onEvent(PlatformState.getApplicationContext(), Statistics.FB_PUSHMES_RECEIVE);
-                        String title = xgNotifaction.getTitle();
-                        if (TextUtils.isEmpty(title)) {
-                            title = sContext.getString(R.string.app_name);
-                        }
-                        String content = xgNotifaction.getContent();
-                        String customContent = xgNotifaction.getCustomContent();
-                        if(TextUtils.isEmpty(customContent)){
-                            return;
-                        }
-                        String payflowid = XGPushUtils.getPayFlowId(customContent, getApplicationContext());
-                        String type = XGPushUtils.getTypeId(customContent, getApplicationContext());
-                        if (XGPushUtils.PAYFLOW_TYPE.equals(type) && !TextUtils.isEmpty(payflowid)) {
-                            if(SystemUtil.isBPActivities(PlatformState.getApplicationContext())) {
-                                NotificationUtils.showNotification(PlatformState.getApplicationContext(), XGPushUtils.getPayFlowIntent(payflowid), content, title, R.mipmap.ic_logo,false,false,false,-1);
-                            }else {
-                                NotificationUtils.showNotification(PlatformState.getApplicationContext(), XGPushUtils.getPayFlowIntents(payflowid), content, title, R.mipmap.ic_logo,false,false,false,-1);
-                            }
+        if (!TextUtils.isEmpty(uid)) {
+            mXGPushManger.registerApp(uid);
+            Log.e("xg", "start bind uid");
+            XGPushManager.setNotifactionCallback(new XGPushNotifactionCallback() {
+                @Override
+                public void handleNotify(XGNotifaction xgNotifaction) {
+                    if (xgNotifaction == null || sContext == null) {
+                        return;
+                    }
+                    FmsAgent.onEvent(PlatformState.getApplicationContext(), Statistics.FB_PUSHMES_RECEIVE);
+                    String title = xgNotifaction.getTitle();
+                    if (TextUtils.isEmpty(title)) {
+                        title = sContext.getString(R.string.app_name);
+                    }
+                    String content = xgNotifaction.getContent();
+                    String customContent = xgNotifaction.getCustomContent();
+                    if (TextUtils.isEmpty(customContent)) {
+                        return;
+                    }
+                    String payflowid = XGPushUtils.getPayFlowId(customContent, getApplicationContext());
+                    String type = XGPushUtils.getTypeId(customContent, getApplicationContext());
+                    if (XGPushUtils.PAYFLOW_TYPE.equals(type) && !TextUtils.isEmpty(payflowid)) {
+                        if (SystemUtil.isBPActivities(PlatformState.getApplicationContext())) {
+                            NotificationUtils.showNotification(PlatformState.getApplicationContext(), XGPushUtils.getPayFlowIntent(payflowid), content, title, R.mipmap.ic_logo, false, false, false, -1);
+                        } else {
+                            NotificationUtils.showNotification(PlatformState.getApplicationContext(), XGPushUtils.getPayFlowIntents(payflowid), content, title, R.mipmap.ic_logo, false, false, false, -1);
                         }
                     }
-                });
-            }
+                }
+            });
         }
     }
 

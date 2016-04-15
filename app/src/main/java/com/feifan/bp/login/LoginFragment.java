@@ -105,7 +105,7 @@ public class LoginFragment extends BaseFragment {
                             }
                             hideProgressBar();
                             final UserProfile profile = UserProfile.getInstance();
-                            PlatformState.getInstance().onAccountChange();
+                            PlatformState.getInstance().onAccountChange(String.valueOf(userModel.uid));
                             profile.setUid(userModel.uid);
                             profile.setUser(userModel.user);
                             profile.setAuthRangeId(userModel.authRangeId);

@@ -7,6 +7,7 @@ package com.feifan.bp.xgpush;
 import android.content.Context;
 import android.util.Log;
 
+import com.feifan.bp.PlatformState;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
@@ -22,6 +23,7 @@ public class XGPushMsgReceiver  extends XGPushBaseReceiver {
     private final String TYPE_KEY = "type";
     private final String PAYFLOWID_KEY = "payflowid";
     private final String PAYFLOW_TYPE = "1";
+    private static int mNum = 0;
 
     @Override
     public void onRegisterResult(Context context, int errorCode,
@@ -36,8 +38,12 @@ public class XGPushMsgReceiver  extends XGPushBaseReceiver {
             String token = message.getToken();
         } else {
             text = message + "注册失败，错误码：" + errorCode;
+            if(mNum < 5) {
+                PlatformState.getInstance().onAccountChange();
+                mNum ++;
+            }
         }
-        Log.d(TAG, text);
+        Log.e(TAG, text);
     }
 
 
