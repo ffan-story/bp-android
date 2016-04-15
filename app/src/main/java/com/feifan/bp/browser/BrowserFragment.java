@@ -251,6 +251,7 @@ public class BrowserFragment extends BaseFragment implements View.OnClickListene
             webView.clearFormData();
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeAllCookie();
+
             Log.i(TAG, "webview'cache has been cleared!");
         }
 

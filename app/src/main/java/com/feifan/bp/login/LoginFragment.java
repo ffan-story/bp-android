@@ -100,7 +100,7 @@ public class LoginFragment extends BaseFragment {
                     UserCtrl.login(accountStr, passwordStr, new Listener<UserModel>() {
                         @Override
                         public void onResponse(UserModel userModel) {
-                            if(getActivity() == null || getView() == null){
+                            if(getActivity() == null || getView() == null || userModel == null){
                                 return;
                             }
                             hideProgressBar();
